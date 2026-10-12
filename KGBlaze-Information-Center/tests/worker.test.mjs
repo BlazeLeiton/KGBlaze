@@ -5,17 +5,17 @@ import {EMPTY_AGENDA,currentMonday} from '../src/core.mjs';
 class FakeDB{
  constructor(){this.row=null;this.preview=null;this.audits=[];}
  prepare(q){return {bind:(...args)=>({run:async()=>this.run(q,args)}),first:async()=>this.first(q)};}
- async first(q){if(q.includes('FROM terminalb_state'))return this.row;if(q.includes('FROM terminalb_preview'))return this.preview;return null;}
- async run(q,args){if(q.startsWith('INSERT OR IGNORE INTO terminalb_state')){
+ async first(q){if(q.includes('FROM terminal_state'))return this.row;if(q.includes('FROM terminal_preview'))return this.preview;return null;}
+ async run(q,args){if(q.startsWith('INSERT OR IGNORE INTO terminal_state')){
    if(this.row)return {meta:{changes:0}};
    this.row={revision:1,editorial_json:args[0],sync_json:args[1],updated_at:args[2]};return {meta:{changes:1}};
   }
-  if(q.startsWith('UPDATE terminalb_state')){
+  if(q.startsWith('UPDATE terminal_state')){
    if(!this.row||this.row.revision!==args[2])return {meta:{changes:0}};
    this.row={...this.row,revision:this.row.revision+1,editorial_json:args[0],updated_at:args[1]};return {meta:{changes:1}};
   }
-  if(q.startsWith('INSERT INTO terminalb_audit')){this.audits.push(args);return {meta:{changes:1}};}
-  if(q.startsWith('INSERT INTO terminalb_preview')){this.preview={week:args[0],payload:args[1]};return {meta:{changes:1}};}
+  if(q.startsWith('INSERT INTO terminal_audit')){this.audits.push(args);return {meta:{changes:1}};}
+  if(q.startsWith('INSERT INTO terminal_preview')){this.preview={week:args[0],payload:args[1]};return {meta:{changes:1}};}
   throw Error('Unexpected query '+q);
  }
 }
@@ -36,7 +36,7 @@ test('POST publica revisiones; datos falsos de YT no son confiables; evita borra
 });
 test('OG preview acepta PNG cuadrado, rechaza fecha de semana anterior',async()=>{
  const {env,db}=setup(),buf=new Uint8Array(24);buf.set([137,80,78,71,13,10,26,10]);buf[16]=0;buf[17]=0;buf[18]=4;buf[19]=56;buf[20]=0;buf[21]=0;buf[22]=4;buf[23]=56;
- const r=await call(env,'/api/admin/preview',{method:'POST',headers:{Authorization:'Bearer test-long-private-admin-key','Content-Type':'image/png','X-TerminalB-Week':currentMonday()},body:buf});assert.equal(r.status,200);assert.equal(db.preview.week,currentMonday());
+ const r=await call(env,'/api/admin/preview',{method:'POST',headers:{Authorization:'Bearer test-long-private-admin-key','Content-Type':'image/png','X-Terminal-Week':currentMonday()},body:buf});assert.equal(r.status,200);assert.equal(db.preview.week,currentMonday());
  const png=await call(env,'/og-semana.png');assert.equal(png.status,200);assert.equal(png.headers.get('Content-Type'),'image/png');
  db.preview.week='2000-01-03';const stale=await call(env,'/og-semana.png');assert.equal(stale.status,404);
 });
