@@ -1,6 +1,6 @@
 # KGBlaze - Centro de Información · Cloudflare (borrador de despliegue)
 
-**Estado:** fuentes de despliegue en GitHub; API básica de publicación y conciliación. **NO desplegado en Cloudflare.** Sin lectura real de YouTube/Twitch aún: no hay credenciales ni tareas periódicas habilitadas. El código del editor privado queda **fuera** de la carpeta `public/` y debe mantenerse fuera de repositorios públicos.
+**Estado:** fuentes de despliegue en GitHub; el usuario ha creado la base D1 `kgblaze-terminal`. API básica de publicación y conciliación. **NO desplegado en Cloudflare.** Sin lectura real de YouTube/Twitch aún: no hay credenciales ni tareas periódicas habilitadas. El código del editor privado queda **fuera** de la carpeta `public/` y debe mantenerse fuera de repositorios públicos.
 
 ## Arquitectura actual
 
@@ -29,15 +29,15 @@ npm install
 npm test
 ```
 
-`npm test` usa Node y simulaciones; no requieren conexión con Cloudflare. Para probar la API con una base D1 local hace falta instalar Wrangler, crear la base en el archivo de configuración y ejecutar `npx wrangler d1 execute kgblaze-terminalb --local --file schema.sql`, luego `npx wrangler dev`.
+`npm test` usa Node y simulaciones; no requieren conexión con Cloudflare. Para probar la API con una base D1 local hace falta instalar Wrangler, crear la base en el archivo de configuración y ejecutar `npx wrangler d1 execute kgblaze-terminal --local --file schema.sql`, luego `npx wrangler dev`.
 
 ## Pasos para preparar el despliegue (no ejecutados)
 
 1. El proyecto ya está alojado en el monorepositorio público **`BlazeLeiton/KGBlaze`**, dentro de **`KGBlaze-Information-Center/`**. Para integrarlo con Cloudflare Workers Builds, conecta el repositorio, establece esa carpeta como **directorio raíz del proyecto** y mantén el operativo privado fuera de GitHub. La escritura directa desde ChatGPT ya ha sido comprobada con la creación del `.gitignore`.
 2. Instalar Wrangler y autorizar la cuenta para el despliegue mediante el panel de Cloudflare o `npx wrangler login`.
-3. Crear la base D1: `npx wrangler d1 create kgblaze-terminalb`.
-4. Añadir al `wrangler.toml` la sección `[[d1_databases]]` con `binding = "DB"`, `database_name = "kgblaze-terminalb"` y el **ID real** devuelto. Nunca inventar el ID.
-5. Aplicar tablas: `npx wrangler d1 execute kgblaze-terminalb --remote --file schema.sql`.
+3. **Base D1 creada por el usuario en Cloudflare Dashboard:** `kgblaze-terminal`. Falta consultar el Database ID/UUID para terminar el enlace con el Worker.
+4. Añadir al `wrangler.toml` la sección `[[d1_databases]]` con `binding = "DB"`, `database_name = "kgblaze-terminal"` y el **ID real** devuelto. Nunca inventar el ID.
+5. Aplicar tablas: `npx wrangler d1 execute kgblaze-terminal --remote --file schema.sql`.
 6. Guardar un secreto privado robusto: `npx wrangler secret put ADMIN_TOKEN`. No agregar el valor al código, a `wrangler.toml` ni a mensajes compartidos. La contraseña no se guarda en el navegador local.
 7. Desplegar **sólo después de tu aprobación**: `npx wrangler deploy` o crear un flujo de Workers Builds conectado al repositorio.
 8. Anotar la URL HTTPS definitiva del Worker, abrir el HTML operativo local, completar `https://…workers.dev` y el token de publicación, pulsar **Consultar**, revisar la agenda, **Publicar cambios** y opcionalmente **Publicar vista previa 1080 × 1080**.
