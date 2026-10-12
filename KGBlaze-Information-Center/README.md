@@ -1,6 +1,6 @@
 # KGBlaze - Centro de Información · Cloudflare (borrador de despliegue)
 
-**Estado:** fuentes de despliegue en GitHub; el usuario ha creado la base D1 `kgblaze-terminal`. API básica de publicación y conciliación. **NO desplegado en Cloudflare.** Sin lectura real de YouTube/Twitch aún: no hay credenciales ni tareas periódicas habilitadas. El código del editor privado queda **fuera** de la carpeta `public/` y debe mantenerse fuera de repositorios públicos.
+**Estado:** fuentes de despliegue en GitHub; la base D1 `kgblaze-terminal` ya está creada y vinculada en `wrangler.toml`. API básica de publicación y conciliación. **NO desplegado en Cloudflare.** El proyecto se denomina **Terminal**, sin letras adicionales. Sin lectura real de YouTube/Twitch aún: no hay credenciales ni tareas periódicas habilitadas. El código del editor privado queda **fuera** de la carpeta `public/` y debe mantenerse fuera de repositorios públicos.
 
 ## Arquitectura actual
 
@@ -10,7 +10,7 @@
 - `schema.sql`: tablas D1 para agenda, revisiones y vista previa social.
 - `wrangler.toml`: configuración de Worker y activos estáticos; **D1 enlazada en configuración** con la base `kgblaze-terminal` y su Database ID proporcionado por el propietario. El esquema SQL todavía no se ha aplicado al servicio remoto. El Cron está expresamente deshabilitado.
 - `tests/`: pruebas unitarias y simulaciones de los endpoints, sin consumir APIs externas.
-- **Archivo separado**: `TerminalB_Operativo_v23_10_sinc_local.html` — permanece local, nunca subir a `public` o un repositorio público.
+- **Archivo separado**: `Terminal_Operativo_v23_10_sinc_local.html` — permanece local, nunca subir a `public` o un repositorio público.
 
 ## Protocolo entre operativo y público
 
@@ -35,9 +35,9 @@ npm test
 
 1. El proyecto ya está alojado en el monorepositorio público **`BlazeLeiton/KGBlaze`**, dentro de **`KGBlaze-Information-Center/`**. Para integrarlo con Cloudflare Workers Builds, conecta el repositorio, establece esa carpeta como **directorio raíz del proyecto** y mantén el operativo privado fuera de GitHub. La escritura directa desde ChatGPT ya ha sido comprobada con la creación del `.gitignore`.
 2. Instalar Wrangler y autorizar la cuenta para el despliegue mediante el panel de Cloudflare o `npx wrangler login`.
-3. **Base D1 ya creada por el usuario:** `kgblaze-terminal`; Database ID y binding `DB` ya registrados en `wrangler.toml`.
-4. **Completado:** `wrangler.toml` contiene `[[d1_databases]]`, `binding = "DB"`, `database_name = "kgblaze-terminal"` y el ID real facilitado por el propietario.
-5. Aplicar tablas: `npx wrangler d1 execute kgblaze-terminal --remote --file schema.sql`.
+3. **Listo:** base D1 `kgblaze-terminal` creada por el usuario; Database ID y binding `DB` registrados en `wrangler.toml`.
+4. **Listo:** `wrangler.toml` contiene `[[d1_databases]]`, `binding = "DB"`, `database_name = "kgblaze-terminal"` y el ID real facilitado por el propietario.
+5. Aplicar el esquema actualizado de **Terminal** (`terminal_state`, `terminal_audit`, `terminal_preview`): `npx wrangler d1 execute kgblaze-terminal --remote --file schema.sql`.
 6. Guardar un secreto privado robusto: `npx wrangler secret put ADMIN_TOKEN`. No agregar el valor al código, a `wrangler.toml` ni a mensajes compartidos. La contraseña no se guarda en el navegador local.
 7. Desplegar **sólo después de tu aprobación**: `npx wrangler deploy` o crear un flujo de Workers Builds conectado al repositorio.
 8. Anotar la URL HTTPS definitiva del Worker, abrir el HTML operativo local, completar `https://…workers.dev` y el token de publicación, pulsar **Consultar**, revisar la agenda, **Publicar cambios** y opcionalmente **Publicar vista previa 1080 × 1080**.
@@ -57,3 +57,11 @@ npm test
 - No publicar una actualización cuando el servidor responde HTTP 409/423: primero recargar el estado y resolver el conflicto, sin «forzar» el envío.
 - El uso de `file://` depende del navegador; en algunos sistemas habrá que ejecutar el editor desde un servidor local `http://localhost` sin exponerlo públicamente.
 - Conservar respaldos locales. Este sistema no proporciona todavía recuperación ante fallos ni reversión de cambios.
+
+## Cambio de nomenclatura (2026-10-12)
+
+- Nombre único: **Terminal** (nunca «Terminal B»).
+- Las nuevas tablas son `terminal_state`, `terminal_audit` y `terminal_preview`, y el encabezado de vista previa es `X-Terminal-Week`.
+- El nombre físico de D1 se mantiene como `kgblaze-terminal`; su identificador no cambió.
+- Si llegaste a ejecutar el `schema.sql` anterior, ejecuta **nuevamente el esquema corregido** para crear las tablas con los nombres nuevos. No elimines tablas antiguas hasta comprobar que no contienen datos necesarios.
+- El editor privado local se distribuye por separado; conserva la lectura de la clave antigua de almacenamiento para migrar sus ajustes.
