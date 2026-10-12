@@ -1,0 +1,21 @@
+# KGBlaze Information Center: private/local artifacts
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+
+# Never publish the operative editor, local administrative backups or access credentials
+*Operativo*.html
+*operativo*.html
+*Tablero_Salidas_Funcional*.html
+*respaldo*.json
+*backup*.json
+*.pem
+*.key
