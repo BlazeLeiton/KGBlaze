@@ -8,7 +8,7 @@
 - `src/worker.mjs`: API Cloudflare Worker, publicación autenticada y acceso a agenda en D1; también gestiona imagen social manual 1080 × 1080.
 - `src/core.mjs`: validación, límite de cinco semanas, control de revisiones, prioridad de bloqueos.
 - `schema.sql`: tablas D1 para agenda, revisiones y vista previa social.
-- `wrangler.toml`: configuración de Worker y activos estáticos; **sin ID D1** hasta configurarlo. El Cron está expresamente deshabilitado.
+- `wrangler.toml`: configuración de Worker y activos estáticos; **D1 enlazada en configuración** con la base `kgblaze-terminal` y su Database ID proporcionado por el propietario. El esquema SQL todavía no se ha aplicado al servicio remoto. El Cron está expresamente deshabilitado.
 - `tests/`: pruebas unitarias y simulaciones de los endpoints, sin consumir APIs externas.
 - **Archivo separado**: `TerminalB_Operativo_v23_10_sinc_local.html` — permanece local, nunca subir a `public` o un repositorio público.
 
@@ -35,8 +35,8 @@ npm test
 
 1. El proyecto ya está alojado en el monorepositorio público **`BlazeLeiton/KGBlaze`**, dentro de **`KGBlaze-Information-Center/`**. Para integrarlo con Cloudflare Workers Builds, conecta el repositorio, establece esa carpeta como **directorio raíz del proyecto** y mantén el operativo privado fuera de GitHub. La escritura directa desde ChatGPT ya ha sido comprobada con la creación del `.gitignore`.
 2. Instalar Wrangler y autorizar la cuenta para el despliegue mediante el panel de Cloudflare o `npx wrangler login`.
-3. **Base D1 creada por el usuario en Cloudflare Dashboard:** `kgblaze-terminal`. Falta consultar el Database ID/UUID para terminar el enlace con el Worker.
-4. Añadir al `wrangler.toml` la sección `[[d1_databases]]` con `binding = "DB"`, `database_name = "kgblaze-terminal"` y el **ID real** devuelto. Nunca inventar el ID.
+3. **Base D1 ya creada por el usuario:** `kgblaze-terminal`; Database ID y binding `DB` ya registrados en `wrangler.toml`.
+4. **Completado:** `wrangler.toml` contiene `[[d1_databases]]`, `binding = "DB"`, `database_name = "kgblaze-terminal"` y el ID real facilitado por el propietario.
 5. Aplicar tablas: `npx wrangler d1 execute kgblaze-terminal --remote --file schema.sql`.
 6. Guardar un secreto privado robusto: `npx wrangler secret put ADMIN_TOKEN`. No agregar el valor al código, a `wrangler.toml` ni a mensajes compartidos. La contraseña no se guarda en el navegador local.
 7. Desplegar **sólo después de tu aprobación**: `npx wrangler deploy` o crear un flujo de Workers Builds conectado al repositorio.
