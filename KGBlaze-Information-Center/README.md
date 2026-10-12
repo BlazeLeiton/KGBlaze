@@ -10,7 +10,7 @@
 - `schema.sql`: tablas D1 para agenda, revisiones y vista previa social.
 - `wrangler.toml`: configuración de Worker y activos estáticos; **D1 enlazada en configuración** con la base `kgblaze-terminal` y su Database ID proporcionado por el propietario. El esquema SQL todavía no se ha aplicado al servicio remoto. El Cron está expresamente deshabilitado.
 - `tests/`: pruebas unitarias y simulaciones de los endpoints, sin consumir APIs externas.
-- **Archivo separado**: `Terminal_Operativo_v23_10_sinc_local.html` — permanece local, nunca subir a `public` o un repositorio público.
+- **Archivo separado**: `Terminal_Operativo_v23_11_local.html` — permanece local, nunca subir a `public` o un repositorio público.
 
 ## Protocolo entre operativo y público
 
