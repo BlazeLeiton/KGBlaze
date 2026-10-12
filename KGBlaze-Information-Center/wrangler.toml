@@ -1,0 +1,19 @@
+name = "kgblaze-centro-informacion"
+main = "src/worker.mjs"
+compatibility_date = "2026-10-12"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html"]
+
+# Activar después de conectar las APIs con las credenciales correspondientes.
+# [triggers]
+# crons = ["*/5 * * * *"]
+
+# Pega el ID REAL generado al crear la base de datos D1.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "kgblaze-terminalb"
+# database_id = "REEMPLAZAR_CON_ID_REAL"
