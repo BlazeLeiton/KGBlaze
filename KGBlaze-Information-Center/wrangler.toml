@@ -15,5 +15,5 @@ run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/i
 # Pega el ID REAL generado al crear la base de datos D1.
 # [[d1_databases]]
 # binding = "DB"
-# database_name = "kgblaze-terminalb"
+# database_name = "kgblaze-terminal"
 # database_id = "REEMPLAZAR_CON_ID_REAL"
