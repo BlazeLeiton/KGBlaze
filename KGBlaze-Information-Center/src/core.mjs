@@ -1,4 +1,4 @@
-// Terminal B: deterministic, platform-agnostic logic. No secrets or credentials here.
+// Terminal: deterministic, platform-agnostic logic. No secrets or credentials here.
 export const TZ='America/Mexico_City';
 export const ALLOWED_STATUSES=new Set(['A TIEMPO','POR CONFIRMAR','REPROGRAMADO','CANCELADO','EN VIVO','DESPEGÓ','DESCANSO','ESCALA','HIATUS']);
 export const PLATFORMS=new Set(['yt','tw','ig','dc']);
@@ -23,7 +23,7 @@ export function normalizeEditorial(raw, now=new Date()){
   return {id:e.id,origin:e.origin==='twitch'?'twitch':'manual',day:e.day,time:e.time||'',title:e.title,extra:String(e.extra||'').slice(0,300),category:String(e.category||e.title).slice(0,200),platforms,status:e.status,logoChoice:String(e.logoChoice||'auto').slice(0,100),logoData:typeof e.logoData==='string'&&e.logoData.startsWith('data:image/')?e.logoData:'' ,videoId:typeof e.videoId==='string'&&/^[A-Za-z0-9_-]{11}$/.test(e.videoId)?e.videoId:undefined};
  });
  const weeks=o=>plainObject(o)?Object.fromEntries(Object.entries(o).filter(([d])=>/^\d{4}-\d\d-\d\d$/.test(d)&&d>=first&&d<last)):{};
- return {schema:'relight-public-v1',publishedAt:nowISO(),sourceNote:'Agenda editorial publicada desde Terminal B privado',timezone:TZ,events,libraryChanges:plainObject(raw.libraryChanges)?raw.libraryChanges:{},libraryCustom:Array.isArray(raw.libraryCustom)?raw.libraryCustom.slice(0,80):[],hiatusWeeks:weeks(raw.hiatusWeeks),clearedWeeks:weeks(raw.clearedWeeks)};
+ return {schema:'relight-public-v1',publishedAt:nowISO(),sourceNote:'Agenda editorial publicada desde Terminal privado',timezone:TZ,events,libraryChanges:plainObject(raw.libraryChanges)?raw.libraryChanges:{},libraryCustom:Array.isArray(raw.libraryCustom)?raw.libraryCustom.slice(0,80):[],hiatusWeeks:weeks(raw.hiatusWeeks),clearedWeeks:weeks(raw.clearedWeeks)};
 }
 export const isoTime=s=>Number.isFinite(Date.parse(s||''))?Date.parse(s):NaN;
 export function ytHasRoom(o){return !!(o&&o.matchConfirmed===true&&o.status!=='missing'&&(/^[A-Za-z0-9_-]{11}$/.test(o.videoId||'')||o.videoUrl));}
