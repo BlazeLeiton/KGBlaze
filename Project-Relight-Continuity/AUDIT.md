@@ -71,3 +71,12 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - A08: aclaración de alcance de estados POR CONFIRMAR / A TIEMPO añadida, sin declarar prueba funcional.
 - A09–A10: verificar que el diff registra sólo cambios en `Project-Relight-Continuity/`.
 - A12: pruebas de editor privado, APIs y Cloudflare no realizadas; no confundir con verificación de código.
+
+## Segunda auditoría de Stage 4
+- [x] A13 — localización por formato y catálogo; imagen parcial por paginación.
+- [x] A14 — contraste estático v23.9/v23.10/v23.11, cabecera y cierre; **pruebas en navegador no ejecutadas**.
+- [x] A15 — índice de plantillas `TEMPLATES/README.md` creado.
+- [x] A16 — recuperación pública por canal/video ID y comparación conceptual; cifras incompatibles se registran como no comparables.
+- [x] A17 — separación de datos privados, archivos de terceros y documentación pública.
+- [ ] A18 — repetir materialización de originales sólo cuando haya autorización; registrar hash y copia real.
+- [ ] A19 — verificar integridad post-commit y no tocar `KGBlaze-Information-Center/`.
