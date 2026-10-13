@@ -1,7 +1,7 @@
 # Catálogo recuperado — novelas visuales y juegos narrativos de Blaze Leiton
 
 **Recuperación:** 13-oct-2026, Stage 5 de Project Relight.
-**Fuente primaria:** exportación personal de YouTube Studio `Table data content.csv` (501 registros de videos + total, catálogo de publicaciones con fechas hasta el 12-sep-2026); no redistribuir el archivo ni sus analíticas privadas a este repositorio. Se anotan exclusivamente **títulos, fechas e IDs de publicaciones**, que son metadatos de videos, sin métricas.
+**Fuente primaria:** exportación personal de YouTube Studio `Table data content.csv` (500 registros con ID de video + fila total, catálogo de publicaciones con fechas hasta el 12-sep-2026); no redistribuir el archivo ni sus analíticas privadas a este repositorio. Se anotan exclusivamente **títulos, fechas e IDs de publicaciones**, que son metadatos de videos, sin métricas.
 **Límites:** el CSV no prueba lista exhaustiva de Twitch ni episodios privados, borrados o fuera del período. Los episodios #2, #3 y #4 no autorizan a inventar URLs de #1 o de episodios intermedios.
 
 ## Doki Doki Literature Club / Plus — línea recurrente
@@ -41,8 +41,11 @@ Esto sitúa la línea de novelas visuales y elecciones con consecuencias **como 
 
 El matcher experimental (`KGBlaze-Information-Center/experiments/youtube-matching/matcher.mjs`) exige coincidencia léxica fuerte (≥2 palabras distintivas, cobertura ≥0.80, Jaccard ≥0.60, y episodio/colab compatibles), canal confiable y tiempo ±90 min. Con el título editorial `Killer Chat!: Original Edition` y el título elegido `💌 Encuentra el Amor o MUERE Intentándolo.....espera :v 🔪 | Killer Chat!`, la coincidencia fuerte **no alcanza el umbral**; compartir títulos entre Twitch y YouTube por sí solo no corrige el ICS.
 
-**Acción para prueba posterior:** introducir y guardar `JDkg-5tZ3G0` manualmente en el campo opcional YouTube del evento Killer Chat en **Terminal privado v24.2.1**, que preserva `videoId` en respaldo e importación y publica metadato editorial solo cuando se autorice. El matcher dará `candidate` por ID explícito **sólo si `videos.list` recupera video de broadcast perteneciente al canal autorizado**; hasta entonces ninguna observación verificada, `EN VIVO` ni `DESPEGÓ`. El diagnóstico en Cloudflare `YOUTUBE_PREVIEW_ENABLED` quedó apagado tras las pruebas; no activar sin autorización expresa.
+**PRUEBA COMPLETADA POR EL USUARIO (13-oct-2026):** introdujo el enlace de la sala `JDkg-5tZ3G0` en el campo opcional YouTube de Killer Chat usando **Terminal privado v24.2.1**, confirmó la edición, reimportó el ICS y volvió a editar el evento: **el enlace permaneció asociado**. Esta comprobación prueba persistencia local tras reimportación en el navegador del usuario, pero **no** valida aún exportación/importación JSON ni publicación D1. El matcher puede dar `candidate` por ID explícito **sólo si `videos.list` recupera video de broadcast perteneciente al canal autorizado**; hasta entonces ninguna observación verificada, `EN VIVO` ni `DESPEGÓ`. El diagnóstico en Cloudflare `YOUTUBE_PREVIEW_ENABLED` quedó apagado tras las pruebas; no activar sin autorización expresa.
 
 ## Regla general de continuidad
 
 Ante un juego narrativo nuevo, consultar **este catálogo de episodios previos y covers relacionados**, además de la plantilla maestra, antes de afirmar que el género es nuevo, explicar/recortar chistes recurrentes o proponer metadata desde cero. Los títulos editoriales de publicaciones anteriores pueden tener humor, referencias a decisiones o chistes internos: no son errores SEO por defecto.
+
+## Corrección de jerarquía: actividad antes que nombre publicitario (confirmado usuario 13-oct-2026)
+La equivalencia previa implícita entre `Nombre del vuelo / actividad` y `título del directo` era **incorrecta**. El usuario primero crea bloques Twitch con el **juego/categoría/actividad**, que es más estable y útil para pasajeros, y después decide el título promocional. La coincidencia exacta de títulos Twitch↔YouTube es regla general del stream **una vez definidos**, pero es perfectamente intencional que el vuelo del ICS muestre solo `Killer Chat!: Original Edition`. No recomendar sincronizar a la fuerza el vuelo con el título promocional, ni calificar esa diferencia como anomalía. Ver [CHANNEL_CONTENT_TAXONOMY_2026-10-13.md](CHANNEL_CONTENT_TAXONOMY_2026-10-13.md).
