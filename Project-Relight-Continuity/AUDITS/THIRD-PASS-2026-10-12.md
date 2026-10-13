@@ -67,3 +67,10 @@ P3-01 X publicaciones y analíticas inaccesibles sin vía autenticada o links; P
 - Separar plantillas de cover, directo y X promocional; prohibido atribuir créditos ajenos por defecto.
 - No transformar programación Twitch en emisión real sin URL de VOD o confirmación directa de la persona usuaria.
 - Mantener continuidad y privacidad: nueva Stage incluye siempre triple revisión + pruebas de duda + matriz de preguntas. Ver `INITIALIZATION.md` y `QUESTIONS.md`.
+
+## Ampliación de hallazgos (tercera revisión)
+- La consulta directa de HoloList mostró el **oshi mark correcto 🧡✨** y `KGBlaze`, mientras vTubie exhibe descripción actualizada coherente. Corregir la interpretación de snapshots antiguos, no generar una tarea de rehacer perfiles.
+- Página de Ko-fi accesible y con bienvenida aeroportuaria propia; la presentación es coherente con la descripción de VSinger/VTuber. No se evaluaron conversiones.
+- La plantilla de X operativa en XLSX es MÁS ESPECÍFICA que una simple promoción: `Pokémon conversacional` + `Proceso/personalidad` + tercer post opcional, replies en dos ventanas, quote contextual opcional. Promoción de directo/cover **se contabiliza por separado**, y no tiene que forzar una pregunta conversacional. Con Pokémon aplazado, evitar escribir falsamente sobre partidas ya jugadas.
+- Directos publicados confirman repetición de **créditos generales** (outro Vecteezy, BGM por enlace, avatar GIF RosyRubbi, reactive Diana Airlines) y bloque de reglas completas, además de links KGBlaze. Estas fuentes deben dominar versiones resumidas.
+- Comparación de calendario: libro extendido incluye en su contenido una reserva privada que NO se debe divulgar; registramos sólo la existencia de bloqueo, no datos personales ni ubicación.
