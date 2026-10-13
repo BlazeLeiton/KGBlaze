@@ -31,3 +31,12 @@
 - La publicación revisión 1 se conserva; ningún hecho en este documento autoriza modificación de producción.
 - La recuperación textual íntegra de todos los mensajes de Stage 5 no está disponible: `TRUNCAMIENTO_POSIBLE`. El último tramo aportado por el usuario y el estado del GitHub son el punto de reanudación confiable.
 - Fuentes: `HANDOFFS/CURRENT.md`, PR #1/#2, GitHub Actions runs citados, `src/core.mjs`, `src/worker.mjs`, `public/index.html`, `wrangler.toml`.
+
+## YouTube Matching — Dry Run, implementación aislada (12-oct-2026 CDMX)
+- **Rama experimental:** `test/terminal-youtube-match-dry-run`, **PR #3** https://github.com/BlazeLeiton/KGBlaze/pull/3, **DRAFT, sin fusionar**.
+- Archivos nuevos exclusivamente en el directorio de producto, pero no importados por runtime: `experiments/youtube-matching/matcher.mjs`, `experiments/youtube-matching/README.md`, `tests/youtube-matching.test.mjs`. No se modifican Worker, visor, API, D1, Cron, editor privado ni agenda revision 1.
+- Matcher puro: exige `ownedChannelId` de configuración confiable; ID de YouTube opcional explícito en editor con prioridad, verificación de propiedad de canal, naturaleza live de recurso, título distintivo y hora `America/Mexico_City`; 90 min ventana conservadora, >90 min hasta 48 h `review` por reprogramación. Episodios incompatibles, colaboraciones no declaradas, publicaciones normales, canales externos, duplicados y reclamos múltiples se descartan o señalan para revisión.
+- El resultado es sólo `candidate`/`review`/`none`/`skipped`; **nunca** construye observaciones con `verified` ni `matchConfirmed`. No hay consulta HTTP ni sincronización real.
+- Local 27/27; **GitHub Actions PR #3** https://github.com/BlazeLeiton/KGBlaze/actions/runs/38349473729 = SUCCESS, **48 tests, 48 pass, 0 fail** (21 previos en main + 27 nuevos). PR #2 sigue separado en borrador, 31/31 pruebas sobre su propia rama. No sumar los 10 de PR #2 al CI del PR #3: aún no fusionados.
+- API de producción `/api/public` aún no accesible desde herramienta web; lectura navegador `revision=1`, `twitch=6`, `manual=4` sigue pendiente. El workflow del PR #3 no prueba estado real de Cloudflare/D1.
+- Próximo paso: revisar posibles falsos negativos y garantías de matching con datos reales **únicamente cuando haya una fuente confiable y autorización separada**; no activar API ni escribir estados por la mera existencia de un candidato.
