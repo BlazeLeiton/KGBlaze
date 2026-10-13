@@ -40,3 +40,13 @@
 - Preferencia operativa: dejar de pedir alternar true/false y avisar ready como rutina. Mantener controles del servidor sin depender de confirmaciones humanas repetitivas.
 - Trabajo de matcher en rama feat/stage06-youtube-category-match-dry-run, bajo pruebas y revisión de CI. No activar Cron, sync automático, cambios editoriales ni inferir EN VIVO.
 - Se amplía la rama de matcher con el diagnóstico **autonomousProbe**: si el evento contiene videoId editorial, realiza un emparejamiento paralelo en memoria omitiendo ese ID, pero exclusivamente contra IDs devueltos por search.list. No incrementa consumo de YouTube, no escribe D1, no elimina enlaces editoriales ni modifica estado. Cualquier conflicto entre sala autónoma y sala editorial requiere review.
+
+## Integración y despliegue confirmado del matcher Stage 6 (13-oct-2026 CDMX)
+
+- **Autorización:** usuario aprobó explícitamente integrar el PR #12 y simplificar confirmaciones humanas repetitivas para los ensayos ordinarios, conservando protecciones técnicas. No interpretar esto como permiso para publicar secretos, alterar arbitrariamente estados o saltarse autenticación.
+- **PR #12** https://github.com/BlazeLeiton/KGBlaze/pull/12 fusionado en main por squash como commit `85fddfd061b206b62a35a27717c564bf75eafd65`.
+- **GitHub Actions en main:** SUCCESS, https://github.com/BlazeLeiton/KGBlaze/actions/runs/38428308029.
+- **Cloudflare Workers Builds:** SUCCESS en ese mismo commit, build ID `aceed509-e6bd-4aec-be54-116bbc5fab5d`, versión Worker `a70722b3-fe5f-4a31-9299-2328601d3167`. https://dash.cloudflare.com/7ac97f454edb4362a185d23f9e5dddbd/workers/services/view/kgblaze-terminal/production/builds/aceed509-e6bd-4aec-be54-116bbc5fab5d
+- **Funcionalidad desplegada:** reconocimiento conservador por segmento de categoría de juego y `autonomousProbe` diagnóstico de IDs de YouTube efectivamente descubiertos mediante búsqueda. Mantiene precedencia del ID manual; controles de tiempo, origen, canal, emisor, categoría, episodio y ambigüedad; sin nuevas peticiones adicionales en el shadow probe.
+- **No confundirse:** pruebas automatizadas PASS y build exitoso **no confirman todavía la respuesta real de autonomousProbe**; requiere una única lectura manual autenticada, porque el asistente carece de acceso al endpoint privado. El visor público no se pudo consultar desde herramientas por inaccesibilidad de workers.dev.
+- No se alteraron revisión 2, 10 salidas editoriales, D1, flags, secretos, Cron ni estados; no se hicieron nuevas llamadas a YouTube reales.
