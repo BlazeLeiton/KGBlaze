@@ -1,5 +1,13 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+
+## Hito más reciente Stage 6 — YouTube real positivo y matcher autónomo en pruebas (13-oct-2026 CDMX)
+- **Comprobación E2E por usuario del PR #9:** ficha Killer Chat! → miniatura y sala; tablero YouTube → canal general. Ambos comportamientos correctos e intencionales.
+- **Segunda consulta REAL de sólo lectura:** preflight devuelve revision:2, upcoming:1, live:0, un ID descubierto, un ID editorial, un video, un recurso de emisión del canal, discoveryComplete:true; Killer Chat!: candidate / explicit_editorial_video_id / JDkg-5tZ3G0 / upcoming_unverified; safeToApply:false, directSyncWrites:0.
+- **Siguiente brecha:** el título editorial Killer Chat!: Original Edition es distinto del título creativo de YouTube. La rama feat/stage06-youtube-category-match-dry-run prueba reconocimiento conservador por categoría como segmento completo, con límites por canal, episodio, colaboración, fecha, hora, ediciones y ambigüedad.
+- **Preferencia del usuario:** no repetir toggles true/false ni pedir confirmación ready como paso ordinario; conservar seguridad del backend.
+- **No desplegado:** no se integra todavía a main, no hay nuevas consultas a YouTube, no se publica revisión adicional, ni se activa Cron o escritura automática.
+
 ## Corte vigente Stage 6 — PR #9 integrado y build de producción SUCCESS (13-oct-2026 CDMX)
 - **Respark Stage 1–6:** nueva ficha `STAGES/STAGE-06.md`; todas las etapas sin cierre formal verificado se conservan abiertas. Este corte prevalece sobre las entradas históricas de revisión 1, PR #4 y documentos que dicen que Cloudflare no estaba desplegado.
 - **Confirmación del usuario, sin inferir lectura API:** Terminal Operativo privado v24.2.1; revisión editorial **2**, **10 salidas**, Killer Chat! con `videoId:JDkg-5tZ3G0`; ICS Twitch ya vigente. No volver a importar ni republicar para probar un parche de navegación.
