@@ -47,3 +47,11 @@ Actualizar esta ficha con último mensaje, cambios reales y resultados de prueba
 - Cifras públicas obtenidas mediante ID canal/video; diferencias con CSV privado permanecen NO COMPARABLES cuando cambian ventana y universo.
 - Materialización de HTML originales a copia binaria falló; la Biblioteca sigue siendo fuente única de los bytes.
 - Referencia: `../AUDITS/SECOND-PASS-2026-10-12.md`; próximo arranque debe ejecutar ambas pasadas.
+
+## Tercera revisión — perfiles, publicaciones y agenda (12-oct-2026)
+- Se contrastaron vía identificadores directos videos públicos de Octublaze, Connect, mumei; perfil Instagram con bio y 12 reels; páginas Ko-fi, HoloList, vTubie y Bācharu. X/Twitch/Discord no permitieron validación directa plena.
+- Créditos corregidos por publicaciones reales: Connect atribuye adaptación principal Sekai025, ajustes de Glorylé y voz/mix/video a Blaze; mumei atribuye voz/adaptación/subtítulos a Blaze, obras originales a sus respectivos autores. `TEMPLATES/COVERS.md` aclarado.
+- Descripción de directos separada y documentada como `TEMPLATES/LIVE_STREAMS.md`; `TEMPLATES/SOCIAL.md` distingue posts de conversación de promociones, sin asumir comprobación directa de X.
+- Agenda: ocho directos del ciclo con video YouTube disponible; 13 Killer Chat, 14 Azur condicionado, 15 Galaxies, 16 Azur tema por confirmar, 20 MiSide provisional, 21/22 reservas Azur contradictorias entre chat/libro, 23 MiSide histórico programado. Cake Song demo sin confirmación posterior, fecha límite del 31; Malfoid no realizado 10/11; Pokémon Journey sin estreno confirmado hasta noviembre.
+- `INITIALIZATION.md` consolida las fases de recuperación histórica, archivo, fuentes públicas, calendario, auditoría, preguntas y persistencia. Stage 4 **continúa abierto**. No se crearon copias de originales privados ni cambió Terminal.
+- Informe: `../AUDITS/THIRD-PASS-2026-10-12.md`; preguntas `../QUESTIONS.md`.
