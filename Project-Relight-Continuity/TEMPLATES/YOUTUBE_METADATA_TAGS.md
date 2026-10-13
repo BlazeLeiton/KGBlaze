@@ -47,13 +47,12 @@ Los dos campos entre corchetes son **variables por proyecto**. El plan posterior
 | Módulo | Etiquetas concretas recuperadas | Alcance |
 |---|---|---|
 | **Fórmula 1 / F1** | `Formula 1, F1, FIA Formula 1, F1TV, Checo Perez, Watchalong, Reaccionando` | Guardado expresamente aparte de defaults por menor prominencia/falta de espacio. Aplicar al watchalong solo cuando corresponda; no declarar afiliación ni derechos de imagen. |
-| **HoloCure / Hololive** | Nombre del módulo, sin cadena final literal recuperada | Guardado para selección por video |
-| **Civilization** | Nombre del módulo, sin cadena final literal recuperada | Guardado para selección por video |
-| **VRChat y colaboraciones** | Nombre del módulo, sin cadena final literal recuperada | Guardado para selección por video |
-| **Narrativa, lectura y manga** | Nombre del módulo, sin cadena final literal recuperada | Guardado para selección por video |
-| **Eventos especiales / variedad** | Nombre del módulo, sin cadena final literal recuperada | Guardado para selección por video |
+| **HoloCure / Hololive** | `HoloCure, Hololive, ホロライブ, Hololive Production, Hololive español, VTuber Game, Gameplay, Directo, En Vivo, Livestream` | Guardado para selección por video |
+| **Civilization** | `Civilization, Civilization VI, Civ VI, Civ 6, Sid Meier's Civilization VI, Strategy Game, Juego de Estrategia, Gameplay, Directo, En Vivo, Livestream` | Guardado para selección por video |
+| **VRChat y colaboraciones** | `VRChat, VTuber Collab, VTuber Collaboration, Collab, Colaboración VTuber, Multiplayer, Gaming, Directo, En Vivo, Livestream` | Guardado para selección por video |
+| **Narrativa, lectura y manga** | `Storytelling, Narración, Interpretación, Voice Acting, Doblaje, Lectura, Reading, Manga, Anime, Character Voice, Narrative, Directo, En Vivo, Livestream` | Guardado para selección por video |
+| **Eventos especiales / variedad** | `Evento, Event, Special Event, VTuber Event, Especial, Celebration, Celebración, Anniversary, Aniversario, Watchalong, Reaccionando, Variety, Directo, En Vivo, Livestream` | Guardado para selección por video |
 
-**No inventar listas exactas** para los cinco módulos cuyo texto literal todavía no se encuentra. Recuperar sólo si hay transcripción/archivo original accesible.
 
 ## 4. Uso práctico y límites de certeza
 
@@ -65,6 +64,6 @@ Los dos campos entre corchetes son **variables por proyecto**. El plan posterior
 ## Procedencia y distinción de estado
 
 1. **Confirmación histórica del usuario (30-sep–01-oct-2026):** existencia y aceptación de plantilla canónica, tags base/temáticos y su precarga; F1 por separado.
-2. **Reconstrucción de mensajes anteriores:** términos base y cadenas por Azur, Pokémon, covers, F1. No exportación directa de defaults del Studio.
+2. **Recuperación de mensajes adyacentes del 01-oct-2026:** términos base y listas completas de Azur, Pokémon, covers, F1, HoloCure/Hololive, Civilization VI, VRChat/collabs, narrativa/lectura/manga y eventos especiales. No es una exportación actual de Studio.
 3. **Corrección del usuario (13-oct-2026):** ya no reabrir la aprobación de plantilla/tags en Stage 5, incorporarlos a los documentos de continuidad.
 4. **Publicaciones individuales** (Connect, mumei, Azur Capsule Rerun) tienen adaptación temática y derechos específicos y no reemplazan los bloques maestros.
