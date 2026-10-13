@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Diagnóstico operativo posterior al PR #12 — HTTP 401 y durabilidad de variables (13-oct-2026 CDMX)
+- El usuario volvió a ejecutar POST protegido a /api/admin/youtube-preflight tras el deploy y recibió **HTTP 401 Unauthorized**. El Worker verifica ADMIN_TOKEN **antes** del feature flag, rate limiter o consulta a YouTube: **no se consumió cuota de YouTube** ni se obtuvo autonomousProbe. No afirmar que esto demuestre fallo de matcher.
+- El bloque PowerShell try/catch se ejecutó por separado de finally; por eso finally se interpretó como comando. Es un problema de pegado en consola; no afecta al Worker ni a D1.
+- En la revisión de wrangler.toml vigente tras PR #12 se detectó que **faltaba keep_vars=true** y el flag YOUTUBE_PREVIEW_ENABLED se había configurado por dashboard (texto). Cloudflare documenta que un deploy de Wrangler reemplaza variables de texto de dashboard por defecto; los secretos definidos como Secret se conservan. Es una **causa plausible, no verificada**, de la discrepancia. No se tiene acceso autenticado a Cloudflare Settings para comprobar si ADMIN_TOKEN existe como texto o secreto.
+- Cambio en rama de reparación: `fix/terminal-preserve-dashboard-vars-preview-default` añade keep_vars=true y YOUTUBE_PREVIEW_ENABLED="true" a wrangler.toml con tests. El flag no desactiva ADMIN_TOKEN, cabecera read-only o rate limiter; no Cron. Tras integrar, verificar en dashboard la presencia de ADMIN_TOKEN como **Secret** sin compartir valor. Si el valor dejó de estar presente, restaurarlo una vez por dashboard y usar el mismo valor que editor operativo; no cambiarlo en GitHub.
+- Próximo diagnóstico aislado no destructivo: GET autenticado de /api/admin/sync sin API YouTube, sólo imprimir HTTP/versión, sin filtrar el token en salida. Si 401, comprobar binding ADMIN_TOKEN en Settings > Variables and Secrets; si 200, ejecutar el preflight una vez.
+
 
 ## Corte operativo más reciente — PR #12 fusionado y build Cloudflare SUCCESS (13-oct-2026 CDMX)
 - **PR #12 integrado:** https://github.com/BlazeLeiton/KGBlaze/pull/12 -> main commit `85fddfd061b206b62a35a27717c564bf75eafd65`. CI main SUCCESS (https://github.com/BlazeLeiton/KGBlaze/actions/runs/38428308029). Workers Builds `kgblaze-terminal` SUCCESS, build `aceed509-e6bd-4aec-be54-116bbc5fab5d`, version ID `a70722b3-fe5f-4a31-9299-2328601d3167`.
