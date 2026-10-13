@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — EU.org: solicitud de VLATAM guardada, aún no aprobada
+- El usuario creó zonas DNS Free en Cloudflare para `vlatam.eu.org` y `kgblaze.dpdns.org`, asignadas ambas a `cheryl.ns.cloudflare.com` / `cris.ns.cloudflare.com`. Las zonas pendientes NO acreditan registro o delegación ante EU.org/DigitalPlat.
+- La solicitud de registro `vlatam.eu.org` se envió mediante EU.org: verificaciones de SOA y NS correctas en ambos nameservers (12 respuestas satisfactorias por clase), final `No error, storing for validation... Saved as request ... Done`. **Estado: solicitud guardada para validación administrativa, NO aprobada todavía, NO dominio activo.** El usuario conserva el número de solicitud en su conversación; evitar replicarlo en GitHub público.
+- Plan condicional si se aprueba EU.org: `kgblaze.vlatam.eu.org` como dominio público del Terminal. Plan alternativo DigitalPlat: solicitar `kgblaze.dpdns.org` y, tras delegación, usar `terminal.kgblaze.dpdns.org`. DigitalPlat aún no verificado como registrado.
+- Sólo lectura de configuración/registro: NO cambiar Worker, D1, Cron, editor privado, agenda revisión 2 / 10 salidas ni URL oficial `kgblaze-terminal.drago68575.workers.dev`. No anunciar aprobación ni mover el público antes de DNS active + HTTPS/visor/API/sync validados.
+
+
 ## 13-oct-2026 — Stage 8: confirmación del lanzamiento FINAL (prevalece sobre interpretación de staging)
 - Última corrección explícita del usuario: la página `https://kgblaze-terminal.drago68575.workers.dev/` queda **en producción pública definitiva AHORA**, sin nueva activación, despliegue ni promoción después del experimento de Killer Chat! (13-oct 22:00 CDMX). Si funciona, el servicio sigue funcionando; sólo se revertirá ante defecto comprobado.
 - El smoke HTTP anónimo https://github.com/BlazeLeiton/KGBlaze/actions/runs/38455858546 SUCCESS acredita acceso al visor, /api/health y /api/public; no acredita aún transición EN VIVO ni visualización de terceros. Prueba de continuidad https://github.com/BlazeLeiton/KGBlaze/actions/runs/38456909930 SUCCESS.
