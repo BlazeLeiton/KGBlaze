@@ -173,3 +173,9 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 | REL-074 | 5 | Cambio documental YouTube 2026: `search.list` = 1 unidad del cupo dedicado 100 consultas/día (2 consultas por preflight), no 100 unidades del cupo general por consulta. | FUENTE_OFICIAL_CONFIRMADA |
 | REL-075 | 5 | PR #4 requiere canal exacto y `YOUTUBE_PREVIEW_LIMITER` presente. Cualquier desajuste, falta de binding, denegación o fallo del limitador impide llamar a Google. CI 88/88 PASS. | IMPLEMENTADO_EN_PR_DRAFT / NO_DESPLEGADO |
 | REL-076 | 5 | No se ejecutó consulta real YouTube: TubeAlfred sin créditos y sin acceso a valor de API key ni panel Cloudflare. No crear evidencia falsa de API ni instalar secretos en repositorio. | BLOQUEADO_POR_ACCESO; SIN_CAMBIO_PRODUCCIÓN |
+
+## Stage 5 — continuidad de configuración Cloudflare
+| ID | Etapa | Hecho y estado | Estado |
+|---|---|---|---|
+| REL-077 | 5 | Usuario confirmó guardar el Rate Limiter `YOUTUBE_PREVIEW_LIMITER` en Dashboard de Cloudflare; Namespace 1001, límite 1/60 s según configuración guiada. | GUARDADO_REPORTADO_USUARIO; DEPLOY_NO_COMPROBADO |
+| REL-078 | 5 | PR #4 sincroniza binding en `wrangler.toml` sin exponer secretos. CI run `38356151146` 90/90 PASS; PR Draft no merged. El flag de lectura sigue desactivado. | CODIGO_EN_DRAFT; PRUEBAS_PASADAS; NO_ACTIVADO |

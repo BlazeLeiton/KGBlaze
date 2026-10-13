@@ -1,5 +1,10 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Paso inmediato — Cloudflare Rate Limiter guardado y reflejado en Wrangler (12-oct-2026 CDMX)
+- Usuario guardó `YOUTUBE_PREVIEW_LIMITER` desde Dashboard Cloudflare con valores recomendados `1001`, `1` / `60 s`. `ADMIN_TOKEN`, `YOUTUBE_CHANNEL_ID` y `YOUTUBE_API_KEY` ya fueron reportados guardados en UI; `YOUTUBE_API_KEY` de tipo Secret. Esto **no confirma deploy ni acceso activo en producción**.
+- PR #4 en borrador y sin merge añade los mismos valores a `wrangler.toml`, manteniendo secreto fuera del repositorio y feature flag `YOUTUBE_PREVIEW_ENABLED` ausente/off. GitHub Actions https://github.com/BlazeLeiton/KGBlaze/actions/runs/38356151146 **90/90 PASS**. No cron, escritura sync ni cambio en agenda.
+- **Próximo paso de la conversación:** pedir exclusivamente confirmación visual de que en Cloudflare `Settings > Bindings` aparece `YOUTUBE_PREVIEW_LIMITER` junto a `DB`. No ordenar deploy prematuro.
+
 ## Preflight YouTube — credenciales ya existentes, barreras y verificación (12-oct-2026 CDMX, prevalece)
 - **Stage 1 recuperado:** canal YouTube real `UCRd_uwPjrsf6Z3CRXwNehEQ` (handle `@BlazeLeiton`); el usuario ya creó una API key de Google, pero ni su valor ni el secreto Cloudflare están disponibles en conectores. **No volver a preguntar qué canal es ni sugerir generar otra clave sin motivo.**
 - PR #4 **DRAFT**, sin merge/despliegue. Endurecido con comparación canal exacto y `YOUTUBE_PREVIEW_LIMITER` obligatorio, fail closed ante rate-limit denegado/ausente/fallido. El binding **todavía NO existe en Wrangler**, así que la ruta del PR seguiría inoperativa incluso con flag/secretos hasta configurar el binding. No se autorizó ni realizó configuración de producción.
