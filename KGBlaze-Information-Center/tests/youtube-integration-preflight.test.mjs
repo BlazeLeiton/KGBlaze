@@ -144,3 +144,47 @@ test('manual end-to-end preflight with mocked provider never returns API key or 
  assert.equal(r.items[0].decision,'candidate');assert.equal(r.safeToApply,false);
  assert.equal(r.directSyncWrites,0);assert.equal(JSON.stringify(r).includes('SECRET-ONLY-IN-MEMORY'),false);
 });
+
+
+test('Stage 6 real-world fixture: preflight discovers Killer Chat by game category with no manual ID',async()=>{
+ const editorial=agenda([event({
+  title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition'
+ })]);
+ const creative=room({
+  id:'JDkg-5tZ3G0',
+  snippet:{...room().snippet,title:'💌 Encuentra el Amor o MUERE Intentándolo.....espera :v 🔪 | Killer Chat!'}
+ });
+ const requests=[];
+ const fake=async raw=>{
+  const url=new URL(raw);requests.push(url);
+  if(url.pathname.endsWith('/search'))return {ok:true,json:async()=>({
+   items:url.searchParams.get('eventType')==='upcoming'
+    ?[{id:{kind:'youtube#video',videoId:'JDkg-5tZ3G0'}}]:[]
+  })};
+  return {ok:true,json:async()=>({items:[creative]})};
+ };
+ const result=await runManualYouTubePreflight(editorial,{ownedChannelId:OWN,apiKey:'fixture-only',fetchImpl:fake,now:()=>NOW});
+ assert.equal(requests.length,3);
+ assert.equal(result.evidenceSummary.uniqueDiscoveredVideoIds,1);
+ assert.equal(result.evidenceSummary.explicitEditorialVideoIds,0);
+ assert.equal(result.evidenceSummary.discoveryComplete,true);
+ assert.deepEqual(result.items[0],{
+  eventId:'tw:test',decision:'candidate',reason:'unique_channel_category_time',
+  videoId:'JDkg-5tZ3G0',evidenceSignal:'upcoming_unverified'
+ });
+ assert.equal(result.safeToApply,false);
+ assert.equal(result.directSyncWrites,0);
+ assert.equal(JSON.stringify(result).includes('fixture-only'),false);
+});
+test('Stage 6: preflight refuses two different game-title segments in competing rooms',()=>{
+ const editorial=agenda([event({
+  title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition'
+ })]);
+ const shared={...room().snippet};
+ const first=room({id:'JDkg-5tZ3G0',snippet:{...shared,title:'Cita mortal | Killer Chat!'}});
+ const second=room({id:'Another1234',snippet:{...shared,title:'Una historia diferente | Killer Chat!'}});
+ const out=preview(editorial,evidence([first,second]));
+ assert.equal(out.items[0].decision,'review');
+ assert.equal(out.items[0].reason,'ambiguous_multiple_rooms');
+ assert.equal(out.safeToApply,false);
+});
