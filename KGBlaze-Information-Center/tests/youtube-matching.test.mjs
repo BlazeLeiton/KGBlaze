@@ -76,3 +76,81 @@ test('Z: non-YouTube observations and entirely invalid dates cannot resolve',()=
  assert.equal(check(event({day:'2026-02-30'})).decision,'review');
  assert.deepEqual(matchYouTubeAgenda(null,[video()],fixtureOptions),[]);
 });
+
+/* Stage 6: activity/category identity is distinct from the creative YouTube title.
+ * Dry-run only: matching a candidate must never mean a trusted observation. */
+const killerEvent=(extra={})=>event({
+ title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition',...extra
+});
+const killerVideo=(extra={})=>video({
+ id:'JDkg-5tZ3G0',
+ snippet:{...video().snippet,title:'💌 Encuentra el Amor o MUERE Intentándolo.....espera :v 🔪 | Killer Chat!'},
+ ...extra
+});
+test('AA: real Killer Chat editorial game matches the creatively titled room without manual videoId',()=>{
+ const r=check(killerEvent(),[killerVideo()]);
+ assert.deepEqual(r,{decision:'candidate',reason:'unique_channel_category_time',videoId:'JDkg-5tZ3G0'});
+ for(const key of ['verified','matchConfirmed','status'])assert.equal(Object.hasOwn(r,key),false);
+});
+test('AB: a missing category is not substituted with a guess from a creative title',()=>{
+ assert.deepEqual(check(killerEvent({category:undefined}),[killerVideo()]),{decision:'none',reason:'no_safe_match'});
+});
+test('AC: unrelated names, partial words and a different edition do not match',()=>{
+ for(const title of [
+  '💌 Encuentra el amor | Murder Chat',
+  '💌 Una cita en Killer Chatroom',
+  'Killer Chat!: Remastered Edition',
+  'Killer Chat! 2',
+  'Killer Chat! Gameplay esta noche'
+ ]) {
+  const v=killerVideo({snippet:{...killerVideo().snippet,title}});
+  assert.equal(check(killerEvent(),[v]).decision,'none',title);
+ }
+});
+test('AD: a generic Twitch category cannot authorize a weak title match',()=>{
+ const e=event({title:'Día de pláticas',category:'Just Chatting'});
+ const v=killerVideo({snippet:{...killerVideo().snippet,title:'Charlamos | Just Chatting'}});
+ assert.equal(check(e,[v]).decision,'none');
+});
+test('AE: category fallback still rejects collab/episode mismatch',()=>{
+ for(const title of ['COLLAB ft. invitado | Killer Chat!', 'Episodio #2 | Killer Chat!']){
+  const v=killerVideo({snippet:{...killerVideo().snippet,title}});
+  assert.equal(check(killerEvent(),[v]).decision,'none',title);
+ }
+});
+test('AF: category-match candidates require trusted channel and broadcast metadata',()=>{
+ const wrong=killerVideo({snippet:{...killerVideo().snippet,channelId:ALT}});
+ assert.equal(check(killerEvent(),[wrong]).decision,'none');
+ assert.equal(check(killerEvent(),[killerVideo({liveStreamingDetails:undefined})]).decision,'none');
+ assert.equal(check(killerEvent(),[killerVideo()],{}).reason,'trusted_channel_not_configured');
+});
+test('AG: a matching game alone does not bypass time and reschedule controls',()=>{
+ const delayed=killerVideo({liveStreamingDetails:{scheduledStartTime:'2026-10-14T10:00:00Z'}});
+ assert.equal(check(killerEvent(),[delayed]).reason,'potential_reschedule_needs_editorial_confirmation');
+ const tooFar=killerVideo({liveStreamingDetails:{scheduledStartTime:'2026-10-17T04:00:00Z'}});
+ assert.equal(check(killerEvent(),[tooFar]).reason,'no_safe_match');
+ assert.equal(check(killerEvent({time:''}),[killerVideo()]).reason,'editorial_day_or_time_missing');
+});
+test('AH: concurrent or competing rescheduled rooms are blocked for review',()=>{
+ const duplicate=killerVideo({id:'Another1234'});
+ assert.equal(check(killerEvent(),[killerVideo(),duplicate]).reason,'ambiguous_multiple_rooms');
+ const late=killerVideo({id:'Another1234',liveStreamingDetails:{scheduledStartTime:'2026-10-14T10:00:00Z'}});
+ assert.equal(check(killerEvent(),[killerVideo(),late]).reason,'competing_rescheduled_rooms');
+});
+test('AI: explicit editorial link retains priority over a different detected category room',()=>{
+ const e=killerEvent({videoId:'Abcdef12345'});
+ const alternate=video({id:'Abcdef12345',snippet:{...video().snippet,title:'Otra transmisión del canal'}});
+ assert.equal(check(e,[killerVideo(),alternate]).reason,'explicit_editorial_video_id');
+});
+test('AJ: distinct single-word proper game categories may match as whole segments',()=>{
+ const e=event({title:'MiSide',category:'MiSide'});
+ const v=video({snippet:{...video().snippet,title:'Un terror en el espejo | MiSide'}});
+ assert.equal(check(e,[v]).reason,'unique_channel_category_time');
+});
+test('AK: duplicate claimed room is refused even under category matching',()=>{
+ const r=matchYouTubeAgenda([
+  killerEvent({id:'tw:killer-one'}),
+  killerEvent({id:'tw:killer-two'})
+ ],[killerVideo()],fixtureOptions);
+ assert.deepEqual(r.map(x=>x.reason),['video_claimed_by_multiple_events','video_claimed_by_multiple_events']);
+});
