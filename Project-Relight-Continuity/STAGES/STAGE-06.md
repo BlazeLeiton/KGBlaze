@@ -30,3 +30,12 @@
 - Sincronización periódica YouTube/Twitch y determinación automática de directo siguen siendo un trabajo distinto: no confundir PR #9 con habilitación de detección.
 - Registro público saneado; **sin HTML operativo privado, respaldos JSON, credenciales o transcripciones privadas**.
 - El cierre formal de Stages 1–6 queda `NO VERIFICADO` donde así lo marca el índice, y los textos antiguos se preservan como historia, no como estado actual.
+
+## Reanudación del hilo original — detección real de YouTube (13-oct-2026 CDMX)
+
+- El usuario confirmó visualmente la corrección del PR #9: ficha de Killer Chat! con miniatura y vínculo directo a sala; icono YouTube en tablero general mantiene vínculo al canal. Ambos comportamientos son intencionales.
+- Segunda consulta **REAL de sólo lectura** completada por el usuario en PowerShell con YOUTUBE_PREVIEW_ENABLED=true: revisión 2, safeToApply:false, directSyncWrites:0. upcoming:1, live:0, un videoId descubierto, un videoId editorial, un recurso del canal; discoveryComplete:true.
+- Evento tw:306ddb27-c0d3-4030-bd9f-f7689b529582: candidate / explicit_editorial_video_id / JDkg-5tZ3G0 / upcoming_unverified. YouTube respondió correctamente, pero el uso de videoId editorial explícito todavía no demuestra reconocimiento autónomo.
+- El siguiente experimento compara la categoría Twitch Killer Chat!: Original Edition con el segmento Killer Chat! del título creativo del directo, sin relajar identidad del canal, horario ni controles de coincidencia.
+- Preferencia operativa: dejar de pedir alternar true/false y avisar ready como rutina. Mantener controles del servidor sin depender de confirmaciones humanas repetitivas.
+- Trabajo de matcher en rama feat/stage06-youtube-category-match-dry-run, bajo pruebas y revisión de CI. No activar Cron, sync automático, cambios editoriales ni inferir EN VIVO.
