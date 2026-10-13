@@ -8,6 +8,7 @@
 |---|---|---|
 | **YouTube Studio: plantilla maestra unificada aprobada / precargada** | **canónica** | [YOUTUBE_MASTER_DEFAULTS.md](YOUTUBE_MASTER_DEFAULTS.md) |
 | **YouTube Studio: tags base y módulos por serie** | **defaults + reutilizables** | [YOUTUBE_METADATA_TAGS.md](YOUTUBE_METADATA_TAGS.md) |
+| **Twitch: título, notificación y etiquetas** | plantilla editorial recuperada | [TWITCH_METADATA.md](TWITCH_METADATA.md) |
 | **Twitch: título, notificación, categoría y tags** | **plantilla editorial Stage 1/2** | [TWITCH_METADATA.md](TWITCH_METADATA.md) |
 | Descripción, créditos y enlaces de covers publicados | variante de aplicación | [COVERS.md](COVERS.md) |
 | X/Twitter: interacción separada de anuncios de directos y covers | **plan operativo recuperado** | [SOCIAL.md](SOCIAL.md) |
