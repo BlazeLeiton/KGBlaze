@@ -1,3 +1,9 @@
+## PRIORIDAD de continuidad — defaults YouTube recuperados (13-oct-2026 CDMX)
+- El usuario corrigió la confusión heredada de la auditoría 12-oct: **solo una plantilla maestra modular YouTube**, válida para covers y directos, **validada y reportada precargada en YouTube Studio** desde Stage 1/2/Song Covers. Fuente literal nuevamente entregada el 13-oct: [../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md](../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md). No pedirle revalidar globalmente ni sugerir dos plantillas autónomas.
+- Tags **base + Azur Lane + covers + Pokémon** ya incluidos en defaults por confirmación histórica del usuario; **F1 por separado**, igual que HoloCure/Hololive, Civilization, VRChat/colaboraciones, narrativa/lectura/manga y eventos especiales: [../TEMPLATES/YOUTUBE_METADATA_TAGS.md](../TEMPLATES/YOUTUBE_METADATA_TAGS.md).
+- Diferenciar **defaults declarados por usuario** (aprobados) de **variantes de descripción usadas en videos publicados** (constatadas en auditoría): estas últimas no prueban una segunda plantilla maestra. Faltan listas byte-a-byte de ciertos módulos, NO la aprobación de defaults.
+- Próxima tarea editorial: preparar sala **Killer Chat!: Original Edition**, 13-oct-2026 22:00 CDMX, usando defaults existentes, adaptar solo título, premisa y tags del juego; sin reformatear crédito o reglas. No desplegar cambios técnicos durante esta preparación. YouTube preflight Cloudflare continúa en **false** según confirmación del usuario de Stage 5.
+
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
 ## Paso inmediato — Cloudflare Rate Limiter guardado y reflejado en Wrangler (12-oct-2026 CDMX)
