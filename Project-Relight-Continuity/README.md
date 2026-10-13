@@ -1,4 +1,4 @@
-# Project Relight — Continuidad / KGRP v2.0
+# Project Relight — Continuidad / KGRP v3.0
 
 **Sistema independiente para recuperar toda la historia de KGBlaze entre chats.**
 Fecha de establecimiento: 2026-10-12. Zona: America/Mexico_City.
@@ -63,3 +63,16 @@ La segunda orden **sólo se usa cuando existe una nueva etapa real**; crea autom
 - [Catálogo recuperable de archivos por formato](SOURCES/FILE_REGISTRY.md)
 - [Método de contrastes y métricas por enlaces directos](SOURCES/DIRECT_SOURCE_POLICY.md)
 - [**Índice de plantillas existentes y reconstruidas**](TEMPLATES/README.md)
+
+## KGRP v3.0 — ARRANQUE INTEGRAL (vigente)
+La tercera auditoría consolidó historia, archivos, perfiles, publicaciones, calendario, métricas, pruebas y preguntas en un procedimiento obligatorio al comenzar cada conversación de Project Relight:
+- [**INITIALIZATION.md — procedimiento completo de fases 0–6**](INITIALIZATION.md)
+- [**PROJECT_STARTUP_INSTRUCTIONS.md — texto para configurar las instrucciones de ChatGPT Project**](PROJECT_STARTUP_INSTRUCTIONS.md)
+- [Tercera revisión de perfiles, publicaciones y calendario](AUDITS/THIRD-PASS-2026-10-12.md)
+- [Perfiles oficiales/directorios y accesibilidad](SOURCES/PUBLIC_PROFILES.md)
+- [Publicaciones YouTube comprobadas por video ID](SOURCES/PUBLIC_PUBLICATIONS.md)
+- [Conciliación de calendarios y jerarquía de decisiones](SOURCES/CALENDAR_RECONCILIATION.md)
+- [Preguntas pendientes priorizadas](QUESTIONS.md)
+- [Plantilla separada de directos](TEMPLATES/LIVE_STREAMS.md)
+
+**Implementación efectiva:** repositorio y documentación actualizados, pero GitHub por sí solo **no instala instrucciones en ChatGPT**. El usuario debe pegar una vez el texto de `PROJECT_STARTUP_INSTRUCTIONS.md` en las instrucciones de su Proyecto. Sin ese paso, se puede invocar `KGRP: INICIALIZAR PROJECT RELIGHT` manualmente. La recuperación jamás publica originales privados ni modifica Terminal automáticamente.
