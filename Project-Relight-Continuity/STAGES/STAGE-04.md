@@ -72,3 +72,9 @@ Actualizar esta ficha con último mensaje, cambios reales y resultados de prueba
 - Nuevas reglas y huecos: `../AUDITS/FOURTH-PASS-2026-10-12.md`, `../SOURCES/PUBLIC_PROFILES.md`, `../QUESTIONS.md`. Stage 4 sigue ABIERTA; Terminal sin alteraciones.
 
 Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
+
+## Relight Respark y fuente ICS aclarados — 12-oct-2026
+- **Comando canónico bilingüe:** `Ejecuta Relight Respark` / `Execute Relight Respark`. Ambas frases activan la recuperación profunda completa del protocolo KGRP, fases 0–6, al solicitarlas.
+- **ICS Twitch:** el usuario rectifica el motivo de «revisarlo después»: **no hay uno más nuevo; el archivado sigue siendo el más reciente y no se han hecho cambios**. No hay razón para pedir otra exportación actualmente; el acceso web directo a `/schedule` sigue sin comprobarse.
+- Se considera **suficiente la recuperación inicial de Stage 4 por ahora**. Nuevos hallazgos de esta conversación se incorporarán incrementalmente al protocolo y archivos de continuidad pertinentes, sin reabrir todo el proceso por cada hallazgo.
+- Stage 4 sigue ABIERTA; no se modifican perfiles, Terminal, calendario público, D1 ni otros datos editoriales.
