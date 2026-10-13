@@ -39,3 +39,11 @@ Actualizar esta ficha con último mensaje, cambios reales y resultados de prueba
 - El proyecto más amplio no se reduce a Terminal: ya estaba establecido el orden **métricas internas YouTube/Twitch → estrategia X/Twitter → Pokémon Journey en noviembre de 2026**. El aplazamiento de Pokémon desde octubre sustituye agendas anteriores.
 - Octubre/Octublaze mantenía bloques flexibles para MiSide, Azur y reservas como Parasocial o The Closing Shift según capacidad y prioridades; los calendarios anteriores deben compararse con versiones más recientes antes de usarse como agenda actual.
 - Stage 1 fue **reportada como fase de trabajo cerrada**; falta la transcripción íntegra del cierre formal del chat. Son estados distintos, no contradictorios.
+
+## Segunda auditoría archivística — 12 octubre 2026
+- Revisadas todas las familias: 49 HTML, 8 CSV, 21 XLSX, 4 PPTX con duplicados, 3 PDF con duplicado, 2 DOCX, más de 100 imágenes (paginación pendiente).
+- Inspección de v23.11 comparada con v23.10/v23.9: compatibilidad de cabecera `X-Terminal-Week`, migración de clave local, prioridad y cierre conservador. Falta prueba navegable y publicación.
+- Hojas operativas y conciliación diferenciaron completadas vs programadas. Plantillas de siete paneles, covers, X, calendario y medición añadidas al índice.
+- Cifras públicas obtenidas mediante ID canal/video; diferencias con CSV privado permanecen NO COMPARABLES cuando cambian ventana y universo.
+- Materialización de HTML originales a copia binaria falló; la Biblioteca sigue siendo fuente única de los bytes.
+- Referencia: `../AUDITS/SECOND-PASS-2026-10-12.md`; próximo arranque debe ejecutar ambas pasadas.
