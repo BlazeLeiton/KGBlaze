@@ -1,4 +1,11 @@
 # Handoff actual — Snapshot KGRP v2
+
+## ESTADO MÁS RECIENTE — 2026-10-12 · confirmación explícita del usuario (Stage 4)
+- **Q-01 resuelta:** Azur Lane 21-oct y 22-oct: ambas **RESERVAS MANTENIDAS SIN HORA**, no directos confirmados/emitidos/anunciados.
+- **Q-02 respondida, ejecución abierta:** demo vocal Cake Song propuesta 12-oct **PENDIENTE**; no registrada como grabada ni enviada. Deadline 31-oct se conserva.
+- **Sólo estas aclaraciones** prevalecen sobre cualquier duda previa de estos registros. El resto del calendario queda intacto.
+- Actualizados `SOURCES/CALENDAR_RECONCILIATION.md`, `DECISIONS.md`, `QUESTIONS.md`, ficha Stage 4 y plantilla de calendario. No se modificó `KGBlaze-Information-Center/`, ni el XLSX privado original; esta conciliación documental no publica eventos en Terminal.
+
 Fecha base: 2026-10-12 · Zona: America/Mexico_City. Esta es una instantánea, **no un detector automático de chats**.
 
 ## Etapas consideradas
