@@ -81,3 +81,10 @@ La tercera auditoría consolidó historia, archivos, perfiles, publicaciones, ca
 - [**Cuarta revisión integral de Carrd, Twitch, YouTube autenticado, archivos, métricas y vigilancia**](AUDITS/FOURTH-PASS-2026-10-12.md)
 - URL Carrd verificada: https://blazeleiton.carrd.co/ ; Twitch /about y /schedule se intentaron y **no pudieron leerse**.
 - El protocolo añade anexo v3.1 a `INITIALIZATION.md`, sin cambiar estructura de etapas ni software Terminal.
+
+## Comando de recuperación «Relight Respark»
+**Español:** `Ejecuta Relight Respark` · **English:** `Execute Relight Respark`. Ambas frases equivalen a ejecutar `INITIALIZATION.md` fases 0–6 y recuperar todo Stage 1..N. El comando antiguo KGRP sigue disponible como alias.
+
+Los nuevos datos que surjan durante una conversación de Project Relight se registran incrementalmente, sin volver a ejecutar todas las auditorías ante cada comentario. Para nuevos chats, incorporar `PROJECT_STARTUP_INSTRUCTIONS.md` a las instrucciones del Proyecto o usar explícitamente el comando.
+
+**Twitch:** el último ICS archivado es el **más reciente y sin modificaciones posteriores, confirmado por el usuario**. Q-06 no exige otro archivo actualmente; la página web `/schedule` continúa sin lectura directa.
