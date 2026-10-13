@@ -50,3 +50,9 @@
 - **Funcionalidad desplegada:** reconocimiento conservador por segmento de categoría de juego y `autonomousProbe` diagnóstico de IDs de YouTube efectivamente descubiertos mediante búsqueda. Mantiene precedencia del ID manual; controles de tiempo, origen, canal, emisor, categoría, episodio y ambigüedad; sin nuevas peticiones adicionales en el shadow probe.
 - **No confundirse:** pruebas automatizadas PASS y build exitoso **no confirman todavía la respuesta real de autonomousProbe**; requiere una única lectura manual autenticada, porque el asistente carece de acceso al endpoint privado. El visor público no se pudo consultar desde herramientas por inaccesibilidad de workers.dev.
 - No se alteraron revisión 2, 10 salidas editoriales, D1, flags, secretos, Cron ni estados; no se hicieron nuevas llamadas a YouTube reales.
+
+## Incidencia tras el deploy del PR #12 — autenticación del preflight
+- Consulta real posterior: PowerShell devolvió HTTP 401 antes de consultar YouTube; no hay resultado nuevo de autonomousProbe ni efecto D1.
+- Revisión técnica: en Worker la autorización ADMIN_TOKEN precede a YOUTUBE_PREVIEW_ENABLED, validación de rate limiter y llamadas a Google. La clave tecleada podría no coincidir o una variable de texto del dashboard podría no persistir tras el despliegue; no diagnosticar ausencia de secreto sin comprobación del dashboard.
+- El comando pegado dejó finally fuera del bloque try/catch; PowerShell lo ejecutó como orden inexistente. Corregir en scripts futuros sin reutilizar finally como línea independiente.
+- Reparación preventiva registrada: mantener variables de dashboard en deploy con keep_vars=true; permitir YOUTUBE_PREVIEW_ENABLED="true" persistentemente por solicitud del usuario. ADMIN_TOKEN sigue siendo obligatorio y secreto; ninguna prueba puede saltarse autenticación.
