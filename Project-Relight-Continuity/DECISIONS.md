@@ -90,3 +90,13 @@ No se autoriza modificar perfiles, Terminal ni los estados editoriales.
 | REL-047 | 4+ | Cualquier descubrimiento relevante durante la conversación se incorpora de forma **incremental** a continuidad y protocolo; evitar auditoría integral repetitiva hasta nuevo comando | CONFIRMADO_USUARIO; REGLA VIGENTE |
 
 La confirmación del ICS no demuestra acceso web directo a Twitch ni convierte programación en emisiones; las decisiones previas (Azur 21/22 reservados sin hora y Cake Song demo pendiente) siguen vigentes. El registro de comandos en GitHub no modifica automáticamente las instrucciones personalizadas de ChatGPT Project.
+
+
+## Continuación del cierre de Stage 3 — corrección de alcance en Stage 4 (12-oct-2026)
+| ID | Etapa | Corrección o evidencia | Estado |
+|---|---|---|---|
+| REL-048 | 3–4 | **Terminal** (sin B) designa el producto/editor/visor, API, tablas nuevas y textos técnicos; `kgblaze-terminal` queda como nombre físico D1. `kgblaze_terminalb_board_v3_202610` sólo sobrevive como **clave LEGACY de migración**, no branding. | CONFIRMADO_USUARIO y VERIFICADO_CODIGO |
+| REL-049 | 4 | **Terminales A y B** sigue siendo el nombre de las instalaciones en el encabezado público del aeropuerto, NO el nombre del software. Restaurar históricos ES `AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINALES A Y B`, EN `KGBLAZE INTERNATIONAL AIRPORT · TERMINALS A & B`, JA `KGBLAZE国際空港 · ターミナルA・B`. | CONFIRMADO_USUARIO; VERIFICADO_FUENTE_HISTORICA |
+| REL-050 | 4 | Restauración de títulos en DOM, traducciones y cabecera canvas del visor `KGBlaze-Information-Center/public/index.html`; código fuente modificado y comprobado en GitHub, **sin despliegue**. Editor privado v23.11 corregido en artefacto separado, fuente original de Biblioteca sin sobrescribir. | VERIFICADO_GITHUB / PROBADO_SINTAXIS; OPERATIVO_ARCHIVO_DERIVADO |
+
+**Fuente recuperada Stage 3:** últimos mensajes: 1) nombre `kgblaze-terminal`; 2) identificación D1 aportada por usuario; 3) prohibición de usar `terminalb`/«Terminal B» para el SOFTWARE. El texto de las respuestas históricas está reconstruido parcialmente, no disponible literalmente completo. Stage 4 aclaró el alcance público. Nunca propagar la prohibición técnica a la denominación del aeropuerto.
