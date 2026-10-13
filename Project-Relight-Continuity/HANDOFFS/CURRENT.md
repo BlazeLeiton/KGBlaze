@@ -6,6 +6,7 @@
 - **Segunda consulta REAL de sólo lectura:** preflight devuelve revision:2, upcoming:1, live:0, un ID descubierto, un ID editorial, un video, un recurso de emisión del canal, discoveryComplete:true; Killer Chat!: candidate / explicit_editorial_video_id / JDkg-5tZ3G0 / upcoming_unverified; safeToApply:false, directSyncWrites:0.
 - **Siguiente brecha:** el título editorial Killer Chat!: Original Edition es distinto del título creativo de YouTube. La rama feat/stage06-youtube-category-match-dry-run prueba reconocimiento conservador por categoría como segmento completo, con límites por canal, episodio, colaboración, fecha, hora, ediciones y ambigüedad.
 - **Preferencia del usuario:** no repetir toggles true/false ni pedir confirmación ready como paso ordinario; conservar seguridad del backend.
+- **Shadow diagnóstico en rama:** autonomousProbe permitirá probar la detección SIN el videoId manual (sólo simulación en memoria) usando los IDs provenientes de search.list de la misma consulta. Un ID obtenido sólo por videos.list no pasa por descubrimiento autónomo; conflicto con ID editorial → review. Ninguna escritura a D1 ni llamadas adicionales de API.
 - **No desplegado:** no se integra todavía a main, no hay nuevas consultas a YouTube, no se publica revisión adicional, ni se activa Cron o escritura automática.
 
 ## Corte vigente Stage 6 — PR #9 integrado y build de producción SUCCESS (13-oct-2026 CDMX)
