@@ -24,7 +24,7 @@ YOUTUBE_SYNC_ENABLED = "true"
 [assets]
 directory = "./public"
 binding = "ASSETS"
-run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html"]
+run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html", "/departures", "/departures/*"]
 
 # Binding de diagnostico privado de YouTube, configurado en Cloudflare Dashboard.
 # NO habilita la ruta sin YOUTUBE_PREVIEW_ENABLED=true (ausente por defecto).
