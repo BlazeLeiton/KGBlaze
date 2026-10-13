@@ -58,3 +58,9 @@ Q-01 Azur 21/22 y Q-02 Cake quedaron ya respondidas; **no volver a preguntarlas*
 3. Auditoría de automatizaciones en modo lectura únicamente cuando el estado operativo sea relevante; preservar configuración y no crear duplicados.
 4. Auditoría Steam cruzando propiedad personal/familiar/wishlist, precio regional y historial de streams antes de recomendar adquisiciones.
 5. Nuevas revisiones conservan este informe como historia y resumen de pendientes, sin confundir evidencia pública con datos privados.
+
+## Addendum — respuestas del usuario posteriores a la auditoría (12-oct-2026)
+**Prevalecen en el alcance aclarado sobre los apartados históricos anteriores:**
+1. **Carrd Q-09 CERRADA como pregunta:** la versión que ve el usuario es «Acercando a México y al mundo», **con Instagram**. El snapshot distinto es artefacto de lectura/caché anterior; no obliga a actualizar redes ni a revisar de nuevo la identidad.
+2. **Twitch Q-06 DIFERIDA:** entrega de `.ics` actualizado o links recientes será «**después**», sin fecha ni compromiso de entrega ahora. El acceso automatizado a `/schedule` sigue incompleto: ninguna emisión futura recibe nueva verificación.
+3. No hay confirmación adicional de horarios, directos, publicaciones, cambios de estado editorial, configuración de vigilancia o trabajo de Terminal. Stage 4 permanece ABIERTA.
