@@ -1,0 +1,41 @@
+{
+  "schema": "kgrp-stage-registry-v2",
+  "project": "Project Relight / KGBlaze",
+  "timezone": "America/Mexico_City",
+  "updated_on": "2026-10-12",
+  "latest_stage": 3,
+  "default_recovery": "deep-complete",
+  "include_all_prior_stages": true,
+  "incomplete_without_verified_handoff": true,
+  "audit_on_uncertainty": true,
+  "stage_next_policy": "Append verified Stage N+1; do not replace or renumber prior stages; no assumed chat-limit detector.",
+  "stages": [
+    {
+      "number": 1,
+      "id": "STAGE-01",
+      "file": "STAGE-01.md",
+      "period": "2026-09 through 2026-10-07",
+      "focus": "external audit, content identity, strategy",
+      "closure_verified": false,
+      "closure_note": "Audits reportedly completed, but formal full conversation handoff not preserved in this registry; revisit trailing instructions."
+    },
+    {
+      "number": 2,
+      "id": "STAGE-02",
+      "file": "STAGE-02.md",
+      "period": "2026-10-07 through 2026-10-11",
+      "focus": "Twitch presentation, operational calendar, editor evolution",
+      "closure_verified": false,
+      "closure_note": "Subsequent stages exist, but no independently verified full last-message transfer; examine unfinished items."
+    },
+    {
+      "number": 3,
+      "id": "STAGE-03",
+      "file": "STAGE-03.md",
+      "period": "2026-10-11 through 2026-10-12",
+      "focus": "public viewer, GitHub, Cloudflare backend and renaming",
+      "closure_verified": false,
+      "closure_note": "Last conversation moved to a new chat without formally verified closure; outstanding rollout."
+    }
+  ]
+}

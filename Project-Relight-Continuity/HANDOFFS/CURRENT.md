@@ -1,0 +1,34 @@
+# Handoff actual — Snapshot KGRP v2
+Fecha base: 2026-10-12 · Zona: America/Mexico_City. Esta es una instantánea, **no un detector automático de chats**.
+
+## Etapas consideradas
+Stage 1, Stage 2 y Stage 3. El siguiente Stage reconocido de forma fehaciente será el 4. No renumerar. Ninguno tiene cierre formal completo acreditado en el índice; por tanto **recuperar los tres retrospectivamente** cuando se reanude.
+
+## Última infraestructura confirmada documentalmente
+- Repo: https://github.com/BlazeLeiton/KGBlaze
+- Proyecto de continuidad: `Project-Relight-Continuity/` (directorio independiente).
+- Software separado: `KGBlaze-Information-Center/` (visor, Worker, D1).
+- Último head verificado **antes de incorporar este protocolo**: `949f58e6c740b7213599583dedad61eda15c7c1d`. En el próximo chat volver a consultar HEAD.
+- Nombre canónico: **Terminal**.
+- Criterio documental actual: backend aún sin despliegue, integración real con plataformas pendiente.
+
+## Pendientes arrastrados desde etapas anteriores
+1. Reconstituir los **mensajes finales** de Stage 1, 2 y 3 (no sólo resumen).
+2. Localizar los HTML editor local pertinentes y comparar las versiones aprobadas, sin publicar contenido privado.
+3. Auditar contradicción de cambio visual POR CONFIRMAR / A TIEMPO y sus alcances.
+4. Verificar pruebas de Worker y el estado remoto de Cloudflare antes de afirmar finalización.
+5. Antes de cualquier despliegue, respetar autorización del usuario y la separación del editor local.
+6. Actualizar registro de decisiones con evidencias de fuente cada vez que aparezcan nuevas etapas.
+
+## Reglas nuevas fijadas 2026-10-12 en conversación de continuidad
+- Modo **siempre profundo y extenso**.
+- Auditoría y pruebas ante dudas, contradicciones, lagunas o resultados no demostrados.
+- **Rescate retrospectivo obligatorio de chats inconclusos** aunque no se haya usado CIERRE.
+- Añadir Stage N+1 cada vez que aparezca; conservar los archivos anteriores.
+- No mezclar KGRP con `kgblaze-terminal` ni con su código o base de datos.
+
+## Incertidumbres controladas
+La recuperación contextual no garantiza texto completo de los chats, y la documentación GitHub no prueba despliegue. Se debe declarar cada laguna y no improvisar una «última instrucción exacta» ausente.
+
+## Siguiente acción segura
+En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; recuperar últimos tramos disponibles y revisar nuevo SHA. Continuar desde la última petición activa del usuario, sin desplazar el trabajo a Terminal por defecto.

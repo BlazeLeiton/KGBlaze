@@ -1,0 +1,26 @@
+# Stage 1 — Auditoría externa, identidad y estrategia
+
+**Rango aproximado:** septiembre–7 octubre 2026. **Cierre formal transcrito:** NO COMPROBADO. **Calidad de fuente:** memoria contextual recuperada, no transcripción completa.
+
+## Hechos y decisiones recuperadas
+- Inició como **auditoría externa** de Blaze Leiton: YouTube, directos, títulos, miniaturas, Shorts, covers, playlists, público, evolución histórica y Twitch. Se distinguió Fase 1 (externa) / Fase 2 (interna).
+- Corrección importante: el usuario indicó el 30/09 que la **auditoría histórica YouTube/Twitch ya se había completado**. No tratar Twitch como trabajo de auditoría pendiente, aunque sí pueden quedar otros análisis internos futuros.
+- Arquitectura conceptual: **IP como puerta, Blaze como hogar**, recorrido `Puerta → Convertidor → Hogar → Comunidad → Portafolio`; YouTube como catálogo/producto, Twitch como entorno de directos y X como conversación.
+- Priorización editorial: tres espacios móviles Pokémon / Azur / Rotación; cuarto sólo por oportunidad; ventanas de producción limitadas y entregas con fechas desplazan directos.
+- Identidad: aeropuerto inspirado en señalética, **diseño propio**; no replicar marcas ajenas. Se buscó conservar `🧡✨`, KGBlaze y demás nombres comunitarios en su contexto histórico.
+- El análisis de contenido y los componentes visuales **no son la misma cosa que la publicación efectiva**.
+
+## Evidencias o cifras históricas
+Se mencionaron métricas privadas agregadas de contenido en chats anteriores. **No se reproducen aquí en GitHub público.** Revisar las fuentes privadas antes de usar cifras en decisiones; no reconstruirlas de memoria como valores exactos.
+
+## Decisiones que evolucionaron
+Las denominaciones visuales antiguas de los paneles y terminales son **históricas**. La regla de nomenclatura más reciente (Stage 3, 12/10) adopta sólo **Terminal** como nombre canónico.
+
+## Recuperación pendiente
+1. Obtener, si están accesibles, las transcripciones originales y exportes aprobados de la auditoría y el inventario de publicaciones.
+2. Comprobar cuáles recomendaciones de marca y prioridades realmente se aprobaron o se publicaron.
+3. Localizar las **últimas instrucciones de Stage 1**, decisiones descartadas y cualquier trabajo sin cierre formal.
+4. Reconciliar Stage 1 con revisiones de Stage 2 y 3; nunca asumir que la primera versión sigue vigente.
+
+## Estado de auditoría
+`HISTORICO_RECUPERADO` para contenido resumido; `NO_COMPROBADO` para detalles no vistos directamente.
