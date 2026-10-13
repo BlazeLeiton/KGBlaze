@@ -1,5 +1,14 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — Terminal bajo /departures: código integrado, Custom Domain pendiente
+- El usuario confirmó que `kgblaze.dpdns.org` está activo en Cloudflare y aprobó `https://kgblaze.dpdns.org/departures/` como dirección pública futura del Terminal, preservando el dominio raíz para un portal KGBlaze posterior.
+- Implementación del mismo Worker `kgblaze-terminal` en PR #20 https://github.com/BlazeLeiton/KGBlaze/pull/20, squash commit `e489f80e92b8da564dcbb098b98a2d1114cebca7`. GitHub Actions https://github.com/BlazeLeiton/KGBlaze/actions/runs/38479267046 SUCCESS y Cloudflare Workers Builds https://dash.cloudflare.com/7ac97f454edb4362a185d23f9e5dddbd/workers/services/view/kgblaze-terminal/production/builds/ec3aa505-e3ed-4759-8a18-2032a8e0b899 SUCCESS.
+- El Worker dirige el hostname nuevo: `/` → `/departures/`, `/departures` → `/departures/`, `/departures/` visor, `/departures/api/public` API. Dado que el HTML original aún usa `fetch('/api/public')`, existe un alias público temporal `/api/public`; la administración privada se bloquea bajo el nuevo dominio y sigue usando Workers.dev.
+- **PENDIENTE**: añadir `kgblaze.dpdns.org` como **Custom Domain** del Worker desde Cloudflare Dashboard y verificar HTTPS, redirects, visor y APIs reales, revisión editorial 2 y 10 salidas. El éxito de la build NO confirma que la URL nueva esté enlazada y accesible. No anunciarla antes de un GET anónimo satisfactorio.
+- Sin modificación de D1, editor privado, agenda, Cron, sync YouTube ni secretos por este cambio. URL `kgblaze-terminal.drago68575.workers.dev` se preserva como acceso alternativo. La solicitud `vlatam.eu.org` permanece pendiente de revisión.
+- Guía de implementación: `KGBlaze-Information-Center/PORTAL-DEPLOYMENT.md` y nuevo test `tests/portal-route.test.mjs`.
+
+
 ## 13-oct-2026 — DigitalPlat: dominio kgblaze.dpdns.org registrado (captura del usuario)
 - Captura del usuario muestra `Manage kgblaze.dpdns.org` en DigitalPlat con distintivos `ok`, `Permanent` y `free`, y opción de descargar certificado de titularidad. **DOMINIO REGISTRADO, verificado por la UI del propietario**; no confundir esto con que el DNS esté delegado a Cloudflare o ya habilitado para el Worker.
 - La pantalla está en `Nameservers` y muestra opción `DigitalPlat DNS`; todavía no hay confirmación de selección/guardado de `External nameservers` con `cheryl.ns.cloudflare.com` y `cris.ns.cloudflare.com`, ni de activación de la zona en Cloudflare.
