@@ -36,3 +36,10 @@ Seguir con aplicación del esquema remoto (tras verificar condiciones), secretos
 - `KGBlaze-Information-Center/schema.sql`
 
 **Evidencia:** `VERIFICADO_CODIGO` para archivos leídos; `DOCUMENTADO` para despliegue pendiente; `NO_COMPROBADO` para servicio remoto y editor privado.
+
+## Segunda revisión retrospectiva — 12-oct-2026
+La Biblioteca conserva `TerminalB_Operativo_v23_10_local.html` y la versión corregida `Terminal_Operativo_v23_11_local.html`. **v23.11 encontrada y leída parcialmente**: `X-Terminal-Week` en subida de vista previa coincide con Worker actual, mientras v23.10 aún usaba `X-TerminalB-Week`. La v23.11 también lee clave antigua de almacenamiento local y guarda en nueva; la regla de YouTube exige `lifeCycleStatus='complete'`.
+
+No hay acceso a ejecutar una prueba E2E en navegador del original desde la Biblioteca, y falló la materialización de bytes originales. **Por ello v23.11 es candidata preferente técnicamente, no editor certificado**. No se alteró el HTML privado ni el backend.
+
+Mayor detalle de riesgos/observaciones: `../AUDITS/SECOND-PASS-2026-10-12.md`. Las métricas públicas se obtuvieron por canal/video ID directo cuando el conector respondió; Twitch público no pudo confirmarse desde la página directa.
