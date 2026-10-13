@@ -77,3 +77,36 @@ export async function readYouTubePreviewEvidence({
       explicitEditorialVideoIds:explicitVideoIds.length}
   };
 }
+
+/**
+ * Detail-only source for frequent scheduled checks. A videos.list request
+ * costs no search.list allowance and does not assert discovery of new rooms.
+ * Caller must independently know the IDs from editorial or prior trusted sync.
+ */
+export async function readYouTubeKnownVideos({
+ ownedChannelId,apiKey,fetchImpl,videoIds=[],now=()=>new Date()
+}={}) {
+ if(!CHANNEL_ID.test(ownedChannelId||'')||typeof apiKey!=='string'||!apiKey.trim()||
+    typeof fetchImpl!=='function'||!Array.isArray(videoIds)||videoIds.length>50||
+    videoIds.some(v=>typeof v!=='string'||!VIDEO_ID.test(v)))configError();
+ const unique=[...new Set(videoIds)];
+ const resources=[];
+ let discoveryComplete=true;
+ if(unique.length) {
+  const payload=await readJSON('videos',{part:'snippet,liveStreamingDetails',id:unique.join(',')},apiKey,fetchImpl);
+  const seen=new Set();
+  for(const item of payload.items){
+   if(!unique.includes(item?.id)||seen.has(item.id)){discoveryComplete=false;continue;}
+   seen.add(item.id);resources.push(item);
+  }
+  if(seen.size!==unique.length)discoveryComplete=false;
+ }
+ const fetchedAt=now();
+ if(!(fetchedAt instanceof Date)||!Number.isFinite(fetchedAt.getTime()))configError();
+ return {
+  schema:'relight-youtube-evidence-preview-v1',ownedChannelId,
+  fetchedAt:fetchedAt.toISOString(),discoveryComplete,resources,
+  discoveredVideoIds:[],
+  discovery:{searchResults:{upcoming:0,live:0},uniqueDiscoveredVideoIds:0,explicitEditorialVideoIds:unique.length}
+ };
+}
