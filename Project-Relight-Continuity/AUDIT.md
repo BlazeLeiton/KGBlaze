@@ -89,3 +89,9 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - A24: se compararon calendario v12, conciliado de 11-oct y agenda extendida, conservando conflicto Azur 21/22 y Cake Song demo no verificada. PASA identificación de discrepancias; resolución pendiente.
 - A25: `INITIALIZATION.md` y reglas persistentes listas. **No se puede activar automáticamente sólo desde GitHub**: el propietario debe incorporar `PROJECT_STARTUP_INSTRUCTIONS.md` a las instrucciones del Proyecto.
 - A26: verificar después de cada commit que ningún archivo ajeno a `Project-Relight-Continuity/` haya sido modificado.
+
+## Auditoría puntual Q-01/Q-02 — 2026-10-12 · confirmación explícita del usuario (Stage 4)
+- **Q-01: RESUELTA** por confirmación usuario: reservas Azur 21/22 sin hora, sin suponer anuncios ni emisión.
+- **Q-02: RESPONDIDA** por confirmación usuario: demo Cake Song del 12-oct sigue pendiente; la tarea permanece ABIERTA y plazo 31-oct sin cambio.
+- Matriz de impacto: `SOURCES/CALENDAR_RECONCILIATION.md`, `DECISIONS.md`, `QUESTIONS.md`, `STAGES/STAGE-04.md`, `HANDOFFS/CURRENT.md`, `TEMPLATES/CALENDAR.md`; otros calendarios y contenidos NO deben cambiarse.
+- Verificar en GitHub tras publicar que sólo haya modificaciones documentales dentro de `Project-Relight-Continuity/`. **No se editó XLSX original de Biblioteca ni se probó el editor v23.11**.
