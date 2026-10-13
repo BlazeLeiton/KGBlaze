@@ -4,6 +4,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {buildTrustedYouTubeObservations} from '../experiments/youtube-matching/trusted-sync.mjs';
+import {EMPTY_AGENDA} from '../src/core.mjs';
 
 const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
 const start=html.indexOf('function verifiedItem(s){');
@@ -92,4 +94,24 @@ test('status simulations do not modify the event or observation objects',()=>{
  const beforeEvent=structuredClone(e),beforeSync=structuredClone(sync);
  assert.equal(displayedStatus(e,sync),'EN VIVO');
  assert.deepEqual(e,beforeEvent);assert.deepEqual(sync,beforeSync);
+});
+
+test('Stage 7: actual provider-derived live observation drives the REAL viewer rules',()=>{
+ const at='2026-10-14T04:00:00Z';
+ const owned='UCRd_uwPjrsf6Z3CRXwNehEQ';
+ const e=event({id:'tw:killer',title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition'});
+ const video={id:'JDkg-5tZ3G0',
+  snippet:{channelId:owned,title:'💌 Encuentra el Amor | Killer Chat!',liveBroadcastContent:'live'},
+  liveStreamingDetails:{scheduledStartTime:at,actualStartTime:'2026-10-14T03:59:00Z'}};
+ const evidence={ownedChannelId:owned,fetchedAt:at,discoveryComplete:true,
+  discoveredVideoIds:['JDkg-5tZ3G0'],resources:[video]};
+ const p=buildTrustedYouTubeObservations({...EMPTY_AGENDA(),events:[e]},evidence,
+  {ownedChannelId:owned,now:new Date(at)});
+ const obs=p.observations[e.id];
+ assert.equal(obs.verified,true);
+ assert.equal(obs.matchConfirmed,true);
+ assert.equal(displayedStatus(e,{youtube:obs},at),'EN VIVO');
+ assert.equal(displayedStatus(e,{youtube:{...obs,checkedAt:'2026-10-14T03:40:00Z'}},at),'A TIEMPO');
+ assert.equal(displayedStatus(e,{youtube:obs},'2026-10-14T04:16:00Z'),'A TIEMPO');
+ assert.equal(displayedStatus({...e,status:'CANCELADO'},{youtube:obs},at),'CANCELADO');
 });
