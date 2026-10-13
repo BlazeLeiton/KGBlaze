@@ -1,4 +1,4 @@
-# KGRP v2 — Protocolo operativo profundo (obligatorio)
+# KGRP v3 — Protocolo operativo profundo (obligatorio)
 
 ## 0. Ámbito y activación
 Aplicar cuando se solicite reanudar, recuperar, revisar, continuar o reconstruir KGBlaze / Project Relight; ejecutar igualmente si el chat previo se agotó, se interrumpió o desapareció. La modalidad predeterminada es **PROFUNDA**, nunca express. La respuesta breve puede ser un encabezado ejecutivo, no un recorte del análisis.
@@ -90,3 +90,19 @@ Cuando exista Stage N+1:
 - Seguridad: el repositorio público aloja documentación **sanitizada**; archivos operativos privados, transcripciones completas sin revisión, analíticas, credenciales y fuentes de terceros NO se copian aquí.
 - Estados a distinguir rigurosamente: encontrado/indexado, leído, materializado, archivado en copia, probado, desplegado. Materialización rechazada **no equivale** a recuperación de bytes.
 - Auditoría ante duda (incluida v23.11/versión previa, CSV vs API, directos programados vs realizados). No rellenar faltantes por inferencia.
+
+## 10. KGRP v3 — tercera auditoría y secuencia unificada
+`INITIALIZATION.md` es desde ahora el **punto de entrada operativo obligatorio** de todas las futuras sesiones de Project Relight. Mantener los apartados anteriores como historia y especificaciones de detalle.
+
+La recuperación profunda comprende sin excepción:
+1. Historia Stage 1..N y rescate retrospectivo de todos los chats inconclusos.
+2. Auditoría archivística de plantillas y formatos originales; versiones, derechos y copias realmente autorizadas.
+3. Revisión de perfiles y publicaciones **reales**, directos y descripciones con URLs y IDs verificados; comparar contra plantillas separadas de covers, directos y promoción X.
+4. Conciliación de calendarios, ICS, XLSX, decisiones, deadlines, y videos publicados, sin inferir emisión desde una reserva.
+5. Comparación de métricas públicas/privadas sólo con ventanas, ámbito y definiciones alineados, preferentemente fuente de cuenta o IDs directos.
+6. Pruebas de regresión, integridad y evaluación de incertidumbres; preguntas dirigidas no repetitivas y documentación de bloques.
+7. Actualización de Stage actual, `HANDOFFS/CURRENT.md`, `DECISIONS.md`, `QUESTIONS.md`, `TEMPLATES/README.md` y auditorías, sin tocar Terminal ni copiar datos privados.
+
+Reporte de referencia: `AUDITS/THIRD-PASS-2026-10-12.md`. Inventario de perfiles: `SOURCES/PUBLIC_PROFILES.md`, publicaciones: `SOURCES/PUBLIC_PUBLICATIONS.md`, calendario: `SOURCES/CALENDAR_RECONCILIATION.md`.
+
+Estas siete actividades operativas son la ejecución de las fases 0–6 del documento de arranque; ninguna es un reemplazo de las pasadas históricas anteriores. Si una plataforma es inaccesible, se deja evidencia `NO_VERIFICABLE`, no se declara completada su auditoría.
