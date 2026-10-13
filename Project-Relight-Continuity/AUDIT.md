@@ -111,3 +111,10 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - Q-06: APLAZADA por decisión del usuario. Archivo ICS o enlace actualizado de Twitch se revisará después; no se infiere actividad ni agenda verificada.
 - No se ha alterado Carrd, Twitch, Terminal, D1, automatizaciones, calendarios ni los estados editoriales ya establecidos.
 - Documentos: QUESTIONS, PUBLIC_PROFILES, FOURTH-PASS, STAGE-04, DECISIONS. Handoff queda pendiente de sincronización por restricción de actualización. Comparar diff para confirmar cambios sólo de continuidad.
+
+## Control KGRP Relight Respark — 12-oct-2026
+- Confirmación directa: ICS archivado del 10-oct es el último y sin cambios posteriores; por tanto Q-06 queda suficientemente documentada, no es obligatorio un archivo más nuevo. Lectura directa /schedule continúa inaccesible.
+- Comandos canónicos equivalentes `Ejecuta Relight Respark` / `Execute Relight Respark`; alias antiguo KGRP preservado.
+- Se actualizan `INITIALIZATION.md`, `PROJECT_STARTUP_INSTRUCTIONS.md`, `PROTOCOL.md`, `QUESTIONS.md`, `SOURCES/CALENDAR_RECONCILIATION.md`, `STAGES/STAGE-04.md`, `DECISIONS.md` y `README.md` para inicio integral e incorporación incremental de hallazgos.
+- La actualización directa de `HANDOFFS/CURRENT.md` sigue BLOQUEADA por controles de escritura del conector; por eso no se proclama actualizada. Los registros de Stage 4 y decisiones contienen el estado más reciente y prevalecen sobre menciones anteriores del handoff.
+- No alterar nada de Terminal, perfiles, nube, agenda publicada o automatizaciones. Verificar diff final contra HEAD precedente.
