@@ -47,3 +47,11 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - **Trabajo fuera de Terminal**: métricas internas de YouTube/Twitch, análisis estratégico X y preparación de Pokémon Journey (reprogramado a noviembre 2026).
 - Los siete paneles de Twitch fueron reportados publicados en capturas previas; falta verificación independiente actual, no volverlos a poner como trabajo pendiente por defecto.
 - Distinción crítica: Phase/Stage 1 puede estar finalizada como trabajo aunque el **chat** no tenga un cierre íntegro archivado.
+
+## Segunda auditoría de Stage 4 (12-oct-2026)
+- **Documento:** `AUDITS/SECOND-PASS-2026-10-12.md`. Conservar junto al primero, no reemplazar el precedente.
+- **Maestros ubicados:** Operativo privado v23.11, visor v3.1, HTML siete paneles, calendario v12 y conciliación 11-oct, CSV Studio/Twitch, materiales visuales y marcas ajenas de referencia.
+- **Estado custodia:** Biblioteca sí; exportación de bytes del HTML no autorizada (no existe copia adicional en GitHub).
+- **Estado métricas:** comparación privada/pública requiere periodos y definiciones alineados; consulta por IDs canal/videos viables con proveedor, páginas oficiales directas no accesibles aquí, Twitch público pendiente.
+- **Plantillas:** catálogo en `TEMPLATES/README.md`, recuperar en cada Stage además de los hallazgos de auditoría.
+- **Tests pendientes:** navegación real v23.11, regresión v23.5–v23.11, migración de storage, desfase de zona horaria y 409/423 contra backend en funcionamiento; no desplegar sin aprobación.
