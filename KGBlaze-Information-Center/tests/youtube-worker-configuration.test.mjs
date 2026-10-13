@@ -1,3 +1,7 @@
+test('Cloudflare Dashboard bindings survive automated Wrangler deployment',()=>{
+  assert.match(config,/^keep_vars\s*=\s*true$/m);
+});
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
