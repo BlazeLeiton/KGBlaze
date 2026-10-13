@@ -21,7 +21,7 @@
 
 ## Próximas autorizaciones distintas
 1. Revisión de CI y análisis de sesgos/falsos negativos, sobre todo títulos reales y reprogramaciones.
-2. Confirmar el identificador del canal YouTube por fuente oficial (no autoinferirlo de los candidatos) y elegir cómo guardar credenciales fuera de GitHub.
+2. El identificador de canal **ya estaba verificado en Stage 1 (30-sep-2026)**: `UCRd_uwPjrsf6Z3CRXwNehEQ` de `@BlazeLeiton`. El usuario **ya creó una API key** para YouTube Data en esa etapa, pero no la compartió ni consta instalada en Cloudflare. La ruta **rechaza configuraciones para cualquier otro channelId**.
 3. Diseñar una fuente confiable que produzca **observaciones verificadas** sin permitir a clientes fabricar `verified`.
 4. Aprobar por separado merge y deploy, consumo de API real, tareas programadas y escrituras `sync_json`.
 
@@ -33,5 +33,25 @@ Pruebas: `cd KGBlaze-Information-Center && npm test`.
 - La ruta `POST /api/admin/youtube-preflight` es un **preparativo**, no una autorización de explotación. Sólo se podrá llamar cuando se activen manualmente flag y secretos en el entorno **después** de aprobación.
 - Sin cabecera de confirmación explícita la ruta responde `PREVIEW_ACK_REQUIRED`; sin feature flag responde `YOUTUBE_PREFLIGHT_DISABLED`; sin secretos `YOUTUBE_PREFLIGHT_NOT_CONFIGURED`. Los fallos externos se convierten en `YOUTUBE_PREFLIGHT_UNAVAILABLE`, sin divulgar URL, clave o respuesta de proveedor.
 - Sólo se leen metadatos públicos de YouTube y estado editorial de D1; **no hay métodos de escritura** en ese recorrido. La consulta de la agenda por GET sigue intacta.
-- No hay limitador de cuota entre múltiples instancias de Worker: **NO habilitar** la función de Cloudflare antes de decidir un presupuesto e implementar limitación de consultas. Dos `search.list` por petición podrían consumir unas 200 unidades, aparte de `videos.list` (consultar documentación oficial actual).
+- **CORRECCIÓN 2026:** la documentación actual de Google establece `search.list` con **100 llamadas diarias por proyecto** en un cupo separado, con **1 unidad del cupo Search Queries por llamada** (no 100 unidades por llamada). Dos `search.list` consumen **2 llamadas** de ese cupo, más `videos.list` (1 unidad por petición en el cupo general). Revisar en Google Cloud Console los cupos reales del proyecto. El Worker exige ahora el binding `YOUTUBE_PREVIEW_LIMITER` y falla cerrado si no está configurado; el limitador Cloudflare cubre solicitudes por ubicación, no sustituye el máximo global diario de Google.
 - Los tests de seguridad del endpoint viven en `tests/youtube-worker-preflight.test.mjs`.
+
+## Corte adicional: verificación de canal, cuotas y control de acceso (12-oct-2026 CDMX)
+- **ID estable, público, recuperado de Stage 1:** `UCRd_uwPjrsf6Z3CRXwNehEQ`. No se inventa ni se obtiene de un candidato coincidente. `YOUTUBE_CHANNEL_ID` del entorno debe ser idéntico o la ruta devuelve `YOUTUBE_CHANNEL_MISMATCH`.
+- API key creada previamente por el usuario en Google Cloud; no se ha visto ni instalado su valor desde herramientas. **No pedir copiarla al chat ni meterla en git**. Cloudflare recomienda Variables and Secrets → Add Secret; **`wrangler secret put` despliega una versión inmediatamente**, por lo que no ejecutarlo hasta una autorización explícita de producción. Fuente: https://developers.cloudflare.com/workers/configuration/secrets/
+- **Freno nuevo de Cloudflare en código DRAFT:** `env.YOUTUBE_PREVIEW_LIMITER.limit({key:'terminal-youtube-manual-preview'})` para peticiones POST autenticadas. Sin binding → `YOUTUBE_RATE_LIMIT_NOT_CONFIGURED` (503); denegado → `YOUTUBE_RATE_LIMITED` (429); fallo externo → `YOUTUBE_RATE_LIMIT_UNAVAILABLE` (503). Nunca consultar Google si falla alguno de estos controles.
+- Configuración ilustrativa de Cloudflare `wrangler.toml` **NO APLICADA** (el `namespace_id` debe ser único en la cuenta y se validará antes de habilitar):
+  ```toml
+  [[ratelimits]]
+  name = "YOUTUBE_PREVIEW_LIMITER"
+  namespace_id = "<IDENTIFICADOR_NUMERICO_UNICO_DE_LA_CUENTA>"
+
+    [ratelimits.simple]
+    limit = 1
+    period = 60
+  ```
+  La API de Rate Limiting en Workers es **por ubicación de Cloudflare**, no garantiza una sola llamada global al día ni el presupuesto de Google. Fuente: https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+- **Presupuesto de arranque propuesto:** una verificación manual puntual, con un máximo operativo de **5 ejecuciones por día** de esta herramienta hasta medir consumo real. Con dos búsquedas por ejecución: 10 de las 100 llamadas diarias predeterminadas en `search.list`, más los `videos.list` que procedan. El número es una política conservadora sugerida, **no un límite distribuido implementado**. Las cotas efectivas deben verificarse y ajustarse en Google Cloud Console.
+- Fuente de cuotas: https://developers.google.com/youtube/v3/determine_quota_cost . A 12-oct-2026 indica **1 unidad por `search.list` del cupo 100 búsquedas diarias**, no 100 unidades por llamada; corregir cualquier handoff anterior que use el modelo antiguo.
+- **Primera consulta real no efectuada todavía**: conector TubeAlfred agotó sus créditos (0 disponibles); intento sin API key a páginas públicas de YouTube falló por throttling. No hay herramienta Cloudflare autenticada disponible para instalar la clave ya existente. **No afirmar que existe un reporte real o que se activaron permisos**.
+- Sin efecto sobre D1, editor privado, Cron, revisión 1, PR #2/#3 o el visor público. PR #4 sigue en borrador, sin merge ni deploy.
