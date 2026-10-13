@@ -113,3 +113,12 @@ Estas siete actividades operativas son la ejecución de las fases 0–6 del docu
 - Si emerge un nuevo dato histórico, corrección, documento, decisión, resultado de prueba o bloqueo, **integrarlo de manera incremental** al Stage abierto, `DECISIONS.md`, `HANDOFFS/CURRENT.md`, fuentes y plantillas aplicables, preservando procedencia, privacidad y decisiones sustituidas. No inventar una etapa nueva.
 - ICS Twitch: el usuario confirma explícitamente que el archivo existente del 10-oct es el **último** y que no ha habido cambios. Pregunta de nueva exportación cerrada **por ahora**; no inferir que se consiguió abrir directamente el calendario público.
 - La documentación en repositorio sólo proporciona la fuente verificable del protocolo; necesita estar disponible en el contexto/chat o en las instrucciones del Proyecto para dispararse desde una conversación nueva.
+
+
+## 12. Regla de nomenclatura por contexto — Terminal ≠ Terminales A y B
+- **Software, editor, visor, API, identificadores nuevos:** `Terminal`. No utilizar `Terminal B` ni `terminalb` como nombre del producto.
+- **Encabezado PÚBLICO del Aeropuerto Internacional de la KGBlaze:** mantener expresamente `Terminales A y B`, traducciones idénticas a la versión histórica ES/EN/JA: `TERMINALES A Y B`; `TERMINALS A & B`; `ターミナルA・B`. Esto no contradice la instrucción técnica de Stage 3.
+- No actualizar de manera indiscriminada todos los textos que contengan «terminal»: clasificar primero **marca/software**, **instalaciones/encabezado público** y **compatibilidad de almacenamiento/datos**.
+- `kgblaze_terminalb_board_v3_202610` en HTML privado es LEGACY de sólo lectura para migrar preferencias. Mantener `kgblaze_terminal_board_v3_202610` como almacenamiento actual y `kgblaze-terminal` como base D1 sin renombrar.
+- Cuando se modifique título público, comprobar DOM estático, traducciones `TRANSLATIONS` y encabezado en canvas/PNG, además de pruebas de ancho y sintaxis. Ver pruebas de regresión `KGBlaze-Information-Center/tests/public-header.test.mjs`. No inferir despliegue de una modificación del repositorio.
+- HTML operativo privado reside en Biblioteca (v23.11); no introducirlo en código público ni afirmar que un archivo archivado fue sobrescrito. Versiones derivadas y código fuente deben distinguirse.
