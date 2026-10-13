@@ -138,3 +138,10 @@ Reporte: `AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. Ningún Stage nuevo cre
 | REL-061 | 5 | Matching YouTube primero conservador y aislado: fixtures públicos, ambigüedad sin match, sin credenciales, D1, cron ni cambios editoriales. | SIGUIENTE_TAREA; NO_ACTIVADO |
 
 Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.md`. No interpretar CI del PR #2 como despliegue.
+
+## Stage 5 — experimento de emparejamiento sin producción
+| ID | Etapa | Hecho / decisión | Estado |
+|---|---|---|---|
+| REL-062 | 5 | PR #3 `test/terminal-youtube-match-dry-run`, sólo matcher experimental y tests, sin integrar en Worker ni visor. `candidate` nunca se convierte en observación verificada. | CÓDIGO_EN_RAMA_DRAFT / NO_DESPLEGADO |
+| REL-063 | 5 | Regla de matcher: validar canal propio, ID explícito, título distintivo y horas CDMX; duplicados, colaboraciones, reprogramaciones y conflictos se señalan para revisión. | PROTOTIPO_SIN_APROBACIÓN_DE_PRODUCCIÓN |
+| REL-064 | 5 | GitHub Actions run `38349473729` (PR #3) **48/48**: 21 tests base + 27 de matcher; PR #2 independientemente 31/31 sin merge. | PRUEBA_CI_VERIFICADA |
