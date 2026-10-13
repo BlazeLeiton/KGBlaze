@@ -42,3 +42,6 @@ En conversaciones habituales de Project Relight, cualquier información nueva qu
 El ICS Twitch archivado sigue siendo **el más reciente, sin cambios posteriores según confirmación del usuario**; no pedir otro como condición de inicio. Conservar separadas esa confirmación editorial y la imposibilidad de abrir `/schedule` directamente. No tocar Terminal ni otros sistemas sin solicitud explícita.
 
 **Nota de configuración:** copiar este texto a las instrucciones de Project Relight en ChatGPT habilita su interpretación en nuevos chats; un commit de GitHub no cambia esas instrucciones automáticamente.
+
+## Referencia anti-saturación (Stage 4)
+Al iniciar un Stage o ejecutar Relight Respark, consultar también `Project-Relight-Continuity/CONTEXT-CONTINUITY.md`. Mantener recuperación profunda y verificable internamente; evitar repetir texto masivo dentro del chat. Registrar deltas incrementales al completar hitos con ruta, commit, pruebas y estado de despliegue, y usar el handoff breve para reanudar. No hay detector fiable de límite ni memoria literal completa, y el archivo en GitHub no modifica por sí mismo estas instrucciones de ChatGPT Project.
