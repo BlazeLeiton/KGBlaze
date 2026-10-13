@@ -81,3 +81,12 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-044 | El calendario Twitch mediante ICS/enlace nuevo se revisará después; no se confirma agenda actual | Q-06 POSPUESTA |
 
 No se autoriza modificar perfiles, Terminal ni los estados editoriales.
+
+## Quinta actualización de continuidad (12-oct-2026): comando y fuente
+| ID | Etapa | Decisión explícita del usuario | Estado / alcance |
+|---|---|---|---|
+| REL-045 | 4 | `Ejecuta Relight Respark` / `Execute Relight Respark` como **únicos comandos cortos canónicos**, equivalentes para ejecutar el KGRP profundo completo | CONFIRMADO_USUARIO; ALIAS PREPARADO EN PROTOCOLO |
+| REL-046 | 4 | El último ICS Twitch ya recuperado es el **más reciente y no hay cambios posteriores**; no pedir una nueva exportación sin motivo | CONFIRMADO_USUARIO; Q-06 CERRADA POR AHORA |
+| REL-047 | 4+ | Cualquier descubrimiento relevante durante la conversación se incorpora de forma **incremental** a continuidad y protocolo; evitar auditoría integral repetitiva hasta nuevo comando | CONFIRMADO_USUARIO; REGLA VIGENTE |
+
+La confirmación del ICS no demuestra acceso web directo a Twitch ni convierte programación en emisiones; las decisiones previas (Azur 21/22 reservados sin hora y Cake Song demo pendiente) siguen vigentes. El registro de comandos en GitHub no modifica automáticamente las instrucciones personalizadas de ChatGPT Project.
