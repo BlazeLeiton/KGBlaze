@@ -50,7 +50,7 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 |---|---|---|---|
 | REL-028 | 4+ | Arranque de cada chat Project Relight ejecuta fases 0–6 de `INITIALIZATION.md`, historia+archivo+perfiles/publicaciones+agenda+pruebas+preguntas | PROTOCOLO PUBLICADO; requiere configurar instrucciones en ChatGPT Project |
 | REL-029 | 1–4 | No reabrir perfiles externos declarados cerrados sólo por comprobar consistencia; corrección si nueva instrucción o revisión lore | VIGENTE |
-| REL-030 | 2–4 | Plantillas de covers y directos son distintas; créditos exactos de Connect y mumei siguen lo **publicado**, no un borrador genérico | VERIFICADO EN DESCRIPCIONES |
+| REL-030 | 2–4 | Las **descripciones publicadas** de covers y directos usan módulos diferentes y los créditos exactos de Connect y mumei siguen lo publicado. La inferencia histórica de **dos plantillas maestras** queda **SUSTITUIDA** por REL-079 (plantilla maestra única precargada) | PUBLICACIONES CONTRASTADAS; INTERPRETACIÓN DE DEFAULTS CORREGIDA 13-oct |
 | REL-031 | 2–4 | X: posts interactivos + replies ≠ promoción de directos/covers; no tratar ausencia de acceso X como inactividad | VIGENTE, post real no verificado |
 | REL-032 | 1–4 | Publicado/emitido ≠ programado/reservado; hasta tener prueba pública para eventos nuevos no elevar su estado | OBLIGATORIA |
 | REL-033 | 4 | Discrepancia histórica de reserva Azur 21/22 **resuelta**: ambas fechas permanecen RESERVADAS, sin hora ni confirmación de directo; instrucción usuario Stage 4, 12-oct | RESUELTO Q-01; CONFIRMADO_USUARIO |
@@ -179,3 +179,11 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 |---|---|---|---|
 | REL-077 | 5 | Usuario confirmó guardar el Rate Limiter `YOUTUBE_PREVIEW_LIMITER` en Dashboard de Cloudflare; Namespace 1001, límite 1/60 s según configuración guiada. | GUARDADO_REPORTADO_USUARIO; DEPLOY_NO_COMPROBADO |
 | REL-078 | 5 | PR #4 sincroniza binding en `wrangler.toml` sin exponer secretos. CI run `38356151146` 90/90 PASS; PR Draft no merged. El flag de lectura sigue desactivado. | CODIGO_EN_DRAFT; PRUEBAS_PASADAS; NO_ACTIVADO |
+
+## Recuperación Stage 1/2 + Song Covers — defaults de YouTube (13-oct-2026)
+| ID | Etapa | Decisión / dato recuperado | Estado / evidencia |
+|---|---|---|---|
+| REL-079 | 1–2 / Song Covers / 5 | **Plantilla maestra única y modular** de YouTube Studio, válida para directos y covers, aceptada y reportada **precargada en los upload defaults**. Conservar orden, enlaces, Copyright Notice inglés, créditos, seis reglas completas y hashtags; quitar solo los módulos no aplicables al video. Desautoriza la inferencia de dos masters de REL-030. | VIGENTE; CONFIRMADO_HISTÓRICAMENTE_POR_USUARIO; texto íntegro nuevamente aportado el 13-oct; [maestra](TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md) |
+| REL-080 | 1–2 / Song Covers / 5 | **Tags ya precargados:** identidad base + Azur Lane + covers/música + Pokémon. El usuario no debe rehacer la validación por defecto. Distinguir tags metadata de hashtags de descripción. | VIGENTE; CONFIRMADO_HISTÓRICAMENTE_POR_USUARIO; [catálogo](TEMPLATES/YOUTUBE_METADATA_TAGS.md) |
+| REL-081 | 1–2 / Song Covers / 5 | **Módulos opcionales guardados aparte:** Formula 1 (no en defaults), HoloCure/Hololive, Civilization, VRChat/collabs, narrativa/manga y eventos especiales. No inventar el texto literal de bloques aún no recuperados. | VIGENTE; recuperado historial 30-sep/01-oct; [catálogo](TEMPLATES/YOUTUBE_METADATA_TAGS.md) |
+| REL-082 | 5 | Los archivos documentales `COVERS.md` y `LIVE_STREAMS.md` derivan de **videos publicados específicos**; no prevalecen sobre la confirmación del usuario sobre defaults maestros. | ACLARACIÓN DE PROCEDENCIA; evita reabrir trabajo cerrado |
