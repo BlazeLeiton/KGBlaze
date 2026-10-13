@@ -87,3 +87,11 @@ Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
 - Código del visor en `KGBlaze-Information-Center/public/index.html`: restaurados ES/EN/JA en DOM, mapa de traducciones y canvas mediante GitHub Actions de una sola corrección. GitHub verificó que el commit de la ejecución modificó **sólo ese HTML**, 6 inserciones/5 eliminaciones, nueve controles estáticos pasados. No hay despliegue Worker ni edición D1.
 - Archivo privado v23.11 reconstruido del índice de Biblioteca (primeras 1000 líneas y líneas 1001–1216 extraídas por separado), modificado en copia local: encabezado visible y canvas trilingüe, respetando código y clave LEGACY. La **copia derivada no es exportación byte-a-byte autorizada del original**; pasó `node --check`, pero no prueba de navegador. El original Biblioteca permanece intacto.
 - Separación preservada: **Terminal = software**; **Terminales A y B = instalaciones públicas**. No cambio editorial ni agenda.
+
+## Continuación operativa de Stage 3: encabezados y traducciones (12-oct-2026)
+- Intentada recuperación de los últimos 3 pares de mensajes de Stage 3: petición inicial sobre D1, ID de base y corrección de «Terminal B» a «Terminal». Se conserva precisión de lo recuperable; respuestas completas literales no disponibles.
+- **Software** Terminal (sin B). **Identidad pública** Aeropuerto Internacional de la KGBlaze · Terminales A y B, con traducciones ES/EN/JA establecidas.
+- El HTML privado v23.11 **original** suprimió por error A/B en encabezado; la versión de Biblioteca `Terminal_Operativo_v23_11_encabezado_corregido.html` los restaura, incluyendo canvas trilingüe. Clave antigua `terminalb` únicamente para migración, no nombre visible.
+- Visor GitHub `KGBlaze-Information-Center/public/index.html` tiene título DOM, traducciones dinámicas y canvas correctos; visor v3.1 histórico en Biblioteca aún tiene referencias técnicas obsoletas, no usarlo como publicación.
+- 10/10 comprobaciones estáticas sobre blob GitHub; validación sintáctica Node y render Chromium por contenido local para ambas variantes corregidas, sin errores de página. Sin prueba de backend real ni despliegue.
+- Informe: `../AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md`. Stage 4 abierta; no se cambió software ni Cloudflare/D1.
