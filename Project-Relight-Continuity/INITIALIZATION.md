@@ -84,3 +84,6 @@ Durante el trabajo cotidiano, **no lanzar por defecto toda la auditoría profund
 Si el Proyecto está configurado para inicialización automática, se mantiene esa política al abrir una nueva conversación. El comando manual sirve para solicitar una nueva ejecución integral en cualquier momento; **la documentación GitHub por sí sola no cambia la configuración de ChatGPT Project**.
 
 **Aclaración prevalente Twitch:** el usuario confirma que el archivo ICS disponible de 10-oct es el **más reciente y no ha sido modificado**. No solicitar otro, salvo noticia de un cambio, necesidad concreta o decisión posterior del usuario. Su vigencia editorial confirmada por el usuario NO constituye una lectura nueva de `twitch.tv/blazeleiton/schedule`, que sigue inaccesible.
+
+## Protección permanente de nomenclatura al invocar Relight Respark — 12-oct-2026
+Verificar `AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md` al recuperar Stage 3/Terminal: **Terminal** es el software, no una terminal física. El encabezado PÚBLICO del Aeropuerto Internacional de la KGBlaze SÍ conserva **Terminales A y B** con traducciones ES/EN/JA. Confirmar en HTML operativo exportable, visor público (DOM, canvas y metadatos) y no efectuar sustituciones globales que borren A/B. Conservar `kgblaze_terminalb_board_v3_202610` sólo en compatibilidad histórica de localStorage. 
