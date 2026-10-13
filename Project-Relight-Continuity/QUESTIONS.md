@@ -48,3 +48,8 @@ Se establecieron `Ejecuta Relight Respark` y `Execute Relight Respark` como coma
 ## Resolución Q-12 (12-oct-2026, prevalece)
 - **Q-12 RESUELTA por confirmación explícita:** el usuario aclara que `Collab Padoru` **sí es un evento manual** y la duda anterior fue una confusión de su enumeración. No requiere corrección editorial ni reclasificación.
 - Mantener `POR CONFIRMAR` y las plataformas vacías mientras no haya una nueva decisión; no presentar la colaboración como realizada o confirmada.
+
+## Stage 5 — activación pendiente tras integración técnica (12-oct-2026)
+- **Q-13 (ABIERTO):** fuente acreditada del `YOUTUBE_CHANNEL_ID`, configuración segura del API key sin publicarlo en repositorio, y primera lectura real **manual** del `POST /api/admin/youtube-preflight` una vez revisada cuota; el flag `YOUTUBE_PREVIEW_ENABLED` sigue apagado. No solicitar credenciales en chat.
+- **Q-14 (ABIERTO):** controlar cuota de `search.list` (dos consultas manuales por ejecución, alto costo) con rate limit distribuido y budget, manejar paginación e identidad de videoId a lo largo de estados; definir prueba independiente de ciclo de vida antes de permitir estatus `DESPEGÓ`.
+- **Q-15 (ABIERTO):** aprobación diferenciada para fusionar PR #4, desplegar Worker, habilitar lectura con API key y, mucho después, habilitar cron y escritura a `sync_json`. `Sigue con la integración` se ejecutó como integración **en PR DRAFT**, sin asumir consentimiento de despliegue/autosync.

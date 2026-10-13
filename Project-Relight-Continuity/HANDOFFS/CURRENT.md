@@ -1,5 +1,13 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Punto de continuación prevalente: integración YouTube en PR #4 (12-oct-2026 CDMX)
+- **PR #4 borrador, NO MERGED, NO DEPLOYED:** https://github.com/BlazeLeiton/KGBlaze/pull/4, rama `integration/terminal-youtube-readonly-preflight` consolida código de PR #2 (10 test de estados) y #3 (27 matcher) más lector API, preflight y ruta administrativa protegida y **apagada**.
+- **CI https://github.com/BlazeLeiton/KGBlaze/actions/runs/38350968478 → 84/84 PASS**, 0 fail (21+10+27+20+6). No testear con credenciales reales aún.
+- Worker de producción no cambia. La ruta sólo existe en rama: `POST /api/admin/youtube-preflight`, con ADMIN_TOKEN, feature flag OFF por defecto, cabecera de reconocimiento y futuro canal/API key privados. Sólo lectura D1/YouTube; ninguna salida puede ser `verified:true` o `matchConfirmed:true`. No cron, sync writes, ni cambio de revisión 1.
+- Limitaciones: no rate-limit distribuido para costo search.list; YouTube videos.list no da lifeCycleStatus; no persistencia de videoId para completar identidad después de livestream; cierre pendiente y no autorizado.
+- Revisión pública confirmada por usuario: 6 Twitch y 4 manuales (2 DESCANSO, Collab Padoru, México GP). Q-10/Q-12 resueltas. No repreguntar ni pedir ICS.
+- Sigue: validar fuente de canal, presupuesto API, identidad/seguridad y forma de lectura real; solicitar autorización diferenciada antes de merge/deploy/activar feature flag/activar cron/escribir D1.
+
 ## Aclaración prevalente sobre los cuatro eventos manuales (12-oct-2026 CDMX)
 - **CONFIRMADO_USUARIO:** Collab Padoru del 17-oct **sí es manual**. La omisión en la enumeración anterior fue una confusión reconocida por el usuario, **no un error de agenda o de clasificación**.
 - Revisión 1: 6 Twitch y 4 manuales (DESCANSO 12-oct, Collab Padoru 17-oct `POR CONFIRMAR`, DESCANSO 18-oct, México GP 1-nov). Mantener fechas y estados; no repreguntar sobre Padoru.
