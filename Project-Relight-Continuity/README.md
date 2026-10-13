@@ -76,3 +76,8 @@ La tercera auditoría consolidó historia, archivos, perfiles, publicaciones, ca
 - [Plantilla separada de directos](TEMPLATES/LIVE_STREAMS.md)
 
 **Implementación efectiva:** repositorio y documentación actualizados, pero GitHub por sí solo **no instala instrucciones en ChatGPT**. El usuario debe pegar una vez el texto de `PROJECT_STARTUP_INSTRUCTIONS.md` en las instrucciones de su Proyecto. Sin ese paso, se puede invocar `KGRP: INICIALIZAR PROJECT RELIGHT` manualmente. La recuperación jamás publica originales privados ni modifica Terminal automáticamente.
+
+## Cuarta revisión y cierre del ciclo de auditoría inicial
+- [**Cuarta revisión integral de Carrd, Twitch, YouTube autenticado, archivos, métricas y vigilancia**](AUDITS/FOURTH-PASS-2026-10-12.md)
+- URL Carrd verificada: https://blazeleiton.carrd.co/ ; Twitch /about y /schedule se intentaron y **no pudieron leerse**.
+- El protocolo añade anexo v3.1 a `INITIALIZATION.md`, sin cambiar estructura de etapas ni software Terminal.
