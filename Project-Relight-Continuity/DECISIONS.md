@@ -100,3 +100,12 @@ La confirmación del ICS no demuestra acceso web directo a Twitch ni convierte p
 | REL-050 | 4 | Restauración de títulos en DOM, traducciones y cabecera canvas del visor `KGBlaze-Information-Center/public/index.html`; código fuente modificado y comprobado en GitHub, **sin despliegue**. Editor privado v23.11 corregido en artefacto separado, fuente original de Biblioteca sin sobrescribir. | VERIFICADO_GITHUB / PROBADO_SINTAXIS; OPERATIVO_ARCHIVO_DERIVADO |
 
 **Fuente recuperada Stage 3:** últimos mensajes: 1) nombre `kgblaze-terminal`; 2) identificación D1 aportada por usuario; 3) prohibición de usar `terminalb`/«Terminal B» para el SOFTWARE. El texto de las respuestas históricas está reconstruido parcialmente, no disponible literalmente completo. Stage 4 aclaró el alcance público. Nunca propagar la prohibición técnica a la denominación del aeropuerto.
+
+## Corrección de encabezado público de Terminal — Stage 4 (12-oct-2026)
+| ID | Etapa | Decisión verificada | Estado |
+|---|---|---|---|
+| REL-048 | 3–4 | Nombre técnico del software, editor, visor, API y tablas: **Terminal**; `terminalb` sólo se conserva como clave de migración local histórica | CONFIRMADO_USUARIO; código verificado |
+| REL-049 | 2–4 | **Identidad pública aeroportuaria** mantiene «**Terminales A y B**», y sus versiones ES `AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINALES A Y B`, EN `KGBLAZE INTERNATIONAL AIRPORT · TERMINALS A & B`, JA `KGBLAZE国際空港 · ターミナルA・B` | CONFIRMADO_USUARIO; visor GitHub y HTML corregido verificados |
+| REL-050 | 4 | Usar HTML operativo v23.11 con encabezado corregido, sin publicarlo en GitHub; visor principal ya posee traducciones y tests de regresión | VERIFICADO_ARCHIVO y VERIFICADO_CODIGO; sin despliegue |
+
+La instrucción «Terminal» NUNCA implica eliminar los nombres de las terminales aeroportuarias A y B. Auditoría y límites: `AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md`.
