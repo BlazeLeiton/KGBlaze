@@ -4,7 +4,7 @@ import worker from '../src/worker.mjs';
 import {EMPTY_AGENDA} from '../src/core.mjs';
 
 const TOKEN='test-long-private-admin-token';
-const CHANNEL='UC'+'A'.repeat(22);
+const CHANNEL='UCRd_uwPjrsf6Z3CRXwNehEQ';
 const jsonHeaders={'Content-Type':'application/json','Authorization':'Bearer '+TOKEN,'X-Relight-Preview-Only':'ack-read-only'};
 function calendar() {
  const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{
@@ -27,7 +27,8 @@ function setup(overrides={}) {
   }
  };
  const env={DB:db,ADMIN_TOKEN:TOKEN,YOUTUBE_PREVIEW_ENABLED:'true',
-  YOUTUBE_CHANNEL_ID:CHANNEL,YOUTUBE_API_KEY:'PRIVATE-TEST-API-KEY',...overrides};
+  YOUTUBE_CHANNEL_ID:CHANNEL,YOUTUBE_API_KEY:'PRIVATE-TEST-API-KEY',
+  YOUTUBE_PREVIEW_LIMITER:{limit:async()=>({success:true})},...overrides};
  return {env,db};
 }
 function call(env,headers=jsonHeaders,method='POST',body=undefined) {
@@ -96,4 +97,33 @@ test('provider failures return sanitized errors without publishing anything',asy
   const text=await r.text();assert.equal(text.includes('PRIVATE-TEST-API-KEY'),false);
   assert.equal(JSON.parse(text).error,'YOUTUBE_PREFLIGHT_UNAVAILABLE');assert.equal(db.writes,0);
  }finally{globalThis.fetch=oldFetch;}
+});
+
+test('real owned channel binding prevents previews of unrecognized channels',async()=>{
+ const {env,db}=setup({YOUTUBE_CHANNEL_ID:'UC'+'B'.repeat(22)});
+ const response=await call(env);
+ assert.equal(response.status,503);
+ assert.equal((await response.json()).error,'YOUTUBE_CHANNEL_MISMATCH');
+ assert.equal(db.writes,0);
+});
+test('missing rate limiter fails closed without consuming YouTube quota',async()=>{
+ const {env}=setup({YOUTUBE_PREVIEW_LIMITER:undefined});
+ const response=await call(env);
+ assert.equal(response.status,503);
+ assert.equal((await response.json()).error,'YOUTUBE_RATE_LIMIT_NOT_CONFIGURED');
+});
+test('rate limiter denial returns 429 and never reaches provider',async()=>{
+ const {env,db}=setup({YOUTUBE_PREVIEW_LIMITER:{limit:async({key})=>{
+  assert.equal(key,'terminal-youtube-manual-preview');return {success:false};
+ }}});
+ const response=await call(env);
+ assert.equal(response.status,429);
+ assert.equal((await response.json()).error,'YOUTUBE_RATE_LIMITED');
+ assert.equal(db.writes,0);
+});
+test('rate limiter failure is safely denied with no API call',async()=>{
+ const {env}=setup({YOUTUBE_PREVIEW_LIMITER:{limit:async()=>{throw Error('limit failure');}}});
+ const response=await call(env);
+ assert.equal(response.status,503);
+ assert.equal((await response.json()).error,'YOUTUBE_RATE_LIMIT_UNAVAILABLE');
 });
