@@ -1,6 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
 
+## Corte operativo más reciente — PR #12 fusionado y build Cloudflare SUCCESS (13-oct-2026 CDMX)
+- **PR #12 integrado:** https://github.com/BlazeLeiton/KGBlaze/pull/12 -> main commit `85fddfd061b206b62a35a27717c564bf75eafd65`. CI main SUCCESS (https://github.com/BlazeLeiton/KGBlaze/actions/runs/38428308029). Workers Builds `kgblaze-terminal` SUCCESS, build `aceed509-e6bd-4aec-be54-116bbc5fab5d`, version ID `a70722b3-fe5f-4a31-9299-2328601d3167`.
+- **Ahora desplegado, NO sólo en rama:** matcher alternativo de categoría por segmento exacto y `autonomousProbe` read-only por IDs procedentes de search.list. La evidencia de la consulta positiva previa seguía siendo por ID editorial; **falta verificar autónomamente en producción** con una única consulta autenticada del usuario.
+- **Próxima prueba mínima:** ejecutar POST protegido a /api/admin/youtube-preflight y leer para Killer Chat! `autonomousProbe`. No desasociar videoId manual, no republicar, no modificar Cloudflare true/false, no pedir ready, no activar Cron ni escribir `sync_json`. Preservar revisión 2 y 10 salidas.
+- Seguridad de servidor obligatoria pese a la preferencia por flujo expedito: ADMIN_TOKEN, cabecera read-only, control de cuota, canal propio. Evitar exponer credenciales.
+
 ## Hito más reciente Stage 6 — YouTube real positivo y matcher autónomo en pruebas (13-oct-2026 CDMX)
 - **Comprobación E2E por usuario del PR #9:** ficha Killer Chat! → miniatura y sala; tablero YouTube → canal general. Ambos comportamientos correctos e intencionales.
 - **Segunda consulta REAL de sólo lectura:** preflight devuelve revision:2, upcoming:1, live:0, un ID descubierto, un ID editorial, un video, un recurso de emisión del canal, discoveryComplete:true; Killer Chat!: candidate / explicit_editorial_video_id / JDkg-5tZ3G0 / upcoming_unverified; safeToApply:false, directSyncWrites:0.
