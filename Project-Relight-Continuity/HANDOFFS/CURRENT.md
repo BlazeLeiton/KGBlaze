@@ -125,3 +125,10 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - A fecha del intercambio anterior, visor HTTPS desplegado y `GET /api/health` reportó `ok:true`, `service:kgblaze-terminal`, `database:true`, mientras `GET /api/public` devolvió `relight-public-v1`, `revision:0` y eventos vacíos.
 - La captura **no confirma** que el valor del secreto sea el mismo que conserva el usuario ni que autenticación administrativa funcione: siguiente paso probar **Consultar** desde HTML operativo privado v23.11 usando URL `https://kgblaze-terminal.drago68575.workers.dev` y valor guardado de `ADMIN_TOKEN`, SIN compartir token ni pulsar `Publicar cambios` hasta validar GET de sólo lectura.
 - El Worker ya existe y el secreto está configurado; **no volver a crearlos**. Pendiente prueba administrativa; no hay agenda publicada ni sincronización automática activada.
+
+## Consulta administrativa Terminal v24 — resultado comunicado por usuario
+- El usuario reportó el mensaje literal del operativo v24 tras usar **Consultar**: «Revisión remota 0. 0 observaciones recibidas; sólo se aplicaron a eventos presentes en este editor. Puedes revisar y publicar los cambios compatibles.»
+- Este resultado es **evidencia comunicada por el usuario** de que el editor privado pudo obtener el snapshot administrativo usando su secreto local y la URL del Worker; no expone ni documenta valor de ADMIN_TOKEN.
+- Revisión 0 = sin primera agenda publicada; 0 observaciones = sin datos de estado desde integración de plataformas. **No significa 0 eventos locales** ni demuestra sincronización automática YouTube/Twitch (aún deshabilitada).
+- El siguiente hito NO realizado todavía: revisar que el ICS de Twitch sea vigente y no el archivo de ejemplo incluido, comprobar manuales/estados/semana y sólo después autorizar `Publicar cambios`; comprobación pública posterior: `/api/public` con revisión 1 y eventos esperados.
+- Usuario ha recibido HTML operativo **v24** en conversación, mantenido privado fuera de GitHub y Cloudflare. No afirmar publicación de agenda.
