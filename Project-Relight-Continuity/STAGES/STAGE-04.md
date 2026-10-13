@@ -55,3 +55,9 @@ Actualizar esta ficha con último mensaje, cambios reales y resultados de prueba
 - Agenda: ocho directos del ciclo con video YouTube disponible; 13 Killer Chat, 14 Azur condicionado, 15 Galaxies, 16 Azur tema por confirmar, 20 MiSide provisional, 21/22 reservas Azur contradictorias entre chat/libro, 23 MiSide histórico programado. Cake Song demo sin confirmación posterior, fecha límite del 31; Malfoid no realizado 10/11; Pokémon Journey sin estreno confirmado hasta noviembre.
 - `INITIALIZATION.md` consolida las fases de recuperación histórica, archivo, fuentes públicas, calendario, auditoría, preguntas y persistencia. Stage 4 **continúa abierto**. No se crearon copias de originales privados ni cambió Terminal.
 - Informe: `../AUDITS/THIRD-PASS-2026-10-12.md`; preguntas `../QUESTIONS.md`.
+
+## Aclaraciones vinculantes de agenda — 2026-10-12 · confirmación explícita del usuario (Stage 4)
+- Q-01 **resuelta por el usuario**: se conservan **las dos reservas Azur Lane: miércoles 21 y jueves 22 de octubre**, **sin hora definida**. No significa que esos directos estén confirmados o anunciados. Se sustituye el estado previo de «discrepancia pendiente» para ese alcance.
+- Q-02 **respondida por el usuario**: la demo vocal de **Cake Song del 12-oct** permanece **PENDIENTE**. No grabada ni enviada según la última confirmación. Continúa la tarea de producción con fecha límite de proyecto 31-oct, sin cambios en el deadline.
+- **Ningún otro evento** recibe confirmación/cancelación/cambio implícito. No modificar Terminal, editor privado ni D1.
+- Handoff, conciliación, registro de decisiones y preguntas actualizados; Stage 4 sigue ABIERTA.
