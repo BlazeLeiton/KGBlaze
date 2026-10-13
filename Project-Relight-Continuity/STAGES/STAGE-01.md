@@ -38,3 +38,8 @@ Se confirmó en Biblioteca que existe un CSV de Studio YouTube con **501 videos*
 En `Blaze_Calendario_Operativo_Oct-Dic_2026_v12.xlsx` (7 hojas) hay especificación X con dos posts estructurados/semana, uno adicional opcional, ventanas de respuesta, prioridad de deadlines, 3 espacios de streaming más posible cuarto. Es un plan histórico documentado, no publicaciones ya efectuadas.
 
 **Corrección fundamental:** reportes de finalización Stage 1 como trabajo no equivalen a traspaso literal archivado de todo su chat. La fase externa no debe reiniciarse por ausencia de chat completo. Los KPI públicos deben conciliarse por ID/canal directo y no por coincidencias de búsqueda indexada.
+
+## Tercera auditoría — perfiles e identidad (12-oct-2026)
+Se consultaron fuentes directas Ko-fi, HoloList, vTubie y proveedores por identificadores exactos YouTube/Instagram. Las bios de Cambiasueños, gaming, música, narrativa, `KGBlaze` y `🧡✨` son coherentes entre fuentes verificables. HoloList y vTubie reflejan descripciones actualizadas, aunque son terceros. X, Twitch y Discord no permitieron auditoría directa. **Perfiles públicos históricamente cerrados: no reabrirlos** como trabajo de edición por una inspección de consistencia.
+La plantilla X operativa del Excel conserva 2 posts estructurados + tercero opcional, replies y promociones aparte; no se verificó el texto de posts X por 403.
+Ver `../SOURCES/PUBLIC_PROFILES.md` y `../AUDITS/THIRD-PASS-2026-10-12.md`.
