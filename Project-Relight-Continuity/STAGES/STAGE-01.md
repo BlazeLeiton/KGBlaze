@@ -59,3 +59,6 @@ Se localizaron los mensajes adyacentes (01-oct-2026) que enumeraban las cadenas 
 
 ## Publicaciones narrativas recuperadas desde YouTube Studio (13-oct-2026)
 El catálogo privado de YouTube Studio ubicó **Needy Streamer Overload** (#3/#4, 16–17 ene 2023) y **Doki Doki Literature Club / Plus** (episodios en 2023/2024 + cover Your Reality). Se recuperaron títulos, fechas e IDs verificados en el CSV, **sin analíticas privadas en GitHub**: [../SOURCES/NARRATIVE_GAME_PUBLICATIONS.md](../SOURCES/NARRATIVE_GAME_PUBLICATIONS.md). Usar como antecedente editorial para futuras novelas visuales y humor sobre romance/decisiones; no inventar publicaciones faltantes.
+
+## Referente narrativo específico rescatado del Stage 1 (13-oct-2026)
+La auditoría del 30-sep conocía **Find Love or Die Trying** con playlist `PLEnd6SFhXSllP2CSY41GvJ-NJ0ixqFmam` y título «Le gusto a la loca, el Reality | Find Love or Die Trying (COMPLETA)». Esto explica el título de Killer Chat «Encuentra el Amor o MUERE Intentándolo» y el remate «que le gustemos a la loca... otra vez :v». No reducir la continuidad a DDLC/Needy. También existen directos recuperados de `Kill or Love` y `missed messages.`, además de Superliminal y Love Live Nijigasaki TOKIMEKI ROADMAP. MiSide seguía preparado pero no subido. Documentación en `../SOURCES/STAGE1_VISUAL_NOVEL_STEAM_YOUTUBE_CROSS.md`.
