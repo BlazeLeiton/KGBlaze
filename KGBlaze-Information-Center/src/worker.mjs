@@ -1,5 +1,6 @@
 import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO,currentMonday} from './core.mjs';
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
+import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
 const VERIFIED_YOUTUBE_CHANNEL_ID='UCRd_uwPjrsf6Z3CRXwNehEQ';
@@ -124,6 +125,20 @@ export default {
    return asset;
   }catch(e){console.error('Terminal Worker error:',e);return err(500,'SERVER_ERROR');}
  },
- // Platform polling intentionally NOT enabled until credentials and conservative matching are tested.
- async scheduled(_controller,env,_ctx){console.log('Scheduled sync pending platform credentials',!!env.DB);}
+ // Cron is isolated from Preview. No writes or provider requests without
+ // the independent opt-in, and no HTTP endpoint can trigger this handler.
+ async scheduled(controller,env,_ctx){
+  if(env.YOUTUBE_SYNC_ENABLED!=='true'||env.YOUTUBE_SYNC_PAUSED==='true')return;
+  if(controller?.cron!=='*/5 * * * *')return;
+  const slot=new Date(controller.scheduledTime);
+  if(!Number.isFinite(slot.getTime()))return;
+  try{
+   const result=await runScheduledYouTubeSync(env,{now:new Date(),slot});
+   // Only sanitized outcome codes; never log raw provider data or secrets.
+   if(result?.ok===false&&result.reason!=='disabled')
+    console.warn('YouTube sync:',result.reason);
+  }catch{
+   console.error('YouTube sync unavailable');
+  }
+ }
 };
