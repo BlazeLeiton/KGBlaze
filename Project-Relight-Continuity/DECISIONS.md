@@ -63,3 +63,13 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-036 | 4 | La **demo vocal de Cake Song del 12-oct** continúa pendiente | CONFIRMADO_USUARIO | Tarea abierta; no registrar grabación ni envío; plazo 31-oct sin modificación |
 
 **Alcance negativo expreso:** ninguna otra actividad fue confirmada, cancelada, reprogramada o dada por terminada; ninguna modificación al editor ni a Terminal.
+
+## Cuarta auditoría — fuentes directas y procedimiento (12-oct-2026)
+| ID | Etapa | Decisión/hecho | Estado |
+|---|---|---|---|
+| REL-037 | 4 | Carrd canónico: `https://blazeleiton.carrd.co/`; ya no es URL desconocida | CONFIRMADO_USUARIO Y WEB |
+| REL-038 | 4+ | Twitch `/about`, `/schedule` y `/videos` se intentan antes de declarar acceso insuficiente; la falta de HTML legible no prueba inactividad | PRUEBA EJECUTADA / ACCESO BLOQUEADO |
+| REL-039 | 4+ | Lecturas divergentes de Carrd no justifican editar un perfil cerrado; guardar ambos snapshots y preguntar versión actual sólo si importa | CAUTELA VIGENTE |
+| REL-040 | 4+ | Para comparar directos usar inicio/fin reales cuando la cuenta autorizada los devuelve, diferenciando `publishedAt` del VOD y programación; proteger videos privados | VERIFICADO EN DATOS |
+| REL-041 | 4+ | En vigilancia existente: auditoría de estado por lectura; no duplicar automatizaciones ni activar avisos deshabilitados por defecto | OBSERVADO / SIN CAMBIOS |
+| REL-042 | 4+ | Para Steam cruzar bibliotecas personales/familiares, wishlist, historial y precios MXN antes de comprar o recomendar stream | CRITERIO HISTÓRICO RECUPERADO |
