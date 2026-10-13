@@ -1,6 +1,8 @@
 import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO,currentMonday} from './core.mjs';
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
+// Canal verificado en Stage 1; su ID público no es una credencial.
+const VERIFIED_YOUTUBE_CHANNEL_ID='UCRd_uwPjrsf6Z3CRXwNehEQ';
 const json=(body,status=200,extra={})=>new Response(JSON.stringify(body),{status,headers:{...HEADERS,...extra}});
 const err=(status,code,detail)=>json({ok:false,error:code,detail},status);
 function localCors(req,env){
@@ -71,6 +73,15 @@ async function handler(req,env){
   if(env.YOUTUBE_PREVIEW_ENABLED!=='true')return json({ok:false,error:'YOUTUBE_PREFLIGHT_DISABLED'},503,cors);
   if(req.headers.get('X-Relight-Preview-Only')!=='ack-read-only')return json({ok:false,error:'PREVIEW_ACK_REQUIRED'},400,cors);
   if(!env.YOUTUBE_API_KEY||!env.YOUTUBE_CHANNEL_ID)return json({ok:false,error:'YOUTUBE_PREFLIGHT_NOT_CONFIGURED'},503,cors);
+  if(env.YOUTUBE_CHANNEL_ID!==VERIFIED_YOUTUBE_CHANNEL_ID)return json({ok:false,error:'YOUTUBE_CHANNEL_MISMATCH'},503,cors);
+  // Fail closed without a platform-provided limiter. Not a global daily quota.
+  if(typeof env.YOUTUBE_PREVIEW_LIMITER?.limit!=='function')return json({ok:false,error:'YOUTUBE_RATE_LIMIT_NOT_CONFIGURED'},503,cors);
+  let allowed;
+  try{
+   const decision=await env.YOUTUBE_PREVIEW_LIMITER.limit({key:'terminal-youtube-manual-preview'});
+   allowed=decision?.success===true;
+  }catch{return json({ok:false,error:'YOUTUBE_RATE_LIMIT_UNAVAILABLE'},503,cors);}
+  if(!allowed)return json({ok:false,error:'YOUTUBE_RATE_LIMITED'},429,cors);
   try{
    const report=await runManualYouTubePreflight({...d.editorial,revision:d.revision},{
     ownedChannelId:env.YOUTUBE_CHANNEL_ID,apiKey:env.YOUTUBE_API_KEY,fetchImpl:fetch,
