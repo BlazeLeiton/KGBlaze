@@ -1,5 +1,11 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — Primer sync de producción confirmado y ampliación a 72 h
+- La consulta PowerShell pública de usuario confirmó revision 2, 10 salidas, syncEntries 1 y Killer Chat! con upcoming/verified true/videoId JDkg-5tZ3G0/checkedAt 2026-10-13T18:50:35.652Z. **Cron y escritura D1 confirmados**; la disponibilidad de un EN VIVO futuro aún no se ha comprobado.
+- Azur Lane miércoles 14, 22:00 CDMX: sala pública creada https://youtu.be/UXoSxjT-r28, evento tw:21f410d8-c12c-4a18-9730-1710420df22e. No asignar videoId manual hasta concluir segunda prueba de match autónomo. Usuario autorizó ampliar ventana 24→72 h si era viable.
+- Ventana ajustada a 72 horas antes / 8 horas después sin aumentar periodicidad ni cuota máxima de Search (2/h). Route administrativa read-only para video metadata publicada mediante videos.list, sin D1 writes, API secret protegida, host token; así evitar volver a evaluar borradores de chat como metadatos publicados. User preflight pasado incompleto (copiado hasta Read-Host ADMIN_TOKEN).
+- No tocar la metadata YouTube publicada; recuperar título, descripción, tags y horario reales mediante endpoint seguro una vez desplegado. Evitar alterar agenda revision 2, 10 salidas.
+
 
 ## Stage 7 — Cron YouTube integrado para actualización automática (13-oct-2026 CDMX)
 - Usuario dijo «vamos a conectar el ejecutor»; se preparó el handler `scheduled` que llama `runScheduledYouTubeSync`, con `controller.scheduledTime` para evitar perder los slots horarios por retraso del Cron.

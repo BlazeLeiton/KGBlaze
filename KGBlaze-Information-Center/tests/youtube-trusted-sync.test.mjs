@@ -207,3 +207,14 @@ test('editorialIdentity changes when title or time changes',()=>{
  assert.notEqual(editorialIdentity(fixture()),editorialIdentity(fixture({time:'21:00'})));
  assert.notEqual(editorialIdentity(fixture()),editorialIdentity(fixture({title:'Otra salida'})));
 });
+
+test('72-hour preflight window sees tomorrow and day-after rooms, not week-away rooms',()=>{
+ const nextEvent=fixture({day:'2026-10-16',time:'22:00'});
+ assert.equal(activeYouTubeEvents(agenda([nextEvent]),NOW).length,1,
+  'October 16 at 22:00 CDMX is precisely 72 hours after test instant');
+ assert.equal(activeYouTubeEvents(agenda([fixture({day:'2026-10-17',time:'22:00'})]),NOW).length,0);
+});
+test('expanded 72-hour window does not remove the 8-hour past-broadcast cutoff',()=>{
+ const old=fixture({day:'2026-10-13',time:'13:59'});
+ assert.equal(activeYouTubeEvents(agenda([old]),NOW).length,0);
+});

@@ -100,13 +100,13 @@ export function applyTrustedYouTubeObservations(sync={},observations={}){
  return {next,changed};
 }
 
-/** Prevent pointless polling far outside the nearby broadcast window. */
+/** Allow early room matching up to 72 hours ahead, while retaining the 8-hour post-start bound. */
 export function activeYouTubeEvents(agenda,now=new Date()){
  if(!(now instanceof Date)||!Number.isFinite(now.getTime()))return [];
  return (agenda?.events||[]).filter(e=>{
   if(!e?.platforms?.includes('yt')||STOP.has(e.status))return false;
   const start=cdmxInstant(e.day,e.time);
-  return start!==null&&start-now.getTime()<=24*3600*1000&&
+  return start!==null&&start-now.getTime()<=72*3600*1000&&
     now.getTime()-start<=8*3600*1000;
  });
 }
