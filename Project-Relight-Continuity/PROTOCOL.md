@@ -81,3 +81,12 @@ Cuando exista Stage N+1:
 - `KGRP: AUDITAR [tema]` = auditoría técnica y de requisitos con pruebas.
 - `KGRP: CIERRE` = traspaso detallado; nunca indispensable para recuperación siguiente.
 - `KGRP: EMERGENCIA` = recuperación de múltiples fuentes ante falta de historial.
+
+## 9. Segunda auditoría obligatoria — v2.1 (incorporación Stage 4)
+**No basta con revisar fichas:** cada recuperación extensa consta de dos pasadas verificables:
+- **Pasada A — histórica:** decisiones, mensajes finales y conversaciones inconclusas de todos los Stage 1..N, evolución y sustituciones.
+- **Pasada B — archivística y contrastiva:** buscar los originales por formato HTML, CSV, XLSX, PPTX, PDF, DOCX, PNG/JPG; identificar versiones maestras, plantillas, metadatos, derechos y bytes realmente disponibles; comparar requisitos, código y pruebas; consultar métricas públicas por enlace/ID directo y contrastar con fuentes internas **sólo si ventanas y definiciones son equivalentes**.
+- Cada nueva pasada B produce `AUDITS/SECOND-PASS-YYYY-MM-DD*.md`, actualiza `SOURCES/FILE_REGISTRY.md`, `SOURCES/DIRECT_SOURCE_POLICY.md` y `TEMPLATES/README.md`. Consultar siempre el índice de plantillas en nuevas etapas.
+- Seguridad: el repositorio público aloja documentación **sanitizada**; archivos operativos privados, transcripciones completas sin revisión, analíticas, credenciales y fuentes de terceros NO se copian aquí.
+- Estados a distinguir rigurosamente: encontrado/indexado, leído, materializado, archivado en copia, probado, desplegado. Materialización rechazada **no equivale** a recuperación de bytes.
+- Auditoría ante duda (incluida v23.11/versión previa, CSV vs API, directos programados vs realizados). No rellenar faltantes por inferencia.
