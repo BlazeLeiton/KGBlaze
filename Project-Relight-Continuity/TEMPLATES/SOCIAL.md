@@ -104,3 +104,39 @@ La sección **Promoción covers** anterior sigue vigente como arquetipo. El mens
 - **Recuperado de calendario XLSX `X - Operativa`**: dos posts estructurados + tercero opcional, dos ventanas replies, quote oportunista, presupuesto de 50–70 minutos, separación de promociones.
 - **Recuperado de mensajes**: fórmula de `YA ESTAMOS EN DIRECTO` con enlaces de ambas plataformas. Las URL deben corresponder a una sala real y al canal esperado.
 - **No verificado**: que algún post se publicara exactamente con la redacción del ejemplo; X limitó comprobación directa de posts. Los arquetipos son **plan/aprobación editorial**, no captura de publicaciones.
+
+## Segundo hallazgo — fórmulas y ejemplos exactos de interacción (05–07-oct-2026)
+
+Recuperación de los mensajes de Stage 1/2 y continuación editorial:
+
+**Fórmula operativa de conversación:** `HOOK → CONTEXTO MÍNIMO → ACCIÓN ÚNICA → VISUAL SI APORTA → SIN LINK PROMOCIONAL`.
+
+**Plantilla Pokémon:**
+~~~text
+[EXPERIENCIA / DECISIÓN REAL DEL POKÉMON JOURNEY]
+[OPINIÓN / EXPERIENCIA PERSONAL DE BLAZE]
+[PREGUNTA CONCRETA Y FÁCIL DE RESPONDER]
+~~~
+
+**Plantilla de proceso creativo:**
+~~~text
+[ALGO REAL QUE ESTOY HACIENDO / ACABO DE HACER]
+[QUÉ ME PARECIÓ / PROBLEMA / DECISIÓN / DESCUBRIMIENTO]
+[PREGUNTA O CIERRE CON PERSPECTIVA PROPIA]
+~~~
+
+### Tres textos propuestos (no aprobados ni confirmados publicados)
+
+**Pokémon / Kanto** (propuesta histórica del 05-oct; ya no corresponde anunciar el estreno para aquel martes):
+> El martes empezamos Pokémon Amarillo desde cero y ya sé que voy a caer en viejos hábitos :v ¿Qué Pokémon de Kanto SIEMPRE termina en su equipo aunque empiecen diciendo «esta vez voy a usar otros»?
+
+**Adaptaciones musicales / Sinnoh League Victors:**
+> Uno de los retos más raros de adaptar los openings internacionales de Pokémon es que algunos duran ~30 segundos y nunca tuvieron versión completa. Con Sinnoh League Victors me toca convertir un instrumental extendido del anime en una base cantable de unos 2 minutos. ¿Ustedes preferirían que una extensión conserve casi idéntica la estructura original o que se permita inventar una segunda parte?
+
+**Cake Song / proceso colaborativo:**
+> Hoy toca repartir quién canta qué en cierta canción sobre pastel que, fuera de contexto, suena bastante más inocente de lo que realmente es 🎂
+>
+> Para un cover colaborativo, ¿qué parte del proceso les da más curiosidad ver: reparto de partes, primeras tomas o el antes/después de la mezcla?
+
+**Estado:** Borradores recuperados de la respuesta del 05-oct y **no aprobados ni verificados como posts**. Si se reutilizan, adaptar al estado actual del calendario y del trabajo musical; no tratarlos como programación vigente ni compromiso. La fórmula conversacional fue reiterada en la respuesta del 07-oct.
+
