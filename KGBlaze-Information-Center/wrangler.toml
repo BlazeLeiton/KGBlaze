@@ -3,10 +3,17 @@ main = "src/worker.mjs"
 compatibility_date = "2026-10-12"
 workers_dev = true
 
+# Preserve plaintext dashboard variables across GitHub Workers Builds deploys.
+# Secrets continue to be stored encrypted in Cloudflare, never in this file.
+keep_vars = true
+
 # Identificador público del canal ya guardado en Cloudflare Dashboard.
 # Mantener en sincronía los deployments de GitHub; NO incluir secretos aquí.
 [vars]
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
+# The user authorized keeping the authenticated, read-only preflight ready.
+# This only enables the endpoint; ADMIN_TOKEN + ack + rate limiter still gate it.
+YOUTUBE_PREVIEW_ENABLED = "true"
 
 [assets]
 directory = "./public"
@@ -14,7 +21,7 @@ binding = "ASSETS"
 run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html"]
 
 # Binding de diagnostico privado de YouTube, configurado en Cloudflare Dashboard.
-# NO habilita la ruta sin YOUTUBE_PREVIEW_ENABLED=true (ausente por defecto).
+# Read-only route is enabled via [vars], but remains admin-only and rate-limited.
 # Cloudflare Rate Limiting opera por ubicacion, no es cuota diaria global.
 [[ratelimits]]
 name = "YOUTUBE_PREVIEW_LIMITER"
