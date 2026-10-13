@@ -55,3 +55,12 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - **Estado métricas:** comparación privada/pública requiere periodos y definiciones alineados; consulta por IDs canal/videos viables con proveedor, páginas oficiales directas no accesibles aquí, Twitch público pendiente.
 - **Plantillas:** catálogo en `TEMPLATES/README.md`, recuperar en cada Stage además de los hallazgos de auditoría.
 - **Tests pendientes:** navegación real v23.11, regresión v23.5–v23.11, migración de storage, desfase de zona horaria y 409/423 contra backend en funcionamiento; no desplegar sin aprobación.
+
+## Tercera pasada — apertura obligatoria futura
+- Informe público: `AUDITS/THIRD-PASS-2026-10-12.md`. Integrador permanente: `INITIALIZATION.md` fases 0–6; requeridas al comenzar nuevas conversaciones Project Relight.
+- Fuentes públicas: YouTube por ID canal/video y cuenta de Analytics autorizada; Instagram perfil y Reels; Ko-fi directo; HoloList/vTubie y Bācharu tercero. Twitch/X/Discord bloqueo de acceso directo, no declararlos inactivos ni links rotos.
+- Plantillas: Connect adaptador principal Sekai025 con ajustes Glorylé; mumei español Blaze; directos tienen descripción, créditos generales y Seguridad a bordo distintos de covers; promociones X separadas de conversación. Consultar `TEMPLATES/LIVE_STREAMS.md`, `COVERS.md` y `SOCIAL.md`.
+- Calendario: archivos XLSX comparados, publicación YouTube para Octublaze 1–6, Among Us y Azur 8–9, pero reservas de Twitch futuras aún no prueban emisiones. En conflicto reserva Azur 21/22; Cake Song demo sin prueba nueva; 14 Azur condicionado; resto en `SOURCES/CALENDAR_RECONCILIATION.md`.
+- Perfil HoloList/vTubie actualizado, NO reabrir las ediciones cerradas. Carrd URL exacta sigue no verificada; no adjudicar dominios similares a Blaze.
+- Próxima petición útil: resolver Q-01 (Azur 21/22) y Q-02 (Cake demo). X/Twitch requerirían enlaces directos recientes, OAuth/ICS o acceso autorizado para análisis completamente actualizado.
+- Privacidad: no publicar calendario personal ni ingresos de Analytics; originales privados permanecen en Biblioteca, materialización no autorizada.
