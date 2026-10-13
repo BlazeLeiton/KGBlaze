@@ -88,3 +88,7 @@ La tercera auditoría consolidó historia, archivos, perfiles, publicaciones, ca
 Los nuevos datos que surjan durante una conversación de Project Relight se registran incrementalmente, sin volver a ejecutar todas las auditorías ante cada comentario. Para nuevos chats, incorporar `PROJECT_STARTUP_INSTRUCTIONS.md` a las instrucciones del Proyecto o usar explícitamente el comando.
 
 **Twitch:** el último ICS archivado es el **más reciente y sin modificaciones posteriores, confirmado por el usuario**. Q-06 no exige otro archivo actualmente; la página web `/schedule` continúa sin lectura directa.
+
+## Preservación de contexto entre chats (Stage 4)
+- [`CONTEXT-CONTINUITY.md` — política anti-saturación](CONTEXT-CONTINUITY.md): cómo mantener historia profunda y un handoff vigente sin pegar archivos enormes ni repetir auditorías en cada turno; límites reales, señales de cambio de chat y deltas verificables.
+- **Relight Respark sigue siendo profundo** al invocarse o al arranque configurado. La mitigación consiste en recuperar en fuentes y mostrar síntesis con referencias; tras el arranque, integrar cambios incrementales, sin inventar un detector de límite del chat ni crear Stage N+1 por cada conversación.
