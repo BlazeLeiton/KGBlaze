@@ -69,6 +69,9 @@ export async function readYouTubePreviewEvidence({
   return {
     schema:'relight-youtube-evidence-preview-v1',ownedChannelId,
     fetchedAt:fetchedAt.toISOString(),discoveryComplete,resources,
+    // Keep *search-origin* identities separate from explicitly supplied editorial IDs.
+    // Used only for the read-only autonomous matching probe; never persisted.
+    discoveredVideoIds:[...discoveredIds],
     // Aggregate counts only: no credentials, titles, URLs, or provider response bodies.
     discovery:{searchResults,uniqueDiscoveredVideoIds:discoveredIds.size,
       explicitEditorialVideoIds:explicitVideoIds.length}
