@@ -36,6 +36,9 @@ export const VIEWER_JS = `(function(){
  text=function(value,x,y,size,color,weight,limit,track){
   // The original 1080-square canvas renders TIME at x=643, y=301+88*n.
   // Intercept that single cell, leaving all other board visuals unchanged.
+  if(x===643&&y===248){
+   return baseText(({es:'HORA LOCAL',en:'LOCAL TIME',ja:'現地時間'})[state.lang]||'LOCAL TIME',x,y,10,color,weight,limit,track);
+  }
   const i=Math.round((y-301)/88);
   if(x===643&&i>=0&&i<drawnEvents.length&&y===301+i*88){
    const info=clock(drawnEvents[i]);
