@@ -1,5 +1,11 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Recuperación adyacente Stage 1/2 — Twitch y X (13-oct-2026)
+- Los cinco módulos de tags YouTube que aparecían como `sin cadena final recuperada` **ya tienen texto rescatado** del segmento del 01-oct: HoloCure/Hololive, Civilization VI, VRChat/collabs, Narrativa/lectura/manga y Eventos especiales. Se actualizó `../TEMPLATES/YOUTUBE_METADATA_TAGS.md`. Continúan **guardados aparte** de los defaults Azur/Pokémon/covers/base.
+- **Twitch metadata:** título `[EMOJI] [HOOK / PREMISA] | [JUEGO / SERIE / CONTEXTO] #[CAMPAÑA]`; notificación `A [contexto/chiste del stream] les digo BUENAS [emoji]`; tags fijos `VTuber, Español, English, Mexico, VSinger, VLatam` + cuatro variables por stream. `../TEMPLATES/TWITCH_METADATA.md`. Aprobación editorial histórica NO implica inspección actual de Creator Dashboard.
+- **Sistema X:** dos interacciones/semana (Pokémon/proceso + personalidad), tercera opcional, dos ventanas replies y 0–1 quote oportunista. Anuncios `YA ESTAMOS EN DIRECTO` con enlaces a YT/Twitch y posts de covers **separados**, no sustituyen interacción. Ver `../TEMPLATES/SOCIAL.md`; los ejemplos no acreditan publicaciones reales.
+- PR documental #8 permanece **DRAFT/no merge** mientras el usuario pausa iteraciones; ninguna consulta nueva a YouTube ni cambio productivo. Próxima tarea: crear sala de Killer Chat! y adaptar solo los metadatos particulares.
+
 ## PRIORIDAD de continuidad — defaults YouTube recuperados (13-oct-2026 CDMX)
 - El usuario corrigió la confusión heredada de la auditoría 12-oct: **solo una plantilla maestra modular YouTube**, válida para covers y directos, **validada y reportada precargada en YouTube Studio** desde Stage 1/2/Song Covers. Fuente literal nuevamente entregada el 13-oct: [../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md](../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md). No pedirle revalidar globalmente ni sugerir dos plantillas autónomas.
 - Tags **base + Azur Lane + covers + Pokémon** ya incluidos en defaults por confirmación histórica del usuario; **F1 por separado**, igual que HoloCure/Hololive, Civilization, VRChat/colaboraciones, narrativa/lectura/manga y eventos especiales: [../TEMPLATES/YOUTUBE_METADATA_TAGS.md](../TEMPLATES/YOUTUBE_METADATA_TAGS.md).
