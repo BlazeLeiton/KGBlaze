@@ -30,3 +30,11 @@
 - Sincronización periódica YouTube/Twitch y determinación automática de directo siguen siendo un trabajo distinto: no confundir PR #9 con habilitación de detección.
 - Registro público saneado; **sin HTML operativo privado, respaldos JSON, credenciales o transcripciones privadas**.
 - El cierre formal de Stages 1–6 queda `NO VERIFICADO` donde así lo marca el índice, y los textos antiguos se preservan como historia, no como estado actual.
+
+## Confirmación visual posterior del usuario — navegación de Killer Chat! (13-oct-2026, CDMX)
+**Estado: E2E REPORTADO_Y_CONFIRMADO_POR_USUARIO en producción**, posterior al PR #9 y su Workers Build.
+- La **ficha de información** muestra la miniatura de la sala y el enlace abre correctamente `https://youtu.be/JDkg-5tZ3G0`.
+- En el **tablero principal**, el icono de YouTube abre el **perfil general del canal**, y el usuario ratificó que así **debe permanecer**.
+- La distinción «tablero → canal» frente a «ficha → sala específica» es ahora una regla visual/funcional confirmada que debe protegerse ante futuras refactorizaciones.
+- Esta verificación cierra el defecto puntual de navegación del PR #9. **No** implica lectura independiente del JSON `/api/public`, verificación del estado `EN VIVO`, detección automática o cambios editoriales.
+- La evidencia es la interacción manual declarada por el propietario del visor; el asistente no ejecutó navegación directa del dominio `workers.dev`.

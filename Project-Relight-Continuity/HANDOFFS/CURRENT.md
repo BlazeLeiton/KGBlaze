@@ -1,5 +1,11 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Confirmación más reciente — Killer Chat! PR #9 validado en navegador por el usuario (13-oct-2026 CDMX)
+- **E2E visual confirmado por usuario:** miniatura del directo visible en la **ficha de información** y enlace de la ficha correcto a `https://youtu.be/JDkg-5tZ3G0`. El **icono de YouTube del tablero principal** continúa apuntando al **perfil general del canal**; el usuario lo confirma como comportamiento deseado.
+- **Regla vigente de navegación:** **tablero → canal**, **ficha de información → sala identificada**. No homogenizar ambos enlaces por error en un parche futuro.
+- Se da por **resuelto y confirmado visualmente** el defecto de navegación tratado por PR #9. La verificación es reporte directo del usuario en producción, no navegación del asistente ni auditoría GET de `/api/public`.
+- Sin republicar revisión 2, sin cambios editoriales, sin activar estados automáticos ni modificar Worker o D1. Mantener otros asuntos de Stage 6 separados.
+
 ## Corte vigente Stage 6 — PR #9 integrado y build de producción SUCCESS (13-oct-2026 CDMX)
 - **Respark Stage 1–6:** nueva ficha `STAGES/STAGE-06.md`; todas las etapas sin cierre formal verificado se conservan abiertas. Este corte prevalece sobre las entradas históricas de revisión 1, PR #4 y documentos que dicen que Cloudflare no estaba desplegado.
 - **Confirmación del usuario, sin inferir lectura API:** Terminal Operativo privado v24.2.1; revisión editorial **2**, **10 salidas**, Killer Chat! con `videoId:JDkg-5tZ3G0`; ICS Twitch ya vigente. No volver a importar ni republicar para probar un parche de navegación.
