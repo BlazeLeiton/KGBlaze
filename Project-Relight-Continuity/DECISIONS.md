@@ -35,3 +35,12 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-020 | 1–2 | Siete paneles reportados publicados; el séptimo pasó de opcional a incorporado | HISTÓRICO; verificación en vivo pendiente | Recuperación contextual con referencia a capturas |
 | REL-021 | 1–4 | Orden estratégico posterior: métricas internas YouTube/Twitch → estrategia X → Pokémon Journey noviembre | VIGENTE COMO PLAN HISTÓRICO, sujeto a revisiones | Conversaciones previas |
 | REL-022 | 1–4 | Stage 1 cerró como trabajo/auditoría; el cierre textual del chat sigue sin acreditarse | ACLARACIÓN DE ESTADOS | Evidencia contextual previa |
+
+## Segunda revisión Stage 4 — decisiones que siguen vigentes
+| ID | Etapa | Decisión | Estado |
+|---|---|---|---|
+| REL-023 | 4+ | Todas las recuperaciones futuras incorporan segunda pasada de auditoría archivística de originales, formatos, versiones, plantillas y métricas | OBLIGATORIA |
+| REL-024 | 4+ | Contrastar métricas con fuente pública directa por URL/canal ID/video ID y periodos/definiciones compatibles; no sustituir con búsquedas indexadas | OBLIGATORIA |
+| REL-025 | 3–4 | v23.11 es candidata técnica posterior con `X-Terminal-Week` y migración local, pero aún no release E2E probado | VERIFICADO CÓDIGO, PRUEBA PENDIENTE |
+| REL-026 | 4+ | La custodia de originales sensibles permanece fuera de repo público; documentación y plantillas reconstruidas pueden alojarse saneadas | OBLIGATORIA |
+| REL-027 | 4+ | Conservar catálogo de plantillas y recuperar fuentes maestras en nuevas etapas | IMPLEMENTADO, MASTERS EN BIBLIOTECA |
