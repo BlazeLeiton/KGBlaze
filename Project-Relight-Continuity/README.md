@@ -57,3 +57,9 @@ La segunda orden **sólo se usa cuando existe una nueva etapa real**; crea autom
 
 ## Recuperación más reciente
 - [Informe detallado de apertura Stage 4 (12-oct-2026)](AUDITS/RECOVERY-2026-10-12-STAGE-04.md)
+
+## Segunda auditoría (Stage 4)
+- [Informe de segunda revisión y evaluación v23.11](AUDITS/SECOND-PASS-2026-10-12.md)
+- [Catálogo recuperable de archivos por formato](SOURCES/FILE_REGISTRY.md)
+- [Método de contrastes y métricas por enlaces directos](SOURCES/DIRECT_SOURCE_POLICY.md)
+- [**Índice de plantillas existentes y reconstruidas**](TEMPLATES/README.md)
