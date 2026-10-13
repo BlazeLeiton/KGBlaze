@@ -31,16 +31,45 @@ export function buildYouTubePreflight(agenda,evidence,{ownedChannelId,now=new Da
  const trusted=typeof ownedChannelId==='string'&&ownedChannelId.length>0&&evidence.ownedChannelId===ownedChannelId;
  const matches=matchYouTubeAgenda(agenda.events,evidence.resources,{ownedChannelId:trusted?ownedChannelId:undefined});
  const data=new Map(evidence.resources.filter(r=>typeof r?.id==='string'&&VIDEO_ID.test(r.id)).map(r=>[r.id,r]));
+ // Separate IDs actually found by search.list from IDs read only because the
+ // editor already knew them. Otherwise a "no-ID discovery" probe is misleading.
+ const discoveredOk=Array.isArray(evidence.discoveredVideoIds)&&evidence.discoveredVideoIds.length<=150&&
+   evidence.discoveredVideoIds.every(id=>typeof id==='string'&&VIDEO_ID.test(id));
+ const discovered=new Set(discoveredOk?evidence.discoveredVideoIds:[]);
+ const discoverableResources=evidence.resources.filter(r=>discovered.has(r?.id));
+ const withoutManualIds=agenda.events.map(e=>({...e,videoId:undefined}));
+ const autonomous=discoveredOk?matchYouTubeAgenda(withoutManualIds,discoverableResources,{ownedChannelId:trusted?ownedChannelId:undefined}):null;
  const items=matches.map((m,i)=>{
   const ev=agenda.events[i],applicable=ev?.platforms?.includes('yt')&&!STOP.has(ev.status);
-  if(!applicable)return {...m,evidenceSignal:'not_applicable'};
-  if(!trusted)return {...m,decision:'review',reason:'untrusted_channel_configuration',evidenceSignal:'blocked'};
-  if(!fresh)return {...m,decision:'review',reason:'stale_or_missing_evidence_timestamp',evidenceSignal:'blocked'};
-  if(m.decision!=='candidate')return {...m,evidenceSignal:'blocked'};
-  if(evidence.discoveryComplete!==true)return {...m,decision:'review',reason:'source_discovery_incomplete',evidenceSignal:'blocked'};
-  const state=signal(data.get(m.videoId));
-  if(state==='inconsistent_unverified')return {...m,decision:'review',reason:'inconsistent_platform_metadata',evidenceSignal:state};
-  return {...m,evidenceSignal:state};
+  let item;
+  if(!applicable)item={...m,evidenceSignal:'not_applicable'};
+  else if(!trusted)item={...m,decision:'review',reason:'untrusted_channel_configuration',evidenceSignal:'blocked'};
+  else if(!fresh)item={...m,decision:'review',reason:'stale_or_missing_evidence_timestamp',evidenceSignal:'blocked'};
+  else if(m.decision!=='candidate')item={...m,evidenceSignal:'blocked'};
+  else if(evidence.discoveryComplete!==true)item={...m,decision:'review',reason:'source_discovery_incomplete',evidenceSignal:'blocked'};
+  else {
+   const state=signal(data.get(m.videoId));
+   item=state==='inconsistent_unverified'
+    ?{...m,decision:'review',reason:'inconsistent_platform_metadata',evidenceSignal:state}
+    :{...m,evidenceSignal:state};
+  }
+  // Diagnostic-only probe for already-linked streams; never change item.
+  // A clean result must come from search-discovered IDs, not videos.list by ID.
+  if(!applicable||!VIDEO_ID.test(ev?.videoId||''))return item;
+  let probe;
+  if(!trusted)probe={decision:'review',reason:'untrusted_channel_configuration'};
+  else if(!fresh)probe={decision:'review',reason:'stale_or_missing_evidence_timestamp'};
+  else if(evidence.discoveryComplete!==true)probe={decision:'review',reason:'source_discovery_incomplete'};
+  else if(!autonomous)probe={decision:'not_evaluated',reason:'search_origin_ids_unavailable'};
+  else {
+   const candidate=autonomous[i];
+   probe=candidate.decision==='candidate'&&candidate.videoId!==ev.videoId
+    ?{decision:'review',reason:'autonomous_editorial_id_conflict'}
+    :{decision:candidate.decision,reason:candidate.reason,...(candidate.videoId?{videoId:candidate.videoId}:{})};
+   if(probe.decision==='candidate'&&signal(data.get(probe.videoId))==='inconsistent_unverified')
+    probe={decision:'review',reason:'inconsistent_platform_metadata'};
+  }
+  return {...item,autonomousProbe:probe};
  });
  const count=n=>Number.isSafeInteger(n)&&n>=0?n:null;
  const discovery=evidence.discovery||{};
