@@ -37,7 +37,9 @@ Comando alternativo de emergencia:
 ## Activación por frase — Relight Respark (regla vigente)
 Si el usuario escribe **«Ejecuta Relight Respark»** o **«Execute Relight Respark»**, activar inmediatamente el KGRP integral de `INITIALIZATION.md`, fases 0–6, sin pedir que repita el procedimiento ni el comando antiguo. Ambas fórmulas son sinónimas; registrar evidencia, límites y pendientes, y continuar el trabajo actual.
 
-En conversaciones habituales de Project Relight, cualquier información nueva que aparezca y sea importante para la continuidad debe añadirse de modo incremental al protocolo/documentos de GitHub accesibles. No volver a ejecutar todo el análisis con cada comentario cotidiano.
+En conversaciones habituales de Project Relight, cualquier información nueva que aparezca y sea importante para la continuidad debe añadirse de modo incremental al protocolo/documentos de GitHub accesibles.
+
+**YouTube: instrucción prevalente (13-oct-2026).** Leer `TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md` y `TEMPLATES/YOUTUBE_METADATA_TAGS.md` del repositorio antes de diseñar una transmisión o cover. La plantilla maestra de descripción es **una sola y modular**, no dos masters separados; fue validada y reportada precargada por el usuario en YouTube Studio, así como tags base/Azur/Pokémon/covers. Formula 1 y otros temas menores son módulos guardados aparte. No volver a solicitar una verificación general ya realizada. No volver a ejecutar todo el análisis con cada comentario cotidiano.
 
 El ICS Twitch archivado sigue siendo **el más reciente, sin cambios posteriores según confirmación del usuario**; no pedir otro como condición de inicio. Conservar separadas esa confirmación editorial y la imposibilidad de abrir `/schedule` directamente. No tocar Terminal ni otros sistemas sin solicitud explícita.
 
@@ -45,3 +47,6 @@ El ICS Twitch archivado sigue siendo **el más reciente, sin cambios posteriores
 
 ## Referencia anti-saturación (Stage 4)
 Al iniciar un Stage o ejecutar Relight Respark, consultar también `Project-Relight-Continuity/CONTEXT-CONTINUITY.md`. Mantener recuperación profunda y verificable internamente; evitar repetir texto masivo dentro del chat. Registrar deltas incrementales al completar hitos con ruta, commit, pruebas y estado de despliegue, y usar el handoff breve para reanudar. No hay detector fiable de límite ni memoria literal completa, y el archivo en GitHub no modifica por sí mismo estas instrucciones de ChatGPT Project.
+
+
+**Rectificación de vigencia ICS (13-oct-2026):** el recordatorio anterior de ICS Twitch «sin cambios posteriores» sólo era válido hasta la confirmación previa al 13-oct. Ese día el usuario cargó un **ICS nuevo con 7 eventos**, con WATCHALONG México GP del **01-nov-2026 14:00 CDMX** (`UID b6a53416-0265-4643-8899-871d64bad5fa`); quitó la entrada manual equivalente del editor. Usar la versión más reciente disponible, no reimponer el archivo anterior.
