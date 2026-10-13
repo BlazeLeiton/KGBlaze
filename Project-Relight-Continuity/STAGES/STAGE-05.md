@@ -92,3 +92,8 @@ El usuario volvió a precisar una decisión de Stage 2 que había sido omitida e
 
 **Estado de despliegue:** NO hubo cambios en Worker, Cloudflare, flag, D1, ni agenda pública; PR #8 en DRAFT/no merge.
 
+
+## Comprobación final contexto de Killer Chat y YouTube — 13-oct-2026
+La recuperación Stage 1 localizó la referencia específica **Find Love or Die Trying**: playlist `PLEnd6SFhXSllP2CSY41GvJ-NJ0ixqFmam`, título «Le gusto a la loca, el Reality | Find Love or Die Trying (COMPLETA)». Ambas frases elegidas para Killer Chat! («Encuentra el Amor o MUERE Intentándolo», «que le gustemos a la loca... otra vez :v») retoman esa serie. El catálogo parcial de Studio omitía otros uploads **Kill or Love** y **missed messages.**, pese a URLs recuperadas del trabajo anterior. Cruce de bibliotecas propias/compartidas y enlaces en `../SOURCES/STAGE1_VISUAL_NOVEL_STEAM_YOUTUBE_CROSS.md`; datos de Steam privados solo en Biblioteca personal.
+
+**Consulta solicitada por YouTube:** intentada vía web oficial, oEmbed y conectores; NO SE PUDO completar por bloqueo del servicio web, límites de créditos vidIQ/TubeAlfred y falta de acceso a credenciales de la API guardadas en Worker. La bandera `YOUTUBE_PREVIEW_ENABLED` continúa off. El ID `JDkg-5tZ3G0` está asociado en editor HTML local y sobrevivió reimportación ICS por prueba del usuario, **pero la editorial de D1 aún no incluye necesariamente el ID nuevo**, así que la preflight actual no recibiría el videoId explícito hasta una publicación autorizada. No declarar verificada la propiedad de canal ni programar activación de producción.
