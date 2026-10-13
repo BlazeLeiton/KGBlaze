@@ -73,3 +73,11 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-040 | 4+ | Para comparar directos usar inicio/fin reales cuando la cuenta autorizada los devuelve, diferenciando `publishedAt` del VOD y programación; proteger videos privados | VERIFICADO EN DATOS |
 | REL-041 | 4+ | En vigilancia existente: auditoría de estado por lectura; no duplicar automatizaciones ni activar avisos deshabilitados por defecto | OBSERVADO / SIN CAMBIOS |
 | REL-042 | 4+ | Para Steam cruzar bibliotecas personales/familiares, wishlist, historial y precios MXN antes de comprar o recomendar stream | CRITERIO HISTÓRICO RECUPERADO |
+
+## Stage 4 — respuestas registradas (2026-10-12)
+| ID | Decisión | Estado |
+|---|---|---|
+| REL-043 | El usuario observa en Carrd «Acercando a México y al mundo», con Instagram | Q-09 RESUELTA |
+| REL-044 | El calendario Twitch mediante ICS/enlace nuevo se revisará después; no se confirma agenda actual | Q-06 POSPUESTA |
+
+No se autoriza modificar perfiles, Terminal ni los estados editoriales.
