@@ -118,3 +118,14 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - Se actualizan `INITIALIZATION.md`, `PROJECT_STARTUP_INSTRUCTIONS.md`, `PROTOCOL.md`, `QUESTIONS.md`, `SOURCES/CALENDAR_RECONCILIATION.md`, `STAGES/STAGE-04.md`, `DECISIONS.md` y `README.md` para inicio integral e incorporación incremental de hallazgos.
 - La actualización directa de `HANDOFFS/CURRENT.md` sigue BLOQUEADA por controles de escritura del conector; por eso no se proclama actualizada. Los registros de Stage 4 y decisiones contienen el estado más reciente y prevalecen sobre menciones anteriores del handoff.
 - No alterar nada de Terminal, perfiles, nube, agenda publicada o automatizaciones. Verificar diff final contra HEAD precedente.
+
+
+## Auditoría técnica de nomenclatura — Stage 3 → Stage 4 (12-oct-2026)
+- N01 VERIFICADO: software actual `Terminal` en código `public/index.html`, `src/core.mjs`, `src/worker.mjs`, `schema.sql`. Base D1 `kgblaze-terminal` intencional, no cambiar.
+- N02 VERIFICADO: editor v23.11 tiene `STORE='kgblaze_terminal_board_v3_202610'`; `LEGACY_STORE='kgblaze_terminalb_board_v3_202610'` permanece sólo para migrar, no se elimina.
+- N03 FUENTE HISTÓRICA: visor de Biblioteca v3.1 tenía traducciones públicas ES/EN/JA `TERMINALES A Y B`, `TERMINALS A & B` y `ターミナルA・B`, por lo que el cambio masivo Stage 3 de texto público a «Terminal» fue un error de alcance.
+- N04 VERIFICADO_GITHUB: acción exitosa `https://github.com/BlazeLeiton/KGBlaze/actions/runs/38334273896`; cambió sólo el HTML público (+6/-5 líneas). Prueba estática posterior 9/9: DOM, títulos ES/EN/JA, canvas, nombre de software, diff aislado.
+- N05 VERIFICADO_SINTAXIS: editor derivado y visor archivado corregidos superaron `node --check` de sus scripts. El derivado de editor fue recuperado mediante extracción indexada (1216 líneas), **no binario idéntico** al original de Biblioteca. No se sobrescribió la fuente original.
+- N06 NO_EJECUTADO: prueba real de navegador/Cloudflare del editor y visor. Intentos Chromium locales bloquearon carga file:// y http://127.0.0.1 por política del entorno. No afirmar E2E ni despliegue.
+- N07 REGRESIÓN AÑADIDA: `KGBlaze-Information-Center/tests/public-header.test.mjs`, ejecutable mediante `npm test`; añadir comprobación continua de separación de nombres técnicos y marca aeroportuaria.
+- N08 RESTRICCIÓN: No se editaron los estados editoriales, Twitch, D1 ni Worker. No se desplegó Cloudflare.
