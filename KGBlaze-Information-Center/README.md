@@ -65,3 +65,13 @@ npm test
 - El nombre físico de D1 se mantiene como `kgblaze-terminal`; su identificador no cambió.
 - Si llegaste a ejecutar el `schema.sql` anterior, ejecuta **nuevamente el esquema corregido** para crear las tablas con los nombres nuevos. No elimines tablas antiguas hasta comprobar que no contienen datos necesarios.
 - El editor privado local se distribuye por separado; conserva la lectura de la clave antigua de almacenamiento para migrar sus ajustes.
+
+## Distinción editorial de nombres — Stage 4 (2026-10-12)
+- **Terminal** (sin letra) es el nombre del software, API, visor y editor. Base D1 física: `kgblaze-terminal`; las nuevas tablas son `terminal_*`. No reintroducir `terminalb` en nombres activos. La clave local antigua sólo se lee para migración del HTML privado.
+- **«Terminales A y B» SÍ pertenece al nombre público del Aeropuerto Internacional de la KGBlaze**; no debe eliminarse por una refactorización técnica. Traducciones históricas exactas:
+  - ES: `AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINALES A Y B`
+  - EN: `KGBLAZE INTERNATIONAL AIRPORT · TERMINALS A & B`
+  - JA: `KGBLAZE国際空港 · ターミナルA・B`
+- El visor `public/index.html` restaura estos textos en el encabezado DOM, mapa trilingüe y cabecera dibujada en canvas. Pruebas de regresión: `tests/public-header.test.mjs` (incluidas en `npm test`).
+- El editor privado v23.11 NO se guarda en este repositorio. Una copia revisada puede producirse localmente a partir del original, conservando `kgblaze_terminal_board_v3_202610` y la lectura de migración `kgblaze_terminalb_board_v3_202610`. **No** subir ese editor al visor público.
+- Esta corrección fue un commit de fuentes; NO implica desplegar Worker, aplicar D1 o publicar el calendario.
