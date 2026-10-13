@@ -44,3 +44,7 @@ Se establecieron `Ejecuta Relight Respark` y `Execute Relight Respark` como coma
 ## Confirmación posterior al dry-run (12-oct-2026)
 - **Q-10 resuelta por el usuario:** lectura de navegador de la API pública confirma 6 orígenes Twitch y 4 manuales. La herramienta externa del asistente continúa sin acceso DNS; esto no invalida la verificación del usuario.
 - **Q-12 — aclaración editorial opcional (no bloqueante):** entre los cuatro manuales aparece `Collab Padoru` del 17-oct con estado `POR CONFIRMAR`, además de dos descansos y el GP de México. El usuario mencionó sólo descansos y GP; **no presumir que quiere eliminar Padoru**. Si decide cambiarlo, utilizar editor privado y procedimiento normal de revisión, no un parche automático.
+
+## Resolución Q-12 (12-oct-2026, prevalece)
+- **Q-12 RESUELTA por confirmación explícita:** el usuario aclara que `Collab Padoru` **sí es un evento manual** y la duda anterior fue una confusión de su enumeración. No requiere corrección editorial ni reclasificación.
+- Mantener `POR CONFIRMAR` y las plataformas vacías mientras no haya una nueva decisión; no presentar la colaboración como realizada o confirmada.

@@ -47,3 +47,9 @@
 - El usuario esperaba que los manuales correspondieran a descansos y México GP; **Collab Padoru** es el cuarto elemento concreto y no debe ocultarse ni reclasificarse sin una instrucción expresa. `origin:"manual"` no es `status:"DESCANSO"`: origen y estado son campos independientes.
 - La copia original del JSON es anterior a la corrección de origen y allí los seis `tw:` aparecen temporalmente con `origin:"manual"`. **No confundir ese defecto histórico con la respuesta posterior del Worker verificada por usuario.**
 - Ninguna escritura D1, republicación, modificación de evento, cambio de PR ni despliegue fue necesaria.
+
+## Aclaración editorial confirmada — Collab Padoru (12-oct-2026 CDMX)
+- El usuario confirmó expresamente: **«Sí, esa fue confusión mía, la collab sí es un evento manual»**. Queda resuelta la duda sobre el cuarto evento de origen `manual`.
+- Clasificación vigente y sin cambios: 6 eventos de origen `twitch`; 4 de origen `manual`: DESCANSO (12-oct), Collab Padoru (17-oct, `POR CONFIRMAR`), DESCANSO (18-oct), México GP (1-nov, 14:00, `A TIEMPO`).
+- La aclaración **no** confirma realización, hora ni plataforma de la colaboración; conserva `POR CONFIRMAR` sin plataformas en la publicación revisión 1. No reabrir Q-12 por este motivo.
+- Solo se actualizó continuidad documental; no se publicó revisión 2, ni se editó D1, visor, Worker o PR #2/#3.

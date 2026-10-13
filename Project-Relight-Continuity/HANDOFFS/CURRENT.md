@@ -1,5 +1,10 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Aclaración prevalente sobre los cuatro eventos manuales (12-oct-2026 CDMX)
+- **CONFIRMADO_USUARIO:** Collab Padoru del 17-oct **sí es manual**. La omisión en la enumeración anterior fue una confusión reconocida por el usuario, **no un error de agenda o de clasificación**.
+- Revisión 1: 6 Twitch y 4 manuales (DESCANSO 12-oct, Collab Padoru 17-oct `POR CONFIRMAR`, DESCANSO 18-oct, México GP 1-nov). Mantener fechas y estados; no repreguntar sobre Padoru.
+- Q-12 cerrada. Pendiente operativo: revisión de matching YouTube con criterios conservadores; PR #2 y PR #3 aún sin autorización de integración. Sin escrituras de producción.
+
 ## Confirmación de navegador y detalle de 4 manuales — 12-oct-2026 CDMX (PREVALECE)
 - Usuario verificó desde navegador el endpoint `/api/public`: **6 `origin:"twitch"` y 4 `origin:"manual"`**. La clasificación postparche queda `CONFIRMADO_USUARIO_EN_NAVEGADOR`; no es un GET independiente del asistente.
 - Se recuperó JSON original de revisión 1 desde `Pasted text(3).txt` en Biblioteca. 4 IDs `man:`: **12-oct DESCANSO, 17-oct Collab Padoru (POR CONFIRMAR), 18-oct DESCANSO, 1-nov GP Ciudad de México 2026 (A TIEMPO, 14:00)**. Los seis `tw:` proceden de ICS Twitch, aunque en el snapshot antiguo previo a parche estaban erróneamente etiquetados `manual`.

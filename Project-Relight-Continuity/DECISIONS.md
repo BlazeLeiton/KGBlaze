@@ -152,3 +152,8 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 | REL-065 | 5 | El usuario confirma lectura real del endpoint: 6 Twitch + 4 manuales, revisión 1 sin nueva publicación. | CONFIRMADO_USUARIO_EN_NAVEGADOR; GET_ASISTENTE_NO_DISPONIBLE |
 | REL-066 | 5 | JSON original muestra 4 manuales: 12-oct y 18-oct DESCANSO, 17-oct Collab Padoru POR CONFIRMAR y 1-nov F1 GP Ciudad de México 14:00 A TIEMPO. La colaboración explica el cuarto manual no mencionado por usuario. | VERIFICADO_ARCHIVO / CLASIFICACIÓN_ACTUAL; SIN CAMBIO EDITORIAL |
 | REL-067 | 5 | Origen `manual` distingue creación del evento; estado `DESCANSO` es diferente. No transformar Padoru, GP ni descansos sin nueva autorización. | CAUTELA VIGENTE |
+
+## Aclaración final de Padoru — Stage 5
+| ID | Etapa | Decisión explícita | Estado |
+|---|---|---|---|
+| REL-068 | 5 | El usuario confirma que **Collab Padoru del 17-oct sí fue creado manualmente**; su ausencia de la primera enumeración verbal fue una confusión, no un error del sistema. Conservar origen `manual`, estado `POR CONFIRMAR` y resto de datos publicados sin reinterpretarlos. | CONFIRMADO_USUARIO; Q-12 RESUELTA; NO CAMBIOS EN PRODUCCIÓN |
