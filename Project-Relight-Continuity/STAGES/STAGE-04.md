@@ -61,3 +61,12 @@ Actualizar esta ficha con último mensaje, cambios reales y resultados de prueba
 - Q-02 **respondida por el usuario**: la demo vocal de **Cake Song del 12-oct** permanece **PENDIENTE**. No grabada ni enviada según la última confirmación. Continúa la tarea de producción con fecha límite de proyecto 31-oct, sin cambios en el deadline.
 - **Ningún otro evento** recibe confirmación/cancelación/cambio implícito. No modificar Terminal, editor privado ni D1.
 - Handoff, conciliación, registro de decisiones y preguntas actualizados; Stage 4 sigue ABIERTA.
+
+## Cuarta revisión exhaustiva — 2026-10-12
+- **Carrd VERIFICADO** por URL suministrada: https://blazeleiton.carrd.co/ . Dos snapshots divergieron en frase introductoria, presencia de Instagram y destino de Ko-fi; `CACHÉ_DISCORDANTE` sin motivo para rehacer perfiles cerrados.
+- Twitch `/about`, `/schedule`, `/videos`, m.twitch, embed y servicios terceros probados. Ninguno entregó calendario legible; no hay comprobación de reserva actual en Twitch.
+- Biblioteca YouTube autorizada devolvió ocho streams de Octublaze con `actualStartTime` y `actualEndTime`. Los covers publicados se distinguen de un video privado de Pokémon guardado como buffer, cuya identidad no se publica aquí.
+- Consulta interna YouTube Analytics septiembre y 1–11 oct, formatos Video/Live/Shorts, métricas de engagedViews/minutos: contrastes temporales privados, no volcar datos sensibles en repo público.
+- Calendario de 18 pestañas, seis CSV Steam e historial de disponibilidad/propiedad frente a wishlist recuperados; no regenerar compras ni agendas privadas.
+- La vigilancia combinada Azur/Cadillac/Mahouka/Steam/GP fue **verificada en estado operativo**: habilitada a 09:00/18:00 CDMX, avisos/correo desactivados; no se creó ni modificó.
+- Nuevas reglas y huecos: `../AUDITS/FOURTH-PASS-2026-10-12.md`, `../SOURCES/PUBLIC_PROFILES.md`, `../QUESTIONS.md`. Stage 4 sigue ABIERTA; Terminal sin alteraciones.
