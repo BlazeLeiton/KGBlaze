@@ -1,9 +1,10 @@
-import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO,currentMonday} from './core.mjs';
+import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO} from './core.mjs';
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
+import {SOCIAL_PREVIEW_CRON,socialPreviewMonday,generateDailySocialPreview} from './social-preview.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
 const VERIFIED_YOUTUBE_CHANNEL_ID='UCRd_uwPjrsf6Z3CRXwNehEQ';
@@ -60,7 +61,7 @@ async function handler(req,env){
  }
  if(path==='/og-semana.png'&&method==='GET'){
   const r=await env.DB.prepare('SELECT week,payload FROM terminal_preview WHERE id=1').first();
-  if(!r||r.week!==currentMonday())return new Response('No hay vista previa publicada',{status:404,headers:{'Cache-Control':'no-store'}});
+  if(!r||r.week!==socialPreviewMonday())return new Response('No hay vista previa publicada',{status:404,headers:{'Cache-Control':'no-store'}});
   return new Response(r.payload instanceof Uint8Array||r.payload instanceof ArrayBuffer?r.payload:new Uint8Array(r.payload),{headers:{'Content-Type':'image/png','Cache-Control':'public,max-age=60','X-Terminal-Week':r.week}});
  }
  if(!path.startsWith('/api/admin/'))return null;
@@ -141,6 +142,14 @@ async function handler(req,env){
   if(!await storeEditorial(env,d,check.agenda))return json({ok:false,error:'CONFLICT_REVISION',detail:'El servidor cambió durante la publicación'},409,cors);
   return json({ok:true,revision:d.revision+1,publishedAt:nowISO(),events:check.agenda.events.length},200,cors);
  }
+ if(path==='/api/admin/social-preview-refresh'&&method==='POST'){
+  try{
+   const result=await generateDailySocialPreview(env);
+   return json(result,result.ok?200:503,cors);
+  }catch{
+   return json({ok:false,reason:'SOCIAL_PREVIEW_UNAVAILABLE'},503,cors);
+  }
+ }
  if(path==='/api/admin/preview'&&method==='POST'){
   const result=await savePreview(req,env,d.revision);const h=new Headers(result.headers);for(const [k,v] of Object.entries(cors))h.set(k,v);return new Response(result.body,{status:result.status,headers:h});
  }
@@ -154,14 +163,16 @@ export default {
    const r=await handler(routed.request,env);if(r)return r;
    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
    const asset=await env.ASSETS.fetch(routed.request);
-   const path=new URL(routed.request.url).pathname;
+   const pageURL=new URL(routed.request.url);
+   const path=pageURL.pathname;
+   const socialCapture=pageURL.searchParams.has('relight-og-week');
    if((path==='/'||path==='/index.html')&&typeof HTMLRewriter!=='undefined'&&asset.ok){
     // Share cards are server-rendered: social crawlers do not execute canvas JS.
     // No image is claimed until the current week's 1080px PNG has been uploaded.
     let image='';
     if(env.DB){
      const preview=await env.DB.prepare('SELECT week FROM terminal_preview WHERE id=1').first();
-     if(preview?.week===currentMonday()){
+     if(preview?.week===socialPreviewMonday()){
       const u=new URL('/departures/og-semana.png','https://kgblaze.dpdns.org');
       u.searchParams.set('week',preview.week); // changes weekly for scraper image caches
       image=u.href;
@@ -177,7 +188,7 @@ export default {
      .on('head',{element(el){
       el.append('<meta property="og:site_name" content="KGBlaze"><meta property="og:url" content="'+url+'"><link rel="canonical" href="'+url+'"><style>'+VIEWER_CSS+'</style>',{html:true});
      }})
-     .on('body',{element(el){el.append('<script>'+VIEWER_JS+'</script>',{html:true});}})
+     .on('body',{element(el){if(!socialCapture)el.append('<script>'+VIEWER_JS+'</script>',{html:true});}})
      .transform(asset);
    }
    return asset;
@@ -186,8 +197,15 @@ export default {
  // Cron is isolated from Preview. No writes or provider requests without
  // the independent opt-in, and no HTTP endpoint can trigger this handler.
  async scheduled(controller,env,_ctx){
-  if(env.YOUTUBE_SYNC_ENABLED!=='true'||env.YOUTUBE_SYNC_PAUSED==='true')return;
+  if(controller?.cron===SOCIAL_PREVIEW_CRON){
+   try{
+    const result=await generateDailySocialPreview(env,new Date(controller.scheduledTime));
+    if(result?.ok===false&&result.reason!=='PAUSED')console.warn('Social preview:',result.reason);
+   }catch{console.error('Social preview unavailable');}
+   return;
+  }
   if(controller?.cron!=='*/5 * * * *')return;
+  if(env.YOUTUBE_SYNC_ENABLED!=='true'||env.YOUTUBE_SYNC_PAUSED==='true')return;
   const slot=new Date(controller.scheduledTime);
   if(!Number.isFinite(slot.getTime()))return;
   try{

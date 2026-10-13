@@ -7,10 +7,15 @@ workers_dev = true
 # Production preview still requires the independently managed feature flag.
 keep_vars = true
 
-# Cloudflare fires every five minutes in UTC. The Worker throttles
-# discovery to the hour, and otherwise refreshes known video IDs.
+# Cloudflare runs cron in UTC. Preserve the YouTube five-minute trigger;
+# 09:00 UTC = 03:00 America/Mexico_City, including Mondays.
 [triggers]
-crons = ["*/5 * * * *"]
+crons = ["*/5 * * * *", "0 9 * * *"]
+
+# Cloudflare Browser Run: render the actual public board to a PNG.
+# No private editor, new API token, separate Worker or database required.
+[browser]
+binding = "BROWSER"
 
 # Identificador público del canal ya guardado en Cloudflare Dashboard.
 # Mantener en sincronía los deployments de GitHub; NO incluir secretos aquí.
