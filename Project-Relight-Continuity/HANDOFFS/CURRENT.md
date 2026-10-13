@@ -1,5 +1,36 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — Terminal bajo /departures: código integrado, Custom Domain pendiente
+- El usuario confirmó que `kgblaze.dpdns.org` está activo en Cloudflare y aprobó `https://kgblaze.dpdns.org/departures/` como dirección pública futura del Terminal, preservando el dominio raíz para un portal KGBlaze posterior.
+- Implementación del mismo Worker `kgblaze-terminal` en PR #20 https://github.com/BlazeLeiton/KGBlaze/pull/20, squash commit `e489f80e92b8da564dcbb098b98a2d1114cebca7`. GitHub Actions https://github.com/BlazeLeiton/KGBlaze/actions/runs/38479267046 SUCCESS y Cloudflare Workers Builds https://dash.cloudflare.com/7ac97f454edb4362a185d23f9e5dddbd/workers/services/view/kgblaze-terminal/production/builds/ec3aa505-e3ed-4759-8a18-2032a8e0b899 SUCCESS.
+- El Worker dirige el hostname nuevo: `/` → `/departures/`, `/departures` → `/departures/`, `/departures/` visor, `/departures/api/public` API. Dado que el HTML original aún usa `fetch('/api/public')`, existe un alias público temporal `/api/public`; la administración privada se bloquea bajo el nuevo dominio y sigue usando Workers.dev.
+- **PENDIENTE**: añadir `kgblaze.dpdns.org` como **Custom Domain** del Worker desde Cloudflare Dashboard y verificar HTTPS, redirects, visor y APIs reales, revisión editorial 2 y 10 salidas. El éxito de la build NO confirma que la URL nueva esté enlazada y accesible. No anunciarla antes de un GET anónimo satisfactorio.
+- Sin modificación de D1, editor privado, agenda, Cron, sync YouTube ni secretos por este cambio. URL `kgblaze-terminal.drago68575.workers.dev` se preserva como acceso alternativo. La solicitud `vlatam.eu.org` permanece pendiente de revisión.
+- Guía de implementación: `KGBlaze-Information-Center/PORTAL-DEPLOYMENT.md` y nuevo test `tests/portal-route.test.mjs`.
+
+
+## 13-oct-2026 — DigitalPlat: dominio kgblaze.dpdns.org registrado (captura del usuario)
+- Captura del usuario muestra `Manage kgblaze.dpdns.org` en DigitalPlat con distintivos `ok`, `Permanent` y `free`, y opción de descargar certificado de titularidad. **DOMINIO REGISTRADO, verificado por la UI del propietario**; no confundir esto con que el DNS esté delegado a Cloudflare o ya habilitado para el Worker.
+- La pantalla está en `Nameservers` y muestra opción `DigitalPlat DNS`; todavía no hay confirmación de selección/guardado de `External nameservers` con `cheryl.ns.cloudflare.com` y `cris.ns.cloudflare.com`, ni de activación de la zona en Cloudflare.
+- Siguiente paso no destructivo: revisar `External nameservers` en DigitalPlat, conservar pareja Cloudflare, esperar DNS active, verificar HTTPS y API antes de añadir `terminal.kgblaze.dpdns.org` como Custom Domain del Worker existente. `Permanent` es etiqueta comercial del panel, no prueba de propiedad perpetua sin términos de renovación.
+- La solicitud paralela `vlatam.eu.org` continúa pendiente de aprobación. Mantener la URL pública `kgblaze-terminal.drago68575.workers.dev` y el código, Cron, D1, secretos y agenda editorial inalterados.
+
+
+## 13-oct-2026 — EU.org: solicitud de VLATAM guardada, aún no aprobada
+- El usuario creó zonas DNS Free en Cloudflare para `vlatam.eu.org` y `kgblaze.dpdns.org`, asignadas ambas a `cheryl.ns.cloudflare.com` / `cris.ns.cloudflare.com`. Las zonas pendientes NO acreditan registro o delegación ante EU.org/DigitalPlat.
+- La solicitud de registro `vlatam.eu.org` se envió mediante EU.org: verificaciones de SOA y NS correctas en ambos nameservers (12 respuestas satisfactorias por clase), final `No error, storing for validation... Saved as request ... Done`. **Estado: solicitud guardada para validación administrativa, NO aprobada todavía, NO dominio activo.** El usuario conserva el número de solicitud en su conversación; evitar replicarlo en GitHub público.
+- Plan condicional si se aprueba EU.org: `kgblaze.vlatam.eu.org` como dominio público del Terminal. Plan alternativo DigitalPlat: solicitar `kgblaze.dpdns.org` y, tras delegación, usar `terminal.kgblaze.dpdns.org`. DigitalPlat aún no verificado como registrado.
+- Sólo lectura de configuración/registro: NO cambiar Worker, D1, Cron, editor privado, agenda revisión 2 / 10 salidas ni URL oficial `kgblaze-terminal.drago68575.workers.dev`. No anunciar aprobación ni mover el público antes de DNS active + HTTPS/visor/API/sync validados.
+
+
+## 13-oct-2026 — Stage 8: confirmación del lanzamiento FINAL (prevalece sobre interpretación de staging)
+- Última corrección explícita del usuario: la página `https://kgblaze-terminal.drago68575.workers.dev/` queda **en producción pública definitiva AHORA**, sin nueva activación, despliegue ni promoción después del experimento de Killer Chat! (13-oct 22:00 CDMX). Si funciona, el servicio sigue funcionando; sólo se revertirá ante defecto comprobado.
+- El smoke HTTP anónimo https://github.com/BlazeLeiton/KGBlaze/actions/runs/38455858546 SUCCESS acredita acceso al visor, /api/health y /api/public; no acredita aún transición EN VIVO ni visualización de terceros. Prueba de continuidad https://github.com/BlazeLeiton/KGBlaze/actions/runs/38456909930 SUCCESS.
+- Rama `release/terminal-public-2026-10-13` fijada al commit productivo `0fce4ffeb403fe6d7d96b22ac8320671eab28016`; `main` avanzó cuatro commits de documentación/pruebas, sin cambios funcionales de Worker. Ficha específica: `../STAGES/STAGE-08.md`.
+- Preservar editorial rev 2 / 10 salidas, observaciones sync, Cron 5 min, vínculos, secretos y editor local. Probar `upcoming → live` / `A TIEMPO → EN VIVO` en producción con terceros. `DESPEGÓ` automático sigue fuera de alcance. No ejecutar rollback salvo defecto concreto.
+- Registrar Stage 8 en rama documental separada; NO equivale a merge, deploy Cloudflare ni nueva operación de D1.
+
+
 ## 13-oct-2026 — LANZAMIENTO PÚBLICO DEFINITIVO DE TERMINAL (Stage 7; PREVALECE)
 - El usuario decidió iniciar **producción pública definitiva ahora**, sin fase staging ni espera hasta Killer Chat! a las 22:00 CDMX; la prueba se ejecutará en **la misma URL pública y versión productiva**. Un resultado positivo NO dispara nueva puesta en producción: ya estará operando. Si hay defecto, se investiga y sólo entonces se aplica pausa/rollback específico.
 - URL oficial para esta versión: https://kgblaze-terminal.drago68575.workers.dev/ ; ninguna dirección custom de dominio propio consta aprobada, no inventar otra. Ver `../STAGES/STAGE-07.md`.
