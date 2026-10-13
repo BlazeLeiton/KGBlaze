@@ -109,3 +109,10 @@ Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
 - **Pruebas nuevas** en GitHub Actions: [run #38337375637](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38337375637) PASS, registro Stage 1–4 sin errores, encabezado ES/EN/JA PASS, **18/18 tests Node PASS** para Core/Worker/visor. Workflow de sólo lectura, no despliega nada.
 - Biblioteca rechazó materialización autorizada del HTML privado original: no afirmar ejecución nueva de browser E2E. La prueba Chromium local de Stage 4 anterior sigue archivada, distinta del CI actual.
 - Referencia auditable: `../AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. **Stage 4 sigue ABIERTA**; no volver a tocar el visor correcto sólo para renombrar, no desplegar D1/Worker por esta auditoría.
+
+## HTML operativo v23.11 adjunto — verificado y retorno a consola D1 (12-oct-2026)
+- El usuario aportó el artefacto `Terminal_Operativo_v23_11_encabezado_corregido(1).html` como **fuente real** para verificar la interrupción de Stage 4, no sólo el derivado indexado de Biblioteca.
+- Archivo privado SHA-256 `d1e5673defadd9d319f1cfe51e41d40d1f77ef54d2adad5202573feb59c5467e`; `node --check` pasó; Chromium aislado ejecutó ES/EN/JA, canvas 1080×1080 y PNG sin errores; migración `LEGACY_STORE` → `STORE` validada al guardar mediante almacenamiento simulado; fetch de publicación simulado verificado con revisión, sin llamadas externas.
+- Nombre de software `Terminal` y título público `Terminales A y B` preservados; único `terminalb` como clave legacy. Texto intro «v23.7» residual menor, no modifica título v23.11.
+- Próximo paso al volver a consola Cloudflare: verificar tablas remotas en D1 `kgblaze-terminal` **antes** de aplicar `schema.sql` con `terminal_state`, `terminal_audit`, `terminal_preview`; sin renombrar DB, publicar editor privado ni desplegar Worker.
+- Auditoría con fuentes, limitaciones y SHA: `../AUDITS/OPERATIVE-UPLOAD-2026-10-12.md`. Stage 4 ABIERTA.
