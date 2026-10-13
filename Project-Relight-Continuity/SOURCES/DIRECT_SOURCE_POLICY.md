@@ -30,3 +30,10 @@ Fuentes:
 - X `https://x.com/BlazeLeiton` devolvió 403, Instagram web bloqueó fetch pero un proveedor consultó `@blazeleiton` directamente, y Twitch web permaneció inaccesible. No concluir que las cuentas carecen de posts, streams o interacción por este bloqueo.
 - Fuente de Canal YouTube por ID con herramienta de metadatos; cuatro formatos a distinguir: Videos, Live, Shorts y Playlists. Fechas publicadas en UTC deben convertirse a `America/Mexico_City` antes de comparar con ICS.
 - Al contrastar plantilla: metadatos/videos reales > copia de plantilla histórica en lo relativo a créditos particulares; instrucciones explícitas más recientes siguen definiendo la intención editorial.
+
+## Ruta directa y coherencia temporal — cuarta pasada
+- Probar primero **URLs exactas que proporcione usuario** antes de indexar. Carrd confirmado https://blazeleiton.carrd.co/ ; acceso directo de Twitch `/about`, `/schedule`, `/videos` denegado/no legible. Guardar resultado de cada ruta.
+- **Contrastar dos consultas divergentes** de una misma web con estado `CACHÉ_DISCORDANTE`: Carrd devolvió dos frases de bienvenida y variantes de links distintas. No tratar uno como definitivo sin lectura estabilizada o respuesta del usuario.
+- Para videos y directos YouTube consultados mediante acceso de cuenta: `scheduledStartTime` y `actualStartTime`/`actualEndTime` son variables distintas de `publishedAt`. Comparar calendario por inicio **real en zona CDMX**, no por hora de subida de VOD.
+- La herramienta autorizada de YouTube devolvió hasta vídeos privados, **no divulgar IDs ni detalles de publicaciones no públicas** en informes visibles.
+- En análisis longitudinal usar periodos completos o promedios diarios explícitos; views, engagedViews y minutesWatched separadas, sobre todo si cambio de definiciones afecta comparación de períodos.
