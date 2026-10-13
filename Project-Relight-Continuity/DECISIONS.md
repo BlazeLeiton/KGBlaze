@@ -179,3 +179,12 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 |---|---|---|---|
 | REL-077 | 5 | Usuario confirmó guardar el Rate Limiter `YOUTUBE_PREVIEW_LIMITER` en Dashboard de Cloudflare; Namespace 1001, límite 1/60 s según configuración guiada. | GUARDADO_REPORTADO_USUARIO; DEPLOY_NO_COMPROBADO |
 | REL-078 | 5 | PR #4 sincroniza binding en `wrangler.toml` sin exponer secretos. CI run `38356151146` 90/90 PASS; PR Draft no merged. El flag de lectura sigue desactivado. | CODIGO_EN_DRAFT; PRUEBAS_PASADAS; NO_ACTIVADO |
+
+## Stage 6 — 13-oct-2026: ficha del visor y navegación YouTube
+| ID | Etapa | Decisión | Estado y alcance | Evidencia / pendiente |
+|---|---|---|---|---|
+| REL-S6-01 | 6 | El `videoId` editorial de una sala YouTube puede abrirse directamente en ficha (`youtu.be/<id>`) aun sin observación verificada | APROBADO, IMPLEMENTADO, FUSIONADO | PR #9, commit `c48b1a7` |
+| REL-S6-02 | 6 | Miniatura preferida `maxresdefault.jpg`; fallback `hqdefault.jpg`; sin ID, canal general | IMPLEMENTADO Y PROBADO | Actions PR #38385203563, main #38386074958; verificación visual pendiente |
+| REL-S6-03 | 6 | Asociación editorial de navegación no indica EN VIVO, DESPEGÓ ni identidad verificada | VIGENTE, NO MODIFICA ESTADOS | PR #9 tests, evitar inferencias de YouTube |
+| REL-S6-04 | 6 | No repetir publicación de revisión editorial 2 ni alterar sus 10 salidas para comprobar un cambio de visor | VIGENTE; CONFIRMADO_USUARIO sobre edición | Revisión 2 y 10 salidas reportadas en Stage 6; GET remoto pendiente |
+| REL-S6-05 | 6 | Integración de PR #9 + actualización visor expresamente autorizadas | EJECUTADO: merge y Cloudflare Build success | `c48b1a7`, version `345940f0-f0f4-4747-8610-e08494923413`; click E2E no verificado |
