@@ -1,5 +1,15 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — LANZAMIENTO PÚBLICO DEFINITIVO DE TERMINAL (Stage 7; PREVALECE)
+- El usuario decidió iniciar **producción pública definitiva ahora**, sin fase staging ni espera hasta Killer Chat! a las 22:00 CDMX; la prueba se ejecutará en **la misma URL pública y versión productiva**. Un resultado positivo NO dispara nueva puesta en producción: ya estará operando. Si hay defecto, se investiga y sólo entonces se aplica pausa/rollback específico.
+- URL oficial para esta versión: https://kgblaze-terminal.drago68575.workers.dev/ ; ninguna dirección custom de dominio propio consta aprobada, no inventar otra. Ver `../STAGES/STAGE-07.md`.
+- PRUEBA DE ACCESO EXTERNA: https://github.com/BlazeLeiton/KGBlaze/actions/runs/38455858546 SUCCESS; GET anónimos visor, /api/health y /api/public, revision 2, 10 salidas, Killer Chat! videoId JDkg-5tZ3G0, dos observaciones públicas sync. Este test no comprueba EN VIVO ni reemplaza test real de espectadores.
+- Código que llegó a Cloudflare con build SUCCESS: `0fce4ffeb403fe6d7d96b22ac8320671eab28016`; rama de resguardo `release/terminal-public-2026-10-13` creada apuntando a ese commit. Un posterior commit `718e91e` sólo añadió workflow de smoke test, sin Worker ni D1 nuevos.
+- No modificar agenda editorial revisión 2/10 salidas, no cambiar conexiones, no publicar nuevos eventos, no pulsar switch de YouTube; Cron 5 min activo y `YOUTUBE_SYNC_ENABLED=true`, con pausa de emergencia `YOUTUBE_SYNC_PAUSED=true` sin despublicar la página.
+- Prueba pendiente: observación real A TIEMPO→EN VIVO + terceros desde URL productiva. DESPEGÓ automático aún no habilitado. No cambiar criterios de lanzamiento retroactivamente.
+- Cambios de esta sesión **solo documentación de continuidad y rama de referencia**; no hay actualización del código del visor/Worker/secretos/D1, ni rollback, ni despliegue adicional del Worker. 
+
+
 ## 13-oct-2026 — Primer sync de producción confirmado y ampliación a 72 h
 - La consulta PowerShell pública de usuario confirmó revision 2, 10 salidas, syncEntries 1 y Killer Chat! con upcoming/verified true/videoId JDkg-5tZ3G0/checkedAt 2026-10-13T18:50:35.652Z. **Cron y escritura D1 confirmados**; la disponibilidad de un EN VIVO futuro aún no se ha comprobado.
 - Azur Lane miércoles 14, 22:00 CDMX: sala pública creada https://youtu.be/UXoSxjT-r28, evento tw:21f410d8-c12c-4a18-9730-1710420df22e. No asignar videoId manual hasta concluir segunda prueba de match autónomo. Usuario autorizó ampliar ventana 24→72 h si era viable.
