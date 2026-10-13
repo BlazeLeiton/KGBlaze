@@ -96,3 +96,9 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - Biblioteca actual: `Terminal_Operativo_v23_11_encabezado_corregido.html` mantiene `STORE` moderno y `LEGACY_STORE` sólo de migración; encabezados ES DOM y ES/EN/JA canvas, sin nombre visible Terminal B. Materialización binaria del original rechazada; no repetir como prueba E2E nueva la prueba Chromium archivada.
 - Informe: `AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. CI agregado: `.github/workflows/relight_verify_continuity.yml`, sólo pruebas, sin despliegue.
 - Punto de continuación: Stage 4 ABIERTA, cambios editoriales y producción intactos; próxima prueba adicional sólo si el usuario solicita prueba real de operativo privado con acceso autorizado.
+
+## Retomar consola tras verificación del HTML real (12-oct-2026)
+- HTML privado aportado por usuario, checksum SHA-256 d1e5673defadd9d319f1cfe51e41d40d1f77ef54d2adad5202573feb59c5467e; pruebas aisladas Chromium ES/EN/JA + PNG sin errores, código JS sintácticamente válido, almacenamiento legacy simulado probado, consulta/publicación con red simulada aprobadas. No afirmar funcionamiento remoto probado.
+- Documentación técnica actual: base `kgblaze-terminal` enlazada por `DB`; `schema.sql` contiene exclusivamente `terminal_*`; Worker se llama `kgblaze-centro-informacion` en `wrangler.toml`. `ADMIN_TOKEN` secreto pendiente, cron externo deshabilitado.
+- **Siguiente paso**: abrir consola D1 `kgblaze-terminal`, consultar `sqlite_master`, después aplicar únicamente tablas `terminal_state`, `terminal_audit`, `terminal_preview` si faltan, con consentimiento para cambios remotos. No renombrar base, no eliminar nada y no desplegar por implicación.
+- Ver `AUDITS/OPERATIVE-UPLOAD-2026-10-12.md`. Stage 4 ABIERTA.
