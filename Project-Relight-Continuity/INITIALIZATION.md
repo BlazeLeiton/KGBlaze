@@ -90,3 +90,5 @@ Verificar `AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md` al recuperar Stage 3/Ter
 
 ## Anexo de continuidad de contexto — Stage 4
 Durante fases 0–6, leer también [`CONTEXT-CONTINUITY.md`](CONTEXT-CONTINUITY.md). Evaluar las fases a profundidad **sin volcar transcripciones completas ni HTML multimegabyte al chat**; registrar fuente, fechas, commit y hallazgos. Después de ejecutar Respark, las peticiones ordinarias usan mantenimiento incremental por hito, nunca una auditoría completa en cada turno. Esto no sustituye las fases obligatorias ni la recuperación retrospectiva de chats sin cierre.
+
+Para carga inicial orientativa, abrir `HANDOFFS/BOOTSTRAP.md` junto al handoff completo. El bootstrap acelera la ubicación de fuentes; **no autoriza omitir** la lectura forense de Stage 1..N ni resolver dudas de memoria en vez de evidencia.
