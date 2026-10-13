@@ -33,3 +33,12 @@ Si la conversación actual NO ha sido designada Stage N+1 por el usuario o no ex
 
 Comando alternativo de emergencia:
 `KGRP: INICIALIZAR PROJECT RELIGHT — ejecutar las fases 0–6 de INITIALIZATION.md y recuperar Stage 1..N, chats inconclusos, plantillas, perfiles, calendario, métricas y auditorías.`
+
+## Activación por frase — Relight Respark (regla vigente)
+Si el usuario escribe **«Ejecuta Relight Respark»** o **«Execute Relight Respark»**, activar inmediatamente el KGRP integral de `INITIALIZATION.md`, fases 0–6, sin pedir que repita el procedimiento ni el comando antiguo. Ambas fórmulas son sinónimas; registrar evidencia, límites y pendientes, y continuar el trabajo actual.
+
+En conversaciones habituales de Project Relight, cualquier información nueva que aparezca y sea importante para la continuidad debe añadirse de modo incremental al protocolo/documentos de GitHub accesibles. No volver a ejecutar todo el análisis con cada comentario cotidiano.
+
+El ICS Twitch archivado sigue siendo **el más reciente, sin cambios posteriores según confirmación del usuario**; no pedir otro como condición de inicio. Conservar separadas esa confirmación editorial y la imposibilidad de abrir `/schedule` directamente. No tocar Terminal ni otros sistemas sin solicitud explícita.
+
+**Nota de configuración:** copiar este texto a las instrucciones de Project Relight en ChatGPT habilita su interpretación en nuevos chats; un commit de GitHub no cambia esas instrucciones automáticamente.
