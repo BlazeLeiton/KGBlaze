@@ -37,7 +37,7 @@ export function buildYouTubePreflight(agenda,evidence,{ownedChannelId,now=new Da
    evidence.discoveredVideoIds.every(id=>typeof id==='string'&&VIDEO_ID.test(id));
  const discovered=new Set(discoveredOk?evidence.discoveredVideoIds:[]);
  const discoverableResources=evidence.resources.filter(r=>discovered.has(r?.id));
- const withoutManualIds=agenda.events.map(e=>({...e,videoId:undefined}));
+ const withoutManualIds=agenda.events.map(e=>{const copy={...e};delete copy.videoId;return copy;});
  const autonomous=discoveredOk?matchYouTubeAgenda(withoutManualIds,discoverableResources,{ownedChannelId:trusted?ownedChannelId:undefined}):null;
  const items=matches.map((m,i)=>{
   const ev=agenda.events[i],applicable=ev?.platforms?.includes('yt')&&!STOP.has(ev.status);
