@@ -38,8 +38,8 @@ npm test
 3. **Listo:** base D1 `kgblaze-terminal` creada por el usuario; Database ID y binding `DB` registrados en `wrangler.toml`.
 4. **Listo:** `wrangler.toml` contiene `[[d1_databases]]`, `binding = "DB"`, `database_name = "kgblaze-terminal"` y el ID real facilitado por el propietario.
 5. Aplicar el esquema actualizado de **Terminal** (`terminal_state`, `terminal_audit`, `terminal_preview`): `npx wrangler d1 execute kgblaze-terminal --remote --file schema.sql`.
-6. Guardar un secreto privado robusto: `npx wrangler secret put ADMIN_TOKEN`. No agregar el valor al código, a `wrangler.toml` ni a mensajes compartidos. La contraseña no se guarda en el navegador local.
-7. Desplegar **sólo después de tu aprobación**: `npx wrangler deploy` o crear un flujo de Workers Builds conectado al repositorio.
+6. **No ejecutar `npx wrangler secret put ADMIN_TOKEN` antes de autorizar despliegue:** Cloudflare documenta que `wrangler secret put` crea y **despliega inmediatamente** una versión del Worker. Preparar un valor aleatorio robusto fuera de GitHub y del chat; cuando se autorice el paso de Worker, configurar el secreto en el mismo flujo mediante `wrangler versions upload --secrets-file <ruta-privada>` (sube versión sin activarla; verificar soporte de Wrangler) o desde Settings > Variables and Secrets después de crear el Worker. Nunca agregar el valor al código, a `wrangler.toml`, ni a mensajes compartidos. El editor sólo lo pide temporalmente.
+7. Desplegar **sólo después de tu aprobación**, tras verificar nombre técnico del Worker, secreto `ADMIN_TOKEN` y D1. Para despliegue controlado usar una versión previamente subida o `npx wrangler deploy` únicamente cuando se autorice; Workers Builds tampoco debe activarse sin aprobación.
 8. Anotar la URL HTTPS definitiva del Worker, abrir el HTML operativo local, completar `https://…workers.dev` y el token de publicación, pulsar **Consultar**, revisar la agenda, **Publicar cambios** y opcionalmente **Publicar vista previa 1080 × 1080**.
 9. Comprobar `/api/health`, `/api/public` y la visualización móvil/escritorio. El servicio no mostrará eventos hasta que tú publiques la primera agenda desde el editor.
 
