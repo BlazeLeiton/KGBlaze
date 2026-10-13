@@ -1,5 +1,16 @@
 # Handoff actual — Snapshot KGRP v2
 
+## ESTADO MÁS RECIENTE — Cuarta auditoría 12-oct-2026
+- **Carrd confirmada:** https://blazeleiton.carrd.co/ . Q-04 resuelta. Lecturas web discordantes sobre frase introductoria/Instagram/destino de Ko-fi, pendiente menor de caché (Q-09), sin edición de perfil.
+- **Twitch:** `/about`, `/schedule` y `/videos` abiertos directamente pero contenido no legible; pedir ICS actualizado (Q-06) sólo si se necesita corroborar futuro calendario.
+- **YouTube autorizado:** ocho Octublaze con horas reales de inicio/fin; comparar por `actualStartTime`, no `publishedAt`. Video privado de Pokémon existe; no divulgar ID ni asumir lanzamiento público.
+- **Analytics:** septiembre y 1–11 octubre por formatos, engaged views y horas; detalles privados en conversación/herramienta, no publicados en GitHub; comparar ventanas equivalentes.
+- **Archivos:** hojas 18 pestañas de calendario/Steam, seis CSV de bibliotecas/wishlist; originales privados en Biblioteca; materialización no lograda.
+- **Vigilancia:** tarea combinada Azur, Cadillac, Mahouka, Steam y GP habilitada 09:00/18:00 CDMX; notificaciones/email desactivados, respetar. No crear vigilancia duplicada.
+- **Decisiones últimas:** ambas reservas Azur 21/22 sin hora, Cake demo pendiente; ninguna otra confirmación editorial nueva.
+- **Informe:** `AUDITS/FOURTH-PASS-2026-10-12.md`. Arranque de nueva conversación debe incorporar esta revisión en fases KGRP v3.
+
+
 ## ESTADO MÁS RECIENTE — 2026-10-12 · confirmación explícita del usuario (Stage 4)
 - **Q-01 resuelta:** Azur Lane 21-oct y 22-oct: ambas **RESERVAS MANTENIDAS SIN HORA**, no directos confirmados/emitidos/anunciados.
 - **Q-02 respondida, ejecución abierta:** demo vocal Cake Song propuesta 12-oct **PENDIENTE**; no registrada como grabada ni enviada. Deadline 31-oct se conserva.
