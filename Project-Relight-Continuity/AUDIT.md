@@ -63,3 +63,11 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - **Prueba local de la herramienta:** PASS (4 escenarios): lectura índice 1..3, alta temporal Stage 4, rechazo de origen vacío y error ante ficha faltante. **Stage 4 no fue añadido al repositorio.**
 - **A07 / auditoría histórica exhaustiva:** PARCIAL — fuentes de chat antiguas sólo accesibles de forma resumida, no se afirma recuperación literal íntegra.
 - **Pruebas funcionales de Terminal, Cloudflare o plataformas:** NO EJECUTADAS EN ESTE PROTOCOLO. No se cambió el software.
+
+## Auditoría de apertura Stage 4 — 2026-10-12
+- Se reconstruyó la intención y parte de la secuencia histórica de las tres etapas; se obtuvo más detalle sobre las reglas de plataforma y la separación de componentes. Ver `AUDITS/RECOVERY-2026-10-12-STAGE-04.md`.
+- A01–A04 y A11: índice **previsto** 1..4 y fichas acumuladas. Confirmar en GitHub tras commit.
+- A07: PARCIAL, texto íntegro y último tramo de chats 1–3 sin disponibilidad completa.
+- A08: aclaración de alcance de estados POR CONFIRMAR / A TIEMPO añadida, sin declarar prueba funcional.
+- A09–A10: verificar que el diff registra sólo cambios en `Project-Relight-Continuity/`.
+- A12: pruebas de editor privado, APIs y Cloudflare no realizadas; no confundir con verificación de código.

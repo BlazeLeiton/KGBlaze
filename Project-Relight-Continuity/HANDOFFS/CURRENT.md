@@ -32,3 +32,13 @@ La recuperación contextual no garantiza texto completo de los chats, y la docum
 
 ## Siguiente acción segura
 En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; recuperar últimos tramos disponibles y revisar nuevo SHA. Continuar desde la última petición activa del usuario, sin desplazar el trabajo a Terminal por defecto.
+
+## Stage 4 — APERTURA (2026-10-12)
+- Confirmación directa: el usuario solicitó una recuperación profunda e iniciar esta conversación como **Stage 4**.
+- Estado actual: `STAGE-04` ABIERTA, cierre no verificado. No cerrar Stage 1–3 automáticamente.
+- Recuperación actual: histórico completo disponible revisado, diferencias entre póster estático, operativo privado y visor público reconciliadas por alcance; reporte `AUDITS/RECOVERY-2026-10-12-STAGE-04.md`.
+- Última instrucción conocida al abrir: «ejecuta la recuperación y vamos a comenzar con esta conversación como Stage 4».
+- Reglas activas: auditoría ante dudas; prioridad de instrucciones explícitas recientes; todas las etapas 1–4 se incluirán en futuras recuperaciones.
+- La auditoría externa YouTube/Twitch se considera **reportada completada** por el usuario; las transcripciones completas de las conversaciones siguen siendo un asunto de recuperación documental.
+- Repo HEAD justo antes de registrar Stage 4: `ac0944d589629cfdbb122df21be4afb881a47d2c`; verificar el HEAD nuevo antes de otra acción.
+- Trabajo pendiente: transcripciones originales y últimos tramos aún faltan, pruebas del editor privado no ejecutadas, comparativa de versiones sin evidencia completa, servicio Cloudflare y polling externos no confirmados.

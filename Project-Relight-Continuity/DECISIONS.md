@@ -22,3 +22,12 @@ Este registro conserva decisiones **históricas y vigentes**. Es un mapa de evid
 `ID | fecha local | etapa | fuente (mensaje, archivo, commit) | texto original | alcance | motivación | sustituye | solicitud | aprobación | implementación | prueba | despliegue | certeza | dudas`.
 
 Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplazos, alternativas y razones.
+
+## Decisiones fijadas en apertura Stage 4 — 2026-10-12
+| ID | Etapa | Decisión | Estado | Evidencia |
+|---|---|---|---|---|
+| REL-015 | 4 | Esta conversación se registra formalmente como **Stage 4** | CONFIRMADO_USUARIO | Instrucción explícita en chat actual |
+| REL-016 | 4 | Cualquier recuperación futura incluye **Stage 1–4 y nuevas etapas**, sin reducir la profundidad | VIGENTE | Reiteración actual de protocolo KGRP |
+| REL-017 | 2–3 | Póster semanal estático y visor público dinámico son componentes distintos; no unificar sus reglas | ACLARADO POR ALCANCE | Secuencia contextual recuperada |
+| REL-018 | 2–3 | YouTube puede cambiar POR CONFIRMAR→A TIEMPO sólo en la presentación del visor con match fiable; operativo editorial no se modifica | CONFIRMADO_USUARIO; SIN VERIFICAR EN PRODUCCIÓN | Contexto de instrucciones 12-oct |
+| REL-019 | 1 | Auditoría histórica YouTube/Twitch reportada completada, aunque faltan transcripciones del chat original | HISTÓRICO RECUPERADO | Corrección del usuario 30-sep |

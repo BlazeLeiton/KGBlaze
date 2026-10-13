@@ -32,7 +32,7 @@ Los informes de recuperación deben detallar **origen, fechas, versiones, confli
 ## Índice
 - [Protocolo profundo](PROTOCOL.md)
 - [Etapas — índice dinámico](STAGES/index.json)
-- [Stage 1](STAGES/STAGE-01.md) · [Stage 2](STAGES/STAGE-02.md) · [Stage 3](STAGES/STAGE-03.md)
+- [Stage 1](STAGES/STAGE-01.md) · [Stage 2](STAGES/STAGE-02.md) · [Stage 3](STAGES/STAGE-03.md) · [Stage 4](STAGES/STAGE-04.md)
 - [Traspaso actual y pendientes](HANDOFFS/CURRENT.md)
 - [Decisiones y sustituciones](DECISIONS.md)
 - [Auditoría y pruebas](AUDIT.md)
@@ -54,3 +54,6 @@ python scripts/kgrp.py add-stage --title "Título de Stage 4" --source "Enlace o
 La segunda orden **sólo se usa cuando existe una nueva etapa real**; crea automáticamente el siguiente número, el archivo, la entrada del índice y una nota en el handoff, sin sobrescribir etapas antiguas. No crea Stage 4 por ejecutar la recuperación actual. Tras agregar, se deben completar las evidencias y archivar los cambios en Git. Las pruebas de esta herramienta se ejecutaron sobre un registro temporal: índice 1..3 válido, alta de Stage 4, rechazo de fuente vacía y detección de archivo faltante.
 
 - [Instrucciones para activar recuperación por defecto en un Proyecto ChatGPT](PROJECT_STARTUP_INSTRUCTIONS.md) — requieren pegarse en las instrucciones del Proyecto; el archivo GitHub no configura ChatGPT automáticamente.
+
+## Recuperación más reciente
+- [Informe detallado de apertura Stage 4 (12-oct-2026)](AUDITS/RECOVERY-2026-10-12-STAGE-04.md)
