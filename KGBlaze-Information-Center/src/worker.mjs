@@ -1,5 +1,6 @@
 import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO,currentMonday} from './core.mjs';
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
+import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
@@ -68,6 +69,41 @@ async function handler(req,env){
  const d=await getState(env);
  if(path==='/api/admin/snapshot'&&method==='GET')return json({schema:'terminal-admin-v1',revision:d.revision,editorial:d.editorial,sync:toSyncEnvelope(d.sync,d.revision),updatedAt:d.updatedAt},200,cors);
  if(path==='/api/admin/sync'&&method==='GET')return json(toSyncEnvelope(d.sync,d.revision),200,cors);
+ // Inspect the ACTUAL published YouTube title/description/tags by public video ID.
+ // Private, explicitly read-only, uses one videos.list (no search.list) and no D1 writes.
+ if(path==='/api/admin/youtube-video-audit'&&method==='GET'){
+  if(env.YOUTUBE_PREVIEW_ENABLED!=='true')return json({ok:false,error:'YOUTUBE_PREFLIGHT_DISABLED'},503,cors);
+  if(req.headers.get('X-Relight-Preview-Only')!=='ack-read-only')return json({ok:false,error:'PREVIEW_ACK_REQUIRED'},400,cors);
+  const videoId=url.searchParams.get('videoId');
+  if(!/^[A-Za-z0-9_-]{11}$/.test(videoId||''))return json({ok:false,error:'INVALID_VIDEO_ID'},400,cors);
+  if(!env.YOUTUBE_API_KEY||env.YOUTUBE_CHANNEL_ID!==VERIFIED_YOUTUBE_CHANNEL_ID)
+   return json({ok:false,error:'YOUTUBE_PREFLIGHT_NOT_CONFIGURED'},503,cors);
+  if(typeof env.YOUTUBE_PREVIEW_LIMITER?.limit!=='function')
+   return json({ok:false,error:'YOUTUBE_RATE_LIMIT_NOT_CONFIGURED'},503,cors);
+  let allowed;
+  try{allowed=(await env.YOUTUBE_PREVIEW_LIMITER.limit({key:'terminal-youtube-metadata-audit'}))?.success===true;}
+  catch{return json({ok:false,error:'YOUTUBE_RATE_LIMIT_UNAVAILABLE'},503,cors);}
+  if(!allowed)return json({ok:false,error:'YOUTUBE_RATE_LIMITED'},429,cors);
+  try{
+   const evidence=await readYouTubeKnownVideos({
+    ownedChannelId:VERIFIED_YOUTUBE_CHANNEL_ID,apiKey:env.YOUTUBE_API_KEY,
+    fetchImpl:fetch,videoIds:[videoId],now:()=>new Date()
+   });
+   const v=evidence.resources[0];
+   if(evidence.discoveryComplete!==true||v?.id!==videoId||v?.snippet?.channelId!==VERIFIED_YOUTUBE_CHANNEL_ID)
+    return json({ok:false,error:'YOUTUBE_VIDEO_NOT_OWNED_OR_UNAVAILABLE'},404,cors);
+   const sn=v.snippet,live=v.liveStreamingDetails||{};
+   return json({ok:true,readOnly:true,videoId,
+    channelId:sn.channelId,title:sn.title||'',description:sn.description||'',
+    tags:Array.isArray(sn.tags)?sn.tags:[],publishedAt:sn.publishedAt||null,
+    liveBroadcastContent:sn.liveBroadcastContent||null,
+    scheduledStartTime:live.scheduledStartTime||null,
+    actualStartTime:live.actualStartTime||null,
+    actualEndTime:live.actualEndTime||null
+   },200,cors);
+  }catch{return json({ok:false,error:'YOUTUBE_VIDEO_AUDIT_UNAVAILABLE'},503,cors);}
+ }
+
  // Manual preflight, DISABLED until feature flag + private credentials are explicitly configured.
  // No DB writes; never creates verified or matchConfirmed platform observations.
  if(path==='/api/admin/youtube-preflight'&&method==='POST'){
