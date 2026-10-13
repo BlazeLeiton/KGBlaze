@@ -49,3 +49,8 @@ Los paneles Twitch siguen reportados como siete publicados en historial, pero el
 La etapa también incluía la **plantilla maestra única de descripción YouTube** y bloques de tags confirmados como precargados, recuperados junto con Stage 1 y Song Covers. La separación hecha el 12-oct al inspeccionar videos publicados era **solo variación de uso** de una plantilla modular, no dos masters diferentes. Para reproducción exacta usar [../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md](../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md). Para tags generales, Azur, Pokémon, covers y F1/otros módulos guardados: [../TEMPLATES/YOUTUBE_METADATA_TAGS.md](../TEMPLATES/YOUTUBE_METADATA_TAGS.md).
 
 La fuente histórica más fuerte sobre **configuración de la cuenta** es la confirmación del usuario, mientras que la auditoría de descripciones públicas puede verificar cómo se usaron módulos en determinados videos, no qué tenía cargado Studio en defaults. Distinguir ambos planos.
+
+## Confirmación de plantillas adyacentes (13-oct-2026)
+El seguimiento Stage 2 no debía perder la fórmula de **metadatos de Twitch** (título, notificación, categoría y tags **6+4**), ya aprobada en Stage 1 y aplicada de manera editorial en primeras emisiones Octublaze. Ver [../TEMPLATES/TWITCH_METADATA.md](../TEMPLATES/TWITCH_METADATA.md).
+
+El sistema X debe mantenerse separado del editor Terminal y de la promoción automatizada: **2 interacciones semanales + tercera opcional y replies**, con mensajes de anuncio de directos y covers **aparte**, siguiendo [../TEMPLATES/SOCIAL.md](../TEMPLATES/SOCIAL.md). No requiere integración técnica nueva ni publicación automática.
