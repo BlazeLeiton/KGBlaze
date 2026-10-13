@@ -95,3 +95,10 @@ Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
 - Visor GitHub `KGBlaze-Information-Center/public/index.html` tiene título DOM, traducciones dinámicas y canvas correctos; visor v3.1 histórico en Biblioteca aún tiene referencias técnicas obsoletas, no usarlo como publicación.
 - 10/10 comprobaciones estáticas sobre blob GitHub; validación sintáctica Node y render Chromium por contenido local para ambas variantes corregidas, sin errores de página. Sin prueba de backend real ni despliegue.
 - Informe: `../AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md`. Stage 4 abierta; no se cambió software ni Cloudflare/D1.
+
+## Respark integral y preservación de contexto — 12-oct-2026
+- El usuario solicita ejecutar **Relight Respark incluyendo Stage 4** y resolver el agotamiento cada vez más rápido de longitud de conversaciones. Se recuperaron y cotejaron las fichas Stage 1–4, índice contiguo, procedimiento v3.2, últimas auditorías, handoff, decisiones y archivos relevantes de Terminal en GitHub.
+- Diagnóstico prudente: conversación/contexto es finito; crecimiento de historiales, HTML masivos y auditorías repetidas puede acelerar saturación, **sin prueba de un cambio del límite de mensajes de la cuenta**. La memoria de chats no asegura reproducción completa; la solución es contexto persistente versionado, recuperación selectiva de fragmentos y deltas al completar cada hito.
+- Norma añadida: [`../CONTEXT-CONTINUITY.md`](../CONTEXT-CONTINUITY.md), con jerarquía código/evidencia, archivo profundo, handoff breve y memoria auxiliar; revisión de fases 0–6 al comenzar nueva conversación, trabajo incremental ordinario y cierre recuperable tras cortes. La regla histórica de recuperación profunda permanece vigente; no duplicar auditorías previas cuando no cambió la fuente.
+- Stage 4 continúa ABIERTA; esta ejecución del comando **no crea Stage 5**. No se tocó Terminal, editor local, D1, calendarios ni canales.
+- El repositorio conserva pruebas de encabezado ES/EN/JA y reporte Chromium local; Cloudflare continúa DOCUMENTADO_NO_DESPLEGADO, sin afirmar prueba E2E actual.
