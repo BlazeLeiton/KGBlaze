@@ -44,3 +44,63 @@ Hoy [OBJETIVO/CONTINUIDAD].
 #[IP] #Cover #VSinger
 ```
 Son plantillas recuperadas de `X - Operativa` del XLSX, no se pudo contrastar palabra por palabra contra publicaciones X reales debido a acceso 403. **No marcar como corroborada en X**.
+
+## Recuperación dirigida del sistema de comunicación X (Stage 1/2)
+
+**La conversación/promoción se diseñó como DOS circuitos independientes:**
+
+1. **Interacción ajena a anuncios:** publicaciones originales con pregunta concreta, conversación y ventanas de respuesta. Un anuncio comercial o `YA ESTAMOS EN DIRECTO` NO sustituye ninguna de las dos publicaciones semanales.
+2. **Promociones:** avisos de directo con enlaces reales YouTube/Twitch, covers/estrenos y comunicaciones de contenidos. No deben agotar ni alterar la cadencia de conversación.
+
+**Plan operativo original:** dos publicaciones estructuradas/semana — (a) Pokémon/proceso auténtico, pregunta específica y (b) personalidad/detrás de cámaras —, tercera **opcional** si hay ocasión editorial. Dos ventanas de replies semanales y 0–1 quote oportunista. Tiempo orientativo de interacción: 50–70 minutos por semana; posts estándar máximo 280 caracteres y meta editorial 220–240 (no requisito técnico de caracteres para todas las publicaciones). Priorizar deadlines, evitar apilar ideas y no anunciar colaboraciones no confirmadas.
+
+### Plantillas editoriales de interacción, NO de anuncios
+
+**Tipo A — Pokémon / progreso real**
+
+~~~text
+[AVANCE REAL O PREGUNTA CONTEXTUAL SOBRE POKÉMON / PROCESO]
+[PREGUNTA CONCRETA QUE INVITE A ELEGIR, RECORDAR O OPINAR]
+[HASHTAG TEMÁTICO SI APORTA CONTEXTO]
+~~~
+
+**Tipo B — personalidad / proceso creativo**
+
+~~~text
+[OBSERVACIÓN O EXPERIENCIA REAL DE BLAZE: ARTE, VOZ, EDICIÓN O PREPARATIVOS]
+[UN DETALLE PERSONAL O DE PROCESO QUE ABRA UNA CONVERSACIÓN]
+[PREGUNTA ESPECÍFICA OPCIONAL, SIN OBLIGACIÓN DE ENLACE]
+~~~
+
+**Tipo C — oportunidad editorial (tercer post opcional)**
+
+~~~text
+[IDEA OPORTUNA QUE SURGIÓ DE LA COMUNIDAD / PROCESO, SIN FORZAR CADENCIA]
+[PREGUNTA, CONTRASTE O APRENDIZAJE AUTÉNTICO]
+~~~
+
+Estas tres **estructuras son la documentación de tipos de post derivados del plan operativo**, no afirmación de que una redacción literal concreta haya sido publicada. En particular, Pokémon Journey se difirió a noviembre; en octubre solo hablar de preparación real, **no anunciar un debut confirmado**.
+
+### Plantilla de anuncio de transmisión aprobada
+
+~~~text
+[EMOJI] [GANCHO BREVE ESPECÍFICO DEL STREAM]
+🔴 ¡YA ESTAMOS EN DIRECTO!
+Hoy [OBJETIVO / CONTINUIDAD].
+[COLAB / EVENTO SOLO SI ESTÁ CONFIRMADO]
+📺 YouTube: [ENLACE REAL A LA SALA]
+🟣 Twitch: https://www.twitch.tv/blazeleiton
+#[JUEGO] #VTuber [#CAMPAÑA]
+~~~
+
+**Diferencia temporal importante:** usar `YA ESTAMOS EN DIRECTO` sólo cuando la emisión haya empezado. Antes, redactar un **anuncio programado** con fecha/hora real y links existentes; no reutilizar la frase de directo iniciado para una sala solamente programada. Cuando YouTube aún no tenga sala, no inventar enlace.
+
+### Plantilla de anuncio de cover o estreno
+
+La sección **Promoción covers** anterior sigue vigente como arquetipo. El mensaje aprobado en Song Covers para `mumei` fue una variante específica; no sustituye el formato general, y distingue canción, autor y artwork con créditos que correspondan.
+
+### Procedencia y estado
+
+- **Recuperado de calendario XLSX `X - Operativa`**: dos posts estructurados + tercero opcional, dos ventanas replies, quote oportunista, presupuesto de 50–70 minutos, separación de promociones.
+- **Recuperado de mensajes**: fórmula de `YA ESTAMOS EN DIRECTO` con enlaces de ambas plataformas. Las URL deben corresponder a una sala real y al canal esperado.
+- **No verificado**: que algún post se publicara exactamente con la redacción del ejemplo; X limitó comprobación directa de posts. Los arquetipos son **plan/aprobación editorial**, no captura de publicaciones.
