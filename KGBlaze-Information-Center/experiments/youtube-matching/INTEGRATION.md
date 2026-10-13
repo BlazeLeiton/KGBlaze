@@ -55,3 +55,12 @@ Pruebas: `cd KGBlaze-Information-Center && npm test`.
 - Fuente de cuotas: https://developers.google.com/youtube/v3/determine_quota_cost . A 12-oct-2026 indica **1 unidad por `search.list` del cupo 100 búsquedas diarias**, no 100 unidades por llamada; corregir cualquier handoff anterior que use el modelo antiguo.
 - **Primera consulta real no efectuada todavía**: conector TubeAlfred agotó sus créditos (0 disponibles); intento sin API key a páginas públicas de YouTube falló por throttling. No hay herramienta Cloudflare autenticada disponible para instalar la clave ya existente. **No afirmar que existe un reporte real o que se activaron permisos**.
 - Sin efecto sobre D1, editor privado, Cron, revisión 1, PR #2/#3 o el visor público. PR #4 sigue en borrador, sin merge ni deploy.
+
+## Stage 6 — Primer preflight real positivo y ensayo de match por categoría (13-oct-2026)
+
+- **Evidencia real suministrada por el usuario desde PowerShell**: revisión 2, upcoming:1, live:0, 1 videoId descubierto, 1 videoId editorial, 1 video del canal, discoveryComplete:true. Killer Chat! produjo candidate / explicit_editorial_video_id / JDkg-5tZ3G0 / upcoming_unverified. safeToApply:false y directSyncWrites:0. Esta prueba funciona con un ID manual y no demuestra emparejamiento autónomo.
+- **Brecha siguiente:** la actividad editorial Killer Chat!: Original Edition no es el título creativo en YouTube (💌 Encuentra el Amor o MUERE Intentándolo.....espera :v 🔪 | Killer Chat!).
+- **Prueba aislada propuesta:** categoría de Twitch como un segmento completo delimitado del título del video, con exigencia de categoría distintiva. Eliminar sólo sufijos de edición previamente identificados, sin convertir Azur Lane: Crosswave en Azur Lane. No se hace fuzzy matching de palabras sueltas.
+- **Controles vigentes:** ID editorial explícito conserva prioridad absoluta; propietario, broadcast, hora, episodios, colaboraciones, ambigüedad y paginación continúan verificados. Nueva razón de diagnóstico para un match por categoría: unique_channel_category_time; es sólo candidate, no verified, matchConfirmed ni publicación de estados.
+- **Flujo simplificado:** el usuario prefiere no alternar true/false ni escribir ready en cada prueba. Conservar feature flag y mecanismos de seguridad del Worker, pero no solicitar cambios manuales repetitivos; esta rama no modifica ajustes Cloudflare.
+- **Sin despliegue en esta fase:** las pruebas GitHub no suponen fusión a main, cambios de D1, polling, Cron, escrituras ni llamadas nuevas a YouTube real.
