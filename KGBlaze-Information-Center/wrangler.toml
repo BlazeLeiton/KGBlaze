@@ -7,10 +7,19 @@ workers_dev = true
 # Production preview still requires the independently managed feature flag.
 keep_vars = true
 
+# Cloudflare fires every five minutes in UTC. The Worker throttles
+# discovery to the hour, and otherwise refreshes known video IDs.
+[triggers]
+crons = ["*/5 * * * *"]
+
 # Identificador público del canal ya guardado en Cloudflare Dashboard.
 # Mantener en sincronía los deployments de GitHub; NO incluir secretos aquí.
 [vars]
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
+# Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
+# upcoming/live observations; cannot assert irreversible completion.
+# Emergency pause: Dashboard Text YOUTUBE_SYNC_PAUSED=true.
+YOUTUBE_SYNC_ENABLED = "true"
 
 [assets]
 directory = "./public"
@@ -27,10 +36,6 @@ namespace_id = "1001"
   [ratelimits.simple]
   limit = 1
   period = 60
-
-# Activar después de conectar las APIs con las credenciales correspondientes.
-# [triggers]
-# crons = ["*/5 * * * *"]
 
 # Vinculación D1: base de datos creada en Cloudflare por el propietario.
 [[d1_databases]]

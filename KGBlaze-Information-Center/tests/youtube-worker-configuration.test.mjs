@@ -12,7 +12,10 @@ test('YouTube preview stays off by default and credentials never enter Wrangler'
   assert.doesNotMatch(config,/^\s*YOUTUBE_PREVIEW_ENABLED\s*=/m);
   assert.doesNotMatch(config,/^\s*YOUTUBE_API_KEY\s*=/m);
   assert.doesNotMatch(config,/^\s*ADMIN_TOKEN\s*=/m);
-  assert.doesNotMatch(config,/^\s*crons\s*=\s*\[/m);
+  assert.match(config,/^\[triggers\]$/m);
+  assert.match(config,/^crons\s*=\s*\["\*\/5 \* \* \* \*"\]$/m);
+  assert.match(config,/^YOUTUBE_SYNC_ENABLED\s*=\s*"true"$/m);
+  assert.match(config,/^keep_vars\s*=\s*true$/m);
 });
 
 test('Cloudflare Dashboard bindings survive automated Wrangler deployment',()=>{

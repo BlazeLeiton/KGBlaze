@@ -1,6 +1,13 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
 
+## Stage 7 — Cron YouTube integrado para actualización automática (13-oct-2026 CDMX)
+- Usuario dijo «vamos a conectar el ejecutor»; se preparó el handler `scheduled` que llama `runScheduledYouTubeSync`, con `controller.scheduledTime` para evitar perder los slots horarios por retraso del Cron.
+- Configuración prevista: `[triggers] crons=["*/5 * * * *"]` UTC y `YOUTUBE_SYNC_ENABLED="true"` en Wrangler, independiente de `YOUTUBE_PREVIEW_ENABLED`. `YOUTUBE_SYNC_PAUSED=true` desde Cloudflare Dashboard detiene automáticamente cualquier consulta/escritura. Mantener `keep_vars=true`.
+- Búsquedas limitadas a 2/hora con evento YouTube próximo (máximo nominal 48 Search/day); intermedias por `videos.list`. D1 `sync_json` se escribe únicamente con evidencia verificada del propio canal y CAS sobre revisión y sync anterior; no cambia editorial, no termina irreversible ni toca Twitch.
+- Pasos de comprobación después de merge/deploy: revisar CI + Workers Build del commit, verificar propagación del Cron en Cloudflare; observar `GET /api/admin/sync` y comparar `GET /api/public` (rev 2, 10 salidas), sin volver a publicar la agenda ni pedir true/false/ready. El Cron puede tardar varios minutos (hasta 15) en propagarse. **Hasta que haya evidencia real, no afirmar que una observación ya fue escrita**.
+
+
 ## Stage 7 — Fuente YouTube confirmada y preparación del motor de observaciones (13-oct-2026 CDMX)
 - El usuario confirmó la primera prueba real de `autonomousProbe`: `candidate/unique_channel_category_time` sobre Killer Chat!, videoId `JDkg-5tZ3G0`, 1 recurso del canal y búsqueda upcoming 1. Revisión 2 sin escrituras, evidencias `upcoming_unverified`. Un error de `else` separado en PowerShell no invalida los resultados.
 - El usuario constató que `YOUTUBE_PREVIEW_ENABLED` había desaparecido tras un despliegue y lo restauró. PR #15 ya fusionado, build de Cloudflare SUCCESS, `keep_vars=true` ahora versionado; conserva variables del dashboard true o false en despliegues Wrangler.
