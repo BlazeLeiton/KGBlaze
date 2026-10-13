@@ -1,6 +1,13 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
 
+## Stage 7 — Fuente YouTube confirmada y preparación del motor de observaciones (13-oct-2026 CDMX)
+- El usuario confirmó la primera prueba real de `autonomousProbe`: `candidate/unique_channel_category_time` sobre Killer Chat!, videoId `JDkg-5tZ3G0`, 1 recurso del canal y búsqueda upcoming 1. Revisión 2 sin escrituras, evidencias `upcoming_unverified`. Un error de `else` separado en PowerShell no invalida los resultados.
+- El usuario constató que `YOUTUBE_PREVIEW_ENABLED` había desaparecido tras un despliegue y lo restauró. PR #15 ya fusionado, build de Cloudflare SUCCESS, `keep_vars=true` ahora versionado; conserva variables del dashboard true o false en despliegues Wrangler.
+- Se está construyendo el **motor confiable Stage 7 en rama separada**, capaz de proponer actualizaciones `upcoming` y `live` con validación real de origen/canal, sin fabricar finalizaciones. Usa ciclos de búsqueda espaciados y revisiones directas de video, con CAS D1 y flag independiente `YOUTUBE_SYNC_ENABLED`.
+- **Hasta integrar el handler y los triggers**, no hay consultas periódicas, ni escritura real en `sync_json`, ni cambios públicos. No confundir suite de tests con comprobación de sincronización real. El usuario solicitó continuar sin fricción de confirmaciones repetidas; mantener controles técnicos y activación separada de escritura pública.
+
+
 ## Corte operativo más reciente — PR #12 fusionado y build Cloudflare SUCCESS (13-oct-2026 CDMX)
 - **PR #12 integrado:** https://github.com/BlazeLeiton/KGBlaze/pull/12 -> main commit `85fddfd061b206b62a35a27717c564bf75eafd65`. CI main SUCCESS (https://github.com/BlazeLeiton/KGBlaze/actions/runs/38428308029). Workers Builds `kgblaze-terminal` SUCCESS, build `aceed509-e6bd-4aec-be54-116bbc5fab5d`, version ID `a70722b3-fe5f-4a31-9299-2328601d3167`.
 - **Ahora desplegado, NO sólo en rama:** matcher alternativo de categoría por segmento exacto y `autonomousProbe` read-only por IDs procedentes de search.list. La evidencia de la consulta positiva previa seguía siendo por ID editorial; **falta verificar autónomamente en producción** con una única consulta autenticada del usuario.

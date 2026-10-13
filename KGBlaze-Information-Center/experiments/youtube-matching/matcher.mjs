@@ -27,7 +27,7 @@ function validUTC(value) {
   return Number.isFinite(x) ? x : null;
 }
 /** Convert a civil time to an instant without hardcoding the UTC offset. */
-function cdmxInstant(day, time) {
+export function cdmxInstant(day, time) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day || '') || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time || '')) return null;
   const [y, m, d] = day.split('-').map(Number), [h, min] = time.split(':').map(Number);
   const civil = Date.UTC(y, m - 1, d, h, min);
