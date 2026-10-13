@@ -22,6 +22,5 @@ Q-01 y Q-02 ya no deben plantearse como dudas sin respuesta. Para Azur 21/22 só
 | Prioridad | ID | Pregunta | Por qué importa |
 |---|---|---|---|
 | Baja | Q-09 | Al abrir Carrd en tu navegador, ¿se ve «Acercando a México y al mundo» **con Instagram** o «Conectando desde México para el mundo» **sin Instagram**? | Dos snapshots del mismo dominio devolvieron variaciones de caché; no se pide modificar perfil |
-| Media | Q-10 | Si la actualización del calendario Twitch es importante ahora, ¿hay un `.ics` exportado más reciente o URLs de eventos que podamos contrastar? | Redundante con Q-06; **NO preguntar ambas**, Q-10 sólo recordatorio técnico |
 
 **Q-01/Q-02 y Q-04 resueltas/respondidas.** No volver a preguntar sobre ambas reservas Azur 21/22, demo Cake ni URL Carrd. Q-06 es la solicitud principal para prueba de Twitch. Q-09 es una aclaración menor de caché; no suspender otros proyectos por ella.
