@@ -54,3 +54,6 @@ La fuente histórica más fuerte sobre **configuración de la cuenta** es la con
 El seguimiento Stage 2 no debía perder la fórmula de **metadatos de Twitch** (título, notificación, categoría y tags **6+4**), ya aprobada en Stage 1 y aplicada de manera editorial en primeras emisiones Octublaze. Ver [../TEMPLATES/TWITCH_METADATA.md](../TEMPLATES/TWITCH_METADATA.md).
 
 El sistema X debe mantenerse separado del editor Terminal y de la promoción automatizada: **2 interacciones semanales + tercera opcional y replies**, con mensajes de anuncio de directos y covers **aparte**, siguiendo [../TEMPLATES/SOCIAL.md](../TEMPLATES/SOCIAL.md). No requiere integración técnica nueva ni publicación automática.
+
+## Continuidad de metadatos recuperada — 13-oct-2026
+La etapa conserva junto al calendario ICS la plantilla aprobada de metadatos Twitch: título, aviso de inicio, categoría y combinación de seis tags fijos más cuatro variables. Documento `../TEMPLATES/TWITCH_METADATA.md`. Las etiquetas complementarias YouTube (HoloCure, Civilization, VRChat, narrativa, eventos) se guardaron para reutilización y fueron recuperadas literalmente en `../TEMPLATES/YOUTUBE_METADATA_TAGS.md`. El sistema X diferencia interacción semanal de anuncios, según `../TEMPLATES/SOCIAL.md`. No implica posts efectivamente publicados ni inspección de presets actuales.
