@@ -2,6 +2,7 @@ import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnve
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
+import {routePortalRequest} from './portal-route.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
 const VERIFIED_YOUTUBE_CHANNEL_ID='UCRd_uwPjrsf6Z3CRXwNehEQ';
@@ -147,14 +148,16 @@ async function handler(req,env){
 export default {
  async fetch(req,env){
   try{
-   const r=await handler(req,env);if(r)return r;
+   const routed=routePortalRequest(req);
+   if(routed.response)return routed.response;
+   const r=await handler(routed.request,env);if(r)return r;
    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
-   const asset=await env.ASSETS.fetch(req);
-   const path=new URL(req.url).pathname;
+   const asset=await env.ASSETS.fetch(routed.request);
+   const path=new URL(routed.request.url).pathname;
    if((path==='/'||path==='/index.html')&&env.DB&&typeof HTMLRewriter!=='undefined'&&asset.ok){
     const r=await env.DB.prepare('SELECT week FROM terminal_preview WHERE id=1').first();
     if(r?.week===currentMonday()){
-     const image=new URL('/og-semana.png',req.url).href;
+     const image=new URL(routed.isPortal?'/departures/og-semana.png':'/og-semana.png',req.url).href;
      return new HTMLRewriter().on('meta[property="og:image"],meta[name="twitter:image"]',{element(el){el.setAttribute('content',image);}}).transform(asset);
     }
    }
