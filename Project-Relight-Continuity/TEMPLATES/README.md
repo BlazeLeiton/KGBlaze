@@ -18,3 +18,8 @@
 - [**LIVE_STREAMS.md — descripción para streams / Octublaze / seguridad a bordo**](LIVE_STREAMS.md): reconstruida a partir de descripciones publicadas, separada de `COVERS.md`.
 - COVERS, SOCIAL y LIVE_STREAMS se contrastaron parcialmente con videos de YouTube; **los posts reales de X no pudieron consultarse**. No marcar `SOCIAL.md` como publicación verificada.
 - Estructuras publicadas y fuente por video ID: [matriz de publicaciones](../SOURCES/PUBLIC_PUBLICATIONS.md).
+
+## Contrastes de la cuarta revisión
+- Carrd oficial **verificado por URL**, pero dos respuestas del sitio variaron texto y enlaces; **no** reabrir el perfil ni declarar una plantilla errónea por caché discordante.
+- Directos anteriores en YouTube tienen inicio y fin reales comprobados en biblioteca autorizada; la plantilla `LIVE_STREAMS.md` permanece estructural, no prueba la automatización Twitch.
+- La plantilla `METRICS.md` debe pedir `views`, `engagedViews`, `estimatedMinutesWatched`, periodos comparables y procedencia de reportes autenticados. Referencia: `../AUDITS/FOURTH-PASS-2026-10-12.md`.
