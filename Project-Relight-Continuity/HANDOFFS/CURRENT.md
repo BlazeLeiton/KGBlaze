@@ -82,3 +82,10 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - Perfil HoloList/vTubie actualizado, NO reabrir las ediciones cerradas. Carrd URL exacta sigue no verificada; no adjudicar dominios similares a Blaze.
 - Próxima petición útil: resolver Q-01 (Azur 21/22) y Q-02 (Cake demo). X/Twitch requerirían enlaces directos recientes, OAuth/ICS o acceso autorizado para análisis completamente actualizado.
 - Privacidad: no publicar calendario personal ni ingresos de Analytics; originales privados permanecen en Biblioteca, materialización no autorizada.
+
+## Nueva continuidad — Respark 12-oct-2026 (Stage 4 abierta)
+- Respark invocado explícitamente con las cuatro etapas. Índice `STAGES/index.json`: 1–4, sin cierre formal acreditado, Stage 4 vigente. No crear Stage 5 sólo por nuevo chat.
+- Se creó `CONTEXT-CONTINUITY.md` para mitigar saturación de conversaciones: archivo histórico completo + handoff incremental + evidencia técnica enlazada, recuperar por demanda y registrar deltas tras hitos; no copiar HTML enormes ni reejecutar todo el histórico en cada mensaje cotidiano.
+- Explicación conservadora: los límites exactos de contexto por chat no son visibles; la memoria no conserva literalmente todo. No se confirmó ninguna reducción concreta de límites de la cuenta.
+- Verificado por lectura de GitHub: visor y pruebas conservan el título público «Terminales A y B» ES/EN/JA y software «Terminal», mientras README de Worker declara Cloudflare no desplegado; no se tocaron servicios.
+- Próxima continuidad: leer `INITIALIZATION.md`, `CONTEXT-CONTINUITY.md`, fichas de Stage 1–4, este handoff y los deltas recientes. Prioridades heredadas intactas: Cake Song demo pendiente, reservas Azur 21/22 sin hora, Pokémon Journey en noviembre, ICS Twitch existente más reciente.
