@@ -37,13 +37,19 @@ export async function readYouTubePreviewEvidence({
       !Array.isArray(explicitVideoIds) || explicitVideoIds.length>50 ||
       explicitVideoIds.some(x=>typeof x!=='string'||!VIDEO_ID.test(x))) configError();
   const ids=new Set(explicitVideoIds);
+  const discoveredIds=new Set();
+  const searchResults={upcoming:0,live:0};
   let discoveryComplete=true;
   for(const eventType of ['upcoming','live']) {
     const result=await readJSON('search',{
       part:'snippet',type:'video',eventType,channelId:ownedChannelId,maxResults
     },apiKey,fetchImpl);
     if(result.nextPageToken)discoveryComplete=false;
-    for(const item of result.items) if(item?.id?.kind==='youtube#video'&&VIDEO_ID.test(item.id.videoId||'')) ids.add(item.id.videoId);
+    for(const item of result.items) if(item?.id?.kind==='youtube#video'&&VIDEO_ID.test(item.id.videoId||'')) {
+      searchResults[eventType]++;
+      discoveredIds.add(item.id.videoId);
+      ids.add(item.id.videoId);
+    }
   }
   const wanted=[...ids], resources=[];
   for(let i=0;i<wanted.length;i+=50) {
@@ -62,6 +68,9 @@ export async function readYouTubePreviewEvidence({
   if(!(fetchedAt instanceof Date)||!Number.isFinite(fetchedAt.getTime()))configError();
   return {
     schema:'relight-youtube-evidence-preview-v1',ownedChannelId,
-    fetchedAt:fetchedAt.toISOString(),discoveryComplete,resources
+    fetchedAt:fetchedAt.toISOString(),discoveryComplete,resources,
+    // Aggregate counts only: no credentials, titles, URLs, or provider response bodies.
+    discovery:{searchResults,uniqueDiscoveredVideoIds:discoveredIds.size,
+      explicitEditorialVideoIds:explicitVideoIds.length}
   };
 }
