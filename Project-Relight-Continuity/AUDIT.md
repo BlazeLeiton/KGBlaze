@@ -129,3 +129,11 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - N06 NO_EJECUTADO: prueba real de navegador/Cloudflare del editor y visor. Intentos Chromium locales bloquearon carga file:// y http://127.0.0.1 por política del entorno. No afirmar E2E ni despliegue.
 - N07 REGRESIÓN AÑADIDA: `KGBlaze-Information-Center/tests/public-header.test.mjs`, ejecutable mediante `npm test`; añadir comprobación continua de separación de nombres técnicos y marca aeroportuaria.
 - N08 RESTRICCIÓN: No se editaron los estados editoriales, Twitch, D1 ni Worker. No se desplegó Cloudflare.
+
+## Suplemento de pruebas tras bloqueo inicial — Stage 4 (12-oct-2026)
+- **N06 actualizado por nueva evidencia:** el primer intento con carga local mediante `http://127.0.0.1` fue bloqueado (`ERR_BLOCKED_BY_ADMINISTRATOR`); posteriormente se ejecutó un render real con **Chromium Playwright, page.set_content** a partir de las versiones derivadas de HTML operativo y visor. Resultado **PASS en ambos**, sin errores de página y con tres capturas canvas diferentes por idioma ES/EN/JA. El `<h1 id="heading">` del visor cambia con el idioma; la ceja administrativa del editor queda en ES, pero el canvas público sí traduce. Esto es prueba funcional **local del encabezado**, NO prueba de despliegue o APIs.
+- El script de ambos HTML corregidos pasó `node --check`.
+- Independientemente se recuperó el blob real del visor GitHub por su SHA y pasó **10/10 verificaciones estáticas** de título DOM, traducciones, canvas, ajuste y nombre técnico sin B.
+- GitHub Actions ejecución `https://github.com/BlazeLeiton/KGBlaze/actions/runs/38334273896`: **completed/success**, corroborada mediante API; corrige encabezado del visor versionado. Se constata una modificación de código público en el historial GitHub del ciclo, **sin afirmar despliegue Cloudflare**.
+- El HTML operativo corregido existe como derivado privado accesible del editor v23.11; por procedencia de extracción indexada **no se afirma identidad binaria completa** con el maestro de Biblioteca. No se subió al repo público.
+- La continuidad de Stage 3 se preserva en `AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md` y `DECISIONS.md`. Recuperación textual de tres respuestas completas sigue parcial.
