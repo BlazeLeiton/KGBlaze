@@ -95,3 +95,13 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - **Q-02: RESPONDIDA** por confirmación usuario: demo Cake Song del 12-oct sigue pendiente; la tarea permanece ABIERTA y plazo 31-oct sin cambio.
 - Matriz de impacto: `SOURCES/CALENDAR_RECONCILIATION.md`, `DECISIONS.md`, `QUESTIONS.md`, `STAGES/STAGE-04.md`, `HANDOFFS/CURRENT.md`, `TEMPLATES/CALENDAR.md`; otros calendarios y contenidos NO deben cambiarse.
 - Verificar en GitHub tras publicar que sólo haya modificaciones documentales dentro de `Project-Relight-Continuity/`. **No se editó XLSX original de Biblioteca ni se probó el editor v23.11**.
+
+## Cuarta revisión integral — 12-oct-2026
+- A27 PASS: URL canónica Carrd `https://blazeleiton.carrd.co/` consultada directamente y confirmada; dos snapshots discrepantes tratados como caché, sin abrir tarea de rediseño.
+- A28 PARCIAL: rutas Twitch `/about`, `/schedule`, `/videos`, alternativas embed/móvil y agregadores intentados; HTML no legible; NO se afirmó programación real.
+- A29 PASS: consulta autorizada de ocho videos YouTube recuperó `actualStartTime`/`actualEndTime`, diferenciando comienzo real y publicación VOD. Contenido privado no divulgado.
+- A30 PASS metodológico: YouTube Analytics septiembre y 1–11 oct recuperados con `views`, `engagedViews`, `estimatedMinutesWatched`, tamaños de ventana y tipo; números privados fuera de repo público.
+- A31 PASS: inventario Steam y agenda extendida de Biblioteca reconsultados; seis CSV de biblioteca/wishlist y diferencias familia vs propiedad; no se publicó agenda personal ni IDs de cuentas.
+- A32 PASS modo lectura: vigilancia combinada existente de cinco temas **habilitada**, dos consultas diarias, notificaciones/email **desactivados**, tarea Steam duplicada anterior deshabilitada; **ninguna tarea modificada/creada**.
+- A33: documentación en `AUDITS/FOURTH-PASS-2026-10-12.md`; guardar Q-06 (ICS Twitch), Q-09 (snapshots Carrd). Stage 4 permanece ABIERTA, Q-01/Q-02/Q-04 resueltas/respondidas.
+- A34 pendiente de verificación post-commit: todos los archivos de esta revisión deben estar bajo `Project-Relight-Continuity/`; no se autorizó tocar Terminal, Cloudflare ni D1.
