@@ -73,3 +73,14 @@ Las fases 0–6 **deben evaluarse en cada nuevo chat**. Si una etapa depende de 
 - Revisar tareas automáticas existentes **en lectura**, cuando se requiera comprobar si el monitoreo sigue funcionando; no duplicar, modificar horarios ni habilitar notificaciones/email por defecto.
 - En archivo Steam cruzar seis CSV personal/wishlist/familia, disponibilidad real y precios MXN; no recomendar compra duplicada, ni tratar juegos transmitidos como terminados.
 - Releer `AUDITS/FOURTH-PASS-2026-10-12.md` junto a las tres pasadas anteriores en futuras Stage. No volver a preguntar Q-01/Q-02/Q-04.
+
+## Disparador canónico v3.2 — Relight Respark (2026-10-12)
+**Ejecuta Relight Respark** y **Execute Relight Respark** son comandos equivalentes. Se aceptan indistintamente en español o inglés, sin necesidad de la cadena larga `KGRP: INICIALIZAR PROJECT RELIGHT`, que se conserva como alias legado.
+
+Al recibir cualquiera de las dos frases de forma inequívoca, **ejecutar** las fases 0–6 de este archivo; recuperar Stage 1..N, chats inconclusos, decisiones, originales y plantillas, fuentes públicas directas, métricas comparables, calendarios, pruebas, preguntas pendientes y último handoff. No basta con explicar el comando: debe aplicarse a la tarea activa y documentar bloqueos.
+
+Durante el trabajo cotidiano, **no lanzar por defecto toda la auditoría profunda por cada mensaje**: incorporar de manera incremental cualquier nuevo hallazgo, modificación, confirmación o corrección al protocolo, registro de decisiones, etapa y handoff cuando el dato sea material y los permisos lo permitan. Preservar histórico y citar evidencia, sin modificar código, cuentas, perfiles, calendarios operativos ni automatizaciones salvo encargo autorizado.
+
+Si el Proyecto está configurado para inicialización automática, se mantiene esa política al abrir una nueva conversación. El comando manual sirve para solicitar una nueva ejecución integral en cualquier momento; **la documentación GitHub por sí sola no cambia la configuración de ChatGPT Project**.
+
+**Aclaración prevalente Twitch:** el usuario confirma que el archivo ICS disponible de 10-oct es el **más reciente y no ha sido modificado**. No solicitar otro, salvo noticia de un cambio, necesidad concreta o decisión posterior del usuario. Su vigencia editorial confirmada por el usuario NO constituye una lectura nueva de `twitch.tv/blazeleiton/schedule`, que sigue inaccesible.
