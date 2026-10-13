@@ -42,9 +42,25 @@ export function buildYouTubePreflight(agenda,evidence,{ownedChannelId,now=new Da
   if(state==='inconsistent_unverified')return {...m,decision:'review',reason:'inconsistent_platform_metadata',evidenceSignal:state};
   return {...m,evidenceSignal:state};
  });
+ const count=n=>Number.isSafeInteger(n)&&n>=0?n:null;
+ const discovery=evidence.discovery||{};
+ const validOwnedBroadcasts=evidence.resources.filter(v=>
+   v?.snippet?.channelId===ownedChannelId&&v?.liveStreamingDetails&&
+   typeof v.liveStreamingDetails==='object'&&!Array.isArray(v.liveStreamingDetails)
+ ).length;
  return {
   schema:'relight-youtube-preflight-v1',revision:Number.isInteger(agenda.revision)?agenda.revision:null,
-  safeToApply:false,directSyncWrites:0,items
+  safeToApply:false,directSyncWrites:0,
+  // Distinguishes no discovered upcoming/live rooms from rooms rejected by strict matching.
+  // No titles, video IDs, raw provider payloads, or secrets are added to this summary.
+  evidenceSummary:{
+    searchedEventTypes:['upcoming','live'],
+    searchResults:{upcoming:count(discovery.searchResults?.upcoming),live:count(discovery.searchResults?.live)},
+    uniqueDiscoveredVideoIds:count(discovery.uniqueDiscoveredVideoIds),
+    explicitEditorialVideoIds:count(discovery.explicitEditorialVideoIds),
+    videoResources:evidence.resources.length,ownedBroadcastResources:validOwnedBroadcasts,
+    discoveryComplete:evidence.discoveryComplete===true
+  },items
  };
 }
 /**
