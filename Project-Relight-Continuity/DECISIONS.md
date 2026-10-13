@@ -44,3 +44,14 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-025 | 3–4 | v23.11 es candidata técnica posterior con `X-Terminal-Week` y migración local, pero aún no release E2E probado | VERIFICADO CÓDIGO, PRUEBA PENDIENTE |
 | REL-026 | 4+ | La custodia de originales sensibles permanece fuera de repo público; documentación y plantillas reconstruidas pueden alojarse saneadas | OBLIGATORIA |
 | REL-027 | 4+ | Conservar catálogo de plantillas y recuperar fuentes maestras en nuevas etapas | IMPLEMENTADO, MASTERS EN BIBLIOTECA |
+
+## Tercera revisión — decisiones confirmadas y criterios (Stage 4)
+| ID | Etapa | Decisión | Estado |
+|---|---|---|---|
+| REL-028 | 4+ | Arranque de cada chat Project Relight ejecuta fases 0–6 de `INITIALIZATION.md`, historia+archivo+perfiles/publicaciones+agenda+pruebas+preguntas | PROTOCOLO PUBLICADO; requiere configurar instrucciones en ChatGPT Project |
+| REL-029 | 1–4 | No reabrir perfiles externos declarados cerrados sólo por comprobar consistencia; corrección si nueva instrucción o revisión lore | VIGENTE |
+| REL-030 | 2–4 | Plantillas de covers y directos son distintas; créditos exactos de Connect y mumei siguen lo **publicado**, no un borrador genérico | VERIFICADO EN DESCRIPCIONES |
+| REL-031 | 2–4 | X: posts interactivos + replies ≠ promoción de directos/covers; no tratar ausencia de acceso X como inactividad | VIGENTE, post real no verificado |
+| REL-032 | 1–4 | Publicado/emitido ≠ programado/reservado; hasta tener prueba pública para eventos nuevos no elevar su estado | OBLIGATORIA |
+| REL-033 | 4 | Reservas Azur 21/22 mantienen discrepancia entre instrucción explícita y algunas hojas; pedir aclaración | PENDIENTE Q-01 |
+| REL-034 | 4+ | Fuente oficial accesible primero, proveedor por ID si hay bloqueo; agregadores son contexto y pueden estar desactualizados | OBLIGATORIA |
