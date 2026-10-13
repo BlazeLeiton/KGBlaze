@@ -1,0 +1,68 @@
+name: Terminal public launch — anonymous smoke test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/terminal-public-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  anonymous-public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Verify public viewer and API without credentials
+        shell: bash
+        env:
+          TERMINAL_BASE: https://kgblaze-terminal.drago68575.workers.dev
+        run: |
+          set -euo pipefail
+          result_dir="$(mktemp -d)"
+          trap 'rm -rf "$result_dir"' EXIT
+
+          fetch_public() {
+            curl --fail --show-error --silent --location \
+              --retry 2 --retry-delay 3 --retry-all-errors \
+              --connect-timeout 10 --max-time 30 \
+              "$TERMINAL_BASE/$1" --output "$result_dir/$2"
+          }
+
+          fetch_public "" viewer.html
+          fetch_public "api/health" health.json
+          fetch_public "api/public" agenda.json
+
+          python3 - "$result_dir" <<'PY'
+          import json
+          import pathlib
+          import sys
+
+          root = pathlib.Path(sys.argv[1])
+          html = (root / 'viewer.html').read_text(encoding='utf-8')
+          health = json.loads((root / 'health.json').read_text(encoding='utf-8'))
+          agenda = json.loads((root / 'agenda.json').read_text(encoding='utf-8'))
+
+          assert '<html' in html.lower(), 'Viewer did not serve an HTML document'
+          assert health.get('ok') is True, 'Health endpoint is not OK'
+          assert health.get('service') == 'kgblaze-terminal', 'Wrong service'
+          assert health.get('database') is True, 'D1 is not bound'
+
+          events = agenda.get('events')
+          assert isinstance(events, list), 'Missing public agenda events'
+          assert agenda.get('revision') == 2, 'Unexpected editorial revision'
+          assert len(events) == 10, 'Expected ten published departures'
+          assert isinstance(agenda.get('sync'), dict), 'Missing sync envelope'
+
+          killer = next((event for event in events
+                         if event.get('id') ==
+                         'tw:306ddb27-c0d3-4030-bd9f-f7689b529582'), None)
+          assert killer is not None, 'Killer Chat! is not publicly listed'
+          assert killer.get('videoId') == 'JDkg-5tZ3G0', 'Wrong linked YouTube room'
+          print('PASS: unauthenticated public viewer and health endpoint')
+          print('PASS: editorial revision 2; 10 departures; Killer Chat! direct room')
+          print('Public sync entries:', len(agenda['sync']))
+          print('EN VIVO transition is deliberately not asserted before the real broadcast')
+          PY
