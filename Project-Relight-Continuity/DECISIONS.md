@@ -109,3 +109,12 @@ La confirmación del ICS no demuestra acceso web directo a Twitch ni convierte p
 | REL-050 | 4 | Usar HTML operativo v23.11 con encabezado corregido, sin publicarlo en GitHub; visor principal ya posee traducciones y tests de regresión | VERIFICADO_ARCHIVO y VERIFICADO_CODIGO; sin despliegue |
 
 La instrucción «Terminal» NUNCA implica eliminar los nombres de las terminales aeroportuarias A y B. Auditoría y límites: `AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md`.
+
+## Stage 4 — mitigación de saturación de conversaciones (12-oct-2026)
+| ID | Etapa | Decisión / acción | Estado |
+|---|---|---|---|
+| REL-051 | 4 | Ejecutar Relight Respark incluyendo **Stage 4** y conservar evidencia Stage 1..4 sin crear Stage 5 por abrir otro chat | RES­PARK EJECUTADO / STAGE 4 ABIERTA |
+| REL-052 | 4+ | Documentar una estrategia de continuidad por capas: archivo histórico íntegro, `HANDOFFS/BOOTSTRAP.md` breve, `HANDOFFS/CURRENT.md` acumulativo, deltas tras hitos y fuentes/código de verdad | MEDIDA DOCUMENTAL IMPLEMENTADA; eficacia práctica futura no medida |
+| REL-053 | 4+ | Explicar límites con prudencia: no se dispone de contador fiable de contexto ni prueba de una reducción de límite de mensajes; no asumir que memoria reproduce todas las intervenciones | DIAGNÓSTICO Y CAUTELA VIGENTES |
+
+Ver [`CONTEXT-CONTINUITY.md`](CONTEXT-CONTINUITY.md) y [`AUDITS/RESPARK-2026-10-12-CONTEXT.md`](AUDITS/RESPARK-2026-10-12-CONTEXT.md). Los cambios afectan **sólo continuidad documental**; no se ejecutaron cambios de Terminal, D1, agendas ni perfiles.
