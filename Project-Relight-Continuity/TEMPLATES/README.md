@@ -1,6 +1,6 @@
-> **Corrección documental 13-oct-2026:** la plantilla de descripción **maestra de YouTube Studio es UNA SOLA y modular**, ya validada y reportada precargada por el usuario en Stage 1/2/Song Covers. `LIVE_STREAMS.md` y `COVERS.md` son **aplicaciones editoriales publicadas**, no defaults maestros separados. Leer [YOUTUBE_MASTER_DEFAULTS.md](YOUTUBE_MASTER_DEFAULTS.md) y [YOUTUBE_METADATA_TAGS.md](YOUTUBE_METADATA_TAGS.md) ANTES de preparar una emisión o cover. 
-
 # Catálogo de plantillas establecidas — Project Relight
+
+> **Corrección documental 13-oct-2026:** la plantilla de descripción **maestra de YouTube Studio es UNA SOLA y modular**, ya validada y reportada precargada por el usuario en Stage 1/2/Song Covers. `LIVE_STREAMS.md` y `COVERS.md` son **aplicaciones editoriales publicadas**, no defaults maestros separados. Leer [YOUTUBE_MASTER_DEFAULTS.md](YOUTUBE_MASTER_DEFAULTS.md) y [YOUTUBE_METADATA_TAGS.md](YOUTUBE_METADATA_TAGS.md) ANTES de preparar una emisión o cover. 
 
 **Abrir este archivo al iniciar cada Stage** para recuperar estructuras conocidas, sin rediseñarlas desde cero.
 
