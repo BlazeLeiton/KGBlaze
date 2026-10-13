@@ -89,3 +89,10 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - Explicación conservadora: los límites exactos de contexto por chat no son visibles; la memoria no conserva literalmente todo. No se confirmó ninguna reducción concreta de límites de la cuenta.
 - Verificado por lectura de GitHub: visor y pruebas conservan el título público «Terminales A y B» ES/EN/JA y software «Terminal», mientras README de Worker declara Cloudflare no desplegado; no se tocaron servicios.
 - Próxima continuidad: leer `INITIALIZATION.md`, `CONTEXT-CONTINUITY.md`, fichas de Stage 1–4, este handoff y los deltas recientes. Prioridades heredadas intactas: Cake Song demo pendiente, reservas Azur 21/22 sin hora, Pokémon Journey en noviembre, ICS Twitch existente más reciente.
+
+## Trabajo interrumpido de Stage 4 reanudado — auditoría verificable 12-oct-2026
+- Respark Stage 1–4 revalidado en CI: [GitHub Actions run #38337375637](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38337375637), PASS índice latest_stage=4, PASS títulos aeroportuarios trilingües, **18 tests Node superados / 0 fallos**. Check de código local a GitHub, NO producción.
+- Se recuperaron los últimos intercambios de Stage 4 sobre tres respuestas incompletas Stage 3, dos variantes privadas v23.11 y separación **Terminal software vs Terminales A y B aeropuerto**. Los textos privados completos de chats no se hallaron como transcripción literal.
+- Biblioteca actual: `Terminal_Operativo_v23_11_encabezado_corregido.html` mantiene `STORE` moderno y `LEGACY_STORE` sólo de migración; encabezados ES DOM y ES/EN/JA canvas, sin nombre visible Terminal B. Materialización binaria del original rechazada; no repetir como prueba E2E nueva la prueba Chromium archivada.
+- Informe: `AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. CI agregado: `.github/workflows/relight_verify_continuity.yml`, sólo pruebas, sin despliegue.
+- Punto de continuación: Stage 4 ABIERTA, cambios editoriales y producción intactos; próxima prueba adicional sólo si el usuario solicita prueba real de operativo privado con acceso autorizado.
