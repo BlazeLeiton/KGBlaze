@@ -116,3 +116,10 @@ Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
 - Nombre de software `Terminal` y título público `Terminales A y B` preservados; único `terminalb` como clave legacy. Texto intro «v23.7» residual menor, no modifica título v23.11.
 - Próximo paso al volver a consola Cloudflare: verificar tablas remotas en D1 `kgblaze-terminal` **antes** de aplicar `schema.sql` con `terminal_state`, `terminal_audit`, `terminal_preview`; sin renombrar DB, publicar editor privado ni desplegar Worker.
 - Auditoría con fuentes, limitaciones y SHA: `../AUDITS/OPERATIVE-UPLOAD-2026-10-12.md`. Stage 4 ABIERTA.
+
+## Worker Cloudflare unificado como kgblaze-terminal — decisión explícita
+- El usuario eligió en el formulario de **Create and deploy** de Cloudflare Workers Builds que **Project name = `kgblaze-terminal`**. Por petición expresa se actualizó `KGBlaze-Information-Center/wrangler.toml` de `name = "kgblaze-centro-informacion"` a `name = "kgblaze-terminal"`. No se renombró la D1 existente ni el `binding = "DB"`, y su database_id quedó intacto.
+- Repositorio seleccionado `BlazeLeiton/KGBlaze`; en Cloudflare la ruta avanzada del proyecto debe ser `/KGBlaze-Information-Center/` y la rama `main`. En el momento del cambio Cloudflare mostraba el formulario previo a **Deploy**, no un Worker existente. **No se ha presionado Deploy ni se ha hecho despliegue desde ChatGPT**.
+- `KGBlaze-Information-Center/README.md` corregido para reflejar que el usuario **ya confirmó** las tablas D1 remotas `terminal_state`, `terminal_audit`, `terminal_preview` y la decisión sobre el Worker. El nombre del software sigue **Terminal** y el encabezado público del aeropuerto sigue **Terminales A y B**.
+- Sigue pendiente verificar en pantalla el Path y el resto de configuración antes de activar Deploy, y crear el secreto de ejecución `ADMIN_TOKEN` sin comunicar su valor en el chat o el repositorio público.
+
