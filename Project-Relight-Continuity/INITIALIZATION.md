@@ -64,3 +64,12 @@ Las fases 0–6 **deben evaluarse en cada nuevo chat**. Si una etapa depende de 
 
 ## Activador literal
 `KGRP: INICIALIZAR PROJECT RELIGHT — Stage 1..N, chats inconclusos, auditoría histórica+archivística+pública+calendario, métricas y plantillas por fuentes directas, comprobaciones y preguntas pertinentes; continuar desde último punto comprobado.`
+
+## Anexo v3.1 — mejoras tras cuarta auditoría (12-oct-2026)
+- **Antes de concluir inaccesibilidad:** abrir exactamente las rutas específicas facilitadas por el usuario, p. ej. `twitch.tv/blazeleiton/about`, `/schedule`, `/videos`. Si el sitio devuelve HTML vacío/bloqueo, no inventar datos ni confundir falta de contenido con ausencia de streams. Registrar lista de URL/ruta efectivamente intentadas.
+- Identificar perfiles por enlaces verificados: Carrd canónica `https://blazeleiton.carrd.co/` (YA RESUELTA); comprobar que contenido cacheado pueda variar y no marcar un enlace ausente en un snapshot como defecto vigente sin verificación estable.
+- En YouTube, si acceso a cuenta autorizado, usar metadatos `actualStartTime`/`actualEndTime` para afirmar transmisión; distinguirlos de `scheduledStartTime` y `publishedAt`. No usar video privado como evidencia pública ni divulgar su ID.
+- La comparación de Analytics compara **dos ventanas explícitas con unidades y formato** (Video, Live, Shorts, engagedViews y watch time); se pueden normalizar métricas por día para evitar tamaños desiguales, pero no atribuir causas a corto plazo.
+- Revisar tareas automáticas existentes **en lectura**, cuando se requiera comprobar si el monitoreo sigue funcionando; no duplicar, modificar horarios ni habilitar notificaciones/email por defecto.
+- En archivo Steam cruzar seis CSV personal/wishlist/familia, disponibilidad real y precios MXN; no recomendar compra duplicada, ni tratar juegos transmitidos como terminados.
+- Releer `AUDITS/FOURTH-PASS-2026-10-12.md` junto a las tres pasadas anteriores en futuras Stage. No volver a preguntar Q-01/Q-02/Q-04.
