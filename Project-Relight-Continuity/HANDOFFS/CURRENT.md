@@ -120,3 +120,8 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - `KGBlaze-Information-Center/README.md` corregido para reflejar que el usuario **ya confirmó** las tablas D1 remotas `terminal_state`, `terminal_audit`, `terminal_preview` y la decisión sobre el Worker. El nombre del software sigue **Terminal** y el encabezado público del aeropuerto sigue **Terminales A y B**.
 - Sigue pendiente verificar en pantalla el Path y el resto de configuración antes de activar Deploy, y crear el secreto de ejecución `ADMIN_TOKEN` sin comunicar su valor en el chat o el repositorio público.
 
+## Terminal Cloudflare — secreto administrativo y binding confirmados
+- Captura del usuario de **Settings > Runtime variables and secrets, Production** del Worker `kgblaze-terminal` muestra variable de tipo **Secret** `ADMIN_TOKEN` como `Value encrypted`, y **Bindings > Production** muestra binding de tipo **D1 database**, nombre `DB`, valor `kgblaze-terminal`.
+- A fecha del intercambio anterior, visor HTTPS desplegado y `GET /api/health` reportó `ok:true`, `service:kgblaze-terminal`, `database:true`, mientras `GET /api/public` devolvió `relight-public-v1`, `revision:0` y eventos vacíos.
+- La captura **no confirma** que el valor del secreto sea el mismo que conserva el usuario ni que autenticación administrativa funcione: siguiente paso probar **Consultar** desde HTML operativo privado v23.11 usando URL `https://kgblaze-terminal.drago68575.workers.dev` y valor guardado de `ADMIN_TOKEN`, SIN compartir token ni pulsar `Publicar cambios` hasta validar GET de sólo lectura.
+- El Worker ya existe y el secreto está configurado; **no volver a crearlos**. Pendiente prueba administrativa; no hay agenda publicada ni sincronización automática activada.
