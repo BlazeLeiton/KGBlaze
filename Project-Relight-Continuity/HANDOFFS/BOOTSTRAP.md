@@ -1,3 +1,13 @@
+# Bootstrap operativo — Project Relight / Stage 6
+
+**Corte vigente:** 2026-10-13 CDMX. Stage 6 identificada, **sin cierre formal**, con Stage 1–5 conservados en `STAGES/index.json`. Fuente inicial `../STAGES/STAGE-06.md` y `CURRENT.md` antes de los antiguos handoffs.
+
+**Hecho reciente:** PR #9 de navegación YouTube manual fusionado a main `c48b1a7`; GitHub Actions + Cloudflare Workers Builds confirmados success, Worker version `345940f0-f0f4-4747-8610-e08494923413`. Revisión editorial **2** / **10 salidas** confirmada por usuario; no hubo nuevo publish por el merge. Killer Chat! `JDkg-5tZ3G0` debe abrir `https://youtu.be/JDkg-5tZ3G0`, miniatura `maxresdefault.jpg` (fallback `hqdefault.jpg`). El GET público y la interacción real en navegador están pendientes de confirmación E2E porque workers.dev no resolvió desde las herramientas.
+
+**Precaución:** no activar detección automática, Cron ni alterar D1, Worker, editor privado o agenda. No convertir ID manual en EN VIVO. Mantener título público «Terminales A y B» ES/EN/JA y nombre técnico «Terminal». El resto de este bootstrap se conserva como historial.
+
+---
+
 # Bootstrap operativo — Project Relight / Stage 5
 
 **Corte actual:** 2026-10-12 CDMX · **Última conversación identificada:** Stage 5 (sin cierre formal), Stage 4 también abierta documentalmente. Respark actual no crea Stage 6.

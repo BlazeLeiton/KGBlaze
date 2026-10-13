@@ -2,8 +2,8 @@
   "schema": "kgrp-stage-registry-v2",
   "project": "Project Relight / KGBlaze",
   "timezone": "America/Mexico_City",
-  "updated_on": "2026-10-12",
-  "latest_stage": 5,
+  "updated_on": "2026-10-13",
+  "latest_stage": 6,
   "default_recovery": "deep-complete",
   "include_all_prior_stages": true,
   "incomplete_without_verified_handoff": true,
@@ -54,6 +54,15 @@
       "focus": "Terminal: first publication reconciliation, Twitch origin patch, safe status simulations and YouTube matching handoff",
       "closure_verified": false,
       "closure_note": "El historial identifica una conversación denominada Stage 5 y su último proceso de simulación, pero no hay cierre formal transcrito. Stage 4 también permanece abierta en términos de cierre conversacional."
+    },
+    {
+      "number": 6,
+      "id": "STAGE-06",
+      "file": "STAGE-06.md",
+      "period": "2026-10-12 to 2026-10-13 (America/Mexico_City); conversación Stage 6; abierta",
+      "focus": "Terminal operativo v24.2.1, revisión editorial 2, YouTube manual Killer Chat! y PR #9 de enlaces de sala",
+      "closure_verified": false,
+      "closure_note": "Conversación Stage 6 identificada; no existe cierre formal. Último tramo rescatado: autorización del usuario de integrar PR #9, merge y Workers Builds success; prueba E2E remota pendiente."
     }
   ]
 }

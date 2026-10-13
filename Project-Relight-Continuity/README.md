@@ -32,7 +32,7 @@ Los informes de recuperación deben detallar **origen, fechas, versiones, confli
 ## Índice
 - [Protocolo profundo](PROTOCOL.md)
 - [Etapas — índice dinámico](STAGES/index.json)
-- [Stage 1](STAGES/STAGE-01.md) · [Stage 2](STAGES/STAGE-02.md) · [Stage 3](STAGES/STAGE-03.md) · [Stage 4](STAGES/STAGE-04.md)
+- [Stage 1](STAGES/STAGE-01.md) · [Stage 2](STAGES/STAGE-02.md) · [Stage 3](STAGES/STAGE-03.md) · [Stage 4](STAGES/STAGE-04.md) · [Stage 5](STAGES/STAGE-05.md) · [Stage 6](STAGES/STAGE-06.md)
 - [Traspaso actual y pendientes](HANDOFFS/CURRENT.md)
 - [Decisiones y sustituciones](DECISIONS.md)
 - [Auditoría y pruebas](AUDIT.md)
@@ -94,3 +94,7 @@ Los nuevos datos que surjan durante una conversación de Project Relight se regi
 - **Relight Respark sigue siendo profundo** al invocarse o al arranque configurado. La mitigación consiste en recuperar en fuentes y mostrar síntesis con referencias; tras el arranque, integrar cambios incrementales, sin inventar un detector de límite del chat ni crear Stage N+1 por cada conversación.
 
 **Entrada breve entre conversaciones:** [`HANDOFFS/BOOTSTRAP.md`](HANDOFFS/BOOTSTRAP.md) · **Registro de esta ejecución:** [`AUDITS/RESPARK-2026-10-12-CONTEXT.md`](AUDITS/RESPARK-2026-10-12-CONTEXT.md). Son índices de acceso, no reemplazos de `INITIALIZATION.md` ni del historial profundo.
+
+## Recuperación vigente — Stage 6 (13-oct-2026)
+- [Ficha Stage 6](STAGES/STAGE-06.md) y [handoff actualizado](HANDOFFS/CURRENT.md): Terminal privado v24.2.1, revisión editorial 2/10 salidas (confirmación del usuario), sala Killer Chat! con ID público, PR #9 fusionado y Workers Builds success; prueba en navegador de producción pendiente.
+- Los cortes previos de Stage 4 y 5 se conservan como historia. `STAGES/index.json` define el Stage más reciente.
