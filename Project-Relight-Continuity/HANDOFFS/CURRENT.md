@@ -107,3 +107,9 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - Usuario ejecutó la consulta de `sqlite_master` en consola Cloudflare D1 para `kgblaze-terminal`, devolviendo **sólo** `_cf_KV` (tabla interna de Cloudflare); todavía **no aparecen** `terminal_state`, `terminal_audit` ni `terminal_preview`.
 - Se indicó crear únicamente esas tres tablas mediante el `KGBlaze-Information-Center/schema.sql` actual, con `CREATE TABLE IF NOT EXISTS`, y verificar luego la lista en `sqlite_master`. **No hay confirmación aún de que el usuario haya ejecutado la creación**; no afirmar que D1 está inicializada.
 - Mantener `_cf_KV` intacta; no renombrar base `kgblaze-terminal`; no desplegar ni establecer credenciales hasta la comprobación de las tablas.
+
+## Avance de consola D1 y precaución con secreto (12-oct-2026)
+- Usuario confirmó que `sqlite_master` en `kgblaze-terminal` devuelve `_cf_KV`, `terminal_audit`, `terminal_preview`, `terminal_state`. Tres tablas **creadas**; su estructura, datos y Worker real aún no se probaron. No repetir SQL `CREATE` sin necesidad.
+- Próximo paso recomendado: inspeccionar columnas mediante `PRAGMA table_info('terminal_state');`, etc., o confirmar por SQL de sqlite_master; luego revisar en Workers & Pages si ya existe `kgblaze-centro-informacion` para decidir cómo preparar el secreto.
+- Precaución documental importante comprobada con Cloudflare docs de octubre de 2026: `npx wrangler secret put ADMIN_TOKEN` **despliega una versión inmediatamente**. No usarlo mientras rija «no desplegar». Para preparar una versión no activa se puede usar `wrangler versions upload --secrets-file` cuando se autorice crear esa versión, o Settings de Worker existente; nunca incluir secreto en chat ni repo.
+- README técnico fue actualizado con esta precaución; ninguna acción contra la cuenta Cloudflare fue ejecutada desde ChatGPT. Stage 4 ABIERTA.
