@@ -27,3 +27,9 @@ Biblioteca de ChatGPT; fuentes encontradas el 12-oct-2026. No contiene bytes ori
 
 ### Custodia
 Biblioteca contiene los archivos originales, pero las herramientas de materialización rechazaron crear copia binaria de cinco HTML. `Localizado` ≠ `materializado` ≠ `archivado en copia`. Para futuras copias privadas: registrar checksum, tamaño, versión, fecha, fuente, permisos y relación con etapa; no incluir tokens, respaldos operativos o analíticas personales en un repositorio público.
+
+## Cuarta revisión — procedencia del calendario extendido y Steam
+- Biblioteca contiene `Project_Relight_Calendario_Operativo_23Nov_San_Luis_Potosi_Dia_Bloqueado.xlsx`, `Project_Relight_Calendario_Operativo_Actualizado_Viaje_2026-11-23.xlsx` y `Project_Relight_Calendario_Steam_CSV_Originales_2026-10-12.xlsx`: hojas derivadas de **18 pestañas**, en lugar de los 7 tabs del calendario v12. No difundir detalles de compromisos personales en la documentación pública ni en visor.
+- También hay `Project_Relight_Calendario_Operativo_Rastreos_GP_2026-10-11.xlsx`: registro histórico de seguimiento combinado.
+- Se confirmó por comparación documental y tarea existente la existencia de **seis CSV originales Steam**, con biblioteca personal, wishlist y cuatro bibliotecas familiares. `family sharing` indicado no garantiza derecho de juego vigente; propiedad/listado/wishlist son nociones distintas.
+- La biblioteca contiene originales de `Terminal_Operativo_v23_11_local.html`, PDFs/PPTX de terceros y hojas de Analytics, pero todavía **no** hay exportación íntegra autorizada de sus bytes al repositorio documental. No marcar como almacenados aquí.
