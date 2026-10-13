@@ -29,3 +29,10 @@ Q-01 y Q-02 ya no deben plantearse como dudas sin respuesta. Para Azur 21/22 só
 - **Q-09 RESUELTA (CONFIRMADO_USUARIO):** Carrd en navegador del usuario = «Acercando a México y al mundo», **con Instagram**. El otro snapshot queda archivado como observación histórica de caché, no alternativa vigente ni error por corregir.
 - **Q-06 APLAZADA A PETICIÓN DEL USUARIO:** el `.ics` o enlace reciente del calendario de Twitch se abordará **después**, sin recordatorio ni solicitud insistente en este punto. La verificación externa de Twitch sigue incompleta. No interpretar «después» como cancelación de directos, ausencia de programación ni autorización para actualizar horarios.
 - Sin cambios de perfiles, Terminal, calendario editorial, archivos privados o automatizaciones; Stage 4 sigue ABIERTA.
+
+## Rectificación de la solicitud de ICS y comando — 12-oct-2026 (PREVALECE)
+El usuario precisó que **el ICS archivado es el más reciente; no se ha modificado la programación desde su exportación**. Q-06 queda **CERRADA POR SUFICIENCIA DE LA FUENTE EXISTENTE**, no meramente «pospuesta» ni «pendiente de que aporte uno nuevo». En futuras revisiones usar el ICS conocido sin pedir exportación nueva; reabrir sólo si el usuario avisa de un cambio o existe evidencia posterior que lo contradice. `/schedule` en Twitch sigue sin verificarse en vivo mediante herramienta.
+
+Q-09 Carrd permanece RESUELTA; Q-01 ambas reservas Azur 21/22 sin hora; Q-02 demo Cake Song pendiente. No reinterpretar ninguna de ellas.
+
+Se establecieron `Ejecuta Relight Respark` y `Execute Relight Respark` como comandos equivalentes para iniciar KGRP íntegro. Nuevos descubrimientos de la sesión se documentan incrementalmente sin necesidad de reactivar toda la auditoría.
