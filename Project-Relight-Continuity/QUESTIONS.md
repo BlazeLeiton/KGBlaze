@@ -9,7 +9,7 @@ No preguntar de nuevo decisiones históricas explícitas ya confirmadas. Pregunt
 | Media | Q-03 | ¿Quedó definitivamente confirmado o descartado el Azur del 14/oct a las 22:00 tras el compromiso externo? | Reserva Twitch ≠ confirmación editorial |
 | Resuelta | Q-04 | **RESPONDIDA 12-oct:** URL exacta https://blazeleiton.carrd.co/ , abierta directamente | Se resuelve identidad/URL; sólo la disparidad entre snapshots del contenido queda pendiente como Q-09 |
 | Media | Q-05 | Para auditar **X** por enlace real sin búsquedas indexadas, ¿puedes facilitar enlaces de publicaciones recientes o acceso a una exportación autorizada? | X directo 403 |
-| Media | Q-06 | ¿Puedes compartir un archivo .ics reciente exportado de Twitch /schedule, o un enlace individual de los próximos eventos? | Rutas /about y /schedule probadas por usuario, pero contenido bloqueado en acceso automatizado; fuente anterior data de 10-oct |
+| Pospuesta por el usuario | Q-06 | Recuperación de un `.ics` o enlace reciente para verificar Twitch `/schedule`: **DESPUÉS**, sin fecha comprometida | No insistir ahora; la agenda Twitch sigue SIN VERIFICACIÓN ACTUAL; el ICS histórico no pasa a vigente |
 | Baja | Q-07 | ¿Se conserva la estrategia de perfiles «cerrados salvo revisión lore/imagen»? | Sólo preguntar si usuario solicita cambios, no reabrir por defecto |
 | Baja | Q-08 | ¿Se eligió ya el formato/plataforma y permisos de una posible cobertura del GP México? | Plan opcional, no anunciar sin decisión |
 
@@ -21,6 +21,11 @@ Q-01 y Q-02 ya no deben plantearse como dudas sin respuesta. Para Azur 21/22 só
 ## Cuarta auditoría — preguntas añadidas (12-oct-2026)
 | Prioridad | ID | Pregunta | Por qué importa |
 |---|---|---|---|
-| Baja | Q-09 | Al abrir Carrd en tu navegador, ¿se ve «Acercando a México y al mundo» **con Instagram** o «Conectando desde México para el mundo» **sin Instagram**? | Dos snapshots del mismo dominio devolvieron variaciones de caché; no se pide modificar perfil |
+| Resuelta | Q-09 | **RESPONDIDA por el usuario:** el Carrd actualmente visible en su navegador muestra «Acercando a México y al mundo», **con Instagram** | Priorizar esta observación directa sobre snapshots automatizados discordantes; no modificar perfil |
 
 **Q-01/Q-02 y Q-04 resueltas/respondidas.** No volver a preguntar sobre ambas reservas Azur 21/22, demo Cake ni URL Carrd. Q-06 es la solicitud principal para prueba de Twitch. Q-09 es una aclaración menor de caché; no suspender otros proyectos por ella.
+
+## Aclaración final del ciclo de cuarta auditoría — Stage 4, 12-oct-2026
+- **Q-09 RESUELTA (CONFIRMADO_USUARIO):** Carrd en navegador del usuario = «Acercando a México y al mundo», **con Instagram**. El otro snapshot queda archivado como observación histórica de caché, no alternativa vigente ni error por corregir.
+- **Q-06 APLAZADA A PETICIÓN DEL USUARIO:** el `.ics` o enlace reciente del calendario de Twitch se abordará **después**, sin recordatorio ni solicitud insistente en este punto. La verificación externa de Twitch sigue incompleta. No interpretar «después» como cancelación de directos, ausencia de programación ni autorización para actualizar horarios.
+- Sin cambios de perfiles, Terminal, calendario editorial, archivos privados o automatizaciones; Stage 4 sigue ABIERTA.
