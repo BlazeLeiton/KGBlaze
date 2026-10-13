@@ -40,3 +40,7 @@ Se establecieron `Ejecuta Relight Respark` y `Execute Relight Respark` como coma
 ## Stage 5 — verificaciones técnicas (sin reabrir preguntas editoriales)
 - **Q-10 · API pública:** verificar desde navegador `/api/public` en lectura con revisión 1 y 6 orígenes `twitch` + 4 `manual`. Último acceso externo con herramientas `NO_VERIFICABLE`. No requiere credenciales ni nueva publicación.
 - **Q-11 · Match YouTube:** por resolver en simulación con fixtures: coincidencia de canal/video, título similar, colaboraciones, stream reprogramado y múltiples candidatos. Ninguna pregunta al usuario necesaria antes de crear pruebas aisladas.
+
+## Confirmación posterior al dry-run (12-oct-2026)
+- **Q-10 resuelta por el usuario:** lectura de navegador de la API pública confirma 6 orígenes Twitch y 4 manuales. La herramienta externa del asistente continúa sin acceso DNS; esto no invalida la verificación del usuario.
+- **Q-12 — aclaración editorial opcional (no bloqueante):** entre los cuatro manuales aparece `Collab Padoru` del 17-oct con estado `POR CONFIRMAR`, además de dos descansos y el GP de México. El usuario mencionó sólo descansos y GP; **no presumir que quiere eliminar Padoru**. Si decide cambiarlo, utilizar editor privado y procedimiento normal de revisión, no un parche automático.
