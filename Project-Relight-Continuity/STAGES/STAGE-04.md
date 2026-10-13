@@ -102,3 +102,10 @@ Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
 - Norma añadida: [`../CONTEXT-CONTINUITY.md`](../CONTEXT-CONTINUITY.md), con jerarquía código/evidencia, archivo profundo, handoff breve y memoria auxiliar; revisión de fases 0–6 al comenzar nueva conversación, trabajo incremental ordinario y cierre recuperable tras cortes. La regla histórica de recuperación profunda permanece vigente; no duplicar auditorías previas cuando no cambió la fuente.
 - Stage 4 continúa ABIERTA; esta ejecución del comando **no crea Stage 5**. No se tocó Terminal, editor local, D1, calendarios ni canales.
 - El repositorio conserva pruebas de encabezado ES/EN/JA y reporte Chromium local; Cloudflare continúa DOCUMENTADO_NO_DESPLEGADO, sin afirmar prueba E2E actual.
+
+## Recuperación post-interrupción: Terminal y auditoría Respark (12-oct-2026)
+- El usuario aportó el último tramo visible de Stage 4: recuperar últimos 3 intercambios Stage 3, inspeccionar visor y dos HTML operativos v23.11, proteger nombre software **Terminal** e identidad aeroportuaria ES/EN/JA **Terminales A y B**.
+- Fuente original privada corregida `Terminal_Operativo_v23_11_encabezado_corregido.html` ubicada en Biblioteca y leída por índice: ES DOM y títulos ES/EN/JA canvas; `terminalb` aparece únicamente en `LEGACY_STORE`, usada sólo como alternativa al `STORE` nuevo.
+- **Pruebas nuevas** en GitHub Actions: [run #38337375637](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38337375637) PASS, registro Stage 1–4 sin errores, encabezado ES/EN/JA PASS, **18/18 tests Node PASS** para Core/Worker/visor. Workflow de sólo lectura, no despliega nada.
+- Biblioteca rechazó materialización autorizada del HTML privado original: no afirmar ejecución nueva de browser E2E. La prueba Chromium local de Stage 4 anterior sigue archivada, distinta del CI actual.
+- Referencia auditable: `../AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. **Stage 4 sigue ABIERTA**; no volver a tocar el visor correcto sólo para renombrar, no desplegar D1/Worker por esta auditoría.
