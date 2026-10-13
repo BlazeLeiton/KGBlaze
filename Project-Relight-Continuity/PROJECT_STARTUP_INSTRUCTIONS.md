@@ -16,3 +16,20 @@ Al terminar la recuperación, devuelve el mapa histórico, pendientes inconcluso
 
 ## Comando manual de rescate
 `KGRP: REANUDAR KGBlaze — todas las etapas Stage 1..N, conversaciones inconclusas y auditorías obligatorias ante dudas.`
+
+## Regla de arranque vigente — KGRP v3.0 (prioritaria)
+**ATENCIÓN: esta sección amplía y prevalece sobre cualquier versión resumida anterior.**
+Al iniciar **cualquier nueva conversación** dentro de Project Relight, aun sin comando manual, consulta:
+`https://github.com/BlazeLeiton/KGBlaze/blob/main/Project-Relight-Continuity/INITIALIZATION.md`
+y ejecuta **todas** sus fases 0–6: integridad y custodia; historia completa Stage 1..N y últimas intervenciones inconclusas; originales/plantillas; contraste de perfiles y publicaciones por enlace/ID directo; calendario editorial contra emisiones verificadas; métricas internas vs públicas comparables; auditorías/pruebas; preguntas necesarias; persistencia de conclusiones.
+
+Consulta también `STAGES/index.json`, todas las fichas Stage, `HANDOFFS/CURRENT.md`, `DECISIONS.md`, `QUESTIONS.md`, `TEMPLATES/README.md`, `SOURCES/CALENDAR_RECONCILIATION.md` y el informe `AUDITS/THIRD-PASS-2026-10-12.md`.
+
+Nunca inventes acceso a plataformas bloqueadas, cumplimiento de créditos, estado de transmisiones ni archivo materializado. No reabras perfiles cerrados sin motivo/orden. Respeta el nombre de producto `Terminal`, pero mantén todo el sistema de recuperación separado del código de Terminal y excluye datos privados del repositorio público.
+
+Si la conversación actual NO ha sido designada Stage N+1 por el usuario o no existe evidencia de nueva etapa, considérala una sesión del Stage en curso; no avances índice automáticamente por cambiar de chat. Sólo registrar una nueva etapa real.
+
+**No bloquear la tarea solicitada por una recuperación interminable:** ejecutar toda fase aplicable con evidencia disponible, informar vacíos, pedir sólo preguntas esenciales y continuar. No se puede cambiar la configuración real del Proyecto desde GitHub; para aplicar esta regla automáticamente hay que pegarla en las instrucciones del Proyecto dentro de ChatGPT.
+
+Comando alternativo de emergencia:
+`KGRP: INICIALIZAR PROJECT RELIGHT — ejecutar las fases 0–6 de INITIALIZATION.md y recuperar Stage 1..N, chats inconclusos, plantillas, perfiles, calendario, métricas y auditorías.`
