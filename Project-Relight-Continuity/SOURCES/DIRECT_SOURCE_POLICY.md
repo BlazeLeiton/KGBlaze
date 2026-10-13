@@ -24,3 +24,9 @@ Fuentes:
 - TubeAlfred: FALLÓ sin créditos; no retornó datos.
 - Apertura web directa YouTube/Twitch: NO accesible en este entorno; conservar URL canónica, sin alegar acceso real.
 - Fuentes públicas Twitch: ningún corte comprobable; no inventar números.
+
+## Tercera auditoría de enlaces exactos (2026-10-12)
+- HoloList `https://hololist.net/blaze-leiton/`, vTubie `https://vtubie.com/blaze-leiton/` y Ko-fi `https://ko-fi.com/blazeleiton` se pudieron abrir directamente; contienen biografías coherentes. Sus conteos en agregadores NO se consideran métricas oficiales.
+- X `https://x.com/BlazeLeiton` devolvió 403, Instagram web bloqueó fetch pero un proveedor consultó `@blazeleiton` directamente, y Twitch web permaneció inaccesible. No concluir que las cuentas carecen de posts, streams o interacción por este bloqueo.
+- Fuente de Canal YouTube por ID con herramienta de metadatos; cuatro formatos a distinguir: Videos, Live, Shorts y Playlists. Fechas publicadas en UTC deben convertirse a `America/Mexico_City` antes de comparar con ICS.
+- Al contrastar plantilla: metadatos/videos reales > copia de plantilla histórica en lo relativo a créditos particulares; instrucciones explícitas más recientes siguen definiendo la intención editorial.
