@@ -106,3 +106,10 @@ La recuperación profunda comprende sin excepción:
 Reporte de referencia: `AUDITS/THIRD-PASS-2026-10-12.md`. Inventario de perfiles: `SOURCES/PUBLIC_PROFILES.md`, publicaciones: `SOURCES/PUBLIC_PUBLICATIONS.md`, calendario: `SOURCES/CALENDAR_RECONCILIATION.md`.
 
 Estas siete actividades operativas son la ejecución de las fases 0–6 del documento de arranque; ninguna es un reemplazo de las pasadas históricas anteriores. Si una plataforma es inaccesible, se deja evidencia `NO_VERIFICABLE`, no se declara completada su auditoría.
+
+## 11. Comando oficial «Relight Respark» y mantenimiento incremental
+- **ES:** `Ejecuta Relight Respark`. **EN:** `Execute Relight Respark`. **Ambos disparan lo mismo**: recuperación profunda y ejecución de las fases 0–6 de `INITIALIZATION.md`. El comando KGRP largo permanece como alias antiguo, no requisito.
+- Esta ejecución completa se reserva para la frase de usuario o el arranque automático del Proyecto cuando esté configurado. Las peticiones cotidianas **no** fuerzan una auditoría completa por defecto.
+- Si emerge un nuevo dato histórico, corrección, documento, decisión, resultado de prueba o bloqueo, **integrarlo de manera incremental** al Stage abierto, `DECISIONS.md`, `HANDOFFS/CURRENT.md`, fuentes y plantillas aplicables, preservando procedencia, privacidad y decisiones sustituidas. No inventar una etapa nueva.
+- ICS Twitch: el usuario confirma explícitamente que el archivo existente del 10-oct es el **último** y que no ha habido cambios. Pregunta de nueva exportación cerrada **por ahora**; no inferir que se consiguió abrir directamente el calendario público.
+- La documentación en repositorio sólo proporciona la fuente verificable del protocolo; necesita estar disponible en el contexto/chat o en las instrucciones del Proyecto para dispararse desde una conversación nueva.
