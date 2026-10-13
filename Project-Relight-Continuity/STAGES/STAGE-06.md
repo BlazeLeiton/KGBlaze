@@ -39,3 +39,4 @@
 - El siguiente experimento compara la categoría Twitch Killer Chat!: Original Edition con el segmento Killer Chat! del título creativo del directo, sin relajar identidad del canal, horario ni controles de coincidencia.
 - Preferencia operativa: dejar de pedir alternar true/false y avisar ready como rutina. Mantener controles del servidor sin depender de confirmaciones humanas repetitivas.
 - Trabajo de matcher en rama feat/stage06-youtube-category-match-dry-run, bajo pruebas y revisión de CI. No activar Cron, sync automático, cambios editoriales ni inferir EN VIVO.
+- Se amplía la rama de matcher con el diagnóstico **autonomousProbe**: si el evento contiene videoId editorial, realiza un emparejamiento paralelo en memoria omitiendo ese ID, pero exclusivamente contra IDs devueltos por search.list. No incrementa consumo de YouTube, no escribe D1, no elimina enlaces editoriales ni modifica estado. Cualquier conflicto entre sala autónoma y sala editorial requiere review.
