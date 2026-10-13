@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — DigitalPlat: dominio kgblaze.dpdns.org registrado (captura del usuario)
+- Captura del usuario muestra `Manage kgblaze.dpdns.org` en DigitalPlat con distintivos `ok`, `Permanent` y `free`, y opción de descargar certificado de titularidad. **DOMINIO REGISTRADO, verificado por la UI del propietario**; no confundir esto con que el DNS esté delegado a Cloudflare o ya habilitado para el Worker.
+- La pantalla está en `Nameservers` y muestra opción `DigitalPlat DNS`; todavía no hay confirmación de selección/guardado de `External nameservers` con `cheryl.ns.cloudflare.com` y `cris.ns.cloudflare.com`, ni de activación de la zona en Cloudflare.
+- Siguiente paso no destructivo: revisar `External nameservers` en DigitalPlat, conservar pareja Cloudflare, esperar DNS active, verificar HTTPS y API antes de añadir `terminal.kgblaze.dpdns.org` como Custom Domain del Worker existente. `Permanent` es etiqueta comercial del panel, no prueba de propiedad perpetua sin términos de renovación.
+- La solicitud paralela `vlatam.eu.org` continúa pendiente de aprobación. Mantener la URL pública `kgblaze-terminal.drago68575.workers.dev` y el código, Cron, D1, secretos y agenda editorial inalterados.
+
+
 ## 13-oct-2026 — EU.org: solicitud de VLATAM guardada, aún no aprobada
 - El usuario creó zonas DNS Free en Cloudflare para `vlatam.eu.org` y `kgblaze.dpdns.org`, asignadas ambas a `cheryl.ns.cloudflare.com` / `cris.ns.cloudflare.com`. Las zonas pendientes NO acreditan registro o delegación ante EU.org/DigitalPlat.
 - La solicitud de registro `vlatam.eu.org` se envió mediante EU.org: verificaciones de SOA y NS correctas en ambos nameservers (12 respuestas satisfactorias por clase), final `No error, storing for validation... Saved as request ... Done`. **Estado: solicitud guardada para validación administrativa, NO aprobada todavía, NO dominio activo.** El usuario conserva el número de solicitud en su conversación; evitar replicarlo en GitHub público.
