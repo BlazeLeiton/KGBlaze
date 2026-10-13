@@ -105,3 +105,9 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - A32 PASS modo lectura: vigilancia combinada existente de cinco temas **habilitada**, dos consultas diarias, notificaciones/email **desactivados**, tarea Steam duplicada anterior deshabilitada; **ninguna tarea modificada/creada**.
 - A33: documentación en `AUDITS/FOURTH-PASS-2026-10-12.md`; guardar Q-06 (ICS Twitch), Q-09 (snapshots Carrd). Stage 4 permanece ABIERTA, Q-01/Q-02/Q-04 resueltas/respondidas.
 - A34 pendiente de verificación post-commit: todos los archivos de esta revisión deben estar bajo `Project-Relight-Continuity/`; no se autorizó tocar Terminal, Cloudflare ni D1.
+
+## Respuestas a la cuarta auditoría — Stage 4, 12-oct-2026
+- Q-09: CONFIRMADO_USUARIO. Carrd visible como «Acercando a México y al mundo», con Instagram. Se cierra discrepancia editorial; el snapshot divergente se conserva como histórico.
+- Q-06: APLAZADA por decisión del usuario. Archivo ICS o enlace actualizado de Twitch se revisará después; no se infiere actividad ni agenda verificada.
+- No se ha alterado Carrd, Twitch, Terminal, D1, automatizaciones, calendarios ni los estados editoriales ya establecidos.
+- Documentos: QUESTIONS, PUBLIC_PROFILES, FOURTH-PASS, STAGE-04, DECISIONS. Handoff queda pendiente de sincronización por restricción de actualización. Comparar diff para confirmar cambios sólo de continuidad.
