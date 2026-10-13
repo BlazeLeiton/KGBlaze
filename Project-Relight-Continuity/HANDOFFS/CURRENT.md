@@ -162,3 +162,11 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - **Prueba deliberada de filtro de rutas**: el usuario informó que retiró el patrón global `*` de `Build watch paths → Include paths`, dejando `KGBlaze-Information-Center/*`.
 - Este commit modifica exclusivamente `Project-Relight-Continuity/HANDOFFS/CURRENT.md` para observar si GitHub/Cloudflare omite una compilación de Terminal cuando solo cambia documentación fuera del directorio permitido.
 - **No incluye cambios de código de Terminal ni de agenda D1**. Evaluar en GitHub Checks y Deployments si Cloudflare omitió realmente la construcción (un check marcado `skipped` no es equivalente a publicar nueva versión).
+
+## Simulaciones de estados sin producción — PR #2
+- El usuario aprobó seguir con la verificación de origen y simulaciones, sin activar todavía la consulta real a YouTube.
+- El visor publicado contiene reglas de estado basadas en observaciones verificadas y recientes: prioridad YouTube sobre Twitch, EN VIVO / REPROGRAMADO / DESPEGÓ, y prioridad editorial de CANCELADO / DESCANSO / ESCALA / HIATUS. La tarea programada del Worker sigue deshabilitada (stub), sin credenciales de plataformas ni escritura automática a D1.
+- PR en borrador #2: https://github.com/BlazeLeiton/KGBlaze/pull/2, rama test/terminal-sync-dry-run; único archivo nuevo de pruebas KGBlaze-Information-Center/tests/public-sync-dry-run.test.mjs, evalúa la función real resolveDisplayStatus del visor con casos simulados. No modifica código funcional, Worker, base D1 ni agenda pública.
+- GitHub Actions de PR #2: https://github.com/BlazeLeiton/KGBlaze/actions/runs/38347977143 → SUCCESS, 31 tests / 31 passed / 0 failures (21 previos + 10 simulaciones). PR #2 aún no fusionado; por ello no se disparó nuevo despliegue de main.
+- No se pudo abrir el dominio workers.dev desde herramientas externas por falta de resolución DNS; la comprobación en vivo de revision=1, 10 eventos y 6 IDs tw: con origin=twitch sigue pendiente de usuario, sin necesidad de republicación.
+- Siguiente paso: matcher conservador contra videos/salas reales de YouTube, con pruebas de ambigüedad, sin credenciales ni conexión a la API hasta aprobación. Fusionar PR #2 dentro de directorio vigilado dispararía un build, así que solicitar autorización antes de merge.
