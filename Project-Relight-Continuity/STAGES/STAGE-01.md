@@ -43,3 +43,8 @@ En `Blaze_Calendario_Operativo_Oct-Dic_2026_v12.xlsx` (7 hojas) hay especificaci
 Se consultaron fuentes directas Ko-fi, HoloList, vTubie y proveedores por identificadores exactos YouTube/Instagram. Las bios de Cambiasueños, gaming, música, narrativa, `KGBlaze` y `🧡✨` son coherentes entre fuentes verificables. HoloList y vTubie reflejan descripciones actualizadas, aunque son terceros. X, Twitch y Discord no permitieron auditoría directa. **Perfiles públicos históricamente cerrados: no reabrirlos** como trabajo de edición por una inspección de consistencia.
 La plantilla X operativa del Excel conserva 2 posts estructurados + tercero opcional, replies y promociones aparte; no se verificó el texto de posts X por 403.
 Ver `../SOURCES/PUBLIC_PROFILES.md` y `../AUDITS/THIRD-PASS-2026-10-12.md`.
+
+## Prueba histórica adicional recuperada (contexto de 30-sep-2026)
+- En el levantamiento original del canal YouTube se identificó **Blaze Leiton**, handle `@BlazeLeiton`, Channel ID canónico `UCRd_uwPjrsf6Z3CRXwNehEQ`. La identidad se había registrado en el trabajo Stage 1, pero no figuraba en el handoff técnico de Stage 5; esta anotación repara esa pérdida de continuidad.
+- El usuario **ya había creado una API key de YouTube Data** para consultas de metadatos públicos. Su valor no fue compartido, ni consta configurado en Cloudflare, ni se debe insertar en GitHub o en el chat.
+- En aquel recorrido se había planteado `channels.list` → `contentDetails.relatedPlaylists.uploads` → `playlistItems.list` con paginación para auditoría de catálogo; ese proceso es diferente de identificar salas de emisión `upcoming/live` en Terminal.

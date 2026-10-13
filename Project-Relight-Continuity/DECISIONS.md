@@ -165,3 +165,11 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 | REL-070 | 5 | Adaptador lectura manual de YouTube + preflight con cabecera, ADMIN_TOKEN, feature flag OFF y sin observaciones verificadas ni escrituras; la activación real exige decisión posterior. | CI_VERIFICADA; PRODUCCIÓN_DESACTIVADA |
 | REL-071 | 5 | PR #4 GitHub Actions run `38350968478` 84/84 PASS, frente a 31/31 de PR #2 y 48/48 PR #3 de manera independiente. | CI_VERIFICADA; NO_PRODUCCIÓN |
 | REL-072 | 5 | `videos.list` no proporciona `liveBroadcasts.status.lifeCycleStatus`; nunca deducir `DESPEGÓ` de un video terminado sin fuente de verificación adecuada. Incompletitud de `search.list` y costo API deben bloquear activación sin presupuesto de cuota/rate limiting. | RESTRICCIÓN_VIGENTE |
+
+## Stage 5 — identidad y cuotas verificadas para primer preflight
+| ID | Etapa | Hallazgo / regla | Estado |
+|---|---|---|---|
+| REL-073 | 5 | El ID canónico de YouTube `UCRd_uwPjrsf6Z3CRXwNehEQ` y la API key ya creada por el usuario se recuperaron del trabajo Stage 1. La clave no fue compartida ni instalada. | IDENTIDAD_HISTÓRICA_VERIFICADA; CLAVE_NO_ACCESIBLE |
+| REL-074 | 5 | Cambio documental YouTube 2026: `search.list` = 1 unidad del cupo dedicado 100 consultas/día (2 consultas por preflight), no 100 unidades del cupo general por consulta. | FUENTE_OFICIAL_CONFIRMADA |
+| REL-075 | 5 | PR #4 requiere canal exacto y `YOUTUBE_PREVIEW_LIMITER` presente. Cualquier desajuste, falta de binding, denegación o fallo del limitador impide llamar a Google. CI 88/88 PASS. | IMPLEMENTADO_EN_PR_DRAFT / NO_DESPLEGADO |
+| REL-076 | 5 | No se ejecutó consulta real YouTube: TubeAlfred sin créditos y sin acceso a valor de API key ni panel Cloudflare. No crear evidencia falsa de API ni instalar secretos en repositorio. | BLOQUEADO_POR_ACCESO; SIN_CAMBIO_PRODUCCIÓN |

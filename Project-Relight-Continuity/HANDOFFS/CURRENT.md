@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Preflight YouTube — credenciales ya existentes, barreras y verificación (12-oct-2026 CDMX, prevalece)
+- **Stage 1 recuperado:** canal YouTube real `UCRd_uwPjrsf6Z3CRXwNehEQ` (handle `@BlazeLeiton`); el usuario ya creó una API key de Google, pero ni su valor ni el secreto Cloudflare están disponibles en conectores. **No volver a preguntar qué canal es ni sugerir generar otra clave sin motivo.**
+- PR #4 **DRAFT**, sin merge/despliegue. Endurecido con comparación canal exacto y `YOUTUBE_PREVIEW_LIMITER` obligatorio, fail closed ante rate-limit denegado/ausente/fallido. El binding **todavía NO existe en Wrangler**, así que la ruta del PR seguiría inoperativa incluso con flag/secretos hasta configurar el binding. No se autorizó ni realizó configuración de producción.
+- CI https://github.com/BlazeLeiton/KGBlaze/actions/runs/38351522933: **88/88 PASS**. Las pruebas no equivalen a consulta real YouTube.
+- API Google (cambio de cuotas 2026): `search.list` tiene cupo de 100 búsquedas/día (1 unidad por llamada en ese cupo), de modo que 2 búsquedas por preflight consumen 2 llamadas, NO 200 unidades. `videos.list` en cupo general. Guía PR4: `experiments/youtube-matching/INTEGRATION.md`.
+- Consulta real no realizada: TubeAlfred devolvió créditos 0, páginas YouTube throttle y no existe acceso a secretos Cloudflare. Pasos pendientes: cuota global Google / limitador Cloudflare / instalar la clave existente secretamente / ejecutar un POST explícito, sin cron ni escrituras. No pedir API key en chat.
+
 ## Punto de continuación prevalente: integración YouTube en PR #4 (12-oct-2026 CDMX)
 - **PR #4 borrador, NO MERGED, NO DEPLOYED:** https://github.com/BlazeLeiton/KGBlaze/pull/4, rama `integration/terminal-youtube-readonly-preflight` consolida código de PR #2 (10 test de estados) y #3 (27 matcher) más lector API, preflight y ruta administrativa protegida y **apagada**.
 - **CI https://github.com/BlazeLeiton/KGBlaze/actions/runs/38350968478 → 84/84 PASS**, 0 fail (21+10+27+20+6). No testear con credenciales reales aún.
