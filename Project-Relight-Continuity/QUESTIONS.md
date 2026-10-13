@@ -9,7 +9,7 @@ No preguntar de nuevo decisiones históricas explícitas ya confirmadas. Pregunt
 | Media | Q-03 | ¿Quedó definitivamente confirmado o descartado el Azur del 14/oct a las 22:00 tras el compromiso externo? | Reserva Twitch ≠ confirmación editorial |
 | Resuelta | Q-04 | **RESPONDIDA 12-oct:** URL exacta https://blazeleiton.carrd.co/ , abierta directamente | Se resuelve identidad/URL; sólo la disparidad entre snapshots del contenido queda pendiente como Q-09 |
 | Media | Q-05 | Para auditar **X** por enlace real sin búsquedas indexadas, ¿puedes facilitar enlaces de publicaciones recientes o acceso a una exportación autorizada? | X directo 403 |
-| Pospuesta por el usuario | Q-06 | Recuperación de un `.ics` o enlace reciente para verificar Twitch `/schedule`: **DESPUÉS**, sin fecha comprometida | No insistir ahora; la agenda Twitch sigue SIN VERIFICACIÓN ACTUAL; el ICS histórico no pasa a vigente |
+| Suficiente por ahora | Q-06 | El ICS archivado **ya es el más reciente** y no se han hecho cambios; no se necesita nueva exportación | CONFIRMADO_USUARIO. Twitch `/schedule` sigue sin lectura web directa, pero el archivo actual basta para la conciliación hasta que existan cambios |
 | Baja | Q-07 | ¿Se conserva la estrategia de perfiles «cerrados salvo revisión lore/imagen»? | Sólo preguntar si usuario solicita cambios, no reabrir por defecto |
 | Baja | Q-08 | ¿Se eligió ya el formato/plataforma y permisos de una posible cobertura del GP México? | Plan opcional, no anunciar sin decisión |
 
