@@ -8,7 +8,7 @@
 - `src/worker.mjs`: API Cloudflare Worker, publicación autenticada y acceso a agenda en D1; también gestiona imagen social manual 1080 × 1080.
 - `src/core.mjs`: validación, límite de cinco semanas, control de revisiones, prioridad de bloqueos.
 - `schema.sql`: tablas D1 para agenda, revisiones y vista previa social.
-- `wrangler.toml`: configuración de Worker y activos estáticos; **D1 enlazada en configuración** con la base `kgblaze-terminal` y su Database ID proporcionado por el propietario. El esquema SQL todavía no se ha aplicado al servicio remoto. El Cron está expresamente deshabilitado.
+- `wrangler.toml`: **Worker `kgblaze-terminal`**, activos estáticos; **D1 enlazada en configuración** con la base D1 independiente `kgblaze-terminal` y su Database ID proporcionado por el propietario. El usuario confirmó en la consola remota de D1 que ya existen las tablas `terminal_state`, `terminal_audit` y `terminal_preview`. El esquema está creado; la estructura y los endpoints remotos aún deben validarse tras el despliegue. El Cron está expresamente deshabilitado.
 - `tests/`: pruebas unitarias y simulaciones de los endpoints, sin consumir APIs externas.
 - **Archivo separado**: `Terminal_Operativo_v23_11_local.html` — permanece local, nunca subir a `public` o un repositorio público.
 
@@ -37,9 +37,9 @@ npm test
 2. Instalar Wrangler y autorizar la cuenta para el despliegue mediante el panel de Cloudflare o `npx wrangler login`.
 3. **Listo:** base D1 `kgblaze-terminal` creada por el usuario; Database ID y binding `DB` registrados en `wrangler.toml`.
 4. **Listo:** `wrangler.toml` contiene `[[d1_databases]]`, `binding = "DB"`, `database_name = "kgblaze-terminal"` y el ID real facilitado por el propietario.
-5. Aplicar el esquema actualizado de **Terminal** (`terminal_state`, `terminal_audit`, `terminal_preview`): `npx wrangler d1 execute kgblaze-terminal --remote --file schema.sql`.
+5. **Confirmado por el usuario:** ya existen las tres tablas de **Terminal** (`terminal_state`, `terminal_audit`, `terminal_preview`) en D1 remota. No repetir esta inicialización. Más adelante comprobar las estructuras y la conectividad desde el Worker.
 6. **No ejecutar `npx wrangler secret put ADMIN_TOKEN` antes de autorizar despliegue:** Cloudflare documenta que `wrangler secret put` crea y **despliega inmediatamente** una versión del Worker. Preparar un valor aleatorio robusto fuera de GitHub y del chat; cuando se autorice el paso de Worker, configurar el secreto en el mismo flujo mediante `wrangler versions upload --secrets-file <ruta-privada>` (sube versión sin activarla; verificar soporte de Wrangler) o desde Settings > Variables and Secrets después de crear el Worker. Nunca agregar el valor al código, a `wrangler.toml`, ni a mensajes compartidos. El editor sólo lo pide temporalmente.
-7. Desplegar **sólo después de tu aprobación**, tras verificar nombre técnico del Worker, secreto `ADMIN_TOKEN` y D1. Para despliegue controlado usar una versión previamente subida o `npx wrangler deploy` únicamente cuando se autorice; Workers Builds tampoco debe activarse sin aprobación.
+7. Desplegar **sólo después de tu aprobación**, tras verificar nombre técnico del Worker **`kgblaze-terminal`**, secreto `ADMIN_TOKEN` y D1. Para despliegue controlado usar una versión previamente subida o `npx wrangler deploy` únicamente cuando se autorice; Workers Builds tampoco debe activarse sin aprobación.
 8. Anotar la URL HTTPS definitiva del Worker, abrir el HTML operativo local, completar `https://…workers.dev` y el token de publicación, pulsar **Consultar**, revisar la agenda, **Publicar cambios** y opcionalmente **Publicar vista previa 1080 × 1080**.
 9. Comprobar `/api/health`, `/api/public` y la visualización móvil/escritorio. El servicio no mostrará eventos hasta que tú publiques la primera agenda desde el editor.
 
@@ -75,3 +75,9 @@ npm test
 - El visor `public/index.html` restaura estos textos en el encabezado DOM, mapa trilingüe y cabecera dibujada en canvas. Pruebas de regresión: `tests/public-header.test.mjs` (incluidas en `npm test`).
 - El editor privado v23.11 NO se guarda en este repositorio. Una copia revisada puede producirse localmente a partir del original, conservando `kgblaze_terminal_board_v3_202610` y la lectura de migración `kgblaze_terminalb_board_v3_202610`. **No** subir ese editor al visor público.
 - Esta corrección fue un commit de fuentes; NO implica desplegar Worker, aplicar D1 o publicar el calendario.
+
+## Nombre definitivo del Worker — Stage 4 (2026-10-12)
+- El propietario eligió explícitamente **`kgblaze-terminal`** como identificador del Worker en Cloudflare, sustituyendo al valor configurado anteriormente `kgblaze-centro-informacion` en `wrangler.toml` **antes de crear la aplicación**. Usar **Project name = `kgblaze-terminal`** en Workers Builds y **Path = `/KGBlaze-Information-Center/`** para que Wrangler lea esta configuración. Al configurar la integración, confirmar primero que Path sea el directorio del proyecto, no el directorio del repositorio completo.
+- La base D1 también se denomina **`kgblaze-terminal`**, pero pertenece a otro tipo de recurso. El `binding = "DB"` y el identificador de la base **no se modifican**.
+- Encabezado visible del aeropuerto **sigue incluyendo Terminales A y B**. Este cambio no edita el HTML privado, ni habilita el Worker, ni despliega, ni configura `ADMIN_TOKEN`.
+- Antes de cualquier despliegue, verificar que el formulario apunte a rama `main`, ruta correcta, el Worker real y el `wrangler.toml` actualizado. La creación y despliegue desde GitHub pueden habilitar builds automáticos posteriores.
