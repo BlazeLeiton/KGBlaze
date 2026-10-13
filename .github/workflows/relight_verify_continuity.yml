@@ -1,0 +1,29 @@
+name: Project Relight — continuity and Terminal regression checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/relight_verify_continuity.yml'
+      - 'Project-Relight-Continuity/**'
+      - 'KGBlaze-Information-Center/tests/**'
+      - 'KGBlaze-Information-Center/src/**'
+      - 'KGBlaze-Information-Center/public/index.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit Stage 1..N registry and pending chat closures
+        run: python Project-Relight-Continuity/scripts/kgrp.py audit
+      - name: Verify public airport headers and technical Terminal naming
+        run: python KGBlaze-Information-Center/scripts/restore_airport_public_header.py KGBlaze-Information-Center/public/index.html --verify
+      - name: Run Terminal core, Worker and viewer regression tests (no deployment)
+        working-directory: KGBlaze-Information-Center
+        run: npm test
