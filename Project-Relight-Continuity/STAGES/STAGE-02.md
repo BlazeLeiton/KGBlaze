@@ -39,3 +39,8 @@ Localizados en Biblioteca: `KGBlaze_Twitch_Paneles_Maestro_v1-1.html` (maestro d
 La conciliación del 11-oct declara prioridad de fuente **confirmación del usuario > ICS Twitch del 10-oct > operativo del 9-oct**, con distinción **realizado vs programado**. Seis primeros directos de Octublaze aparecen realizados; eventos futuros de Twitch permanecen PROGRAMADOS. Pokémon Journey se difirió a noviembre, con ventana sugerida y no fecha de estreno confirmada.
 
 Paneles: el maestro HTML v1.1 identifica siete paneles completos (Check-in, Salidas, Conexiones, Sala de Espera, Servicios Adicionales, Seguridad, Entretenimiento). La denominación institucional visible ya es `Terminal`; algunos códigos legados TB se conservan en referencias internas. Plantilla indexada en `../TEMPLATES/PANELS.md`.
+
+## Tercera auditoría — evidencia de publicaciones (12-oct-2026)
+YouTube mediante IDs exactos confirmó videos publicados de House Flipper, HoloCure, Civ VI × Azur, VRChat/Padorus, Azur Crosswave, celebración de cumpleaños, Among Us y Azur Capsule Rerun. No confundir fecha UTC de publicación con día CDMX, ni afirmar que el código de calendarios está sincronizado automáticamente.
+Las descripciones publicadas muestran una plantilla de directos diferente de la de covers: premisa narrativa, enlaces KGBlaze, créditos generales y reglas completas de Seguridad a bordo. Archivo `../TEMPLATES/LIVE_STREAMS.md` creado como estructura recuperada, sin pretender reemplazar el texto íntegro maestro de los videos.
+Los paneles Twitch siguen reportados como siete publicados en historial, pero el perfil de Twitch no permitió comprobación visual directa. Ver `../SOURCES/PUBLIC_PUBLICATIONS.md`.
