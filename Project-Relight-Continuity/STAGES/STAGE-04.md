@@ -70,3 +70,5 @@ Actualizar esta ficha con último mensaje, cambios reales y resultados de prueba
 - Calendario de 18 pestañas, seis CSV Steam e historial de disponibilidad/propiedad frente a wishlist recuperados; no regenerar compras ni agendas privadas.
 - La vigilancia combinada Azur/Cadillac/Mahouka/Steam/GP fue **verificada en estado operativo**: habilitada a 09:00/18:00 CDMX, avisos/correo desactivados; no se creó ni modificó.
 - Nuevas reglas y huecos: `../AUDITS/FOURTH-PASS-2026-10-12.md`, `../SOURCES/PUBLIC_PROFILES.md`, `../QUESTIONS.md`. Stage 4 sigue ABIERTA; Terminal sin alteraciones.
+
+Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
