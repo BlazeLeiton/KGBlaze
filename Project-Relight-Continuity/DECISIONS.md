@@ -145,3 +145,10 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 | REL-062 | 5 | PR #3 `test/terminal-youtube-match-dry-run`, sólo matcher experimental y tests, sin integrar en Worker ni visor. `candidate` nunca se convierte en observación verificada. | CÓDIGO_EN_RAMA_DRAFT / NO_DESPLEGADO |
 | REL-063 | 5 | Regla de matcher: validar canal propio, ID explícito, título distintivo y horas CDMX; duplicados, colaboraciones, reprogramaciones y conflictos se señalan para revisión. | PROTOTIPO_SIN_APROBACIÓN_DE_PRODUCCIÓN |
 | REL-064 | 5 | GitHub Actions run `38349473729` (PR #3) **48/48**: 21 tests base + 27 de matcher; PR #2 independientemente 31/31 sin merge. | PRUEBA_CI_VERIFICADA |
+
+## Confirmación de clasificación tras reparación de ICS (Stage 5 — 12-oct-2026)
+| ID | Etapa | Decisión o hallazgo | Estado |
+|---|---|---|---|
+| REL-065 | 5 | El usuario confirma lectura real del endpoint: 6 Twitch + 4 manuales, revisión 1 sin nueva publicación. | CONFIRMADO_USUARIO_EN_NAVEGADOR; GET_ASISTENTE_NO_DISPONIBLE |
+| REL-066 | 5 | JSON original muestra 4 manuales: 12-oct y 18-oct DESCANSO, 17-oct Collab Padoru POR CONFIRMAR y 1-nov F1 GP Ciudad de México 14:00 A TIEMPO. La colaboración explica el cuarto manual no mencionado por usuario. | VERIFICADO_ARCHIVO / CLASIFICACIÓN_ACTUAL; SIN CAMBIO EDITORIAL |
+| REL-067 | 5 | Origen `manual` distingue creación del evento; estado `DESCANSO` es diferente. No transformar Padoru, GP ni descansos sin nueva autorización. | CAUTELA VIGENTE |
