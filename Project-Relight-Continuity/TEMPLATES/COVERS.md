@@ -32,3 +32,8 @@ Recuperada de los proyectos Connect y mumei. Personalizar créditos y enlaces ve
 - Miniaturas: tres alternativas por proyecto; «mumei» / «COVER EN ESPAÑOL» / «BLAZE LEITON», adornos estrellas/orbitas, para segunda y tercera gráfica alineada a la derecha y fondos oscuros; sin personajes en exportación gráfica.
 - Connect: estrella rosada y puntas alargadas; conservar variantes de gráfica sin mezclar con fondo original.
 - Tags de arte fanwork sólo cuando se corroboren en fuentes oficiales.
+
+## Corrección basada en descripción publicada — 12-oct-2026
+**Connect:** en el video real `KY678pt_GK0` el crédito literal atribuye voz, mix y video a Blaze Leiton, adaptación en español a @AmeliaSing (Sekai025), y en nota de uso solicita además acreditar a Glorylé por ajustes utilizados. El crédito vigente de esa pieza es el de la publicación, **no el ejemplo provisional** de chats anteriores.
+**mumei:** en video `Z-jGRvrjW-I` el crédito real separa voz/adaptación/subtítulos por Blaze Leiton, canción y letra originales por TKN, mix/master original TKN y MV original por 大鳥 (Otori). No confundir autoría del MV con quien agregó subtítulos.
+Al elaborar otra descripción, reconstruir créditos desde la ficha particular de esa canción, nunca copiar autores de Connect/mumei por defecto.
