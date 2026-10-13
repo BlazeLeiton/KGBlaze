@@ -42,3 +42,8 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - La auditoría externa YouTube/Twitch se considera **reportada completada** por el usuario; las transcripciones completas de las conversaciones siguen siendo un asunto de recuperación documental.
 - Repo HEAD justo antes de registrar Stage 4: `ac0944d589629cfdbb122df21be4afb881a47d2c`; verificar el HEAD nuevo antes de otra acción.
 - Trabajo pendiente: transcripciones originales y últimos tramos aún faltan, pruebas del editor privado no ejecutadas, comparativa de versiones sin evidencia completa, servicio Cloudflare y polling externos no confirmados.
+
+## Rescate estratégico añadido en Stage 4
+- **Trabajo fuera de Terminal**: métricas internas de YouTube/Twitch, análisis estratégico X y preparación de Pokémon Journey (reprogramado a noviembre 2026).
+- Los siete paneles de Twitch fueron reportados publicados en capturas previas; falta verificación independiente actual, no volverlos a poner como trabajo pendiente por defecto.
+- Distinción crítica: Phase/Stage 1 puede estar finalizada como trabajo aunque el **chat** no tenga un cierre íntegro archivado.

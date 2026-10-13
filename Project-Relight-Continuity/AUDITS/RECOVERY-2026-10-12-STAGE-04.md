@@ -53,3 +53,10 @@ Alcance: Stage 1, Stage 2, Stage 3 y chat auxiliar KGRP anterior. **Registro pú
 ## Próximas pruebas permitidas
 - Verificar integridad de índice 1–4, existencia de cada ficha y ausencia de alteraciones fuera de `Project-Relight-Continuity`.
 - No hacer afirmaciones de prueba real de Twitch/YouTube sin claves, llamadas y resultados concretos.
+
+## Complemento estratégico y auditoría de aparente contradicción
+- **AUD-S4-05 REVISADO:** fuentes históricas adicionales indican que los siete paneles (seis principales + Entretenimiento, inicialmente opcional) terminaron diseñados y reportados publicados mediante capturas. Clasificación `PUBLICACION_REPORTADA`; falta revisión en vivo. La fase temprana de siete propuestas y una séptima opcional no equivale a estado final.
+- **AUD-S4-06: cierre de Stage 1:** la persona usuaria había informado «Stage 1 quedó cerrado» como fase y «auditoría externa completada». El registro `closure_verified=false` significa **ausencia de traspaso/chat íntegro comprobable**, no que la auditoría externa esté incompleta. Sin necesidad de rehacer lo aprobado.
+- **AUD-S4-07: agenda Pokémon:** documentos/recuerdos contienen propuesta de octubre pero la revisión posterior pospone Pokémon Journey a noviembre de 2026; priorizar la instrucción posterior. Los eventos de Octublaze se deben verificar antes de marcar próximos o concluidos.
+- **AUD-S4-08: prioridad estratégica fuera de Terminal:** trabajo ya acordado: métricas internas YouTube/Twitch (archivos CSV/Analytics cuando estén disponibles) → estrategia X → preparación de Pokémon Journey en noviembre. No confundir etapa de infraestructura con totalidad de Project Relight.
+- **AVISO PRIVACIDAD:** no se incorporan aquí métricas privadas del canal, transcripciones íntegras ni datos operativos reservados.

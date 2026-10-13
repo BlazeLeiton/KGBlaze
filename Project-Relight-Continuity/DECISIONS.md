@@ -31,3 +31,7 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-017 | 2–3 | Póster semanal estático y visor público dinámico son componentes distintos; no unificar sus reglas | ACLARADO POR ALCANCE | Secuencia contextual recuperada |
 | REL-018 | 2–3 | YouTube puede cambiar POR CONFIRMAR→A TIEMPO sólo en la presentación del visor con match fiable; operativo editorial no se modifica | CONFIRMADO_USUARIO; SIN VERIFICAR EN PRODUCCIÓN | Contexto de instrucciones 12-oct |
 | REL-019 | 1 | Auditoría histórica YouTube/Twitch reportada completada, aunque faltan transcripciones del chat original | HISTÓRICO RECUPERADO | Corrección del usuario 30-sep |
+
+| REL-020 | 1–2 | Siete paneles reportados publicados; el séptimo pasó de opcional a incorporado | HISTÓRICO; verificación en vivo pendiente | Recuperación contextual con referencia a capturas |
+| REL-021 | 1–4 | Orden estratégico posterior: métricas internas YouTube/Twitch → estrategia X → Pokémon Journey noviembre | VIGENTE COMO PLAN HISTÓRICO, sujeto a revisiones | Conversaciones previas |
+| REL-022 | 1–4 | Stage 1 cerró como trabajo/auditoría; el cierre textual del chat sigue sin acreditarse | ACLARACIÓN DE ESTADOS | Evidencia contextual previa |

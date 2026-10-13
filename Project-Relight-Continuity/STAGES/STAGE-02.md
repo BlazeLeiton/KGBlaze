@@ -25,3 +25,10 @@
 
 ## Criterio
 La ausencia de transcript y del binario/HTML local correspondiente implica `NO_COMPROBADO` para funcionamiento real de esa versión.
+
+## Ampliación recuperada al iniciar Stage 4 (2026-10-12)
+- Hay constancia contextual de que se diseñó y exportó una serie de **siete paneles**: Check-in, Salidas, Conexiones, Sala de Espera, Servicios Adicionales, Seguridad y Entretenimiento. Otra recuperación histórica informó que capturas mostraron **los siete publicados**. Registrar como `PUBLICACIÓN_REPORTADA_EN_HISTORIAL`, no auditoría actual de Twitch.
+- El séptimo panel se había considerado inicialmente opcional; la información posterior señala su incorporación. Evitar interpretar «opcional» como «nunca realizado».
+- Exportaciones históricas reportadas: 14 PNG en dos tamaños (320×100 y 960×300), además de HTML y resumen; conservar copias visuales completas e individuales aprobadas.
+- La versión v23.1 fue descrita como estable en una revisión de Stage 3/Stage 2. Posteriores v23.2/v23.3 añadieron REPROGRAMADO/DESPEGÓ y última actualización, y la base v23.5 añadió más controles. Orden de versiones indica evolución, pero no prueba que los archivos físicos funcionen idénticamente.
+- El usuario reiteró que el tablero semanal **estático** no debía tener EN VIVO ni sincronización; esto no prohíbe un **visor público separado**, posterior, con sincronización conservadora.

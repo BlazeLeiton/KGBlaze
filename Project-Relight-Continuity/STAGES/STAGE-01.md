@@ -24,3 +24,10 @@ Las denominaciones visuales antiguas de los paneles y terminales son **históric
 
 ## Estado de auditoría
 `HISTORICO_RECUPERADO` para contenido resumido; `NO_COMPROBADO` para detalles no vistos directamente.
+
+## Ampliación recuperada al iniciar Stage 4 (2026-10-12)
+- Existe un reporte histórico del usuario del 12/10 que **Stage 1 quedó cerrado como fase de trabajo**. Esto NO equivale a prueba documental de un cierre literal/traspaso del chat; conservar `closure_verified=false` para el chat hasta hallar esa evidencia.
+- Branding/perfiles: YouTube como hub principal, Carrd secundario; se trabajó versión inglesa del perfil y se corrigieron expresiones concretas.
+- Orden estratégico que debe sobrevivir al calendario técnico: **seguimiento de métricas internas de YouTube/Twitch (CSV de Studio/Analytics) → estrategia X/Twitter → preparación de Pokémon Journey para noviembre de 2026**.
+- Pokémon Journey (Pokémon Amarillo) apareció en calendarios anteriores de octubre, pero la decisión posterior **lo pospuso a noviembre**; no volver a presentar fechas antiguas como vigentes.
+- El universo editorial se organizó en tres espacios principales (Pokémon, Azur, Rotación) y un cuarto sólo por oportunidad, respetando entregas con fecha y disponibilidad.

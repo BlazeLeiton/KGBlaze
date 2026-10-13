@@ -33,3 +33,9 @@ Se leyeron las fichas Stage 1/2/3, el índice, el handoff, registro de decisione
 
 ## Próximo traspaso
 Actualizar esta ficha con último mensaje, cambios reales y resultados de pruebas. Si el chat se corta, Stage 4 permanece ABIERTA y su último tramo debe recuperarse retrospectivamente.
+
+## Recuperación adicional — identidad, prioridades y estado de publicaciones
+- Se recuperó reporte previo de **siete paneles Twitch publicados con capturas**; clasificación `HISTORICO_RECUPERADO`, aún sin comprobación pública actual. Corrige la posible lectura de que el séptimo permaneció meramente opcional.
+- El proyecto más amplio no se reduce a Terminal: ya estaba establecido el orden **métricas internas YouTube/Twitch → estrategia X/Twitter → Pokémon Journey en noviembre de 2026**. El aplazamiento de Pokémon desde octubre sustituye agendas anteriores.
+- Octubre/Octublaze mantenía bloques flexibles para MiSide, Azur y reservas como Parasocial o The Closing Shift según capacidad y prioridades; los calendarios anteriores deben compararse con versiones más recientes antes de usarse como agenda actual.
+- Stage 1 fue **reportada como fase de trabajo cerrada**; falta la transcripción íntegra del cierre formal del chat. Son estados distintos, no contradictorios.
