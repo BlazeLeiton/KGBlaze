@@ -11,11 +11,12 @@ const OWN_CHANNEL='UCRd_uwPjrsf6Z3CRXwNehEQ';
 const ID=/^[A-Za-z0-9_-]{11}$/;
 const SOURCE='youtube_data_api_v3';
 
-export async function runScheduledYouTubeSync(env,{now=new Date(),fetchImpl=fetch}={}){
+export async function runScheduledYouTubeSync(env,{now=new Date(),slot=now,fetchImpl=fetch}={}){
  if(env?.YOUTUBE_SYNC_ENABLED!=='true')return {ok:false,reason:'disabled'};
  if(!env.DB||!env.YOUTUBE_API_KEY||env.YOUTUBE_CHANNEL_ID!==OWN_CHANNEL||
     typeof env.YOUTUBE_PREVIEW_LIMITER?.limit!=='function'||
-    !(now instanceof Date)||!Number.isFinite(now.getTime()))
+    !(now instanceof Date)||!Number.isFinite(now.getTime())||
+    !(slot instanceof Date)||!Number.isFinite(slot.getTime()))
   return {ok:false,reason:'not_configured'};
  // Cloudflare binding guards bursts; upstream credential stays secret.
  let limiter;
@@ -40,7 +41,9 @@ export async function runScheduledYouTubeSync(env,{now=new Date(),fetchImpl=fetc
  }))];
  // Search at most once each UTC hour: 24 x 2 search.list calls/day.
  // Intermediate 5-minute slots refresh known IDs via videos.list only.
- const discover=now.getUTCMinutes()===0;
+ // Cron may execute late: use the Cloudflare scheduledTime, not wall-clock
+ // invocation minute, to preserve precisely one hourly discovery slot.
+ const discover=slot.getUTCMinutes()===0;
  if(!discover&&!knownIds.length)return {ok:true,reason:'await_discovery_slot',writes:0};
  const options={ownedChannelId:OWN_CHANNEL,apiKey:env.YOUTUBE_API_KEY,fetchImpl,now:()=>now};
  const evidence=discover
