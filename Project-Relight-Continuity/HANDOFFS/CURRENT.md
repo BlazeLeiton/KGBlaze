@@ -180,3 +180,9 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - GitHub Actions de PR #2: https://github.com/BlazeLeiton/KGBlaze/actions/runs/38347977143 → SUCCESS, 31 tests / 31 passed / 0 failures (21 previos + 10 simulaciones). PR #2 aún no fusionado; por ello no se disparó nuevo despliegue de main.
 - No se pudo abrir el dominio workers.dev desde herramientas externas por falta de resolución DNS; la comprobación en vivo de revision=1, 10 eventos y 6 IDs tw: con origin=twitch sigue pendiente de usuario, sin necesidad de republicación.
 - Siguiente paso: matcher conservador contra videos/salas reales de YouTube, con pruebas de ambigüedad, sin credenciales ni conexión a la API hasta aprobación. Fusionar PR #2 dentro de directorio vigilado dispararía un build, así que solicitar autorización antes de merge.
+## Actualización incremental — matcher YouTube aislado, PR #3 (12-oct-2026 CDMX)
+- Stage 5: prototipo `experiments/youtube-matching/matcher.mjs` y pruebas en rama `test/terminal-youtube-match-dry-run` / PR borrador #3. GitHub Actions https://github.com/BlazeLeiton/KGBlaze/actions/runs/38349473729 **48/48 PASS** (21 base + 27 dry-run), ningún fallo.
+- No fusionado a `main`; no modificación al Worker, visor, D1, editor operativo v24.1, Cron ni revisión 1. Propuestas de matcher no crean `verified` o `matchConfirmed`.
+- El PR #2 sigue DRAFT independiente (31/31 pruebas de estados). No se acumulan sus pruebas con las del PR #3 antes de fusionar, y no hay autorización de merge.
+- Pendiente sin cambio: lectura del usuario del GET `/api/public` (revisión 1, seis Twitch, cuatro manual); acceso web directo fue rechazado. Próximo hito: auditoría conservadora de datos reales, con decisión de autorización explícita antes de conectar YouTube.
+
