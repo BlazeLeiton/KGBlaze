@@ -18,6 +18,7 @@ Revisión profunda **siempre**, pero sin bloquear indefinidamente una tarea urge
 
 ## Fase 2 — Archivo y plantillas
 - Consultar `SOURCES/FILE_REGISTRY.md` y `TEMPLATES/README.md`; buscar originales en Biblioteca, Project files y documentos autorizados.
+- Para YouTube Studio **leer obligatoriamente `TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md` y `TEMPLATES/YOUTUBE_METADATA_TAGS.md`** antes de preparar directos/covers. Es una **plantilla maestra única ya validada y reportada precargada** por el usuario, con tags base + Azur + covers + Pokémon; F1 y otros módulos temáticos fuera de defaults. Descripciones de videos publicados no crean por sí solas otra plantilla maestra. No repetir la validación si no hay incidencia nueva.
 - Inventariar HTML/CSV/XLSX/PPTX/PDF/DOCX/PNGs, versiones, fechas, formatos, duplicados, límites y copias realmente autorizadas.
 - Comparar v23.11 con maestro previo si la tarea afecta Terminal; nunca confundir `EXISTE`, `LEÍDO`, `PROBADO`, `DESPLEGADO`.
 - Clasificar plantilla como `MAESTRO_ORIGINAL`, `RECONSTRUIDA`, `HISTÓRICA`, `VERIFICADA_EN_PUBLICACIÓN`, `REEMPLAZADA`.
