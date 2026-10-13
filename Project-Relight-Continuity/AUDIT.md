@@ -53,3 +53,13 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - **A04:** los tres Stage tienen cierre no acreditado y deben inspeccionarse como potencialmente inconclusos.
 - **A09/A10:** política de segregación pública fijada; falta confirmar árbol tras el commit.
 - **Auditoría de software:** no ejecutada como parte de este protocolo; sólo hay lectura documental y de archivos versionados del Worker.
+
+## Auditoría de instalación — 2026-10-12
+
+- **A01/A02:** PASS — se analizó `STAGES/index.json`: `latest_stage=3` y la secuencia es [1,2,3].
+- **A03:** PASS — lectura remota de las tres fichas Stage y del índice en el repositorio.
+- **A04:** PASS DE CONFIGURACIÓN — los tres campos `closure_verified=false`; recuperación obligatoria programada en el protocolo. **No** implica que se hayan recuperado los últimos mensajes textuales.
+- **A09/A10:** PASS SOBRE EL CAMBIO VERSIONADO — documentos y herramientas colocados exclusivamente bajo `Project-Relight-Continuity/`. Revisión final de cambios del repo pendiente de cotejar contra el SHA previo a KGRP.
+- **Prueba local de la herramienta:** PASS (4 escenarios): lectura índice 1..3, alta temporal Stage 4, rechazo de origen vacío y error ante ficha faltante. **Stage 4 no fue añadido al repositorio.**
+- **A07 / auditoría histórica exhaustiva:** PARCIAL — fuentes de chat antiguas sólo accesibles de forma resumida, no se afirma recuperación literal íntegra.
+- **Pruebas funcionales de Terminal, Cloudflare o plataformas:** NO EJECUTADAS EN ESTE PROTOCOLO. No se cambió el software.
