@@ -102,3 +102,8 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - Documentación técnica actual: base `kgblaze-terminal` enlazada por `DB`; `schema.sql` contiene exclusivamente `terminal_*`; Worker se llama `kgblaze-centro-informacion` en `wrangler.toml`. `ADMIN_TOKEN` secreto pendiente, cron externo deshabilitado.
 - **Siguiente paso**: abrir consola D1 `kgblaze-terminal`, consultar `sqlite_master`, después aplicar únicamente tablas `terminal_state`, `terminal_audit`, `terminal_preview` si faltan, con consentimiento para cambios remotos. No renombrar base, no eliminar nada y no desplegar por implicación.
 - Ver `AUDITS/OPERATIVE-UPLOAD-2026-10-12.md`. Stage 4 ABIERTA.
+
+## D1 inspeccionada por usuario — antes de crear esquema Terminal
+- Usuario ejecutó la consulta de `sqlite_master` en consola Cloudflare D1 para `kgblaze-terminal`, devolviendo **sólo** `_cf_KV` (tabla interna de Cloudflare); todavía **no aparecen** `terminal_state`, `terminal_audit` ni `terminal_preview`.
+- Se indicó crear únicamente esas tres tablas mediante el `KGBlaze-Information-Center/schema.sql` actual, con `CREATE TABLE IF NOT EXISTS`, y verificar luego la lista en `sqlite_master`. **No hay confirmación aún de que el usuario haya ejecutado la creación**; no afirmar que D1 está inicializada.
+- Mantener `_cf_KV` intacta; no renombrar base `kgblaze-terminal`; no desplegar ni establecer credenciales hasta la comprobación de las tablas.
