@@ -13,3 +13,8 @@
 | Handoff y cierre/inconclusos | MD | [HANDOFF.md](HANDOFF.md) |
 
 **Estados:** recuperada del historial / archivo maestro localizado / texto reconstruido / probado. No equiparar versiones reconstruidas a una copia literal del archivo fuente. Guías PPTX/PDF de terceros son referencias, no plantillas redistribuibles. Biblioteca sigue siendo custodio de los originales; este directorio contiene índices y texto.
+
+## Plantilla pública de directos — añadida tras la tercera auditoría
+- [**LIVE_STREAMS.md — descripción para streams / Octublaze / seguridad a bordo**](LIVE_STREAMS.md): reconstruida a partir de descripciones publicadas, separada de `COVERS.md`.
+- COVERS, SOCIAL y LIVE_STREAMS se contrastaron parcialmente con videos de YouTube; **los posts reales de X no pudieron consultarse**. No marcar `SOCIAL.md` como publicación verificada.
+- Estructuras publicadas y fuente por video ID: [matriz de publicaciones](../SOURCES/PUBLIC_PUBLICATIONS.md).
