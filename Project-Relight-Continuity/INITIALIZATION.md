@@ -1,6 +1,6 @@
 # Arranque integral obligatorio — KGRP / Project Relight
 
-**Versión:** KGRP v3.0 — 2026-10-12. Sustituye el antiguo uso de «REANUDAR rápido». Se aplica al inicio de **cada nueva conversación del Proyecto** al solicitar trabajo sobre Project Relight, Stage N, Blaze/ KGBlaze. No confundir etapas con módulos ni sesiones auxiliares.
+**Versión:** KGRP v3.2 — 2026-10-12. Sustituye el antiguo uso de «REANUDAR rápido». Se aplica al inicio de **cada nueva conversación del Proyecto** al solicitar trabajo sobre Project Relight, Stage N, Blaze/ KGBlaze. No confundir etapas con módulos ni sesiones auxiliares.
 
 ## Principio
 Revisión profunda **siempre**, pero sin bloquear indefinidamente una tarea urgente ni afirmar conocimiento literal de chats inaccesibles. Entregar diagnóstico completo basado en evidencia y avanzar con la petición activa. Documentar etapas que no tengan cierre formal, incluso si el usuario no pidió `KGRP: CIERRE`.
