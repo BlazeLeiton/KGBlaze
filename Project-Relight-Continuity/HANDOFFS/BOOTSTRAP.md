@@ -20,3 +20,8 @@ Intención: última corrección explícita del usuario en el alcance afectado. T
 
 ## Siguiente tarea real (no elegir por cuenta propia)
 El usuario seguirá indicando qué componente priorizar. No desplegar Terminal ni modificar editor, agenda, perfiles, D1 o automatizaciones por el mero comando Respark; no repetir preguntas ya respondidas. Al cambiar de tema, agregar **delta verificable** al Stage 4 y handoff. Cuando exista declaración explícita de Stage 5, crear su ficha conservando los cuatro previos.
+
+## Última prueba real — recuperación de interrupción Stage 4 (12-oct-2026)
+- GitHub Actions [run #38337375637](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38337375637): `kgrp.py audit` PASS, `latest_stage=4`, verificador títulos ES/EN/JA PASS, `npm test` **18/18 PASS**. CI restringido a cambios de registro o código (y disparo manual), no cada anotación cotidiana.
+- HTML `Terminal_Operativo_v23_11_encabezado_corregido.html` en Biblioteca: ES visible; ES/EN/JA canvas; `LEGACY_STORE` sólo lee configuración antigua. No se obtuvo copia autorizada de bytes para E2E nuevo.
+- Último tramo Stage 4 y pruebas documentados en `../AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. No hubo despliegue. Stage 4 sigue ABIERTA, nombre software Terminal ≠ título aeroportuario Terminales A y B.
