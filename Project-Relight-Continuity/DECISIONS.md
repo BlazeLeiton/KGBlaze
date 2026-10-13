@@ -53,5 +53,13 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 | REL-030 | 2–4 | Plantillas de covers y directos son distintas; créditos exactos de Connect y mumei siguen lo **publicado**, no un borrador genérico | VERIFICADO EN DESCRIPCIONES |
 | REL-031 | 2–4 | X: posts interactivos + replies ≠ promoción de directos/covers; no tratar ausencia de acceso X como inactividad | VIGENTE, post real no verificado |
 | REL-032 | 1–4 | Publicado/emitido ≠ programado/reservado; hasta tener prueba pública para eventos nuevos no elevar su estado | OBLIGATORIA |
-| REL-033 | 4 | Reservas Azur 21/22 mantienen discrepancia entre instrucción explícita y algunas hojas; pedir aclaración | PENDIENTE Q-01 |
+| REL-033 | 4 | Discrepancia histórica de reserva Azur 21/22 **resuelta**: ambas fechas permanecen RESERVADAS, sin hora ni confirmación de directo; instrucción usuario Stage 4, 12-oct | RESUELTO Q-01; CONFIRMADO_USUARIO |
 | REL-034 | 4+ | Fuente oficial accesible primero, proveedor por ID si hay bloqueo; agregadores son contexto y pueden estar desactualizados | OBLIGATORIA |
+
+## Aclaraciones de calendario confirmadas — 2026-10-12 · confirmación explícita del usuario (Stage 4)
+| ID | Etapa | Decisión puntual | Estado | Efecto delimitado |
+|---|---|---|---|---|
+| REL-035 | 4 | Mantener reservas de **Azur Lane 21-oct y 22-oct**, ambas sin hora | CONFIRMADO_USUARIO | Se corrige la discrepancia entre calendarios; no son eventos en vivo ni confirmación editorial de emisión |
+| REL-036 | 4 | La **demo vocal de Cake Song del 12-oct** continúa pendiente | CONFIRMADO_USUARIO | Tarea abierta; no registrar grabación ni envío; plazo 31-oct sin modificación |
+
+**Alcance negativo expreso:** ninguna otra actividad fue confirmada, cancelada, reprogramada o dada por terminada; ninguna modificación al editor ni a Terminal.
