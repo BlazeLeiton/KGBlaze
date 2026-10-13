@@ -56,3 +56,6 @@ En las etiquetas predeterminadas se conservaron **base identitaria + Azur Lane +
 
 ## Recuperación literal ampliada — 13-oct-2026
 Se localizaron los mensajes adyacentes (01-oct-2026) que enumeraban las cadenas guardadas de YouTube HoloCure/Hololive, Civilization VI, VRChat/collabs, Narrativa/lectura/manga y Eventos especiales; estaban guardadas **fuera** de defaults. Texto en `../TEMPLATES/YOUTUBE_METADATA_TAGS.md`. También se recuperó la plantilla de Twitch: título con gancho/juego/campaña, notificación `A [contexto/chiste] les digo BUENAS [emoji]`, y seis tags fijos más cuatro temáticos; ver `../TEMPLATES/TWITCH_METADATA.md`. Estrategia de X: dos posts de interacción + tercero opcional, replies, anuncios aparte; ver `../TEMPLATES/SOCIAL.md`.
+
+## Publicaciones narrativas recuperadas desde YouTube Studio (13-oct-2026)
+El catálogo privado de YouTube Studio ubicó **Needy Streamer Overload** (#3/#4, 16–17 ene 2023) y **Doki Doki Literature Club / Plus** (episodios en 2023/2024 + cover Your Reality). Se recuperaron títulos, fechas e IDs verificados en el CSV, **sin analíticas privadas en GitHub**: [../SOURCES/NARRATIVE_GAME_PUBLICATIONS.md](../SOURCES/NARRATIVE_GAME_PUBLICATIONS.md). Usar como antecedente editorial para futuras novelas visuales y humor sobre romance/decisiones; no inventar publicaciones faltantes.
