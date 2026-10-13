@@ -32,3 +32,10 @@ La ausencia de transcript y del binario/HTML local correspondiente implica `NO_C
 - Exportaciones históricas reportadas: 14 PNG en dos tamaños (320×100 y 960×300), además de HTML y resumen; conservar copias visuales completas e individuales aprobadas.
 - La versión v23.1 fue descrita como estable en una revisión de Stage 3/Stage 2. Posteriores v23.2/v23.3 añadieron REPROGRAMADO/DESPEGÓ y última actualización, y la base v23.5 añadió más controles. Orden de versiones indica evolución, pero no prueba que los archivos físicos funcionen idénticamente.
 - El usuario reiteró que el tablero semanal **estático** no debía tener EN VIVO ni sincronización; esto no prohíbe un **visor público separado**, posterior, con sincronización conservadora.
+
+## Segunda revisión de archivos — 12-oct-2026
+Localizados en Biblioteca: `KGBlaze_Twitch_Paneles_Maestro_v1-1.html` (maestro de 7 paneles, primera parte leída); propuestas HTML del horario; `Blaze_Calendario_Operativo_Oct-Dic_2026_v12.xlsx`; `Project_Relight_Calendario_Conciliado_2026-10-11.xlsx`; editores privados v23.1–v23.9.
+
+La conciliación del 11-oct declara prioridad de fuente **confirmación del usuario > ICS Twitch del 10-oct > operativo del 9-oct**, con distinción **realizado vs programado**. Seis primeros directos de Octublaze aparecen realizados; eventos futuros de Twitch permanecen PROGRAMADOS. Pokémon Journey se difirió a noviembre, con ventana sugerida y no fecha de estreno confirmada.
+
+Paneles: el maestro HTML v1.1 identifica siete paneles completos (Check-in, Salidas, Conexiones, Sala de Espera, Servicios Adicionales, Seguridad, Entretenimiento). La denominación institucional visible ya es `Terminal`; algunos códigos legados TB se conservan en referencias internas. Plantilla indexada en `../TEMPLATES/PANELS.md`.
