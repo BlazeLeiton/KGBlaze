@@ -34,3 +34,8 @@ Fecha de corte: 12 octubre 2026. NO significa que el sitio permita auditoría di
 - Carrd enlaza a YouTube, Twitch, X, Discord, Ko-fi y Tellonym, además de Instagram en uno de los snapshots. Tellonym redirige al perfil correcto, pero pide JavaScript; Discord redirige a invite, cuyo contenido no fue legible.
 - **Twitch directo:** se intentaron https://www.twitch.tv/blazeleiton/about , https://www.twitch.tv/blazeleiton/schedule , https://www.twitch.tv/blazeleiton/videos , variante m.twitch y embed; la base del canal devolvió HTML sin contenido interpretable. Sitios terceros TwitchTracker, SullyGnome, StreamsCharts inaccesibles: **no hay evidencia de calendario actual**.
 - Documentar siempre URL efectiva y estado `ABIERTO`, `CONTENIDO_NO_LEGIBLE`, `BLOQUEADO`, `FUENTE_TERCERO` o `CACHÉ_DISCORDANTE`, sin trasladar supuestas faltas de un caché a una tarea de edición de perfiles ya cerrados.
+
+## Confirmación directa de la variante visible en Carrd — Stage 4 (12-oct-2026)
+El usuario confirmó que **en su propio navegador** la variante actualmente visible en `https://blazeleiton.carrd.co/` es «**Acercando a México y al mundo**», **con Instagram**. Evidencia `CONFIRMADO_USUARIO`. La otra representación («Conectando desde México para el mundo», sin Instagram) es un **snapshot automatizado discordante** de la auditoría anterior, no una alternativa que siga pendiente de elección. Q-09 **resuelta**.
+No se editó Carrd, sus enlaces ni otros perfiles. El destino actual de cada botón externo no quedó ratificado por esta respuesta; no extrapolarlo.
+Las rutas `twitch.tv/blazeleiton/about` y `/schedule` siguen sin lectura verificable; consultar futuro ICS solo cuando el usuario lo retome (Q-06 pospuesta).
