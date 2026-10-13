@@ -1,12 +1,15 @@
 import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO,currentMonday} from './core.mjs';
+import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
+// Canal verificado en Stage 1; su ID público no es una credencial.
+const VERIFIED_YOUTUBE_CHANNEL_ID='UCRd_uwPjrsf6Z3CRXwNehEQ';
 const json=(body,status=200,extra={})=>new Response(JSON.stringify(body),{status,headers:{...HEADERS,...extra}});
 const err=(status,code,detail)=>json({ok:false,error:code,detail},status);
 function localCors(req,env){
  const origin=req.headers.get('Origin');
  if(!origin)return {};
  const allowed=origin==='null'||origin==='http://localhost'||/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)||origin===env.ADMIN_ALLOWED_ORIGIN||origin===new URL(req.url).origin;
- return allowed?{'Access-Control-Allow-Origin':origin,'Vary':'Origin','Access-Control-Allow-Headers':'Authorization, Content-Type','Access-Control-Allow-Methods':'GET, POST, OPTIONS','Access-Control-Max-Age':'300'}:{};
+ return allowed?{'Access-Control-Allow-Origin':origin,'Vary':'Origin','Access-Control-Allow-Headers':'Authorization, Content-Type, X-Relight-Preview-Only','Access-Control-Allow-Methods':'GET, POST, OPTIONS','Access-Control-Max-Age':'300'}:{};
 }
 async function authorized(req,env){
  const v=req.headers.get('Authorization')||'',secret=env.ADMIN_TOKEN||'';
@@ -64,6 +67,33 @@ async function handler(req,env){
  const d=await getState(env);
  if(path==='/api/admin/snapshot'&&method==='GET')return json({schema:'terminal-admin-v1',revision:d.revision,editorial:d.editorial,sync:toSyncEnvelope(d.sync,d.revision),updatedAt:d.updatedAt},200,cors);
  if(path==='/api/admin/sync'&&method==='GET')return json(toSyncEnvelope(d.sync,d.revision),200,cors);
+ // Manual preflight, DISABLED until feature flag + private credentials are explicitly configured.
+ // No DB writes; never creates verified or matchConfirmed platform observations.
+ if(path==='/api/admin/youtube-preflight'&&method==='POST'){
+  if(env.YOUTUBE_PREVIEW_ENABLED!=='true')return json({ok:false,error:'YOUTUBE_PREFLIGHT_DISABLED'},503,cors);
+  if(req.headers.get('X-Relight-Preview-Only')!=='ack-read-only')return json({ok:false,error:'PREVIEW_ACK_REQUIRED'},400,cors);
+  if(!env.YOUTUBE_API_KEY||!env.YOUTUBE_CHANNEL_ID)return json({ok:false,error:'YOUTUBE_PREFLIGHT_NOT_CONFIGURED'},503,cors);
+  if(env.YOUTUBE_CHANNEL_ID!==VERIFIED_YOUTUBE_CHANNEL_ID)return json({ok:false,error:'YOUTUBE_CHANNEL_MISMATCH'},503,cors);
+  // Fail closed without a platform-provided limiter. Not a global daily quota.
+  if(typeof env.YOUTUBE_PREVIEW_LIMITER?.limit!=='function')return json({ok:false,error:'YOUTUBE_RATE_LIMIT_NOT_CONFIGURED'},503,cors);
+  let allowed;
+  try{
+   const decision=await env.YOUTUBE_PREVIEW_LIMITER.limit({key:'terminal-youtube-manual-preview'});
+   allowed=decision?.success===true;
+  }catch{return json({ok:false,error:'YOUTUBE_RATE_LIMIT_UNAVAILABLE'},503,cors);}
+  if(!allowed)return json({ok:false,error:'YOUTUBE_RATE_LIMITED'},429,cors);
+  try{
+   const report=await runManualYouTubePreflight({...d.editorial,revision:d.revision},{
+    ownedChannelId:env.YOUTUBE_CHANNEL_ID,apiKey:env.YOUTUBE_API_KEY,fetchImpl:fetch,
+    now:()=>new Date()
+   });
+   return json(report,200,cors);
+  }catch{
+   // Do not log egress URLs, API response data or tokens.
+   return json({ok:false,error:'YOUTUBE_PREFLIGHT_UNAVAILABLE'},503,cors);
+  }
+ }
+
  if(path==='/api/admin/publish'&&method==='POST'){
   if(Number(req.headers.get('Content-Length')||0)>5_200_000)return json({error:'TOO_LARGE'},413,cors);
   let body;try{const raw=await req.text();if(raw.length>5_200_000)return json({error:'TOO_LARGE'},413,cors);body=JSON.parse(raw);}catch{return json({error:'INVALID_JSON'},400,cors);}
