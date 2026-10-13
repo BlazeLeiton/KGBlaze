@@ -1,10 +1,10 @@
+# Handoff actual — Project Relight / KGRP (histórico acumulativo)
+
 ## PRIORIDAD de continuidad — defaults YouTube recuperados (13-oct-2026 CDMX)
 - El usuario corrigió la confusión heredada de la auditoría 12-oct: **solo una plantilla maestra modular YouTube**, válida para covers y directos, **validada y reportada precargada en YouTube Studio** desde Stage 1/2/Song Covers. Fuente literal nuevamente entregada el 13-oct: [../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md](../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md). No pedirle revalidar globalmente ni sugerir dos plantillas autónomas.
 - Tags **base + Azur Lane + covers + Pokémon** ya incluidos en defaults por confirmación histórica del usuario; **F1 por separado**, igual que HoloCure/Hololive, Civilization, VRChat/colaboraciones, narrativa/lectura/manga y eventos especiales: [../TEMPLATES/YOUTUBE_METADATA_TAGS.md](../TEMPLATES/YOUTUBE_METADATA_TAGS.md).
 - Diferenciar **defaults declarados por usuario** (aprobados) de **variantes de descripción usadas en videos publicados** (constatadas en auditoría): estas últimas no prueban una segunda plantilla maestra. Faltan listas byte-a-byte de ciertos módulos, NO la aprobación de defaults.
 - Próxima tarea editorial: preparar sala **Killer Chat!: Original Edition**, 13-oct-2026 22:00 CDMX, usando defaults existentes, adaptar solo título, premisa y tags del juego; sin reformatear crédito o reglas. No desplegar cambios técnicos durante esta preparación. YouTube preflight Cloudflare continúa en **false** según confirmación del usuario de Stage 5.
-
-# Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
 ## Paso inmediato — Cloudflare Rate Limiter guardado y reflejado en Wrangler (12-oct-2026 CDMX)
 - Usuario guardó `YOUTUBE_PREVIEW_LIMITER` desde Dashboard Cloudflare con valores recomendados `1001`, `1` / `60 s`. `ADMIN_TOKEN`, `YOUTUBE_CHANNEL_ID` y `YOUTUBE_API_KEY` ya fueron reportados guardados en UI; `YOUTUBE_API_KEY` de tipo Secret. Esto **no confirma deploy ni acceso activo en producción**.
@@ -223,3 +223,7 @@ En nuevo chat: leer PROTOCOL, index, los 3 Stage, CURRENT, DECISIONS, AUDIT; rec
 - El PR #2 sigue DRAFT independiente (31/31 pruebas de estados). No se acumulan sus pruebas con las del PR #3 antes de fusionar, y no hay autorización de merge.
 - Pendiente sin cambio: lectura del usuario del GET `/api/public` (revisión 1, seis Twitch, cuatro manual); acceso web directo fue rechazado. Próximo hito: auditoría conservadora de datos reales, con decisión de autorización explícita antes de conectar YouTube.
 
+
+
+## Actualización editorial ICS 13-oct-2026 — reemplaza afirmación «ICS sin cambios»
+El usuario compartió `icalendar(1).ics` actualizado: **7 eventos** Twitch, incluidos los seis UIDs previos y uno nuevo `b6a53416-0265-4643-8899-871d64bad5fa`, WATCHALONG Formula 1 Gran Premio de la Ciudad de México 2026 (domingo **01-nov-2026 14:00–18:00 CDMX**). El evento manual anterior fue **eliminado por el usuario**; la importación de este ICS en HTML **v24.2.1** quedó validada por usuario como seleccionando YouTube por defecto. Esto **no** significa sala YouTube preparada, revisión D1 publicada ni sincronización automática. Killer Chat!: Original Edition del 13-oct-2026 22:00 CDMX sigue en agenda ICS; preparación de sala pendiente. No regresar al ICS de seis eventos por notas anteriores.
