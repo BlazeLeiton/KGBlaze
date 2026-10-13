@@ -49,3 +49,10 @@ Cualquier contradicción se registra con ambas afirmaciones, fuentes y pregunta;
 - En directo en vivo/programado: Twitch página no accesible; se requiere URL/VOD/captura pública/ICS nuevo para actualizar estados.
 - X calendario experimental antiguo aún incluía Pokémon octubre; corregir ancla de conversación a preparación y proceso mientras no comience el gameplay noviembre.
 - Todos los pendientes llevan fecha de último registro y próxima prueba; si no existen nuevos datos, permanecer como `SIN_CONFIRMACION_NUEVA`.
+
+## Cuarta revisión — evidencia de directos emitidos y fuentes de reservas
+- Cuenta de YouTube autorizada confirmó `actualStartTime` y `actualEndTime` de ocho directos Octublaze anteriores y contenido público de VOD. La existencia de inicio/fin real es evidencia adicional de transmisión **en YouTube**, no de estado de Twitch.
+- Al cotejar un vídeo, `publishedAt` posterior NO equivale al inicio real; priorizar `actualStartTime` en ISO UTC convertido a `America/Mexico_City`.
+- Twitch `/schedule` no pudo leerse desde herramientas. El último ICS recuperado sigue siendo del 10-oct y NO demuestra que reservas futuras continúen intactas. No modificar fechas ni estados por falta de lectura.
+- Confirmaciones vinculantes **se mantienen sin alteración**: Azur 21 y 22 ambas reservas sin horario; Cake Song demo pendiente; 14 Azur POR CONFIRMAR editorialmente; Galaxies 15/Killer Chat 13 programados según historial, no emitidos de antemano.
+- El calendario extendido incorpora seguimientos Steam/Azur/Mahouka/F1, además de contenidos privados que NUNCA deben pasar a agenda pública. Distinguir `evento externo confirmado`, `asistencia personal`, `idea de contenido`, `evento publicado`, `stream completado`.
