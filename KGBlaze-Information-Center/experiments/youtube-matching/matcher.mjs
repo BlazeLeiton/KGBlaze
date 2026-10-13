@@ -126,14 +126,18 @@ export function matchYouTubeEvent(event, candidates, {ownedChannelId} = {}) {
   if (start === null) return result('review', 'editorial_day_or_time_missing');
   const near = [], shifted = [];
   for (const v of valid) {
-    if (v.scheduled === null || !(titleStrong(event.title, v.title) || strongCategorySegments(event, v.title))) continue;
+    if (v.scheduled === null) continue;
+    const exactTitle=titleStrong(event.title, v.title);
+    const categorySegment=!exactTitle&&strongCategorySegments(event, v.title);
+    if (!exactTitle&&!categorySegment) continue;
+    const candidate={...v,matchBasis:exactTitle?'title':'category'};
     const distance = Math.abs(start - v.scheduled);
-    if (distance <= SAFE_WINDOW_MS) near.push(v);
-    else if (distance <= REVIEW_WINDOW_MS) shifted.push(v);
+    if (distance <= SAFE_WINDOW_MS) near.push(candidate);
+    else if (distance <= REVIEW_WINDOW_MS) shifted.push(candidate);
   }
   if (near.length > 1) return result('review', 'ambiguous_multiple_rooms');
   if (near.length === 1 && shifted.length) return result('review', 'competing_rescheduled_rooms');
-  if (near.length === 1) return result('candidate', 'unique_channel_title_time', near[0].videoId);
+  if (near.length === 1) return result('candidate', near[0].matchBasis==='category'?'unique_channel_category_time':'unique_channel_title_time', near[0].videoId);
   if (shifted.length) return result('review', 'potential_reschedule_needs_editorial_confirmation');
   return result('none', 'no_safe_match');
 }
