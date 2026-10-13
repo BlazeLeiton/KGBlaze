@@ -118,3 +118,12 @@ La instrucción «Terminal» NUNCA implica eliminar los nombres de las terminale
 | REL-053 | 4+ | Explicar límites con prudencia: no se dispone de contador fiable de contexto ni prueba de una reducción de límite de mensajes; no asumir que memoria reproduce todas las intervenciones | DIAGNÓSTICO Y CAUTELA VIGENTES |
 
 Ver [`CONTEXT-CONTINUITY.md`](CONTEXT-CONTINUITY.md) y [`AUDITS/RESPARK-2026-10-12-CONTEXT.md`](AUDITS/RESPARK-2026-10-12-CONTEXT.md). Los cambios afectan **sólo continuidad documental**; no se ejecutaron cambios de Terminal, D1, agendas ni perfiles.
+
+## Stage 4 — cierre de auditoría de interrupción técnica (12-oct-2026)
+| ID | Estado | Evidencia nueva |
+|---|---|---|
+| REL-054 | VERIFICADO_CI | Revisión Respark Stage 1–4: registro válido, última Stage=4; GitHub Actions run 38337375637 PASS y suite de Terminal 18/18 PASS. |
+| REL-055 | VERIFICADO_TEXTO_PRIVADO / NO_E2E_NUEVO | Operativo derivado `Terminal_Operativo_v23_11_encabezado_corregido.html`: textos ES/EN/JA y `LEGACY_STORE` sólo para migración. Extracción de bytes de Biblioteca rechazada; no afirmar prueba navegador nueva. |
+| REL-056 | CONSERVAR_ALCANCE | No renombrar nuevamente encabezado público ni tocar Worker, D1 o el editor privado durante auditoría; software `Terminal`, aeropuerto `Terminales A y B`. |
+
+Reporte: `AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. Ningún Stage nuevo creado.
