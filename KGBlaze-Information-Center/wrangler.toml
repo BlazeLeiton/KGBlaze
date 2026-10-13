@@ -3,6 +3,10 @@ main = "src/worker.mjs"
 compatibility_date = "2026-10-12"
 workers_dev = true
 
+# Keep dashboard-managed plaintext bindings between automated Workers Builds.
+# Production preview still requires the independently managed feature flag.
+keep_vars = true
+
 # Identificador público del canal ya guardado en Cloudflare Dashboard.
 # Mantener en sincronía los deployments de GitHub; NO incluir secretos aquí.
 [vars]

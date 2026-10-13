@@ -14,3 +14,8 @@ test('YouTube preview stays off by default and credentials never enter Wrangler'
   assert.doesNotMatch(config,/^\s*ADMIN_TOKEN\s*=/m);
   assert.doesNotMatch(config,/^\s*crons\s*=\s*\[/m);
 });
+
+test('Cloudflare Dashboard bindings survive automated Wrangler deployment',()=>{
+  assert.match(config,/^keep_vars\s*=\s*true$/m);
+});
+
