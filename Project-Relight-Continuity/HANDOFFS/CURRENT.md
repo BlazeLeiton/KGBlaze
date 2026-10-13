@@ -1,5 +1,11 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Confirmación de navegador y detalle de 4 manuales — 12-oct-2026 CDMX (PREVALECE)
+- Usuario verificó desde navegador el endpoint `/api/public`: **6 `origin:"twitch"` y 4 `origin:"manual"`**. La clasificación postparche queda `CONFIRMADO_USUARIO_EN_NAVEGADOR`; no es un GET independiente del asistente.
+- Se recuperó JSON original de revisión 1 desde `Pasted text(3).txt` en Biblioteca. 4 IDs `man:`: **12-oct DESCANSO, 17-oct Collab Padoru (POR CONFIRMAR), 18-oct DESCANSO, 1-nov GP Ciudad de México 2026 (A TIEMPO, 14:00)**. Los seis `tw:` proceden de ICS Twitch, aunque en el snapshot antiguo previo a parche estaban erróneamente etiquetados `manual`.
+- El usuario mencionó descansos y México GP; **Collab Padoru es el cuarto manual** y merece aclaración editorial sólo si se pretende eliminar o reasignar. No tocar la publicación revisión 1 sin nueva instrucción.
+- PR #2 y PR #3 siguen borrador y separados. YouTube automático desactivado. Próxima tarea técnica: evaluar matcher conservador, no volver a pedir conteos.
+
 ## CORTE VIGENTE — Respark Stage 1–5 (12-oct-2026, 22:51 CDMX)
 
 - **Inventario:** se reconoce la conversación denominada **Stage 5** y se añade a `STAGES/index.json`/ `STAGES/STAGE-05.md`. Stage 4 y Stage 5 mantienen `closure_verified=false`; no crear Stage 6 por iniciar una sesión de recuperación.
