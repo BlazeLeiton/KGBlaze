@@ -44,3 +44,22 @@ Paneles: el maestro HTML v1.1 identifica siete paneles completos (Check-in, Sali
 YouTube mediante IDs exactos confirmó videos publicados de House Flipper, HoloCure, Civ VI × Azur, VRChat/Padorus, Azur Crosswave, celebración de cumpleaños, Among Us y Azur Capsule Rerun. No confundir fecha UTC de publicación con día CDMX, ni afirmar que el código de calendarios está sincronizado automáticamente.
 Las descripciones publicadas muestran una plantilla de directos diferente de la de covers: premisa narrativa, enlaces KGBlaze, créditos generales y reglas completas de Seguridad a bordo. Archivo `../TEMPLATES/LIVE_STREAMS.md` creado como estructura recuperada, sin pretender reemplazar el texto íntegro maestro de los videos.
 Los paneles Twitch siguen reportados como siete publicados en historial, pero el perfil de Twitch no permitió comprobación visual directa. Ver `../SOURCES/PUBLIC_PUBLICATIONS.md`.
+
+## Recuperación complementaria — defaults YouTube unificados (13-oct-2026)
+La etapa también incluía la **plantilla maestra única de descripción YouTube** y bloques de tags confirmados como precargados, recuperados junto con Stage 1 y Song Covers. La separación hecha el 12-oct al inspeccionar videos publicados era **solo variación de uso** de una plantilla modular, no dos masters diferentes. Para reproducción exacta usar [../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md](../TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md). Para tags generales, Azur, Pokémon, covers y F1/otros módulos guardados: [../TEMPLATES/YOUTUBE_METADATA_TAGS.md](../TEMPLATES/YOUTUBE_METADATA_TAGS.md).
+
+La fuente histórica más fuerte sobre **configuración de la cuenta** es la confirmación del usuario, mientras que la auditoría de descripciones públicas puede verificar cómo se usaron módulos en determinados videos, no qué tenía cargado Studio en defaults. Distinguir ambos planos.
+
+## Confirmación de plantillas adyacentes (13-oct-2026)
+El seguimiento Stage 2 no debía perder la fórmula de **metadatos de Twitch** (título, notificación, categoría y tags **6+4**), ya aprobada en Stage 1 y aplicada de manera editorial en primeras emisiones Octublaze. Ver [../TEMPLATES/TWITCH_METADATA.md](../TEMPLATES/TWITCH_METADATA.md).
+
+El sistema X debe mantenerse separado del editor Terminal y de la promoción automatizada: **2 interacciones semanales + tercera opcional y replies**, con mensajes de anuncio de directos y covers **aparte**, siguiendo [../TEMPLATES/SOCIAL.md](../TEMPLATES/SOCIAL.md). No requiere integración técnica nueva ni publicación automática.
+
+## Continuidad de metadatos recuperada — 13-oct-2026
+La etapa conserva junto al calendario ICS la plantilla aprobada de metadatos Twitch: título, aviso de inicio, categoría y combinación de seis tags fijos más cuatro variables. Documento `../TEMPLATES/TWITCH_METADATA.md`. Las etiquetas complementarias YouTube (HoloCure, Civilization, VRChat, narrativa, eventos) se guardaron para reutilización y fueron recuperadas literalmente en `../TEMPLATES/YOUTUBE_METADATA_TAGS.md`. El sistema X diferencia interacción semanal de anuncios, según `../TEMPLATES/SOCIAL.md`. No implica posts efectivamente publicados ni inspección de presets actuales.
+
+## Regla de metadatos en emisión dual (corrección 13-oct-2026)
+El usuario confirmó que normalmente usa **el mismo título de Twitch y YouTube** cuando emite en ambas plataformas, con contadas excepciones. El ICS de Twitch puede incluir `SUMMARY` vacío y `DESCRIPTION` categorial, no el verdadero título compartido de emisión. No confundir el título editorial heredado del ICS con diferencia real entre plataformas. Los criterios de emparejamiento Terminal siguen siendo conservadores; usar `videoId` editorial para revisar una sala concreta sin elevar `matchConfirmed`. Ver [../SOURCES/NARRATIVE_GAME_PUBLICATIONS.md](../SOURCES/NARRATIVE_GAME_PUBLICATIONS.md).
+
+## Catálogo de novelas visuales cruzado con Steam (13-oct-2026)
+Relectura del segmento Stage 1/2 rescató `Find Love or Die Trying` (playlist, «Le gusto a la loca, el Reality ...»), `Kill or Love` (dos streams), `missed messages.` (#2), DDLC, Needy, Superliminal y Love Live Nijigasaki. La colección propia Steam contiene esos juegos; en bibliotecas compartidas también figura Find Love or Die Trying. El vínculo con la metadata de Killer Chat es **directo**, no una simple inferencia genérica sobre juegos románticos. Detalles con enlaces de publicaciones en `../SOURCES/STAGE1_VISUAL_NOVEL_STEAM_YOUTUBE_CROSS.md`. Las cifras y el inventario privado de Steam permanecen fuera de GitHub.

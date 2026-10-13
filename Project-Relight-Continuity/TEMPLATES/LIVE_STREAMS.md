@@ -1,3 +1,5 @@
+> **Rectificación de alcance (13-oct-2026):** esta es una **variante editorial derivada de directos publicados**, NO una segunda plantilla maestra. La plantilla única aprobada/precargada por el usuario está en [YOUTUBE_MASTER_DEFAULTS.md](YOUTUBE_MASTER_DEFAULTS.md). La lista general de tags figura en [YOUTUBE_METADATA_TAGS.md](YOUTUBE_METADATA_TAGS.md). La diferencia entre descripciones publicadas no contradice la existencia de defaults unificados.
+
 # Plantilla recuperada — Descripción de directos YouTube
 
 **Derivada de descripciones publicadas reales**, especialmente House Flipper, Among Us, cumpleaños y Azur Capsule Rerun 2026. No es copia literal de todos los contenidos: preservar el bloque completo aprobado desde las publicaciones fuente antes de editarlo.

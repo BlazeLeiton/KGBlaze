@@ -1,3 +1,5 @@
+> **Rectificación de alcance (13-oct-2026):** ésta es una **aplicación de la plantilla maestra a covers concretos** (Connect, mumei), NO una segunda plantilla de defaults. La plantilla única del usuario, ya validada/precargada, está en [YOUTUBE_MASTER_DEFAULTS.md](YOUTUBE_MASTER_DEFAULTS.md); tags y módulos, en [YOUTUBE_METADATA_TAGS.md](YOUTUBE_METADATA_TAGS.md). Los créditos específicos de la obra conservan precedencia sobre placeholders.
+
 # Plantilla — publicación de covers YouTube
 
 Recuperada de los proyectos Connect y mumei. Personalizar créditos y enlaces verificables por obra.

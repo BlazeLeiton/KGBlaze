@@ -50,7 +50,7 @@ Nunca reducir toda la historia a sólo el estado más reciente; guardar reemplaz
 |---|---|---|---|
 | REL-028 | 4+ | Arranque de cada chat Project Relight ejecuta fases 0–6 de `INITIALIZATION.md`, historia+archivo+perfiles/publicaciones+agenda+pruebas+preguntas | PROTOCOLO PUBLICADO; requiere configurar instrucciones en ChatGPT Project |
 | REL-029 | 1–4 | No reabrir perfiles externos declarados cerrados sólo por comprobar consistencia; corrección si nueva instrucción o revisión lore | VIGENTE |
-| REL-030 | 2–4 | Plantillas de covers y directos son distintas; créditos exactos de Connect y mumei siguen lo **publicado**, no un borrador genérico | VERIFICADO EN DESCRIPCIONES |
+| REL-030 | 2–4 | Las **descripciones publicadas** de covers y directos usan módulos diferentes y los créditos exactos de Connect y mumei siguen lo publicado. La inferencia histórica de **dos plantillas maestras** queda **SUSTITUIDA** por REL-079 (plantilla maestra única precargada) | PUBLICACIONES CONTRASTADAS; INTERPRETACIÓN DE DEFAULTS CORREGIDA 13-oct |
 | REL-031 | 2–4 | X: posts interactivos + replies ≠ promoción de directos/covers; no tratar ausencia de acceso X como inactividad | VIGENTE, post real no verificado |
 | REL-032 | 1–4 | Publicado/emitido ≠ programado/reservado; hasta tener prueba pública para eventos nuevos no elevar su estado | OBLIGATORIA |
 | REL-033 | 4 | Discrepancia histórica de reserva Azur 21/22 **resuelta**: ambas fechas permanecen RESERVADAS, sin hora ni confirmación de directo; instrucción usuario Stage 4, 12-oct | RESUELTO Q-01; CONFIRMADO_USUARIO |
@@ -179,3 +179,41 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 |---|---|---|---|
 | REL-077 | 5 | Usuario confirmó guardar el Rate Limiter `YOUTUBE_PREVIEW_LIMITER` en Dashboard de Cloudflare; Namespace 1001, límite 1/60 s según configuración guiada. | GUARDADO_REPORTADO_USUARIO; DEPLOY_NO_COMPROBADO |
 | REL-078 | 5 | PR #4 sincroniza binding en `wrangler.toml` sin exponer secretos. CI run `38356151146` 90/90 PASS; PR Draft no merged. El flag de lectura sigue desactivado. | CODIGO_EN_DRAFT; PRUEBAS_PASADAS; NO_ACTIVADO |
+
+## Recuperación Stage 1/2 + Song Covers — defaults de YouTube (13-oct-2026)
+| ID | Etapa | Decisión / dato recuperado | Estado / evidencia |
+|---|---|---|---|
+| REL-079 | 1–2 / Song Covers / 5 | **Plantilla maestra única y modular** de YouTube Studio, válida para directos y covers, aceptada y reportada **precargada en los upload defaults**. Conservar orden, enlaces, Copyright Notice inglés, créditos, seis reglas completas y hashtags; quitar solo los módulos no aplicables al video. Desautoriza la inferencia de dos masters de REL-030. | VIGENTE; CONFIRMADO_HISTÓRICAMENTE_POR_USUARIO; texto íntegro nuevamente aportado el 13-oct; [maestra](TEMPLATES/YOUTUBE_MASTER_DEFAULTS.md) |
+| REL-080 | 1–2 / Song Covers / 5 | **Tags ya precargados:** identidad base + Azur Lane + covers/música + Pokémon. El usuario no debe rehacer la validación por defecto. Distinguir tags metadata de hashtags de descripción. | VIGENTE; CONFIRMADO_HISTÓRICAMENTE_POR_USUARIO; [catálogo](TEMPLATES/YOUTUBE_METADATA_TAGS.md) |
+| REL-081 | 1–2 / Song Covers / 5 | **Módulos opcionales guardados aparte:** Formula 1 (no en defaults), HoloCure/Hololive, Civilization, VRChat/collabs, narrativa/manga y eventos especiales. No inventar el texto literal de bloques aún no recuperados. | VIGENTE; recuperado historial 30-sep/01-oct; [catálogo](TEMPLATES/YOUTUBE_METADATA_TAGS.md) |
+| REL-082 | 5 | Los archivos documentales `COVERS.md` y `LIVE_STREAMS.md` derivan de **videos publicados específicos**; no prevalecen sobre la confirmación del usuario sobre defaults maestros. | ACLARACIÓN DE PROCEDENCIA; evita reabrir trabajo cerrado |
+
+## Ampliación de mensajes recuperados — Twitch, tags YouTube y X (13-oct-2026)
+| ID | Etapa | Hallazgo | Evidencia / estado |
+|---|---|---|---|
+| REL-083 | 1–2 | Recuperadas las cadenas guardadas de HoloCure/Hololive, Civilization VI, VRChat/collabs, lectura/manga y eventos especiales, todas como bloques adicionales **fuera** de defaults YouTube | MENSAJES_CONTIGUOS_RECUPERADOS; `TEMPLATES/YOUTUBE_METADATA_TAGS.md` |
+| REL-084 | 1–2 | Plantilla Twitch: título de gancho/juego/campaña; notificación recurrente `A [contexto/chiste] les digo BUENAS [emoji]`; seis tags fijos VTuber/Español/English/Mexico/VSinger/VLatam y cuatro variables por contenido | PLANTILLA_EDITORIAL_RECUPERADA; `TEMPLATES/TWITCH_METADATA.md`; sin lectura actual de Creator Dashboard |
+| REL-085 | 1–2 | X: dos publicaciones de interacción semanales (Pokémon/proceso + personalidad/proceso), una tercera opcional, dos ventanas de replies y hasta un quote oportunista; anuncios de directos y covers aparte, **sin sustituir interacción** | PLAN_EDITORIAL_VIGENTE; `TEMPLATES/SOCIAL.md`; publicación exacta no corroborada en X |
+
+## Recuperación de obras narrativas y títulos duales — 13-oct-2026
+| ID | Etapa | Decisión / evidencia | Estado |
+|---|---|---|---|
+| REL-086 | 1/2/5 | Recuperado del CSV privado de YouTube Studio historial verificable de **Doki Doki Literature Club** (directos 2023/2024 + cover Your Reality) y **Needy Streamer Overload** (al menos #3/#4 de enero 2023), con IDs y fechas públicos consignados sin métricas | ARCHIVO_PRIMARIO_VERIFICADO; `SOURCES/NARRATIVE_GAME_PUBLICATIONS.md` |
+| REL-087 | 5 | **Títulos de directos duales: Twitch y YouTube comparten título por defecto**, excepciones escasas y conscientes. El ICS puede contener categoría/descripción sin título de emisión, por lo que Terminal no debe presuponer que su título editorial coincide con ambas plataformas. | CONFIRMADO_USUARIO; `SOURCES/NARRATIVE_GAME_PUBLICATIONS.md` |
+| REL-088 | 5 | Killer Chat!: sala YT aportada por usuario (ID 11 caracteres), metadata elegida y humor ligado a novelas previas; aún **sin propiedad de canal verificada por API** ni match automático seguro; asociación manual (candidate) requiere lectura posterior autorizada | CONFIRMADO_ENLACE_USUARIO / PROPIEDAD_SIN_VERIFICAR; `SOURCES/NARRATIVE_GAME_PUBLICATIONS.md` |
+
+## Corrección del modelo de vuelo e inventario — 13-oct-2026
+
+| ID | Etapa | Corrección / prueba | Estado |
+|---|---|---|---|
+| REL-089 | 2–5 | **Nombre del vuelo / actividad** se rellena deliberadamente con el **juego/categoría/actividad de Twitch**, decidido al reservar horario; no es el título definitivo del stream. La categoría es referencia más clara para público del visor. Los títulos duales Twitch+YouTube normalmente son idénticos, pero son un **campo editorial posterior distinto** del vuelo. | CONFIRMADO_USUARIO; prevalece sobre interpretación anterior; `SOURCES/CHANNEL_CONTENT_TAXONOMY_2026-10-13.md` |
+| REL-090 | 5 | Editor privado **v24.2.1**, Killer Chat: asociar URL de YouTube → confirmar edición → reimportar ICS de Twitch → reabrir edición → **URL sigue allí**. Persistencia local del override demostrada. | USER_BROWSER_VALIDATED; no prueba D1/worker/JSON roundtrip |
+| REL-091 | 1–5 | La recuperación editorial se amplía al catálogo de directos y grupos por serie/IP, campaña, formatos musicales y streaming desde CSV Studio y búsqueda pública. 500 filas con ID son **subconjunto**, no catálogo exhaustivo; las playlists públicas no quedaron accesibles, por tanto sus nombres/URLs no se inventan. | AUDITORIA_PARCIAL_CSV; PLAYLISTS_NO_COMPROBADAS; métricas detalladas solo Biblioteca personal |
+| REL-092 | 5 | vidIQ conectado al canal correcto pero consultas de catálogo están impedidas por créditos insuficientes a 13-oct-2026; revisión futura puede continuar cuando estén disponibles. TubeAlfred también sin créditos. | PROVIDER_LIMITED; NO_QUERY_EXECUTED |
+
+## Recuperación de segmento ausente Stage 1/2 — 13-oct-2026
+| ID | Etapa | Recuperación / validación | Estado |
+|---|---|---|---|
+| REL-093 | 1/2/5 | El guiño exacto del título de Killer Chat! **«Encuentra el Amor o MUERE Intentándolo»** y descripción **«que le gustemos a la loca... otra vez :v»** hace referencia a **Find Love or Die Trying**, episodio/título anterior **«Le gusto a la loca, el Reality | Find Love or Die Trying (COMPLETA)»**; playlist anterior recuperada. Interpretación previa basada solo en DDLC/Needy fue incompleta. | HISTORIAL_STAGE1_RECUPERADO + Steam Community indexa episodio #2 del canal; `SOURCES/STAGE1_VISUAL_NOVEL_STEAM_YOUTUBE_CROSS.md` |
+| REL-094 | 1/2/5 | Recuperados vínculos de **Kill or Love #1/#2** y **missed messages. #2**, además de obras narrativas de catálogo previo. Las ausencias del CSV Studio limitado NO son ausencia de videos. Cruce Steam propio + cuatro compartidos + wishlist documentado con métricas privadas únicamente en Biblioteca. | CATALOGO_CRUZADO; ver fuente y archivo privado |
+| REL-095 | 5 | Solicitud de verificación por YouTube de `JDkg-5tZ3G0`: rutas públicas y herramientas conectadas bloqueadas; credenciales privadas del Worker inaccesibles; flag desactivada. **Ninguna comprobación oficial de canal/horario/broadcast realizada**, mantener preflight off y D1 intacto. | NO_EJECUTADA_POR_BLOQUEO; autorización de consulta del usuario NO equivale a autorización de despliegue/habilitación |
