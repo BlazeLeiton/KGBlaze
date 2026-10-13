@@ -56,3 +56,8 @@ Cualquier contradicción se registra con ambas afirmaciones, fuentes y pregunta;
 - Twitch `/schedule` no pudo leerse desde herramientas. El último ICS recuperado sigue siendo del 10-oct y NO demuestra que reservas futuras continúen intactas. No modificar fechas ni estados por falta de lectura.
 - Confirmaciones vinculantes **se mantienen sin alteración**: Azur 21 y 22 ambas reservas sin horario; Cake Song demo pendiente; 14 Azur POR CONFIRMAR editorialmente; Galaxies 15/Killer Chat 13 programados según historial, no emitidos de antemano.
 - El calendario extendido incorpora seguimientos Steam/Azur/Mahouka/F1, además de contenidos privados que NUNCA deben pasar a agenda pública. Distinguir `evento externo confirmado`, `asistencia personal`, `idea de contenido`, `evento publicado`, `stream completado`.
+
+## Aclaración más reciente sobre la fuente ICS (12-oct-2026)
+El usuario indica que **el último ICS de Twitch archivado es el más reciente y no se han realizado cambios** desde que se obtuvo. Por tanto, no falta solicitar una exportación actualizada para continuar la planificación; usarlo como la **mejor fuente programática disponible**, combinándolo con las correcciones editoriales explícitas posteriores de Stage 4.
+
+Distinguir siempre: `ICS_MAS_RECIENTE_CONFIRMADO_USUARIO` (vigencia editorial) de `TWITCH_WEB_EN_VIVO_NO_CONSULTABLE` (la página `/schedule` no se pudo inspeccionar directamente). No promover reservas a directos confirmados/emitidos por esta aclaración. Azur 21 y 22 quedan reservas sin hora, Cake Song demo pendiente y los demás estados sin cambios.
