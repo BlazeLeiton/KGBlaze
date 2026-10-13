@@ -1,3 +1,9 @@
+# Corte operativo actual — Stage 8 (13-oct-2026 CDMX)
+
+El Terminal está **lanzado a producción definitiva** en https://kgblaze-terminal.drago68575.workers.dev/ . Es la misma instancia donde Killer Chat! se probará hoy a las 22:00 CDMX. Si se verifica `A TIEMPO → EN VIVO`, **no se ejecuta ninguna segunda activación**. Si falla, diagnosticar antes de pausar sync o revertir. Rama de resguardo `release/terminal-public-2026-10-13` (`0fce4ffe`); smoke público #38455858546 y continuidad #38456909930 SUCCESS. Editorial rev 2 / 10 salidas; Cron 5 min; `DESPEGÓ` automático no habilitado. Ver `../STAGES/STAGE-08.md` y `CURRENT.md`. No tocar Worker/D1/editor privado con motivo de la recuperación.
+
+---
+
 # Bootstrap operativo — Project Relight / Stage 6
 
 **Corte vigente:** 2026-10-13 CDMX. Stage 6 identificada, **sin cierre formal**, con Stage 1–5 conservados en `STAGES/index.json`. Fuente inicial `../STAGES/STAGE-06.md` y `CURRENT.md` antes de los antiguos handoffs.

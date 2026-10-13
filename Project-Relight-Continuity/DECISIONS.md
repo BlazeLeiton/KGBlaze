@@ -188,3 +188,12 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 | REL-S6-03 | 6 | Asociación editorial de navegación no indica EN VIVO, DESPEGÓ ni identidad verificada | VIGENTE, NO MODIFICA ESTADOS | PR #9 tests, evitar inferencias de YouTube |
 | REL-S6-04 | 6 | No repetir publicación de revisión editorial 2 ni alterar sus 10 salidas para comprobar un cambio de visor | VIGENTE; CONFIRMADO_USUARIO sobre edición | Revisión 2 y 10 salidas reportadas en Stage 6; GET remoto pendiente |
 | REL-S6-05 | 6 | Integración de PR #9 + actualización visor expresamente autorizadas | EJECUTADO: merge y Cloudflare Build success | `c48b1a7`, version `345940f0-f0f4-4747-8610-e08494923413`; click E2E no verificado |
+
+## Stage 8 — decisión prevalente de publicación pública (13-oct-2026)
+| ID | Etapa | Decisión | Estado | Evidencia / límite |
+|---|---|---|---|---|
+| REL-S8-01 | 8 | Terminal queda oficialmente en producción desde 13-oct-2026; sin staging ni nueva activación tras la prueba. Reemplaza interpretaciones anteriores de «listo para activar». | CONFIRMADO_USUARIO / PREVALECE | Últimos dos mensajes de Stage 8 y handoff |
+| REL-S8-02 | 8 | La misma URL `kgblaze-terminal.drago68575.workers.dev` se utiliza por público y prueba real de Killer Chat! a las 22:00 CDMX. | VIGENTE | Smoke #38455858546 SUCCESS; prueba real EN VIVO aún pendiente |
+| REL-S8-03 | 8 | Resguardo `release/terminal-public-2026-10-13` en `0fce4ffe`; reversión únicamente al detectar defecto. Pausa YouTube independiente de visibilidad de agenda. | RESPALDO VERIFICADO / SIN ROLLBACK | Rama GitHub y `YOUTUBE_SYNC_PAUSED` |
+| REL-S8-04 | 8 | Mantener revisión 2/10 salidas, enlace editorial YouTube, Cron y secretos; `DESPEGÓ` automático aún fuera de alcance. | RESTRICCIÓN VIGENTE | Stage 7 + continuidad |
+| REL-S8-05 | 8 | Nueva Stage 8 se documenta sin considerar cerradas Stages 1–7 sin cierre formal. No efectuar otro deploy para documentar. | CONTINUIDAD | Stage index, protocolo KGRP |

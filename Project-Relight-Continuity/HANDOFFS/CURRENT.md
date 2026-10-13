@@ -1,5 +1,13 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — Stage 8: confirmación del lanzamiento FINAL (prevalece sobre interpretación de staging)
+- Última corrección explícita del usuario: la página `https://kgblaze-terminal.drago68575.workers.dev/` queda **en producción pública definitiva AHORA**, sin nueva activación, despliegue ni promoción después del experimento de Killer Chat! (13-oct 22:00 CDMX). Si funciona, el servicio sigue funcionando; sólo se revertirá ante defecto comprobado.
+- El smoke HTTP anónimo https://github.com/BlazeLeiton/KGBlaze/actions/runs/38455858546 SUCCESS acredita acceso al visor, /api/health y /api/public; no acredita aún transición EN VIVO ni visualización de terceros. Prueba de continuidad https://github.com/BlazeLeiton/KGBlaze/actions/runs/38456909930 SUCCESS.
+- Rama `release/terminal-public-2026-10-13` fijada al commit productivo `0fce4ffeb403fe6d7d96b22ac8320671eab28016`; `main` avanzó cuatro commits de documentación/pruebas, sin cambios funcionales de Worker. Ficha específica: `../STAGES/STAGE-08.md`.
+- Preservar editorial rev 2 / 10 salidas, observaciones sync, Cron 5 min, vínculos, secretos y editor local. Probar `upcoming → live` / `A TIEMPO → EN VIVO` en producción con terceros. `DESPEGÓ` automático sigue fuera de alcance. No ejecutar rollback salvo defecto concreto.
+- Registrar Stage 8 en rama documental separada; NO equivale a merge, deploy Cloudflare ni nueva operación de D1.
+
+
 ## 13-oct-2026 — LANZAMIENTO PÚBLICO DEFINITIVO DE TERMINAL (Stage 7; PREVALECE)
 - El usuario decidió iniciar **producción pública definitiva ahora**, sin fase staging ni espera hasta Killer Chat! a las 22:00 CDMX; la prueba se ejecutará en **la misma URL pública y versión productiva**. Un resultado positivo NO dispara nueva puesta en producción: ya estará operando. Si hay defecto, se investiga y sólo entonces se aplica pausa/rollback específico.
 - URL oficial para esta versión: https://kgblaze-terminal.drago68575.workers.dev/ ; ninguna dirección custom de dominio propio consta aprobada, no inventar otra. Ver `../STAGES/STAGE-07.md`.

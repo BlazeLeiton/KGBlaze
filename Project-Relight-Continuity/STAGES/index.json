@@ -3,7 +3,7 @@
   "project": "Project Relight / KGBlaze",
   "timezone": "America/Mexico_City",
   "updated_on": "2026-10-13",
-  "latest_stage": 7,
+  "latest_stage": 8,
   "default_recovery": "deep-complete",
   "include_all_prior_stages": true,
   "incomplete_without_verified_handoff": true,
@@ -72,6 +72,15 @@
       "focus": "Terminal YouTube verified cron sync, public production launch, live-status field test and rollback baseline",
       "closure_verified": false,
       "closure_note": "Stage 7 validada por conversación y código; público definitivo activado antes de la prueba de Killer Chat! 22:00 CDMX. La transición EN VIVO y observación de terceros siguen pendientes."
+    },
+    {
+      "number": 8,
+      "id": "STAGE-08",
+      "file": "STAGE-08.md",
+      "period": "2026-10-13 (America/Mexico_City); conversación Stage 8; interrumpida",
+      "focus": "Confirmación final de lanzamiento público inmediato; smoke test externo, respaldo y ensayo de Killer Chat! en la misma producción",
+      "closure_verified": false,
+      "closure_note": "Última respuesta de Stage 8 recuperada y aportada por usuario en la continuación. No hay cierre formal verificable; próxima acción, observación real upcoming/live y terceros a las 22:00 CDMX."
     }
   ]
 }
