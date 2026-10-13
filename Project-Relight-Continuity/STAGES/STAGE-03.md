@@ -43,3 +43,7 @@ La Biblioteca conserva `TerminalB_Operativo_v23_10_local.html` y la versión cor
 No hay acceso a ejecutar una prueba E2E en navegador del original desde la Biblioteca, y falló la materialización de bytes originales. **Por ello v23.11 es candidata preferente técnicamente, no editor certificado**. No se alteró el HTML privado ni el backend.
 
 Mayor detalle de riesgos/observaciones: `../AUDITS/SECOND-PASS-2026-10-12.md`. Las métricas públicas se obtuvieron por canal/video ID directo cuando el conector respondió; Twitch público no pudo confirmarse desde la página directa.
+
+## Tercera auditoría — comprobación de interacción y nomenclatura
+La existencia de videos publicados permite cotejo por ID YouTube; **no significa que el Worker real ya haga matching, polling o actualice estados**. El editor privado v23.11 sigue sin prueba E2E. Auditorías externas no modifican Terminal.
+HoloList, vTubie y Ko-fi reflejan identidad pública consistente con la fase previa; el estado de perfiles **cerrado** permanece salvo revisión futura de lore/imagen solicitada, no lanzar una tarea de edición por defecto.
