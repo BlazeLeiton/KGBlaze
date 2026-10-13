@@ -1,4 +1,14 @@
-# Handoff actual — Snapshot KGRP v2
+# Handoff actual — Project Relight / KGRP (histórico acumulativo)
+
+## CORTE VIGENTE — Respark Stage 1–5 (12-oct-2026, 22:51 CDMX)
+
+- **Inventario:** se reconoce la conversación denominada **Stage 5** y se añade a `STAGES/index.json`/ `STAGES/STAGE-05.md`. Stage 4 y Stage 5 mantienen `closure_verified=false`; no crear Stage 6 por iniciar una sesión de recuperación.
+- **Stage 5 en GitHub:** main de referencia antes de este registro `ec6852f601c6cad7548ffc9eda2396f3ede66291`, PR #2 borrador head `6110800a55f20752189b447715468f5f5b3a4a49`, `31/31` pruebas CI PASS (run `38347977143`); PR no fusionado, no cambia producción.
+- **Stage 4 → Stage 5 flujo técnico:** revisión editorial `1` con `10` salidas; seis ICS `tw:` y cuatro manuales. Parche de origen `tw→twitch` PR #1 integrado a main `2ff5af0`, CI `21/21`, build Cloudflare de producción comunicado exitoso; el GET independiente de `/api/public` desde herramientas sigue `NO_VERIFICABLE`.
+- **Cuenta solicitada en navegador:** `"revision":1` ×1, `"origin":"twitch"` ×6, `"origin":"manual"` ×4. No republicar, no reimportar ICS inalterado.
+- **Pendiente prioritario:** emparejamiento conservador de streams YouTube **sólo simulación sin credenciales**; examinar títulos parecidos, canal, colaboración, reprogramación y ambigüedad. No activar API, Cron, cambios del Worker, agenda ni D1. No fusionar PR #2 sin autorización específica.
+- **Privacidad y contexto:** operativo privado v24.1 permanece fuera del repo; software Terminal y encabezado aeroportuario Terminales A y B. Todo archivo anterior permanece histórico; no repetir preguntas resueltas Azur 21/22, demo Cake, Carrd ni ICS.
+- **Auditoría del corte:** `../AUDITS/RESPARK-2026-10-12-STAGE-05.md`. Esta anotación actualiza **sólo documentación**.
 
 ## ESTADO MÁS RECIENTE — Cuarta auditoría 12-oct-2026
 - **Carrd confirmada:** https://blazeleiton.carrd.co/ . Q-04 resuelta. Lecturas web discordantes sobre frase introductoria/Instagram/destino de Ko-fi, pendiente menor de caché (Q-09), sin edición de perfil.

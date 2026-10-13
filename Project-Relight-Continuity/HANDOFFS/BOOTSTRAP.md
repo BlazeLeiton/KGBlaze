@@ -1,3 +1,13 @@
+# Bootstrap operativo — Project Relight / Stage 5
+
+**Corte actual:** 2026-10-12 CDMX · **Última conversación identificada:** Stage 5 (sin cierre formal), Stage 4 también abierta documentalmente. Respark actual no crea Stage 6.
+
+**Fuente prioritaria:** `../STAGES/STAGE-05.md` y `CURRENT.md`. PR #1 integrado y desplegado para corregir origen ICS; PR #2 borrador con 31/31 pruebas de simulación; YouTube automático **desactivado**. Revisión 1/10 salidas; navegador debe comprobar 6 origen Twitch y 4 manuales en GET `/api/public`. Próxima tarea: matcher YouTube con fixtures, sin credenciales ni producción.
+
+**Nomenclatura:** software **Terminal**; encabezado público **Terminales A y B** ES/EN/JA. ICS confirmado sin cambios. Sin secretos ni editor privado en GitHub.
+
+## Bootstrap anterior de Stage 4 (histórico; no sustituye el corte vigente)
+
 # Bootstrap operativo — Project Relight / Stage 4
 **Corte:** 2026-10-12 (America/Mexico_City) · **Stage vigente:** 4 (ABIERTA) · **No crear Stage 5 por cambiar de chat.**
 **Uso:** entrada breve, NO sustituye recuperación profunda KGRP v3.2.

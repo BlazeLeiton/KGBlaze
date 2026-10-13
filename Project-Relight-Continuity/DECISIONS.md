@@ -127,3 +127,14 @@ Ver [`CONTEXT-CONTINUITY.md`](CONTEXT-CONTINUITY.md) y [`AUDITS/RESPARK-2026-10-
 | REL-056 | CONSERVAR_ALCANCE | No renombrar nuevamente encabezado público ni tocar Worker, D1 o el editor privado durante auditoría; software `Terminal`, aeropuerto `Terminales A y B`. |
 
 Reporte: `AUDITS/RESUME-STAGE04-TERMINAL-2026-10-12.md`. Ningún Stage nuevo creado.
+
+## Stage 5 — continuidad del hilo técnico y Respark (12-oct-2026 CDMX)
+| ID | Etapa | Evidencia y decisión | Estado |
+|---|---|---|---|
+| REL-057 | 5 | La conversación denominada «Stage 5» existe en historial reciente y se incorpora al índice 1..5; Stage 4 queda abierta en cierre conversacional, no se renumera. | RECONOCIDA; CIERRE_NO_VERIFICADO |
+| REL-058 | 4–5 | PR #1 (`2ff5af0`) normaliza orígenes ICS `tw/twitch` y compatibilidad legacy de lectura sin cambiar D1/revisión 1. | INTEGRADO_MAIN, CI 21/21, BUILD_PRODUCCIÓN_REPORTADO |
+| REL-059 | 5 | PR #2 es sólo simulación de estados con `resolveDisplayStatus`, 31/31 tests PASS, `draft` sin merge. | PROBADO_CI; NO_DESPLEGADO |
+| REL-060 | 5 | Antes del matcher confirmar GET público con revisión 1/6 Twitch/4 manuales; sin republicación. | PENDIENTE_GET_NAVEGADOR |
+| REL-061 | 5 | Matching YouTube primero conservador y aislado: fixtures públicos, ambigüedad sin match, sin credenciales, D1, cron ni cambios editoriales. | SIGUIENTE_TAREA; NO_ACTIVADO |
+
+Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.md`. No interpretar CI del PR #2 como despliegue.

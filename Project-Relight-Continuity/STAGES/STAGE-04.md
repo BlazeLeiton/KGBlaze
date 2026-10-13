@@ -123,3 +123,6 @@ Carrd: usuario observa variante con Instagram. Twitch ICS se revisara despues.
 - `KGBlaze-Information-Center/README.md` corregido para reflejar que el usuario **ya confirmó** las tablas D1 remotas `terminal_state`, `terminal_audit`, `terminal_preview` y la decisión sobre el Worker. El nombre del software sigue **Terminal** y el encabezado público del aeropuerto sigue **Terminales A y B**.
 - Sigue pendiente verificar en pantalla el Path y el resto de configuración antes de activar Deploy, y crear el secreto de ejecución `ADMIN_TOKEN` sin comunicar su valor en el chat o el repositorio público.
 
+
+## Referencia retrospectiva a Stage 5 — Respark del 12-oct-2026
+Se identificó una **conversación posterior denominada Stage 5** que prosiguió la sincronización de estados de Terminal. En este documento Stage 4 conserva su cierre conversacional **no verificado**; los eventos posteriores de revisión 1, parche PR #1 y simulaciones PR #2 se consolidan en `STAGE-05.md` para evitar atribuciones dobles o inferir cierre. Esta sección no altera código, D1 ni publicación.

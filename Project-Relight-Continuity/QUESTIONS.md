@@ -36,3 +36,7 @@ El usuario precisó que **el ICS archivado es el más reciente; no se ha modific
 Q-09 Carrd permanece RESUELTA; Q-01 ambas reservas Azur 21/22 sin hora; Q-02 demo Cake Song pendiente. No reinterpretar ninguna de ellas.
 
 Se establecieron `Ejecuta Relight Respark` y `Execute Relight Respark` como comandos equivalentes para iniciar KGRP íntegro. Nuevos descubrimientos de la sesión se documentan incrementalmente sin necesidad de reactivar toda la auditoría.
+
+## Stage 5 — verificaciones técnicas (sin reabrir preguntas editoriales)
+- **Q-10 · API pública:** verificar desde navegador `/api/public` en lectura con revisión 1 y 6 orígenes `twitch` + 4 `manual`. Último acceso externo con herramientas `NO_VERIFICABLE`. No requiere credenciales ni nueva publicación.
+- **Q-11 · Match YouTube:** por resolver en simulación con fixtures: coincidencia de canal/video, título similar, colaboraciones, stream reprogramado y múltiples candidatos. Ninguna pregunta al usuario necesaria antes de crear pruebas aisladas.
