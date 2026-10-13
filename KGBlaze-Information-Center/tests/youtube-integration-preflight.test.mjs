@@ -188,3 +188,63 @@ test('Stage 6: preflight refuses two different game-title segments in competing 
  assert.equal(out.items[0].reason,'ambiguous_multiple_rooms');
  assert.equal(out.safeToApply,false);
 });
+
+
+test('Stage 6: linked Killer Chat also reports a search-only autonomous probe in the same HTTP call',async()=>{
+ const editorial=agenda([event({
+  title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition',videoId:'JDkg-5tZ3G0'
+ })]);
+ const real=room({id:'JDkg-5tZ3G0',snippet:{...room().snippet,title:'💌 Encuentra el Amor o MUERE Intentándolo.....espera :v 🔪 | Killer Chat!'}});
+ const requests=[];
+ const fake=async raw=>{
+  const url=new URL(raw);requests.push(url);
+  return {ok:true,json:async()=>url.pathname.endsWith('/search')
+   ?{items:url.searchParams.get('eventType')==='upcoming'?[{id:{kind:'youtube#video',videoId:'JDkg-5tZ3G0'}}]:[]}
+   :{items:[real]}};
+ };
+ const result=await runManualYouTubePreflight(editorial,{ownedChannelId:OWN,apiKey:'fixture-only',fetchImpl:fake,now:()=>NOW});
+ assert.equal(requests.length,3); // no extra Google API calls for the shadow probe
+ assert.equal(result.evidenceSummary.explicitEditorialVideoIds,1);
+ assert.equal(result.items[0].reason,'explicit_editorial_video_id');
+ assert.equal(result.items[0].evidenceSignal,'upcoming_unverified');
+ assert.deepEqual(result.items[0].autonomousProbe,{
+  decision:'candidate',reason:'unique_channel_category_time',videoId:'JDkg-5tZ3G0'
+ });
+ assert.equal(result.safeToApply,false);
+ assert.equal(result.directSyncWrites,0);
+});
+test('Stage 6: a manually linked ID retrieved only by videos.list must NOT masquerade as search discovery',async()=>{
+ const editorial=agenda([event({
+  title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition',videoId:'JDkg-5tZ3G0'
+ })]);
+ const real=room({id:'JDkg-5tZ3G0',snippet:{...room().snippet,title:'Una cita mortal | Killer Chat!'}});
+ const fake=async raw=>({ok:true,json:async()=>new URL(raw).pathname.endsWith('/search')
+  ?{items:[]}
+  :{items:[real]}});
+ const out=await runManualYouTubePreflight(editorial,{ownedChannelId:OWN,apiKey:'fixture-only',fetchImpl:fake,now:()=>NOW});
+ assert.equal(out.items[0].decision,'candidate');
+ assert.equal(out.items[0].reason,'explicit_editorial_video_id');
+ assert.deepEqual(out.items[0].autonomousProbe,{decision:'none',reason:'no_safe_match'});
+ assert.equal(out.safeToApply,false);
+});
+test('Stage 6: an autonomously discovered different room conflicts with the manual editorial ID',()=>{
+ const manual=room({id:'JDkg-5tZ3G0',snippet:{...room().snippet,title:'Otro directo del canal'}});
+ const auto=room({id:'Another1234',snippet:{...room().snippet,title:'Juego de romance | Killer Chat!'}});
+ const e=event({title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition',videoId:'JDkg-5tZ3G0'});
+ const out=preview(agenda([e]),evidence([manual,auto],{discoveredVideoIds:['Another1234']}));
+ assert.equal(out.items[0].decision,'candidate');
+ assert.deepEqual(out.items[0].autonomousProbe,{decision:'review',reason:'autonomous_editorial_id_conflict'});
+});
+test('Stage 6: shadow probes fail closed if discovery origin is missing, stale or incomplete',()=>{
+ const e=event({title:'Killer Chat!: Original Edition',category:'Killer Chat!: Original Edition',videoId:'JDkg-5tZ3G0'});
+ const v=room({id:'JDkg-5tZ3G0',snippet:{...room().snippet,title:'Encuentra el amor | Killer Chat!'}});
+ for(const [changes, reason] of [
+  [{},'search_origin_ids_unavailable'],
+  [{discoveredVideoIds:['JDkg-5tZ3G0'],discoveryComplete:false},'source_discovery_incomplete'],
+  [{discoveredVideoIds:['JDkg-5tZ3G0'],fetchedAt:'2026-10-13T23:00:00Z'},'stale_or_missing_evidence_timestamp']
+ ]) {
+  const out=preview(agenda([e]),evidence([v],changes));
+  assert.equal(out.items[0].autonomousProbe.reason,reason);
+  assert.notEqual(out.items[0].autonomousProbe.decision,'candidate');
+ }
+});
