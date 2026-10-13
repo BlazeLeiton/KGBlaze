@@ -3,6 +3,7 @@ import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflig
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
+import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
 const VERIFIED_YOUTUBE_CHANNEL_ID='UCRd_uwPjrsf6Z3CRXwNehEQ';
@@ -154,12 +155,30 @@ export default {
    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
    const asset=await env.ASSETS.fetch(routed.request);
    const path=new URL(routed.request.url).pathname;
-   if((path==='/'||path==='/index.html')&&env.DB&&typeof HTMLRewriter!=='undefined'&&asset.ok){
-    const r=await env.DB.prepare('SELECT week FROM terminal_preview WHERE id=1').first();
-    if(r?.week===currentMonday()){
-     const image=new URL(routed.isPortal?'/departures/og-semana.png':'/og-semana.png',req.url).href;
-     return new HTMLRewriter().on('meta[property="og:image"],meta[name="twitter:image"]',{element(el){el.setAttribute('content',image);}}).transform(asset);
+   if((path==='/'||path==='/index.html')&&typeof HTMLRewriter!=='undefined'&&asset.ok){
+    // Share cards are server-rendered: social crawlers do not execute canvas JS.
+    // No image is claimed until the current week's 1080px PNG has been uploaded.
+    let image='';
+    if(env.DB){
+     const preview=await env.DB.prepare('SELECT week FROM terminal_preview WHERE id=1').first();
+     if(preview?.week===currentMonday()){
+      const u=new URL('/departures/og-semana.png','https://kgblaze.dpdns.org');
+      u.searchParams.set('week',preview.week); // changes weekly for scraper image caches
+      image=u.href;
+     }
     }
+    const url='https://kgblaze.dpdns.org/departures/';
+    return new HTMLRewriter()
+     .on('title',{element(el){el.setInnerContent('Salidas | KGBlaze');}})
+     .on('meta[property="og:title"],meta[name="twitter:title"]',{element(el){el.setAttribute('content','Salidas | KGBlaze');}})
+     .on('meta[property="og:description"]',{element(el){el.setAttribute('content','Calendario semanal de salidas del Aeropuerto Internacional de la KGBlaze.');}})
+     .on('meta[property="og:image"],meta[property="og:image:secure_url"],meta[name="twitter:image"]',{element(el){el.setAttribute('content',image);}})
+     .on('meta[property="og:url"]',{element(el){el.setAttribute('content',url);}})
+     .on('head',{element(el){
+      el.append('<meta property="og:site_name" content="KGBlaze"><meta property="og:url" content="'+url+'"><link rel="canonical" href="'+url+'"><style>'+VIEWER_CSS+'</style>',{html:true});
+     }})
+     .on('body',{element(el){el.append('<script>'+VIEWER_JS+'</script>',{html:true});}})
+     .transform(asset);
    }
    return asset;
   }catch(e){console.error('Terminal Worker error:',e);return err(500,'SERVER_ERROR');}
