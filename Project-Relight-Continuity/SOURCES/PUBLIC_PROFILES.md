@@ -27,3 +27,10 @@ Fecha de corte: 12 octubre 2026. NO significa que el sitio permita auditoría di
 - Bācharu refleja aproximadamente 334 seguidores en X y 281 en Twitch, pero detalles de horario/lista de directos pueden contener cachés históricos. Una cifra del agregador no certifica la plataforma original.
 - Instagram en proveedor directo refleja enlaces del bio a YouTube y `#Llamarte`, `#Reynarte`; no derivar que todos los hashtags usados por terceros siguen siendo campañas vigentes.
 - No hay contradicción crítica de identidad: **no reabrir** HoloList, vTubie, Carrd y bio por iniciativa del auditor.
+
+## Cuarta auditoría — Carrd CONFIRMADO y rutas exactas Twitch (12-oct-2026)
+- **Carrd real:** https://blazeleiton.carrd.co/ — proporcionado directamente por usuario y **abierto** sin búsqueda indexada. Q-04 sobre URL canónica queda resuelta.
+- La consulta obtuvo **dos snapshots contradictorios** del mismo Carrd: `Conectando desde México para el mundo`, enlaces sin Instagram visibles y Ko-fi a `/commissions`; otra respuesta `Acercando a México y al mundo`, **Instagram presente**, Ko-fi a página principal. No concluir omisión persistente, error editorial ni cambio intencional: **DIVERGENCIA_CACHÉ**, corroboración de versión actual pendiente.
+- Carrd enlaza a YouTube, Twitch, X, Discord, Ko-fi y Tellonym, además de Instagram en uno de los snapshots. Tellonym redirige al perfil correcto, pero pide JavaScript; Discord redirige a invite, cuyo contenido no fue legible.
+- **Twitch directo:** se intentaron https://www.twitch.tv/blazeleiton/about , https://www.twitch.tv/blazeleiton/schedule , https://www.twitch.tv/blazeleiton/videos , variante m.twitch y embed; la base del canal devolvió HTML sin contenido interpretable. Sitios terceros TwitchTracker, SullyGnome, StreamsCharts inaccesibles: **no hay evidencia de calendario actual**.
+- Documentar siempre URL efectiva y estado `ABIERTO`, `CONTENIDO_NO_LEGIBLE`, `BLOQUEADO`, `FUENTE_TERCERO` o `CACHÉ_DISCORDANTE`, sin trasladar supuestas faltas de un caché a una tarea de edición de perfiles ya cerrados.
