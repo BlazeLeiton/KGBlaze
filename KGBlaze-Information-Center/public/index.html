@@ -65,7 +65,7 @@ body.embedded .title-line{display:none!important}
 </style></head><body><main class="viewer-shell" id="viewerShell">
  <section class="stage" aria-label="Tablero de salidas">
   <header class="viewer-header">
-    <h1 class="title-line" id="heading">AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINAL</h1>
+    <h1 class="title-line" id="heading">AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINALES A Y B</h1>
     <div class="subtitle-row"><p class="subline" id="subtitle">Tablero de salidas · Calendario semanal</p>
       <nav class="lang-options top-langs" aria-label="Cambiar idioma"><button data-lang="es" class="active">ES</button><button data-lang="en">EN</button><button data-lang="ja">日本語</button></nav>
     </div>
@@ -277,7 +277,8 @@ function draw(list,total,pages){
     rect(headerAccentX,cy-1,33,2,'rgba(237,0,111,.90)');
     rect(headerAccentX+33,cy-2,33,4,'rgba(237,0,111,.95)');
   }
-  text(state.lang==='ja'?'KGBLAZE国際空港':state.lang==='en'?'KGBLAZE INTERNATIONAL AIRPORT':'AEROPUERTO INTERNACIONAL DE LA KGBLAZE',36,24,16,'#A9C9F5',400,undefined,75);
+  const airportHeading=TRANSLATIONS[state.lang].title;
+  text(airportHeading,36,24,fitted(airportHeading,850,16,12,400,75),'#A9C9F5',400,undefined,75);
   rounded(36,54,66,66,13,'rgba(237,0,111,.09)','#ED006F',2);
   // Exact airplane + runway silhouette used in the approved early proposal.
   // Center its drawn bounds inside the magenta square, not merely the SVG origin.
@@ -427,9 +428,9 @@ function draw(list,total,pages){
 // Public-only implementation: no editor, localStorage, upload or authentication.
 const DEST={yt:'https://www.youtube.com/@BlazeLeiton',tw:'https://www.twitch.tv/blazeleiton/',ig:'https://instagram.com/blazeleiton',x:'https://twitter.com/blazeleiton',dc:'https://discord.gg/n8HFKxhynt',kofi:'https://ko-fi.com/blazeleiton'};
 const TRANSLATIONS={
- es:{title:'AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINAL',subtitle:'Tablero de salidas · Calendario semanal',current:'Semana actual',prev:'Anterior',next:'Siguiente',discord:'Comunidad en Discord',open:'Ver completo',week:'Semana',source:'Datos de muestra · Twitch 10/oct/2026 · Sin conexión en vivo',info:'Estado de la sincronización',snapshot:'Vista de ejemplo sin sincronización con plataformas'},
- en:{title:'KGBLAZE INTERNATIONAL AIRPORT · TERMINAL',subtitle:'Departures Board · Weekly Schedule',current:'Current week',prev:'Previous',next:'Next',discord:'Discord community',open:'Open full view',week:'Week',source:'Sample data · Twitch Oct 10, 2026 · No live connection',info:'Synchronization status',snapshot:'Sample preview without platform synchronization'},
- ja:{title:'KGBLAZE国際空港 · ターミナル',subtitle:'出発案内板 · 週間配信予定',current:'今週',prev:'前の週',next:'次の週',discord:'Discordコミュニティ',open:'全画面表示',week:'週',source:'サンプルデータ · 2026年10月10日のTwitch · 自動更新なし',info:'同期状況',snapshot:'配信プラットフォームと同期していないサンプル'}
+ es:{title:'AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINALES A Y B',subtitle:'Tablero de salidas · Calendario semanal',current:'Semana actual',prev:'Anterior',next:'Siguiente',discord:'Comunidad en Discord',open:'Ver completo',week:'Semana',source:'Datos de muestra · Twitch 10/oct/2026 · Sin conexión en vivo',info:'Estado de la sincronización',snapshot:'Vista de ejemplo sin sincronización con plataformas'},
+ en:{title:'KGBLAZE INTERNATIONAL AIRPORT · TERMINALS A & B',subtitle:'Departures Board · Weekly Schedule',current:'Current week',prev:'Previous',next:'Next',discord:'Discord community',open:'Open full view',week:'Week',source:'Sample data · Twitch Oct 10, 2026 · No live connection',info:'Synchronization status',snapshot:'Sample preview without platform synchronization'},
+ ja:{title:'KGBLAZE国際空港 · ターミナルA・B',subtitle:'出発案内板 · 週間配信予定',current:'今週',prev:'前の週',next:'次の週',discord:'Discordコミュニティ',open:'全画面表示',week:'週',source:'サンプルデータ · 2026年10月10日のTwitch · 自動更新なし',info:'同期状況',snapshot:'配信プラットフォームと同期していないサンプル'}
 };
 const query=new URLSearchParams(location.search);
 const embedded=query.get('embed')==='1';
