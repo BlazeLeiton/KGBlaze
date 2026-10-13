@@ -10,6 +10,13 @@ on:
       - 'KGBlaze-Information-Center/tests/**'
       - 'KGBlaze-Information-Center/src/**'
       - 'KGBlaze-Information-Center/public/index.html'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/relight_verify_continuity.yml'
+      - 'KGBlaze-Information-Center/tests/**'
+      - 'KGBlaze-Information-Center/src/**'
+      - 'KGBlaze-Information-Center/public/index.html'
   workflow_dispatch:
 permissions:
   contents: read
