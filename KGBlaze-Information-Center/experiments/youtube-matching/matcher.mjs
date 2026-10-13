@@ -65,6 +65,41 @@ function titleStrong(eventTitle, candidateTitle) {
   const jaccard = overlap / new Set([...aSet, ...bSet]).size;
   return overlap >= 2 && coverage >= 0.80 && jaccard >= 0.60;
 }
+/**
+ * Conservatively recognizes the editorial Twitch game/category as a *whole*
+ * segment in a creative YouTube title (e.g. "... | Killer Chat!").
+ * The calendar activity is not necessarily the YouTube stream's final title.
+ * No fuzzy substring or franchise-prefix guessing is allowed.
+ */
+const GENERIC_CATEGORIES=new Set([
+  'just chatting','chatting','music','art','gaming','games','special events',
+  'talk shows podcasts','food drink','sports','software and game development'
+]);
+function phraseTokens(value){
+ return (String(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().match(/[\p{L}\p{N}]+/gu)||[]);
+}
+function strongCategorySegments(event, videoTitle){
+ if(typeof event?.category!=='string'||!event.category.trim()||typeof videoTitle!=='string')return false;
+ if(partMarker(event.title)!==partMarker(videoTitle)||collabMarker(event.title)!==collabMarker(videoTitle))return false;
+ const category=event.category.trim();
+ // Only discard *known edition labels*. "Azur Lane: Crosswave" must never
+ // collapse into the broader "Azur Lane" franchise.
+ const base=category.replace(/\s*(?::|\s+)\s*(?:original edition|complete edition|definitive edition|deluxe edition|remastered edition)\s*$/iu,'').trim();
+ const baseTokens=phraseTokens(base),fullTokens=phraseTokens(category);
+ if(!baseTokens.length||baseTokens.length>6||GENERIC_CATEGORIES.has(baseTokens.join(' ')))return false;
+ if(baseTokens.length===1&&(baseTokens[0].length<6||STOP_WORDS.has(baseTokens[0])))return false;
+ if(!baseTokens.some(t=>t.length>=4&&!STOP_WORDS.has(t)))return false;
+ // A whole, delimited game-title segment is a much stronger signal than
+ // words scattered through a promotional headline.
+ const segments=videoTitle.split(/\s*(?:[|｜¦]|\s[—–-]\s)\s*/u);
+ return segments.some(segment=>{
+  const candidate=phraseTokens(segment);
+  return [baseTokens,fullTokens].some(identity=>
+   candidate.length===identity.length&&candidate.every((token,i)=>token===identity[i])
+  );
+ });
+}
+
 const result = (decision, reason, videoId) => ({decision, reason, ...(videoId ? {videoId} : {})});
 
 /**
@@ -91,14 +126,18 @@ export function matchYouTubeEvent(event, candidates, {ownedChannelId} = {}) {
   if (start === null) return result('review', 'editorial_day_or_time_missing');
   const near = [], shifted = [];
   for (const v of valid) {
-    if (v.scheduled === null || !titleStrong(event.title, v.title)) continue;
+    if (v.scheduled === null) continue;
+    const exactTitle=titleStrong(event.title, v.title);
+    const categorySegment=!exactTitle&&strongCategorySegments(event, v.title);
+    if (!exactTitle&&!categorySegment) continue;
+    const candidate={...v,matchBasis:exactTitle?'title':'category'};
     const distance = Math.abs(start - v.scheduled);
-    if (distance <= SAFE_WINDOW_MS) near.push(v);
-    else if (distance <= REVIEW_WINDOW_MS) shifted.push(v);
+    if (distance <= SAFE_WINDOW_MS) near.push(candidate);
+    else if (distance <= REVIEW_WINDOW_MS) shifted.push(candidate);
   }
   if (near.length > 1) return result('review', 'ambiguous_multiple_rooms');
   if (near.length === 1 && shifted.length) return result('review', 'competing_rescheduled_rooms');
-  if (near.length === 1) return result('candidate', 'unique_channel_title_time', near[0].videoId);
+  if (near.length === 1) return result('candidate', near[0].matchBasis==='category'?'unique_channel_category_time':'unique_channel_title_time', near[0].videoId);
   if (shifted.length) return result('review', 'potential_reschedule_needs_editorial_confirmation');
   return result('none', 'no_safe_match');
 }
