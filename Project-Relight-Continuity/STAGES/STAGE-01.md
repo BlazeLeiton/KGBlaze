@@ -31,3 +31,10 @@ Las denominaciones visuales antiguas de los paneles y terminales son **históric
 - Orden estratégico que debe sobrevivir al calendario técnico: **seguimiento de métricas internas de YouTube/Twitch (CSV de Studio/Analytics) → estrategia X/Twitter → preparación de Pokémon Journey para noviembre de 2026**.
 - Pokémon Journey (Pokémon Amarillo) apareció en calendarios anteriores de octubre, pero la decisión posterior **lo pospuso a noviembre**; no volver a presentar fechas antiguas como vigentes.
 - El universo editorial se organizó en tres espacios principales (Pokémon, Azur, Rotación) y un cuarto sólo por oportunidad, respetando entregas con fecha y disponibilidad.
+
+## Segunda revisión de fuentes — 12-oct-2026
+Se confirmó en Biblioteca que existe un CSV de Studio YouTube con **501 videos** y una fila agregada, y CSV diario Twitch 2024–2026 con **839 observaciones**, bases de auditoría externa e interna. Por ser analíticas privadas, cifras y filas detalladas no se copian a este GitHub público.
+
+En `Blaze_Calendario_Operativo_Oct-Dic_2026_v12.xlsx` (7 hojas) hay especificación X con dos posts estructurados/semana, uno adicional opcional, ventanas de respuesta, prioridad de deadlines, 3 espacios de streaming más posible cuarto. Es un plan histórico documentado, no publicaciones ya efectuadas.
+
+**Corrección fundamental:** reportes de finalización Stage 1 como trabajo no equivalen a traspaso literal archivado de todo su chat. La fase externa no debe reiniciarse por ausencia de chat completo. Los KPI públicos deben conciliarse por ID/canal directo y no por coincidencias de búsqueda indexada.
