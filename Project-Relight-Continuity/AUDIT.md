@@ -80,3 +80,12 @@ Las pruebas requieren acceso a sus artefactos. Si faltan, indicar `NO EJECUTADA:
 - [x] A17 — separación de datos privados, archivos de terceros y documentación pública.
 - [ ] A18 — repetir materialización de originales sólo cuando haya autorización; registrar hash y copia real.
 - [ ] A19 — verificar integridad post-commit y no tocar `KGBlaze-Information-Center/`.
+
+## Tercera auditoría Stage 4 (12-oct-2026)
+- A20: fuentes originales por enlace/ID; YouTube e Instagram por proveedor, Ko-fi/HoloList/vTubie páginas directas, X/Twitch/Discord acceso bloqueado. Resultado PARCIAL.
+- A21: descripción de Connect y mumei recuperada por IDs y créditos contrastados; PASA en alcance de videos concretos. X posts no contrastables.
+- A22: 8 videos de streaming 1–9 oct localizados por ID; PASA como evidencia de publicación, no comprobación hora/estado Twitch.
+- A23: `TEMPLATES/LIVE_STREAMS.md` creada; créditos generales de streams y reglas preservadas como secciones, no como texto íntegro copiado. PASA de estructura, reproducción literal NO PROBADA.
+- A24: se compararon calendario v12, conciliado de 11-oct y agenda extendida, conservando conflicto Azur 21/22 y Cake Song demo no verificada. PASA identificación de discrepancias; resolución pendiente.
+- A25: `INITIALIZATION.md` y reglas persistentes listas. **No se puede activar automáticamente sólo desde GitHub**: el propietario debe incorporar `PROJECT_STARTUP_INSTRUCTIONS.md` a las instrucciones del Proyecto.
+- A26: verificar después de cada commit que ningún archivo ajeno a `Project-Relight-Continuity/` haya sido modificado.
