@@ -1,6 +1,6 @@
 # Terminal ↔ YouTube: integración de preflight aislado (PR #2 + PR #3)
 
-**Estado: NO DESPLEGADO.** Este es un puente experimental entre el visor y el matcher, no una sincronización automática de la agenda.
+**Estado actual (Stage 6): preflight de sólo lectura desplegado y probado contra YouTube real; mejora de matching por categoría aislada en PR.** El texto histórico de PR #2/#3 más abajo documenta su fase previa, no el estado vigente. Sigue sin existir sincronización automática de la agenda.
 
 ## Componentes
 - `tests/public-sync-dry-run.test.mjs` — reglas reales `resolveDisplayStatus` del visor, trasladadas del PR #2.
@@ -64,3 +64,5 @@ Pruebas: `cd KGBlaze-Information-Center && npm test`.
 - **Controles vigentes:** ID editorial explícito conserva prioridad absoluta; propietario, broadcast, hora, episodios, colaboraciones, ambigüedad y paginación continúan verificados. Nueva razón de diagnóstico para un match por categoría: unique_channel_category_time; es sólo candidate, no verified, matchConfirmed ni publicación de estados.
 - **Flujo simplificado:** el usuario prefiere no alternar true/false ni escribir ready en cada prueba. Conservar feature flag y mecanismos de seguridad del Worker, pero no solicitar cambios manuales repetitivos; esta rama no modifica ajustes Cloudflare.
 - **Sin despliegue en esta fase:** las pruebas GitHub no suponen fusión a main, cambios de D1, polling, Cron, escrituras ni llamadas nuevas a YouTube real.
+- **Diagnóstico paralelo sin tocar D1:** el preflight de la rama puede devolver autónomamente un objeto autonomousProbe dentro de la propuesta de una salida que ya tenga videoId editorial. Simula el matching con ese ID omitido **sólo en memoria**, restringe candidatos a IDs efectivamente vistos por search.list (no sólo cargados por videos.list gracias al enlace editorial), y reutiliza las mismas respuestas de YouTube sin gastar solicitudes adicionales. Si no hay origen de búsqueda verificable, página completa, evidencia reciente o propiedad del canal, no emite candidato limpio. Si aparece otra sala distinta de la fijada manualmente, marca autonomous_editorial_id_conflict como review.
+- La propiedad autonomousProbe es diagnóstica y no autoriza sincronización. Para probarla con YouTube real sólo será necesario repetir la consulta de preflight **después de integrar la mejora**; jamás limpiar el videoId ya publicado ni editar la agenda.
