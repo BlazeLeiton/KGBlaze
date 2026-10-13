@@ -41,3 +41,9 @@ Biblioteca contiene los archivos originales, pero las herramientas de materializ
 - **Visor canónico GitHub:** `KGBlaze-Information-Center/public/index.html` (el archivo masivo, no el visor de Biblioteca v3.1). Restauración aplicada mediante acción de GitHub a ese blob, con 5 transformaciones exactas; no se publicó servicio.
 - **Traducido histórico:** versión de visor v3.1 de Biblioteca mantenía los términos `TERMINALES A Y B`, `TERMINALS A & B`, `ターミナルA・B`. Este testimonio prevalece sobre traducciones inventadas.
 - El archivo corregido de editor se entrega como derivado privado descargable en la conversación, NO como commit público.
+
+## Continuidad Stage 3 — originales y variante corregida de Terminal
+- `Terminal_Operativo_v23_11_local.html` (Biblioteca, HTML privado): nombre técnico Terminal corregido, pero encabezado público reducido por error a «· TERMINAL».
+- `Terminal_Operativo_v23_11_encabezado_corregido.html` (Biblioteca, HTML privado): restaura **Terminales A y B** en encabezado editor y en render exportable ES/EN/JA, manteniendo STORE actual y LEGACY_STORE de migración. Verificado sintácticamente y en Chromium local; candidato de continuidad.
+- `TerminalB_Visor_Publico_v3_1_reglas_5_semanas.html` (Biblioteca, fuente histórica): títulos aeroportuarios correctos, pero referencias técnicas Terminal B obsoletas. Para visor activo referirse a GitHub `KGBlaze-Information-Center/public/index.html` (comprobación 10/10).
+- No archivar HTML privado en repositorio público y no confundir «verificado en prueba local» con «desplegado». Ver `AUDITS/STAGE3-TERMINAL-HEADER-2026-10-12.md`.
