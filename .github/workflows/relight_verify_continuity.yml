@@ -4,7 +4,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/relight_verify_continuity.yml'
-      - 'Project-Relight-Continuity/**'
+      - 'Project-Relight-Continuity/STAGES/index.json'
+      - 'Project-Relight-Continuity/scripts/kgrp.py'
+      - 'KGBlaze-Information-Center/scripts/restore_airport_public_header.py'
       - 'KGBlaze-Information-Center/tests/**'
       - 'KGBlaze-Information-Center/src/**'
       - 'KGBlaze-Information-Center/public/index.html'
