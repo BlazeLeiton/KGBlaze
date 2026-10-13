@@ -187,3 +187,10 @@ Fuente prioritaria: `STAGES/STAGE-05.md` y `AUDITS/RESPARK-2026-10-12-STAGE-05.m
 | REL-080 | 1–2 / Song Covers / 5 | **Tags ya precargados:** identidad base + Azur Lane + covers/música + Pokémon. El usuario no debe rehacer la validación por defecto. Distinguir tags metadata de hashtags de descripción. | VIGENTE; CONFIRMADO_HISTÓRICAMENTE_POR_USUARIO; [catálogo](TEMPLATES/YOUTUBE_METADATA_TAGS.md) |
 | REL-081 | 1–2 / Song Covers / 5 | **Módulos opcionales guardados aparte:** Formula 1 (no en defaults), HoloCure/Hololive, Civilization, VRChat/collabs, narrativa/manga y eventos especiales. No inventar el texto literal de bloques aún no recuperados. | VIGENTE; recuperado historial 30-sep/01-oct; [catálogo](TEMPLATES/YOUTUBE_METADATA_TAGS.md) |
 | REL-082 | 5 | Los archivos documentales `COVERS.md` y `LIVE_STREAMS.md` derivan de **videos publicados específicos**; no prevalecen sobre la confirmación del usuario sobre defaults maestros. | ACLARACIÓN DE PROCEDENCIA; evita reabrir trabajo cerrado |
+
+## Ampliación de mensajes recuperados — Twitch, tags YouTube y X (13-oct-2026)
+| ID | Etapa | Hallazgo | Evidencia / estado |
+|---|---|---|---|
+| REL-083 | 1–2 | Recuperadas las cadenas guardadas de HoloCure/Hololive, Civilization VI, VRChat/collabs, lectura/manga y eventos especiales, todas como bloques adicionales **fuera** de defaults YouTube | MENSAJES_CONTIGUOS_RECUPERADOS; `TEMPLATES/YOUTUBE_METADATA_TAGS.md` |
+| REL-084 | 1–2 | Plantilla Twitch: título de gancho/juego/campaña; notificación recurrente `A [contexto/chiste] les digo BUENAS [emoji]`; seis tags fijos VTuber/Español/English/Mexico/VSinger/VLatam y cuatro variables por contenido | PLANTILLA_EDITORIAL_RECUPERADA; `TEMPLATES/TWITCH_METADATA.md`; sin lectura actual de Creator Dashboard |
+| REL-085 | 1–2 | X: dos publicaciones de interacción semanales (Pokémon/proceso + personalidad/proceso), una tercera opcional, dos ventanas de replies y hasta un quote oportunista; anuncios de directos y covers aparte, **sin sustituir interacción** | PLAN_EDITORIAL_VIGENTE; `TEMPLATES/SOCIAL.md`; publicación exacta no corroborada en X |
