@@ -42,3 +42,13 @@ Los informes de recuperación deben detallar **origen, fechas, versiones, confli
 
 ## Límite importante
 Este directorio fija un procedimiento verificable, **no** da acceso mágico a conversaciones cuyo texto no esté disponible. No existe detector fiable del límite de tokens del chat. Por eso la recuperación de etapas inconclusas es **siempre** obligatoria al reanudar, aun sin `KGRP: CIERRE`.
+
+## Comprobador local del índice (independiente de Terminal)
+Desde el directorio `Project-Relight-Continuity/` de una copia del repositorio:
+
+```bash
+python scripts/kgrp.py audit
+python scripts/kgrp.py add-stage --title "Título de Stage 4" --source "Enlace o evidencia de la conversación Stage 4"
+```
+
+La segunda orden **sólo se usa cuando existe una nueva etapa real**; crea automáticamente el siguiente número, el archivo, la entrada del índice y una nota en el handoff, sin sobrescribir etapas antiguas. No crea Stage 4 por ejecutar la recuperación actual. Tras agregar, se deben completar las evidencias y archivar los cambios en Git. Las pruebas de esta herramienta se ejecutaron sobre un registro temporal: índice 1..3 válido, alta de Stage 4, rechazo de fuente vacía y detección de archivo faltante.
