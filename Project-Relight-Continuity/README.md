@@ -92,3 +92,5 @@ Los nuevos datos que surjan durante una conversación de Project Relight se regi
 ## Preservación de contexto entre chats (Stage 4)
 - [`CONTEXT-CONTINUITY.md` — política anti-saturación](CONTEXT-CONTINUITY.md): cómo mantener historia profunda y un handoff vigente sin pegar archivos enormes ni repetir auditorías en cada turno; límites reales, señales de cambio de chat y deltas verificables.
 - **Relight Respark sigue siendo profundo** al invocarse o al arranque configurado. La mitigación consiste en recuperar en fuentes y mostrar síntesis con referencias; tras el arranque, integrar cambios incrementales, sin inventar un detector de límite del chat ni crear Stage N+1 por cada conversación.
+
+**Entrada breve entre conversaciones:** [`HANDOFFS/BOOTSTRAP.md`](HANDOFFS/BOOTSTRAP.md) · **Registro de esta ejecución:** [`AUDITS/RESPARK-2026-10-12-CONTEXT.md`](AUDITS/RESPARK-2026-10-12-CONTEXT.md). Son índices de acceso, no reemplazos de `INITIALIZATION.md` ni del historial profundo.
