@@ -510,14 +510,32 @@ function closeFlight(){selectedFlightId=null;render();}
 function fieldDate(e){if(!e.time)return null;const ms=scheduledAtMs(e);return Number.isFinite(ms)?new Date(ms):null;}
 function friendlyFlightDate(e){const local=fieldDate(e);const d=local||dayDate(e.day);const y=local?d.getFullYear():d.getUTCFullYear();const month=local?d.getMonth():d.getUTCMonth();const day=local?d.getDate():d.getUTCDate();if(state.lang==='ja')return `${y}年${month+1}月${day}日`;const m=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][month];return state.lang==='en'?`${m}-${String(day).padStart(2,'0')}-${y}`:`${String(day).padStart(2,'0')} - ${m} - ${y}`;}
 function friendlyFlightTime(e){const local=fieldDate(e);const h=local?`${String(local.getHours()).padStart(2,'0')}:${String(local.getMinutes()).padStart(2,'0')}`:(e.time||'—');return `${h} · ${{es:'HORA LOCAL',en:'LOCAL TIME',ja:'現地時間'}[state.lang]}`;}
-function verifiedVideo(e){const sync=publicState.sync?.[e.id]?.youtube;if(!verifiedItem(sync)||sync.matchConfirmed!==true||!(e.platforms||[]).includes('yt'))return null;const candidate=sync.videoId||sync.id||'';const id=/^[a-zA-Z0-9_-]{11}$/.test(candidate)?candidate:'';let url='';if(id)url=`https://www.youtube.com/watch?v=${id}`;else try{const u=new URL(sync.url||'');if(['www.youtube.com','youtube.com','youtu.be','m.youtube.com'].includes(u.hostname)&&u.protocol==='https:')url=u.href;}catch{};return {url,id};}
+function flightYouTubeVideo(e){
+ if(!(e.platforms||[]).includes('yt'))return null;
+ const validId=v=>typeof v==='string'&&/^[A-Za-z0-9_-]{11}$/.test(v)?v:'';
+ // An editorially linked waiting room is a navigation target, not a verified live observation.
+ const editorialId=validId(e.videoId);
+ if(editorialId)return {url:`https://youtu.be/${editorialId}`,id:editorialId};
+ // Keep independently verified platform observations as a secondary source.
+ const sync=publicState.sync?.[e.id]?.youtube;
+ if(!verifiedItem(sync)||sync.matchConfirmed!==true||sync.status==='missing')return null;
+ let id=validId(sync.videoId)||validId(sync.id);
+ if(!id)try{
+  const u=new URL(sync.videoUrl||sync.url||'');
+  if(u.protocol==='https:'&&['www.youtube.com','youtube.com','m.youtube.com','youtu.be'].includes(u.hostname)){
+   const candidate=u.hostname==='youtu.be'?u.pathname.split('/')[1]:u.pathname.startsWith('/live/')?u.pathname.split('/')[2]:u.pathname==='/watch'?u.searchParams.get('v'):'';
+   id=validId(candidate);
+  }
+ }catch{}
+ return id?{url:`https://youtu.be/${id}`,id}:null;
+}
 function statusColor(status){return status==='CANCELADO'?'#ED006F':status==='POR CONFIRMAR'||status==='REPROGRAMADO'?'#F5BF47':status==='EN VIVO'?'#36D978':status==='A TIEMPO'?'#67D9F7':'#62739D';}
 function showSelectedFlight(visible){const e=visible.find(x=>x.id===selectedFlightId&&flightSelectable(x));if(!e)selectedFlightId=null;$('waitingPanel').hidden=!!e;$('flightPanel').hidden=!e;if(!e)return;const tr=FLIGHT_TRANSLATIONS[state.lang];$('flightKicker').textContent=tr.kicker;$('flightTitle').textContent=tr.title;$('closeFlight').textContent=tr.close;const host=$('flightContent');host.replaceChildren();
  const top=document.createElement('div');top.className='flight-row-top';const light=document.createElement('div');light.className='flight-light';light.style.setProperty('--light',statusColor(e.status));const block=document.createElement('div');block.className='flight-dateblock';const h=document.createElement('h3');h.className='flight-name';h.textContent=e.title;block.append(h);
  for(const [label,value] of [[tr.date,friendlyFlightDate(e)],[tr.time,friendlyFlightTime(e)]]){const item=document.createElement('div');const caption=document.createElement('div');caption.className='flight-meta-label';caption.textContent=label;const val=document.createElement('p');val.className='flight-meta';val.textContent=value;item.append(caption,val);block.append(item);}top.append(light,block);host.append(top);
  const badge=document.createElement('span');badge.className='flight-status';const palette=PALETTE[e.status]||PALETTE['A TIEMPO'];badge.style.background=palette.fill;badge.style.borderColor=palette.border;badge.style.color=palette.fg;badge.textContent=statusLabel(e.status);host.append(badge);
  if(e.extra&&normalizeActivity(e.extra)!==normalizeActivity(e.title)){const note=document.createElement('p');note.className='flight-extra';note.textContent=e.extra;host.append(note);}
- const video=verifiedVideo(e);if(video?.id){const img=document.createElement('img');img.className='flight-thumb';img.src=`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;img.alt=tr.thumb;img.loading='lazy';img.onerror=()=>img.remove();host.append(img);}
+ const video=flightYouTubeVideo(e);if(video?.id){const img=document.createElement('img');img.className='flight-thumb';img.alt=tr.thumb;img.loading='lazy';const hq=`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;let fallbackTried=false;const fallback=()=>{if(!fallbackTried){fallbackTried=true;img.src=hq;}else img.remove();};img.onerror=fallback;img.onload=()=>{if(!fallbackTried&&(img.naturalWidth<640||img.naturalHeight<360))fallback();};img.src=`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`;host.append(img);}
  const links=document.createElement('div');links.className='flight-links';
  for(const p of (e.platforms||[])){
   if(!DEST[p])continue;
