@@ -1,5 +1,14 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## Corte vigente Stage 6 — PR #9 integrado y build de producción SUCCESS (13-oct-2026 CDMX)
+- **Respark Stage 1–6:** nueva ficha `STAGES/STAGE-06.md`; todas las etapas sin cierre formal verificado se conservan abiertas. Este corte prevalece sobre las entradas históricas de revisión 1, PR #4 y documentos que dicen que Cloudflare no estaba desplegado.
+- **Confirmación del usuario, sin inferir lectura API:** Terminal Operativo privado v24.2.1; revisión editorial **2**, **10 salidas**, Killer Chat! con `videoId:JDkg-5tZ3G0`; ICS Twitch ya vigente. No volver a importar ni republicar para probar un parche de navegación.
+- **Corrección ejecutada:** PR [#9](https://github.com/BlazeLeiton/KGBlaze/pull/9) fusionado por squash a `main` `c48b1a79a27886a4f3b8faf486cb8249a03b1908`. La ficha usa videoId editorial `https://youtu.be/<id>` y miniatura `maxresdefault.jpg`, fallback `hqdefault.jpg`; si no existe sala, canal general. No modifica status, Worker, D1 o editor privado.
+- **Pruebas:** [Actions #38385203563](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38385203563) en PR y [#38386074958](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38386074958) en main = success.
+- **Cloudflare:** check [Workers Builds kgblaze-terminal](https://dash.cloudflare.com/7ac97f454edb4362a185d23f9e5dddbd/workers/services/view/kgblaze-terminal/production/builds/a1f0d2aa-e49f-4731-b948-d30aa0795d4c) = SUCCESS; version `345940f0-f0f4-4747-8610-e08494923413` correspondiente al merge. La respuesta real del dominio workers.dev y el click E2E continúan **NO VERIFICADOS** por bloqueo DNS externo.
+- **Siguiente comprobación no destructiva:** abrir visor `https://kgblaze-terminal.drago68575.workers.dev/` y ficha Killer Chat!; comprobar enlace `https://youtu.be/JDkg-5tZ3G0`, miniatura, fallback de canal en eventos sin sala y `/api/public` con revisión 2/10 salidas. Nunca re-publicar para sólo comprobar.
+- Protocolo y nombres: software **Terminal**, título público **Terminales A y B** trilingüe. Sin activar Cron YouTube/Twitch ni usar asociaciones editoriales como verificación de EN VIVO.
+
 ## Paso inmediato — Cloudflare Rate Limiter guardado y reflejado en Wrangler (12-oct-2026 CDMX)
 - Usuario guardó `YOUTUBE_PREVIEW_LIMITER` desde Dashboard Cloudflare con valores recomendados `1001`, `1` / `60 s`. `ADMIN_TOKEN`, `YOUTUBE_CHANNEL_ID` y `YOUTUBE_API_KEY` ya fueron reportados guardados en UI; `YOUTUBE_API_KEY` de tipo Secret. Esto **no confirma deploy ni acceso activo en producción**.
 - PR #4 en borrador y sin merge añade los mismos valores a `wrangler.toml`, manteniendo secreto fuera del repositorio y feature flag `YOUTUBE_PREVIEW_ENABLED` ausente/off. GitHub Actions https://github.com/BlazeLeiton/KGBlaze/actions/runs/38356151146 **90/90 PASS**. No cron, escritura sync ni cambio en agenda.
