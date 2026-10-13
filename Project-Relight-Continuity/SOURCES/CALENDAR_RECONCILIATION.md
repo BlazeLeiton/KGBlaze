@@ -61,3 +61,12 @@ Cualquier contradicción se registra con ambas afirmaciones, fuentes y pregunta;
 El usuario indica que **el último ICS de Twitch archivado es el más reciente y no se han realizado cambios** desde que se obtuvo. Por tanto, no falta solicitar una exportación actualizada para continuar la planificación; usarlo como la **mejor fuente programática disponible**, combinándolo con las correcciones editoriales explícitas posteriores de Stage 4.
 
 Distinguir siempre: `ICS_MAS_RECIENTE_CONFIRMADO_USUARIO` (vigencia editorial) de `TWITCH_WEB_EN_VIVO_NO_CONSULTABLE` (la página `/schedule` no se pudo inspeccionar directamente). No promover reservas a directos confirmados/emitidos por esta aclaración. Azur 21 y 22 quedan reservas sin hora, Cake Song demo pendiente y los demás estados sin cambios.
+
+## Actualización de fuente y significado editorial — 13-oct-2026 (sustituye notas de vigencia 12-oct)
+
+Nuevo archivo **ICS de Twitch con 7 eventos**, suministrado por usuario; la entrada WATCHALONG México GP **01-nov-2026 14:00–18:00 CDMX** tiene UID `b6a53416-0265-4643-8899-871d64bad5fa`, y el usuario eliminó la entrada manual previa equivalente. El ICS de seis eventos ya **NO** es la fuente reciente. Killer Chat! permanece **13-oct 22:00 CDMX**, UID `306ddb27-c0d3-4030-bd9f-f7689b529582`.
+
+**Semántica preservada:** nombre del vuelo/actividad = **juego/categoría Twitch al planificar**, NO título de la sala. `SUMMARY` vacío y `DESCRIPTION` con `Killer Chat!: Original Edition.` son coherentes con el proceso de programar **actividad primero y metadata después**. Títulos de emisión dual normalmente iguales en Twitch/YouTube, sin obligación de coincidir con el nombre del vuelo. Este último debe permanecer comprensible para usuarios del calendario.
+
+**Prueba local:** HTML v24.2.1 conserva la URL YouTube añadida al evento Killer Chat tras reimportar el ICS: secuencia usuario completada/validada; sincronización futura, propiedad YouTube y D1 no comprobadas. Ver `CHANNEL_CONTENT_TAXONOMY_2026-10-13.md`.
+
