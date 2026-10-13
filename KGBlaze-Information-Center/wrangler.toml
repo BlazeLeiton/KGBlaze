@@ -13,6 +13,17 @@ directory = "./public"
 binding = "ASSETS"
 run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html"]
 
+# Binding de diagnostico privado de YouTube, configurado en Cloudflare Dashboard.
+# NO habilita la ruta sin YOUTUBE_PREVIEW_ENABLED=true (ausente por defecto).
+# Cloudflare Rate Limiting opera por ubicacion, no es cuota diaria global.
+[[ratelimits]]
+name = "YOUTUBE_PREVIEW_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 1
+  period = 60
+
 # Activar después de conectar las APIs con las credenciales correspondientes.
 # [triggers]
 # crons = ["*/5 * * * *"]
