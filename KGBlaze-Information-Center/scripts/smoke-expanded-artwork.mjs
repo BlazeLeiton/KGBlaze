@@ -29,19 +29,30 @@ assert.match(html,boot);
 html=html.replace(boot,()=>`const BOOT_DATA=${JSON.stringify(fixture)};`);
 assert.ok(html.includes('</head>')&&html.includes('</body>'));
 html=html.replace('</head>',()=>`<style>${VIEWER_CSS}</style></head>`);
+// Save the genuine legacy renderer before injecting the enhancement. A second
+// rebuild BYPASSES the wrapper: only the observer can restore artwork then.
 const check=`<script>
+let legacyReplaced=false;
 setInterval(()=>{
  const panel=document.querySelector('#flightContent .flight-row-top');
  const box=panel?.querySelector('.flight-category-box');
  const pic=box?.querySelector('img');
+ if(!legacyReplaced){
+  if(pic?.complete&&pic.naturalWidth>0){
+   legacyReplaced=true;
+   window.__legacyFlightRenderer(getVisible().visible);
+  }
+  return;
+ }
  const bounds=pic?.getBoundingClientRect();
  const ok=Boolean(pic&&pic.complete&&pic.naturalWidth>0&&bounds?.width>0&&bounds?.height>0
    &&getComputedStyle(pic).display!=='none'
-   &&panel.querySelector('.flight-light'));
+   &&panel.querySelector('.flight-light')
+   &&panel.querySelectorAll('.flight-category-box').length===1);
  if(ok)document.documentElement.setAttribute('data-relight-artwork-test','PASS');
 },100);
 <\/script>`;
-html=html.replace('</body>',()=>`<script>${VIEWER_JS}</script>${check}</body>`);
+html=html.replace('</body>',()=>`<script>window.__legacyFlightRenderer=showSelectedFlight;</script><script>${VIEWER_JS}</script>${check}</body>`);
 const dir=mkdtempSync(join(tmpdir(),'relight-real-viewer-'));
 try{
  const page=join(dir,'index.html');writeFileSync(page,html);
@@ -52,6 +63,6 @@ try{
    });
  assert.equal(result.status,0,'Chrome failed: '+(result.stderr||'').slice(-700));
  assert.match(result.stdout,/data-relight-artwork-test="PASS"/,
-  'Real expanded-panel artwork did not render a decoded, visible image beside the status LED');
+  'Actual legacy renderer rebuild did not restore one decoded, visible category image beside the status LED');
  console.log('PASS: real public viewer HTML renders visible category art and preserves LED.');
 }finally{rmSync(dir,{recursive:true,force:true});}
