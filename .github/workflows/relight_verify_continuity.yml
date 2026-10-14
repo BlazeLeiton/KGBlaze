@@ -36,3 +36,6 @@ jobs:
       - name: Run Terminal core, Worker and viewer regression tests (no deployment)
         working-directory: KGBlaze-Information-Center
         run: npm test
+      - name: Verify visible category artwork in actual headless Chrome viewer
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/smoke-expanded-artwork.mjs
