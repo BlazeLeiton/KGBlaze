@@ -27,6 +27,10 @@ export const VIEWER_JS = `(function(){
  'use strict';
  if(typeof draw!=='function'||typeof text!=='function'||typeof showSelectedFlight!=='function'||typeof syncChrome!=='function')return;
  const baseDraw=draw,baseText=text,baseFlight=showSelectedFlight,baseChrome=syncChrome;
+ // Wrangler/esbuild may inject __name() into nested functions before this
+ // matcher is serialized. Function.toString() loses the original bundler scope,
+ // so provide the same name helper in the browser closure (never globally).
+ const __name=(target,name)=>Object.defineProperty(target,'name',{value:name,configurable:true});
  const editorialMatches=${artworkCandidates.toString()};
  let drawnEvents=[];
  function clock(e){

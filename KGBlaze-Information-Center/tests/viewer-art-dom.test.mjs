@@ -19,7 +19,7 @@ function element(tag){
  if(tag==='img')Object.defineProperty(node,'src',{get(){return this._src||'';},set(value){this._src=value;}});
  return node;
 }
-function mount(event,library,{remote=null}={}){
+function mount(event,library,{remote=null,viewerSource=VIEWER_JS}={}){
  const host=element('div'),top=element('div'),requests=[];
  top.className='flight-row-top';host.append(top);
  let watcher=null;
@@ -47,7 +47,7 @@ function mount(event,library,{remote=null}={}){
   },
   fetch:async(url)=>{requests.push(url);return {ok:true,json:async()=>remote||{artUrl:null,source:null}};},
  };
- vm.runInNewContext(VIEWER_JS,globals);
+ vm.runInNewContext(viewerSource,globals);
  globals.showSelectedFlight([event]);
  const box=()=>host.querySelector('.flight-row-top')?.querySelector('.flight-category-box');
  const picture=()=>box()?.children.find(c=>c.tagName==='IMG');
@@ -107,4 +107,20 @@ test('Actual content replacement restores category artwork without destroying LE
  ui.notify();ui.notify();
  assert.equal(row.children.filter(c=>c.className==='flight-category-box').length,1);
  assert.equal(row.children[0].className,'flight-light');
+});
+
+// Cloudflare Wrangler bundles the matcher before the worker stringifies it.
+// A bundled function may contain calls to __name(), which are not included
+// in Function.toString(). Reproduce the production error inside our VM.
+test('Bundler-injected __name does not break category artwork in the browser',()=>{
+ const needle='const norm=s=>';
+ assert.ok(VIEWER_JS.includes(needle),'matcher source must be serialized into the viewer');
+ const bundledViewer=VIEWER_JS.replace(
+  needle,
+  "const probe=__name(value=>value,'probe');if(probe('ok')!=='ok')throw Error('Bundler helper failed');const norm=s=>"
+ );
+ const ui=mount({id:'bundle-id',category:'Mexico GP',title:'Collab Padoru',platforms:['yt']},
+  library,{viewerSource:bundledViewer});
+ assert.equal(ui.picture()?.src,library[0].img);
+ assert.equal(ui.requests.length,0);
 });
