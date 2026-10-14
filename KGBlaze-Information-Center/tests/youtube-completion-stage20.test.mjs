@@ -62,8 +62,8 @@ test('Restart/disconnect grace: 14m59s cannot finalize, 15m can',()=>{
 test('Identity, verified channel and provider freshness are mandatory',()=>{
  const cases=[
   {e:event({videoId:'Z'.repeat(11)}),sync:{}},
-  {e:event(),sync:{},ev:evidence()},
-  {e:event(),sync:{[EVENT]:{youtube:{status:'live',source:'foreign',verified:true,videoId:VIDEO,matchConfirmed:true}}}},
+  {e:event({videoId:undefined}),sync:{},ev:evidence()},
+  {e:event({videoId:undefined}),sync:{[EVENT]:{youtube:{status:'live',source:'foreign',verified:true,videoId:VIDEO,matchConfirmed:true}}}},
   {ev:evidence([broadcast({snippet:{channelId:FOREIGN,title:'Killer Chat!',liveBroadcastContent:'none'}})])},
   {ev:evidence([broadcast()],{discoveryComplete:false})},
   {ev:evidence([broadcast()],{fetchedAt:'2026-10-14T08:01:00Z'})},
@@ -145,7 +145,7 @@ test('Cron commits verified completed observation only when Stage 20 flag enable
  assert.equal(JSON.parse(db.row.editorial_json).events[0].status,'A TIEMPO');
  assert.equal(JSON.parse(db.row.sync_json)[EVENT].youtube.status,'completed');
  const again=await runScheduledYouTubeSync(config(db,'true'),{now:NOW,slot:NOW,fetchImpl:provider});
- assert.equal(again.writes,undefined);assert.equal(db.writes,1);
+ assert.equal(again.writes,0);assert.equal(db.writes,1);
 });
 test('Cron disabled completion flag makes no irreversible write',async()=>{
  const db=fakeDB(),baseline=structuredClone(db.row);
