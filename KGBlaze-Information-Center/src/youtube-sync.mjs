@@ -51,7 +51,10 @@ export async function runScheduledYouTubeSync(env,{now=new Date(),slot=now,fetch
   :await readYouTubeKnownVideos({...options,videoIds:knownIds});
  const focused={...agenda,events:relevant};
  const plan=buildTrustedYouTubeObservations(focused,evidence,{
-  ownedChannelId:OWN_CHANNEL,existingSync:oldSync,now
+  ownedChannelId:OWN_CHANNEL,existingSync:oldSync,now,
+  // Independently managed opt-in. Keep it off until the new completion
+  // contract has been reviewed, deployed and deliberately activated.
+  allowCompletion:env.YOUTUBE_COMPLETION_ENABLED==='true'
  });
  const {next,changed}=applyTrustedYouTubeObservations(oldSync,plan.observations);
  if(!changed)return {ok:true,reason:'no_confirmed_observations',writes:0,blocked:plan.blocked};
