@@ -4,6 +4,7 @@ import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
+import {validTwitchCategoryName,getTwitchBoxArt} from './twitch-box-art.mjs';
 import {SOCIAL_PREVIEW_CRON,socialPreviewMonday,generateDailySocialPreview} from './social-preview.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
@@ -58,6 +59,22 @@ async function handler(req,env){
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);return json(publicAgenda(d.editorial,d.sync,d.revision));
+ }
+ // Public read-only image URL, restricted to categories in the published agenda.
+ // No arbitrary API proxy, editorial writes, stream status changes or secrets exposed.
+ if(path==='/api/public/twitch-box-art'&&method==='GET'){
+  const name=url.searchParams.get('name')||'';
+  if(!validTwitchCategoryName(name))return err(400,'INVALID_TWITCH_CATEGORY');
+  const normalized=name.trim();
+  const d=await getState(env);
+  const published=d.editorial.events.some(e=>
+   Array.isArray(e.platforms)&&e.platforms.includes('tw')&&
+   typeof e.category==='string'&&e.category.trim().toLocaleLowerCase()===normalized.toLocaleLowerCase());
+  if(!published)return err(404,'CATEGORY_NOT_PUBLISHED');
+  let artUrl=null;
+  try{artUrl=await getTwitchBoxArt(normalized,env);}
+  catch{ /* Fail closed: the viewer uses its editorial artwork. */ }
+  return json({ok:true,artUrl},200,{'Cache-Control':'public,max-age=900'});
  }
  if(path==='/og-semana.png'&&method==='GET'){
   const r=await env.DB.prepare('SELECT week,payload FROM terminal_preview WHERE id=1').first();
