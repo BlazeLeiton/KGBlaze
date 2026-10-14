@@ -88,6 +88,12 @@ export const VIEWER_JS = `(function(){
    next();
   };
   box.append(pic);
+  // A valid library title alias outranks only Just Chatting / Entertainment.
+  // Explicit per-event artwork stays first, with the same fallback policy.
+  if(editorial.titleBeforeGenericCategory){
+   showSources(explicit?[explicit,titleArt,editorial.category,general]:[editorial.title,editorial.category,general]);
+   return box;
+  }
   if(categoryArt){showSources([categoryArt,titleArt,general]);return box;}
   if(!(e.platforms||[]).some(p=>p==='yt'||p==='tw')){
    showSources([titleArt,general]);return box;
