@@ -55,3 +55,9 @@ test('Search rejects generic keywords and preserves substantive game terms',()=>
  assert.ok(queries.includes('azur lane'));
  assert.ok(!queries.includes('en vivo'));
 });
+
+test('Reverse search still works for YouTube imports whose category equals their descriptive title',async()=>{
+ const c=setup({search:[{name:'Azur Lane',id:'azur'}]});
+ const e={category:'Jugando Azur Lane con amigos',title:'Jugando Azur Lane con amigos',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),{artUrl:cdn+'/ttv-boxart/azur-285x380.jpg',source:'title'});
+});
