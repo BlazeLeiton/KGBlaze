@@ -11,6 +11,7 @@ export const VIEWER_CSS = `
 .flight-row-top .flight-dateblock{min-width:0}
 .flight-category-box{width:100px;min-height:116px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#09173e;border:1px solid #33558d}
 .flight-category-box.is-fallback{background:linear-gradient(145deg,#4c265e 0%,#172f69 55%,#071532 100%);border-color:#9065a6}
+.flight-row-top>.flight-category-box{grid-column:3;grid-row:1;justify-self:stretch;align-self:start;min-width:0}
 .flight-category-box img{display:block;width:100%;height:116px;object-fit:contain}
 .flight-category-box .category-placeholder{font-size:11px;line-height:1.3;padding:10px;color:#d6c8ec;text-align:center;overflow-wrap:anywhere}
 @media(max-width:390px){.flight-row-top{grid-template-columns:5px minmax(0,1fr) 76px}.flight-category-box{width:76px;min-height:98px}.flight-category-box img{height:98px}.flight-name{font-size:18px}}
@@ -61,7 +62,7 @@ export const VIEWER_JS = `(function(){
  };
  function coverFor(e,tr){
   const box=document.createElement('div');box.className='flight-category-box';
-  const pic=document.createElement('img');pic.loading='lazy';pic.alt=tr.category||'Activity artwork';
+  const pic=document.createElement('img');pic.loading='eager';pic.decoding='async';pic.width=100;pic.height=116;pic.alt=tr.category||'Activity artwork';
   const editorial=editorialMatches(e,libraryEntries());
   // An image explicitly selected for this event remains authoritative.
   const choice=e.logoChoice||'auto';
@@ -77,7 +78,12 @@ export const VIEWER_JS = `(function(){
    }
   };
   const showSources=(sources)=>{
+   // A previously exhausted candidate list may have detached the <img>.
+   // Reattach it before a later successful asynchronous category lookup.
    const pending=[...new Set(sources.filter(src=>typeof src==='string'&&src))];
+   const placeholderNode=box.querySelector('.category-placeholder');
+   if(placeholderNode)placeholderNode.remove();
+   if(!box.contains(pic))box.prepend(pic);
    const next=()=>{
     const src=pending.shift();
     if(!src){placeholder();return;}
