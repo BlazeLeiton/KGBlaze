@@ -83,3 +83,5 @@ test('Live production post-broadcast snapshot, no writes',async()=>{
  }
  console.log('RELIGHT POSTSTREAM READ ONLY: no action applied to agenda or sync.');
 });
+
+// Follow-up read-only observation after initial EN VIVO sample's 15-min freshness boundary.
