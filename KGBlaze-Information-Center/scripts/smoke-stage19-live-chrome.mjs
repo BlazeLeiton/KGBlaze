@@ -91,5 +91,8 @@ try{
 }finally{
  try{socket?.close();}catch{}
  try{chrome?.kill('SIGKILL');}catch{}
- rmSync(dir,{recursive:true,force:true});
+ // Chrome writes its profile asynchronously while shutting down. Retry
+ // ENOTEMPTY instead of turning a successful browser assertion into failure.
+ try{rmSync(dir,{recursive:true,force:true,maxRetries:20,retryDelay:200});}
+ catch(e){console.warn('Chrome temporary profile cleanup skipped: '+e.code);}
 }
