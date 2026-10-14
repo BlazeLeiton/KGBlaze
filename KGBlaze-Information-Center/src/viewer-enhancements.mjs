@@ -13,6 +13,8 @@ export const VIEWER_CSS = `
 @media(max-width:390px){.flight-row-top{grid-template-columns:5px minmax(0,1fr) 76px}.flight-category-box{width:76px;min-height:98px}.flight-category-box img{height:98px}.flight-name{font-size:18px}}
 /* Stage 12: hide only the obsolete non-iframe sharing fields. Keep nodes alive: old JS translates and binds them. */
 #plainLabel,.embed-code-row:has(#plainCode){display:none!important}
+/* The public visor is already HTTPS; the obsolete publish-to-HTTPS hint must not appear in ES/EN/JA. */
+#embedHint{display:none!important}
 `;
 
 // Classic script runs after the viewer's original inline script, preserving its
