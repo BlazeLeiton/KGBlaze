@@ -1,10 +1,13 @@
+import {artworkCandidates} from './activity-art-match.mjs';
 /**
  * Public-only visual layer for the self-contained 4.5 MB Terminal viewer.
  * This is injected at the Worker HTML response; never publishes the private editor.
  * The agenda, D1 schema, API and YouTube synchronization remain untouched.
  */
 export const VIEWER_CSS = `
-.flight-row-top{grid-template-columns:5px minmax(0,1fr) 100px;align-items:start}
+.flight-row-top{grid-template-columns:5px minmax(0,1fr) 100px;align-items:stretch}
+/* Restore the legacy status LED: align-items:start collapsed its auto-height to zero. */
+.flight-row-top>.flight-light{align-self:stretch;min-height:36px}
 .flight-row-top .flight-dateblock{min-width:0}
 .flight-category-box{width:100px;min-height:116px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#09173e;border:1px solid #33558d}
 .flight-category-box.is-fallback{background:linear-gradient(145deg,#4c265e 0%,#172f69 55%,#071532 100%);border-color:#9065a6}
@@ -23,6 +26,7 @@ export const VIEWER_JS = `(function(){
  'use strict';
  if(typeof draw!=='function'||typeof text!=='function'||typeof showSelectedFlight!=='function'||typeof syncChrome!=='function')return;
  const baseDraw=draw,baseText=text,baseFlight=showSelectedFlight,baseChrome=syncChrome;
+ const editorialMatches=${artworkCandidates.toString()};
  let drawnEvents=[];
  function clock(e){
   if(!e||!/^\\d\\d:\\d\\d$/.test(e.time||''))return null;
@@ -57,33 +61,48 @@ export const VIEWER_JS = `(function(){
  };
  function coverFor(e,tr){
   const box=document.createElement('div');box.className='flight-category-box';
-  const pic=document.createElement('img');pic.loading='lazy';pic.alt=tr.category||'Twitch category';
-  const uploaded=effectiveEventLogo(e);
-  let attempted=false;
+  const pic=document.createElement('img');pic.loading='lazy';pic.alt=tr.category||'Activity artwork';
+  const editorial=editorialMatches(e,libraryEntries());
+  // An image explicitly selected for this event remains authoritative.
+  const choice=e.logoChoice||'auto';
+  const explicit=choice==='upload'||choice.startsWith('lib:')?effectiveEventLogo(e):null;
+  const categoryArt=explicit||editorial.category;
+  const titleArt=editorial.title||(choice==='auto'?effectiveEventLogo(e):null);
+  const general=editorial.general;
   const placeholder=()=>{
-   pic.remove();if(!box.querySelector('.category-placeholder')){
+   pic.remove();
+   if(!box.querySelector('.category-placeholder')){
     const txt=document.createElement('span');txt.className='category-placeholder';
     txt.textContent=e.category||e.title||'';box.append(txt);
    }
   };
-  const fallback=()=>{
-   if(attempted){placeholder();return;}
-   attempted=true;box.classList.add('is-fallback');
-   if(uploaded){pic.alt=tr.fallback||tr.thumb||'Editorial artwork';pic.src=uploaded;}
-   else placeholder();
+  const showSources=(sources)=>{
+   const pending=[...new Set(sources.filter(src=>typeof src==='string'&&src))];
+   const next=()=>{
+    const src=pending.shift();
+    if(!src){placeholder();return;}
+    box.classList.add('is-fallback');
+    pic.src=src;
+   };
+   pic.onerror=next;
+   next();
   };
-  pic.onerror=fallback;box.append(pic);
-  const cat=typeof e.category==='string'?e.category.trim():'';
-  if(cat&&(e.platforms||[]).includes('tw')){
-   // Helix Get Games is resolved server-side. Never expose Twitch tokens here.
-   const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
-   fetch(api+'?name='+encodeURIComponent(cat),{credentials:'omit'})
-    .then(r=>r.ok?r.json():null)
-    .then(v=>{
-     if(typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/'))pic.src=v.artUrl;
-     else fallback();
-    }).catch(fallback);
-  }else fallback();
+  box.append(pic);
+  if(categoryArt){showSources([categoryArt,titleArt,general]);return box;}
+  if(!(e.platforms||[]).some(p=>p==='yt'||p==='tw')){
+   showSources([titleArt,general]);return box;
+  }
+  // Only published event IDs are accepted by the Worker, including YouTube-only entries.
+  const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
+  fetch(api+'?eventId='+encodeURIComponent(e.id),{credentials:'omit'})
+   .then(r=>r.ok?r.json():null)
+   .then(v=>{
+    const official=typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/')?v.artUrl:null;
+    const byCategory=v?.source==='category'?official:null;
+    const byTitle=v?.source==='title'?official:null;
+    // Category always wins over the title: official category art precedes title aliases.
+    showSources([byCategory,titleArt,byTitle,general]);
+   }).catch(()=>showSources([titleArt,general]));
   return box;
  }
  showSelectedFlight=function(visible){
