@@ -1,10 +1,14 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
-## 13-oct-2026 — Stage 18: raíz JS de portada en navegador real (CORRECCIÓN EN PR, NO DESPLEGADA)
-- Captura Chrome/Edge de https://kgblaze.dpdns.org/departures/ confirma `ReferenceError: __name is not defined` en `artworkCandidates` dentro de `coverFor` y `MutationObserver`; el diagnóstico Stage 16/17 por ancho era insuficiente. La función se incrusta con `.toString()` tras empaquetado Wrangler y pierde su helper `__name`.
-- Corrección acotada + prueba de regresión en `fix/stage18-bundled-category-artwork`. Ver [STAGE-18-2026-10-13.md](STAGE-18-2026-10-13.md). **No afirmar resuelto ni desplegado** hasta PR fusionado, build y prueba navegador real.
-- Preservar portada y LED simultáneamente, prioridad de categoría, agenda 1080², editor V.25, D1/Cron/YouTube. No avanzar STAGES/index.json de 7 sin fichas 8–15/17.
+## 14-oct-2026 — Stage 19 pendiente / preparación de nueva conversación (SIN PARCHE)
+- Usuario solicitó continuar la auditoría del arte de categoría en nueva conversación **Stage 19** tras ejecutar Relight Respark si este chat se aproxima al límite. No se puede conocer automáticamente límite ni abrir un nuevo chat. Handoff de arranque: [STAGE-19-PREPARATION-2026-10-14.md](STAGE-19-PREPARATION-2026-10-14.md).
+- La captura posterior a PR #30 muestra LED verde, imagen vertical de Killer Chat! arriba a la derecha y thumbnail YouTube grande por separado; consola sin `__name`; usuario confirmó que aún no sale como debería. No confundir imagen cargada con imagen correcta. Sin nueva corrección de producción.
+- Hallazgo de código: `logoChoice=upload/lib:...` tiene prioridad `explicit||editorial.category` y evita consultar Twitch Get Games si hay imagen explícita. Killer Chat! constaba `logoChoice:upload` en registro editorial previo, aún por contrastar con JSON público actual. Regla documental actual protege elecciones explícitas; **no reordenar a ciegas** antes de aclarar alcance de selección editorial en calendario vs ficha. Preservar miniatura YouTube, LED y 1080².
 
+## 14-oct-2026 — Stage 18 corregido técnicamente, validación visual funcional aún abierta
+- PR #30 fusionado a `main` en `64f5e59671df4790f4760e5c9df477f3bbeb32d8`; GitHub Actions posterior al merge [38520479726](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38520479726) SUCCESS. El `ReferenceError: __name is not defined` dejó de verse en captura posterior del usuario.
+- El problema de *selección de arte* en panel persiste como asunto reportado por usuario; no afirmar defecto visual completo resuelto. No hay confirmación independiente de Workers Builds en sesión.
+- Ver [STAGE-18-2026-10-13.md](STAGE-18-2026-10-13.md) para investigación original y nuevo handoff Stage 19 para continuación.
 
 ## 13-oct-2026 — Stage 16: ficha desplegable / portada y LED (ABIERTO; diagnóstico en curso)
 - Incorporada fuente recuperable: [STAGE-16-2026-10-13.md](STAGE-16-2026-10-13.md). PR #28 fusionado en `2d7d298`; 194 pruebas y build Cloudflare SUCCESS reportados; usuario aún observa alternancia portada de categoría vs indicador luminoso en la ficha.
