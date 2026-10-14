@@ -31,7 +31,8 @@ export function artworkCandidates(event, entries) {
  const isBroadCategory=!categoryKey||new Set(['gaming','games','video games','games demos','games and demos','general','other','otros']).has(categoryKey)||
   (ytOnly&&new Set(['music','education','people blogs','science technology','film animation','comedy','sports','travel events','news politics','howto style','autos vehicles','pets animals','nonprofits activism','movies','shows']).has(categoryKey));
  const category=match(isGenericChat?'Just Chatting':categoryName,x=>!isGeneral(x));
- const onlySpecial=x=>['karaoke','collab padoru'].includes(norm(x?.name));
+ const onlySpecial=x=>[x?.name,...(Array.isArray(x?.aliases)?x.aliases:[])]
+  .some(alias=>['karaoke','collab padoru','padoru'].includes(norm(alias)));
  const specialTitle=isGenericChat?match(event?.title,onlySpecial):null;
  // Only a generic/unspecified YouTube category can fall back to a library
  // title alias; a specific game's category must never lose to "Padoru".
