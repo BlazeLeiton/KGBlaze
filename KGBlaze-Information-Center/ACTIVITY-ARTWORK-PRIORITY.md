@@ -35,3 +35,6 @@ La biblioteca viaja en `libraryCustom` y `libraryChanges` del JSON público y ma
 `GET /departures/api/public/twitch-box-art?eventId=<ID_PUBLICADO>` devuelve `{ok:true,artUrl,source}`, donde `source` puede ser `category`, `title` o `null`. Sólo permite IDs con plataforma `yt` o `tw` presentes en la agenda editorial. Conserva la forma anterior `?name=<CATEGORIA_PUBLICADA>` para diagnóstico. No expone credenciales, nombres arbitrarios de búsqueda ni acceso a /api/admin.
 
 La búsqueda consulta la **categoría editorial publicada**, no infiere sin evidencia la taxonomía interna de YouTube. `Search Categories` usa un máximo de seis consultas con expresiones depuradas del título y exige coincidencia de frase, nunca selección por ranking arbitrario.
+
+## Corrección de visibilidad del panel desplegable (posterior a PR #26)
+El panel recupera explícitamente la tercera columna para el arte de categoría, carga inmediatamente (sin `loading=lazy`) las imágenes agregadas al abrir el panel y puede volver a adjuntar el nodo `img` si una búsqueda asíncrona recupera una fuente después de un fallo. La luz conserva la altura recuperada. No se altera el lienzo/calendario 1080×1080 ni las prioridades editoriales.

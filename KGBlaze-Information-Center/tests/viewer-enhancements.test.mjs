@@ -33,3 +33,14 @@ test('Local clocks: Mexico UTC−6 shows no secondary time; Tokyo advances one d
   assert.equal(get({day:'2026-10-13',time:''}),null);
  }finally{if(tz===undefined)delete process.env.TZ;else process.env.TZ=tz;}
 });
+
+// The public panel is populated dynamically. Lazy loading is unreliable for
+// images created after opening a formerly hidden panel, especially on mobile.
+test('Expanded-panel category artwork has eager loading, grid placement and recoverable fallback',()=>{
+ assert.ok(VIEWER_JS.includes("pic.loading='eager'"));
+ assert.ok(VIEWER_JS.includes("pic.decoding='async'"));
+ assert.ok(VIEWER_JS.includes('if(!box.contains(pic))box.prepend(pic)'));
+ assert.ok(VIEWER_CSS.includes('.flight-row-top>.flight-category-box{grid-column:3;grid-row:1;'));
+ assert.ok(VIEWER_JS.includes('const editorial=editorialMatches(e,libraryEntries())'));
+ assert.ok(VIEWER_JS.includes('if(categoryArt){showSources([categoryArt,titleArt,general])'));
+});
