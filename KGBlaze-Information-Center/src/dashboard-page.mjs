@@ -88,7 +88,7 @@ code{font-size:12px;overflow-wrap:anywhere}
 <label class="field">Clave administrativa existente (solo memoria de esta pestaña)
 <input id="auth" type="password" autocomplete="off" placeholder="Necesaria para guardar cambios"></label>
 <p class="help">No se crea un nuevo acceso ni se guarda la clave. La página puede abrirse sin iniciar sesión; las escrituras siguen protegidas por el token de Terminal.</p>
-<div class="row"><span id="syncBadge" class="pill">Sincronizando</span><button class="button" id="retry">Reintentar</button></div>
+<div class="row"><span id="syncBadge" class="pill">Sincronizando</span><button class="button" id="retry">Reintentar</button><button class="button" id="exportDraft">Exportar borrador</button></div>
 <details open><summary>Biblioteca editorial compartida</summary>
 <p class="help">Las imágenes de esta lista se guardan en los mismos campos libraryCustom de D1. Las imágenes de categoría oficial en las fichas siguen teniendo prioridad.</p>
 <div id="libraryItems"></div>
@@ -106,7 +106,7 @@ code{font-size:12px;overflow-wrap:anywhere}
 <button class="button" id="applyLibChanges">Aplicar biblioteca</button>
 </details>
 <details><summary>Vista pública en vivo</summary><p class="help">Muestra la Terminal publicada. El visor recibe revisiones automáticamente, normalmente en un máximo de 90 segundos.</p>
-<iframe class="frame" title="Vista pública de salidas" loading="lazy" referrerpolicy="no-referrer" src="/departures/?embed=1"></iframe>
+<iframe id="previewFrame" class="frame" title="Vista pública de salidas" loading="lazy" referrerpolicy="no-referrer" src="/departures/?embed=1"></iframe>
 </details>
 </div></aside>
 </main><footer>KGBlaze · Dashboard web inicial · D1 única · Publicación por revisión (CAS) · Sin edición de observaciones verificadas</footer>
@@ -116,7 +116,7 @@ code{font-size:12px;overflow-wrap:anywhere}
 const endpoint="/departures/api/public",admin="/departures/api/admin/publish";
 const $=id=>document.getElementById(id);
 const allowedStatuses=["A TIEMPO","POR CONFIRMAR","REPROGRAMADO","CANCELADO","EN VIVO","DESPEGÓ","DESCANSO","ESCALA","HIATUS"];
-let agenda=null,revision=null,sync={},selectedId=null,saving=false,dirty=false,blocked=false,timer=null,libraryBytes=null,eventBytes=null;
+let agenda=null,revision=null,sync={},selectedId=null,saving=false,dirty=false,blocked=false,hardConflict=false,timer=null;
 const fields=["title","day","time","category","status","extra","videoId"];
 const notify=(message,type)=>{const n=$("notice");n.textContent=message;n.className=type||"";};
 function scrubImage(url){return typeof url==="string"&&(/^(data:image\/(png|jpeg|webp);base64,)/.test(url)||/^https:\/\//.test(url))?url:"";}
@@ -189,7 +189,7 @@ async function load(){
   agenda={schema:data.schema,publishedAt:data.publishedAt,sourceNote:data.sourceNote,timezone:data.timezone,events:clone(data.events),
    libraryCustom:clone(data.libraryCustom||[]),libraryChanges:clone(data.libraryChanges||{}),
    hiatusWeeks:clone(data.hiatusWeeks||{}),clearedWeeks:clone(data.clearedWeeks||{})};
-  revision=data.revision;sync=data.sync||{};blocked=false;
+  revision=data.revision;sync=data.sync||{};blocked=false;hardConflict=false;
   if(!getEvent())selectedId=null;
   renderList();renderEditor();renderLibrary();refreshFooter();
   notify("Conectado a la publicación real · revisión "+revision+" · "+agenda.events.length+" actividades.","success");
@@ -212,11 +212,15 @@ async function flush(){
   const result=await res.json().catch(()=>({error:"ERROR_NO_JSON"}));
   if(!res.ok){
    dirty=true;
-   if(res.status===409||res.status===423)blocked=true;
+   blocked=true;hardConflict=res.status===409||res.status===423;
    throw Error((result.error||"ERROR")+" ("+res.status+")");
   }
   revision=result.revision;notify("Publicado en Departures · revisión "+revision+". Las otras pantallas se actualizarán con su siguiente consulta.","success");
- }catch(err){notify("No se publicó: "+err.message+(blocked?". Revisa el conflicto antes de recargar.":""),"error");}
+  $("previewFrame").src="/departures/?embed=1&editorial_revision="+revision;
+ }catch(err){
+   blocked=true;
+   notify("No se publicó: "+err.message+(hardConflict?". Hay conflicto de revisión o evento finalizado; exporta el borrador antes de recargar.":" Revisa la conexión o los campos y usa Reintentar."),"error");
+ }
  finally{saving=false;refreshFooter();if(dirty&&!blocked&&$("auth").value.trim())schedule();}
 }
 function fileURL(file){return new Promise((resolve,reject)=>{if(!file||!["image/png","image/jpeg","image/webp"].includes(file.type)||file.size>1024*1024){reject(Error("Se requiere una imagen PNG/JPG/WebP de máximo 1 MB"));return;}
@@ -236,10 +240,22 @@ $("publishNow").addEventListener("click",()=>{dirty=true;flush();});
 $("auth").addEventListener("change",()=>{if(dirty&&!blocked)flush();});
 $("search").addEventListener("input",renderList);
 $("reload").addEventListener("click",load);
-$("retry").addEventListener("click",()=>{if(blocked){notify("Existe un conflicto. Exporta tus cambios antes de recargar.", "error");}else if(dirty)flush();else load();});
+$("retry").addEventListener("click",()=>{
+ if(blocked&&hardConflict){notify("Conflicto: exporta el borrador antes de recargar la agenda. No se sobrescribirá al servidor.","error");return;}
+ if(blocked){blocked=false;hardConflict=false;}
+ if(dirty)flush();else load();
+});
+$("exportDraft").addEventListener("click",()=>{
+ if(!agenda)return;
+ const blob=new Blob([JSON.stringify({baseRevision:revision,agenda},null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="KGBlaze-dashboard-borrador-revision-"+revision+".json";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
+});
+$("editForm").addEventListener("submit",e=>e.preventDefault());
 $("addEvent").addEventListener("click",()=>{
  if(!agenda)return;
- const day=new Intl.DateTimeFormat("en-CA",{timeZone:"America/Mexico_City",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+ const parts=Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:"America/Mexico_City",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date()).filter(x=>x.type!=="literal").map(x=>[x.type,x.value]));
+ const day=parts.year+"-"+parts.month+"-"+parts.day;
  const id="man:web-"+crypto.randomUUID();const e={id,origin:"manual",day,time:"20:00",title:"Nueva actividad",category:"",extra:"",platforms:[],status:"POR CONFIRMAR",logoChoice:"auto",logoData:""};
  agenda.events.push(e);selectedId=id;renderList();renderEditor();schedule();
 });
@@ -261,6 +277,7 @@ $("applyLibChanges").addEventListener("click",()=>{
 });
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!dirty&&!saving&&!blocked)load();});
 window.addEventListener("beforeunload",e=>{if(dirty||saving){e.preventDefault();e.returnValue="";}});
+setInterval(()=>{if(!document.hidden&&!dirty&&!saving&&!blocked)load();},30000);
 load();
 })();
 </script>
