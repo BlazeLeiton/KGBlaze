@@ -66,117 +66,142 @@ const library=[
  {id:'karaoke',name:'Karaoke',aliases:['Cantando'],img:'data:image/png;base64,KARAOKE'},
  {id:'general',name:'KGBlaze General',img:'data:image/png;base64,GENERAL'}
 ];
-test('Opening an activity displays the existing category artwork without a Twitch request',()=>{
- const ui=mount({id:'f1-id',category:'Mexico GP',title:'Collab Padoru en la F1',platforms:['yt']},library);
- assert.equal(ui.picture()?.src,library[0].img);
- assert.equal(ui.picture()?.loading,'eager');
- assert.equal(ui.requests.length,0);
-});
-test('Just Chatting title alias wins for karaoke in the actual expanded panel',()=>{
- const ui=mount({id:'chat-id',category:'Just Chatting',title:'Cantando karaoke hoy',platforms:['tw']},library);
- assert.equal(ui.picture()?.src,library[3].img);
- assert.equal(ui.requests.length,0);
-});
-test('Explicit library selection wins despite title aliases and a specific category',()=>{
- const ui=mount({id:'manual-id',category:'Mexico GP',title:'Karaoke',logoChoice:'lib:padoru',platforms:['yt']},library);
- assert.equal(ui.picture()?.src,library[1].img);
-});
-test('When no editorial art exists, official category image becomes visible after fetch',async()=>{
- const url='https://static-cdn.jtvnw.net/ttv-boxart/123-285x380.jpg';
- const ui=mount({id:'dbd-id',category:'Dead by Daylight',title:'Jugando Dead by Daylight',platforms:['tw']},[],{
-  remote:{artUrl:url,source:'category'}
+const flush=()=>new Promise(resolve=>setImmediate(resolve));
+const official='https://static-cdn.jtvnw.net/ttv-boxart/123-285x380.jpg';
+
+test('Killer Chat!: authentic Twitch category is shown instead of uploaded calendar logo',async()=>{
+ const ui=mount({id:'killer',category:'Killer Chat!: Original Edition',title:'Encuentra el amor',
+  logoChoice:'upload',logoData:'data:image/png;base64,CALENDAR',platforms:['yt','tw']},library,{
+  remote:{artUrl:official,source:'category'}
  });
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture()?.src,url);
+ await flush();
+ assert.equal(ui.picture()?.src,official);
+ assert.notEqual(ui.picture()?.src,'data:image/png;base64,CALENDAR');
  assert.equal(ui.requests.length,1);
- assert.match(ui.requests[0],/eventId=dbd-id/);
-});
-test('Unresolved artwork still leaves a visible descriptive placeholder',async()=>{
- const ui=mount({id:'unknown',category:'Categoría desconocida',title:'Stream',platforms:['yt']},[]);
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture(),undefined);
- assert.equal(ui.box()?.querySelector('.category-placeholder')?.textContent,'Categoría desconocida');
+ assert.equal(ui.picture()?.loading,'eager');
 });
 
-test('Actual content replacement restores category artwork without destroying LED or creating duplicates',()=>{
- const ui=mount({id:'restore-id',category:'Mexico GP',title:'Collab Padoru',platforms:['yt']},library);
+test('Unavailable official game category falls back to CATEGORY library before any title',async()=>{
+ const ui=mount({id:'f1',category:'Mexico GP',title:'Collab Padoru',
+  logoChoice:'upload',logoData:'data:image/png;base64,CALENDAR',platforms:['yt']},library);
+ await flush();
+ assert.equal(ui.picture()?.src,library[0].img);
+ assert.equal(ui.requests.length,1);
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[4].img,'a specific game must not be replaced by Padoru');
+});
+
+test('Broken official category image advances to the matching library image',async()=>{
+ const ui=mount({id:'broken-official',category:'Mexico GP',title:'Karaoke',
+  platforms:['tw']},library,{remote:{artUrl:official,source:'category'}});
+ await flush();
+ assert.equal(ui.picture()?.src,official);
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[0].img);
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[4].img);
+});
+
+test('Only Just Chatting / Entertainment title Karaoke can supersede official generic category art',async()=>{
+ for(const category of ['Just Chatting','Entertainment','Entretenimiento']){
+  const ui=mount({id:'special-'+category,category,title:'Noche de karaoke',
+   logoChoice:'upload',logoData:'data:image/png;base64,CALENDAR',platforms:['yt']},library,{
+   remote:{artUrl:official,source:'category'}
+  });
+  await flush();
+  assert.equal(ui.picture()?.src,library[3].img,category);
+  ui.picture().onerror();
+  assert.equal(ui.picture()?.src,official,'generic official art remains the backup');
+ }
+});
+
+test('Only generic chat can allow Padoru; specific games always retain category priority',async()=>{
+ const chat=mount({id:'chat-padoru',category:'Just Chatting',title:'COLLAB PADORU con amigos',
+  platforms:['tw']},library,{remote:{artUrl:official,source:'category'}});
+ const azur=mount({id:'azur-padoru',category:'Azur Lane',title:'Collab Padoru',
+  platforms:['tw']},library,{remote:{artUrl:official,source:'category'}});
+ await flush();
+ assert.equal(chat.picture()?.src,library[1].img);
+ assert.equal(azur.picture()?.src,official);
+});
+
+test('Entertainment with no exceptions chooses official Just Chatting, then matching library',async()=>{
+ const ui=mount({id:'general-chat',category:'Entertainment',title:'Charlando de videojuegos',
+  platforms:['yt']},library,{remote:{artUrl:official,source:'category'}});
+ await flush();
+ assert.equal(ui.picture()?.src,official);
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[2].img);
+ const fallback=mount({id:'general-chat-2',category:'Entertainment',title:'Charlando',
+  platforms:['yt']},library);
+ await flush();
+ assert.equal(fallback.picture()?.src,library[2].img);
+});
+
+test('Unrelated library activity cannot take precedence over Just Chatting',async()=>{
+ const ui=mount({id:'minecraft-chat',category:'Just Chatting',title:'Minecraft con amigos',
+  platforms:['tw']},[...library,{id:'minecraft',name:'Minecraft',img:'data:image/png;base64,MINECRAFT'}],
+  {remote:{artUrl:official,source:'category'}});
+ await flush();
+ assert.equal(ui.picture()?.src,official);
+});
+
+test('YouTube-only generic Gaming accepts a title-inferred Twitch category before library',async()=>{
+ const ui=mount({id:'youtube-only',category:'Gaming',title:'Jugando Azur Lane',
+  platforms:['yt']},[...library,{id:'azur',name:'Azur Lane',img:'data:image/png;base64,AZUR'}],
+  {remote:{artUrl:official,source:'title'}});
+ await flush();
+ assert.equal(ui.picture()?.src,official);
+ assert.match(ui.requests[0],/eventId=youtube-only/);
+});
+
+test('YouTube category library is preferred over unrelated title artwork',async()=>{
+ const ui=mount({id:'youtube-specific',category:'Mexico GP',title:'Karaoke',
+  platforms:['yt']},library,{remote:{artUrl:official,source:'title'}});
+ await flush();
+ assert.equal(ui.picture()?.src,library[0].img);
+});
+
+test('Unknown category uses GENERAL artwork, never calendar upload',async()=>{
+ const ui=mount({id:'unknown',category:'Actividad desconocida',title:'Algo nuevo',
+  logoChoice:'upload',logoData:'data:image/png;base64,UPLOAD',platforms:['yt']},library);
+ await flush();
+ assert.equal(ui.picture()?.src,library[4].img);
+ const withoutGeneral=mount({id:'unknown-no-general',category:'Desconocida',title:'Sin asociacion',
+  logoChoice:'upload',logoData:'data:image/png;base64,UPLOAD',platforms:['yt']},[]);
+ await flush();
+ assert.equal(withoutGeneral.picture(),undefined);
+ assert.equal(withoutGeneral.box()?.querySelector('.category-placeholder')?.textContent,'Desconocida');
+});
+
+test('Disallowed remote image URL cannot replace editorial category fallback',async()=>{
+ const ui=mount({id:'unsafe',category:'Mexico GP',title:'Padoru',
+  platforms:['yt']},library,{remote:{artUrl:'https://example.com/cat.jpg',source:'category'}});
+ await flush();
+ assert.equal(ui.picture()?.src,library[0].img);
+});
+
+test('Legacy renderer rebuild rehydrates one image and keeps the original LED',async()=>{
+ const ui=mount({id:'restore',category:'Mexico GP',title:'Collab Padoru',
+  platforms:['yt']},library);
+ await flush();
  assert.equal(ui.picture()?.src,library[0].img);
  const row=ui.replaceRow();
  assert.equal(row.children[0].className,'flight-light');
+ await flush();
  assert.equal(ui.picture()?.src,library[0].img);
  ui.notify();ui.notify();
  assert.equal(row.children.filter(c=>c.className==='flight-category-box').length,1);
  assert.equal(row.children[0].className,'flight-light');
 });
 
-// Cloudflare Wrangler bundles the matcher before the worker stringifies it.
-// A bundled function may contain calls to __name(), which are not included
-// in Function.toString(). Reproduce the production error inside our VM.
-test('Bundler-injected __name does not break category artwork in the browser',()=>{
+test('Wrangler-serialized __name helper remains valid in the browser script',async()=>{
  const needle='const norm=s=>';
- assert.ok(VIEWER_JS.includes(needle),'matcher source must be serialized into the viewer');
- const bundledViewer=VIEWER_JS.replace(
-  needle,
-  "const probe=__name(value=>value,'probe');if(probe('ok')!=='ok')throw Error('Bundler helper failed');const norm=s=>"
- );
- const ui=mount({id:'bundle-id',category:'Mexico GP',title:'Collab Padoru',platforms:['yt']},
-  library,{viewerSource:bundledViewer});
+ assert.ok(VIEWER_JS.includes(needle));
+ const compiled=VIEWER_JS.replace(needle,
+  "const probe=__name(value=>value,'probe');if(probe('ok')!=='ok')throw Error('Bundler helper failed');const norm=s=>");
+ const ui=mount({id:'bundle',category:'Mexico GP',title:'Collab Padoru',
+  platforms:['yt']},library,{viewerSource:compiled});
+ await flush();
  assert.equal(ui.picture()?.src,library[0].img);
- assert.equal(ui.requests.length,0);
-});
-
-test('Stage 19: explicit image failure falls back through editorial category, then authentic Twitch category',async()=>{
- const official='https://static-cdn.jtvnw.net/ttv-boxart/777-285x380.jpg';
- const ui=mount({id:'s19-explicit',category:'Mexico GP',title:'Cantando karaoke',logoChoice:'upload',
-  logoData:'data:image/png;base64,UPLOAD',platforms:['tw']},library,{
-  remote:{artUrl:official,source:'category'}
- });
- assert.equal(ui.picture()?.src,'data:image/png;base64,UPLOAD');
- assert.equal(ui.requests.length,0,'valid explicit images must not be replaced by Twitch');
- ui.picture().onerror();
- assert.equal(ui.picture()?.src,library[0].img,'category library artwork must follow failed upload');
- assert.equal(ui.requests.length,0);
- ui.picture().onerror();
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture()?.src,official,'official category must precede the title alias');
- assert.equal(ui.requests.length,1,'one read-only request is sufficient for all remote candidates');
- ui.picture().onerror();
- assert.equal(ui.picture()?.src,library[3].img,'editorial title follows failed official category');
-});
-test('Stage 19: when the Worker finds title art, editorial title must precede that remote result',async()=>{
- const official='https://static-cdn.jtvnw.net/ttv-boxart/888-285x380.jpg';
- const ui=mount({id:'s19-title',category:'Unknown specific category',title:'Cantando hoy',
-  logoChoice:'auto',platforms:['yt']},library,{remote:{artUrl:official,source:'title'}});
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture()?.src,library[3].img);
- assert.equal(ui.requests.length,1);
- ui.picture().onerror();
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture()?.src,official);
- assert.equal(ui.requests.length,1);
- ui.picture().onerror();
- assert.equal(ui.picture()?.src,library[4].img,'general artwork remains the last image');
-});
-test('Stage 19: Just Chatting retains specific title-alias exception across failed sources',async()=>{
- const official='https://static-cdn.jtvnw.net/ttv-boxart/999-285x380.jpg';
- const ui=mount({id:'s19-chat',category:'Just Chatting',title:'Cantando karaoke',
-  logoChoice:'auto',platforms:['tw']},library,{remote:{artUrl:official,source:'category'}});
- assert.equal(ui.picture()?.src,library[3].img,'specific title beats generic category');
- ui.picture().onerror();
- assert.equal(ui.picture()?.src,library[2].img,'generic editorial category remains fallback');
- ui.picture().onerror();
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture()?.src,official);
-});
-test('Stage 19: unavailable remote and broken images end in a descriptive placeholder',async()=>{
- const ui=mount({id:'s19-empty',category:'Unlisted Event',title:'Something',
-  logoChoice:'upload',logoData:'data:image/png;base64,BAD',platforms:['yt']},[],{
-  remote:{artUrl:null,source:null}
- });
- assert.equal(ui.picture()?.src,'data:image/png;base64,BAD');
- ui.picture().onerror();
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(ui.picture(),undefined);
- assert.equal(ui.box()?.querySelector('.category-placeholder')?.textContent,'Unlisted Event');
- assert.equal(ui.requests.length,1);
 });
