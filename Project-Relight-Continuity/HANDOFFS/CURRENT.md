@@ -1,5 +1,11 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — Stage 16: ficha desplegable / portada y LED (ABIERTO; diagnóstico en curso)
+- Incorporada fuente recuperable: [STAGE-16-2026-10-13.md](STAGE-16-2026-10-13.md). PR #28 fusionado en `2d7d298`; 194 pruebas y build Cloudflare SUCCESS reportados; usuario aún observa alternancia portada de categoría vs indicador luminoso en la ficha.
+- Hallazgo de inspección: grid de tres columnas (LED 5px, texto flexible, portada 100px/76px móvil) y rehidratación MutationObserver. El smoke Chrome anterior comprobaba geometría de imagen pero sólo presencia DOM del LED; falta verificar geometría/composición real en la versión desplegada. No atribuir la causa al ancho ni afirmar resolución sin medición.
+- Transición de Killer Chat! a EN VIVO verificada por la persona usuaria en el tablero; editorial rev 2 sin cambio. Stage 16 no altera consola V.25, D1, Cron, miniaturas, ni calendario 1080².
+- Aviso archivístico: `STAGES/index.json` sólo contiene 1–7; no adelantar `latest_stage` a 16 hasta reconstruir fichas 8–15 por evidencia. Esta nota mantiene el handoff de 16 sin falsificar secuencia formal.
+
 ## 13-oct-2026 — LANZAMIENTO PÚBLICO DEFINITIVO DE TERMINAL (Stage 7; PREVALECE)
 - El usuario decidió iniciar **producción pública definitiva ahora**, sin fase staging ni espera hasta Killer Chat! a las 22:00 CDMX; la prueba se ejecutará en **la misma URL pública y versión productiva**. Un resultado positivo NO dispara nueva puesta en producción: ya estará operando. Si hay defecto, se investiga y sólo entonces se aplica pausa/rollback específico.
 - URL oficial para esta versión: https://kgblaze-terminal.drago68575.workers.dev/ ; ninguna dirección custom de dominio propio consta aprobada, no inventar otra. Ver `../STAGES/STAGE-07.md`.
