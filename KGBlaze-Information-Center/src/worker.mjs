@@ -192,8 +192,8 @@ export default {
   try{
    const routed=routePortalRequest(req);
    if(routed.response)return routed.response;
-   const path=new URL(routed.request.url).pathname;
-   if(path==='/dashboard/'||path==='/dashboard'){
+   const dashboardPath=new URL(routed.request.url).pathname;
+   if(dashboardPath==='/dashboard/'||dashboardPath==='/dashboard'){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     return new Response(req.method==='HEAD'?null:DASHBOARD_HTML,{
      status:200,headers:{
