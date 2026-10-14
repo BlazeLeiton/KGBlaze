@@ -24,11 +24,11 @@ YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
 YOUTUBE_SYNC_ENABLED = "true"
-# Stage 20: evidence-based post-stream completion is independently gated.
-# Explicitly OFF until opt-in is approved after integration and audit.
-# Only verified YouTube videos.list actualEndTime + channel/identity match
-# + 'none' + 15-minute grace can mark DESPEGÓ; no offline guessing.
-YOUTUBE_COMPLETION_ENABLED = "false"
+# Stage 20: user-requested automatic DESPEGÓ with verified YouTube ending.
+# Require videos.list actualEndTime + channel/identity match + state 'none'
+# + 15-minute grace; missing/offline evidence is never sufficient.
+# Emergency stop: change this flag to false or pause Stage 7 Cron.
+YOUTUBE_COMPLETION_ENABLED = "true"
 
 [assets]
 directory = "./public"
