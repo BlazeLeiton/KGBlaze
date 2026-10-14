@@ -10,69 +10,66 @@ const entries=[
  {id:'kgblaze-default',name:'KGBlaze General',img:'data:image/png;base64,GENERAL'}
 ];
 
-test('A published category wins over a conflicting title alias',()=>{
- const r=artworkCandidates({category:'Azur Lane',title:'Collab Padoru con amigos'},entries);
- assert.equal(r.category,entries[0].img);
- assert.equal(r.title,entries[1].img);
- assert.equal(r.general,entries[3].img);
-});
-test('Every specific game category wins over an unrelated Collab Padoru title',()=>{
- for(const game of ['Azur Lane','Fortnite','Dead by Daylight']){
-  const original=[...entries.filter(item=>item.name!==game),{id:'game',name:game,img:'data:image/png;base64,GAME'}];
-  const r=artworkCandidates({category:game,title:'Collab Padoru con amigos',platforms:['tw','yt']},original);
+test('A published game category always defeats a title Padoru or Karaoke alias',()=>{
+ for(const name of ['Azur Lane','Fortnite','Dead by Daylight']){
+  const catalog=[...entries,{name,img:'data:image/png;base64,GAME'}];
+  const r=artworkCandidates({category:name,title:'Collab Padoru y Karaoke',platforms:['yt','tw']},catalog);
   assert.equal(r.category,'data:image/png;base64,GAME');
-  assert.equal(r.title,entries[1].img);
+  assert.equal(r.title,null);
+  assert.equal(r.specialTitle,null);
   assert.equal(r.titleBeforeGenericCategory,false);
  }
 });
-test('Specific library activities take precedence only over Just Chatting / Entertainment',()=>{
+test('Only Just Chatting and Entertainment can be overridden by library Karaoke or Padoru',()=>{
  const catalog=[...entries,{name:'Just Chatting',img:'data:image/png;base64,CHATTING'},
-  {name:'Entertainment',img:'data:image/png;base64,ENTERTAINMENT'},
-  {name:'Entretenimiento',img:'data:image/png;base64,ENTRETENIMIENTO'},
-  {name:'Gaming',img:'data:image/png;base64,GAMING'}];
+  {name:'Entertainment',img:'data:image/png;base64,ENTERTAINMENT'}];
  for(const category of ['Just Chatting','just chatting','Entertainment','ENTERTAINMENT','Entretenimiento']){
-  const r=artworkCandidates({category,title:'Noche de karaoke en vivo',platforms:['yt']},catalog);
-  assert.ok(r.category);
+  const r=artworkCandidates({category,title:'Noche de karaoke en vivo'},catalog);
+  assert.equal(r.category,'data:image/png;base64,CHATTING');
+  assert.equal(r.specialTitle,entries[2].img);
   assert.equal(r.title,entries[2].img);
   assert.equal(r.titleBeforeGenericCategory,true);
+  assert.equal(r.isGenericChat,true);
  }
- const generic=artworkCandidates({category:'Just Chatting',title:'Charlando',platforms:['tw']},catalog);
- assert.equal(generic.titleBeforeGenericCategory,false);
- assert.ok(generic.category);
- const gaming=artworkCandidates({category:'Gaming',title:'Collab Padoru'},catalog);
- assert.equal(gaming.titleBeforeGenericCategory,false);
- assert.ok(gaming.category);
-});
-test('Library aliases resolve the specific activity while no game is declared',()=>{
- for(const title of ['Collab Padoru con amigos','Una noche de Padoru']){
-  const r=artworkCandidates({category:'Just Chatting',title},entries);
-  assert.equal(r.title,entries[1].img);
-  assert.equal(r.titleBeforeGenericCategory,true);
+ for(const category of ['Just Chatting','Entertainment']){
+  const r=artworkCandidates({category,title:'Una Collab Padoru especial'},catalog);
+  assert.equal(r.specialTitle,entries[1].img);
  }
- const r=artworkCandidates({category:'',title:'Padoru con amigos'},entries);
- assert.equal(r.category,null);
- assert.equal(r.title,entries[1].img);
- assert.equal(r.titleBeforeGenericCategory,false);
+ const generic=artworkCandidates({category:'Entertainment',title:'Minecraft en vivo'},catalog);
+ assert.equal(generic.category,'data:image/png;base64,CHATTING');
+ assert.equal(generic.specialTitle,null);
+ assert.equal(generic.title,null);
 });
-test('YouTube-only streams can resolve title artwork when category is generic',()=>{
- const r=artworkCandidates({category:'Gaming',title:'Noche de karaoke en vivo',platforms:['yt']},entries);
- assert.equal(r.category,null);
- assert.equal(r.title,entries[2].img);
-});
-test('Unknown activity receives registered general artwork, not false matches',()=>{
- const r=artworkCandidates({category:'Algo nuevo',title:'Charlando de cualquier cosa'},entries);
- assert.equal(r.category,null);
+test('Gaming is broad, but does not give Padoru or Karaoke the chat-only privilege',()=>{
+ const catalog=[...entries,{name:'Gaming',img:'data:image/png;base64,GAMING'}];
+ const r=artworkCandidates({category:'Gaming',title:'Collab Padoru'},catalog);
+ assert.equal(r.category,'data:image/png;base64,GAMING');
  assert.equal(r.title,null);
- assert.equal(r.general,entries[3].img);
+ assert.equal(r.isGenericChat,false);
+ assert.equal(r.isBroadCategory,true);
 });
-test('Specific manual logos, LED and published-event lookup remain in public viewer',()=>{
+test('A YouTube generic Gaming title can match a specific real game in the library',()=>{
+ const r=artworkCandidates({category:'Gaming',title:'Jugando Azur Lane',platforms:['yt']},entries);
+ assert.equal(r.category,null);
+ assert.equal(r.title,entries[0].img);
+});
+test('No category allows title activity artwork but unknown activity prefers general',()=>{
+ const r=artworkCandidates({category:'',title:'Collab Padoru con amigos'},entries);
+ assert.equal(r.title,entries[1].img);
+ const unknown=artworkCandidates({category:'Algo nuevo',title:'Charlando de cualquier cosa'},entries);
+ assert.equal(unknown.category,null);
+ assert.equal(unknown.title,null);
+ assert.equal(unknown.general,entries[3].img);
+});
+test('The panel uses official-first selection without modifying status LED or canvas',()=>{
  assert.match(VIEWER_CSS,/\.flight-row-top\{grid-template-columns:5px minmax\(0,1fr\) 100px;align-items:stretch\}/);
  assert.match(VIEWER_CSS,/\.flight-row-top>\.flight-light\{align-self:stretch;min-height:36px\}/);
  assert.match(VIEWER_JS,/const editorialMatches=\s*function artworkCandidates/);
- assert.ok(VIEWER_JS.includes("[explicit,editorial.category,categoryLookup,titleArt,titleLookup,general]"));
- assert.ok(VIEWER_JS.includes("[explicit,titleArt,editorial.category,categoryLookup,titleLookup,general]"));
- assert.match(VIEWER_JS,/const baseDraw=draw,baseText=text/); // 1080 calendar pathway untouched
+ assert.match(VIEWER_JS,/const categoryArt=v\?\.source==='category'\?official:null/);
+ assert.ok(VIEWER_JS.includes('[categoryArt,editorial.category,titleArt,editorial.title,editorial.general]'));
+ assert.ok(VIEWER_JS.includes('[editorial.specialTitle,categoryArt,editorial.category,editorial.general]'));
+ assert.match(VIEWER_JS,/const baseDraw=draw,baseText=text/);
  assert.match(VIEWER_JS,/some\(p=>p==='yt'\|\|p==='tw'\)/);
  assert.match(VIEWER_JS,/eventId=/);
- assert.ok(VIEWER_JS.includes("if(v?.source===entry.source&&official&&!tried.has(official))"));
+ assert.doesNotMatch(VIEWER_JS,/effectiveEventLogo\(e\)/);
 });
