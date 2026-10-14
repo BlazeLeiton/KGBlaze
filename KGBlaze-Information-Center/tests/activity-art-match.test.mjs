@@ -12,7 +12,7 @@ const entries=[
 
 test('A published game category always defeats a title Padoru or Karaoke alias',()=>{
  for(const name of ['Azur Lane','Fortnite','Dead by Daylight']){
-  const catalog=[...entries,{name,img:'data:image/png;base64,GAME'}];
+  const catalog=[...entries.filter(x=>x.name!==name),{name,img:'data:image/png;base64,GAME'}];
   const r=artworkCandidates({category:name,title:'Collab Padoru y Karaoke',platforms:['yt','tw']},catalog);
   assert.equal(r.category,'data:image/png;base64,GAME');
   assert.equal(r.title,null);
