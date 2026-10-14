@@ -66,7 +66,7 @@ test('Live production post-broadcast snapshot, no writes',async()=>{
   const sync=data.sync?.[e.id]||{};
   console.log('RELIGHT POSTSTREAM EVENT',JSON.stringify({
    id:e.id,day:e.day,time:e.time,title:e.title,category:e.category,
-   editorial:e.status,display:viewerStatus(e,sync,now),finalization:finalization(e,sync,now.getTime()),
+   editorial:e.status,display:(()=>{try{return viewerStatus(e,sync,now);}catch(err){return 'NOT_EVALUABLE:'+err.message;}})(),finalization:finalization(e,sync,now.getTime()),
    platforms:e.platforms,videoId:e.videoId||null,
    youtube:compact(sync.youtube),twitch:compact(sync.twitch)
   }));
