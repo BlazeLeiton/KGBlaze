@@ -15,7 +15,13 @@ La ficha expandida usa este orden:
 6. Imagen editorial **general** registrada en biblioteca.
 7. Texto de la categoría/título si todavía no existe una imagen general.
 
-El ejemplo **categoría Azur Lane + título Collab Padoru** prioriza Azur Lane. La detección de `404_boxart` gris permanece activa y ninguna URL de imagen se obtiene del navegador con credenciales Twitch.
+**Regla general (no exclusiva de Azur Lane):** cualquier categoría específica de juego o actividad (p. ej. Azur Lane, Fortnite, Dead by Daylight) conserva prioridad frente a alias genéricos del título como Collab Padoru o Karaoke, siempre que se pueda obtener arte de categoría. Si no hay imagen de categoría fiable, se utilizan los fallbacks del título y la reserva general.
+
+**Única excepción de precedencia:** si la categoría publicada es exactamente `Just Chatting` (Twitch) o `Entertainment` / `Entretenimiento` (YouTube), una imagen específica ya registrada en la biblioteca y asociada al **título mediante nombre o alias válido** supera el arte de la categoría genérica. Si no hay coincidencia editorial del título, se conserva el flujo estándar. Esta excepción no se extiende a `Gaming` ni a juegos o actividades concretos. Una imagen seleccionada explícitamente para el evento sigue ganando.
+
+**Límite de alcance:** este cambio sólo afecta al arte del **panel desplegable**. El calendario y su imagen/cuadro de **1080 × 1080** siguen usando exclusivamente imágenes editoriales/precargadas de biblioteca y elecciones explícitas; la portada dinámica de Twitch y la inversión título→categoría no intervienen allí.
+
+La detección de `404_boxart` gris permanece activa y ninguna URL de imagen se obtiene del navegador con credenciales Twitch.
 
 ## Imágenes que añadirá el propietario
 Usar la biblioteca de imágenes **del editor privado existente**; guardar y publicar la agenda por el flujo editorial habitual cuando corresponda, no por este PR.
