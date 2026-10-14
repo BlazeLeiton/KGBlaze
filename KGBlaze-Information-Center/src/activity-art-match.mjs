@@ -27,7 +27,9 @@ export function artworkCandidates(event, entries) {
  const categoryName=String(event?.category||'');
  const categoryKey=norm(categoryName);
  const isGenericChat=new Set(['just chatting','entertainment','entretenimiento']).has(categoryKey);
- const isBroadCategory=!categoryKey||new Set(['gaming','games','video games','games demos','games and demos','general','other','otros']).has(categoryKey);
+ const ytOnly=(event?.platforms||[]).includes('yt')&&!(event?.platforms||[]).includes('tw');
+ const isBroadCategory=!categoryKey||new Set(['gaming','games','video games','games demos','games and demos','general','other','otros']).has(categoryKey)||
+  (ytOnly&&new Set(['music','education','people blogs','science technology','film animation','comedy','sports','travel events','news politics','howto style','autos vehicles','pets animals','nonprofits activism','movies','shows']).has(categoryKey));
  const category=match(isGenericChat?'Just Chatting':categoryName,x=>!isGeneral(x));
  const onlySpecial=x=>['karaoke','collab padoru'].includes(norm(x?.name));
  const specialTitle=isGenericChat?match(event?.title,onlySpecial):null;
