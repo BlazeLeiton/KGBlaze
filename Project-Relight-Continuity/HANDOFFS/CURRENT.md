@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 14-oct-2026 — Stage 20 DESPEGÓ real confirmado (VIGENTE)
+- **PR [#35](https://github.com/BlazeLeiton/KGBlaze/pull/35) fusionado** `5da38a4942422306fc4fa56d94c095be9cfccbe0`, `YOUTUBE_COMPLETION_ENABLED=true`. Build Cloudflare Workers `kgblaze-terminal` SUCCESS (`43f88d39-2823-4a57-9dbd-e2d512446d59`); GitHub Actions main [38538641380](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38538641380) 219/219 PASS.
+- **Prueba real en Terminal pública** [38536775608, intento 4](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38536775608) a las 03:01 CDMX: Killer Chat! pasó a **DESPEGÓ** con sync YouTube `completed`, video `JDkg-5tZ3G0`, fuente verificada, `actualEndTime=2026-10-14T08:29:10Z` (02:29:10 CDMX), observación `checkedAt=09:00:16.859Z`, `finalization.reason=youtube_complete`. No es caducidad de EN VIVO. Persistencia y bloqueo editorial activo.
+- D1 pública conserva **revisión 2, 10 actividades, 2 sync entries**, Killer Chat! editorial `A TIEMPO`; Azur Lane aún `upcoming`, Cron actualizó observación 09:00Z. Sin publicar ni editar agenda, calendario 1080², portada, miniaturas, LED, V.25 o iframe.
+- **Alcance de Stage20:** YouTube y eventos mixtos YouTube/Twitch; **Twitch-only** aún necesita señal de finalización genuina y no puede inferirse por timeout. Guardias de desconexión de 15 minutos, coincidencia fuerte del canal/video y CAS. Documentación definitiva en [STAGE-20-2026-10-14.md](STAGE-20-2026-10-14.md). No alterar el índice formal 1–7.
+
+
 ## 14-oct-2026 — Stage 20: cierre automático DESPEGÓ, PR #35 (IMPLEMENTADO, NO ACTIVADO)
 - La auditoría real postdirecto [PR #34](https://github.com/BlazeLeiton/KGBlaze/pull/34) verificó EN VIVO→A TIEMPO por caducidad de la muestra YouTube, **no** DESPEGÓ. Cron activo para Azur Lane; revisión 2 y 10 eventos sin cambios.
 - Nuevo [PR #35](https://github.com/BlazeLeiton/KGBlaze/pull/35) en `feat/stage20-verified-youtube-completion`: usa `videos.list` de canal/video verificables y `actualEndTime` real, `liveBroadcastContent:none`, `actualStartTime` válido y **15 minutos de gracia** para escribir `completed` idempotente por CAS, generando DESPEGÓ en visor y bloqueo editorial. Sin OAuth nuevo ni consulta nueva.
