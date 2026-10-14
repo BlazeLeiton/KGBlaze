@@ -33,6 +33,9 @@ html=html.replace('</head>',()=>`<style>${VIEWER_CSS}</style></head>`);
 // rebuild BYPASSES the wrapper: only the observer can restore artwork then.
 const check=`<script>
 let legacyReplaced=false;
+let widthsTested=0;
+const widthsToTest=[335,260];
+const sidebar=document.querySelector('.panel-side');
 setInterval(()=>{
  const panel=document.querySelector('#flightContent .flight-row-top');
  const box=panel?.querySelector('.flight-category-box');
@@ -40,6 +43,7 @@ setInterval(()=>{
  if(!legacyReplaced){
   if(pic?.complete&&pic.naturalWidth>0){
    legacyReplaced=true;
+   if(sidebar){sidebar.style.boxSizing='border-box';sidebar.style.width=widthsToTest[0]+'px';sidebar.style.maxWidth=widthsToTest[0]+'px';}
    window.__legacyFlightRenderer(getVisible().visible);
   }
   return;
@@ -63,8 +67,15 @@ setInterval(()=>{
    &&textRect?.width>=45&&textRect?.height>0
    &&artRect?.width>=65&&artRect?.height>0
    &&ledRect.right<textRect.left&&textRect.right<=artRect.left+1
-   &&panel.querySelectorAll('.flight-category-box').length===1);
- if(ok)document.documentElement.setAttribute('data-relight-artwork-test','PASS');
+   &&panel.querySelectorAll('.flight-category-box').length===1
+   &&(!sidebar||artRect.right<=sidebar.getBoundingClientRect().right+1));
+ if(ok){
+  widthsTested++;
+  if(widthsTested<widthsToTest.length&&sidebar){
+   sidebar.style.width=widthsToTest[widthsTested]+'px';
+   sidebar.style.maxWidth=widthsToTest[widthsTested]+'px';
+  }else document.documentElement.setAttribute('data-relight-artwork-test','PASS');
+ }
 },100);
 <\/script>`;
 html=html.replace('</body>',()=>`<script>window.__legacyFlightRenderer=showSelectedFlight;</script><script>${VIEWER_JS}</script>${check}</body>`);
