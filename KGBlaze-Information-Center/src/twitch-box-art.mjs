@@ -106,7 +106,7 @@ export function titleCategoryQueries(title){
 const titleImageCache=new Map();
 async function categoryFromTitle(title,env,{fetchImpl=fetch,now=Date.now,category=''}={}){
  if(!env.TWITCH_CLIENT_ID||!env.TWITCH_CLIENT_SECRET)return null;
- const key=env.TWITCH_CLIENT_ID+'|title|'+normalized(title);
+ const key=env.TWITCH_CLIENT_ID+'|title|'+normalized(category)+'|'+normalized(title);
  const cached=titleImageCache.get(key);
  if(cached&&cached.expiry>now())return cached.url;
  const token=await appToken(env.TWITCH_CLIENT_ID,env.TWITCH_CLIENT_SECRET,fetchImpl,now);
