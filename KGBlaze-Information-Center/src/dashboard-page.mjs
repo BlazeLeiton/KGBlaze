@@ -3,7 +3,7 @@
  * All mutations reuse the existing ADMIN_TOKEN-protected D1 publish route.
  * The v25 private/local HTML and its embedded fonts are never published.
  */
-export const DASHBOARD_HTML = String.raw\`<!doctype html>
+export const DASHBOARD_HTML = String.raw`<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
 <title>Terminal · Dashboard editorial | KGBlaze</title>
@@ -90,7 +90,7 @@ code{font-size:12px;overflow-wrap:anywhere}
 <p class="help">No se crea un nuevo acceso ni se guarda la clave. La página puede abrirse sin iniciar sesión; las escrituras siguen protegidas por el token de Terminal.</p>
 <div class="row"><span id="syncBadge" class="pill">Sincronizando</span><button class="button" id="retry">Reintentar</button></div>
 <details open><summary>Biblioteca editorial compartida</summary>
-<p class="help">Las imágenes de esta lista se guardan en los mismos campos \`libraryCustom\` de D1. Las imágenes de categoría oficial en las fichas siguen teniendo prioridad.</p>
+<p class="help">Las imágenes de esta lista se guardan en los mismos campos `libraryCustom` de D1. Las imágenes de categoría oficial en las fichas siguen teniendo prioridad.</p>
 <div id="libraryItems"></div>
 <form id="libraryForm">
 <label class="field">Nombre de imagen <input id="libName" maxlength="100" required placeholder="Karaoke / Collab Padoru…"></label>
@@ -101,7 +101,7 @@ code{font-size:12px;overflow-wrap:anywhere}
 </form>
 </details>
 <details><summary>Ajustes avanzados de biblioteca</summary>
-<p class="help">Se conserva el mapa \`libraryChanges\` del operativo original. Solo modificar el JSON si conoces los identificadores de las imágenes precargadas.</p>
+<p class="help">Se conserva el mapa `libraryChanges` del operativo original. Solo modificar el JSON si conoces los identificadores de las imágenes precargadas.</p>
 <label class="field">Cambios en biblioteca (JSON)<textarea rows="5" id="libraryChanges"></textarea></label>
 <button class="button" id="applyLibChanges">Aplicar biblioteca</button>
 </details>
@@ -264,4 +264,4 @@ window.addEventListener("beforeunload",e=>{if(dirty||saving){e.preventDefault();
 load();
 })();
 </script>
-</body></html>\`;
+</body></html>`;
