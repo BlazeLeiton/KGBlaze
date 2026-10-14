@@ -68,12 +68,29 @@ export const VIEWER_JS = `(function(){
   const box=document.createElement('div');box.className='flight-category-box';
   const pic=document.createElement('img');pic.loading='eager';pic.decoding='async';pic.width=100;pic.height=116;pic.alt=tr.category||'Activity artwork';
   const editorial=editorialMatches(e,libraryEntries());
-  // An image explicitly selected for this event remains authoritative.
   const choice=e.logoChoice||'auto';
   const explicit=choice==='upload'||choice.startsWith('lib:')?effectiveEventLogo(e):null;
-  const categoryArt=explicit||editorial.category;
   const titleArt=editorial.title||(choice==='auto'?effectiveEventLogo(e):null);
   const general=editorial.general;
+  const hasPlatform=(e.platforms||[]).some(p=>p==='yt'||p==='tw');
+  const categoryLookup={source:'category'},titleLookup={source:'title'};
+  // A failed explicit or editorial image must advance through ALL remaining
+  // priorities, including authentic Twitch category art before title artwork.
+  // The generic-category exception still puts a specific title alias first.
+  const sources=(editorial.titleBeforeGenericCategory?
+   [explicit,titleArt,editorial.category,categoryLookup,titleLookup,general]:
+   [explicit,editorial.category,categoryLookup,titleArt,titleLookup,general])
+   .filter(x=>x&&(typeof x==='string'||hasPlatform));
+  let remotePromise=null;
+  const lookup=()=>{
+   if(!remotePromise){
+    const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
+    // Only published event IDs are accepted; the Worker owns Twitch secrets.
+    remotePromise=fetch(api+'?eventId='+encodeURIComponent(e.id),{credentials:'omit'})
+     .then(r=>r.ok?r.json():null).catch(()=>null);
+   }
+   return remotePromise;
+  };
   const placeholder=()=>{
    pic.remove();
    if(!box.querySelector('.category-placeholder')){
@@ -81,44 +98,31 @@ export const VIEWER_JS = `(function(){
     txt.textContent=e.category||e.title||'';box.append(txt);
    }
   };
-  const showSources=(sources)=>{
-   // A previously exhausted candidate list may have detached the <img>.
-   // Reattach it before a later successful asynchronous category lookup.
-   const pending=[...new Set(sources.filter(src=>typeof src==='string'&&src))];
-   const placeholderNode=box.querySelector('.category-placeholder');
-   if(placeholderNode)placeholderNode.remove();
-   if(!box.contains(pic))box.prepend(pic);
-   const next=()=>{
-    const src=pending.shift();
-    if(!src){placeholder();return;}
+  const tried=new Set();
+  const next=()=>{
+   const entry=sources.shift();
+   if(!entry){placeholder();return;}
+   if(typeof entry==='string'){
+    if(tried.has(entry)){next();return;}
+    tried.add(entry);
+    if(!box.contains(pic))box.prepend(pic);
     box.classList.add('is-fallback');
-    pic.src=src;
-   };
-   pic.onerror=next;
-   next();
-  };
-  box.append(pic);
-  // A valid library title alias outranks only Just Chatting / Entertainment.
-  // Explicit per-event artwork stays first, with the same fallback policy.
-  if(editorial.titleBeforeGenericCategory){
-   showSources(explicit?[explicit,titleArt,editorial.category,general]:[editorial.title,editorial.category,general]);
-   return box;
-  }
-  if(categoryArt){showSources([categoryArt,titleArt,general]);return box;}
-  if(!(e.platforms||[]).some(p=>p==='yt'||p==='tw')){
-   showSources([titleArt,general]);return box;
-  }
-  // Only published event IDs are accepted by the Worker, including YouTube-only entries.
-  const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
-  fetch(api+'?eventId='+encodeURIComponent(e.id),{credentials:'omit'})
-   .then(r=>r.ok?r.json():null)
-   .then(v=>{
+    pic.src=entry;
+    return;
+   }
+   lookup().then(v=>{
     const official=typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/')?v.artUrl:null;
-    const byCategory=v?.source==='category'?official:null;
-    const byTitle=v?.source==='title'?official:null;
-    // Category always wins over the title: official category art precedes title aliases.
-    showSources([byCategory,titleArt,byTitle,general]);
-   }).catch(()=>showSources([titleArt,general]));
+    if(v?.source===entry.source&&official&&!tried.has(official)){
+     tried.add(official);
+     if(!box.contains(pic))box.prepend(pic);
+     box.classList.add('is-fallback');
+     pic.src=official;
+    }else next();
+   });
+  };
+  pic.onerror=next;
+  box.append(pic);
+  next();
   return box;
  }
  // The legacy renderer replaces #flightContent on every refresh, and can be
