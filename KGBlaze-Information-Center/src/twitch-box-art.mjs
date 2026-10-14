@@ -140,14 +140,32 @@ export async function getEventTwitchArt(event,env,opts={}){
  if(!event||(event.platforms||[]).every(p=>p!=='yt'&&p!=='tw'))return {artUrl:null,source:null};
  const category=typeof event.category==='string'?event.category.trim():'';
  const title=typeof event.title==='string'?event.title.trim():'';
- if(validTwitchCategoryName(category)){
-  const artUrl=await getTwitchBoxArt(category,env,opts);
+ const key=normalized(category);
+ const chatGeneric=new Set(['just chatting','entertainment','entretenimiento']).has(key);
+ const broadCategory=!key||GENERIC_CATEGORIES.has(key);
+ const onlyYouTube=(event.platforms||[]).includes('yt')&&!(event.platforms||[]).includes('tw');
+ // Entertainment on YouTube maps to Twitch's Just Chatting category.
+ // No unrelated game in the title may override this category; the viewer
+ // separately handles Karaoke / Collab Padoru from editorial library aliases.
+ const effectiveCategory=chatGeneric?'Just Chatting':category;
+ if(validTwitchCategoryName(effectiveCategory)&&(!broadCategory||chatGeneric)){
+  const artUrl=await getTwitchBoxArt(effectiveCategory,env,opts);
   if(artUrl)return {artUrl,source:'category'};
  }
- if(!validTwitchCategoryName(title))return {artUrl:null,source:null};
- // Skip duplicate exact lookups, but still reverse-search a descriptive title.
- // Some imported YouTube-only events have category === title.
- if(normalized(title)!==normalized(category)){
+ if(chatGeneric)return {artUrl:null,source:null};
+ // For YouTube-only activities, interpret a descriptive published CATEGORY
+ // before resorting to title inference. A match must occur as a complete
+ // phrase in that category; ranking alone cannot choose a different game.
+ if(onlyYouTube&&!broadCategory&&validTwitchCategoryName(category)){
+  const byCategory=await categoryFromTitle(category,env,{...opts,category});
+  if(byCategory)return {artUrl:byCategory,source:'category'};
+ }
+ if(!onlyYouTube||!validTwitchCategoryName(title))return {artUrl:null,source:null};
+ // A specific category disallows an unrelated title game: Get Games on the
+ // raw title only when both fields coincide or the title contains that category.
+ const titleKey=normalized(title);
+ const isRelated=broadCategory||titleKey===key||(' '+titleKey+' ').includes(' '+key+' ');
+ if(isRelated&&titleKey!==key){
   const exact=await getTwitchBoxArt(title,env,opts);
   if(exact)return {artUrl:exact,source:'title'};
  }
