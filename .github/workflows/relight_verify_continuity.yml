@@ -15,6 +15,7 @@ on:
     paths:
       - '.github/workflows/relight_verify_continuity.yml'
       - 'KGBlaze-Information-Center/tests/**'
+      - 'KGBlaze-Information-Center/scripts/smoke-expanded-artwork.mjs'
       - 'KGBlaze-Information-Center/src/**'
       - 'KGBlaze-Information-Center/public/index.html'
   workflow_dispatch:
