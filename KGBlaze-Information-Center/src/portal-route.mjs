@@ -28,7 +28,8 @@ export function routePortalRequest(request){
  const internalPath=url.pathname.slice('/departures'.length);
  // /departures/api/admin/* must never be accessible from the vanity domain.
  if(internalPath.startsWith('/api')&&
-    internalPath!=='/api/public'&&internalPath!=='/api/health')
+    internalPath!=='/api/public'&&internalPath!=='/api/health'&&
+    internalPath!=='/api/public/twitch-box-art')
   return {response:error(404,'NOT_FOUND')};
  url.pathname=internalPath;
  return {request:new Request(url.toString(),request),isPortal:true};

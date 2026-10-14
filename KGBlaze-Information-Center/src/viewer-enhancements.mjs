@@ -11,6 +11,8 @@ export const VIEWER_CSS = `
 .flight-category-box img{display:block;width:100%;height:116px;object-fit:contain}
 .flight-category-box .category-placeholder{font-size:11px;line-height:1.3;padding:10px;color:#d6c8ec;text-align:center;overflow-wrap:anywhere}
 @media(max-width:390px){.flight-row-top{grid-template-columns:5px minmax(0,1fr) 76px}.flight-category-box{width:76px;min-height:98px}.flight-category-box img{height:98px}.flight-name{font-size:18px}}
+/* Stage 12: hide only the obsolete non-iframe sharing fields. Keep nodes alive: old JS translates and binds them. */
+#plainLabel,.embed-code-row:has(#plainCode){display:none!important}
 `;
 
 // Classic script runs after the viewer's original inline script, preserving its
@@ -71,7 +73,14 @@ export const VIEWER_JS = `(function(){
   pic.onerror=fallback;box.append(pic);
   const cat=typeof e.category==='string'?e.category.trim():'';
   if(cat&&(e.platforms||[]).includes('tw')){
-   pic.src='https://static-cdn.jtvnw.net/ttv-boxart/'+encodeURIComponent(cat)+'-285x380.jpg';
+   // Helix Get Games is resolved server-side. Never expose Twitch tokens here.
+   const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
+   fetch(api+'?name='+encodeURIComponent(cat),{credentials:'omit'})
+    .then(r=>r.ok?r.json():null)
+    .then(v=>{
+     if(typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/'))pic.src=v.artUrl;
+     else fallback();
+    }).catch(fallback);
   }else fallback();
   return box;
  }
