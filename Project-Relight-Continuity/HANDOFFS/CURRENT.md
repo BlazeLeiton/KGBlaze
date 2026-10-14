@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 14-oct-2026 — Stage 19 fusionado y validado en Terminal pública (VIGENTE)
+- PR [#31](https://github.com/BlazeLeiton/KGBlaze/pull/31) fusionado `f4b8ed3d513a3ddda6ab6a9fbfc866cc222fdf04`. Categoría oficial Twitch primero en ficha; biblioteca y fallback general; excepción exclusivamente Just Chatting/Entertainment con Karaoke/Padoru por alias. Elección `upload` de calendario 1080×1080 independiente.
+- GitHub Actions posterior al merge [38529464990](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38529464990) PASS 208/208. Diagnóstico read-only [38529859191](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38529859191): ambas URLs públicas sirven nuevo JS.
+- Chrome **en página real** [38530207237](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38530207237) mostró portada Twitch de Killer Chat! decodificada, 1 arte visible, LED 5 px y título. Complementaria [38530663579](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38530663579) PASS 211/211, aunque decodificación de CDN no terminó en esa ejecución. La disponibilidad externa de CDN puede variar. PR diagnóstico #32 cerrado sin merge.
+- Confirmación de HTML productivo y API ≠ comprobación de Cloudflare Workers Builds Dashboard. Agenda editorial 2, D1, cron, YouTube, V.25, miniaturas, iframe intactos. Ver [STAGE-19-2026-10-14.md](STAGE-19-2026-10-14.md). No adelantar índice formal STAGES 1–7.
+
+
 ## 14-oct-2026 — Stage 19 pendiente / preparación de nueva conversación (SIN PARCHE)
 - Usuario solicitó continuar la auditoría del arte de categoría en nueva conversación **Stage 19** tras ejecutar Relight Respark si este chat se aproxima al límite. No se puede conocer automáticamente límite ni abrir un nuevo chat. Handoff de arranque: [STAGE-19-PREPARATION-2026-10-14.md](STAGE-19-PREPARATION-2026-10-14.md).
 - La captura posterior a PR #30 muestra LED verde, imagen vertical de Killer Chat! arriba a la derecha y thumbnail YouTube grande por separado; consola sin `__name`; usuario confirmó que aún no sale como debería. No confundir imagen cargada con imagen correcta. Sin nueva corrección de producción.
