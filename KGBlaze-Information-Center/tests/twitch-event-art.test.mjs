@@ -96,3 +96,17 @@ test('Gaming on YouTube can still infer a genuine game from title, not a generic
   {artUrl:cdn+'/ttv-boxart/dbd-285x380.jpg',source:'title'});
  assert.equal(c.calls.some(x=>x.includes('name=Gaming')),false);
 });
+
+test('YouTube Music uses an authentic same-category Twitch cover before title',async()=>{
+ const c=setup({games:{Music:'music'},search:[{name:'Azur Lane',id:'azur'}]});
+ const e={category:'Music',title:'Jugando Azur Lane',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),
+  {artUrl:cdn+'/ttv-boxart/music-285x380.jpg',source:'category'});
+ assert.equal(c.calls.filter(x=>x.includes('/helix/search/categories')).length,0);
+});
+test('Broad YouTube Music with no Twitch category may infer a game from title',async()=>{
+ const c=setup({search:[{name:'Azur Lane',id:'azur'}]});
+ const e={category:'Music',title:'Jugando Azur Lane con amigos',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),
+  {artUrl:cdn+'/ttv-boxart/azur-285x380.jpg',source:'title'});
+});
