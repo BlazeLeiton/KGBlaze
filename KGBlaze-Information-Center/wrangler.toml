@@ -22,9 +22,13 @@ binding = "BROWSER"
 [vars]
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
-# upcoming/live observations; cannot assert irreversible completion.
-# Emergency pause: Dashboard Text YOUTUBE_SYNC_PAUSED=true.
+# upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
 YOUTUBE_SYNC_ENABLED = "true"
+# Stage 20: evidence-based post-stream completion is independently gated.
+# Explicitly OFF until opt-in is approved after integration and audit.
+# Only verified YouTube videos.list actualEndTime + channel/identity match
+# + 'none' + 15-minute grace can mark DESPEGÓ; no offline guessing.
+YOUTUBE_COMPLETION_ENABLED = "false"
 
 [assets]
 directory = "./public"
