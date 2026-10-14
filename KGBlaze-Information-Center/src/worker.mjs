@@ -4,7 +4,7 @@ import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
-import {validTwitchCategoryName,getTwitchBoxArt} from './twitch-box-art.mjs';
+import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
 import {SOCIAL_PREVIEW_CRON,socialPreviewMonday,generateDailySocialPreview} from './social-preview.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 // Canal verificado en Stage 1; su ID público no es una credencial.
@@ -63,12 +63,26 @@ async function handler(req,env){
  // Public read-only image URL, restricted to categories in the published agenda.
  // No arbitrary API proxy, editorial writes, stream status changes or secrets exposed.
  if(path==='/api/public/twitch-box-art'&&method==='GET'){
+  const d=await getState(env);
+  const eventId=url.searchParams.get('eventId');
+  // The eventId form supports both YouTube-only and Twitch entries, without
+  // exposing arbitrary search queries or accepting a caller-controlled title.
+  if(eventId!==null){
+   if(!eventId||eventId.length>180)return err(400,'INVALID_EVENT_ID');
+   const event=d.editorial.events.find(e=>e.id===eventId&&
+    Array.isArray(e.platforms)&&e.platforms.some(p=>p==='yt'||p==='tw'));
+   if(!event)return err(404,'EVENT_NOT_PUBLISHED');
+   let found={artUrl:null,source:null};
+   try{found=await getEventTwitchArt(event,env);}
+   catch{ /* Fail closed. The viewer uses category/title art or its general default. */ }
+   return json({ok:true,...found},200,{'Cache-Control':'public,max-age=900'});
+  }
+  // Preserve the Stage 12 read-only diagnostic endpoint for published categories.
   const name=url.searchParams.get('name')||'';
   if(!validTwitchCategoryName(name))return err(400,'INVALID_TWITCH_CATEGORY');
   const normalized=name.trim();
-  const d=await getState(env);
   const published=d.editorial.events.some(e=>
-   Array.isArray(e.platforms)&&e.platforms.includes('tw')&&
+   Array.isArray(e.platforms)&&e.platforms.some(p=>p==='yt'||p==='tw')&&
    typeof e.category==='string'&&e.category.trim().toLocaleLowerCase()===normalized.toLocaleLowerCase());
   if(!published)return err(404,'CATEGORY_NOT_PUBLISHED');
   let artUrl=null;
