@@ -28,7 +28,7 @@ function client(gameName,artBytes=real,overrides={}){
 test('Validate names and Twitch-only image URLs',()=>{
  assert.equal(validTwitchCategoryName('Azur Lane'),true);
  assert.equal(validTwitchCategoryName(''),false);
- assert.equal(validTwitchCategoryName('line\\nbreak'),false);
+ assert.equal(validTwitchCategoryName('line'+String.fromCharCode(10)+'break'),false);
  assert.equal(validTwitchCategoryName('x'.repeat(101)),false);
  assert.equal(twitchArtURL(domain+'/ttv-boxart/99-{width}x{height}.jpg'),domain+'/ttv-boxart/99-285x380.jpg');
  assert.equal(twitchArtURL('https://bad.test/ttv-boxart/99-{width}x{height}.jpg'),null);
