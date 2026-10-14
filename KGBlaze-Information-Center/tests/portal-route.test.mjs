@@ -74,3 +74,15 @@ test('embedded viewer retains historical /api/public request through read-only a
  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
  assert.ok(html.includes("fetch('/api/public',{cache:'no-store'})"));
 });
+
+test('Get Games art route allowed read-only under /departures; never opens admin paths',async()=>{
+ const {env}=setup();
+ const allowed=await worker.fetch(new Request(base+'/departures/api/public/twitch-box-art?name=Azur%20Lane'),env);
+ assert.equal(allowed.status,404);
+ assert.equal((await allowed.json()).error,'CATEGORY_NOT_PUBLISHED');
+ const blocked=await worker.fetch(new Request(base+'/api/public/twitch-box-art?name=Azur%20Lane'),env);
+ assert.equal(blocked.status,404);
+ assert.equal((await blocked.json()).error,'NOT_FOUND');
+ const write=await worker.fetch(new Request(base+'/departures/api/public/twitch-box-art',{method:'POST'}),env);
+ assert.equal(write.status,405);
+});
