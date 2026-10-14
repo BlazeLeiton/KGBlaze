@@ -88,6 +88,7 @@ const TITLE_STOP=new Set([
  'chapter','especial','special','primer','primera','first','reaction','reaccion'
 ]);
 const TITLE_EXCLUDE=new Set(['gaming','games','game','youtube','twitch','karaoke','just chatting','collab','general']);
+const GENERIC_CATEGORIES=new Set(['gaming','games','game','video games','games demos','games and demos','just chatting','charlando','charla','entretenimiento','variedad','variedades','variety','general','otros','other','live','stream','youtube','twitch','karaoke','collab']);
 const normalized=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
 export function titleCategoryQueries(title){
  const words=normalized(title).split(' ').filter(w=>w.length>=3&&!TITLE_STOP.has(w));
@@ -103,13 +104,15 @@ export function titleCategoryQueries(title){
  return result;
 }
 const titleImageCache=new Map();
-async function categoryFromTitle(title,env,{fetchImpl=fetch,now=Date.now}={}){
+async function categoryFromTitle(title,env,{fetchImpl=fetch,now=Date.now,category=''}={}){
  if(!env.TWITCH_CLIENT_ID||!env.TWITCH_CLIENT_SECRET)return null;
  const key=env.TWITCH_CLIENT_ID+'|title|'+normalized(title);
  const cached=titleImageCache.get(key);
  if(cached&&cached.expiry>now())return cached.url;
  const token=await appToken(env.TWITCH_CLIENT_ID,env.TWITCH_CLIENT_SECRET,fetchImpl,now);
  const whole=' '+normalized(title)+' ';
+ const reference=normalized(category);
+ const isGeneric=!reference||GENERIC_CATEGORIES.has(reference);
  let verified=null;
  for(const query of titleCategoryQueries(title)){
   const url=new URL('https://api.twitch.tv/helix/search/categories');
@@ -119,7 +122,9 @@ async function categoryFromTitle(title,env,{fetchImpl=fetch,now=Date.now}={}){
   const json=await r.json();
   const matches=(Array.isArray(json?.data)?json.data:[]).filter(item=>{
    const game=normalized(item?.name);
-   return game.length>=5&&!TITLE_EXCLUDE.has(game)&&whole.includes(' '+game+' ');
+   // A specific published category blocks unrelated games inferred from the title.
+   const related=isGeneric||(' '+game+' ').includes(' '+reference+' ')||(' '+reference+' ').includes(' '+game+' ');
+   return game.length>=5&&!TITLE_EXCLUDE.has(game)&&related&&whole.includes(' '+game+' ');
   }).sort((a,b)=>normalized(b.name).length-normalized(a.name).length);
   for(const match of matches.slice(0,2)){
    const art=twitchArtURL(match.box_art_url);
@@ -143,6 +148,6 @@ export async function getEventTwitchArt(event,env,opts={}){
  // A title that is itself a Twitch category is a high-confidence match.
  const exact=await getTwitchBoxArt(title,env,opts);
  if(exact)return {artUrl:exact,source:'title'};
- const discovered=await categoryFromTitle(title,env,opts);
+ const discovered=await categoryFromTitle(title,env,{...opts,category});
  return {artUrl:discovered,source:discovered?'title':null};
 }
