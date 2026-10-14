@@ -35,6 +35,6 @@ export function artworkCandidates(event, entries) {
  // title alias; a specific game's category must never lose to "Padoru".
  const title=isGenericChat?specialTitle:
    isBroadCategory?match(event?.title,x=>!isGeneral(x)):null;
- return {category,title,general,specialTitle,isGenericChat,
+ return {category,title,general,specialTitle,isGenericChat,isBroadCategory,
   titleBeforeGenericCategory:Boolean(specialTitle)};
 }
