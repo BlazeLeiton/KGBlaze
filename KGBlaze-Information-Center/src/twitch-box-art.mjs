@@ -89,6 +89,14 @@ const TITLE_STOP=new Set([
 ]);
 const TITLE_EXCLUDE=new Set(['gaming','games','game','youtube','twitch','karaoke','just chatting','collab','general']);
 const GENERIC_CATEGORIES=new Set(['gaming','games','game','video games','games demos','games and demos','just chatting','charlando','charla','entretenimiento','variedad','variedades','variety','general','otros','other','live','stream','youtube','twitch','karaoke','collab']);
+// Published YouTube genres are labels, not authoritative Twitch games.
+// Still try their exact Twitch category if one exists, then infer cautiously
+// from the video title when there is no reliable category cover.
+const YOUTUBE_BROAD=new Set(['music','education','people blogs','science technology',
+ 'film animation','comedy','sports','travel events','news politics',
+ 'howto style','autos vehicles','pets animals','nonprofits activism','movies','shows']);
+const SKIP_GENERIC_EXACT=new Set(['gaming','games','game','video games',
+ 'games demos','games and demos','general','other','otros','youtube','twitch']);
 const normalized=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
 export function titleCategoryQueries(title){
  const words=normalized(title).split(' ').filter(w=>w.length>=3&&!TITLE_STOP.has(w));
@@ -142,13 +150,13 @@ export async function getEventTwitchArt(event,env,opts={}){
  const title=typeof event.title==='string'?event.title.trim():'';
  const key=normalized(category);
  const chatGeneric=new Set(['just chatting','entertainment','entretenimiento']).has(key);
- const broadCategory=!key||GENERIC_CATEGORIES.has(key);
+ const broadCategory=!key||GENERIC_CATEGORIES.has(key)||(onlyYouTube&&YOUTUBE_BROAD.has(key));
  const onlyYouTube=(event.platforms||[]).includes('yt')&&!(event.platforms||[]).includes('tw');
  // Entertainment on YouTube maps to Twitch's Just Chatting category.
  // No unrelated game in the title may override this category; the viewer
  // separately handles Karaoke / Collab Padoru from editorial library aliases.
  const effectiveCategory=chatGeneric?'Just Chatting':category;
- if(validTwitchCategoryName(effectiveCategory)&&(!broadCategory||chatGeneric)){
+ if(validTwitchCategoryName(effectiveCategory)&&(chatGeneric||!SKIP_GENERIC_EXACT.has(key))){
   const artUrl=await getTwitchBoxArt(effectiveCategory,env,opts);
   if(artUrl)return {artUrl,source:'category'};
  }
