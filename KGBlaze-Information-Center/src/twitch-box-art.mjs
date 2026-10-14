@@ -75,3 +75,82 @@ export async function getTwitchBoxArt(name,env,{fetchImpl=fetch,now=Date.now}={}
  imageCache.set(key,{url:verified,expiry:now()+60*60*1000});
  return verified;
 }
+
+
+// Search Categories is useful when YouTube only provides a descriptive stream title.
+// A returned name must occur as a complete phrase in the title: never trust
+// Twitch's ranking or silently treat any partial result as a confident match.
+const TITLE_STOP=new Set([
+ 'jugando','jugamos','probando','nueva','nuevo','hoy','directo','stream','streaming',
+ 'live','en','vivo','de','la','el','las','los','y','con','por','para','del',
+ 'the','a','an','and','with','playing','play','collab','colaboracion','colaboración',
+ 'gameplay','vtuber','espanol','español','parte','part','episodio','ep','capitulo',
+ 'chapter','especial','special','primer','primera','first','reaction','reaccion'
+]);
+const TITLE_EXCLUDE=new Set(['gaming','games','game','youtube','twitch','karaoke','just chatting','collab','general']);
+const GENERIC_CATEGORIES=new Set(['gaming','games','game','video games','games demos','games and demos','just chatting','charlando','charla','entretenimiento','variedad','variedades','variety','general','otros','other','live','stream','youtube','twitch','karaoke','collab']);
+const normalized=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+export function titleCategoryQueries(title){
+ const words=normalized(title).split(' ').filter(w=>w.length>=3&&!TITLE_STOP.has(w));
+ const result=[];
+ for(const size of [3,2,1]){
+  for(let i=0;i+size<=words.length;i++){
+   const part=words.slice(i,i+size).join(' ');
+   if(part.length<5||TITLE_EXCLUDE.has(part)||result.includes(part))continue;
+   result.push(part);
+   if(result.length>=6)return result;
+  }
+ }
+ return result;
+}
+const titleImageCache=new Map();
+async function categoryFromTitle(title,env,{fetchImpl=fetch,now=Date.now,category=''}={}){
+ if(!env.TWITCH_CLIENT_ID||!env.TWITCH_CLIENT_SECRET)return null;
+ const key=env.TWITCH_CLIENT_ID+'|title|'+normalized(category)+'|'+normalized(title);
+ const cached=titleImageCache.get(key);
+ if(cached&&cached.expiry>now())return cached.url;
+ const token=await appToken(env.TWITCH_CLIENT_ID,env.TWITCH_CLIENT_SECRET,fetchImpl,now);
+ const whole=' '+normalized(title)+' ';
+ const reference=normalized(category);
+ const isGeneric=!reference||GENERIC_CATEGORIES.has(reference)||reference===normalized(title);
+ let verified=null;
+ for(const query of titleCategoryQueries(title)){
+  const url=new URL('https://api.twitch.tv/helix/search/categories');
+  url.searchParams.set('query',query);url.searchParams.set('first','30');
+  const r=await fetchImpl(url.toString(),{headers:{'Authorization':'Bearer '+token,'Client-Id':env.TWITCH_CLIENT_ID}});
+  if(!r.ok)break;
+  const json=await r.json();
+  const matches=(Array.isArray(json?.data)?json.data:[]).filter(item=>{
+   const game=normalized(item?.name);
+   // A specific published category blocks unrelated games inferred from the title.
+   const related=isGeneric||(' '+game+' ').includes(' '+reference+' ')||(' '+reference+' ').includes(' '+game+' ');
+   return game.length>=5&&!TITLE_EXCLUDE.has(game)&&related&&whole.includes(' '+game+' ');
+  }).sort((a,b)=>normalized(b.name).length-normalized(a.name).length);
+  for(const match of matches.slice(0,2)){
+   const art=twitchArtURL(match.box_art_url);
+   if(art&&await hasRealArt(art,fetchImpl)){verified=art;break;}
+  }
+  if(verified)break;
+ }
+ if(titleImageCache.size>=150)titleImageCache.clear();
+ titleImageCache.set(key,{url:verified,expiry:now()+60*60*1000});
+ return verified;
+}
+export async function getEventTwitchArt(event,env,opts={}){
+ if(!event||(event.platforms||[]).every(p=>p!=='yt'&&p!=='tw'))return {artUrl:null,source:null};
+ const category=typeof event.category==='string'?event.category.trim():'';
+ const title=typeof event.title==='string'?event.title.trim():'';
+ if(validTwitchCategoryName(category)){
+  const artUrl=await getTwitchBoxArt(category,env,opts);
+  if(artUrl)return {artUrl,source:'category'};
+ }
+ if(!validTwitchCategoryName(title))return {artUrl:null,source:null};
+ // Skip duplicate exact lookups, but still reverse-search a descriptive title.
+ // Some imported YouTube-only events have category === title.
+ if(normalized(title)!==normalized(category)){
+  const exact=await getTwitchBoxArt(title,env,opts);
+  if(exact)return {artUrl:exact,source:'title'};
+ }
+ const discovered=await categoryFromTitle(title,env,{...opts,category});
+ return {artUrl:discovered,source:discovered?'title':null};
+}

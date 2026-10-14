@@ -55,3 +55,19 @@ test('Twitch category art only reads named published Twitch categories; missing 
  const invalid=await call(env,'/api/public/twitch-box-art?name=');
  assert.equal(invalid.status,400);
 });
+
+test('Public eventId lookup accepts YouTube-only events and rejects unknown IDs without D1 writes',async()=>{
+ const {env,db}=setup();
+ db.row={revision:2,editorial_json:JSON.stringify({...EMPTY_AGENDA(),events:[
+  {id:'manual:yt-only',title:'Jugando Azur Lane',category:'Gaming',platforms:['yt']}
+ ]}),sync_json:'{}',updated_at:'2026-10-13T22:00:00Z'};
+ const known=await call(env,'/api/public/twitch-box-art?eventId=manual%3Ayt-only');
+ assert.equal(known.status,200);
+ assert.deepEqual(await known.json(),{ok:true,artUrl:null,source:null});
+ assert.equal(db.row.revision,2);
+ assert.equal(db.audits.length,0);
+ const unknown=await call(env,'/api/public/twitch-box-art?eventId=unknown');
+ assert.equal(unknown.status,404);
+ const invalid=await call(env,'/api/public/twitch-box-art?eventId=');
+ assert.equal(invalid.status,400);
+});
