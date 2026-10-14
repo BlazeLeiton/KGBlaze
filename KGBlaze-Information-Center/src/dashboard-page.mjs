@@ -119,7 +119,7 @@ const allowedStatuses=["A TIEMPO","POR CONFIRMAR","REPROGRAMADO","CANCELADO","EN
 let agenda=null,revision=null,sync={},selectedId=null,saving=false,dirty=false,blocked=false,timer=null,libraryBytes=null,eventBytes=null;
 const fields=["title","day","time","category","status","extra","videoId"];
 const notify=(message,type)=>{const n=$("notice");n.textContent=message;n.className=type||"";};
-function scrubImage(url){return typeof url==="string"&&(/^(data:image\\/(png|jpeg|webp);base64,)/.test(url)||/^https:\\/\\//.test(url))?url:"";}
+function scrubImage(url){return typeof url==="string"&&(/^(data:image\/(png|jpeg|webp);base64,)/.test(url)||/^https:\/\//.test(url))?url:"";}
 function getEvent(){return agenda&&agenda.events.find(e=>e.id===selectedId);}
 const clone=x=>JSON.parse(JSON.stringify(x));
 function renderList(){
