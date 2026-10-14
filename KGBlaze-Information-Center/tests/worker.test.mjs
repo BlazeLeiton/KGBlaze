@@ -40,3 +40,18 @@ test('OG preview acepta PNG cuadrado, rechaza fecha de semana anterior',async()=
  const png=await call(env,'/og-semana.png');assert.equal(png.status,200);assert.equal(png.headers.get('Content-Type'),'image/png');
  db.preview.week='2000-01-03';const stale=await call(env,'/og-semana.png');assert.equal(stale.status,404);
 });
+
+test('Twitch category art only reads named published Twitch categories; missing app config uses editorial fallback',async()=>{
+ const {env,db}=setup();
+ db.row={revision:2,editorial_json:JSON.stringify({...EMPTY_AGENDA(),events:[
+  {id:'tw:test',title:'Actividad de Twitch',category:'Azur Lane',platforms:['tw']}
+ ]}),sync_json:'{}',updated_at:'2026-10-13T22:00:00Z'};
+ const known=await call(env,'/api/public/twitch-box-art?name=Azur%20Lane');
+ assert.equal(known.status,200);
+ assert.equal((await known.json()).artUrl,null);
+ assert.equal(db.row.revision,2);
+ const unknown=await call(env,'/api/public/twitch-box-art?name=Other');
+ assert.equal(unknown.status,404);
+ const invalid=await call(env,'/api/public/twitch-box-art?name=');
+ assert.equal(invalid.status,400);
+});
