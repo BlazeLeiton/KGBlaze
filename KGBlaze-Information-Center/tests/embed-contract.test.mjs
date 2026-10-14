@@ -31,7 +31,7 @@ test('Obsolete HTTPS publishing instruction is hidden while iframe sharing stays
  assert.match(html,/<p class="embed-hint" id="embedHint">/);
  assert.match(html,/id="iframeCode" readonly/);
  assert.match(html,/id="copyIframe" type="button"/);
- assert.match(VIEWER_CSS,/#embedHint\\{display:none!important\\}/);
- assert.doesNotMatch(VIEWER_CSS,/#iframeCode\\s*\\{display:none/);
- assert.match(VIEWER_JS,/syncChrome=function\\(\\)/);
+ assert.ok(VIEWER_CSS.includes('#embedHint{display:none!important}'));
+ assert.ok(!VIEWER_CSS.includes('#iframeCode{display:none'));
+ assert.ok(VIEWER_JS.includes('syncChrome=function()'));
 });
