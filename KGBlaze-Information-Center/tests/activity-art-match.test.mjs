@@ -69,11 +69,10 @@ test('Specific manual logos, LED and published-event lookup remain in public vie
  assert.match(VIEWER_CSS,/\.flight-row-top\{grid-template-columns:5px minmax\(0,1fr\) 100px;align-items:stretch\}/);
  assert.match(VIEWER_CSS,/\.flight-row-top>\.flight-light\{align-self:stretch;min-height:36px\}/);
  assert.match(VIEWER_JS,/const editorialMatches=\s*function artworkCandidates/);
- assert.match(VIEWER_JS,/const categoryArt=explicit\|\|editorial.category/);
- assert.match(VIEWER_JS,/if\(editorial.titleBeforeGenericCategory\)/);
- assert.match(VIEWER_JS,/showSources\(explicit\?\[explicit,titleArt,editorial.category,general\]:\[editorial.title,editorial.category,general\]\)/);
+ assert.ok(VIEWER_JS.includes("[explicit,editorial.category,categoryLookup,titleArt,titleLookup,general]"));
+ assert.ok(VIEWER_JS.includes("[explicit,titleArt,editorial.category,categoryLookup,titleLookup,general]"));
  assert.match(VIEWER_JS,/const baseDraw=draw,baseText=text/); // 1080 calendar pathway untouched
  assert.match(VIEWER_JS,/some\(p=>p==='yt'\|\|p==='tw'\)/);
  assert.match(VIEWER_JS,/eventId=/);
- assert.match(VIEWER_JS,/showSources\(\[byCategory,titleArt,byTitle,general\]\)/);
+ assert.ok(VIEWER_JS.includes("if(v?.source===entry.source&&official&&!tried.has(official))"));
 });
