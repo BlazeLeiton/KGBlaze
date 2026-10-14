@@ -78,7 +78,13 @@ setInterval(()=>{
  }
 },100);
 <\/script>`;
-html=html.replace('</body>',()=>`<script>window.__legacyFlightRenderer=showSelectedFlight;</script><script>${VIEWER_JS}</script>${check}</body>`);
+// Reproduce the Wrangler/esbuild-produced name helper dependency in the
+// actual Chrome-rendered legacy panel, not just a Node DOM mock.
+const rawNeedle='const norm=s=>';
+assert.ok(VIEWER_JS.includes(rawNeedle),'Expected matcher function in injected script');
+const browserViewerJS=VIEWER_JS.replace(rawNeedle,
+  "const bundleProbe=__name(value=>value,'bundleProbe');if(bundleProbe('ok')!=='ok')throw Error('Name helper failed');const norm=s=>");
+html=html.replace('</body>',()=>`<script>window.__legacyFlightRenderer=showSelectedFlight;</script><script>${browserViewerJS}</script>${check}</body>`);
 const dir=mkdtempSync(join(tmpdir(),'relight-real-viewer-'));
 try{
  const page=join(dir,'index.html');writeFileSync(page,html);
