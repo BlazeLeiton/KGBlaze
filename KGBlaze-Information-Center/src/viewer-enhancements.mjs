@@ -71,7 +71,14 @@ export const VIEWER_JS = `(function(){
   pic.onerror=fallback;box.append(pic);
   const cat=typeof e.category==='string'?e.category.trim():'';
   if(cat&&(e.platforms||[]).includes('tw')){
-   pic.src='https://static-cdn.jtvnw.net/ttv-boxart/'+encodeURIComponent(cat)+'-285x380.jpg';
+   // Helix Get Games is resolved server-side. Never expose Twitch tokens here.
+   const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
+   fetch(api+'?name='+encodeURIComponent(cat),{credentials:'omit'})
+    .then(r=>r.ok?r.json():null)
+    .then(v=>{
+     if(typeof v?.artUrl==='string'&&/^https:\/\/static-cdn\.jtvnw\.net\/ttv-boxart\//.test(v.artUrl))pic.src=v.artUrl;
+     else fallback();
+    }).catch(fallback);
   }else fallback();
   return box;
  }
@@ -95,5 +102,24 @@ export const VIEWER_JS = `(function(){
   document.title=({es:'Salidas | KGBlaze',en:'Departures | KGBlaze',ja:'出発 | KGBlaze'})[state.lang]||'Salidas | KGBlaze';
   return ret;
  };
+ // Stage 12 cleanup: retire only the legacy "embed sin iframe" UI.
+ // Keep the iframe code, social-image OG metadata and private V.25 untouched.
+ function removeLegacyNoIframeOption(){
+  const label=/sin\\s+iframe|without\\s+(?:an?\\s+)?iframe|iframeなし/i;
+  for(const node of document.querySelectorAll('button,a,label')){
+   const title=[node.textContent||'',node.getAttribute('title')||'',node.getAttribute('aria-label')||''].join(' ').trim();
+   if(!label.test(title))continue;
+   if(node.tagName==='LABEL'){
+    const control=node.control||node.nextElementSibling;
+    if(control&&/^(INPUT|TEXTAREA)$/.test(control.tagName)){
+     const value=String(control.value||'');
+     // Do not remove the real iframe embed code.
+     if(!/<iframe\\b/i.test(value))control.remove();
+    }
+   }
+   node.remove();
+  }
+ }
+ removeLegacyNoIframeOption();
  syncChrome();
 })();`;
