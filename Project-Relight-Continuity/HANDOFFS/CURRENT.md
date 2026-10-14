@@ -3,7 +3,7 @@
 ## 14-oct-2026 — Stage 20: cierre automático DESPEGÓ, PR #35 (IMPLEMENTADO, NO ACTIVADO)
 - La auditoría real postdirecto [PR #34](https://github.com/BlazeLeiton/KGBlaze/pull/34) verificó EN VIVO→A TIEMPO por caducidad de la muestra YouTube, **no** DESPEGÓ. Cron activo para Azur Lane; revisión 2 y 10 eventos sin cambios.
 - Nuevo [PR #35](https://github.com/BlazeLeiton/KGBlaze/pull/35) en `feat/stage20-verified-youtube-completion`: usa `videos.list` de canal/video verificables y `actualEndTime` real, `liveBroadcastContent:none`, `actualStartTime` válido y **15 minutos de gracia** para escribir `completed` idempotente por CAS, generando DESPEGÓ en visor y bloqueo editorial. Sin OAuth nuevo ni consulta nueva.
-- **`YOUTUBE_COMPLETION_ENABLED=false` por defecto**, independiente de `YOUTUBE_SYNC_ENABLED=true`; requiere autorización de integración y activación en un corte separado. No declarar cierre automático operativo en producción antes del encendido y verificación. Twitch-only no se finaliza basándose en desaparición de stream.
+- El usuario solicitó completar el cierre automático. PR #35 propone **`YOUTUBE_COMPLETION_ENABLED=true`** en Wrangler, independientemente de `YOUTUBE_SYNC_ENABLED=true`, con margen de gracia y validaciones estrictas. **No declarar funcionamiento real hasta merge, propagación y observación pública de completed**. Twitch-only no se finaliza basándose en desaparición de stream.
 - Evidencia inicial CI [38537809250](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38537809250) 219/219 PASS; seguir última ejecución tras futuros cambios. Archivo [STAGE-20-2026-10-14.md](STAGE-20-2026-10-14.md) tiene contrato y checklist; índice `STAGES/index.json` sigue cubriendo 1–7 hasta reconstrucción.
 
 
