@@ -4,6 +4,7 @@ import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
+import {DASHBOARD_HTML} from './dashboard-page.mjs';
 import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
 import {SOCIAL_PREVIEW_CRON,socialPreviewMonday,generateDailySocialPreview} from './social-preview.mjs';
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
@@ -191,6 +192,21 @@ export default {
   try{
    const routed=routePortalRequest(req);
    if(routed.response)return routed.response;
+   const dashboardPath=new URL(routed.request.url).pathname;
+   if(dashboardPath==='/dashboard/'||dashboardPath==='/dashboard'){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    return new Response(req.method==='HEAD'?null:DASHBOARD_HTML,{
+     status:200,headers:{
+      'Content-Type':'text/html; charset=utf-8',
+      'Cache-Control':'no-store, no-cache, must-revalidate',
+      'X-Robots-Tag':'noindex, nofollow, noarchive',
+      'X-Content-Type-Options':'nosniff',
+      'Referrer-Policy':'no-referrer',
+      'X-Frame-Options':'DENY',
+      'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
+     }
+    });
+   }
    const r=await handler(routed.request,env);if(r)return r;
    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
    const asset=await env.ASSETS.fetch(routed.request);

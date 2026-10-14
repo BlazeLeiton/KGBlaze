@@ -12,8 +12,23 @@ const error=(status,code)=>new Response(JSON.stringify({ok:false,error:code}),{
 export function routePortalRequest(request){
  const url=new URL(request.url);
  if(url.hostname!==PORTAL_HOST)return {request,isPortal:false};
- if(request.method!=='GET'&&request.method!=='HEAD')
+ // Only the dashboard's existing token-protected admin publish endpoints
+ // may write on the custom domain. No public endpoint is made writable.
+ const methods={
+  '/departures/api/admin/publish':['POST'],
+  '/departures/api/admin/preview':['POST'],
+  '/departures/api/admin/snapshot':['GET','HEAD'],
+  '/departures/api/admin/sync':['GET','HEAD']
+ };
+ const allowed=methods[url.pathname];
+ if(allowed?!allowed.includes(request.method):request.method!=='GET'&&request.method!=='HEAD')
   return {response:error(405,'METHOD_NOT_ALLOWED')};
+ // Optional short alias, routed back into the same Terminal surface.
+ if(url.pathname==='/dashboard'||url.pathname==='/dashboard/'||
+    url.pathname==='/departures/dashboard'){
+  url.pathname='/departures/dashboard/';
+  return {response:Response.redirect(url.toString(),308)};
+ }
  if(url.pathname==='/'||url.pathname==='/departures'){
   const permanent=url.pathname==='/departures';
   url.pathname='/departures/';
@@ -26,10 +41,13 @@ export function routePortalRequest(request){
  if(!url.pathname.startsWith('/departures/'))
   return {response:error(404,'NOT_FOUND')};
  const internalPath=url.pathname.slice('/departures'.length);
- // /departures/api/admin/* must never be accessible from the vanity domain.
- if(internalPath.startsWith('/api')&&
-    internalPath!=='/api/public'&&internalPath!=='/api/health'&&
-    internalPath!=='/api/public/twitch-box-art')
+ // Restricted admin routes still pass through the Worker's existing
+ // Authorization: Bearer ADMIN_TOKEN, revision CAS, and audit logging.
+ // The unprefixed /api/admin/* remains inaccessible on this host.
+ const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art'];
+ const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview'];
+ if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
+    !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};
  url.pathname=internalPath;
  return {request:new Request(url.toString(),request),isPortal:true};

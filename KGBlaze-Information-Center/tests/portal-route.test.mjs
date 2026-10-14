@@ -58,10 +58,12 @@ test('scoped public endpoints and temporary root API alias share the same state'
 });
 test('admin APIs, wrong paths and write methods are blocked on the vanity host',async()=>{
  const {env}=setup();
- for(const path of ['/api/admin/snapshot','/departures/api/admin/snapshot',
- '/departures/api/admin/publish','/departures/api/youtube-preflight','/not-a-service']){
+ for(const [path,expected] of [
+ ['/api/admin/snapshot',404],['/departures/api/admin/snapshot',401],
+ ['/departures/api/admin/publish',405],['/departures/api/youtube-preflight',404],
+ ['/not-a-service',404]]){
   const res=await worker.fetch(new Request(base+path),env);
-  assert.equal(res.status,404,path);
+  assert.equal(res.status,expected,path);
  }
  const write=await worker.fetch(new Request(base+'/departures/api/public',{method:'POST'}),env);
  assert.equal(write.status,405);
