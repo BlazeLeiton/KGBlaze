@@ -1,5 +1,14 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 14-oct-2026 — Stage 21 panel web compartido (PR #37, validado en rama)
+- **Encargo actual**: alojar dashboard en `https://kgblaze.dpdns.org/departures/dashboard/`, sin registrar una cuenta adicional todavía, y compartir agenda/biblioteca con Departures.
+- Implementación: PR [#37](https://github.com/BlazeLeiton/KGBlaze/pull/37) agrega ruta `/departures/dashboard/` y alias `/dashboard`, HTML web autónomo sin copiar la V.25 local, edición/autopublicación desde el mismo D1 y `libraryCustom`/`libraryChanges` compartidos, polling 30s en dashboard y visor 90s.
+- **Seguridad NO negociable:** no se habilitaron POST anónimos. La página abre sin login nuevo, pero publicar desde ella exige la clave existente `ADMIN_TOKEN` introducida en la pestaña; no se almacena. Las rutas admin accesibles por el dominio tienen whitelist y siguen protegidas, con conciliación CAS y bloqueos de finalizados. Sin claves en GitHub ni en el HTML.
+- Tests de la rama [38581344548](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38581344548) **224/224 PASS** más Chrome real simulado sin tocar D1 remota: edición en D1 local, incorporación de Collab Padoru a biblioteca compartida, denegación de edición anónima, portada/LED públicos intactos.
+- **Alcance fase inicial**: no es aún copia funcional completa de V.25 (ICS avanzado, PNG 1080, GIF HQ y gestión visual extensa siguen en V.25 local). No se republica la agenda editorial en el despliegue, ni se alteran Cron/YouTube/Twitch, miniaturas o iframe. Evidencia y roadmap en [STAGE-21-2026-10-14.md](STAGE-21-2026-10-14.md). 
+- Pendiente verificar merge/Workers Build/URL productiva antes de declarar publicado. Conservar el histórico Stage 1–20 y no adelantar `STAGES/index.json`.
+
+
 ## 14-oct-2026 — Stage 20 DESPEGÓ real confirmado (VIGENTE)
 - **PR [#35](https://github.com/BlazeLeiton/KGBlaze/pull/35) fusionado** `5da38a4942422306fc4fa56d94c095be9cfccbe0`, `YOUTUBE_COMPLETION_ENABLED=true`. Build Cloudflare Workers `kgblaze-terminal` SUCCESS (`43f88d39-2823-4a57-9dbd-e2d512446d59`); GitHub Actions main [38538641380](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38538641380) 219/219 PASS.
 - **Prueba real en Terminal pública** [38536775608, intento 4](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38536775608) a las 03:01 CDMX: Killer Chat! pasó a **DESPEGÓ** con sync YouTube `completed`, video `JDkg-5tZ3G0`, fuente verificada, `actualEndTime=2026-10-14T08:29:10Z` (02:29:10 CDMX), observación `checkedAt=09:00:16.859Z`, `finalization.reason=youtube_complete`. No es caducidad de EN VIVO. Persistencia y bloqueo editorial activo.
