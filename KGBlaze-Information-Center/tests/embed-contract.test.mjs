@@ -26,3 +26,12 @@ test('Public cleanup hides only legacy non-iframe sharing block; keeps DOM and t
  assert.match(html,/id="plainCode"/);
  assert.doesNotMatch(VIEWER_JS,/\.remove\(\).*plainLabel/);
 });
+
+test('Obsolete HTTPS publishing instruction is hidden while iframe sharing stays functional',()=>{
+ assert.match(html,/<p class="embed-hint" id="embedHint">/);
+ assert.match(html,/id="iframeCode" readonly/);
+ assert.match(html,/id="copyIframe" type="button"/);
+ assert.ok(VIEWER_CSS.includes('#embedHint{display:none!important}'));
+ assert.ok(!VIEWER_CSS.includes('#iframeCode{display:none'));
+ assert.ok(VIEWER_JS.includes('syncChrome=function()'));
+});
