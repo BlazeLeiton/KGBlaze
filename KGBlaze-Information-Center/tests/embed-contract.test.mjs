@@ -26,3 +26,11 @@ test('Public cleanup hides only legacy non-iframe sharing block; keeps DOM and t
  assert.match(html,/id="plainCode"/);
  assert.doesNotMatch(VIEWER_JS,/\.remove\(\).*plainLabel/);
 });
+
+test('Public sharing panel no longer displays obsolete HTTPS publication instructions in any language',()=>{
+ assert.match(html,/<p class="embed-hint" id="embedHint">/);
+ assert.match(VIEWER_CSS,/#embedHint\\{display:none!important\\}/);
+ assert.match(html,/id="iframeCode"/);
+ assert.match(html,/id="copyIframe"/);
+ assert.match(html,/\\$\\('embedHint'\\)\\.textContent=p\\.hint/);
+});
