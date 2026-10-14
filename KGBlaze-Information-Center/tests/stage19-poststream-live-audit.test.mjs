@@ -70,6 +70,16 @@ test('Live production post-broadcast snapshot, no writes',async()=>{
    platforms:e.platforms,videoId:e.videoId||null,
    youtube:compact(sync.youtube),twitch:compact(sync.twitch)
   }));
+  if(/killer chat/i.test(e.title||'')&&sync.youtube?.checkedAt){
+   const staleAt=new Date(Date.parse(sync.youtube.checkedAt)+16*60*1000);
+   console.log('RELIGHT POSTSTREAM TTL FORECAST',JSON.stringify({
+    basedOnObservedAt:sync.youtube.checkedAt,
+    statusAt16MinutesWithoutFreshObservation:viewerStatus(e,sync,staleAt),
+    permanentFinalizationAt16Minutes:finalization(e,sync,staleAt.getTime()),
+    editorialStatusUnaffected:e.status,
+    note:'Simulation only. This is not an observation of the actual future state.'
+   }));
+  }
  }
  console.log('RELIGHT POSTSTREAM READ ONLY: no action applied to agenda or sync.');
 });
