@@ -59,5 +59,40 @@ test('Search rejects generic keywords and preserves substantive game terms',()=>
 test('Reverse search still works for YouTube imports whose category equals their descriptive title',async()=>{
  const c=setup({search:[{name:'Azur Lane',id:'azur'}]});
  const e={category:'Jugando Azur Lane con amigos',title:'Jugando Azur Lane con amigos',platforms:['yt']};
- assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),{artUrl:cdn+'/ttv-boxart/azur-285x380.jpg',source:'title'});
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),{artUrl:cdn+'/ttv-boxart/azur-285x380.jpg',source:'category'});
+});
+
+test('Entertainment on YouTube maps to authentic Twitch Just Chatting even if title mentions a game',async()=>{
+ const c=setup({games:{'Just Chatting':'just-chat','Azur Lane':'azur'}});
+ const e={category:'Entertainment',title:'Jugando Azur Lane',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),
+  {artUrl:cdn+'/ttv-boxart/just-chat-285x380.jpg',source:'category'});
+ assert.ok(c.calls.some(x=>x.includes('name=Just+Chatting')));
+ assert.equal(c.calls.filter(x=>x.includes('name=Azur+Lane')).length,0);
+});
+test('Generic Just Chatting never infers a different game from the title',async()=>{
+ const c=setup({search:[{name:'Fortnite',id:'fortnite'}]});
+ const e={category:'Just Chatting',title:'Jugando Fortnite en vivo',platforms:['tw']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),{artUrl:null,source:null});
+ assert.equal(c.calls.filter(x=>x.includes('search/categories')).length,0);
+});
+test('YouTube descriptive category is classified before an unrelated game mentioned in title',async()=>{
+ const c=setup({search:[{name:'Azur Lane',id:'azur'},{name:'Fortnite',id:'fortnite'}]});
+ const e={category:'Jugando Azur Lane esta noche',title:'Collab con Fortnite',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),
+  {artUrl:cdn+'/ttv-boxart/azur-285x380.jpg',source:'category'});
+ assert.equal(c.calls.some(x=>x.includes('name=Collab+con+Fortnite')),false);
+});
+test('Specific game category cannot be overridden by a different Twitch title',async()=>{
+ const c=setup({games:{Fortnite:'fortnite'}});
+ const e={category:'Dead by Daylight',title:'Fortnite',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),{artUrl:null,source:null});
+ assert.equal(c.calls.filter(x=>x.includes('name=Fortnite')).length,0);
+});
+test('Gaming on YouTube can still infer a genuine game from title, not a generic controller',async()=>{
+ const c=setup({search:[{name:'Dead by Daylight',id:'dbd'}]});
+ const e={category:'Gaming',title:'Jugando Dead by Daylight hoy',platforms:['yt']};
+ assert.deepEqual(await getEventTwitchArt(e,env(),{fetchImpl:c.fetchImpl}),
+  {artUrl:cdn+'/ttv-boxart/dbd-285x380.jpg',source:'title'});
+ assert.equal(c.calls.some(x=>x.includes('name=Gaming')),false);
 });
