@@ -34,7 +34,7 @@ export function artworkCandidates(event, entries) {
  // Only a generic/unspecified YouTube category can fall back to a library
  // title alias; a specific game's category must never lose to "Padoru".
  const title=isGenericChat?specialTitle:
-   isBroadCategory?match(event?.title,x=>!isGeneral(x)):null;
+   isBroadCategory?match(event?.title,x=>!isGeneral(x)&&(!categoryKey||!onlySpecial(x))):null;
  return {category,title,general,specialTitle,isGenericChat,isBroadCategory,
   titleBeforeGenericCategory:Boolean(specialTitle)};
 }
