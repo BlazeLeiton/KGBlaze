@@ -1,18 +1,16 @@
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
-const source=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
-test('Stage 12 audit source markers for compact embed controls',()=>{
- const needles=['sin iframe','without iframe','?embed','embed=','embedMode','isEmbed','Ver completo','ver completo','fullView','prevWeek','prevPage','nextWeek','nextPage','langButtons','iframeCode','copyEmbed','embedPreview','embed-image'];
- for(const label of needles){
-  const hits=[];
-  let index=0;
-  for(let i=0;i<8;i++){
-   const at=source.toLowerCase().indexOf(label.toLowerCase(),index);
-   if(at<0)break;
-   hits.push(source.slice(Math.max(0,at-160),Math.min(source.length,at+240)).replace(/\\s+/g,' '));
-   index=at+label.length;
+const s=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+test('Stage 12 source audit: compact embed contract',()=>{
+ const needles=['searchParams.get(\'embed\')','searchParams.has(\'embed\')','embed===','embedMode','compact-controls','small-lang','openFull','bottomControls','pagePrev','pageNext','classList.add(\'embed','classList.toggle(\'embed','plainLabel','iframeLabel','copyPlain','<canvas id=','<canvas'];
+ for(const n of needles){
+  let cursor=0;const matches=[];
+  for(let i=0;i<4;i++){
+   const index=s.indexOf(n,cursor);
+   if(index<0)break;
+   matches.push(s.slice(Math.max(0,index-350),Math.min(s.length,index+580)).replace(/\\s+/g,' '));
+   cursor=index+n.length;
   }
-  // Public file only. Temporary diagnostics will be replaced after inspection.
-  console.log('RELIGHT_SOURCE_AUDIT '+label+': '+JSON.stringify(hits));
+  console.log('RELIGHT_EMBED_DETAIL '+n+': '+JSON.stringify(matches));
  }
 });
