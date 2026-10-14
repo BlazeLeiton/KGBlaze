@@ -8,7 +8,7 @@ test('Viewer injection script is syntactically valid and preserves required surf
  assert.doesNotThrow(()=>new Function(VIEWER_JS));
  assert.match(VIEWER_JS,/draw=function\(list,total,pages\)/);
  assert.match(VIEWER_JS,/showSelectedFlight=function\(visible\)/);
- assert.match(VIEWER_JS,/effectiveEventLogo\(e\)/);
+ assert.doesNotMatch(VIEWER_JS,/effectiveEventLogo\(e\)/); // Calendar logos cannot override category art
  assert.match(VIEWER_JS,/ttv-boxart/);
  assert.match(VIEWER_JS,/document\.title=/);
  assert.match(VIEWER_JS,/UTC−6/);
@@ -42,6 +42,6 @@ test('Expanded-panel category artwork has eager loading, grid placement and reco
  assert.ok(VIEWER_JS.includes('if(!box.contains(pic))box.prepend(pic)'));
  assert.ok(VIEWER_CSS.includes('.flight-row-top>.flight-category-box{grid-column:3;grid-row:1;'));
  assert.ok(VIEWER_JS.includes('const editorial=editorialMatches(e,libraryEntries())'));
- assert.ok(VIEWER_JS.includes('[explicit,editorial.category,categoryLookup,titleArt,titleLookup,general]'));
- assert.ok(VIEWER_JS.includes('if(v?.source===entry.source&&official&&!tried.has(official))'));
+ assert.ok(VIEWER_JS.includes('[categoryArt,editorial.category,titleArt,editorial.title,editorial.general]'));
+ assert.ok(VIEWER_JS.includes("const categoryArt=v?.source==='category'?official:null"));
 });
