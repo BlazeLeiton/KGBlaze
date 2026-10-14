@@ -44,10 +44,25 @@ setInterval(()=>{
   }
   return;
  }
- const bounds=pic?.getBoundingClientRect();
- const ok=Boolean(pic&&pic.complete&&pic.naturalWidth>0&&bounds?.width>0&&bounds?.height>0
-   &&getComputedStyle(pic).display!=='none'
-   &&panel.querySelector('.flight-light')
+ // The artwork being visible is not enough: the legacy LED must occupy
+ // real pixels, the text must have a usable column and the three areas must
+ // not overlap. PR #28 had only checked that the .flight-light node existed.
+ const light=panel?.querySelector('.flight-light');
+ const text=panel?.querySelector('.flight-dateblock');
+ const imgRect=pic?.getBoundingClientRect();
+ const ledRect=light?.getBoundingClientRect();
+ const textRect=text?.getBoundingClientRect();
+ const artRect=box?.getBoundingClientRect();
+ const lightStyle=light?getComputedStyle(light):null;
+ const imageStyle=pic?getComputedStyle(pic):null;
+ const ok=Boolean(pic&&pic.complete&&pic.naturalWidth>0
+   &&imgRect?.width>0&&imgRect?.height>0&&imageStyle?.display!=='none'
+   &&ledRect?.width>=4&&ledRect?.height>=36
+   &&lightStyle?.display!=='none'&&lightStyle?.visibility!=='hidden'
+   &&lightStyle?.backgroundColor!=='rgba(0, 0, 0, 0)'
+   &&textRect?.width>=45&&textRect?.height>0
+   &&artRect?.width>=65&&artRect?.height>0
+   &&ledRect.right<textRect.left&&textRect.right<=artRect.left+1
    &&panel.querySelectorAll('.flight-category-box').length===1);
  if(ok)document.documentElement.setAttribute('data-relight-artwork-test','PASS');
 },100);
