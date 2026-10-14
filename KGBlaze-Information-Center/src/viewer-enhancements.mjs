@@ -68,29 +68,10 @@ export const VIEWER_JS = `(function(){
   const box=document.createElement('div');box.className='flight-category-box';
   const pic=document.createElement('img');pic.loading='eager';pic.decoding='async';pic.width=100;pic.height=116;pic.alt=tr.category||'Activity artwork';
   const editorial=editorialMatches(e,libraryEntries());
-  const choice=e.logoChoice||'auto';
-  const explicit=choice==='upload'||choice.startsWith('lib:')?effectiveEventLogo(e):null;
-  const titleArt=editorial.title||(choice==='auto'?effectiveEventLogo(e):null);
-  const general=editorial.general;
+  // Stage 19: an uploaded calendar logo is NOT the category cover.
+  // The official category comes first; only then choose matching library art.
+  // Just Chatting / Entertainment may yield ONLY to library Karaoke or Padoru.
   const hasPlatform=(e.platforms||[]).some(p=>p==='yt'||p==='tw');
-  const categoryLookup={source:'category'},titleLookup={source:'title'};
-  // A failed explicit or editorial image must advance through ALL remaining
-  // priorities, including authentic Twitch category art before title artwork.
-  // The generic-category exception still puts a specific title alias first.
-  const sources=(editorial.titleBeforeGenericCategory?
-   [explicit,titleArt,editorial.category,categoryLookup,titleLookup,general]:
-   [explicit,editorial.category,categoryLookup,titleArt,titleLookup,general])
-   .filter(x=>x&&(typeof x==='string'||hasPlatform));
-  let remotePromise=null;
-  const lookup=()=>{
-   if(!remotePromise){
-    const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
-    // Only published event IDs are accepted; the Worker owns Twitch secrets.
-    remotePromise=fetch(api+'?eventId='+encodeURIComponent(e.id),{credentials:'omit'})
-     .then(r=>r.ok?r.json():null).catch(()=>null);
-   }
-   return remotePromise;
-  };
   const placeholder=()=>{
    pic.remove();
    if(!box.querySelector('.category-placeholder')){
@@ -99,30 +80,42 @@ export const VIEWER_JS = `(function(){
    }
   };
   const tried=new Set();
+  let pending=[];
   const next=()=>{
-   const entry=sources.shift();
-   if(!entry){placeholder();return;}
-   if(typeof entry==='string'){
-    if(tried.has(entry)){next();return;}
-    tried.add(entry);
-    if(!box.contains(pic))box.prepend(pic);
-    box.classList.add('is-fallback');
-    pic.src=entry;
-    return;
-   }
-   lookup().then(v=>{
-    const official=typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/')?v.artUrl:null;
-    if(v?.source===entry.source&&official&&!tried.has(official)){
-     tried.add(official);
-     if(!box.contains(pic))box.prepend(pic);
-     box.classList.add('is-fallback');
-     pic.src=official;
-    }else next();
-   });
+   const src=pending.shift();
+   if(!src){placeholder();return;}
+   if(tried.has(src)){next();return;}
+   tried.add(src);
+   const label=box.querySelector('.category-placeholder');
+   if(label)label.remove();
+   if(!box.contains(pic))box.prepend(pic);
+   box.classList.add('is-fallback');
+   pic.src=src;
   };
   pic.onerror=next;
-  box.append(pic);
-  next();
+  const choose=(v)=>{
+   // The Worker confirms authentic Twitch art and rejects the grey gamepad.
+   const official=typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/')?v.artUrl:null;
+   const categoryArt=v?.source==='category'?official:null;
+   const titleArt=v?.source==='title'?official:null;
+   // Only the two user-approved exceptions can supersede generic chat art.
+   // For generic YouTube Gaming/unknown labels, a title-inferred real game
+   // cover precedes a generic library icon, but never a specific category.
+   const sources=editorial.isGenericChat?
+    [editorial.specialTitle,categoryArt,editorial.category,editorial.general]:
+    editorial.isBroadCategory?
+    [categoryArt,titleArt,editorial.category,editorial.title,editorial.general]:
+    [categoryArt,editorial.category,titleArt,editorial.title,editorial.general];
+   pending=[...new Set(sources.filter(x=>typeof x==='string'&&x))];
+   next();
+  };
+  // Resolve official cover BEFORE accepting a library fallback. This remains
+  // a read-only public lookup by published event ID (including YouTube-only).
+  if(hasPlatform){
+   const api=location.pathname.startsWith('/departures/')?'/departures/api/public/twitch-box-art':'/api/public/twitch-box-art';
+   fetch(api+'?eventId='+encodeURIComponent(e.id),{credentials:'omit'})
+    .then(r=>r.ok?r.json():null).then(choose).catch(()=>choose(null));
+  }else choose(null);
   return box;
  }
  // The legacy renderer replaces #flightContent on every refresh, and can be
