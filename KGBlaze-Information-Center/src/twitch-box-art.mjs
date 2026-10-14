@@ -120,7 +120,7 @@ async function categoryFromTitle(title,env,{fetchImpl=fetch,now=Date.now,categor
  const token=await appToken(env.TWITCH_CLIENT_ID,env.TWITCH_CLIENT_SECRET,fetchImpl,now);
  const whole=' '+normalized(title)+' ';
  const reference=normalized(category);
- const isGeneric=!reference||GENERIC_CATEGORIES.has(reference)||reference===normalized(title);
+ const isGeneric=!reference||GENERIC_CATEGORIES.has(reference)||YOUTUBE_BROAD.has(reference)||reference===normalized(title);
  let verified=null;
  for(const query of titleCategoryQueries(title)){
   const url=new URL('https://api.twitch.tv/helix/search/categories');
