@@ -5,23 +5,49 @@ Cambios únicamente en la capa pública del visor y API de lectura; **no** modif
 ## Barra luminosa
 El HTML original continúa creando `.flight-light` con el estado de la actividad. El CSS inyectado por el Worker había cambiado `.flight-row-top` a `align-items:start`, colapsando la barra sin altura propia. Se restaura `stretch` y una altura mínima, conservando su color y brillo originales.
 
-## Selección de imagen de actividad
-La ficha expandida usa este orden:
-1. Imagen elegida **explícitamente para la actividad** (`upload` o `lib:...`), sin sobrescribir una selección editorial intencional.
-2. Biblioteca editorial por la **categoría** publicada (`e.category`), incluidos nombres/alias.
-3. Portada auténtica de Twitch para la **categoría** (Helix Get Games, incluso si la actividad es sólo de YouTube).
-4. Biblioteca editorial por **título** (`e.title`).
-5. Búsqueda prudente en Twitch desde el título: coincidencia exacta por Get Games o `Search Categories`, aceptando sólo nombres completos dentro del título y sin contradecir una categoría editorial específica.
-6. Imagen editorial **general** registrada en biblioteca.
-7. Texto de la categoría/título si todavía no existe una imagen general.
+## Selección de imagen — Stage 19 (decisión vigente del usuario, 14-oct-2026)
 
-**Regla general (no exclusiva de Azur Lane):** cualquier categoría específica de juego o actividad (p. ej. Azur Lane, Fortnite, Dead by Daylight) conserva prioridad frente a alias genéricos del título como Collab Padoru o Karaoke, siempre que se pueda obtener arte de categoría. Si no hay imagen de categoría fiable, se utilizan los fallbacks del título y la reserva general.
+**Exclusivamente ficha desplegable; NO es una regla de calendario.** La imagen
+`logoChoice:upload` o `lib:` continúa vigente en el calendario editorial
+1080×1080, pero **no sustituye** la portada de categoría dentro de la ficha.
 
-**Única excepción de precedencia:** si la categoría publicada es exactamente `Just Chatting` (Twitch) o `Entertainment` / `Entretenimiento` (YouTube), una imagen específica ya registrada en la biblioteca y asociada al **título mediante nombre o alias válido** supera el arte de la categoría genérica. Si no hay coincidencia editorial del título, se conserva el flujo estándar. Esta excepción no se extiende a `Gaming` ni a juegos o actividades concretos. Una imagen seleccionada explícitamente para el evento sigue ganando.
+1. **Categoría concreta (juego o actividad):** solicitar primero su portada
+   oficial Twitch Get Games. En una emisión sólo de YouTube, interpretar
+   primero la categoría publicada (nombre exacto o coincidencia completa
+   y prudente en la búsqueda Twitch); nunca elegir por ranking ambiguo.
+2. Si la portada oficial no existe, está rota o corresponde al control gris,
+   utilizar la imagen de biblioteca cuyo nombre/alias coincida con la
+   **categoría concreta**.
+3. **Categorías generales `Just Chatting`, `Entertainment`,
+   `Entretenimiento`:** todas se resuelven como **Just Chatting** (portada
+   oficial primero, biblioteca de Just Chatting después). Únicamente
+   un **Karaoke** o **Collab Padoru** identificable mediante nombre/alias
+   de biblioteca en el título puede ir por delante del Just Chatting.
+   Si ese arte falta o no carga, se vuelve a Just Chatting.
+4. **YouTube-only con categoría vaga o no indicada** (p. ej. `Gaming`):
+   si no hay categoría Twitch evidente en el campo categoría, buscar de
+   manera conservadora una categoría de Twitch que aparezca claramente en
+   el **título**. Si se verifica, mostrar su portada antes de imágenes
+   genéricas de biblioteca; en ausencia de portada, usar una coincidencia
+   editorial fiable. `Gaming` no obtiene la excepción Karaoke/Padoru.
+5. Finalmente, **imagen general** previamente registrada en biblioteca.
+   Si aún no está añadida, texto de categoría/título como respaldo.
 
-**Límite de alcance:** este cambio sólo afecta al arte del **panel desplegable**. El calendario y su imagen/cuadro de **1080 × 1080** siguen usando exclusivamente imágenes editoriales/precargadas de biblioteca y elecciones explícitas; la portada dinámica de Twitch y la inversión título→categoría no intervienen allí.
+**Regla invariable:** Azur Lane, Fortnite, Dead by Daylight u otra
+categoría concreta nunca pierden frente a `Karaoke` o `Collab Padoru`
+mencionados sólo en el título. Una imagen de calendario subida para
+Killer Chat! no puede desplazar la portada oficial de Killer Chat! en
+la ficha. El origen Twitch se consulta mediante el Worker con ID
+publicado y sin credenciales Twitch en el navegador.
 
-La detección de `404_boxart` gris permanece activa y ninguna URL de imagen se obtiene del navegador con credenciales Twitch.
+El filtro del `404_boxart` gris sigue activo. La biblioteca editorial
+se usa sólo cuando existe una asociación fiable, sin extrapolar
+equivalencias de videojuegos mediante coincidencias vagas.
+
+**Límite de alcance:** el calendario/editor privado mantiene imágenes
+editoriales, biblioteca y selecciones explícitas en su superficie 1080×1080.
+No modificar miniatura YouTube, LED, agenda, D1, Cron, estados,
+enlaces, editor V.25 ni visor iframe.
 
 ## Imágenes que añadirá el propietario
 Usar la biblioteca de imágenes **del editor privado existente**; guardar y publicar la agenda por el flujo editorial habitual cuando corresponda, no por este PR.
