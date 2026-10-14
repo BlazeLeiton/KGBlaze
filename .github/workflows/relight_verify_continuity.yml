@@ -37,6 +37,9 @@ jobs:
       - name: Run Terminal core, Worker and viewer regression tests (no deployment)
         working-directory: KGBlaze-Information-Center
         run: npm test
+      - name: Stage 19 read-only public artwork diagnostic (non-blocking)
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/audit-stage19-public-art.mjs
       - name: Verify visible category artwork in actual headless Chrome viewer
         working-directory: KGBlaze-Information-Center
         run: node scripts/smoke-expanded-artwork.mjs
