@@ -144,10 +144,13 @@ export async function getEventTwitchArt(event,env,opts={}){
   const artUrl=await getTwitchBoxArt(category,env,opts);
   if(artUrl)return {artUrl,source:'category'};
  }
- if(!validTwitchCategoryName(title)||normalized(title)===normalized(category))return {artUrl:null,source:null};
- // A title that is itself a Twitch category is a high-confidence match.
- const exact=await getTwitchBoxArt(title,env,opts);
- if(exact)return {artUrl:exact,source:'title'};
+ if(!validTwitchCategoryName(title))return {artUrl:null,source:null};
+ // Skip duplicate exact lookups, but still reverse-search a descriptive title.
+ // Some imported YouTube-only events have category === title.
+ if(normalized(title)!==normalized(category)){
+  const exact=await getTwitchBoxArt(title,env,opts);
+  if(exact)return {artUrl:exact,source:'title'};
+ }
  const discovered=await categoryFromTitle(title,env,{...opts,category});
  return {artUrl:discovered,source:discovered?'title':null};
 }
