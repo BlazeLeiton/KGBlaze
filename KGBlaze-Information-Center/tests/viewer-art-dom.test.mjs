@@ -12,20 +12,32 @@ function element(tag){
   prepend(item){item.remove?.();item.parentNode=this;this.children.unshift(item);},
   contains(item){return this.children.includes(item)||this.children.some(child=>child.contains?.(item));},
   remove(){if(!this.parentNode)return;const ix=this.parentNode.children.indexOf(this);if(ix>=0)this.parentNode.children.splice(ix,1);this.parentNode=null;},
-  querySelector(sel){if(sel!=='.category-placeholder')return null;return this.children.find(c=>c.className==='category-placeholder')||null;},
+  replaceChildren(...items){for(const child of this.children)child.parentNode=null;this.children=[];this.append(...items);},
+  querySelector(sel){return this.children.find(c=>c.className===sel.slice(1))||null;},
   querySelectorAll(){return [];}
  };
  if(tag==='img')Object.defineProperty(node,'src',{get(){return this._src||'';},set(value){this._src=value;}});
  return node;
 }
 function mount(event,library,{remote=null}={}){
- const top=element('div'), requests=[],document={
+ const host=element('div'),top=element('div'),requests=[];
+ top.className='flight-row-top';host.append(top);
+ let watcher=null;
+ class MutationObserver{
+  constructor(callback){this.callback=callback;}
+  observe(node,config){assert.equal(node,host);assert.equal(config.childList,true);assert.equal(Object.keys(config).length,1);watcher=this;}
+ }
+ const document={
   title:'',createElement:element,
-  querySelector(sel){return sel==='#flightContent .flight-row-top'?top:null;}
+  querySelector(sel){
+   if(sel==='#flightContent')return host;
+   if(sel==='#flightContent .flight-row-top')return host.querySelector('.flight-row-top');
+   return null;
+  }
  };
  const globals={
   draw(){},text(){},showSelectedFlight(){},syncChrome(){},
-  document,location:{pathname:'/departures/'},state:{lang:'es'},
+  document,MutationObserver,getVisible:()=>({visible:[event]}),location:{pathname:'/departures/'},state:{lang:'es'},
   selectedFlightId:event.id,FLIGHT_TRANSLATIONS:{es:{}},
   flightSelectable(){return true;},libraryEntries(){return library;},
   effectiveEventLogo(e){
@@ -37,9 +49,15 @@ function mount(event,library,{remote=null}={}){
  };
  vm.runInNewContext(VIEWER_JS,globals);
  globals.showSelectedFlight([event]);
- const box=()=>top.children.find(c=>c.className==='flight-category-box');
+ const box=()=>host.querySelector('.flight-row-top')?.querySelector('.flight-category-box');
  const picture=()=>box()?.children.find(c=>c.tagName==='IMG');
- return {top,box,picture,requests};
+ const replaceRow=()=>{
+  const replacement=element('div');replacement.className='flight-row-top';
+  const statusLight=element('div');statusLight.className='flight-light';replacement.append(statusLight);
+  host.replaceChildren(replacement);watcher?.callback();return replacement;
+ };
+ const notify=()=>watcher?.callback();
+ return {top,host,box,picture,requests,replaceRow,notify};
 }
 const library=[
  {id:'f1',name:'Formula 1 / F1',aliases:['Formula One','Mexico GP'],img:'data:image/png;base64,FORMULA'},
@@ -78,4 +96,15 @@ test('Unresolved artwork still leaves a visible descriptive placeholder',async()
  await new Promise(resolve=>setImmediate(resolve));
  assert.equal(ui.picture(),undefined);
  assert.equal(ui.box()?.querySelector('.category-placeholder')?.textContent,'Categoría desconocida');
+});
+
+test('Actual content replacement restores category artwork without destroying LED or creating duplicates',()=>{
+ const ui=mount({id:'restore-id',category:'Mexico GP',title:'Collab Padoru',platforms:['yt']},library);
+ assert.equal(ui.picture()?.src,library[0].img);
+ const row=ui.replaceRow();
+ assert.equal(row.children[0].className,'flight-light');
+ assert.equal(ui.picture()?.src,library[0].img);
+ ui.notify();ui.notify();
+ assert.equal(row.children.filter(c=>c.className==='flight-category-box').length,1);
+ assert.equal(row.children[0].className,'flight-light');
 });

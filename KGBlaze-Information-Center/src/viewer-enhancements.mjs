@@ -117,12 +117,16 @@ export const VIEWER_JS = `(function(){
    }).catch(()=>showSources([titleArt,general]));
   return box;
  }
- showSelectedFlight=function(visible){
-  baseFlight(visible);
-  if(!selectedFlightId)return;
-  const e=visible.find(v=>v.id===selectedFlightId&&flightSelectable(v));
-  const top=document.querySelector('#flightContent .flight-row-top');
-  if(!e||!top)return;
+ // The legacy renderer replaces #flightContent on every refresh, and can be
+ // invoked through paths that bypass a function wrapper. Hydrate the REAL panel
+ // idempotently, independently of which rendering path was taken.
+ function hydrateFlightArtwork(visible){
+  const host=document.querySelector('#flightContent');
+  const top=host?.querySelector('.flight-row-top')||document.querySelector('#flightContent .flight-row-top');
+  if(!host||!top||top.querySelector('.flight-category-box')||!selectedFlightId)return;
+  const rows=Array.isArray(visible)?visible:(typeof getVisible==='function'?getVisible().visible:[]);
+  const e=rows.find(v=>v.id===selectedFlightId&&flightSelectable(v));
+  if(!e)return;
   const tr=FLIGHT_TRANSLATIONS[state.lang];
   top.append(coverFor(e,tr));
   const c=clock(e);
@@ -131,7 +135,18 @@ export const VIEWER_JS = `(function(){
    const line=times[times.length-1];
    if(line)line.textContent=c.local+' · '+({es:'HORA LOCAL',en:'LOCAL TIME',ja:'現地時間'})[state.lang]+' · '+c.reference+' UTC−6';
   }
+ }
+ showSelectedFlight=function(visible){
+  const result=baseFlight(visible);
+  hydrateFlightArtwork(visible);
+  return result;
  };
+ // Observe only direct content replacement. Appending the image inside
+ // .flight-row-top cannot retrigger this observer or cause a render loop.
+ if(typeof MutationObserver==='function'){
+  const host=document.querySelector('#flightContent');
+  if(host)new MutationObserver(()=>hydrateFlightArtwork()).observe(host,{childList:true});
+ }
  syncChrome=function(){
   const ret=baseChrome();
   document.title=({es:'Salidas | KGBlaze',en:'Departures | KGBlaze',ja:'出発 | KGBlaze'})[state.lang]||'Salidas | KGBlaze';
