@@ -11,6 +11,8 @@ export const VIEWER_CSS = `
 .flight-category-box img{display:block;width:100%;height:116px;object-fit:contain}
 .flight-category-box .category-placeholder{font-size:11px;line-height:1.3;padding:10px;color:#d6c8ec;text-align:center;overflow-wrap:anywhere}
 @media(max-width:390px){.flight-row-top{grid-template-columns:5px minmax(0,1fr) 76px}.flight-category-box{width:76px;min-height:98px}.flight-category-box img{height:98px}.flight-name{font-size:18px}}
+/* Stage 12: hide only the obsolete non-iframe sharing fields. Keep nodes alive: old JS translates and binds them. */
+#plainLabel,.embed-code-row:has(#plainCode){display:none!important}
 `;
 
 // Classic script runs after the viewer's original inline script, preserving its
@@ -102,24 +104,5 @@ export const VIEWER_JS = `(function(){
   document.title=({es:'Salidas | KGBlaze',en:'Departures | KGBlaze',ja:'出発 | KGBlaze'})[state.lang]||'Salidas | KGBlaze';
   return ret;
  };
- // Stage 12 cleanup: retire only the legacy "embed sin iframe" UI.
- // Keep the iframe code, social-image OG metadata and private V.25 untouched.
- function removeLegacyNoIframeOption(){
-  const label=/sin\\s+iframe|without\\s+(?:an?\\s+)?iframe|iframeなし/i;
-  for(const node of document.querySelectorAll('button,a,label')){
-   const title=[node.textContent||'',node.getAttribute('title')||'',node.getAttribute('aria-label')||''].join(' ').trim();
-   if(!label.test(title))continue;
-   if(node.tagName==='LABEL'){
-    const control=node.control||node.nextElementSibling;
-    if(control&&/^(INPUT|TEXTAREA)$/.test(control.tagName)){
-     const value=String(control.value||'');
-     // Do not remove the real iframe embed code.
-     if(!/<iframe\\b/i.test(value))control.remove();
-    }
-   }
-   node.remove();
-  }
- }
- removeLegacyNoIframeOption();
  syncChrome();
 })();`;
