@@ -43,3 +43,6 @@ jobs:
       - name: Verify visible category artwork in actual headless Chrome viewer
         working-directory: KGBlaze-Information-Center
         run: node scripts/smoke-expanded-artwork.mjs
+      - name: Stage 19 check actual public panel in Chrome (read-only diagnostic)
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/smoke-stage19-live-chrome.mjs
