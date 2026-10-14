@@ -76,7 +76,7 @@ export const VIEWER_JS = `(function(){
    fetch(api+'?name='+encodeURIComponent(cat),{credentials:'omit'})
     .then(r=>r.ok?r.json():null)
     .then(v=>{
-     if(typeof v?.artUrl==='string'&&/^https:\/\/static-cdn\.jtvnw\.net\/ttv-boxart\//.test(v.artUrl))pic.src=v.artUrl;
+     if(typeof v?.artUrl==='string'&&v.artUrl.startsWith('https://static-cdn.jtvnw.net/ttv-boxart/'))pic.src=v.artUrl;
      else fallback();
     }).catch(fallback);
   }else fallback();
