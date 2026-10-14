@@ -1,5 +1,11 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 13-oct-2026 — Stage 18: raíz JS de portada en navegador real (CORRECCIÓN EN PR, NO DESPLEGADA)
+- Captura Chrome/Edge de https://kgblaze.dpdns.org/departures/ confirma `ReferenceError: __name is not defined` en `artworkCandidates` dentro de `coverFor` y `MutationObserver`; el diagnóstico Stage 16/17 por ancho era insuficiente. La función se incrusta con `.toString()` tras empaquetado Wrangler y pierde su helper `__name`.
+- Corrección acotada + prueba de regresión en `fix/stage18-bundled-category-artwork`. Ver [STAGE-18-2026-10-13.md](STAGE-18-2026-10-13.md). **No afirmar resuelto ni desplegado** hasta PR fusionado, build y prueba navegador real.
+- Preservar portada y LED simultáneamente, prioridad de categoría, agenda 1080², editor V.25, D1/Cron/YouTube. No avanzar STAGES/index.json de 7 sin fichas 8–15/17.
+
+
 ## 13-oct-2026 — Stage 16: ficha desplegable / portada y LED (ABIERTO; diagnóstico en curso)
 - Incorporada fuente recuperable: [STAGE-16-2026-10-13.md](STAGE-16-2026-10-13.md). PR #28 fusionado en `2d7d298`; 194 pruebas y build Cloudflare SUCCESS reportados; usuario aún observa alternancia portada de categoría vs indicador luminoso en la ficha.
 - Hallazgo de inspección: grid de tres columnas (LED 5px, texto flexible, portada 100px/76px móvil) y rehidratación MutationObserver. El smoke Chrome anterior comprobaba geometría de imagen pero sólo presencia DOM del LED; falta verificar geometría/composición real en la versión desplegada. No atribuir la causa al ancho ni afirmar resolución sin medición.
