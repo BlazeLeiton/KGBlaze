@@ -25,7 +25,7 @@ function mount(event,library,{remote=null}={}){
  let watcher=null;
  class MutationObserver{
   constructor(callback){this.callback=callback;}
-  observe(node,config){assert.equal(node,host);assert.deepEqual(config,{childList:true});watcher=this;}
+  observe(node,config){assert.equal(node,host);assert.equal(config.childList,true);assert.equal(Object.keys(config).length,1);watcher=this;}
  }
  const document={
   title:'',createElement:element,
