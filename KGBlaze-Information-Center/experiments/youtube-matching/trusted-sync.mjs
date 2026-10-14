@@ -12,6 +12,7 @@ import {cdmxInstant} from './matcher.mjs';
 const VIDEO_ID=/^[A-Za-z0-9_-]{11}$/;
 const STOP=new Set(['CANCELADO','DESCANSO','ESCALA','HIATUS']);
 const TRUSTED_SOURCE='youtube_data_api_v3';
+const COMPLETE_GRACE_MS=15*60*1000; // A verified end must survive Twitch-style restart grace.
 const checked=at=>typeof at==='string'&&/Z$/.test(at)&&Number.isFinite(Date.parse(at));
 export const editorialIdentity=e=>JSON.stringify([
  e?.day||'',e?.time||'',e?.title||'',e?.category||'',
@@ -31,7 +32,7 @@ function trustedCachedId(event,existingSync){
   VIDEO_ID.test(known.videoId||'')?known.videoId:null;
 }
 export function buildTrustedYouTubeObservations(agenda,evidence,{
- ownedChannelId,existingSync={},now=new Date()
+ ownedChannelId,existingSync={},now=new Date(),allowCompletion=false
 }={}) {
  if(agenda?.schema!=='relight-public-v1'||!Array.isArray(agenda.events)||agenda.events.length>200||
     !evidence||!Array.isArray(evidence.resources)||!(now instanceof Date)||
@@ -61,12 +62,31 @@ export function buildTrustedYouTubeObservations(agenda,evidence,{
   }
   let status=null;
   const scheduledAt=d.scheduledStartTime,actualStart=d.actualStartTime;
-  if(match.evidenceSignal==='upcoming_unverified'&&
-    checked(scheduledAt)&&!actualStart&&!d.actualEndTime&&s.liveBroadcastContent==='upcoming'){
+  const completedAt=d.actualEndTime;
+  let completion=null;
+  // Video Data API exposes actualEndTime only after the broadcast ends.
+  // 'none' + real start/end timestamps + owned channel + known video ID
+  // must agree. A missing LIVE sample or a vanished search result NEVER
+  // proves a completed broadcast. Observe 15 minutes of restart grace.
+  if(allowCompletion===true&&match.evidenceSignal==='ended_unverified'){
+   const startMs=Date.parse(actualStart||''),endMs=Date.parse(completedAt||'');
+   const identity=trustedCachedId(event,existingSync);
+   if(identity===match.videoId&&checked(actualStart)&&checked(completedAt)&&
+      Number.isFinite(startMs)&&Number.isFinite(endMs)&&
+      startMs<=endMs&&endMs<=now.getTime()-COMPLETE_GRACE_MS&&
+      now.getTime()-endMs<=48*3600*1000&&
+      s.liveBroadcastContent==='none'){
+    status='completed';
+    completion={lifeCycleStatus:'complete',actualEndTime:completedAt,
+     endedAt:completedAt,completionEvidence:'videos_list_actual_end_time'};
+   }
+  }
+  if(!status&&match.evidenceSignal==='upcoming_unverified'&&
+    checked(scheduledAt)&&!actualStart&&!completedAt&&s.liveBroadcastContent==='upcoming'){
    status='upcoming';
   }
-  if(match.evidenceSignal==='live_unverified'&&
-    checked(actualStart)&&!d.actualEndTime&&s.liveBroadcastContent==='live'&&
+  if(!status&&match.evidenceSignal==='live_unverified'&&
+    checked(actualStart)&&!completedAt&&s.liveBroadcastContent==='live'&&
     Date.parse(actualStart)<=now.getTime()+30000&&
     now.getTime()-Date.parse(actualStart)<=48*3600*1000){
    status='live';
@@ -76,11 +96,10 @@ export function buildTrustedYouTubeObservations(agenda,evidence,{
    source:TRUSTED_SOURCE,verified:true,matchConfirmed:true,
    checkedAt:evidence.fetchedAt,status,videoId:match.videoId,
    videoUrl:'https://youtu.be/'+match.videoId,
-   editorialIdentity:editorialIdentity(event)
+   editorialIdentity:editorialIdentity(event),
+   ...(completion||{})
   };
   if(checked(scheduledAt))observation.scheduledAt=scheduledAt;
-  // Never add 'completed', 'endedAt', 'actualEndTime' or lifeCycleStatus.
-  // YouTube Data videos.list does not provide authenticated broadcast lifecycle.
   out.observations[event.id]=observation;
  }
  return out;
@@ -93,7 +112,22 @@ export function applyTrustedYouTubeObservations(sync={},observations={}){
  for(const [id,youtube] of Object.entries(observations)){
   if(typeof id!=='string'||!id||!youtube||youtube.source!==TRUSTED_SOURCE||
      youtube.verified!==true||youtube.matchConfirmed!==true||
-     !['live','upcoming'].includes(youtube.status)||!VIDEO_ID.test(youtube.videoId||''))continue;
+     !['live','upcoming','completed'].includes(youtube.status)||!VIDEO_ID.test(youtube.videoId||''))continue;
+  if(youtube.status==='completed'&&!(
+    youtube.lifeCycleStatus==='complete'&&
+    youtube.completionEvidence==='videos_list_actual_end_time'&&
+    checked(youtube.actualEndTime)&&youtube.endedAt===youtube.actualEndTime
+  ))continue;
+  // A verified terminal observation is immutable for that editorial identity.
+  // A stale subsequent 'upcoming/live' request can never resurrect the room.
+  const prior=next[id]?.youtube;
+  if(prior?.status==='completed'&&prior?.source===TRUSTED_SOURCE&&
+     prior.verified===true&&prior.matchConfirmed===true&&
+     prior.editorialIdentity===youtube.editorialIdentity)continue;
+  if(prior&&prior.source===TRUSTED_SOURCE&&prior.verified===true&&
+     prior.matchConfirmed===true&&prior.editorialIdentity===youtube.editorialIdentity&&
+     Number.isFinite(Date.parse(prior.checkedAt||''))&&
+     Date.parse(prior.checkedAt)>Date.parse(youtube.checkedAt||''))continue;
   next[id]={...(next[id]||{}),youtube};
   changed++;
  }
