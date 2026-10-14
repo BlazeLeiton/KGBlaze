@@ -24,5 +24,10 @@ export function artworkCandidates(event, entries) {
   }
   return best?.url||null;
  };
- return {category:match(event?.category),title:match(event?.title),general};
+ const category=match(event?.category),title=match(event?.title);
+ // Only these platform-wide categories yield to a more specific editorial
+ // title/alias; normal game and activity categories always retain priority.
+ const titleBeforeGenericCategory=Boolean(title)&&
+  new Set(['just chatting','entertainment','entretenimiento']).has(norm(event?.category));
+ return {category,title,general,titleBeforeGenericCategory};
 }
