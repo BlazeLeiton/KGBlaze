@@ -124,3 +124,59 @@ test('Bundler-injected __name does not break category artwork in the browser',()
  assert.equal(ui.picture()?.src,library[0].img);
  assert.equal(ui.requests.length,0);
 });
+
+test('Stage 19: explicit image failure falls back through editorial category, then authentic Twitch category',async()=>{
+ const official='https://static-cdn.jtvnw.net/ttv-boxart/777-285x380.jpg';
+ const ui=mount({id:'s19-explicit',category:'Mexico GP',title:'Cantando karaoke',logoChoice:'upload',
+  logoData:'data:image/png;base64,UPLOAD',platforms:['tw']},library,{
+  remote:{artUrl:official,source:'category'}
+ });
+ assert.equal(ui.picture()?.src,'data:image/png;base64,UPLOAD');
+ assert.equal(ui.requests.length,0,'valid explicit images must not be replaced by Twitch');
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[0].img,'category library artwork must follow failed upload');
+ assert.equal(ui.requests.length,0);
+ ui.picture().onerror();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(ui.picture()?.src,official,'official category must precede the title alias');
+ assert.equal(ui.requests.length,1,'one read-only request is sufficient for all remote candidates');
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[3].img,'editorial title follows failed official category');
+});
+test('Stage 19: when the Worker finds title art, editorial title must precede that remote result',async()=>{
+ const official='https://static-cdn.jtvnw.net/ttv-boxart/888-285x380.jpg';
+ const ui=mount({id:'s19-title',category:'Unknown specific category',title:'Cantando hoy',
+  logoChoice:'auto',platforms:['yt']},library,{remote:{artUrl:official,source:'title'}});
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(ui.picture()?.src,library[3].img);
+ assert.equal(ui.requests.length,1);
+ ui.picture().onerror();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(ui.picture()?.src,official);
+ assert.equal(ui.requests.length,1);
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[4].img,'general artwork remains the last image');
+});
+test('Stage 19: Just Chatting retains specific title-alias exception across failed sources',async()=>{
+ const official='https://static-cdn.jtvnw.net/ttv-boxart/999-285x380.jpg';
+ const ui=mount({id:'s19-chat',category:'Just Chatting',title:'Cantando karaoke',
+  logoChoice:'auto',platforms:['tw']},library,{remote:{artUrl:official,source:'category'}});
+ assert.equal(ui.picture()?.src,library[3].img,'specific title beats generic category');
+ ui.picture().onerror();
+ assert.equal(ui.picture()?.src,library[2].img,'generic editorial category remains fallback');
+ ui.picture().onerror();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(ui.picture()?.src,official);
+});
+test('Stage 19: unavailable remote and broken images end in a descriptive placeholder',async()=>{
+ const ui=mount({id:'s19-empty',category:'Unlisted Event',title:'Something',
+  logoChoice:'upload',logoData:'data:image/png;base64,BAD',platforms:['yt']},[],{
+  remote:{artUrl:null,source:null}
+ });
+ assert.equal(ui.picture()?.src,'data:image/png;base64,BAD');
+ ui.picture().onerror();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(ui.picture(),undefined);
+ assert.equal(ui.box()?.querySelector('.category-placeholder')?.textContent,'Unlisted Event');
+ assert.equal(ui.requests.length,1);
+});
