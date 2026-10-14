@@ -93,7 +93,7 @@ test('Authorized browser changes share the SAME D1 with public departures and cu
  next.events[0].title='Azur Lane: nuevo episodio';
  next.libraryCustom.push({id:'new-graphic',name:'Collab Padoru',aliases:['Padoru'],img:'data:image/png;base64,aGVsbG8='});
  const res=await request(env,'/departures/api/admin/publish',{method:'POST',headers,body:JSON.stringify({baseRevision:2,agenda:next})});
- assert.equal(res.status,200,await res.text());
+ assert.equal(res.status,200,await res.clone().text());
  assert.equal((await res.json()).revision,3);
  const published=await (await request(env,'/departures/api/public')).json();
  assert.equal(published.revision,3);
