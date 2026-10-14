@@ -73,3 +73,12 @@ test('The panel uses official-first selection without modifying status LED or ca
  assert.match(VIEWER_JS,/eventId=/);
  assert.doesNotMatch(VIEWER_JS,/effectiveEventLogo\(e\)/);
 });
+
+test('A custom-named library image with Karaoke alias retains chat-only eligibility',()=>{
+ const custom={name:'Noche de canciones',aliases:['Karaoke','Cantar'],img:'data:image/png;base64,SONG'};
+ const catalog=[...entries.filter(x=>x.name!=='Karaoke'),custom];
+ const chat=artworkCandidates({category:'Entertainment',title:'Karaoke con todos'},catalog);
+ assert.equal(chat.specialTitle,custom.img);
+ const game=artworkCandidates({category:'Azur Lane',title:'Karaoke con todos'},catalog);
+ assert.equal(game.specialTitle,null);
+});
