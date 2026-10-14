@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 14-oct-2026 — Stage 21: dashboard web desplegado y probado (VIGENTE)
+- Código [PR #37](https://github.com/BlazeLeiton/KGBlaze/pull/37) fusionado `a66a029816f62923fa9829cda920c8adc761f27c`. Workers Builds `kgblaze-terminal` SUCCESS versión `6d43e0af-7dea-4801-8d2e-fd99292d39ad`; CI [38581868890](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38581868890) 224/224 PASS, Chrome con D1 aislada editó actividad y biblioteca.
+- Auditoría [38582250329](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38582250329) **228/228 PASS**: `https://kgblaze.dpdns.org/departures/dashboard/` es accesible por HTTPS; `/dashboard` redirige; GET público misma D1 rev 2/10 eventos/2 sync y `libraryCustom` inicialmente vacío; admin GET sin clave 401; root admin GET 404; visor sin regresión. Auditoría PR #38 cerrada sin fusionar.
+- La página se abre sin crear login nuevo, pero **guardar requiere token administrativo existente** en memoria, no se permiten escrituras anónimas. Campos y biblioteca personalizada `libraryCustom/libraryChanges` se publican directamente por API con CAS, reflejados por los lectores; dashboard consulta cada 30s, viewer mantiene aproximadamente 90s. Recursos precargados del visor siguen allí, sin reubicarlos a D1.
+- **Fase inicial, no V.25 completa**: ICS avanzado, PNG 1080², GIF HQ, respaldos locales y algunas herramientas editoriales quedan pendientes. No dar por migrada la V.25 privada ni exponer el HTML original. Ver [STAGE-21-2026-10-14.md](STAGE-21-2026-10-14.md). Sin cambio de Cron, YouTube, Twitch, extensión ni `STAGES/index.json`.
+
+
 ## 14-oct-2026 — Stage 21 panel web compartido (PR #37, validado en rama)
 - **Encargo actual**: alojar dashboard en `https://kgblaze.dpdns.org/departures/dashboard/`, sin registrar una cuenta adicional todavía, y compartir agenda/biblioteca con Departures.
 - Implementación: PR [#37](https://github.com/BlazeLeiton/KGBlaze/pull/37) agrega ruta `/departures/dashboard/` y alias `/dashboard`, HTML web autónomo sin copiar la V.25 local, edición/autopublicación desde el mismo D1 y `libraryCustom`/`libraryChanges` compartidos, polling 30s en dashboard y visor 90s.
