@@ -150,8 +150,8 @@ export async function getEventTwitchArt(event,env,opts={}){
  const title=typeof event.title==='string'?event.title.trim():'';
  const key=normalized(category);
  const chatGeneric=new Set(['just chatting','entertainment','entretenimiento']).has(key);
- const broadCategory=!key||GENERIC_CATEGORIES.has(key)||(onlyYouTube&&YOUTUBE_BROAD.has(key));
  const onlyYouTube=(event.platforms||[]).includes('yt')&&!(event.platforms||[]).includes('tw');
+ const broadCategory=!key||GENERIC_CATEGORIES.has(key)||(onlyYouTube&&YOUTUBE_BROAD.has(key));
  // Entertainment on YouTube maps to Twitch's Just Chatting category.
  // No unrelated game in the title may override this category; the viewer
  // separately handles Karaoke / Collab Padoru from editorial library aliases.
