@@ -42,5 +42,6 @@ test('Expanded-panel category artwork has eager loading, grid placement and reco
  assert.ok(VIEWER_JS.includes('if(!box.contains(pic))box.prepend(pic)'));
  assert.ok(VIEWER_CSS.includes('.flight-row-top>.flight-category-box{grid-column:3;grid-row:1;'));
  assert.ok(VIEWER_JS.includes('const editorial=editorialMatches(e,libraryEntries())'));
- assert.ok(VIEWER_JS.includes('if(categoryArt){showSources([categoryArt,titleArt,general])'));
+ assert.ok(VIEWER_JS.includes('[explicit,editorial.category,categoryLookup,titleArt,titleLookup,general]'));
+ assert.ok(VIEWER_JS.includes('if(v?.source===entry.source&&official&&!tried.has(official))'));
 });
