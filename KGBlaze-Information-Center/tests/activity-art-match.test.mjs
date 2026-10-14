@@ -18,7 +18,7 @@ test('A published category wins over a conflicting title alias',()=>{
 });
 test('Every specific game category wins over an unrelated Collab Padoru title',()=>{
  for(const game of ['Azur Lane','Fortnite','Dead by Daylight']){
-  const original=[...entries,{id:'game',name:game,img:'data:image/png;base64,GAME'}];
+  const original=[...entries.filter(item=>item.name!==game),{id:'game',name:game,img:'data:image/png;base64,GAME'}];
   const r=artworkCandidates({category:game,title:'Collab Padoru con amigos',platforms:['tw','yt']},original);
   assert.equal(r.category,'data:image/png;base64,GAME');
   assert.equal(r.title,entries[1].img);
