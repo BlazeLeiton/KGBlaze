@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
-import {VIEWER_JS} from '../src/viewer-enhancements.mjs';
+import {VIEWER_JS,VIEWER_CSS} from '../src/viewer-enhancements.mjs';
 
 // Exercise the injected script against a small DOM surface, not only its regex.
 function element(tag){
@@ -204,4 +204,26 @@ test('Wrangler-serialized __name helper remains valid in the browser script',asy
   platforms:['yt']},library,{viewerSource:compiled});
  await flush();
  assert.equal(ui.picture()?.src,library[0].img);
+});
+
+test('Collab Padoru covers the entire Twitch category cell, but other artwork remains contained',async()=>{
+ const padoru='/departures/assets/relight/art/Kirameki Riders.png';
+ const catalogue=[...library,{id:'collab-padoru',name:'Collab Padoru',aliases:['Padoru','Collab Padoru'],img:padoru}];
+ assert.match(VIEWER_CSS,/\.flight-category-box img\{[^}]*object-fit:contain/);
+ assert.match(VIEWER_CSS,/\.flight-category-box img\.padoru-cover\{object-fit:cover;object-position:center\}/);
+ const special=mount({id:'padoru-fill',category:'Just Chatting',title:'Collab Padoru',
+  platforms:['yt','tw']},catalogue);
+ await flush();
+ assert.equal(special.picture()?.src,padoru);
+ assert.equal(special.picture()?.className,'padoru-cover');
+ const generic=mount({id:'generic-collab',category:'Just Chatting',title:'Collab con amigos',
+  platforms:['yt','tw']},catalogue);
+ await flush();
+ assert.equal(generic.picture()?.className,'');
+ assert.notEqual(generic.picture()?.src,padoru);
+ const game=mount({id:'game-padoru',category:'Mexico GP',title:'Collab Padoru',
+  platforms:['yt','tw']},catalogue);
+ await flush();
+ assert.equal(game.picture()?.src,library[0].img);
+ assert.equal(game.picture()?.className,'');
 });
