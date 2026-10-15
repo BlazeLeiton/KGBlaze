@@ -611,7 +611,12 @@ function publicSnapshot(){
    status:STATUS.includes(v.status)?v.status:e.status,
    platforms:Array.isArray(v.platforms)?normalizePlatforms(v.platforms):e.platforms,
    title:typeof v.title==='string'&&v.title.trim()?v.title:e.title,
-   extra:typeof v.extra==='string'?v.extra:e.extra,code:v.code||'',videoId:validStoredVideoId(v.videoId||e.videoId),logoChoice:v.logoChoice||'auto',logoData:v.logoData||''};
+   extra:typeof v.extra==='string'?v.extra:e.extra,code:v.code||'',videoId:validStoredVideoId(v.videoId||e.videoId),
+   // An event hydrated from D1 already has an editorial artwork choice.
+   // Preserve it unless this event has an explicit user override. Silently
+   // replacing it with 'auto' changes completed flights and triggers HTTP 423.
+   logoChoice:v.logoChoice!==undefined?v.logoChoice:(e.logoChoice||'auto'),
+   logoData:v.logoData!==undefined?v.logoData:(e.logoData||'')};
  }),...state.manual];
  const events=editorial.filter(e=>e.day>=first&&e.day<last).map(e=>({
    id:e.id,origin:e.origin==='tw'?'twitch':e.origin,day:e.day,time:e.time||'',title:e.title,extra:e.extra||'',
@@ -1481,7 +1486,8 @@ async function hostedCommit(){
    body:JSON.stringify({baseRevision,agenda})
   });
   const data=await res.json().catch(()=>({error:'Respuesta incorrecta'}));
-  if(!res.ok)throw Object.assign(new Error(data.error||('HTTP '+res.status)),{status:res.status});
+  if(!res.ok)throw Object.assign(new Error(data.error||('HTTP '+res.status)),
+   {status:res.status,eventIds:Array.isArray(data.eventIds)?data.eventIds:[]});
   hostedRevision=data.revision;hostedLastSnapshot=sent;
   terminalRemoteRevision=data.revision;terminalRemoteEditorial=agenda;
   hostedSetStatus('synced','PUBLICADO · revisión '+hostedRevision+' · Departures actualizado');
@@ -1491,10 +1497,16 @@ async function hostedCommit(){
   hostedDirty=true;
   hostedAuthRejected=err.status===401;
   hostedBlocked=!hostedAuthRejected;
+  const lockedTitles=err.status===423&&err.eventIds?.length
+   ?err.eventIds.map(id=>mergedEvents().find(e=>e.id===id)?.title||id).join(', ')
+   :'';
   hostedSetStatus('error',hostedAuthRejected
    ?'NO PUBLICADO · clave rechazada. Corrígela para reintentar sin perder los cambios.'
-   :'NO PUBLICADO · '+err.message+' · exporta respaldo antes de recargar');
-  document.getElementById('syncFeedback').textContent=hostedStatus.textContent;
+   :lockedTitles
+    ?'NO PUBLICADO · evento finalizado protegido: '+lockedTitles
+    :'NO PUBLICADO · '+err.message+' · exporta respaldo antes de recargar');
+  document.getElementById('syncFeedback').textContent=hostedStatus.textContent+
+   (lockedTitles?' · Conserva el respaldo antes de recargar. No se ha modificado D1.':'');
  }finally{
   hostedPublishing=false;
   if(!hostedBlocked&&!hostedAuthRejected&&hostedSignature(publicSnapshot())!==hostedLastSnapshot){hostedDirty=true;hostedQueueSync();}
