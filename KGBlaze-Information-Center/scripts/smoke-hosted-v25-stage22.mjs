@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {EMPTY_AGENDA,currentMonday,normalizeEditorial} from '../src/core.mjs';
 const ORIGIN='https://kgblaze.dpdns.org',TOKEN='SYNTHETIC-STAGE22-SECRET';
+// Status transitions below use historical statuses accepted at any clock time.
 const testDay=(()=>{
  const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'America/Mexico_City',
  year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date())
@@ -126,15 +127,15 @@ try{
   key.dispatchEvent(new Event('input',{bubbles:true}));
   const select=document.querySelector('#weekRail [data-event-status]');
   if(!select)return {error:'No V25 event status select'};
-  select.value='A TIEMPO';select.dispatchEvent(new Event('change',{bubbles:true}));
+  select.value='REPROGRAMADO';select.dispatchEvent(new Event('change',{bubbles:true}));
   for(let i=0;i<120;i++){
    await new Promise(r=>setTimeout(r,60));
    const d=await(await fetch('/departures/api/public',{cache:'no-store'})).json();
-   if(d.events?.[0]?.status==='A TIEMPO')return {revision:d.revision,status:d.events[0].status};
+   if(d.events?.[0]?.status==='REPROGRAMADO')return {revision:d.revision,status:d.events[0].status};
   }
   return {error:document.getElementById('hostedSyncStatus').textContent};
  });
- assert.equal(edit.status,'A TIEMPO');assert.equal(edit.revision,3);
+ assert.equal(edit.status,'REPROGRAMADO');assert.equal(edit.revision,3);
  console.log('STAGE22 V25 AUTO-PUBLISH',JSON.stringify(edit));
  console.log('STAGE22 CDP evaluate library');
  const lib=await callBrowser(async function(){
@@ -165,12 +166,12 @@ try{
   const key=document.getElementById('syncQuickToken');
   key.value='';key.dispatchEvent(new Event('input',{bubbles:true}));
   const select=document.querySelector('#weekRail [data-event-status]');
-  select.value='REPROGRAMADO';select.dispatchEvent(new Event('change',{bubbles:true}));
+  select.value='CANCELADO';select.dispatchEvent(new Event('change',{bubbles:true}));
   await new Promise(r=>setTimeout(r,1300));
   const data=await(await fetch('/departures/api/public',{cache:'no-store'})).json();
   return {revision:data.revision,status:data.events[0].status,notice:document.getElementById('hostedSyncStatus').textContent};
  });
- assert.equal(anon.revision,4);assert.equal(anon.status,'A TIEMPO');
+ assert.equal(anon.revision,4);assert.equal(anon.status,'REPROGRAMADO');
  assert.match(anon.notice,/NO PUBLICADO/);
  console.log('STAGE22 V25 ANONYMOUS DENIAL',JSON.stringify(anon));
  const recovered=await callBrowser(async function(){
@@ -179,12 +180,12 @@ try{
   for(let i=0;i<120;i++){
    await new Promise(r=>setTimeout(r,60));
    const data=await(await fetch('/departures/api/public',{cache:'no-store'})).json();
-   if(data.events?.[0]?.status==='REPROGRAMADO')
+   if(data.events?.[0]?.status==='CANCELADO')
     return {revision:data.revision,status:data.events[0].status,notice:document.getElementById('hostedSyncStatus').textContent};
   }
   return {error:document.getElementById('hostedSyncStatus').textContent};
  });
- assert.equal(recovered.revision,5);assert.equal(recovered.status,'REPROGRAMADO');
+ assert.equal(recovered.revision,5);assert.equal(recovered.status,'CANCELADO');
  assert.match(recovered.notice,/PUBLICADO/);
  console.log('STAGE22 V25 PENDING AUTH RECOVERY',JSON.stringify(recovered));
  // Regression: completed Twitch artwork was once silently reset to auto/''
@@ -224,7 +225,7 @@ try{
   key.value='SYNTHETIC-STAGE22-SECRET';key.dispatchEvent(new Event('input',{bubbles:true}));
   const select=document.querySelector('#weekRail [data-event-status="man:stage22"]');
   if(!select||select.disabled)return {error:'Ordinary flight cannot be edited'};
-  select.value='A TIEMPO';select.dispatchEvent(new Event('change',{bubbles:true}));
+  select.value='REPROGRAMADO';select.dispatchEvent(new Event('change',{bubbles:true}));
   for(let i=0;i<120;i++){
    await new Promise(r=>setTimeout(r,60));
    const data=await(await fetch('/departures/api/public',{cache:'no-store'})).json();
@@ -236,7 +237,7 @@ try{
   return {error:document.getElementById('hostedSyncStatus').textContent};
  });
  assert.equal(unrelated.revision,6,'Unrelated edit must publish despite completed flight');
- assert.equal(unrelated.status,'A TIEMPO');
+ assert.equal(unrelated.status,'REPROGRAMADO');
  assert.equal(unrelated.locked.logoChoice,'upload');
  assert.equal(unrelated.locked.logoData,logo,'Completed event image bytes must survive publication');
  assert.equal(unrelated.locked.videoId,completedVideoId);
