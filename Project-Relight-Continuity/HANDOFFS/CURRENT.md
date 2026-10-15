@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 14-oct-2026 — Ajuste V.25 web: izquierda fija / trabajo central / herramientas plegables (PR #41)
+- Usuario comprobó por PowerShell ambas rutas reales: `/departures/dashboard/` y `/departures/dashboard/library/`, **HTTP 200** con `hostedInitialize=True` y `library-mode=True`. Confirma asset V.25 entregado por Cloudflare, no necesariamente su validación visual.
+- Nueva disposición solicitada: **Semana, idioma y HIATUS** sobre **Actividades de la semana actual** a la izquierda, ambos permanentemente abiertos; el área de trabajo y preview **1080 × 1080** en el centro; los demás paneles continúan plegables a la derecha.
+- PR [#41](https://github.com/BlazeLeiton/KGBlaze/pull/41) conserva el motor V.25, biblioteca independiente, publicación automática con ADMIN_TOKEN/CAS, PNG/GIF, visor, cron y D1. Pruebas de rama [38681442306](https://github.com/BlazeLeiton/KGBlaze/actions/runs/38681442306): **229/229 PASS**, Chrome 1440×900 validó columna izquierda/centro/derecha, 2 secciones fijas y 5 paneles plegables. Sin escrituras productivas.
+- Verificar merge, Workers Builds y HTML real con marcadores `weekSettings`/`weekActivities` antes de declarar la nueva disposición publicada. Detalle en [STAGE-22-V25-LAYOUT-2026-10-14.md](STAGE-22-V25-LAYOUT-2026-10-14.md). No alterar `STAGES/index.json`.
+
+
 ## 14-oct-2026 — Stage 22: V.25 web funcional, publicación automática total (PR #40)
 - **Decisión definitiva del usuario**: publicación automática de **todos** los cambios desde la V.25 web, sin segundo botón Publicar. Las confirmaciones destructivas propias del editor se conservan, pero no hay confirmaciones editoriales adicionales al publicar. Necesita **ADMIN_TOKEN** previo para cualquier escritura: no se crea login nuevo ni POST anónimo. Si falta clave, estado pendiente; 409/423 bloquean intentos, sin perder la agenda remota.
 - Fuente directa del adjunto **KGBlaze_Centro_de_Control_V25(3).html**. PR [#40](https://github.com/BlazeLeiton/KGBlaze/pull/40) introduce `public/v25-web.html` con motor original ICS, edición, HIATUS, personalizaciones, JSON, PNG **1080 × 1080** y GIF HQ, 25 imágenes editoriales precargadas + bibliotecas personalizadas; cinco fuentes binarias incrustadas retiradas (sustitutos de sistema). Encabezado azul fuerte «Centro de Control Editorial».
