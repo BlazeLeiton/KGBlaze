@@ -85,22 +85,33 @@ try{
  });
  const evaluate=async expression=>{const result=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(result.exceptionDetails)throw Error('Chrome Runtime error '+JSON.stringify(result.exceptionDetails));return result.result?.value;};
  const callBrowser=fn=>evaluate('('+fn.toString()+')()');
- await send('Page.enable');console.log('STAGE22 CDP navigate');await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/'});
+ await send('Page.enable');
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ console.log('STAGE22 CDP navigate');await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/'});
  console.log('STAGE22 CDP evaluate boot');
  const boot=await callBrowser(async function(){
   for(let i=0;i<130&&!document.querySelector('#hostedSyncStatus')?.textContent.includes('sincronizado');i++)
    await new Promise(r=>setTimeout(r,50));
   const canvas=document.getElementById('board');
+  const geom=id=>{const r=document.querySelector(id).getBoundingClientRect();return {x:r.x,y:r.y,h:r.height};};
+  const geometry={rail:geom('#weekRail'),settings:geom('#weekSettings'),activities:geom('#weekActivities'),preview:geom('.preview'),tools:geom('.controls')};
   return {title:document.title,count:document.querySelectorAll('#weekRail .event').length,
    status:document.getElementById('hostedSyncStatus')?.textContent,
    dimension:[canvas.width,canvas.height],
    noPageScroll:document.documentElement.scrollHeight<=innerHeight+3,
-   controls:!!document.getElementById('downloadGif')&&!!document.getElementById('download')};
+   controls:!!document.getElementById('downloadGif')&&!!document.getElementById('download'),
+   fixedPanels:[document.getElementById('weekSettings').tagName,document.getElementById('weekActivities').tagName],
+   rightFolds:document.querySelectorAll('.controls > details').length,geometry};
  });
  assert.equal(boot.count,1,'V25 current-week event list did not hydrate from D1');
  assert.deepEqual(boot.dimension,[1080,1080]);
  assert.ok(boot.noPageScroll,'Desktop page should fit its browsing window');
  assert.ok(boot.controls,'Both original PNG and GIF controls are required');
+ assert.deepEqual(boot.fixedPanels,['SECTION','SECTION'],'Permanent weekly panels cannot be details');
+ assert.ok(boot.rightFolds>=4,'Side tools must remain collapsible');
+ assert.ok(boot.geometry.rail.x<boot.geometry.preview.x&&boot.geometry.preview.x<boot.geometry.tools.x,'Expected left rail, centered canvas, right tools at desktop width');
+ assert.ok(boot.geometry.settings.y<boot.geometry.activities.y,'Week settings must appear above the weekly activity list');
+ assert.ok(boot.geometry.settings.h>100&&boot.geometry.activities.h>100,'Both fixed left-rail panels must be visible');
  console.log('STAGE22 V25 BOOT',JSON.stringify(boot));
  console.log('STAGE22 CDP evaluate edit');
  const edit=await callBrowser(async function(){

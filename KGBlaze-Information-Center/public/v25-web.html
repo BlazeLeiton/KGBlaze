@@ -125,18 +125,46 @@ h1{font-size:clamp(19px,2.3vw,28px);font-weight:800;margin:4px 0 3px;color:#ffff
 .library-mode .library-list{max-height:none;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 @media(max-width:1150px){.layout{grid-template-columns:230px minmax(330px,1fr)}.preview{grid-column:2}.controls{grid-column:2;grid-row:1}.preview{height:auto;max-height:450px}.preview canvas{max-height:320px}#weekRail{grid-column:1;grid-row:1 / span 2}}
 @media(max-width:750px){body{overflow:auto}main{height:auto;min-height:100dvh}.layout{grid-template-columns:1fr}.controls,.preview,#weekRail{height:auto;max-height:none;overflow:visible}.controls,.preview,#weekRail{grid-column:auto;grid-row:auto}#weekRail>.card{max-height:300px}.preview canvas{max-height:min(70vh,540px)}.editor-navigation #hostedSyncStatus{margin-left:0}}
+
+/* V.25 desktop editorial workbench: fixed week controls + activities at left,
+   1080x1080 preview in the center and collapsible tools on the right. */
+@media(min-width:1151px){
+ .layout{grid-template-columns:minmax(260px,24%) minmax(0,1fr) minmax(300px,25%)}
+ #weekRail{grid-column:1;grid-row:1}
+ .preview{grid-column:2;grid-row:1}
+ .controls{grid-column:3;grid-row:1}
+}
+#weekRail>.fixed-panel{height:auto;margin:0;border:0;border-radius:0;display:flex;flex-direction:column;min-height:0;padding:12px}
+#weekRail>#weekSettings{flex:0 1 auto;max-height:62%;overflow-y:auto;border-bottom:1px solid #4069a2;scrollbar-width:thin}
+#weekRail>#weekActivities{flex:1 1 0;min-height:145px;overflow:hidden}
+#weekRail .fixed-panel .fold-summary{display:block;flex:0 0 auto}
+#weekRail .fixed-panel .fold-summary h2{font-size:14px;line-height:1.3;margin:0;color:#eff7ff}
+#weekRail .fixed-panel .fold-content{border-top:1px solid #344c70;margin-top:10px;padding-top:10px;min-width:0}
+#weekRail #weekSettings .fold-content{flex:0 0 auto;min-height:auto;overflow:visible}
+#weekRail #weekSettings .row{flex-wrap:wrap}
+#weekRail #weekActivities .fold-content{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+#weekRail #weekActivities .event-list{max-height:none!important;overflow:visible!important}
+.library-mode .controls{grid-column:1;grid-row:1}
+@media(min-width:751px) and (max-width:1150px){
+ .layout{grid-template-columns:minmax(245px,30%) minmax(0,1fr)}
+ #weekRail{grid-column:1;grid-row:1 / span 2}
+ .preview{grid-column:2;grid-row:1;height:auto;max-height:60dvh;overflow-y:auto}
+ .controls{grid-column:2;grid-row:2;max-height:35dvh;overflow-y:auto}
+ .library-mode .controls{grid-column:1;grid-row:1;max-height:none}
+}
+@media(max-width:750px){
+ #weekRail{height:auto;max-height:none;overflow:visible}
+ #weekRail>#weekSettings{max-height:none;overflow:visible;flex:none}
+ #weekRail>#weekActivities{min-height:0;flex:none;max-height:none}
+ #weekRail #weekActivities .fold-content{max-height:300px}
+ .library-mode .controls{max-height:none}
+}
 </style></head><body class="hosted-booting"><main>
 <div class="eyebrow">AEROPUERTO INTERNACIONAL DE LA KGBLAZE · TERMINALES A Y B</div>
 <h1>Centro de Control Editorial</h1>
 <p class="intro">V.25 web · Agenda editorial conectada con Departures</p>
-<div class="editor-navigation"><a href="/departures/dashboard/">Agenda editorial</a><a href="/departures/dashboard/library/">Biblioteca de logotipos</a><a href="/departures/" target="_blank" rel="noopener">Departures ↗</a><label class="quick-token-label">Clave administrativa <input id="syncQuickToken" type="password" autocomplete="off" placeholder="Para guardar cambios" aria-label="Clave existente de Terminal"></label><span id="hostedSyncStatus" role="status">Conectando con D1…</span></div><div class="layout"><aside id="weekRail" aria-label="Actividades de la semana actual"></aside><div class="controls">
-<details class="card fold-panel ics-drop-target" id="calendarPanel"><summary class="fold-summary"><h2>1 · Calendario de Twitch</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
-<input id="fileUpload" type="file" accept=".ics,text/calendar,text/plain">
-<div class="image-dropzone ics-dropzone" id="calendarDropzone" role="button" tabindex="0" aria-label="Arrastrar archivo de calendario de Twitch o elegir archivo .ics"><strong>Importar un ICS nuevo</strong><small>Arrastra el archivo aquí o haz clic para seleccionarlo</small></div>
-<div class="statusbox" id="sourceStatus" aria-live="polite"></div>
-<p class="form-hint" id="icsPlatformsDefaultHint">Al importar ICS de Twitch se seleccionan YouTube y Twitch por defecto. YouTube no requiere una sala creada; puedes desmarcarlo manualmente para cada evento.</p>
-</div></details>
-<details class="card fold-panel" open><summary class="fold-summary"><h2>2 · Semana, idioma y HIATUS</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
+<div class="editor-navigation"><a href="/departures/dashboard/">Agenda editorial</a><a href="/departures/dashboard/library/">Biblioteca de logotipos</a><a href="/departures/" target="_blank" rel="noopener">Departures ↗</a><label class="quick-token-label">Clave administrativa <input id="syncQuickToken" type="password" autocomplete="off" placeholder="Para guardar cambios" aria-label="Clave existente de Terminal"></label><span id="hostedSyncStatus" role="status">Conectando con D1…</span></div><div class="layout"><aside id="weekRail" aria-label="Semana y actividades editoriales">
+<section id="weekSettings" class="card fixed-panel"><div class="fold-summary"><h2>Semana, idioma y HIATUS</h2></div><div class="fold-content">
 <div class="weekbar"><button id="prevWeek" type="button" title="Semana anterior">‹</button><select id="weekSelect" aria-label="Seleccionar semana"></select><button id="nextWeek" type="button" title="Semana siguiente">›</button></div>
 <div style="margin-top:12px"><label for="boardLang">Idioma del tablero y del PNG</label><select id="boardLang" aria-label="Idioma del tablero"><option value="es">Español</option><option value="en">English</option><option value="ja">日本語 / Japanese</option></select></div>
 <div style="margin-top:12px"><label for="updateDate">Última actualización</label>
@@ -147,7 +175,33 @@ h1{font-size:clamp(19px,2.3vw,28px);font-weight:800;margin:4px 0 3px;color:#ffff
 <p class="help" id="hiatusHint">Oculta los eventos sin borrarlos.</p></div>
 <div class="week-clear-zone"><label>Semana actual</label>
 <div class="row"><button type="button" class="danger" id="clearWeek">Vaciar semana</button><span class="help" id="clearWeekHint" style="flex:1">Oculta sus eventos sin borrarlos.</span></div></div>
-<div class="row" style="margin-top:10px"><span class="statusbox" style="flex:1" id="weekSummary"></span></div></div></details>
+<div class="row" style="margin-top:10px"><span class="statusbox" style="flex:1" id="weekSummary"></span></div></div></section>
+<section id="weekActivities" class="card fixed-panel"><div class="fold-summary"><h2>Actividades de la semana actual</h2></div><div class="fold-content"><div id="eventList" class="event-list"></div></div></section>
+</aside>
+<section class="card preview" aria-label="Vista previa de calendario"><div class="preview-top"><h2>Vista previa del tablero</h2><span>1080 × 1080 · PNG / GIF HQ</span></div>
+<canvas id="board" width="1080" height="1080" role="img" aria-label="Tablero de salidas de la semana seleccionada"></canvas>
+<div class="preview-actions"><button class="primary" type="button" id="download">⬇ Descargar PNG</button><div class="pages"><button id="prevPage" type="button" aria-label="Página anterior">‹</button><span id="pageLabel">1 / 1</span><button id="nextPage" type="button" aria-label="Página siguiente">›</button></div></div>
+<div class="gif-panel" id="gifPanel">
+  <h3 style="margin:0 0 8px">GIF multilingüe</h3>
+  
+  <div class="gif-options">
+    <label class="gif-lang"><input type="checkbox" name="gifLanguage" value="es" checked> Español</label>
+    <label class="gif-lang"><input type="checkbox" name="gifLanguage" value="en" checked> English</label>
+    <label class="gif-lang"><input type="checkbox" name="gifLanguage" value="ja"> 日本語</label>
+  </div>
+  <div class="gif-config"><label for="gifHold">Duración por idioma</label><select id="gifHold"><option value="10" selected>10 segundos</option><option value="15">15 segundos</option></select></div>
+  <div class="gif-export"><button type="button" id="downloadGif" class="primary">⬇ Descargar GIF HQ</button><button type="button" id="cancelGif" hidden>Cancelar GIF</button></div>
+  <p class="help" id="gifProgress" role="status" aria-live="polite"></p>
+</div>
+
+
+</section><div class="controls">
+<details class="card fold-panel ics-drop-target" id="calendarPanel"><summary class="fold-summary"><h2>1 · Calendario de Twitch</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
+<input id="fileUpload" type="file" accept=".ics,text/calendar,text/plain">
+<div class="image-dropzone ics-dropzone" id="calendarDropzone" role="button" tabindex="0" aria-label="Arrastrar archivo de calendario de Twitch o elegir archivo .ics"><strong>Importar un ICS nuevo</strong><small>Arrastra el archivo aquí o haz clic para seleccionarlo</small></div>
+<div class="statusbox" id="sourceStatus" aria-live="polite"></div>
+<p class="form-hint" id="icsPlatformsDefaultHint">Al importar ICS de Twitch se seleccionan YouTube y Twitch por defecto. YouTube no requiere una sala creada; puedes desmarcarlo manualmente para cada evento.</p>
+</div></details>
 <details class="card span-all fold-panel" id="editorPanel"><summary class="fold-summary"><h2 id="formHeading">3 · Añadir evento manual</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
 <form id="manualForm"><input type="hidden" id="editingId"><div class="formgrid">
 <div class="full"><label for="eventName">Nombre del vuelo / actividad</label><input id="eventName" type="text" maxlength="100" placeholder="Ej.: Estreno de Cake Song"></div>
@@ -173,9 +227,7 @@ h1{font-size:clamp(19px,2.3vw,28px);font-weight:800;margin:4px 0 3px;color:#ffff
 </div><p id="platformHint" class="help" style="margin-top:5px">Máximo 3 plataformas.</p></div>
 <div class="full row"><button class="primary" type="submit" id="saveEvent">＋ Añadir al tablero</button><button type="button" id="clearEventFields">Limpiar campos</button><button type="button" id="cancelEdit" hidden>Cancelar edición</button></div>
 </div></form></div></details>
-<details class="card span-all fold-panel" open><summary class="fold-summary"><h2>4 · Eventos de la semana y estados</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content"><div id="eventList" class="event-list"></div></div></details>
-
-  <details class="card span-all fold-panel" id="libraryPanel"><summary class="fold-summary"><h2>5 · Biblioteca de logotipos</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
+<details class="card span-all fold-panel" id="libraryPanel"><summary class="fold-summary"><h2>5 · Biblioteca de logotipos</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
     <p class="help">Los alias permiten encontrar logotipos automáticamente.</p>
     <div class="library-bar"><input id="librarySearch" type="search" placeholder="Buscar juegos, series o alias" aria-label="Buscar biblioteca"><span id="libraryCount" class="help"></span></div>
     <div class="library-list" id="libraryList"></div>
@@ -198,24 +250,7 @@ h1{font-size:clamp(19px,2.3vw,28px);font-weight:800;margin:4px 0 3px;color:#ffff
 
 <p class="help">Imagen para compartir <strong>/departures/</strong>: se genera siempre con la <strong>primera página</strong> de la <strong>semana vigente en México</strong>, en <strong>español y UTC−6</strong>, sin cambiar el idioma, la semana o la página que estás editando.</p><p class="statusbox" id="syncFeedback">Conectando con D1</p></div></details>
 </div>
-<section class="card preview" aria-label="Vista previa de calendario"><div class="preview-top"><h2>Vista previa del tablero</h2><span>1080 × 1080 · PNG / GIF HQ</span></div>
-<canvas id="board" width="1080" height="1080" role="img" aria-label="Tablero de salidas de la semana seleccionada"></canvas>
-<div class="preview-actions"><button class="primary" type="button" id="download">⬇ Descargar PNG</button><div class="pages"><button id="prevPage" type="button" aria-label="Página anterior">‹</button><span id="pageLabel">1 / 1</span><button id="nextPage" type="button" aria-label="Página siguiente">›</button></div></div>
-<div class="gif-panel" id="gifPanel">
-  <h3 style="margin:0 0 8px">GIF multilingüe</h3>
-  
-  <div class="gif-options">
-    <label class="gif-lang"><input type="checkbox" name="gifLanguage" value="es" checked> Español</label>
-    <label class="gif-lang"><input type="checkbox" name="gifLanguage" value="en" checked> English</label>
-    <label class="gif-lang"><input type="checkbox" name="gifLanguage" value="ja"> 日本語</label>
-  </div>
-  <div class="gif-config"><label for="gifHold">Duración por idioma</label><select id="gifHold"><option value="10" selected>10 segundos</option><option value="15">15 segundos</option></select></div>
-  <div class="gif-export"><button type="button" id="downloadGif" class="primary">⬇ Descargar GIF HQ</button><button type="button" id="cancelGif" hidden>Cancelar GIF</button></div>
-  <p class="help" id="gifProgress" role="status" aria-live="polite"></p>
-</div>
-
-
-</section></div></main>
+</div></main>
 <script>
 'use strict';
 const SAMPLE_ICS="BEGIN:VCALENDAR\nPRODID:-//twitch.tv//StreamSchedule//1.0\nVERSION:2.0\nCALSCALE:GREGORIAN\nREFRESH-INTERVAL;VALUE=DURATION:PT6H\nX-PUBLISHED-TTL:PT6H\nNAME:BlazeLeiton\nX-WR-CALNAME:BlazeLeiton\nBEGIN:VEVENT\nUID:21f410d8-c12c-4a18-9730-1710420df22e\nDTSTAMP:20261011T031654Z\nDTSTART;TZID=/America/Mexico_City:20261014T220000\nDTEND;TZID=/America/Mexico_City:20261015T010000\nSUMMARY:\nDESCRIPTION:Azur Lane.\nCATEGORIES:Azur Lane\nEND:VEVENT\nBEGIN:VEVENT\nUID:2464e0f9-86fe-4880-ab51-4de7280cf11e\nDTSTAMP:20261011T031735Z\nDTSTART;TZID=/America/Mexico_City:20261015T130000\nDTEND;TZID=/America/Mexico_City:20261015T150000\nSUMMARY:\nDESCRIPTION:Galaxies Showcase.\nCATEGORIES:Galaxies Showcase\nEND:VEVENT\nBEGIN:VEVENT\nUID:250d6252-c32c-4061-a69d-fe8a4cc18470\nDTSTAMP:20261011T031929Z\nDTSTART;TZID=/America/Mexico_City:20261020T220000\nDTEND;TZID=/America/Mexico_City:20261021T020000\nSUMMARY:\nDESCRIPTION:MiSide.\nCATEGORIES:MiSide\nEND:VEVENT\nBEGIN:VEVENT\nUID:306ddb27-c0d3-4030-bd9f-f7689b529582\nDTSTAMP:20261011T031548Z\nDTSTART;TZID=/America/Mexico_City:20261013T220000\nDTEND;TZID=/America/Mexico_City:20261014T020000\nSUMMARY:\nDESCRIPTION:Killer Chat!: Original Edition.\nCATEGORIES:Killer Chat!: Original Edition\nEND:VEVENT\nBEGIN:VEVENT\nUID:b04abe6e-a528-4af8-bb0c-5daf85a9956e\nDTSTAMP:20261011T031801Z\nDTSTART;TZID=/America/Mexico_City:20261016T220000\nDTEND;TZID=/America/Mexico_City:20261017T020000\nSUMMARY:\nDESCRIPTION:Azur Lane.\nCATEGORIES:Azur Lane\nEND:VEVENT\nBEGIN:VEVENT\nUID:db4d944d-1dab-498b-ae12-89edd6e449fa\nDTSTAMP:20261011T031938Z\nDTSTART;TZID=/America/Mexico_City:20261023T220000\nDTEND;TZID=/America/Mexico_City:20261024T020000\nSUMMARY:\nDESCRIPTION:MiSide.\nCATEGORIES:MiSide\nEND:VEVENT\nEND:VCALENDAR";
@@ -666,9 +701,7 @@ function updateEventListHeight(){
 window.addEventListener('resize',()=>{
  if($('eventList').querySelectorAll(':scope > .event').length>7)updateEventListHeight();
 });
-document.querySelector('#eventList').closest('details').addEventListener('toggle',ev=>{
- if(ev.target.open)updateEventListHeight();
-});
+// The fixed activity rail never toggles; render() and resize maintain its layout.
 function findEvent(id){return inWeek().find(e=>e.id===id)||mergedEvents().find(e=>e.id===id);}
 function resetForm(){ $('eventDay').disabled=false;$('eventTime').disabled=false;$('manualForm').reset();$('editingId').value='';$('formHeading').textContent='3 · Añadir evento manual';$('saveEvent').textContent='＋ Añadir al tablero';$('cancelEdit').hidden=true;$('eventDay').value=nextDay(state.week,0);$('eventTime').value='22:00';pendingEventLogoData='';refreshEventLogoOptions();$('eventLogoChoice').value='auto';updateEventLogoPreview();$('eventLogoUpload').value='';}
 function editEvent(id){const e=findEvent(id);if(!e)return;if(eventLocked(e)){alert('Esta salida tiene una emisión verificada; no puede editarse.');return;}$('editingId').value=id;$('formHeading').textContent=e.origin==='tw'?'3 · Personalizar evento importado de Twitch':e.origin==='hiatus'?'3 · Editar espacio de HIATUS':'3 · Editar evento manual';$('saveEvent').textContent='Guardar cambios';$('cancelEdit').hidden=false;$('eventName').value=e.title;$('eventNote').value=e.extra||'';$('eventDay').value=e.day;$('eventDay').disabled=false;$('eventTime').value=e.time||'';$('eventTime').disabled=false;$('eventCode').value=e.code||'';$('eventYouTubeUrl').value=e.videoId?'https://www.youtube.com/watch?v='+e.videoId:'';$('eventStatus').value=e.status;document.querySelectorAll('[name=platform]').forEach(ch=>ch.checked=e.platforms.includes(ch.value));pendingEventLogoData=e.logoData||'';refreshEventLogoOptions();$('eventLogoChoice').value=e.logoChoice||'auto';updateEventLogoPreview();$('eventLogoUpload').value='';$('editorPanel').open=true;$('manualForm').scrollIntoView({behavior:'smooth',block:'start'});}
@@ -1468,10 +1501,7 @@ async function hostedInitialize(){
   const data=await hostedGetPublic();
   hostedApplyRemote(data,true);
   hostedReady=true;document.body.classList.remove('hosted-booting');
-  const listPanel=document.getElementById('eventList').closest('details');
-  document.getElementById('weekRail').appendChild(listPanel);
-  listPanel.open=true;
-  listPanel.querySelector('h2').textContent='Actividades de la semana actual';
+  // Both permanent left-rail panels are present in DOM before D1 hydration.
   // Separate route for library; preserve the same V.25 library CRUD engine.
   const libraryPage=/\/departures\/dashboard\/library\/?$/.test(location.pathname);
   if(libraryPage){document.body.classList.add('library-mode');document.getElementById('libraryPanel').open=true;}

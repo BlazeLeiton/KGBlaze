@@ -38,6 +38,18 @@ test('V25 static asset really preserves original export and input engines',()=>{
  assert.ok(script&&script.length>100_000);
  assert.doesNotThrow(()=>new Function(script));
 });
+test('V25 fixed left rail has week settings above activities, with preview center and foldable tools at right',()=>{
+ const left=html.slice(html.indexOf('<aside id="weekRail"'),html.indexOf('</aside>')+8);
+ assert.match(left,/<section id="weekSettings" class="card fixed-panel">/);
+ assert.match(left,/<section id="weekActivities" class="card fixed-panel">/);
+ assert.ok(left.indexOf('id="weekSettings"')<left.indexOf('id="weekActivities"'));
+ assert.doesNotMatch(left,/<details|<summary/,'Permanent left-rail panels must not be collapsible');
+ assert.ok(html.indexOf('<section class="card preview"')<html.indexOf('<div class="controls">'),'Canvas precedes side tools in focus order');
+ assert.ok(html.includes('.preview{grid-column:2;grid-row:1}'));
+ assert.ok(html.includes('.controls{grid-column:3;grid-row:1}'));
+ assert.match(html, /<details class="card fold-panel ics-drop-target"/,'Right-side panels remain collapsible');
+ assert.ok(!html.includes("document.querySelector('#eventList').closest('details')"),'No obsolete event-list toggle listener');
+});
 test('Hosted canonical and library routes serve the SAME complete V25 and use secure headers',async()=>{
  const env=setup();
  for(const pathname of ['/departures/dashboard/','/departures/dashboard/library/']){
