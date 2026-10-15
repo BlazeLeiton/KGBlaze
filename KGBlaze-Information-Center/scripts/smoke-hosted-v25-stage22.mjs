@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
-import {EMPTY_AGENDA,currentMonday} from '../src/core.mjs';
+import {EMPTY_AGENDA,currentMonday,normalizeEditorial} from '../src/core.mjs';
 const ORIGIN='https://kgblaze.dpdns.org',TOKEN='SYNTHETIC-STAGE22-SECRET';
 const testDay=(()=>{
  const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'America/Mexico_City',
@@ -187,6 +187,64 @@ try{
  assert.equal(recovered.revision,5);assert.equal(recovered.status,'REPROGRAMADO');
  assert.match(recovered.notice,/PUBLICADO/);
  console.log('STAGE22 V25 PENDING AUTH RECOVERY',JSON.stringify(recovered));
+ // Regression: completed Twitch artwork was once silently reset to auto/''
+ // while publishing an unrelated, editable flight. D1 correctly rejected it.
+ const logo='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScL2WAAAAABJRU5ErkJggg==';
+ const completedId='tw:completed-artwork-guard';
+ const completedVideoId='JDkg-5tZ3G0';
+ const before=JSON.parse(db.row.editorial_json);
+ const completed={
+  id:completedId,origin:'twitch',day:testDay,time:'00:01',title:'Completed Twitch cover',
+  extra:'Keep original artwork',category:'Killer Chat!',platforms:['yt','tw'],
+  status:'A TIEMPO',logoChoice:'upload',logoData:logo,videoId:completedVideoId
+ };
+ const syncedAt=new Date(Date.now()-25*60*1000).toISOString();
+ db.row={...db.row,
+  editorial_json:JSON.stringify(normalizeEditorial({...before,events:[...before.events,completed]})),
+  sync_json:JSON.stringify({[completedId]:{youtube:{
+   source:'youtube_data_api_v3',verified:true,matchConfirmed:true,videoId:completedVideoId,
+   status:'completed',lifeCycleStatus:'complete',actualEndTime:syncedAt,endedAt:syncedAt,
+   checkedAt:new Date().toISOString()
+  }}})
+ };
+ await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/'});
+ const completedBoot=await callBrowser(async function(){
+  for(let i=0;i<120&&!(document.querySelector('#weekRail [data-event-status="tw:completed-artwork-guard"]'));i++)
+   await new Promise(r=>setTimeout(r,60));
+  const event=publicSnapshot().events.find(e=>e.id==='tw:completed-artwork-guard');
+  const select=document.querySelector('#weekRail [data-event-status="tw:completed-artwork-guard"]');
+  return {logoChoice:event?.logoChoice,hasOriginalImage:event?.logoData?.startsWith('data:image/png;base64,'),
+   locked:select?.disabled};
+ });
+ assert.equal(completedBoot.logoChoice,'upload');
+ assert.equal(completedBoot.hasOriginalImage,true);
+ assert.equal(completedBoot.locked,true,'Real completed flight must stay locked');
+ const unrelated=await callBrowser(async function(){
+  const key=document.getElementById('syncQuickToken');
+  key.value='SYNTHETIC-STAGE22-SECRET';key.dispatchEvent(new Event('input',{bubbles:true}));
+  const select=document.querySelector('#weekRail [data-event-status="man:stage22"]');
+  if(!select||select.disabled)return {error:'Ordinary flight cannot be edited'};
+  select.value='A TIEMPO';select.dispatchEvent(new Event('change',{bubbles:true}));
+  for(let i=0;i<120;i++){
+   await new Promise(r=>setTimeout(r,60));
+   const data=await(await fetch('/departures/api/public',{cache:'no-store'})).json();
+   if(data.revision===6)
+    return {revision:data.revision,status:data.events.find(e=>e.id==='man:stage22')?.status,
+     locked:data.events.find(e=>e.id==='tw:completed-artwork-guard'),
+     notice:document.getElementById('hostedSyncStatus').textContent};
+  }
+  return {error:document.getElementById('hostedSyncStatus').textContent};
+ });
+ assert.equal(unrelated.revision,6,'Unrelated edit must publish despite completed flight');
+ assert.equal(unrelated.status,'A TIEMPO');
+ assert.equal(unrelated.locked.logoChoice,'upload');
+ assert.equal(unrelated.locked.logoData,logo,'Completed event image bytes must survive publication');
+ assert.equal(unrelated.locked.videoId,completedVideoId);
+ assert.match(unrelated.notice,/PUBLICADO/);
+ console.log('STAGE22 COMPLETED ARTWORK PRESERVED',JSON.stringify({
+  revision:unrelated.revision,protectedEvent:unrelated.locked.id,
+  logoChoice:unrelated.locked.logoChoice,otherStatus:unrelated.status
+ }));
  await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/library/'});
  const libraryRoute=await callBrowser(async function(){
   for(let i=0;i<120&&!document.body.classList.contains('library-mode');i++)await new Promise(r=>setTimeout(r,50));
