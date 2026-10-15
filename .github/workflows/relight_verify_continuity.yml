@@ -17,6 +17,8 @@ on:
       - 'KGBlaze-Information-Center/tests/**'
       - 'KGBlaze-Information-Center/scripts/smoke-expanded-artwork.mjs'
       - 'KGBlaze-Information-Center/scripts/smoke-hosted-dashboard.mjs'
+      - 'KGBlaze-Information-Center/scripts/smoke-hosted-v25-stage22.mjs'
+      - 'KGBlaze-Information-Center/public/v25-web.html'
       - 'KGBlaze-Information-Center/src/**'
       - 'KGBlaze-Information-Center/public/index.html'
   workflow_dispatch:
@@ -47,3 +49,6 @@ jobs:
       - name: Verify hosted dashboard editing and shared library in real Chrome without production writes
         working-directory: KGBlaze-Information-Center
         run: node scripts/smoke-hosted-dashboard.mjs
+      - name: Verify full V25 web editing, PNG/GIF and shared library in Chrome with isolated D1
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/smoke-hosted-v25-stage22.mjs
