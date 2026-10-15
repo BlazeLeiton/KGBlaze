@@ -3,8 +3,9 @@
  * compatible with the public viewer. This is not the preflight response.
  *
  * The server alone may invoke this function. Client-provided "verified"
- * objects are never accepted as evidence. No completion without OAuth
- * liveBroadcasts.status.lifeCycleStatus === "complete".
+ * objects are never accepted as evidence. Completion requires authoritative
+ * videos.list actualStartTime + actualEndTime, liveBroadcastContent === 'none',
+ * trusted event identity and a fresh response; never infer an OAuth lifecycle.
  */
 import {buildYouTubePreflight} from './preflight.mjs';
 import {cdmxInstant} from './matcher.mjs';
@@ -12,7 +13,8 @@ import {cdmxInstant} from './matcher.mjs';
 const VIDEO_ID=/^[A-Za-z0-9_-]{11}$/;
 const STOP=new Set(['CANCELADO','DESCANSO','ESCALA','HIATUS']);
 const TRUSTED_SOURCE='youtube_data_api_v3';
-const COMPLETE_GRACE_MS=15*60*1000; // A verified end must survive Twitch-style restart grace.
+// YouTube actualEndTime + 'none' confirms finality: no Twitch-style grace.
+// Twitch-only retains its separate 15-minute reconnection guard in src/core.mjs.
 const checked=at=>typeof at==='string'&&/Z$/.test(at)&&Number.isFinite(Date.parse(at));
 export const editorialIdentity=e=>JSON.stringify([
  e?.day||'',e?.time||'',e?.title||'',e?.category||'',
@@ -66,14 +68,15 @@ export function buildTrustedYouTubeObservations(agenda,evidence,{
   let completion=null;
   // Video Data API exposes actualEndTime only after the broadcast ends.
   // 'none' + real start/end timestamps + owned channel + known video ID
-  // must agree. A missing LIVE sample or a vanished search result NEVER
-  // proves a completed broadcast. Observe 15 minutes of restart grace.
+  // must agree. A missing LIVE sample or vanished search result NEVER
+  // proves a completed broadcast. Once YouTube explicitly confirms its end,
+  // publish on this sync cycle without a Twitch-style restart delay.
   if(allowCompletion===true&&match.evidenceSignal==='ended_unverified'){
    const startMs=Date.parse(actualStart||''),endMs=Date.parse(completedAt||'');
    const identity=trustedCachedId(event,existingSync);
    if(identity===match.videoId&&checked(actualStart)&&checked(completedAt)&&
       Number.isFinite(startMs)&&Number.isFinite(endMs)&&
-      startMs<=endMs&&endMs<=now.getTime()-COMPLETE_GRACE_MS&&
+      startMs<=endMs&&endMs<=now.getTime()&&
       now.getTime()-endMs<=48*3600*1000&&
       s.liveBroadcastContent==='none'){
     status='completed';
