@@ -208,7 +208,7 @@ test('Wrangler-serialized __name helper remains valid in the browser script',asy
 
 test('Collab Padoru covers the entire Twitch category cell, but other artwork remains contained',async()=>{
  const padoru='/departures/assets/relight/art/Kirameki Riders.png';
- const catalogue=[...library,{id:'collab-padoru',name:'Collab Padoru',aliases:['Padoru','Collab Padoru'],img:padoru}];
+ const catalogue=[...library.filter(item=>item.id!=='padoru'),{id:'collab-padoru',name:'Collab Padoru',aliases:['Padoru','Collab Padoru'],img:padoru}];
  assert.match(VIEWER_CSS,/\.flight-category-box img\{[^}]*object-fit:contain/);
  assert.match(VIEWER_CSS,/\.flight-category-box img\.padoru-cover\{object-fit:cover;object-position:center\}/);
  const special=mount({id:'padoru-fill',category:'Just Chatting',title:'Collab Padoru',
