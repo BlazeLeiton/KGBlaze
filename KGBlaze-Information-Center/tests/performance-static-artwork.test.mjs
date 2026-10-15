@@ -77,3 +77,13 @@ test('Immutable content-versioned artwork is cacheable under portal and workers.
   assert.equal(await r.text(),'PNG');
  }
 });
+
+
+test('Read-only Stage 20 completion diagnostic never mutates public agenda',()=>{
+ const src=readFileSync(new URL('../scripts/audit-stage19-public-art.mjs',import.meta.url),'utf8');
+ assert.match(src,/STAGE20 AZUR COMPLETION/);
+ assert.match(src,/actualEndTime/);
+ assert.match(src,/completionEvidence/);
+ assert.doesNotMatch(src,/method\s*:\s*['"](?:POST|PUT|PATCH|DELETE)['"]/i);
+ assert.doesNotMatch(src,/Authorization\s*:/);
+});
