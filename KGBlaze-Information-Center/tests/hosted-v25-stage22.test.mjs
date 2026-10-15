@@ -95,3 +95,10 @@ test('Hosted edits distinguish local pending changes from published D1 and notif
  assert.match(viewer,/event\.data\?\.type==='published'/);
  assert.match(viewer,/30\*1000/);
 });
+
+test('Hosted serialization retains a published Twitch logo when no override exists',()=>{
+ assert.match(html,/logoChoice:v\.logoChoice!==undefined\?v\.logoChoice:\(e\.logoChoice\|\|'auto'\)/);
+ assert.match(html,/logoData:v\.logoData!==undefined\?v\.logoData:\(e\.logoData\|\|''\)/);
+ assert.match(html,/eventIds:Array\.isArray\(data\.eventIds\)/);
+ assert.match(html,/evento finalizado protegido/);
+});
