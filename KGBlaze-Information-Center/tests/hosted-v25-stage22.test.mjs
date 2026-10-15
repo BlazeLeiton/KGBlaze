@@ -83,3 +83,15 @@ test('Stage 21 remains available if V25 asset is missing/corrupt',async()=>{
  assert.equal(r.status,200);
  assert.match(await r.text(),/Centro de control editorial/);
 });
+
+test('Hosted edits distinguish local pending changes from published D1 and notify same-origin viewers',()=>{
+ assert.match(html,/NO PUBLICADO · introduce la clave administrativa/);
+ assert.match(html,/NO PUBLICADO · clave rechazada/);
+ assert.match(html,/beforeunload/);
+ assert.match(html,/hostedChannel\?\.postMessage\(\{type:'published',revision:hostedRevision\}\)/);
+ assert.match(html,/hostedAuthRejected=err\.status===401/);
+ const viewer=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+ assert.match(viewer,/BroadcastChannel\('kgblaze-editorial-v1'\)/);
+ assert.match(viewer,/event\.data\?\.type==='published'/);
+ assert.match(viewer,/30\*1000/);
+});

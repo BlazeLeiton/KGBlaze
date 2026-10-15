@@ -101,7 +101,7 @@ h1{font-size:clamp(19px,2.3vw,28px);font-weight:800;margin:4px 0 3px;color:#ffff
 .editor-navigation{display:flex;align-items:center;gap:12px;margin-bottom:9px;flex-wrap:wrap}
 .editor-navigation a{font-size:12px;color:#daf1ff;text-decoration:none;background:#133d7e;border:1px solid #4b85ca;border-radius:6px;padding:5px 10px}
 .editor-navigation a:hover{background:#2558a5}
-#hostedSyncStatus{color:#b6f0dd;font-size:12px}.quick-token-label{display:flex;align-items:center;gap:6px;margin:0 0 0 auto;color:#cedeff;font-size:11px}.quick-token-label input{width:190px;font-size:12px;padding:5px 7px;border:1px solid #6490cc;border-radius:6px}#syncPublish{display:none!important}body.hosted-booting .layout{pointer-events:none;opacity:.6}
+#hostedSyncStatus{color:#b6f0dd;font-size:12px;font-weight:700;max-width:100%}#hostedSyncStatus[data-state="pending"]{color:#ffe49b}#hostedSyncStatus[data-state="error"]{color:#ffb3b3}#hostedSyncStatus[data-state="readonly"]{color:#d4dfff}.quick-token-label{display:flex;align-items:center;gap:6px;margin:0 0 0 auto;color:#cedeff;font-size:11px}.quick-token-label input{width:190px;font-size:12px;padding:5px 7px;border:1px solid #6490cc;border-radius:6px}#syncPublish{display:none!important}body.hosted-booting .layout{pointer-events:none;opacity:.6}
 .layout{grid-template-columns:minmax(225px,21%) minmax(340px,1fr) minmax(340px,39%);min-height:0;flex:1;gap:12px;align-items:stretch}
 #weekRail,.controls,.preview{height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 #weekRail{border:1px solid #315a9c;border-radius:10px;padding:0;overflow:hidden;display:flex;flex-direction:column;background:#0c2855}
@@ -274,7 +274,7 @@ const STORE='kgblaze_terminal_board_v3_202610';
 const LEGACY_STORE='kgblaze_terminalb_board_v3_202610'; // migración automática: reutiliza las personalizaciones de v19
 const $=id=>document.getElementById(id);
 const canvas=$('board'),ctx=canvas.getContext('2d');
-let hostedReady=false,hostedDirty=false,hostedPublishing=false,hostedBlocked=false,hostedRevision=null,hostedLastSnapshot="",hostedTimer=null;
+let hostedReady=false,hostedDirty=false,hostedPublishing=false,hostedBlocked=false,hostedAuthRejected=false,hostedRevision=null,hostedLastSnapshot="",hostedTimer=null;
 const state={twitch:[],manual:[],overrides:{},streamSync:{},broadcastLocks:{},hiatusWeeks:{},clearedWeeks:{},lang:'es',week:'2026-10-12',page:0,source:'',calendar:'',libraryChanges:{},libraryCustom:[],lastUpdated:'2026-10-11'}; // fecha inicial según el DTSTAMP de la copia .ics incluida
 let pendingEventLogoData='';
 let pendingLibraryImage='';
@@ -1407,6 +1407,13 @@ $('syncPreviewUpload').addEventListener('click',async()=>{
 
 /* Cloud-hosted bridge: remote D1 is the only shared editorial source. */
 const hostedStatus=document.getElementById('hostedSyncStatus');
+const hostedChannel=typeof BroadcastChannel==='function'?new BroadcastChannel('kgblaze-editorial-v1'):null;
+function hostedSetStatus(kind,message){hostedStatus.dataset.state=kind;hostedStatus.textContent=message;}
+window.addEventListener('beforeunload',event=>{
+ if(hostedReady&&(hostedDirty||hostedPublishing||hostedBlocked)){
+  event.preventDefault();event.returnValue='';
+ }
+});
 function hostedCurrentWeek(){
  const z=zoneFields(Date.now());
  return monday(String(z.year)+'-'+String(z.month).padStart(2,'0')+'-'+String(z.day).padStart(2,'0'));
@@ -1440,26 +1447,31 @@ function hostedApplyRemote(data,first=false){
  hostedLastSnapshot=hostedSignature(publicSnapshot());
  document.getElementById('sourceStatus').textContent='Agenda D1 · '+data.events.length+' actividades · sincronización activa';
  renderLibrary();refreshEventLogoOptions();render();
- hostedStatus.textContent='D1 · revisión '+hostedRevision+' · sincronizado';
+ hostedSetStatus(document.getElementById('syncPrivateToken').value.trim()?'synced':'readonly',
+  'D1 · revisión '+hostedRevision+(document.getElementById('syncPrivateToken').value.trim()?' · sincronizado':' · solo lectura: introduce clave para publicar'));
 }
 function hostedQueueSync(){
- if(!hostedReady||hostedBlocked)return;
+ if(!hostedReady)return;
  const body=publicSnapshot();
  if(hostedSignature(body)===hostedLastSnapshot)return;
  hostedDirty=true;
- hostedStatus.textContent='Cambio pendiente · guardado automático';
+ const hasKey=!!document.getElementById('syncPrivateToken').value.trim();
+ hostedSetStatus(hostedBlocked?'error':'pending',
+  hostedBlocked?'NO PUBLICADO · conflicto o error; exporta respaldo':
+  hostedAuthRejected?'NO PUBLICADO · corrige la clave administrativa':
+  hasKey?'Cambio pendiente · guardando en D1…':'NO PUBLICADO · introduce la clave administrativa de arriba');
  clearTimeout(hostedTimer);
- hostedTimer=setTimeout(()=>{void hostedCommit();},700);
+ if(!hostedBlocked&&!hostedAuthRejected&&hasKey)hostedTimer=setTimeout(()=>{void hostedCommit();},700);
 }
 async function hostedCommit(){
- if(!hostedReady||!hostedDirty||hostedPublishing||hostedBlocked)return;
+ if(!hostedReady||!hostedDirty||hostedPublishing||hostedBlocked||hostedAuthRejected)return;
  const auth=document.getElementById('syncPrivateToken').value.trim();
  if(!auth){
-  hostedStatus.textContent='Pendiente · introduce la clave existente para sincronizar';
+  hostedSetStatus('pending','NO PUBLICADO · introduce la clave administrativa de arriba');
   return;
  }
  hostedPublishing=true;hostedDirty=false;
- hostedStatus.textContent='Publicando cambios…';
+ hostedSetStatus('pending','Publicando cambios en D1…');
  const agenda=publicSnapshot();const sent=hostedSignature(agenda);
  const baseRevision=hostedRevision;
  try{
@@ -1472,25 +1484,35 @@ async function hostedCommit(){
   if(!res.ok)throw Object.assign(new Error(data.error||('HTTP '+res.status)),{status:res.status});
   hostedRevision=data.revision;hostedLastSnapshot=sent;
   terminalRemoteRevision=data.revision;terminalRemoteEditorial=agenda;
-  hostedStatus.textContent='Publicado · revisión '+hostedRevision;
+  hostedSetStatus('synced','PUBLICADO · revisión '+hostedRevision+' · Departures actualizado');
   document.getElementById('syncFeedback').textContent='Cambios publicados automáticamente · revisión '+hostedRevision;
+  hostedChannel?.postMessage({type:'published',revision:hostedRevision});
  }catch(err){
-  hostedDirty=true;hostedBlocked=true;
-  hostedStatus.textContent='Error al publicar · '+err.message+' · exporta respaldo antes de recargar';
+  hostedDirty=true;
+  hostedAuthRejected=err.status===401;
+  hostedBlocked=!hostedAuthRejected;
+  hostedSetStatus('error',hostedAuthRejected
+   ?'NO PUBLICADO · clave rechazada. Corrígela para reintentar sin perder los cambios.'
+   :'NO PUBLICADO · '+err.message+' · exporta respaldo antes de recargar');
   document.getElementById('syncFeedback').textContent=hostedStatus.textContent;
  }finally{
   hostedPublishing=false;
-  if(!hostedBlocked&&hostedSignature(publicSnapshot())!==hostedLastSnapshot){hostedDirty=true;hostedQueueSync();}
+  if(!hostedBlocked&&!hostedAuthRejected&&hostedSignature(publicSnapshot())!==hostedLastSnapshot){hostedDirty=true;hostedQueueSync();}
  }
 }
 // Unlike the old optional publish action, there is no confirmation of each normal edit.
 // The old controls are retained only as a manual retry/inspection interface.
-document.getElementById('syncPrivateToken').addEventListener('change',()=>{
+document.getElementById('syncPrivateToken').addEventListener('change',e=>{
+ document.getElementById('syncQuickToken').value=e.target.value;
+ hostedAuthRejected=false;
  if(hostedDirty&&!hostedBlocked)void hostedCommit();
 });
 document.getElementById('syncQuickToken').addEventListener('input',e=>{
  document.getElementById('syncPrivateToken').value=e.target.value;
+ hostedAuthRejected=false;
  if(hostedDirty&&!hostedBlocked)void hostedCommit();
+ else if(hostedReady&&!hostedBlocked)hostedSetStatus(e.target.value.trim()?'synced':'readonly',
+  'D1 · revisión '+hostedRevision+(e.target.value.trim()?' · lista para publicar':' · solo lectura: introduce clave para publicar'));
 });
 async function hostedPoll(){
  if(!hostedReady||hostedDirty||hostedPublishing||hostedBlocked||document.hidden)return;
@@ -1513,6 +1535,7 @@ async function hostedInitialize(){
   document.getElementById('calendarPanel').open=false;
   render();
   setInterval(()=>{void hostedPoll();},30000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)void hostedPoll();});
  }catch(err){
   hostedStatus.textContent='Error D1 · no se permite publicar: '+err.message;
   document.getElementById('syncFeedback').textContent=hostedStatus.textContent;

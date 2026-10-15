@@ -569,11 +569,20 @@ async function refreshPublishedAgenda(){
  try{const response=await fetch('/api/public',{cache:'no-cache'});if(response.ok){const d=await response.json();if(d?.schema==='relight-public-v1'&&Array.isArray(d.events))loadPublicData(d);}}
  catch(err){/* A failed fetch does not cancel, reschedule or overwrite the last published agenda. */}
 }
+// A successful authenticated edit in another tab prompts an immediate public GET.
+// No credentials or private agenda data are ever passed over this channel.
+const liveEditorialChannel=typeof BroadcastChannel==='function'?new BroadcastChannel('kgblaze-editorial-v1'):null;
+if(liveEditorialChannel)liveEditorialChannel.onmessage=event=>{
+ if(event.data?.type==='published')void refreshPublishedAgenda();
+};
 async function boot(){bind();state.week=currentMonday();state.lang='es';loadPublicData(BOOT_DATA);await Promise.allSettled([document.fonts.load('400 16px Garnett'),document.fonts.load('600 16px Garnett'),document.fonts.load('500 32px MuseoModerno'),document.fonts.load('400 25px "Noto Sans JP Project"')]);render();
  await refreshPublishedAgenda();
  // The viewer polls only the already published read-only JSON, never Twitch/YouTube directly.
  // A separate private server is needed to refresh that JSON from platform APIs.
- if(location.protocol.startsWith('http'))setInterval(()=>refreshPublishedAgenda(),90*1000);
+ if(location.protocol.startsWith('http')){
+  setInterval(()=>{if(!document.hidden)void refreshPublishedAgenda();},30*1000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refreshPublishedAgenda();});
+ }
  setInterval(()=>render(),60*1000);
 }
 
