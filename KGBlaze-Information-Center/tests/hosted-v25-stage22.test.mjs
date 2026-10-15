@@ -45,10 +45,10 @@ test('V25 fixed left rail has week settings above activities, with preview cente
  assert.ok(left.indexOf('id="weekSettings"')<left.indexOf('id="weekActivities"'));
  assert.doesNotMatch(left,/<details|<summary/,'Permanent left-rail panels must not be collapsible');
  assert.ok(html.indexOf('<section class="card preview"')<html.indexOf('<div class="controls">'),'Canvas precedes side tools in focus order');
- assert.match(html, /\\.preview\\{grid-column:2;grid-row:1\\}/);
- assert.match(html, /\\.controls\\{grid-column:3;grid-row:1\\}/);
+ assert.ok(html.includes('.preview{grid-column:2;grid-row:1}'));
+ assert.ok(html.includes('.controls{grid-column:3;grid-row:1}'));
  assert.match(html, /<details class="card fold-panel ics-drop-target"/,'Right-side panels remain collapsible');
- assert.doesNotMatch(html,/document\\.querySelector\\('#eventList'\\)\\.closest\\('details'\\)/,'No obsolete event-list toggle listener');
+ assert.ok(!html.includes("document.querySelector('#eventList').closest('details')"),'No obsolete event-list toggle listener');
 });
 test('Hosted canonical and library routes serve the SAME complete V25 and use secure headers',async()=>{
  const env=setup();
