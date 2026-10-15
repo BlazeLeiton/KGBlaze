@@ -25,8 +25,10 @@ YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
 YOUTUBE_SYNC_ENABLED = "true"
 # Stage 20: user-requested automatic DESPEGÓ with verified YouTube ending.
-# Require videos.list actualEndTime + channel/identity match + state 'none'
-# + 15-minute grace; missing/offline evidence is never sufficient.
+# Require videos.list actualEndTime + channel/identity match + state 'none'.
+# YouTube confirmation is effective immediately on the next 5-minute Cron;
+# the 15-minute reconnection grace is Twitch-only, never applied to YouTube.
+# Missing/offline evidence is never sufficient.
 # Emergency stop: change this flag to false or pause Stage 7 Cron.
 YOUTUBE_COMPLETION_ENABLED = "true"
 
