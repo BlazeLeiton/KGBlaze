@@ -193,9 +193,30 @@ export default {
    const routed=routePortalRequest(req);
    if(routed.response)return routed.response;
    const dashboardPath=new URL(routed.request.url).pathname;
-   if(dashboardPath==='/dashboard/'||dashboardPath==='/dashboard'){
+   if(['/dashboard/','/dashboard','/dashboard/library/'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
-    return new Response(req.method==='HEAD'?null:DASHBOARD_HTML,{
+    // Stage 22: use the reviewed V.25 adaptation as an immutable
+    // Cloudflare static asset. Until it has been supplied, retain the
+    // fully functional Stage 21 dashboard; never serve a partial V.25.
+    let hostedHtml=null;
+    if(env.ASSETS){
+     const assetUrl=new URL('/v25-web.html',routed.request.url);
+     try{
+      const candidate=await env.ASSETS.fetch(new Request(assetUrl,{
+       method:'GET'
+      }));
+      if(candidate.status===200 &&
+       (candidate.headers.get('Content-Type')||'').includes('text/html')){
+       const html=await candidate.text();
+       if(html.includes('Centro de Control Editorial')&&
+          html.includes('hostedInitialize')&&
+          html.includes('libraryCustom')&&
+          html.includes('downloadGif')&&!html.includes('data:font/'))
+         hostedHtml=html;
+      }
+     }catch{/* keep stable Stage 21 fallback */}
+    }
+    return new Response(req.method==='HEAD'?null:hostedHtml||DASHBOARD_HTML,{
      status:200,headers:{
       'Content-Type':'text/html; charset=utf-8',
       'Cache-Control':'no-store, no-cache, must-revalidate',
@@ -203,7 +224,7 @@ export default {
       'X-Content-Type-Options':'nosniff',
       'Referrer-Policy':'no-referrer',
       'X-Frame-Options':'DENY',
-      'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
+      'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
      }
     });
    }
