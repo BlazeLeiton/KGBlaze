@@ -8,11 +8,17 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {EMPTY_AGENDA,currentMonday} from '../src/core.mjs';
 const ORIGIN='https://kgblaze.dpdns.org',TOKEN='SYNTHETIC-STAGE22-SECRET';
+const testDay=(()=>{
+ const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'America/Mexico_City',
+ year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date())
+ .filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
+ return p.year+'-'+p.month+'-'+p.day;
+})();
 const v25=readFileSync(new URL('../public/v25-web.html',import.meta.url),'utf8');
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 const db={
  row:{revision:2,editorial_json:JSON.stringify({...EMPTY_AGENDA(),events:[
-  {id:'man:stage21',origin:'manual',day:currentMonday(),time:'22:00',title:'Killer Chat Test',category:'Killer Chat',platforms:['yt'],status:'POR CONFIRMAR',logoChoice:'auto',logoData:''}
+  {id:'man:stage22',origin:'manual',day:testDay,time:'23:55',title:'Killer Chat Test',category:'Killer Chat',platforms:['yt'],status:'POR CONFIRMAR',logoChoice:'auto',logoData:''}
  ],libraryCustom:[],libraryChanges:{}}),sync_json:'{}',updated_at:new Date().toISOString()},
  prepare(sql){
   if(sql.startsWith('SELECT'))return {first:async()=>this.row};
