@@ -64,11 +64,29 @@ try{
  socket=new WebSocket(tab.webSocketDebuggerUrl);
  await new Promise((resolve,reject)=>{socket.addEventListener('open',resolve,{once:true});socket.addEventListener('error',reject,{once:true});});
  let counter=0;const pending=new Map();
- socket.addEventListener('message',evt=>{const m=JSON.parse(evt.data);if(!m.id)return;const p=pending.get(m.id);if(!p)return;pending.delete(m.id);m.error?p.reject(Error(JSON.stringify(m.error))):p.resolve(m.result);});
- const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++counter;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params}));});
+ socket.addEventListener('message',evt=>{
+  const m=JSON.parse(evt.data);
+  if(m.method==='Page.javascriptDialogOpening'){
+   console.error('STAGE22 UNEXPECTED BROWSER DIALOG:',JSON.stringify(m.params));
+   socket.send(JSON.stringify({id:++counter,method:'Page.handleJavaScriptDialog',params:{accept:false}}));
+   return;
+  }
+  if(!m.id)return;const p=pending.get(m.id);if(!p)return;
+  pending.delete(m.id);m.error?p.reject(Error(JSON.stringify(m.error))):p.resolve(m.result);
+ });
+ const send=(method,params={})=>new Promise((resolve,reject)=>{
+  const id=++counter;
+  const watchdog=setTimeout(()=>{
+   pending.delete(id);reject(Error('CDP timeout after 20s: '+method));
+  },20000);
+  pending.set(id,{resolve:value=>{clearTimeout(watchdog);resolve(value);},
+   reject:error=>{clearTimeout(watchdog);reject(error);}});
+  socket.send(JSON.stringify({id,method,params}));
+ });
  const evaluate=async expression=>{const result=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(result.exceptionDetails)throw Error('Chrome Runtime error '+JSON.stringify(result.exceptionDetails));return result.result?.value;};
  const callBrowser=fn=>evaluate('('+fn.toString()+')()');
- await send('Page.enable');await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/'});
+ await send('Page.enable');console.log('STAGE22 CDP navigate');await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/'});
+ console.log('STAGE22 CDP evaluate boot');
  const boot=await callBrowser(async function(){
   for(let i=0;i<130&&!document.querySelector('#hostedSyncStatus')?.textContent.includes('sincronizado');i++)
    await new Promise(r=>setTimeout(r,50));
@@ -84,6 +102,7 @@ try{
  assert.ok(boot.noPageScroll,'Desktop page should fit its browsing window');
  assert.ok(boot.controls,'Both original PNG and GIF controls are required');
  console.log('STAGE22 V25 BOOT',JSON.stringify(boot));
+ console.log('STAGE22 CDP evaluate edit');
  const edit=await callBrowser(async function(){
   const key=document.getElementById('syncQuickToken');
   key.value='SYNTHETIC-STAGE22-SECRET';
@@ -100,6 +119,7 @@ try{
  });
  assert.equal(edit.status,'A TIEMPO');assert.equal(edit.revision,3);
  console.log('STAGE22 V25 AUTO-PUBLISH',JSON.stringify(edit));
+ console.log('STAGE22 CDP evaluate library');
  const lib=await callBrowser(async function(){
   document.getElementById('libraryName').value='Collab Padoru';
   document.getElementById('libraryAliases').value='padoru, collab padoru';
@@ -123,6 +143,7 @@ try{
  });
  assert.equal(lib.revision,4);assert.ok(lib.size>50);
  console.log('STAGE22 V25 SHARED LIBRARY',JSON.stringify(lib));
+ console.log('STAGE22 CDP evaluate anonymous denial');
  const anon=await callBrowser(async function(){
   const key=document.getElementById('syncQuickToken');
   key.value='';key.dispatchEvent(new Event('input',{bubbles:true}));
