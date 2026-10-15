@@ -24,6 +24,11 @@ const fixture={schema:'relight-public-v1',sourceNote:'Local CI fixture',events:[
   status:'A TIEMPO',origin:'manual',logoChoice:'auto',platforms:['yt','tw']}
 ],libraryChanges:{},libraryCustom:[],hiatusWeeks:{},clearedWeeks:{},sync:{}};
 let html=readFileSync(resolve('public/index.html'),'utf8');
+// This smoke opens the page via file:// (no Worker). Point the new shared PNG
+// assets to their ACTUAL local files; production still uses /departures/assets/.
+const offlineAssetBase=new URL('../public/assets/relight/art/',import.meta.url).href;
+assert.match(html,/const BUILTIN_ART_BASE=[^\\n]+;/);
+html=html.replace(/const BUILTIN_ART_BASE=[^\\n]+;/,'const BUILTIN_ART_BASE='+JSON.stringify(offlineAssetBase)+';');
 const boot=/const BOOT_DATA=\{[\s\S]*?\};(?=\s*async function refreshPublishedAgenda)/;
 assert.match(html,boot);
 html=html.replace(boot,()=>`const BOOT_DATA=${JSON.stringify(fixture)};`);
