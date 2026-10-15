@@ -40,6 +40,9 @@ jobs:
       - name: Run Terminal core, Worker and viewer regression tests (no deployment)
         working-directory: KGBlaze-Information-Center
         run: npm test
+      - name: Verify full V25 web editing, PNG/GIF and shared library in Chrome with isolated D1
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/smoke-hosted-v25-stage22.mjs
       - name: Stage 19 read-only public artwork diagnostic (non-blocking)
         working-directory: KGBlaze-Information-Center
         run: node scripts/audit-stage19-public-art.mjs
@@ -49,6 +52,3 @@ jobs:
       - name: Verify hosted dashboard editing and shared library in real Chrome without production writes
         working-directory: KGBlaze-Information-Center
         run: node scripts/smoke-hosted-dashboard.mjs
-      - name: Verify full V25 web editing, PNG/GIF and shared library in Chrome with isolated D1
-        working-directory: KGBlaze-Information-Center
-        run: node scripts/smoke-hosted-v25-stage22.mjs
