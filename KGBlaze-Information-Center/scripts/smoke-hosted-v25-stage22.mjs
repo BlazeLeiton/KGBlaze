@@ -120,6 +120,36 @@ try{
  assert.ok(boot.geometry.settings.y<boot.geometry.activities.y,'Week settings must appear above the weekly activity list');
  assert.ok(boot.geometry.settings.h>100&&boot.geometry.activities.h>100,'Both fixed left-rail panels must be visible');
  console.log('STAGE22 V25 BOOT',JSON.stringify(boot));
+ console.log('STAGE22 CDP verify Edit scroll isolation');
+ const editNavigation=await callBrowser(async function(){
+  const nav=document.querySelector('.editor-navigation');
+  const pane=document.querySelector('.controls');
+  const beforePageY=window.scrollY, beforeNavTop=nav.getBoundingClientRect().top;
+  const beforeToolsY=pane.scrollTop;
+  const button=document.querySelector('#weekRail [data-edit="man:stage22"]');
+  if(!button)return {error:'Test flight Edit button absent'};
+  button.click();
+  await new Promise(r=>setTimeout(r,1000));
+  const form=document.getElementById('manualForm').getBoundingClientRect();
+  const panel=document.getElementById('editorPanel');
+  return {beforePageY,afterPageY:window.scrollY,beforeNavTop,
+   afterNavTop:nav.getBoundingClientRect().top,
+   beforeToolsY,afterToolsY:pane.scrollTop,
+   editorOpen:panel.open,formTop:form.top,
+   toolsTop:pane.getBoundingClientRect().top,
+   toolsBottom:pane.getBoundingClientRect().bottom};
+ });
+ assert.equal(editNavigation.afterPageY,editNavigation.beforePageY,
+  'Edit must never scroll the desktop document away from the administrative key');
+ assert.equal(editNavigation.afterNavTop,editNavigation.beforeNavTop,
+  'Editorial navigation and publication status must stay visible');
+ assert.equal(editNavigation.editorOpen,true,'Edit should expand the right form');
+ assert.ok(editNavigation.afterToolsY>editNavigation.beforeToolsY,
+  'Only the tools column should scroll toward the editor form');
+ assert.ok(editNavigation.formTop>=editNavigation.toolsTop-3 &&
+  editNavigation.formTop<=editNavigation.toolsBottom,
+  'Editor form should be visible inside the tools viewport');
+ console.log('STAGE22 V25 EDIT SCROLL ISOLATED',JSON.stringify(editNavigation));
  console.log('STAGE22 CDP evaluate edit');
  const edit=await callBrowser(async function(){
   const key=document.getElementById('syncQuickToken');
