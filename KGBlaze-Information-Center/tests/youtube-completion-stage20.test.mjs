@@ -53,11 +53,32 @@ test('Verified YouTube video completion drives DESPEGÓ without manual editing',
  assert.equal(merged.changed,1);
  assert.equal(merged.next[EVENT].youtube.status,'completed');
 });
-test('Restart/disconnect grace: 14m59s cannot finalize, 15m can',()=>{
- const at=new Date(Date.parse(END)+899000);
- assert.equal(complete(calculate({now:at,ev:evidence([broadcast()],{fetchedAt:at.toISOString()})})),undefined);
- const exact=new Date(Date.parse(END)+900000);
- assert.equal(complete(calculate({now:exact,ev:evidence([broadcast()],{fetchedAt:exact.toISOString()})})).status,'completed');
+test('YouTube actualEndTime finalizes at once, without a 15-minute Twitch grace',()=>{
+ for(const offsetMs of [0,1_000,60_000,4*60_000,5*60_000,14*60_000+59_000]){
+  const now=new Date(Date.parse(END)+offsetMs);
+  const result=calculate({now,ev:evidence([broadcast()],{fetchedAt:now.toISOString()})});
+  assert.equal(complete(result)?.status,'completed','elapsed milliseconds '+offsetMs);
+  assert.equal(complete(result)?.completionEvidence,'videos_list_actual_end_time');
+ }
+ const early=new Date(Date.parse(END)-1);
+ assert.equal(complete(calculate({now:early,ev:evidence([broadcast()],{fetchedAt:early.toISOString()})})),undefined,
+  'A future end time cannot be accepted even one millisecond ahead');
+});
+test('Twitch-only retains its independent 15-minute confirmed-restart guard',()=>{
+ const endedAt=END;
+ const twitchOnly=event({platforms:['tw'],videoId:undefined});
+ const sync={twitch:{status:'completed',matchConfirmed:true,endedAt}};
+ assert.equal(finalization(twitchOnly,sync,Date.parse(END)+899000),null);
+ assert.equal(finalization(twitchOnly,sync,Date.parse(END)+900000)?.reason,'twitch_grace_elapsed');
+});
+test('Dual-platform event waits for its verified YouTube room even if Twitch ended',()=>{
+ const stream=event();
+ const obs={youtube:previous()[EVENT].youtube,twitch:{status:'completed',matchConfirmed:true,endedAt:END}};
+ assert.equal(finalization(stream,obs,Date.parse(END)+900_000),null,
+  'Do not close an active matched YouTube broadcast on a Twitch-only signal');
+ const now=new Date(Date.parse(END)+5_000);
+ const completed=complete(calculate({now,ev:evidence([broadcast()],{fetchedAt:now.toISOString()})}));
+ assert.equal(finalization(stream,{...obs,youtube:completed},now.getTime())?.reason,'youtube_complete');
 });
 test('Identity, verified channel and provider freshness are mandatory',()=>{
  const cases=[
