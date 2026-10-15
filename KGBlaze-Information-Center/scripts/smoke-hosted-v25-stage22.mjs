@@ -30,10 +30,16 @@ const db={
   throw Error('SQL unexpected '+sql);
  }
 };
-const env={DB:db,ADMIN_TOKEN:TOKEN,ASSETS:{fetch:async req=>new Response(
-  req.url.endsWith('/v25-web.html')?v25:'<!doctype html><title>Public viewer mock</title>',
-  {status:200,headers:{'Content-Type':'text/html; charset=utf-8'}}
-)}};
+const env={DB:db,ADMIN_TOKEN:TOKEN,ASSETS:{fetch:async req=>{
+ const path=new URL(req.url).pathname;
+ if(/^\/assets\/relight\/art\/[a-z0-9-]+\.png$/.test(path)){
+  const file=path.slice(path.lastIndexOf('/')+1);
+  return new Response(readFileSync(new URL('../public/assets/relight/art/'+file,import.meta.url)),
+   {status:200,headers:{'Content-Type':'image/png'}});
+ }
+ return new Response(req.url.endsWith('/v25-web.html')?v25:'<!doctype html><title>Public viewer mock</title>',
+  {status:200,headers:{'Content-Type':'text/html; charset=utf-8'}});
+}}};
 let server,chrome,socket,dir;
 try{
  server=createServer(async(req,res)=>{
@@ -170,10 +176,14 @@ try{
  const libraryRoute=await callBrowser(async function(){
   for(let i=0;i<120&&!document.body.classList.contains('library-mode');i++)await new Promise(r=>setTimeout(r,50));
   const library=document.getElementById('libraryPanel');
+  let first=null;
+  for(let i=0;i<100&&!(first=document.querySelector('#libraryList .library-item img'));i++)await new Promise(r=>setTimeout(r,50));
+  if(first)try{await first.decode();}catch{}
   return {active:document.body.classList.contains('library-mode'),visible:!!library&&getComputedStyle(library).display!=='none',
+   firstArtworkLoaded:!!first&&first.naturalWidth>0,
    railHidden:getComputedStyle(document.getElementById('weekRail')).display==='none'};
  });
- assert.ok(libraryRoute.active&&libraryRoute.visible&&libraryRoute.railHidden);
+ assert.ok(libraryRoute.active&&libraryRoute.visible&&libraryRoute.railHidden&&libraryRoute.firstArtworkLoaded,'Original PNG asset must decode in real Chrome');
  console.log('STAGE22 V25 LIBRARY ROUTE',JSON.stringify(libraryRoute));
  console.log('STAGE22 V25 BROWSER PASS: original V25 workspace, auto D1, library and auth isolated');
 
