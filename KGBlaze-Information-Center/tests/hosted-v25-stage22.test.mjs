@@ -20,7 +20,7 @@ const setup=()=>({
  }
 });
 test('V25 static asset really preserves original export and input engines',()=>{
- assert.ok(html.length>1_000_000);
+ assert.ok(html.length>100_000 && html.length<400_000,'25 PNG originals are now external reusable assets');
  assert.ok(html.includes('Centro de Control Editorial'));
  assert.ok(html.includes('BASE_ACTIVITY_LOGOS'));
  assert.ok(html.includes('function parseICS('));
@@ -55,7 +55,7 @@ test('Hosted canonical and library routes serve the SAME complete V25 and use se
  for(const pathname of ['/departures/dashboard/','/departures/dashboard/library/']){
   const r=await worker.fetch(new Request(host+pathname),env);
   assert.equal(r.status,200);
-  assert.match(r.headers.get('Cache-Control')||'',/no-store/);
+  assert.match(r.headers.get('Cache-Control')||'',/no-cache/);
   assert.match(r.headers.get('Content-Security-Policy')||'',/frame-ancestors 'none'/);
   assert.match(r.headers.get('Content-Security-Policy')||'',/img-src[^;]*blob:/,'V25 input images use temporary blob: URLs');
   assert.match(await r.text(),/function hostedInitialize\(\)/);

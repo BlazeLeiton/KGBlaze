@@ -59,7 +59,15 @@ async function handler(req,env){
  if(!env.DB&&['/api/public','/agenda_publica.json'].includes(path))return err(503,'DATABASE_NOT_CONFIGURED');
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
-  const d=await getState(env);return json(publicAgenda(d.editorial,d.sync,d.revision));
+  const d=await getState(env);
+  const body=JSON.stringify(publicAgenda(d.editorial,d.sync,d.revision));
+  // Never reuse a stale live/sync status: validators hash the complete response.
+  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(body));
+  const etag='"'+Array.from(new Uint8Array(digest).slice(0,16),b=>b.toString(16).padStart(2,'0')).join('')+'"';
+  const headers={...HEADERS,'Cache-Control':'private, no-cache, must-revalidate','ETag':etag};
+  if((req.headers.get('If-None-Match')||'').split(',').some(v=>v.trim()===etag))
+   return new Response(null,{status:304,headers});
+  return new Response(body,{status:200,headers});
  }
  // Public read-only image URL, restricted to categories in the published agenda.
  // No arbitrary API proxy, editorial writes, stream status changes or secrets exposed.
@@ -198,7 +206,7 @@ export default {
     // Stage 22: use the reviewed V.25 adaptation as an immutable
     // Cloudflare static asset. Until it has been supplied, retain the
     // fully functional Stage 21 dashboard; never serve a partial V.25.
-    let hostedHtml=null;
+    let hostedHtml=null,hostedEtag=null;
     if(env.ASSETS){
      const assetUrl=new URL('/v25-web.html',routed.request.url);
      try{
@@ -211,21 +219,32 @@ export default {
        if(html.includes('Centro de Control Editorial')&&
           html.includes('hostedInitialize')&&
           html.includes('libraryCustom')&&
-          html.includes('downloadGif')&&!html.includes('data:font/'))
+          html.includes('downloadGif')&&!html.includes('data:font/')){
          hostedHtml=html;
+         hostedEtag=candidate.headers.get('ETag');
+        }
       }
      }catch{/* keep stable Stage 21 fallback */}
     }
-    return new Response(req.method==='HEAD'?null:hostedHtml||DASHBOARD_HTML,{
-     status:200,headers:{
+    // The editor shell is static; revalidation never caches D1 or credentials.
+    if(hostedHtml&&!hostedEtag){
+     const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(hostedHtml));
+     hostedEtag='"v25-'+Array.from(new Uint8Array(digest).slice(0,16),b=>b.toString(16).padStart(2,'0')).join('')+'"';
+    }
+    const htmlHeaders={
       'Content-Type':'text/html; charset=utf-8',
-      'Cache-Control':'no-store, no-cache, must-revalidate',
+      'Cache-Control':hostedEtag?'private, no-cache, must-revalidate':'no-store, no-cache, must-revalidate',
       'X-Robots-Tag':'noindex, nofollow, noarchive',
       'X-Content-Type-Options':'nosniff',
       'Referrer-Policy':'no-referrer',
       'X-Frame-Options':'DENY',
       'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
-     }
+    };
+    if(hostedEtag)htmlHeaders.ETag=hostedEtag;
+    if(hostedEtag&&(req.headers.get('If-None-Match')||'').split(',').some(v=>v.trim()===hostedEtag))
+     return new Response(null,{status:304,headers:htmlHeaders});
+    return new Response(req.method==='HEAD'?null:hostedHtml||DASHBOARD_HTML,{
+     status:200,headers:htmlHeaders
     });
    }
    const r=await handler(routed.request,env);if(r)return r;
