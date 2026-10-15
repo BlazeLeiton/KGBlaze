@@ -29,6 +29,11 @@ export function routePortalRequest(request){
   url.pathname='/departures/dashboard/';
   return {response:Response.redirect(url.toString(),308)};
  }
+ if(['/dashboard/library','/dashboard/library/',
+      '/departures/dashboard/library'].includes(url.pathname)){
+  url.pathname='/departures/dashboard/library/';
+  return {response:Response.redirect(url.toString(),308)};
+ }
  if(url.pathname==='/'||url.pathname==='/departures'){
   const permanent=url.pathname==='/departures';
   url.pathname='/departures/';
