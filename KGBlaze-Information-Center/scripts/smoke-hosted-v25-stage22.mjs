@@ -171,7 +171,22 @@ try{
   return {revision:data.revision,status:data.events[0].status,notice:document.getElementById('hostedSyncStatus').textContent};
  });
  assert.equal(anon.revision,4);assert.equal(anon.status,'A TIEMPO');
+ assert.match(anon.notice,/NO PUBLICADO/);
  console.log('STAGE22 V25 ANONYMOUS DENIAL',JSON.stringify(anon));
+ const recovered=await callBrowser(async function(){
+  const key=document.getElementById('syncQuickToken');
+  key.value='SYNTHETIC-STAGE22-SECRET';key.dispatchEvent(new Event('input',{bubbles:true}));
+  for(let i=0;i<120;i++){
+   await new Promise(r=>setTimeout(r,60));
+   const data=await(await fetch('/departures/api/public',{cache:'no-store'})).json();
+   if(data.events?.[0]?.status==='REPROGRAMADO')
+    return {revision:data.revision,status:data.events[0].status,notice:document.getElementById('hostedSyncStatus').textContent};
+  }
+  return {error:document.getElementById('hostedSyncStatus').textContent};
+ });
+ assert.equal(recovered.revision,5);assert.equal(recovered.status,'REPROGRAMADO');
+ assert.match(recovered.notice,/PUBLICADO/);
+ console.log('STAGE22 V25 PENDING AUTH RECOVERY',JSON.stringify(recovered));
  await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/library/'});
  const libraryRoute=await callBrowser(async function(){
   for(let i=0;i<120&&!document.body.classList.contains('library-mode');i++)await new Promise(r=>setTimeout(r,50));
