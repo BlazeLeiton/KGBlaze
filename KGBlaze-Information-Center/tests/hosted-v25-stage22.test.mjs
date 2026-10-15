@@ -45,6 +45,7 @@ test('Hosted canonical and library routes serve the SAME complete V25 and use se
   assert.equal(r.status,200);
   assert.match(r.headers.get('Cache-Control')||'',/no-store/);
   assert.match(r.headers.get('Content-Security-Policy')||'',/frame-ancestors 'none'/);
+  assert.match(r.headers.get('Content-Security-Policy')||'',/img-src[^;]*blob:/,'V25 input images use temporary blob: URLs');
   assert.match(await r.text(),/function hostedInitialize\(\)/);
  }
  const short=await worker.fetch(new Request(host+'/dashboard/library'),env);
