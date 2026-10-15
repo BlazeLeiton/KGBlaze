@@ -11,9 +11,9 @@ const viewer=readFileSync(resolve(base,'index.html'),'utf8');
 const dashboard=readFileSync(resolve(base,'v25-web.html'),'utf8');
 const pfx='assets/relight/art/';
 const getArts=html=>[...html.matchAll(/"img":BUILTIN_ART_BASE\+"([^"]+\.png)"/g)].map(x=>x[1]);
-test('Both pages reuse the same 25 untouched full-quality PNG artwork assets',()=>{
+test('Both pages reuse 25 unchanged original PNGs plus one user-uploaded Collab Padoru image',()=>{
  const a=getArts(viewer),b=getArts(dashboard);
- assert.equal(a.length,25);assert.deepEqual(a,b);
+ assert.equal(a.length,26);assert.deepEqual(a,b);
  assert.equal(new Set(a).size,25);
  for(const name of a){
   const path=resolve(base,pfx,name);
@@ -76,4 +76,16 @@ test('Immutable content-versioned artwork is cacheable under portal and workers.
   assert.match(r.headers.get('Cache-Control'),/max-age=31536000, immutable/);
   assert.equal(await r.text(),'PNG');
  }
+});
+
+test('New Padoru library image is identical in editor and viewer without embedding it',()=>{
+ const expression=/"img":BUILTIN_ART_BASE\+"Kirameki Riders\.png"/;
+ for(const html of [viewer,dashboard]){
+  assert.match(html,expression);
+  assert.match(html,/"id":"collab-padoru","name":"Collab Padoru","aliases":\["padoru","collab padoru"\]/);
+ }
+ const image=resolve(base,pfx,'Kirameki Riders.png');
+ assert.ok(existsSync(image),'The original uploaded PNG must exist as an independent file');
+ assert.equal(statSync(image).size,1352199,'Keep the untouched uploaded full-resolution PNG');
+ assert.equal(readFileSync(image).subarray(0,8).toString('hex'),'89504e470d0a1a0a');
 });
