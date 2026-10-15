@@ -74,7 +74,7 @@ test('embedded viewer retains historical /api/public request through read-only a
  assert.equal(x.status,200);
  assert.deepEqual(assetPaths,['/index.html']);
  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
- assert.ok(html.includes("fetch('/api/public',{cache:'no-store'})"));
+ assert.ok(html.includes("fetch('/api/public',{cache:'no-cache'})"));
 });
 
 test('Get Games art route allowed read-only under /departures; never opens admin paths',async()=>{
