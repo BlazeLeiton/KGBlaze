@@ -712,7 +712,21 @@ window.addEventListener('resize',()=>{
 // The fixed activity rail never toggles; render() and resize maintain its layout.
 function findEvent(id){return inWeek().find(e=>e.id===id)||mergedEvents().find(e=>e.id===id);}
 function resetForm(){ $('eventDay').disabled=false;$('eventTime').disabled=false;$('manualForm').reset();$('editingId').value='';$('formHeading').textContent='3 · Añadir evento manual';$('saveEvent').textContent='＋ Añadir al tablero';$('cancelEdit').hidden=true;$('eventDay').value=nextDay(state.week,0);$('eventTime').value='22:00';pendingEventLogoData='';refreshEventLogoOptions();$('eventLogoChoice').value='auto';updateEventLogoPreview();$('eventLogoUpload').value='';}
-function editEvent(id){const e=findEvent(id);if(!e)return;if(eventLocked(e)){alert('Esta salida tiene una emisión verificada; no puede editarse.');return;}$('editingId').value=id;$('formHeading').textContent=e.origin==='tw'?'3 · Personalizar evento importado de Twitch':e.origin==='hiatus'?'3 · Editar espacio de HIATUS':'3 · Editar evento manual';$('saveEvent').textContent='Guardar cambios';$('cancelEdit').hidden=false;$('eventName').value=e.title;$('eventNote').value=e.extra||'';$('eventDay').value=e.day;$('eventDay').disabled=false;$('eventTime').value=e.time||'';$('eventTime').disabled=false;$('eventCode').value=e.code||'';$('eventYouTubeUrl').value=e.videoId?'https://www.youtube.com/watch?v='+e.videoId:'';$('eventStatus').value=e.status;document.querySelectorAll('[name=platform]').forEach(ch=>ch.checked=e.platforms.includes(ch.value));pendingEventLogoData=e.logoData||'';refreshEventLogoOptions();$('eventLogoChoice').value=e.logoChoice||'auto';updateEventLogoPreview();$('eventLogoUpload').value='';$('editorPanel').open=true;$('manualForm').scrollIntoView({behavior:'smooth',block:'start'});}
+// Keep the hosted V25 header and publication status visible while editing.
+// Only the right tools column may scroll on desktop/tablet; mobile has a
+// naturally scrolling document and should retain normal form navigation.
+function revealEventEditor(){
+ const form=$('manualForm');
+ if(window.matchMedia('(max-width:750px)').matches){
+  form.scrollIntoView({behavior:'smooth',block:'start'});return;
+ }
+ const scroller=$('editorPanel').closest('.controls');
+ if(!scroller)return;
+ const top=scroller.scrollTop+$('editorPanel').getBoundingClientRect().top-
+  scroller.getBoundingClientRect().top-8;
+ scroller.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+}
+function editEvent(id){const e=findEvent(id);if(!e)return;if(eventLocked(e)){alert('Esta salida tiene una emisión verificada; no puede editarse.');return;}$('editingId').value=id;$('formHeading').textContent=e.origin==='tw'?'3 · Personalizar evento importado de Twitch':e.origin==='hiatus'?'3 · Editar espacio de HIATUS':'3 · Editar evento manual';$('saveEvent').textContent='Guardar cambios';$('cancelEdit').hidden=false;$('eventName').value=e.title;$('eventNote').value=e.extra||'';$('eventDay').value=e.day;$('eventDay').disabled=false;$('eventTime').value=e.time||'';$('eventTime').disabled=false;$('eventCode').value=e.code||'';$('eventYouTubeUrl').value=e.videoId?'https://www.youtube.com/watch?v='+e.videoId:'';$('eventStatus').value=e.status;document.querySelectorAll('[name=platform]').forEach(ch=>ch.checked=e.platforms.includes(ch.value));pendingEventLogoData=e.logoData||'';refreshEventLogoOptions();$('eventLogoChoice').value=e.logoChoice||'auto';updateEventLogoPreview();$('eventLogoUpload').value='';$('editorPanel').open=true;revealEventEditor();}
 function updateStatus(id,value){if(!STATUS.includes(value))return;const e=findEvent(id);if(!e)return;const rule=allowedMutation(e,{...e,status:value});if(!rule.ok){alert(rule.message);render();return;}if(e.origin==='hiatus')return;if(e.origin==='manual'){const target=state.manual.find(v=>v.id===id);if(target)target.status=value;}else{state.overrides[id]={...(state.overrides[id]||{}),status:value};}markUpdated();save();render();}
 document.querySelector('.gates').addEventListener('change', ev=>{
   const chosen=[...document.querySelectorAll('[name=platform]:checked')];
