@@ -13,6 +13,7 @@ export const VIEWER_CSS = `
 .flight-category-box.is-fallback{background:linear-gradient(145deg,#4c265e 0%,#172f69 55%,#071532 100%);border-color:#9065a6}
 .flight-row-top>.flight-category-box{grid-column:3;grid-row:1;justify-self:stretch;align-self:start;min-width:0}
 .flight-category-box img{display:block;width:100%;height:116px;object-fit:contain}
+.flight-category-box img.padoru-cover{object-fit:cover;object-position:center}
 .flight-category-box .category-placeholder{font-size:11px;line-height:1.3;padding:10px;color:#d6c8ec;text-align:center;overflow-wrap:anywhere}
 @media(max-width:390px){.flight-row-top{grid-template-columns:5px minmax(0,1fr) 76px}.flight-category-box{width:76px;min-height:98px}.flight-category-box img{height:98px}.flight-name{font-size:18px}}
 /* Stage 12: hide only the obsolete non-iframe sharing fields. Keep nodes alive: old JS translates and binds them. */
@@ -90,6 +91,9 @@ export const VIEWER_JS = `(function(){
    if(label)label.remove();
    if(!box.contains(pic))box.prepend(pic);
    box.classList.add('is-fallback');
+   // Cover the entire portrait category cell only when this is Padoru art.
+   const padoruArt=libraryEntries().find(item=>item.id==='collab-padoru')?.img;
+   pic.className=padoruArt&&src===padoruArt?'padoru-cover':'';
    pic.src=src;
   };
   pic.onerror=next;

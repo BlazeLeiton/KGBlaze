@@ -334,10 +334,17 @@ function draw(list,total,pages){
     const activityLogo=effectiveEventLogo(e);
     const activityImage=imageFromSrc(activityLogo);
     if(activityImage&&activityImage.complete&&activityImage.naturalWidth){
-      const scale=Math.min(110/activityImage.naturalWidth,54/activityImage.naturalHeight);
+      // Collab Padoru uses cover, filling the icon frame with a centered crop.
+      // All other images keep the original contain sizing and whitespace.
+      const padoruArt=libraryById('collab-padoru')?.img;
+      const fillPadoru=Boolean(padoruArt&&activityLogo===padoruArt);
+      const scale=fillPadoru
+        ?Math.max(113/activityImage.naturalWidth,56/activityImage.naturalHeight)
+        :Math.min(110/activityImage.naturalWidth,54/activityImage.naturalHeight);
       const w=activityImage.naturalWidth*scale,h=activityImage.naturalHeight*scale;
       ctx.save();ctx.beginPath();ctx.roundRect(19,y+12,113,56,5);ctx.clip();
-      ctx.drawImage(activityImage,18+(115-w)/2,y+11+(58-h)/2,w,h);
+      ctx.drawImage(activityImage,fillPadoru?19+(113-w)/2:18+(115-w)/2,
+        fillPadoru?y+12+(56-h)/2:y+11+(58-h)/2,w,h);
       ctx.restore();
     }
 
