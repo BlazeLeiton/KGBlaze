@@ -14,7 +14,7 @@ const getArts=html=>[...html.matchAll(/"img":BUILTIN_ART_BASE\+"([^"]+\.png)"/g)
 test('Both pages reuse 25 unchanged original PNGs plus one user-uploaded Collab Padoru image',()=>{
  const a=getArts(viewer),b=getArts(dashboard);
  assert.equal(a.length,26);assert.deepEqual(a,b);
- assert.equal(new Set(a).size,25);
+ assert.equal(new Set(a).size,26);
  for(const name of a){
   const path=resolve(base,pfx,name);
   assert.ok(existsSync(path),name);
