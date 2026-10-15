@@ -224,7 +224,7 @@ export default {
       'X-Content-Type-Options':'nosniff',
       'Referrer-Policy':'no-referrer',
       'X-Frame-Options':'DENY',
-      'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; frame-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
+      'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"
      }
     });
    }
