@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 import vm from 'node:vm';
 import worker from '../src/worker.mjs';
-import {EMPTY_AGENDA} from '../src/core.mjs';
+import {EMPTY_AGENDA,currentMonday} from '../src/core.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'../public');
 const viewer=readFileSync(resolve(base,'index.html'),'utf8');
 const dashboard=readFileSync(resolve(base,'v25-web.html'),'utf8');
@@ -33,7 +33,8 @@ test('Both pages reuse the same 25 untouched full-quality PNG artwork assets',()
 test('Public agenda serves conditional 304 only for the same FULL sync payload',async()=>{
  const url='https://example.workers.dev/api/public';
  let sync={};
- const env={DB:{prepare:()=>({first:async()=>({revision:2,editorial_json:JSON.stringify(EMPTY_AGENDA()),sync_json:JSON.stringify(sync),updated_at:'2026-10-14T12:00:00Z'})})}};
+ const agenda={...EMPTY_AGENDA(),events:[{id:'fixture',day:currentMonday(),title:'Current week event',status:'A TIEMPO',platforms:['yt']}]};
+ const env={DB:{prepare:()=>({first:async()=>({revision:2,editorial_json:JSON.stringify(agenda),sync_json:JSON.stringify(sync),updated_at:'2026-10-14T12:00:00Z'})})}};
  const first=await worker.fetch(new Request(url),env);
  assert.equal(first.status,200);
  assert.match(first.headers.get('Cache-Control'),/no-cache/);
@@ -64,4 +65,15 @@ test('Existing automatic D1 polling, no unauthorized writes, and lazy library en
  assert.match(dashboard,/imageFromSrc/);
  assert.match(dashboard,/loading="lazy" decoding="async"/);
  assert.match(dashboard,/setInterval\(\(\)=>\{void hostedPoll\(\);\},30000\)/);
+});
+test('Immutable content-versioned artwork is cacheable under portal and workers.dev routes',async()=>{
+ const paths=['https://kgblaze.dpdns.org/departures/assets/relight/art/among-us-18eea-9c6c445d.png',
+  'https://example.workers.dev/assets/relight/art/among-us-18eea-9c6c445d.png'];
+ const env={ASSETS:{fetch:async()=>new Response('PNG',{headers:{'Content-Type':'image/png'}})}};
+ for(const url of paths){
+  const r=await worker.fetch(new Request(url),env);
+  assert.equal(r.status,200);
+  assert.match(r.headers.get('Cache-Control'),/max-age=31536000, immutable/);
+  assert.equal(await r.text(),'PNG');
+ }
 });

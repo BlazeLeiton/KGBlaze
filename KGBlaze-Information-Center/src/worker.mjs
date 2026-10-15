@@ -60,10 +60,14 @@ async function handler(req,env){
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);
-  const body=JSON.stringify(publicAgenda(d.editorial,d.sync,d.revision));
-  // Never reuse a stale live/sync status: validators hash the complete response.
-  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(body));
-  const etag='"'+Array.from(new Uint8Array(digest).slice(0,16),b=>b.toString(16).padStart(2,'0')).join('')+'"';
+  const representation=publicAgenda(d.editorial,d.sync,d.revision);
+  const body=JSON.stringify(representation);
+  // responseGeneratedAt is deliberately volatile (current request time).
+  // A WEAK ETag compares the stable semantic agenda + all visible sync data.
+  // Changing one verified status invalidates the validator immediately.
+  const {responseGeneratedAt:_responseTime,...stable}=representation;
+  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(stable)));
+  const etag='W/"'+Array.from(new Uint8Array(digest).slice(0,16),b=>b.toString(16).padStart(2,'0')).join('')+'"';
   const headers={...HEADERS,'Cache-Control':'private, no-cache, must-revalidate','ETag':etag};
   if((req.headers.get('If-None-Match')||'').split(',').some(v=>v.trim()===etag))
    return new Response(null,{status:304,headers});
@@ -250,6 +254,15 @@ export default {
    const r=await handler(routed.request,env);if(r)return r;
    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
    const asset=await env.ASSETS.fetch(routed.request);
+   // Immutable only for content-versioned built-in PNGs. Both portal and
+   // original workers.dev requests route here with an unprefixed asset path.
+   const assetPath=new URL(routed.request.url).pathname;
+   if(asset.ok&&/^\/assets\/relight\/art\/[a-z0-9-]+-[0-9a-f]+-[0-9a-f]{8}\.png$/.test(assetPath)){
+    const headers=new Headers(asset.headers);
+    headers.set('Cache-Control','public, max-age=31536000, immutable');
+    headers.set('X-Content-Type-Options','nosniff');
+    return new Response(req.method==='HEAD'?null:asset.body,{status:asset.status,headers});
+   }
    const pageURL=new URL(routed.request.url);
    const path=pageURL.pathname;
    const socialCapture=pageURL.searchParams.has('relight-og-week');
