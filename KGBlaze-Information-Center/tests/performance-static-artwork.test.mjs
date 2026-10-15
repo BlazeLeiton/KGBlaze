@@ -89,3 +89,14 @@ test('New Padoru library image is identical in editor and viewer without embeddi
  assert.equal(statSync(image).size,1352199,'Keep the untouched uploaded full-resolution PNG');
  assert.equal(readFileSync(image).subarray(0,8).toString('hex'),'89504e470d0a1a0a');
 });
+
+test('Padoru alone uses center-cropped cover geometry in the 1080x1080 canvas',()=>{
+ for(const html of [viewer,dashboard]){
+  assert.match(html,/const padoruArt=libraryById\('collab-padoru'\)\?\.img/);
+  assert.match(html,/fillPadoru=Boolean\(padoruArt&&activityLogo===padoruArt\)/);
+  assert.match(html,/Math\.max\(113\/activityImage\.naturalWidth,56\/activityImage\.naturalHeight\)/);
+  assert.match(html,/Math\.min\(110\/activityImage\.naturalWidth,54\/activityImage\.naturalHeight\)/);
+  assert.match(html,/ctx\.roundRect\(19,y\+12,113,56,5\);ctx\.clip\(\)/);
+  assert.match(html,/fillPadoru\?19\+\(113-w\)\/2:18\+\(115-w\)\/2/);
+ }
+});
