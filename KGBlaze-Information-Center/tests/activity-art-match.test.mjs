@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {artworkCandidates} from '../src/activity-art-match.mjs';
 import {VIEWER_CSS,VIEWER_JS} from '../src/viewer-enhancements.mjs';
+import {readFileSync} from 'node:fs';
 
 const entries=[
  {id:'azur',name:'Azur Lane',aliases:['AL'],img:'data:image/png;base64,AZUR'},
@@ -81,4 +82,29 @@ test('A custom-named library image with Karaoke alias retains chat-only eligibil
  assert.equal(chat.specialTitle,custom.img);
  const game=artworkCandidates({category:'Azur Lane',title:'Karaoke con todos'},catalog);
  assert.equal(game.specialTitle,null);
+});
+
+test('Published Collab Padoru built-in matches Padoru only, not any generic Collab',()=>{
+ const sources=[
+  readFileSync(new URL('../public/v25-web.html',import.meta.url),'utf8'),
+  readFileSync(new URL('../public/index.html',import.meta.url),'utf8')
+ ];
+ for(const html of sources){
+  const raw=html.match(/\{"id":"collab-padoru","name":"Collab Padoru","aliases":\[(.*?)\],"img":BUILTIN_ART_BASE\+"(.*?)"\}/);
+  assert.ok(raw,'Padoru entry must exist in both shared catalogues');
+  const aliases=JSON.parse('['+raw[1]+']');
+  const entry={id:'collab-padoru',name:'Collab Padoru',aliases,img:raw[2]};
+  assert.deepEqual(aliases,['padoru','collab padoru']);
+  const generic=(category,title)=>artworkCandidates({category,title,platforms:['yt','tw']},[entry]);
+  assert.equal(generic('Just Chatting','Collab con amigos').specialTitle,null);
+  assert.equal(generic('Entertainment','Gran collab de talentos').specialTitle,null);
+  assert.equal(generic('Just Chatting','Una collab Padoru').specialTitle,entry.img);
+  assert.equal(generic('Entertainment','Padoru especial').specialTitle,entry.img);
+  assert.equal(generic('Padoru','Evento temático').category,entry.img);
+  assert.equal(generic('Collab','Una transmisión').category,null);
+  const withGame=artworkCandidates({category:'Azur Lane',title:'Collab Padoru',platforms:['yt','tw']},
+   [entry,{name:'Azur Lane',aliases:['azur lane'],img:'game'}]);
+  assert.equal(withGame.category,'game');
+  assert.equal(withGame.specialTitle,null);
+ }
 });

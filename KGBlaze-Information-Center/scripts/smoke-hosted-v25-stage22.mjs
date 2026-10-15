@@ -32,8 +32,8 @@ const db={
  }
 };
 const env={DB:db,ADMIN_TOKEN:TOKEN,ASSETS:{fetch:async req=>{
- const path=new URL(req.url).pathname;
- if(/^\/assets\/relight\/art\/[a-z0-9-]+\.png$/.test(path)){
+ const path=decodeURIComponent(new URL(req.url).pathname);
+ if(/^\/assets\/relight\/art\/[A-Za-z0-9 _-]+\.png$/.test(path)){
   const file=path.slice(path.lastIndexOf('/')+1);
   return new Response(readFileSync(new URL('../public/assets/relight/art/'+file,import.meta.url)),
    {status:200,headers:{'Content-Type':'image/png'}});
@@ -258,6 +258,16 @@ try{
    railHidden:getComputedStyle(document.getElementById('weekRail')).display==='none'};
  });
  assert.ok(libraryRoute.active&&libraryRoute.visible&&libraryRoute.railHidden&&libraryRoute.firstArtworkLoaded,'Original PNG asset must decode in real Chrome');
+ const padoruImage=await callBrowser(async function(){
+  const entry=libraryEntries().find(x=>x.id==='collab-padoru');
+  if(!entry)return {found:false};
+  const image=new Image();image.src=entry.img;
+  try{await image.decode();}catch(e){return {found:true,error:String(e),src:entry.img};}
+  return {found:true,width:image.naturalWidth,height:image.naturalHeight,src:entry.img};
+ });
+ assert.equal(padoruImage.found,true,'Collab Padoru builtin must appear in library');
+ assert.ok(padoruImage.width>1000&&padoruImage.height>1000,'Full-resolution Padoru must decode in Chromium');
+ console.log('STAGE22 COLLAB PADORU IMAGE',JSON.stringify(padoruImage));
  console.log('STAGE22 V25 LIBRARY ROUTE',JSON.stringify(libraryRoute));
  console.log('STAGE22 V25 BROWSER PASS: original V25 workspace, auto D1, library and auth isolated');
 
