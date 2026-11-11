@@ -156,3 +156,17 @@ Se creó una prueba **HTML autocontenida** entregada en esta conversación con e
 - Mantener variantes diferenciadas en estructura, no solo color: **Kalos paisaje + cristal**, **Hoenn escáner modular + bezel**.
 - Revisión en la maqueta HTML antes de crear assets definitivos para Anemone.
 - No subir imágenes originales, capturas de anime ni las imágenes generadas anteriores al repositorio público.
+
+
+## Prioridad cromática inferior — decisión 11-nov-2026
+
+**Decisión expresa del usuario:** **priorizar en la pantalla inferior los colores y la lógica gráfica de las Pokédex de Gen VI tal como se trabajaron a partir del anime, por ENCIMA de la paleta corporativa estática KGBlaze/United/Aeroméxico**. Esta última **ya está suficientemente representada en la pantalla superior fija** de Luminalia (marco holográfico y acentos). No imponerla de nuevo ni recolorear las referencias Pokémon arbitrariamente.
+
+- **Kalos:** claro, celeste/azul hielo y blanco luminoso; cristal y transparencias gráficas sobre un segmento de Luminalia sin Torre Prisma o calle nocturna iluminada; preservar autenticidad visual frente a la referencia.
+- **Hoenn Gen VI anime:** más modulada en cuadros, violeta y azules claros, bloques multicolor e interfaz de escáner/pantalla contenida. La imagen de la Pokédex **Unova** usada erróneamente antes para ilustrar a Hoenn **NO es referencia válida**; verificar la escena de Squishy.
+- **Holomisor (tercera opción):** tecnología proyectada, cian/azules holográficos, sin carcasa opaca. Es alternativa con lenguaje visual propio, no una mera recoloración de Kalos.
+- **Tema superior:** mantener Luminalia **fija**, ya preferida, con el marco que incorpora colores de identidad general. Es la conexión suficiente con la marca.
+- **Zona central inferior:** permitir 5×3 y zoom a otros tamaños sin casillas dibujadas ni interferencia con iconos reales.
+- **Splash:** pospuesto.
+
+**Pendiente:** refinar comparativa visual de variantes inferiores según estas reglas ANTES de preparar PNG finales o empaquetar el tema.
