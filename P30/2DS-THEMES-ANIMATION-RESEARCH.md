@@ -132,3 +132,26 @@ Se creó una prueba **HTML autocontenida** entregada en esta conversación con e
 - Las dos variantes utilizan el mismo fondo inferior para aislar la evaluación del efecto superior. Splash sigue **EN PAUSA**.
 
 **Siguiente paso:** evaluar qué combinación favorece la legibilidad en cada escala y producir recursos Canva manuales y archivos Anemone para pruebas físicas separadas. No incluir las imágenes originales en el repositorio público.
+
+
+## Refinamiento de identidad Kalos/Hoenn y referencia Squishy (11-nov-2026)
+
+**Decisión confirmada por el usuario:** pantalla superior **Luminalia FIJA**. En la inferior, probar dos alternativas realmente distintas y compatibles tanto con la cuadrícula 5×3 como con otros tamaños; sin casillas decorativas rígidas. Splash sigue pospuesto.
+
+### Hoenn — referencia de pantalla de interrogación de Squishy
+- Referencia narrativa: **Pokémon XY&Z, XY094 «From A to Z!»**: Ash y Serena consultan sus Pokédex para identificar al Núcleo de Zygarde, Squishy, sin encontrar datos. Fuente narrativa externa: <https://bulbapedia.bulbagarden.net/wiki/XY094>. No atribuir la interfaz específica de un cuadro exacto sin tener el fotograma.
+- **Trabajo visual previo localizado (29-sep-2026):** assets generados con títulos descriptivos *Symmetrical Futuristic Pokédex Console* y *Symmetrical Futuristic Orange Scanner*. Muestran carcasa naranja, bisel negro, pantalla de identificación con gran «?», paneles/píxeles traslúcidos azules y violetas, chevrones, pequeños indicadores de color, barra inferior segmentada. Son **referencias previas del usuario**, no tema final.
+- Adaptación HOME: tomar **características del escáner** (módulos cuadrados dispersos, acentos más vivos violeta/celeste, contorno de pantalla tipo dispositivo), no colocar gran signo «?» permanente detrás de 15 iconos ni carcasa gruesa que reste espacio. Su uso como detalle pequeño o marca casi imperceptible se evaluará en maqueta.
+- Contraste de identidad: **Hoenn es modular, algo más colorida, con matriz de cuadros y borde de pantalla.** No limitar a recolor de Kalos.
+  
+### Kalos — ciudad visible tras cristal
+- Pantalla superior fija: imagen aportada **Lumiose_City_Evolutions.png**, Torre Prisma protagonista, marco holográfico.
+- Pantalla inferior: **fragmento complementario de ciudad nocturna**, preferentemente de la misma imagen original pero **sin Torre Prisma**, o una calle iluminada estilo Luminalia/París; dejar que la escena se vea a través de un tratamiento celeste transparente y líneas holográficas finas inspiradas en Pokédex de Kalos/Holocaster.
+- «Transparencia» aquí significa un **composite gráfico en Canva** (paisaje + elementos PNG semitransparentes). El tema de HOME solo muestra el fondo aplanado, no una superposición de capas independientes sobre el sistema.
+- **Kalos es continuo, claro, ligero y semitranslúcido**, no otro panel físico.
+
+### Prueba de uso real — inferior de 320×240
+- Diseñar sobre margen interno de seguridad con centro libre; probar **5×3** (principal) y otros tamaños, con cursor/íconos reales conceptualmente encima, no dibujados en el fondo final.
+- Mantener variantes diferenciadas en estructura, no solo color: **Kalos paisaje + cristal**, **Hoenn escáner modular + bezel**.
+- Revisión en la maqueta HTML antes de crear assets definitivos para Anemone.
+- No subir imágenes originales, capturas de anime ni las imágenes generadas anteriores al repositorio público.
