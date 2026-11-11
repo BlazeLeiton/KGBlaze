@@ -138,11 +138,12 @@ Se creó una prueba **HTML autocontenida** entregada en esta conversación con e
 
 **Decisión confirmada por el usuario:** pantalla superior **Luminalia FIJA**. En la inferior, probar dos alternativas realmente distintas y compatibles tanto con la cuadrícula 5×3 como con otros tamaños; sin casillas decorativas rígidas. Splash sigue pospuesto.
 
-### Hoenn — referencia de pantalla de interrogación de Squishy
-- Referencia narrativa: **Pokémon XY&Z, XY094 «From A to Z!»**: Ash y Serena consultan sus Pokédex para identificar al Núcleo de Zygarde, Squishy, sin encontrar datos. Fuente narrativa externa: <https://bulbapedia.bulbagarden.net/wiki/XY094>. No atribuir la interfaz específica de un cuadro exacto sin tener el fotograma.
-- **Trabajo visual previo localizado (29-sep-2026):** assets generados con títulos descriptivos *Symmetrical Futuristic Pokédex Console* y *Symmetrical Futuristic Orange Scanner*. Muestran carcasa naranja, bisel negro, pantalla de identificación con gran «?», paneles/píxeles traslúcidos azules y violetas, chevrones, pequeños indicadores de color, barra inferior segmentada. Son **referencias previas del usuario**, no tema final.
-- Adaptación HOME: tomar **características del escáner** (módulos cuadrados dispersos, acentos más vivos violeta/celeste, contorno de pantalla tipo dispositivo), no colocar gran signo «?» permanente detrás de 15 iconos ni carcasa gruesa que reste espacio. Su uso como detalle pequeño o marca casi imperceptible se evaluará en maqueta.
-- Contraste de identidad: **Hoenn es modular, algo más colorida, con matriz de cuadros y borde de pantalla.** No limitar a recolor de Kalos.
+### Hoenn — referencia anime XY&Z (escaneo de Squishy); corrección de atribuciones
+- **Corrección explícita del usuario (11-nov-2026):** la imagen de escaneo que el asistente mostró como ejemplo de Hoenn correspondía en realidad a la **Pokédex de Unova de Ash** al consultar Pokémon de **Alexa/Alexia**. **NO usar esa imagen ni sus rasgos específicos como prueba de la Pokédex Hoenn.** La atribución previa fue incorrecta.
+- Las escenas narrativas son **distintas**: durante el arco de Unova/BW, Ash no consigue identificar Helioptile/Gogoat de Alexa con su Pokédex de Unova (https://bulbapedia.bulbagarden.net/wiki/Alexa_%28anime%29). En **XY094 «From A to Z!»** Ash y Serena examinan a Squishy y sus respectivas Pokédex indican que no existen datos (https://bulbapedia.bulbagarden.net/wiki/XY094). **Estas fuentes confirman situaciones narrativas, pero no identifican por sí solas los diseños del fotograma.**
+- El usuario especificó que la referencia Hoenn correcta es **la Pokédex de Gen VI del anime XY&Z que aparece en ese episodio**, con el gran signo de interrogación. Se debe obtener/confirmar un fotograma auténtico antes de afirmar atributos visuales particulares de esa pantalla.
+- El **trabajo visual previo del usuario** (29-sep-2026; ilustraciones de consola naranja con paneles azul-violeta y «?») conserva su utilidad como proyecto creativo anterior, **NO como captura verificada del anime**.
+- Preferencia artística anterior que permanece: **Hoenn más cuadriculada, clara, colorida y tendiente al violeta; Kalos celeste/holográfica**. Adaptación propuesta al HOME **todavía no aprobada**: evocar módulos cuadrados con transparencia y borde de dispositivo, sin cubrir el área de aplicaciones 5×3 y sin usar un signo «?» gigante permanente.
   
 ### Kalos — ciudad visible tras cristal
 - Pantalla superior fija: imagen aportada **Lumiose_City_Evolutions.png**, Torre Prisma protagonista, marco holográfico.
