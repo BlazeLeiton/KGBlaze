@@ -117,3 +117,18 @@ Referencias: <https://wiki.hacks.guide/wiki/3DS:Splash_screens>, <https://github
 6. Splash de BLAZE: trabajo separado, sin BAX por ahora.
 
 **Estado:** dos direcciones aprobadas para exploración; faltan análisis de imágenes originales y edición de elementos en Canva. No se ha probado ningún tema compilado en consola ni se ha aprobado composición final.
+
+
+## Maqueta interactiva de comparación — 11-nov-2026
+
+Se creó una prueba **HTML autocontenida** entregada en esta conversación con el nombre **P30_Luminalia_pruebas.html**. No se subió a GitHub porque contiene imágenes originales reducidas del usuario. No es aún un tema instalable ni una prueba física en la 2DS.
+
+- Arriba **A fija**: recorte de Lumiose_City_Evolutions.png y marco vectorial de cian/violeta; encuadre original sin IA generativa.
+- Arriba **B panorámica**: recorte extendido de la misma imagen y deslizador que simula la ventana visible del HOME al recorrer 1008 × 240 con ventana de 400 × 240. La decoración viaja junto con el panorama.
+- Abajo: base de 320 × 240 compartida con tratamientos **Kalos, Hoenn y Holomisor**. El fondo NO contiene casillas para iconos.
+- Controles de simulación: **5×3, 4×2 y 3×2**, y ocultar/mostrar iconos de muestra, que NO forman parte de la textura final.
+- Gama: Azul Premium #020C41, celeste United #A5EBFF y púrpura #695FE6.
+- Verificación funcional en Chromium con Playwright: se muestran 15 iconos en 5×3, 6 en 3×2, el desplazamiento panorámico llega al valor solicitado y se registraron **cero errores JavaScript**. Esta validación acredita la maqueta HTML, **no** el tema real ni el comportamiento del firmware HOME.
+- Las dos variantes utilizan el mismo fondo inferior para aislar la evaluación del efecto superior. Splash sigue **EN PAUSA**.
+
+**Siguiente paso:** evaluar qué combinación favorece la legibilidad en cada escala y producir recursos Canva manuales y archivos Anemone para pruebas físicas separadas. No incluir las imágenes originales en el repositorio público.
