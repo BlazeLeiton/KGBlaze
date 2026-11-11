@@ -48,3 +48,37 @@ A petición del usuario, **NO generar aún diseños** ni repetir el aeropuerto/p
 3. Preparar composición primero en Android y empaquetar/pruebas después en PC/2DS.
 
 **Este archivo es investigación, no implica que se haya instalado, validado o activado un nuevo tema.**
+
+
+## Referencias visuales originales para el tema — 11-nov-2026
+
+El usuario proporcionó tres imágenes propias como **referencias de diseño**, no para publicación en GitHub:
+- `Lumiose_City_Evolutions.png`: panorámica nocturna de Ciudad Luminalia/Torre Prisma iluminada.
+- `Lumiose_City_PG.png`: vista más tranquila de la Torre Prisma bajo luna y cielo azul; deja espacio negativo para interfaz sutil.
+- `BLAZE_4.png`: firma personal sobre degradado azul/lila/púrpura. **Es la referencia preferida para splash**, no sustituir por logo nuevo.
+- Existe además un **GIF original del trazo de la firma** en poder del usuario, no adjunto aquí. No asumir accesible, ni descargar/publicar.
+
+Referencias externas identificadas (enlazar; no copiar imágenes de terceros a este repositorio):
+- Pokédex de Kalos, *Pokémon XY*, anime (Ash recibe la Pokédex del profesor Ciprés): <https://archives.bulbagarden.net/wiki/File:Ash_Kalos_Pok%C3%A9dex.png>. Distinción visual: carcasa roja con elementos circulares y franja central.
+- Pokédex de Hoenn generación VI, *Omega Ruby / Alpha Sapphire*: <https://archives.bulbagarden.net/wiki/File:ORAS_Pok%C3%A9dex.png>. Carcasa naranja/negra, pantalla central y pequeños controles/indicadores.
+- **PokéNav Plus** de ORAS (es un dispositivo distinto a la Pokédex; útil por interfaces tecnológicas): <https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9Nav_Plus>.
+- **Holomisor / Holo Caster** del anime Kalos, referencia holográfica: <https://bulbapedia.bulbagarden.net/wiki/Holo_Caster>.
+- **Operation Siren, Azur Lane**: mapa estratégico del Atlántico, contornos marítimos azulados, cuadrícula y nodos de navegación, como referencia para HUD discreto: <https://azurlaneecgc.com/farming>.
+
+### Orientación artística sin diseño final aprobado
+
+La preferencia del usuario es **enfoque Pokémon** con Luminalia como paisaje prioritario, mezclando con moderación Pokédex Kalos/ORAS y grillas/rutas tácticas de Operation Siren; la alternativa de mapa enteramente táctico se mantiene. Evitar recrear otra Terminal KGBlaze o cubrir el arte original con múltiples ventanas o paneles de información falsa.
+
+### Limitación crucial de formatos HOME
+
+El modo de pantalla superior con **imagen panorámica desplazable** (`draw type=3`, `frame type=0/3`) y el modo con **textura A8 de pequeños patrones móviles sobre color sólido** (`draw type=2`) son variantes distintas del tema base; **no prometer ambas capas simultáneas de forma nativa**. El *flipbook* de tres cuadros en la pantalla inferior depende del desplazamiento/puntero; no es reproducción autónoma continua.
+
+Fuente: <https://3dbrew.org/wiki/Home_Menu/Themes>.
+
+### Decisión sobre splash de la firma
+
+**Luma 13.4 y Anemone3DS estándar muestran imágenes estáticas de arranque**, NO GIF, ni una animación de pocos fotogramas. BAX fue descartado para esta etapa por complejidad de arranque. Por tanto, mientras se mantenga la condición de no usar otro boot loader, un splash auténticamente animado NO es compatible: propuesta segura es **firma BLAZE estática, quizá tomada del último cuadro del GIF**, y duración breve (1 s) en Luma. No presentar desenfoque, brillo o estela dibujada como si fuera animación temporal real.
+
+Referencias: <https://wiki.hacks.guide/wiki/3DS:Splash_screens>, <https://github.com/astronautlevel2/Anemone3DS/wiki/Usage>.
+
+**No se ha renderizado ni instalado ningún tema o splash nuevo.**
