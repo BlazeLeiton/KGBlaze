@@ -82,3 +82,38 @@ Fuente: <https://3dbrew.org/wiki/Home_Menu/Themes>.
 Referencias: <https://wiki.hacks.guide/wiki/3DS:Splash_screens>, <https://github.com/astronautlevel2/Anemone3DS/wiki/Usage>.
 
 **No se ha renderizado ni instalado ningún tema o splash nuevo.**
+
+
+## Comparativa de variantes HOME — aprobación conceptual para explorar (11-nov-2026)
+
+**Usuario pide explorar ambas, NO escoger una final ni exportar todavía.** Mantener paisaje de Luminalia en pantalla superior, Pokédex/Holomisor/Hoenn Gen VI anime en inferior, y colores documentados de Aeroméxico/United. La ilustración original aportada por el usuario es la base para Canva; los previews de IA son solo bocetos, **no fuentes maestras**. El splash de la firma BLAZE queda EN PAUSA.
+
+### Variante A — superior fija (composición cinematográfica)
+- Imagen de Luminalia con Torre Prisma centrada, marco holográfico, radar y trazos alineados al lienzo estático.
+- Tema superior tipo textura fija `FrameType 1`, textura de referencia `412×240` (área física visible ~400×240); superposición gráfica **aplanada** al `body_LZ.bin`.
+- Alternativa de movimiento: animación real del **cursor y elementos propios de HOME** adaptados por personalización de colores/texturas; opcionalmente inferior `flipbook` de tres cuadros dependiente de la navegación. **No prometer que un patrón animado A8 se superpone a un PNG superior fijo**: otro modo de dibujo.
+
+### Variante B — superior panorámica (exploración)
+- Imagen superior `1008×240`, textura desplazable, preferentemente modo **scroll lento**.
+- Mantener Torre Prisma cerca del centro del panorama y extender el resto de ciudad a ambos lados. Se deberá probar dónde queda el encuadre al iniciar y durante navegación; no asumir centrado automático.
+- El marco con esquinas y radar de la composición original **se desplazaría con el fondo**; para conservar continuidad, sustituir por líneas finas longitudinales, microindicadores dispersos o módulos que no dependan de quedarse fijos.
+- No crear dos capas nativas independientes (panorama móvil + HUD fijo) porque el tema HOME estándar no las admite.
+
+### Inferior — tema adaptable a cuadrícula y reescalado
+- El usuario utiliza **principalmente cuadrícula 5×3**, pero cambia tamaño/distribución a veces; hay muchas apps homebrew instaladas.
+- **NO dibujar 15 casillas falsas**, flechas falsas, barra de iconos ficticia ni paneles laterales anchos: no siguen el zoom o paginación reales.
+- Decoración tecnológica gen VI **solo en fondo y márgenes**: bordes sutiles, pequeños círculos, curvas y degradado oscuro; la zona central debe tolerar 5×3 y cambios de tamaño.
+- Personalizar **marcos reales de iconos** (texturas para 48×48 y 24×24), cursor real, carpetas, botones y colores, que sí son elementos de HOME (detalles: <https://3dbrew.org/wiki/Home_Menu/Themes>).
+- Ensayar en el dispositivo varias escalas, varias páginas y una carpeta abierta antes de cerrar posiciones decorativas.
+- Estrategia inferior preferente: imagen fija `320×240` compartida por ambos conceptos; modo flipbook ligado a navegación solo como prueba opcional y sin comprometer legibilidad.
+
+### Flujo de reconstrucción no generativa
+
+1. En Canva, colocar **archivo original** de Luminalia y realizar recorte fijo o panorama extendido real; sin regeneración de ciudad por IA.
+2. Montar sobre la imagen un **overlay PNG transparente** dibujado/reconstruido de forma separada, conservando brillo y gama cromática. Diseño por capas en edición, **imagen final aplanada** al exportar al formato Anemone.
+3. Crear la composición inferior limpia, **sin representar iconos ni controles falsos**; dejar que HOME dibuje lo real.
+4. Empaquetar dos temas instalables `Luminalia Fija` / `Luminalia Panorámica`, no ejecutar aún.
+5. Verificar fondo con cuadrícula 5×3, iconos grandes/pequeños, scroll por páginas y carpetas. Registrar pruebas y decidir.
+6. Splash de BLAZE: trabajo separado, sin BAX por ahora.
+
+**Estado:** dos direcciones aprobadas para exploración; faltan análisis de imágenes originales y edición de elementos en Canva. No se ha probado ningún tema compilado en consola ni se ha aprobado composición final.
