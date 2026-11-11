@@ -1,5 +1,12 @@
 # Handoff actual — Project Relight / KGRP (histórico acumulativo)
 
+## 11-nov-2026 — Relight Respark: Stage P1 / Pokémon Journeys (handoff de continuidad)
+- Recuperación Stage 01–22 contrastada con archivo privado de fichas candidatas 08–22, índice formal aún 01–07; evitar renumeración o cierres inventados. Sesiones editoriales posteriores y Stage P1 conservadas.
+- **Último punto Stage P1:** superior Luminalia **FIJA**, inferior dos variantes (primera Kalos celeste cristal + segunda Kalos anime/ORAS naranja/azul-violeta), splash BLAZE pausado; confirmar referencias XY093–095. Maqueta HTML en Biblioteca; sin tema Anemone compilado ni instalación nueva.
+- **Nueva información sobre segunda DS** aportada el 11-nov: reportadas las nueve entregas D/P/Pt, HG/SS, BW y B2W2; modelo, ejecución y saves **sin comprobar** hasta inspección física. X sigue primero en pruebas del bridge.
+- No reabrir grabaciones a terceros cumplidas, calendario antiguo por número de versión, ni trabajo de perfiles cerrado. Completo: [RESPARK-P1-2026-11-11.md](RESPARK-P1-2026-11-11.md). `P30/` es módulo Pokémon, **no** Stage 30.
+
+
 ## 14-oct-2026 — Ajuste V.25 web: izquierda fija / trabajo central / herramientas plegables (PR #41)
 - Usuario comprobó por PowerShell ambas rutas reales: `/departures/dashboard/` y `/departures/dashboard/library/`, **HTTP 200** con `hostedInitialize=True` y `library-mode=True`. Confirma asset V.25 entregado por Cloudflare, no necesariamente su validación visual.
 - Nueva disposición solicitada: **Semana, idioma y HIATUS** sobre **Actividades de la semana actual** a la izquierda, ambos permanentemente abiertos; el área de trabajo y preview **1080 × 1080** en el centro; los demás paneles continúan plegables a la derecha.
