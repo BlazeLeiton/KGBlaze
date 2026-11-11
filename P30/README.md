@@ -38,6 +38,9 @@ Recorrer las generaciones I–VII de Pokémon Journeys en el canal de Blaze Leit
 
 - [Estado confirmado de la 2DS, aplicaciones y pendientes](2DS-STATUS.md)
 - [Investigación y arquitectura propuesta del puente 2DS → PokéLink](POKELINK-BRIDGE-RESEARCH.md)
+- [Expansión 3DS: ORAS, SM, USUM y cristales Z](3DS-EXPANSION-RESEARCH.md)
+- [Consola complementaria DSi XL, transferencias y RAM de DS](DS-TRANSFER-AND-RESEARCH.md)
+- [Salida al overlay: servidor Socket.IO compatible con temas PokéLink](POKELINK-OUTPUT-RESEARCH.md)
 
 ## Criterios de evidencia
 
