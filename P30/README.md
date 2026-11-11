@@ -41,6 +41,7 @@ Recorrer las generaciones I–VII de Pokémon Journeys en el canal de Blaze Leit
 - [Expansión 3DS: ORAS, SM, USUM y cristales Z](3DS-EXPANSION-RESEARCH.md)
 - [Consola complementaria DSi XL, transferencias y RAM de DS](DS-TRANSFER-AND-RESEARCH.md)
 - [Salida al overlay: servidor Socket.IO compatible con temas PokéLink](POKELINK-OUTPUT-RESEARCH.md)
+- [2DS: paletas United/Aeroméxico, fondos animados y splashes de arranque](2DS-THEMES-ANIMATION-RESEARCH.md)
 
 ## Criterios de evidencia
 
