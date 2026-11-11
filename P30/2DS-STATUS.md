@@ -64,3 +64,9 @@
 6. Todo lo mencionado es **documentación de continuidad**, no prueba de una nueva instalación ni de una transmisión estable.
 
 **Origen:** decisiones y comprobaciones verbalizadas por el usuario en conversaciones de Project Relight / Dex Design y Nintendo 2DS, hasta 11-nov-2026.
+
+## Novedad comunicada sobre la segunda DS — 11-nov-2026 (sin inspección)
+
+El usuario recibió información **indirecta** de que una segunda consola Nintendo DS de **modelo todavía desconocido** tendría cargadas las nueve entregas principales de esa era: **Diamante, Perla, Platino, HeartGold, SoulSilver, Negro, Blanco, Negro 2 y Blanco 2**. Esto amplía la disponibilidad **reportada**, no demuestra aún existencia de archivos accesibles, cartuchos, funcionamiento, procedencia autorizada ni guardados. La foto previa solo mostraba una entrada identificable como *Pokémon White Version*.
+
+**Decisión vigente:** esperar a la **evaluación física de la consola** para determinar hardware, medios de almacenamiento/launcher, juegos que abren y presencia de saves antes de decidir transferencia. No asumir que las nueve versiones son utilizables ni volver a reducir el informe de disponibilidad reportada a cuatro juegos; el prototipo de telemetría continúa con **Pokémon X primero** y, después, con los cuatro DS prioritarios del plan original.
