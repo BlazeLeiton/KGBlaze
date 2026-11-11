@@ -64,3 +64,9 @@ Dos alternativas de I+D:
 ## Siguiente sesión con la otra consola
 
 Comprobar: ¿es DSi XL, con TWiLight, YSMenu u otro sistema? ¿Los iconos son juegos `.nds` en SD o flashcart? ¿Están Platino, SoulSilver, Negro y Negro 2, además de White mostrado? ¿Hay `.sav`? Con esa evidencia fijar la ruta de transferencia y el primer juego DS real para depurar.
+
+## Información posterior a la fotografía — 11-nov-2026 (REPORTE, no verificación)
+
+El usuario recibió información verbal de que la segunda consola (modelo **todavía desconocido**) contiene prácticamente toda la era Pokémon DS: **Diamond/Pearl/Platinum, HeartGold/SoulSilver, Black/White y Black 2/White 2**. Son nueve juegos **reportados**, no nueve ficheros o cartuchos inspeccionados. Este dato amplía el catálogo a revisar, pero todavía no acredita arranque, partidas, formatos, hardware exacto o posibilidad de copiar legalmente datos.
+
+Al disponer físicamente de ella, identificar primero modelo, menú/launcher y si el contenido reside en SD, microSD de flashcart o cartuchos; después verificar los nueve títulos y buscar archivos de guardado mediante comprobaciones no destructivas. **No efectuar transferencias ni modificaciones antes de la revisión física.** Mantener **X → Platino/SoulSilver/Negro/Negro 2** como orden experimental del bridge; la disponibilidad reportada de Diamante/Perla/HeartGold/Blanco/Blanco 2 no es un cambio automático de prioridades.
