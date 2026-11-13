@@ -2,6 +2,25 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+"yukitoki": {
+    "image": "https://m.media-amazon.com/images/I/51QsnE7VqvL._SL500_.jpg",
+    "source": "https://yanaginagi.net/discography/%E3%83%A6%E3%82%AD%E3%83%88%E3%82%AD/",
+    "release": "ユキトキ · GNCA-0269",
+    "kind": "illustrated"
+  },
+  "harumodoki": {
+    "image": "https://img.hmv.co.jp/image/jacket/800/63/0/9/718.jpg",
+    "source": "https://yanaginagi.net/discography/%E6%98%A5%E6%93%AC%E3%81%8D-2/",
+    "release": "春擬き · GNCA-0381",
+    "kind": "illustrated"
+  },
+  "megumi-no-ame": {
+    "image": "https://image.sofmap.com/images/product/pim/4988102863968_A01.jpg",
+    "source": "https://yanaginagi.net/discography/%E8%8A%BD%E3%81%90%E3%81%BF%E3%81%AE%E9%9B%A8/",
+    "release": "芽ぐみの雨 · GNCA-0606",
+    "kind": "illustrated"
+  },
+
 "miiro": {
     "image": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35202.jpg?_c=init",
     "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A019681/VTCL-35202.html",
