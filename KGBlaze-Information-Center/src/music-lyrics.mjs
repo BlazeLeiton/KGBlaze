@@ -19,10 +19,10 @@ export const lyricsBySong={
   },
   "savior-of-song": {
     "es": {
-      "text": "",
+      "text": "En medio de la guerra estoy\nY siento el latir del corazón\nAntes de que el mundo me dé la espalda\nCon mucho valor blandiré mi espada\nPara salvar todas las memorias que se irán\nTengo que abrazarlas y no soltarlas nunca más\nUna canción de paz cubierta por la maldad\nDe pie luchamos por ella hasta el final\nEste mundo se mantiene\nPor toda la oscuridad que habita en él\nEs momento de regresar\nNuestros engranajes e ir hacia atrás\nRecuperemos\nNuestros anhelos que llegamos a perder\nLa esperanza debemos de\nMantener no importará el caer\nSe acelera el corazón\nY descubrimos la compasión\nLa armonía nos cambió\nSavior of song, Savior of song\nYa no hay salida, tal vez todo se acabará\nA mi mente llegan palabras que me salvarán\nEl esfuerzo que vemos aquí está dando frutos por fin\nNo dejaremos que nadie cambie nuestro ser\nUna realidad envuelta\nPor dudas que no nos permiten avanzar\nEs la hora de regresar\nDeshacer lo que quisimos crear\nLiberaremos\nA nuestros corazones de la oscuridad\nLa esperanza hay que guardar\nMantenerse fuerte y avanzar\nNo contenemos la emoción\nDe cumplir nuestra aspiración\nLa armonía nos cambió\nSavior of song, Savior of song\nAlguna vez paraste a pensar\nQue tus palabras un caos podrían causar\nAhora la batalla está frente a ti\nY para muchos la ilusión no volverá\nMuy bien conoces lo que has hecho mal\nAún hay chance para todo cambiar\nTan sólo tienes que dejarte llevar\nY todas las respuestas encontrarás\nLo que anhelamos con pasión\nSe ha teñido de un triste color\n¿Quién se encargará de limpiar el mundo?\nTodos los recuerdos de aquel pasado\nMi mano nunca te alcanzó\nY dentro de mi hay un gran dolor\nPero este sufrir lo haré mi fuerza\nCon mucho valor blandiré mi espada\nEste mundo se mantiene\nPor toda la oscuridad que habita en él\nEs momento de regresar\nNuestros engranajes e ir hacia atrás\nRecuperemos\nNuestros anhelos que llegamos a perder\nLa esperanza debemos de\nMantener no importará el caer\nSe acelera el corazón\nY descubrimos la compasión\nLa armonía nos cambió\nSavior of song, Savior of song",
       "language": "ES",
       "kind": "adaptation",
-      "review": "rights-pending"
+      "review": null
     }
   },
   "high-free-spirits": {
