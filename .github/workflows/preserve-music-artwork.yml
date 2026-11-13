@@ -1,0 +1,27 @@
+name: Preserve selected Rebel Mix jackets
+on:
+  push:
+    branches: [relight/music-first-ep-batch]
+    paths: ['.github/workflows/preserve-music-artwork.yml']
+permissions:
+  contents: write
+jobs:
+  preserve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install Pillow
+      - run: python KGBlaze-Information-Center/scripts/preserve-music-artwork.py
+      - name: Save snapshots on review branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add KGBlaze-Information-Center/public/music-artwork/
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: preserve three first EP original jackets"
+            git push origin HEAD:relight/music-first-ep-batch
+          fi
