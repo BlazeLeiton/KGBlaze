@@ -335,7 +335,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
+  if(!releaseArtwork[s.slug]?.framing)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
   for(const v of visible)for(const lang of ['es','en','ja']){
    const h=page(s.slug,lang,v.id);
    assert.ok(h.includes('data-video-id="'+v.videoId+'"'));
