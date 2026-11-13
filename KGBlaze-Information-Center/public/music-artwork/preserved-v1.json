@@ -102,5 +102,44 @@
       500
     ],
     "sha256": "c3f561ee2bf6de36ca9fbe94d9c3f993b255d123a3a591681b457371dbe84784"
+  },
+  "caesura-of-despair": {
+    "source": "https://hololive.hololivepro.com/wp-content/uploads/2021/07/irys_1stalbm_jk-1000x997.png",
+    "retrieved_from": "https://hololive.hololivepro.com/wp-content/uploads/2021/07/irys_1stalbm_jk-1000x997.png",
+    "original_size": [
+      1000,
+      997
+    ],
+    "size": [
+      720,
+      718
+    ],
+    "sha256": "15d6bad34ce4cc90d511aa6720284964e346ccdc0abcab6fc0cf5376a1ef85f8"
+  },
+  "watashi-no-na-wa-hikari": {
+    "source": "https://www.jvcmusic.co.jp/img/jackets/VICL-65454.jpg?_c=810975cb4b6218f5df509fa16a6c6446",
+    "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VICL-65454.jpg?_c=810975cb4b6218f5df509fa16a6c6446",
+    "original_size": [
+      799,
+      800
+    ],
+    "size": [
+      719,
+      720
+    ],
+    "sha256": "8a340ff0c99c92595ab1fea710076f84a57984ffb7097aa18d3ba5d2e9c9d8ed"
+  },
+  "song-for-you": {
+    "source": "https://idolypride.jp/wp-content/uploads/2021/10/IP1stAL_TsuJo_JK_JPEG_rgb-300x300.jpg",
+    "retrieved_from": "https://idolypride.jp/wp-content/uploads/2021/10/IP1stAL_TsuJo_JK_JPEG_rgb-300x300.jpg",
+    "original_size": [
+      300,
+      300
+    ],
+    "size": [
+      300,
+      300
+    ],
+    "sha256": "b8fed2dda73baecb79371b864cd8b1ed6bb28bea5098efc1e76e038c47b8d1c4"
   }
 }
