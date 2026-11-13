@@ -1,0 +1,34 @@
+// Editorial main-series groups with regional aliases, not literal episode geography.
+// The visible filter is the main series; seasonKey remains internal.
+// Season numbering follows international distribution. Horizons restarts at 1.
+import {isPokemonWork} from './music-works.mjs';
+export const pokemonBlocks=[
+ {id:'kanto',series:{es:"Serie original",en:"Original series",ja:"オリジナルシリーズ"},label:'Kanto',ja:'カントー',first:1,last:2},
+ {id:'johto',series:{es:"Oro y Plata",en:"Gold & Silver",ja:"金・銀"},label:'Johto',ja:'ジョウト',first:3,last:5},
+ {id:'hoenn',series:{es:"Rubí y Zafiro",en:"Ruby & Sapphire",ja:"アドバンスジェネレーション"},label:'Hoenn',ja:'ホウエン',first:6,last:9},
+ {id:'sinnoh',series:{es:"Diamante y Perla",en:"Diamond & Pearl",ja:"ダイヤモンド＆パール"},label:'Sinnoh',ja:'シンオウ',first:10,last:13},
+ {id:'unova',series:{es:"Negro y Blanco",en:"Black & White",ja:"ベストウイッシュ"},label:'Unova',ja:'イッシュ',first:14,last:16},
+ {id:'kalos',series:{es:"XY",en:"XY",ja:"XY"},label:'Kalos',ja:'カロス',first:17,last:19},
+ {id:'alola',series:{es:"Sol y Luna",en:"Sun & Moon",ja:"サン＆ムーン"},label:'Alola',ja:'アローラ',first:20,last:22},
+ {id:'journeys',series:{es:"Viajes",en:"Journeys",ja:"ポケットモンスター（2019）"},label:'Journeys',ja:'Journeys',first:23,last:25},
+ {id:'horizons',series:{es:"Horizontes",en:"Horizons",ja:"ポケットモンスター（2023）"},label:'Horizons',ja:'Horizons'}
+];
+export function tagsForSeason(era,season){
+ if(!['ash','horizons'].includes(era)||!Number.isInteger(season)||season<1)return null;
+ const block=era==='horizons'?pokemonBlocks.find(b=>b.id==='horizons'):pokemonBlocks.find(b=>season>=b.first&&season<=b.last);
+ if(!block)return null;
+ return {block:block.id,seasonKey:era+':'+season,season};
+}
+export function pokemonTags(song){
+ if(!isPokemonWork(song.series))return null;
+ return tagsForSeason(song.series==='Pokémon Horizons'?'horizons':'ash',song.season);
+}
+export function blockLabel(id,lang){const b=pokemonBlocks.find(x=>x.id===id);return b?(lang==='ja'?b.ja:b.label):id;}
+export function seasonTagLabel(tag,lang){
+ if(!tag)return '';
+ const era=tag.seasonKey.startsWith('horizons:')?'Horizons · ':'';
+ return era+({es:'Temporada ',en:'Season ',ja:'海外版シーズン'}[lang]||'Season ')+tag.season;
+}
+
+export function blockSeriesLabel(id,lang){const b=pokemonBlocks.find(x=>x.id===id);return b?.series?.[lang]||b?.series?.en||id;}
+export function blockSearchAliases(id){const b=pokemonBlocks.find(x=>x.id===id);return b?[b.label,b.ja,...Object.values(b.series)].join(' '):'';}
