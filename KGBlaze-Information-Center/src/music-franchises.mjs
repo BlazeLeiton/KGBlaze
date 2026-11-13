@@ -25,8 +25,8 @@ const all=[...Object.values(franchiseRegistry).flatMap(f=>[f.root,...(f.branches
 export function franchiseTagLabel(id,lang){const t=all.find(t=>t.id===id);return t?.[lang]||t?.en||id;}
 export function franchiseTags(song){
  const a=song.affiliation;if(!a)return [];
- // Debut cohort remains searchable, but never replaces original-release unit.
- return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,a.debutUnit,...(a.participatingGroups||[])].filter(Boolean))];
+ // Only the original-release unit is a filter tag; debut cohort is contextual/searchable.
+ return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[])].filter(Boolean))];
 }
 export function affiliationWork(song,lang){
  const a=song.affiliation;
@@ -46,3 +46,5 @@ export function affiliationDetails(song,lang){
  if(a.event)rows.push([labels.event,a.event]);
  return rows;
 }
+
+export function franchiseSearchAliases(song){const a=song.affiliation;if(!a)return '';return [...new Set([...franchiseTags(song),a.debutUnit].filter(Boolean))].flatMap(id=>['es','en','ja'].map(l=>franchiseTagLabel(id,l))).join(' ');}
