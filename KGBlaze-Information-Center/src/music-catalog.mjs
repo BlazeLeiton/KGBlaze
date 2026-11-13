@@ -15,5 +15,8 @@ export const songs=[
  {slug:'are-ga-koi-datta-no-ka-na',title:'あれが恋だったのかな',romanized:'Are ga Koi Datta no ka na',artist:'Kujira feat. nishina',series:'Senpai wa Otokonoko',theme:'ED',versions:[v('es',['ES'],'2024-09-03','Zsa4soVWhk4',es)]},
  {slug:'connect',title:'コネクト',romanized:'Connect',artist:'ClariS',series:'Puella Magi Madoka Magica',theme:'OP',versions:[v('es',['ES'],'2026-10-03','KY678pt_GK0',es)]},
  {slug:'mumei',title:'mumei',artist:'Nanashi Mumei',series:'hololive English',affiliation:{franchise:'hololive',branch:'holo-en',unit:'holo-promise',debutUnit:'holo-council',originalRelease:'2023-10-10'},versions:[v('es',['ES'],'2026-10-07','Z-jGRvrjW-I',es)]},
+ {slug:'caesura-of-despair',title:'Caesura of Despair',artist:'IRyS',series:'hololive English',affiliation:{franchise:'hololive',branch:'holo-en',unit:'holo-hope',debutUnit:'holo-hope',originalRelease:'2021-07-12'},versions:[v('es',['ES'],'2022-01-22','GCwez-ahzl0',es)]},
+ {slug:'song-for-you',title:'song for you',artist:'Mana Nagase',series:'IDOLY PRIDE',theme:'Insert song',versions:[v('es',['ES'],'2022-02-14','zLTjAidbt8Y',es)]},
+ {slug:'watashi-no-na-wa-hikari',title:'私の名は、光。',romanized:'Watashi no Na wa, Hikari',artist:'LiGHTs',series:'Lapis Re:LiGHTs',versions:[v('es',['ES'],'2022-03-01','kzK30m49pn4',es)]},
  {slug:'cake-song',title:'Cake Song',artist:null,series:'Madoka Magica: Rebellion',versions:[v('es',['ES'],'2026-11-01','NMw0X9BaW44',['Fandub en español','Spanish fandub','スペイン語吹替'])]}
 ];
