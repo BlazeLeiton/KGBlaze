@@ -1,6 +1,6 @@
 // Read-only artwork cache. Only URLs registered in music-artwork.mjs are accepted.
 // Edge cache retains successful raster images for 7 days; browsers for 24 hours.
-import {artworkSources} from './music-artwork.mjs';
+import {artworkSources,artworkBackupPath} from './music-artwork.mjs';
 const MAX_BYTES=4*1024*1024;
 const types=new Set(['image/jpeg','image/png','image/webp','image/gif','image/avif']);
 const failure=(status)=>new Response(null,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
@@ -9,12 +9,15 @@ function browserResponse(response,head=false){
  headers.set('Cache-Control','public, max-age=86400');
  return new Response(head?null:response.body,{status:200,headers});
 }
-export async function serveArtwork(request,{cache=globalThis.caches?.default,fetcher=globalThis.fetch,ctx}={}){
+export async function serveArtwork(request,{cache=globalThis.caches?.default,fetcher=globalThis.fetch,assets,ctx}={}){
  const url=new URL(request.url),source=artworkSources.get(url.pathname);
  if(!source)return failure(404);
  if(request.method!=='GET'&&request.method!=='HEAD')return failure(405);
  url.search='';url.hash='';
  const key=new Request(url.toString(),{method:'GET'});
+ // Prefer the preserved selected image. No expiry or upstream outage can erase it.
+ if(assets){try{const saved=await assets.fetch(new Request(new URL(artworkBackupPath(url.pathname),url),{method:request.method}));if(saved.ok&&(saved.headers.get('Content-Type')||'').startsWith('image/webp')){return browserResponse(saved,request.method==='HEAD');}}catch{}}
+
  try{const hit=await cache?.match(key);if(hit)return browserResponse(hit,request.method==='HEAD');}catch{}
  const controller=new AbortController();
  const timeout=setTimeout(()=>controller.abort(),8000);
