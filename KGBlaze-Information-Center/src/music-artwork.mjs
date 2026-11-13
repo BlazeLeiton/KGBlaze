@@ -18,3 +18,6 @@ export const releaseArtwork={
 export const artworkPath=slug=>'/music/artwork-cache/'+slug+'-v1';
 export const artworkSources=new Map(Object.entries(releaseArtwork).filter(([,a])=>a.image.startsWith('https://')).map(([slug,a])=>[artworkPath(slug),a.image]));
 export function artworkURL(slug){const a=releaseArtwork[slug];return a?(a.image.startsWith('https://')?artworkPath(slug):a.image):'';}
+
+// Preserved WebP snapshot is independent of the external URL and cache expiry.
+export const artworkBackupPath=path=>artworkSources.has(path)?'/music-artwork/'+path.split('/').pop()+'.webp':null;
