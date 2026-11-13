@@ -7,5 +7,6 @@ export const releaseArtwork={
  'la-vaguelette':{image:'https://resources.tidal.com/images/38d05322/10fa/4dd5/ae73/71881f57ddb1/1280x1280.jpg',source:'https://tidal.com/album/327431559/track/327431560',release:'Genshin Impact - La vaguelette (Original Game Soundtrack)',kind:'game'},
  'snow-halation':{image:'https://cdn.tower.jp/za/o/5W/zaP5_G2533715W.JPG',source:'https://tower.jp/item/2813824',release:'Snow halation · LACM-4774',kind:'anime'},
  'butter-fly':{image:'https://www.feelmee.jp/uploads/rf5704bf82951c4/NECM10231_180.jpg',source:'https://www.feelmee.jp/index.php/item/product/1093',release:'Butter-Fly ~tri. Version~ · NECM-10231',kind:'anime'},
+ 'connect':{image:'https://www.lisani.jp/claris-best1st/images/connect_img01.jpg',source:'https://www.lisani.jp/claris-best1st/history/junior.php',release:'Connect · SECL-949',kind:'anime'},
  'mumei':{image:'https://hololive.hololivepro.com/wp-content/uploads/2023/10/mumei_jaket_B.png',source:'https://hololive.hololivepro.com/en/music/339/',release:'mumei · CVRD-339',kind:'illustrated'}
 };
