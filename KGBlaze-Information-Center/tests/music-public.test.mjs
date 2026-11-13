@@ -149,7 +149,7 @@ test('pilot maintains version arrangement and first cover history',()=>{
  assert.match(p('snow-halation','naked-garden'),/naked garden Ver\. — ChouCho/);
  assert.match(p('snow-halation','hso-orchestra'),/HSO Orchestra Ver\./);
  assert.match(p('only-one-yell','es'),/El primer cover publicado de Blaze Leiton/);
- assert.match(p('cake-song','es'),/Puella Magi Holy Quintet &amp; Bebe/);
+ assert.match(p('cake-song','es'),/Holy Quintet/);
 });
 
 test('localized work names preserve identity and map XY international seasons',()=>{
@@ -545,7 +545,7 @@ test('all ten selected artwork snapshots exist, with source and integrity manife
 
 test('original character CVs are localized and never replace the cover cast',()=>{
  const cake=songs.find(s=>s.slug==='cake-song');
- assert.equal(originalArtist(cake,'es'),'Puella Magi Holy Quintet & Bebe');
+ assert.equal(originalArtist(cake,'es'),'Holy Quintet');
  assert.equal(originalPerformances['cake-song'].cast.length,6);
  assert.equal(originalPerformances['cake-song'].cast.at(-1).guest,true);
  assert.equal(originalPerformances['blue-spirit'].cast.length,5);
@@ -555,7 +555,7 @@ test('original character CVs are localized and never replace the cover cast',()=
  for(const lang of ['es','en','ja']){
   const page=slug=>musicPage('/music/'+slug+'/',new URLSearchParams({lang}));
   const h=page('cake-song');
-  assert.match(h,/Puella Magi Holy Quintet &amp; Bebe/);
+  assert.match(h,/Holy Quintet/);
   assert.match(h,lang==='ja'?/鹿目まどか（CV：悠木碧）/:/Madoka Kaname \(CV: Aoi Yūki\)/);
   assert.match(h,lang==='ja'?/ベベ／百江なぎさ（CV：阿澄佳奈）/:/Bebe \/ Nagisa Momoe \(CV: Kana Asumi\)/);
   assert.match(h,lang==='ja'?/劇団イヌカレー/:/Gekidan Inu Curry/);
@@ -567,5 +567,16 @@ test('original character CVs are localized and never replace the cover cast',()=
   assert.match(page('snow-halation'),lang==='ja'?/西木野真姫（CV：Pile）/:/Maki Nishikino \(CV: Pile\)/);
   assert.doesNotMatch(page('connect'),/class="original-cast"/);
   assert.match(musicPage('/music/',new URLSearchParams({lang})),/madoka kaname/);
+ }
+});
+
+test('Cake Song catalog names only Holy Quintet while full fiche retains Bebe',()=>{
+ for(const lang of ['es','en','ja']){
+  const catalog=musicPage('/music/',new URLSearchParams({lang}));
+  const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/cake-song/'));
+  assert.match(card,/<p class="artist">Holy Quintet · 2026<\/p>/);
+  assert.doesNotMatch(card,/<p class="artist">[^<]*(Bebe|Nagisa|ベベ|なぎさ)/);
+  const detail=musicPage('/music/cake-song/',new URLSearchParams({lang}));
+  assert.match(detail,lang==='ja'?/ベベ／百江なぎさ（CV：阿澄佳奈）/:/Bebe \/ Nagisa Momoe \(CV: Kana Asumi\)/);
  }
 });

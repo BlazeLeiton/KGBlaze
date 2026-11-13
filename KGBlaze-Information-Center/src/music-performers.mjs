@@ -34,7 +34,7 @@ export const originalPerformances={
   voice('Hanayo Koizumi','小泉花陽','Yurika Kubo','久保ユリカ'),
   voice('Nico Yazawa','矢澤にこ','Sora Tokui','徳井青空')
  ],'https://www.lovelive-anime.jp/otonokizaka/news.php?offset=1118'),
- 'cake-song':group(name('Puella Magi Holy Quintet & Bebe'),[
+ 'cake-song':group(name('Holy Quintet'),[
   voice('Madoka Kaname','鹿目まどか','Aoi Yūki','悠木碧'),
   voice('Homura Akemi','暁美ほむら','Chiwa Saitō','斎藤千和'),
   voice('Mami Tomoe','巴マミ','Kaori Mizuhashi','水橋かおり'),
