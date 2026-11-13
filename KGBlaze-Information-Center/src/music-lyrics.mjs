@@ -73,7 +73,7 @@ export const lyricsBySong={
         {
           "lang": "JA",
           "text": "Gokigen na chou ni natte kirameku kaze ni notte\nIma sugu kimi ni ai ni ikou\nYokei na koto nante wasureta hou ga mashi sa\nKore ijou shareteru jikan wa nai",
-          "textJa": "ゴキゲンな蝶になって きらめく風に乗って\n今すぐ君に会いに行こう\n余計な事なんて忘れた方がマシさ\nこれ以上シャレてる時間はない",
+          "textJa": "ゴキゲンな蝶になって きらめく風に乗って\n今すぐキミに会いに行こう\n余計な事なんて忘れた方がマシさ\nこれ以上シャレてる時間はない",
           "stanza": 2
         },
         {
@@ -118,7 +118,7 @@ export const lyricsBySong={
           "stanza": 9
         }
       ],
-      "scriptSource": "Japanese transcription from supplied romaji; non-Japanese segments unchanged"
+      "scriptSource": "Japanese transcription from supplied romaji; orthography checked against published reference, non-Japanese segments unchanged"
     }
   },
   "snow-halation": {
@@ -133,8 +133,8 @@ export const lyricsBySong={
       "language": "JA",
       "kind": "original_romanized",
       "review": null,
-      "textJa": "不思議だね 今の気持ち\n空から降ってきたみたい\n特別な季節の色がときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\n止められない 止まらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の鼓動が速くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつのまにか大きくなりすぎた \"True emotion\"\n夢だけ見てるようじゃつらいよ\n恋人は君って言いたい\n優しい目がとまどってる いやだよ\nこのまま一気に愛情あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
-      "scriptSource": "Transcription from supplied romaji; original orthography not independently verified"
+      "textJa": "不思議だね いまの気持ち\n空から降ってきたみたい\n特別な季節の色がときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\nとめられない とまらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の鼓動が早くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつの間にか大きくなりすぎた \"True emotion\"\n夢だけみてる様じゃつらいよ\n恋人は君って言いたい\n優しい目がとまどってるイヤだよ\nこのまま一気に愛情あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
+      "scriptSource": "Transcription from supplied romaji; orthography checked against published reference, supplied wording retained"
     }
   },
   "are-ga-koi-datta-no-ka-na": {
