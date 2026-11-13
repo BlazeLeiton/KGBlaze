@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
-import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails} from '../src/music-franchises.mjs';
+import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
@@ -381,4 +381,31 @@ test('franchise affiliation preserves original-release identity and separate deb
   assert.match(ch,/item.dataset.affiliation.split\(" "\).includes/);
   assert.doesNotMatch(ch,/option value="ll-hasunosora"/);
  }
+});
+
+test('compact cards have one franchise badge while fiches retain complete tags',()=>{
+ const m=songs.find(s=>s.slug==='mumei'), snow=songs.find(s=>s.slug==='snow-halation');
+ for(const lang of ['es','en','ja']){
+  assert.deepEqual(catalogAffiliationBadge(m,lang),{id:'holo-en',label:'hololive EN'});
+  assert.deepEqual(catalogAffiliationBadge(snow,lang),{id:'ll-muse',label:"μ's"});
+  const h=musicPage('/music/',new URLSearchParams({lang}));
+  const card=slug=>h.match(new RegExp('<article class="song"[^>]*>[\\s\\S]*?<\\/article>','g')).find(x=>x.includes('/music/'+slug+'/'));
+  const mc=card('mumei'),sc=card('snow-halation'),pc=card('dokimeki-diary');
+  assert.equal((mc.match(/class="pk-tag"/g)||[]).length,1);
+  assert.match(mc,/affiliation=holo-en">hololive EN<\/a>/);
+  assert.doesNotMatch(mc,/class="pk-tag"[^>]*affiliation=holo-promise/);
+  assert.equal((sc.match(/class="pk-tag"/g)||[]).length,1);
+  assert.match(sc,/affiliation=ll-muse">μ&#39;s<\/a>/);
+  assert.match(pc,/block=horizons/);
+  const detail=musicPage('/music/mumei/',new URLSearchParams({lang}));
+  assert.match(detail,/affiliation=holo-promise/);
+  assert.match(detail,/Council/);
+ }
+ for(const [branch,label] of [['holo-jp','hololive JP'],['holo-id','hololive ID'],['holo-en','hololive EN']])assert.equal(catalogAffiliationBadge({affiliation:{franchise:'hololive',branch}},'es').label,label);
+ for(const [group,label] of [['ll-aqours','Sunshine!!'],['ll-liella','Superstar!!'],['ll-nijigasaki','Nijigasaki'],['ll-hasunosora','Hasunosora'],['ll-bluebird','BLUEBIRD']])assert.equal(catalogAffiliationBadge({affiliation:{franchise:'love-live',groups:[group]}},'en').label,label);
+ const cross={affiliation:{franchise:'love-live',participatingGroups:['ll-aqours','ll-liella']}};
+ assert.deepEqual(catalogAffiliationBadge(cross,'es'),{id:'ll-crossover',label:'Multiserie'});
+ assert.ok(franchiseTags(cross).includes('ll-crossover'));
+ assert.equal(catalogAffiliationBadge({affiliation:{...cross.affiliation,unit:'ll-aiscream'}},'es').label,'AiScReam');
+ assert.match(franchiseSearchAliases(m),/hololive EN/);
 });
