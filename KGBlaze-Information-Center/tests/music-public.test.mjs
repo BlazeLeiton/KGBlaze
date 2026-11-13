@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {originalPerformances,originalArtist,voiceLabel,originalCreditRows} from '../src/music-performers.mjs';
 import {serveArtwork} from '../src/music-artwork-cache.mjs';
 import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs';
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
@@ -148,7 +149,7 @@ test('pilot maintains version arrangement and first cover history',()=>{
  assert.match(p('snow-halation','naked-garden'),/naked garden Ver\. — ChouCho/);
  assert.match(p('snow-halation','hso-orchestra'),/HSO Orchestra Ver\./);
  assert.match(p('only-one-yell','es'),/El primer cover publicado de Blaze Leiton/);
- assert.match(p('cake-song','es'),/Créditos por verificar/);
+ assert.match(p('cake-song','es'),/Puella Magi Holy Quintet &amp; Bebe/);
 });
 
 test('localized work names preserve identity and map XY international seasons',()=>{
@@ -539,5 +540,32 @@ test('all ten selected artwork snapshots exist, with source and integrity manife
    assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest[slug].sha256);
    assert.ok(Math.max(...manifest[slug].size)<=720);
   }
+ }
+});
+
+test('original character CVs are localized and never replace the cover cast',()=>{
+ const cake=songs.find(s=>s.slug==='cake-song');
+ assert.equal(originalArtist(cake,'es'),'Puella Magi Holy Quintet & Bebe');
+ assert.equal(originalPerformances['cake-song'].cast.length,6);
+ assert.equal(originalPerformances['cake-song'].cast.at(-1).guest,true);
+ assert.equal(originalPerformances['blue-spirit'].cast.length,5);
+ assert.equal(originalPerformances['only-one-yell'].cast.length,9);
+ assert.equal(originalPerformances['snow-halation'].cast.length,9);
+ assert.equal(voiceLabel(originalPerformances['snow-halation'].cast[5],'ja'),'西木野真姫（CV：Pile）');
+ for(const lang of ['es','en','ja']){
+  const page=slug=>musicPage('/music/'+slug+'/',new URLSearchParams({lang}));
+  const h=page('cake-song');
+  assert.match(h,/Puella Magi Holy Quintet &amp; Bebe/);
+  assert.match(h,lang==='ja'?/鹿目まどか（CV：悠木碧）/:/Madoka Kaname \(CV: Aoi Yūki\)/);
+  assert.match(h,lang==='ja'?/ベベ／百江なぎさ（CV：阿澄佳奈）/:/Bebe \/ Nagisa Momoe \(CV: Kana Asumi\)/);
+  assert.match(h,lang==='ja'?/劇団イヌカレー/:/Gekidan Inu Curry/);
+  assert.match(h,lang==='ja'?/梶浦由記/:/Yuki Kajiura/);
+  assert.match(h,/class="voice-name">Sae/);
+  assert.match(h,/class="original-cast"/);
+  assert.match(page('blue-spirit'),lang==='ja'?/イラストリアス（CV：雨宮天）/:/Illustrious \(CV: Sora Amamiya\)/);
+  assert.match(page('only-one-yell'),lang==='ja'?/淀川逢生（CV：岩橋由佳）/:/Ao Yodogawa \(CV: Yuka Iwahashi\)/);
+  assert.match(page('snow-halation'),lang==='ja'?/西木野真姫（CV：Pile）/:/Maki Nishikino \(CV: Pile\)/);
+  assert.doesNotMatch(page('connect'),/class="original-cast"/);
+  assert.match(musicPage('/music/',new URLSearchParams({lang})),/madoka kaname/);
  }
 });
