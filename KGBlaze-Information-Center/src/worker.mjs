@@ -221,7 +221,7 @@ export default {
    if(MUSIC_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
-    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src data:; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
+    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src data: https://i.ytimg.com; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
    }
    if(['/dashboard/','/dashboard','/dashboard/library/'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');

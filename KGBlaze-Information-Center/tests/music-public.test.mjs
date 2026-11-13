@@ -23,13 +23,14 @@ test('Music routes are exact, read-only, and do not expose admin aliases',()=>{
  assert.equal(routePortalRequest(req('/music/unpublished-song/')).response.status,404);
  assert.equal(routePortalRequest(req('/departures/')).request.url,origin+'/');
 });
-test('Music preview renders three pages in three languages without external media or unpublished lyrics',()=>{
+test('Music preview renders all pages in three languages with scoped YouTube media',()=>{
  for(const p of [...MUSIC_PATHS].filter(p=>p.endsWith('/')))for(const lang of ['es','en','ja']){
   const html=musicPage(p,new URLSearchParams({lang}));
   assert.match(html,new RegExp('lang="'+lang+'"'));
   assert.match(html,/noindex,nofollow,noarchive/);
   assert.match(html,/typography-v1\.css/);
-  assert.doesNotMatch(html,/youtube\.com|mega\.nz|undefined/);
+  assert.doesNotMatch(html,/mega\.nz|undefined|<iframe /);
+  assert.match(html,/i\.ytimg\.com\/vi\//);
  }
  const html=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'ja',version:'en'}));
  assert.match(html,/楽曲選集/);
@@ -318,4 +319,34 @@ test('Japanese lyric script follows locale, including mixed-language segments an
   if(lang==='ja'){assert.match(h,/class="lyric-segment" lang="ja"/);assert.match(h,/無限大な夢のあとの/);assert.doesNotMatch(h,/Mugendai na yume/);}
   else{assert.match(h,/class="lyric-segment" lang="ja-Latn"/);assert.match(h,/Mugendai na yume/);assert.doesNotMatch(h,/無限大な夢のあとの/);}
  }
+});
+
+test('video thumbnails and playback are bound to the selected public recording',async()=>{
+ const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
+ const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.equal((catalog.match(/class="video-cover"/g)||[]).length,10);
+ for(const s of songs){
+  const visible=s.versions.filter(v=>v.public!==false);
+  const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
+  for(const v of visible)for(const lang of ['es','en','ja']){
+   const h=page(s.slug,lang,v.id);
+   assert.ok(h.includes('data-video-id="'+v.videoId+'"'));
+   assert.ok(h.includes('https://www.youtube.com/watch?v='+v.videoId+'"'));
+   assert.ok(h.includes('https://i.ytimg.com/vi/'+v.videoId+'/hqdefault.jpg'));
+   assert.doesNotMatch(h,/<iframe /);
+   assert.match(h,/youtube-nocookie\.com\/embed\//);
+   assert.match(h,/strict-origin-when-cross-origin/);
+   assert.match(h,/loading="lazy"/);
+   assert.match(h,/class="video-play"/);
+  }
+ }
+ assert.equal((page('blue-spirit','es','en').match(/data-video-id="v3QAe_f6Eh0"/g)||[]).length,1);
+ assert.match(page('dokimeki-diary','es','album-studio'),/data-video-id="8sAotUCAJH8"/);
+ assert.match(page('la-vaguelette','es','fr-audio'),/data-video-id="Y7UBoG9twvc"/);
+ const res=await worker.fetch(req('/music/blue-spirit/'),environment);
+ const csp=res.headers.get('Content-Security-Policy');
+ assert.match(csp,/img-src data: https:\/\/i\.ytimg\.com;/);
+ assert.match(csp,/frame-src https:\/\/www\.youtube-nocookie\.com;/);
+ assert.equal(res.headers.get('Referrer-Policy'),'strict-origin-when-cross-origin');
 });
