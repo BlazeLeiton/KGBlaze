@@ -57,3 +57,22 @@ test('new Terminal visual layer stays outside embedded canvas and protected cont
  assert.doesNotMatch(exterior,/\n[^\n]*(?:#board|\.flight-light|\.flight-status|\.compact-actions|\.hit-layer)[^{\n]*\{/);
  assert.match(exterior,/#020C41/);assert.match(exterior,/#0B1761/);assert.match(exterior,/#276EF1/);assert.match(exterior,/#FA0073/);
 });
+
+test('public polish preserves platform color and exposes first release metadata',()=>{
+ assert.match(VIEWER_CSS,/\.discord-btn\{background:#536ee5;border-radius:6px/);
+ assert.match(VIEWER_CSS,/\.panel-side\{background:#0B1761;border:1px solid #276EF1;border-radius:8px/);
+ const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.match(catalog,/data-year="2022"/);
+ assert.match(catalog,/data-year="2023"/);
+ assert.doesNotMatch(catalog,/data-year="2022 2024"/);
+ assert.match(catalog,/ドキメキダイアリー/);
+ assert.match(catalog,/\(Dokimeki Diary\)/);
+ assert.match(catalog,/Pokémon Horizons · Temporada 1/);
+ assert.match(catalog,/Astrum · 2022/);
+ assert.match(catalog,/asmi feat\. Chinozo · 2023/);
+ const blue=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es',version:'en'}));
+ assert.match(blue,/Universe in Unison/);
+ assert.match(blue,/Primer estreno<\/dt><dd>2022/);
+ assert.match(blue,/Fecha de esta versión<\/dt><dd>2024-04-26/);
+ assert.match(blue,/border-radius:8px/);
+});
