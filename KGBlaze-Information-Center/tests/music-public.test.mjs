@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
-import {releaseArtwork} from '../src/music-artwork.mjs';
+import {serveArtwork} from '../src/music-artwork-cache.mjs';
+import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs';
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
@@ -435,7 +436,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
   const first=s.versions.find(v=>v.public!==false);
   const art=releaseArtwork[s.slug];
   if(art){
-   assert.ok(card.includes(art.image.replaceAll('&','&amp;')));
+   assert.ok(card.includes('src="'+artworkURL(s.slug)+'"'));
    assert.ok(card.includes('data-fallback="https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg"'));
    assert.ok(card.includes('data-art-kind="'+art.kind+'"'));
    const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang:'es'}));
@@ -457,4 +458,55 @@ test('square catalog artwork prefers sourced anime editions without changing vid
   assert.equal(routed.headers.get('Content-Type'),'image/webp');
  }
  assert.equal((await worker.fetch(req('/music-artwork/unknown.webp'),environment)).status,404);
+});
+
+test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
+ const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
+ assert.equal(artworkSources.size,8);
+ assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
+ const stored=new Map();let calls=0;
+ const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
+ const fetcher=async source=>{calls++;assert.equal(source,releaseArtwork.connect.image);return new Response(new Uint8Array([255,216,255,217]),{headers:{'Content-Type':'image/jpeg'}})};
+ const first=await serveArtwork(new Request(url+'?unused=1'),{cache,fetcher});
+ assert.equal(first.status,200);assert.equal(first.headers.get('Cache-Control'),'public, max-age=86400');
+ assert.equal(stored.get(url).headers.get('Cache-Control'),'public, max-age=604800');
+ assert.deepEqual(new Uint8Array(await first.arrayBuffer()),new Uint8Array([255,216,255,217]));
+ const second=await serveArtwork(new Request(url),{cache,fetcher});assert.equal(second.status,200);assert.equal(calls,1);
+ const head=await serveArtwork(new Request(url,{method:'HEAD'}),{cache,fetcher});assert.equal(head.body,null);assert.equal(calls,1);
+ assert.equal((await serveArtwork(new Request(url,{method:'POST'}),{cache,fetcher})).status,405);
+ assert.equal((await serveArtwork(new Request(url+'/other'),{cache,fetcher})).status,404);
+ assert.equal((await serveArtwork(new Request(url),{cache:null,fetcher:async()=>new Response('<html>',{headers:{'Content-Type':'text/html'}})})).status,502);
+ assert.equal((await serveArtwork(new Request(url),{cache:null,fetcher:async()=>new Response('x',{headers:{'Content-Type':'image/png','Content-Length':'5000000'}})})).status,502);
+ assert.equal((await serveArtwork(new Request(url),{cache:null,fetcher:async()=>{throw Error('offline')}})).status,502);
+ assert.equal((await worker.fetch(req('/music/artwork-cache/unknown-v1'),environment)).status,404);
+ const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.equal((catalog.match(/loading="eager"/g)||[]).length,2);
+ assert.equal((catalog.match(/loading="lazy"/g)||[]).length,8);
+ assert.match(catalog,/data-origin="https:\/\/www\.lisani\.jp/);
+});
+test('context filters appear only for relevant results or tag deep links',()=>{
+ const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.match(html,/id="context-filters" hidden/);
+ const js=html.match(/<script>([\s\S]*?)<\/script>/)[1];
+ const make=()=>({value:'',options:[],hidden:false,addEventListener(name,fn){this[name]=fn},setAttribute(){}});
+ const ids=['search','language','year','series','block','affiliation','block-filter','affiliation-filter','context-filters','empty','clear','grid','list'];
+ const el=Object.fromEntries(ids.map(k=>[k,make()]));
+ const options=(...values)=>values.map(value=>({value}));
+ el.series.options=options('','Pokémon Horizons','hololive English','Love Live! School Idol Project','Azur Lane');
+ el.block.options=options('','horizons');el.affiliation.options=options('','hololive','holo-en','holo-promise','love-live','ll-muse');
+ const item=(title,series,block,affiliation)=>({dataset:{title,series,block,affiliation,lang:'ES',year:'2023'}});
+ const items=[item('dokimeki','Pokémon Horizons','horizons',''),item('mumei','hololive English','','hololive holo-en holo-promise'),item('snow','Love Live! School Idol Project','','love-live ll-muse'),item('blue','Azur Lane','','')];
+ el.songs={children:items,classList:{toggle(){}}};
+ const doc={querySelectorAll:()=>[],getElementById:id=>el[id]};
+ const start=search=>new Function('document','location','URLSearchParams',js)(doc,{search},URLSearchParams);
+ start('');assert.equal(el['context-filters'].hidden,true);
+ el.series.value='Pokémon Horizons';el.series.input();assert.equal(el['block-filter'].hidden,false);assert.equal(el['affiliation-filter'].hidden,true);
+ el.block.value='horizons';el.block.input();assert.equal(items.filter(x=>!x.hidden).length,1);
+ el.series.value='hololive English';el.series.input();assert.equal(el.block.value,'');assert.equal(el['block-filter'].hidden,true);assert.equal(el['affiliation-filter'].hidden,false);
+ assert.equal(el.affiliation.options.find(o=>o.value==='ll-muse').disabled,true);
+ el.series.value='Azur Lane';el.series.input();assert.equal(el['context-filters'].hidden,true);
+ el.clear.onclick();assert.equal(el['context-filters'].hidden,true);assert.equal(items.filter(x=>!x.hidden).length,4);
+ el.search.value='snow';el.search.input();assert.equal(el['affiliation-filter'].hidden,false);assert.equal(el.affiliation.options.find(o=>o.value==='holo-en').disabled,true);
+ el.clear.onclick();start('?affiliation=holo-promise');assert.equal(el['affiliation-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
+ el.clear.onclick();start('?block=horizons');assert.equal(el['block-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
 });
