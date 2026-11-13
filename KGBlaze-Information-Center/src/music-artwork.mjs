@@ -13,3 +13,8 @@ export const releaseArtwork={
  'connect':{image:'https://www.lisani.jp/claris-best1st/images/connect_img01.jpg',source:'https://www.lisani.jp/claris-best1st/history/junior.php',release:'Connect · SECL-949',kind:'anime'},
  'mumei':{image:'https://hololive.hololivepro.com/wp-content/uploads/2023/10/mumei_jaket_B.png',source:'https://hololive.hololivepro.com/en/music/339/',release:'mumei · CVRD-339',kind:'illustrated'}
 };
+
+// Versioned, same-origin URLs. Original source URLs remain in the registry for attribution.
+export const artworkPath=slug=>'/music/artwork-cache/'+slug+'-v1';
+export const artworkSources=new Map(Object.entries(releaseArtwork).filter(([,a])=>a.image.startsWith('https://')).map(([slug,a])=>[artworkPath(slug),a.image]));
+export function artworkURL(slug){const a=releaseArtwork[slug];return a?(a.image.startsWith('https://')?artworkPath(slug):a.image):'';}
