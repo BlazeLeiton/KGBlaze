@@ -3,22 +3,43 @@
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
 "yukitoki": {
-    "image": "https://m.media-amazon.com/images/I/51QsnE7VqvL._SL500_.jpg",
-    "source": "https://yanaginagi.net/discography/%E3%83%A6%E3%82%AD%E3%83%88%E3%82%AD/",
-    "release": "ユキトキ · GNCA-0269",
-    "kind": "illustrated"
+    "image": "https://www.marv.jp/uploads/news/7801/5dd4afa9afba7.jpg",
+    "source": "https://www.marv.jp/news/article/7801/",
+    "release": "Oregairu Kan — teaser visual (2019)",
+    "kind": "selected",
+    "version": 2,
+    "framing": "oregairu-yukitoki",
+    "originalRelease": {
+      "image": "https://m.media-amazon.com/images/I/51QsnE7VqvL._SL500_.jpg",
+      "source": "https://yanaginagi.net/discography/%E3%83%A6%E3%82%AD%E3%83%88%E3%82%AD/",
+      "release": "ユキトキ · GNCA-0269"
+    }
   },
   "harumodoki": {
-    "image": "https://img.hmv.co.jp/image/jacket/800/63/0/9/718.jpg",
-    "source": "https://yanaginagi.net/discography/%E6%98%A5%E6%93%AC%E3%81%8D-2/",
-    "release": "春擬き · GNCA-0381",
-    "kind": "illustrated"
+    "image": "https://www.famitsu.com/images/000/189/760/z_5e01fb6d7cfa9.jpg",
+    "source": "https://www.famitsu.com/news/201912/24189760.html",
+    "release": "Oregairu Zoku — key visual",
+    "kind": "selected",
+    "version": 2,
+    "framing": "oregairu-harumodoki",
+    "originalRelease": {
+      "image": "https://img.hmv.co.jp/image/jacket/800/63/0/9/718.jpg",
+      "source": "https://yanaginagi.net/discography/%E6%98%A5%E6%93%AC%E3%81%8D-2/",
+      "release": "春擬き · GNCA-0381"
+    }
   },
   "megumi-no-ame": {
-    "image": "https://image.sofmap.com/images/product/pim/4988102863968_A01.jpg",
-    "source": "https://yanaginagi.net/discography/%E8%8A%BD%E3%81%90%E3%81%BF%E3%81%AE%E9%9B%A8/",
-    "release": "芽ぐみの雨 · GNCA-0606",
-    "kind": "illustrated"
+    "image": "https://blue.kumparan.com/image/upload/fl_progressive%2Cfl_lossy%2Cc_fill%2Cf_auto%2Cq_auto%3Abest%2Cw_640/v1594362675/My-Teen-Romantic-Comedy_rxpxk3.png",
+    "source": "https://kumparan.com/info-anime/season-ketiga-oregairu-akan-tayang-dalam-12-episode-1tmC9RuGNju",
+    "release": "Oregairu — waterfront illustration",
+    "kind": "selected",
+    "version": 2,
+    "framing": "oregairu-megumi",
+    "originalRelease": {
+      "image": "https://image.sofmap.com/images/product/pim/4988102863968_A01.jpg",
+      "source": "https://yanaginagi.net/discography/%E8%8A%BD%E3%81%90%E3%81%BF%E3%81%AE%E9%9B%A8/",
+      "release": "芽ぐみの雨 · GNCA-0606"
+    }
   },
 
 "miiro": {
@@ -62,7 +83,7 @@ export const releaseArtwork={
 };
 
 // Versioned, same-origin URLs. Original source URLs remain in the registry for attribution.
-export const artworkPath=slug=>'/music/artwork-cache/'+slug+'-v1';
+export const artworkPath=slug=>'/music/artwork-cache/'+slug+'-v'+(releaseArtwork[slug]?.version||1);
 export const artworkSources=new Map(Object.entries(releaseArtwork).filter(([,a])=>a.image.startsWith('https://')).map(([slug,a])=>[artworkPath(slug),a.image]));
 export function artworkURL(slug){const a=releaseArtwork[slug];return a?(a.image.startsWith('https://')?artworkPath(slug):a.image):'';}
 
