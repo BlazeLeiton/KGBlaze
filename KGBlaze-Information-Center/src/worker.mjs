@@ -207,6 +207,11 @@ export default {
    if(routed.response)return routed.response;
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
+   if(['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp'].includes(dashboardPath)){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
+    return env.ASSETS.fetch(routed.request);
+   }
    if(dashboardPath===MUSIC_TYPE_PATH){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     // Extract the existing faces once per cache miss; no duplicate font files.
