@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
+import {songs} from '../src/music-catalog.mjs';
 import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from '../src/music-page.mjs';
 import {VIEWER_CSS} from '../src/viewer-enhancements.mjs';
 const origin='https://kgblaze.dpdns.org';
@@ -93,4 +94,43 @@ test('song header follows selected version while catalog keeps first release',()
  assert.match(header(get('dokimeki-diary','es','es')),/datetime="2023-05">mayo de 2023/);
  assert.match(header(get('dokimeki-diary','es','ensemble')),/datetime="2023-12">diciembre de 2023/);
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
+});
+
+test('pilot has ten songs and thirteen distinct publications with valid routes',()=>{
+ assert.equal(songs.length,10);
+ const versions=songs.flatMap(s=>s.versions);
+ assert.equal(versions.length,13);
+ assert.equal(new Set(versions.map(v=>v.videoId)).size,13);
+ assert.ok(versions.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
+ assert.equal(MUSIC_PATHS.size,22);
+ assert.equal(songs.filter(s=>s.firstCover).length,1);
+ assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
+ const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.equal((html.match(/<article class="song"/g)||[]).length,10);
+ assert.match(html,/data-lang="ES FR MULTI"/);
+ assert.match(html,/data-lang="MULTI"/);
+ assert.match(html,/data-lang="ES JA"/);
+ assert.match(html,/<option value="MULTI">Multilingüe/);
+ assert.match(html,/2021/);
+});
+test('Pokémon source edition is independent of cover language and numbering',()=>{
+ const song=songs.find(s=>s.slug==='dokimeki-diary');
+ assert.equal(song.sourceEdition,'jp');
+ assert.equal(song.theme,'OP 1');
+ assert.ok(song.versions.every(v=>v.langs.includes('ES')));
+ const page=(lang,version)=>musicPage('/music/dokimeki-diary/',new URLSearchParams({lang,version}));
+ assert.match(page('es','ensemble'),/Pokémon Horizons · Temporada 1 \(Japonesa\)/);
+ assert.doesNotMatch(page('es','ensemble'),/Edición de origen<\/dt>/);
+ assert.match(page('en','es'),/Pokémon Horizons · Season 1 \(Japanese\)/);
+ assert.doesNotMatch(page('en','es'),/Source edition<\/dt>/);
+ assert.match(page('ja','es'),/Pokémon Horizons · シーズン 1 \(日本版\)/);
+ assert.doesNotMatch(page('ja','es'),/原曲の版<\/dt>/);
+ assert.doesNotMatch(musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es'})),/Edición de origen<\/dt>/);
+});
+test('pilot maintains version arrangement and first cover history',()=>{
+ const p=(slug,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang:'es',version}));
+ assert.match(p('snow-halation','naked-garden'),/naked garden Ver\. — ChouCho/);
+ assert.match(p('snow-halation','hso-orchestra'),/HSO Orchestra Ver\./);
+ assert.match(p('only-one-yell','es'),/El primer cover publicado de Blaze Leiton/);
+ assert.match(p('cake-song','es'),/Créditos por verificar/);
 });
