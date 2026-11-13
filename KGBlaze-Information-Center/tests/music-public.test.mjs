@@ -1,3 +1,5 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
@@ -509,4 +511,33 @@ test('context filters appear only for relevant results or tag deep links',()=>{
  el.search.value='snow';el.search.input();assert.equal(el['affiliation-filter'].hidden,false);assert.equal(el.affiliation.options.find(o=>o.value==='holo-en').disabled,true);
  el.clear.onclick();start('?affiliation=holo-promise');assert.equal(el['affiliation-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
  el.clear.onclick();start('?block=horizons');assert.equal(el['block-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
+});
+
+test('durable artwork takes priority even when origin and edge cache disappear',async()=>{
+ const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
+ let network=0;const saved=new Uint8Array([82,73,70,70,8,0,0,0,87,69,66,80]);
+ const assets={fetch:async r=>{assert.equal(new URL(r.url).pathname,'/music-artwork/connect-v1.webp');return new Response(r.method==='HEAD'?null:saved,{headers:{'Content-Type':'image/webp'}})}};
+ const cache={match:async()=>{throw Error('evicted')},put:async()=>{throw Error('unavailable')}};
+ const fetcher=async()=>{network++;throw Error('removed')};
+ for(const method of ['GET','HEAD']){
+  const response=await serveArtwork(new Request(url,{method}),{assets,cache,fetcher});
+  assert.equal(response.status,200);assert.equal(response.headers.get('Content-Type'),'image/webp');
+  if(method==='GET')assert.deepEqual(new Uint8Array(await response.arrayBuffer()),saved);else assert.equal(response.body,null);
+ }
+ assert.equal(network,0);
+});
+
+test('all ten selected artwork snapshots exist, with source and integrity manifest',()=>{
+ const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
+ assert.equal(Object.keys(manifest).length,8);
+ for(const [slug,art] of Object.entries(releaseArtwork)){
+  const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
+  assert.equal(bytes.toString('ascii',0,4),'RIFF');
+  assert.equal(bytes.toString('ascii',8,12),'WEBP');
+  if(art.image.startsWith('https://')){
+   assert.equal(manifest[slug].source,art.image);
+   assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest[slug].sha256);
+   assert.ok(Math.max(...manifest[slug].size)<=720);
+  }
+ }
 });
