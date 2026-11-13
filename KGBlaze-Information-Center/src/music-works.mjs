@@ -16,6 +16,8 @@ export const works={
   15:names('Pokémon: BW Rival Destinies','ポケットモンスター ベストウイッシュ','Pokémon Negro y Blanco: Destinos rivales'),
   16:names('Pokémon: BW Adventures in Unova and Beyond','ポケットモンスター ベストウイッシュ','Pokémon Negro y Blanco: Aventuras en Unova y más allá')
  }},
+ 'Lapis Re:LiGHTs':names('Lapis Re:LiGHTs','ラピスリライツ'),
+ 'IDOLY PRIDE':names('IDOLY PRIDE','IDOLY PRIDE','IDOLY PRIDE',['アイドリープライド']),
  'Selection Project':names('SELECTION PROJECT','SELECTION PROJECT'),
  'Genshin Impact':names('Genshin Impact','原神'),
  'Love Live! School Idol Project':names('Love Live! School Idol Project','ラブライブ！'),

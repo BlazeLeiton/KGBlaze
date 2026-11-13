@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {coverAlbums,albumsForVersion} from '../src/music-albums.mjs';
 import {originalPerformances,originalArtist,voiceLabel,originalCreditRows} from '../src/music-performers.mjs';
 import {serveArtwork} from '../src/music-artwork-cache.mjs';
 import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs';
@@ -106,20 +107,20 @@ test('song header follows selected version while catalog keeps first release',()
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
-test('pilot has ten songs and thirteen distinct publications with valid routes',()=>{
- assert.equal(songs.length,10);
+test('catalog has thirteen songs and sixteen distinct publications with valid routes',()=>{
+ assert.equal(songs.length,13);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,16);
+ assert.equal(versions.length,19);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,13);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,13);
+ assert.equal(videos.length,16);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,16);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,22);
+ assert.equal(MUSIC_PATHS.size,28);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((html.match(/<article class="song"/g)||[]).length,10);
+ assert.equal((html.match(/<article class="song"/g)||[]).length,13);
  assert.match(html,/data-lang="ES FR MULTI"/);
  assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA"/);
@@ -222,11 +223,11 @@ test('regional blocks use international season keys and never mix Horizons with 
 });
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
- assert.equal(Object.keys(lyricsBySong).length,10);
+ assert.equal(Object.keys(lyricsBySong).length,13);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
- assert.equal(entries.length,16);
+ assert.equal(entries.length,19);
  assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v.text).length,16);
+ assert.equal(entries.filter(v=>v.text).length,19);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
@@ -330,7 +331,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,10);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,13);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
@@ -430,8 +431,8 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,10);
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,10);
+ assert.equal(Object.keys(releaseArtwork).length,13);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,13);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
@@ -465,7 +466,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,8);
+ assert.equal(artworkSources.size,11);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -484,7 +485,7 @@ test('registered external artwork cache reuses successful responses and rejects 
  assert.equal((await worker.fetch(req('/music/artwork-cache/unknown-v1'),environment)).status,404);
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
  assert.equal((catalog.match(/loading="eager"/g)||[]).length,2);
- assert.equal((catalog.match(/loading="lazy"/g)||[]).length,8);
+ assert.equal((catalog.match(/loading="lazy"/g)||[]).length,11);
  assert.match(catalog,/data-origin="https:\/\/www\.lisani\.jp/);
 });
 test('context filters appear only for relevant results or tag deep links',()=>{
@@ -528,9 +529,9 @@ test('durable artwork takes priority even when origin and edge cache disappear',
  assert.equal(network,0);
 });
 
-test('all ten selected artwork snapshots exist, with source and integrity manifest',()=>{
+test('all thirteen selected artwork snapshots exist, with source and integrity manifest',()=>{
  const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
- assert.equal(Object.keys(manifest).length,8);
+ assert.equal(Object.keys(manifest).length,11);
  for(const [slug,art] of Object.entries(releaseArtwork)){
   const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
@@ -578,5 +579,35 @@ test('Cake Song catalog names only Holy Quintet while full fiche retains Bebe',(
   assert.doesNotMatch(card,/<p class="artist">[^<]*(Bebe|Nagisa|ベベ|なぎさ)/);
   const detail=musicPage('/music/cake-song/',new URLSearchParams({lang}));
   assert.match(detail,lang==='ja'?/ベベ／百江なぎさ（CV：阿澄佳奈）/:/Bebe \/ Nagisa Momoe \(CV: Kana Asumi\)/);
+ }
+});
+
+test('first EP is recording-specific, not a new audio release or duplicate song',()=>{
+ const ep=coverAlbums[0];
+ assert.equal(ep.tracks.length,5);
+ assert.equal(ep.releaseDate,null);
+ assert.equal(ep.ordered,true);
+ assert.deepEqual(ep.tracks.map(t=>t.song),['only-one-yell','caesura-of-despair','song-for-you','watashi-no-na-wa-hikari','blue-spirit']);
+ const dates=ep.tracks.map(t=>songs.find(s=>s.slug===t.song).versions.find(v=>v.id===t.version).date);
+ assert.deepEqual(dates,[...dates].sort());
+ assert.equal(ep.artworkStatus,'reference-only');
+ assert.equal(ep.audioStatus,'deferred');
+ for(const track of ep.tracks)assert.ok(songs.find(s=>s.slug===track.song).versions.some(v=>v.id===track.version));
+ assert.equal(albumsForVersion('blue-spirit','en').length,0);
+ assert.equal(albumsForVersion('blue-spirit','es').length,1);
+ for(const lang of ['es','en','ja']){
+  const page=(slug,version='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
+  for(const track of ep.tracks)assert.ok(page(track.song).includes(ep.titles[lang].replaceAll("'",'&#39;')));
+  assert.doesNotMatch(page('blue-spirit','en'),/Miniálbum de covers|Cover EP|カバーEP/);
+  assert.match(page('caesura-of-despair'),/Project: HOPE/);
+  assert.match(page('caesura-of-despair'),/data-video-id="GCwez-ahzl0"/);
+  assert.match(page('watashi-no-na-wa-hikari'),/data-video-id="kzK30m49pn4"/);
+  assert.match(page('song-for-you'),/data-video-id="zLTjAidbt8Y"/);
+  assert.match(page('song-for-you'),lang==='ja'?/長瀬麻奈（CV：神田沙也加）/:/Mana Nagase \(CV: Sayaka Kanda\)/);
+  assert.match(page('watashi-no-na-wa-hikari'),lang==='ja'?/ラヴィ（CV：向井莉生）/:/Lavie \(CV: Live Mukai\)/);
+  assert.match(page('caesura-of-despair'),/La oscuridad se irá/);
+  assert.match(page('watashi-no-na-wa-hikari'),/Con este momento el escenario está/);
+  assert.match(page('song-for-you'),/En un sueño sin fin/);
+  assert.doesNotMatch(page('song-for-you'),/I'm still in the middle/);
  }
 });
