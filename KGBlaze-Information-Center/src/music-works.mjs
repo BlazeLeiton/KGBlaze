@@ -7,6 +7,9 @@ export const works={
  'Kantai Collection':names('Kantai Collection','艦隊これくしょん -艦これ-','Kantai Collection',['KanColle','Kantai Collection: KanColle']),
  'High School Fleet':names('High School Fleet','ハイスクール・フリート','High School Fleet',['Haifuri','Hai-Furi']),
  'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel -Ars Nova-','蒼き鋼のアルペジオ -アルス・ノヴァ-','Arpeggio of Blue Steel -Ars Nova-',['Arpeggio of Blue Steel','Aoki Hagane no Arpeggio']),
+ 'Oregairu':names('My Teen Romantic Comedy SNAFU','やはり俺の青春ラブコメはまちがっている。','Oregairu',['My Teen Romantic Comedy Is Wrong, as I Expected','Yahari Ore no Seishun Love Come wa Machigatteiru','Oregairu']),
+ 'Oregairu Zoku':names('My Teen Romantic Comedy SNAFU TOO!','やはり俺の青春ラブコメはまちがっている。続','Oregairu Zoku',['Oregairu','My Teen Romantic Comedy Is Wrong, as I Expected Too']),
+ 'Oregairu Kan':names('My Teen Romantic Comedy SNAFU Climax','やはり俺の青春ラブコメはまちがっている。完','Oregairu Kan',['Oregairu','My Teen Romantic Comedy Is Wrong, as I Expected: Climax']),
  'Azur Lane':names('Azur Lane','アズールレーン'),
  'Pokémon Horizons':{pokemon:true,romaji:'Pocket Monsters (2023)',...names('Pokémon Horizons: The Series','ポケットモンスター（2023）','La Serie Horizontes Pokémon',['Pokémon Horizons','Pokémon Horizontes','Horizontes Pokémon','Pocket Monsters 2023','Poketto Monsutā 2023']),seasons:{2:names('Pokémon Horizons: Season 2—The Search for Laqua','ポケットモンスター（2023）','La Serie Horizontes Pokémon: En busca de Laqua')}},
  'Pokémon XY':{pokemon:true,romaji:'Pocket Monsters XY',...names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY',['Pocket Monsters XY','Poketto Monsutā XY','Kalos Quest','XY&Z']),seasons:{

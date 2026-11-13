@@ -5,6 +5,10 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'yukitoki':{kind:'artist',name:name('yanaginagi','やなぎなぎ'),cast:[],source:'https://yanaginagi.net/discography/%E3%83%A6%E3%82%AD%E3%83%88%E3%82%AD/',writing:name('yanaginagi','やなぎなぎ'),composition:name('Katsutoshi Kitagawa','北川勝利')},
+ 'harumodoki':{kind:'artist',name:name('yanaginagi','やなぎなぎ'),cast:[],source:'https://yanaginagi.net/discography/%E6%98%A5%E6%93%AC%E3%81%8D-2/',writing:name('yanaginagi','やなぎなぎ'),composition:name('Katsutoshi Kitagawa','北川勝利')},
+ 'megumi-no-ame':{kind:'artist',name:name('yanaginagi','やなぎなぎ'),cast:[],source:'https://yanaginagi.net/discography/%E8%8A%BD%E3%81%90%E3%81%BF%E3%81%AE%E9%9B%A8/',writing:name('yanaginagi','やなぎなぎ'),composition:name('Katsutoshi Kitagawa','北川勝利')},
+
  'song-for-you':{kind:'character',name:name('Mana Nagase','長瀬麻奈'),cast:[voice('Mana Nagase','長瀬麻奈','Sayaka Kanda','神田沙也加')],source:'https://idolypride.jp/gallery/mv_song-for-you/',writing:name('PA-NON'),composition:name('Yu Sakai','さかいゆう')},
  'watashi-no-na-wa-hikari':group(name('LiGHTs'),[
   voice('Tiara','ティアラ','Yukari Anzai','安齋由香里'),
@@ -65,7 +69,7 @@ export function originalArtistAliases(song){const p=originalPerformances[song.sl
 export function originalCreditRows(song,lang){
  const p=originalPerformances[song.slug];if(!p)return [];
  const labels=({es:{cast:'Personajes y voces originales',writing:'Letra original',composition:'Composición',note:'Identificación editorial de los intérpretes de la escena; no es un crédito discográfico oficial.'},en:{cast:'Original characters and voices',writing:'Original lyrics',composition:'Composition',note:'Editorial identification of the scene performers, not an official release credit.'},ja:{cast:'原曲の登場人物・声優',writing:'作詞',composition:'作曲',note:'シーンの歌唱者を示す編集上の表記であり、公式の音源クレジットではありません。'}})[lang];
- const rows=[{label:labels.cast,values:p.cast.map(c=>voiceLabel(c,lang))}];
+ const rows=p.cast.length?[{label:labels.cast,values:p.cast.map(c=>voiceLabel(c,lang))}]:[];
  if(p.writing)rows.push({label:labels.writing,values:[localizedName(p.writing,lang)]});
  if(p.composition)rows.push({label:labels.composition,values:[localizedName(p.composition,lang)]});
  return rows;
