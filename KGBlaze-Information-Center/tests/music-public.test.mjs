@@ -447,7 +447,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
  const csp=response.headers.get('Content-Security-Policy');
  for(const a of Object.values(releaseArtwork))assert.ok(a.image.startsWith('/')?csp.includes("img-src 'self'"):csp.includes(new URL(a.image).origin));
  assert.equal(releaseArtwork['blue-spirit'].kind,'game');
- assert.match(releaseArtwork['blue-spirit'].artworkContext,/Resonant Passion/);
+ assert.match(releaseArtwork['blue-spirit'].artworkContext,/Heart-Linking Harmony/);
  assert.equal(releaseArtwork.connect.image,'https://www.lisani.jp/claris-best1st/images/connect_img01.jpg');
  assert.equal(releaseArtwork['cake-song'].credit,'Subin Yeon');
  for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na']){
