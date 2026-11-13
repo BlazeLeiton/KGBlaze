@@ -27,7 +27,7 @@ export async function serveArtwork(request,{cache=globalThis.caches?.default,fet
   if(!size)return failure(502);
   const body=new Uint8Array(size);let offset=0;for(const chunk of chunks){body.set(chunk,offset);offset+=chunk.byteLength;}
   const response=new Response(body,{headers:{'Content-Type':type,'Cache-Control':'public, max-age=604800','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex, nofollow, noarchive'}});
-  if(cache){const saving=Promise.resolve().then(()=>cache.put(key,response.clone())).catch(()=>{});if(ctx?.waitUntil)ctx.waitUntil(saving);else await saving;}
+  if(cache){const copy=response.clone();const saving=Promise.resolve().then(()=>cache.put(key,copy)).catch(()=>{});if(ctx?.waitUntil)ctx.waitUntil(saving);else await saving;}
   return browserResponse(response,request.method==='HEAD');
  }catch{return failure(502);}finally{clearTimeout(timeout);}
 }
