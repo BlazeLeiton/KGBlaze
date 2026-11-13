@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
@@ -349,4 +350,33 @@ test('video thumbnails and playback are bound to the selected public recording',
  assert.match(csp,/img-src data: https:\/\/i\.ytimg\.com;/);
  assert.match(csp,/frame-src https:\/\/www\.youtube-nocookie\.com;/);
  assert.equal(res.headers.get('Referrer-Policy'),'strict-origin-when-cross-origin');
+});
+
+test('franchise affiliation preserves original-release identity and separate debut cohort',()=>{
+ const m=songs.find(s=>s.slug==='mumei'), snow=songs.find(s=>s.slug==='snow-halation');
+ assert.deepEqual(franchiseTags(m),['hololive','holo-en','holo-promise','holo-council']);
+ assert.equal(m.affiliation.originalRelease,'2023-10-10');
+ assert.equal(m.versions[0].date,'2026-10-07');
+ assert.equal(affiliationWork(m,'en'),'hololive English -Promise-');
+ assert.equal(affiliationWork({...m,affiliation:{...m.affiliation,brandAtRelease:'hololive'}},'en'),'hololive -Promise-');
+ assert.ok(affiliationDetails(m,'es').some(([k,v])=>k==='Generación de debut'&&v==='Council'));
+ assert.deepEqual(franchiseTags(snow),['love-live','ll-muse']);
+ assert.equal(franchiseTagLabel('ll-muse','es'),"μ's");
+ assert.equal(franchiseTagLabel('holo-hope','en'),'Project: HOPE');
+ assert.deepEqual(franchiseRegistry['love-live'].series['Ikizulive! LOVELIVE! BLUEBIRD'],['ll-bluebird']);
+ const cross={affiliation:{franchise:'love-live',unit:'ll-aiscream',participatingGroups:['ll-aqours','ll-nijigasaki','ll-liella'],event:'Debut single'}};
+ assert.deepEqual(franchiseTags(cross),['love-live','ll-aiscream','ll-aqours','ll-nijigasaki','ll-liella']);
+ const page=(slug,lang)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang}));
+ for(const lang of ['es','en','ja']){
+  const mh=page('mumei',lang),sh=page('snow-halation',lang),ch=musicPage('/music/',new URLSearchParams({lang}));
+  assert.match(mh,/Promise/);assert.match(mh,/Council/);assert.match(mh,/affiliation=holo-promise/);
+  assert.match(sh,/affiliation=ll-muse/);assert.match(sh,/affiliation=love-live/);
+  assert.match(ch,/data-affiliation="hololive holo-en holo-promise holo-council"/);
+  assert.match(ch,/data-affiliation="love-live ll-muse"/);
+  assert.match(ch,/<select id="affiliation">/);
+  assert.match(ch,/\.song:hover,\.song:active,\.song:focus-within\{background:var\(--action\)/);
+  assert.doesNotMatch(ch,/\.song>a:first-child:hover \.song-info\{background/);
+  assert.match(ch,/item.dataset.affiliation.split\(" "\).includes/);
+  assert.doesNotMatch(ch,/option value="ll-hasunosora"/);
+ }
 });
