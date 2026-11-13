@@ -354,7 +354,7 @@ test('video thumbnails and playback are bound to the selected public recording',
 
 test('franchise affiliation preserves original-release identity and separate debut cohort',()=>{
  const m=songs.find(s=>s.slug==='mumei'), snow=songs.find(s=>s.slug==='snow-halation');
- assert.deepEqual(franchiseTags(m),['hololive','holo-en','holo-promise','holo-council']);
+ assert.deepEqual(franchiseTags(m),['hololive','holo-en','holo-promise']);
  assert.equal(m.affiliation.originalRelease,'2023-10-10');
  assert.equal(m.versions[0].date,'2026-10-07');
  assert.equal(affiliationWork(m,'en'),'hololive English -Promise-');
@@ -371,9 +371,11 @@ test('franchise affiliation preserves original-release identity and separate deb
   const mh=page('mumei',lang),sh=page('snow-halation',lang),ch=musicPage('/music/',new URLSearchParams({lang}));
   assert.match(mh,/Promise/);assert.match(mh,/Council/);assert.match(mh,/affiliation=holo-promise/);
   assert.match(sh,/affiliation=ll-muse/);assert.match(sh,/affiliation=love-live/);
-  assert.match(ch,/data-affiliation="hololive holo-en holo-promise holo-council"/);
+  assert.match(ch,/data-affiliation="hololive holo-en holo-promise"/);
   assert.match(ch,/data-affiliation="love-live ll-muse"/);
   assert.match(ch,/<select id="affiliation">/);
+  assert.doesNotMatch(ch,/option value="holo-council"/);
+  assert.match(ch,/council/);
   assert.match(ch,/\.song:hover,\.song:active,\.song:focus-within\{background:var\(--action\)/);
   assert.doesNotMatch(ch,/\.song>a:first-child:hover \.song-info\{background/);
   assert.match(ch,/item.dataset.affiliation.split\(" "\).includes/);
