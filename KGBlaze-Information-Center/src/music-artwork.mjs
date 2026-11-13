@@ -2,6 +2,31 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+"miiro": {
+    "image": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35202.jpg?_c=init",
+    "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A019681/VTCL-35202.html",
+    "release": "海色 · VTCL-35202",
+    "kind": "anime"
+  },
+  "graphite-diamond": {
+    "image": "https://straycats.co.jp/wp/wp-content/uploads/2019/09/mayn_anime_h1.jpg",
+    "source": "https://straycats.co.jp/release/xnst-10014/",
+    "release": "graphite/diamond · XNST-10014",
+    "kind": "anime"
+  },
+  "high-free-spirits": {
+    "image": "https://trysail.jp/s3/skiyaki/uploads/ckeditor/pictures/32044/content_for_web_SVWC70153.jpg",
+    "source": "https://trysail.jp/contents/40569",
+    "release": "High Free Spirits · SVWC-70153/54",
+    "kind": "anime"
+  },
+  "savior-of-song": {
+    "image": "https://nanonano.me/s3/skiyaki/uploads/image/file/1370/VICL-35166.jpg",
+    "source": "https://nanonano.me/musics/448",
+    "release": "SAVIOR OF SONG · Arpeggio of Blue Steel ver.",
+    "kind": "anime"
+  },
+
  'caesura-of-despair':{image:'https://hololive.hololivepro.com/wp-content/uploads/2021/07/irys_1stalbm_jk-1000x997.png',source:'https://hololive.hololivepro.com/en/music/caesura-of-despair/',release:'||:Caesura of Despair · CVRD-056',kind:'illustrated'},
  'watashi-no-na-wa-hikari':{image:'https://www.jvcmusic.co.jp/img/jackets/VICL-65454.jpg?_c=810975cb4b6218f5df509fa16a6c6446',source:'https://www.jvcmusic.co.jp/-/Discography/A026102/VICL-65454.html',release:'SKY FULL of MAGIC · VICL-65454',kind:'anime'},
  'song-for-you':{image:'https://idolypride.jp/wp-content/uploads/2021/10/IP1stAL_TsuJo_JK_JPEG_rgb-300x300.jpg',source:'https://www.sonymusic.co.jp/artist/mananagase/discography/SMCL-737',release:'IDOLY PRIDE Collection Album [奇跡] · SMCL-737',kind:'anime'},
