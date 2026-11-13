@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {tagsForSeason,pokemonTags,seasonTagLabel} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from '../src/music-page.mjs';
 import {VIEWER_CSS} from '../src/viewer-enhancements.mjs';
@@ -109,7 +110,7 @@ test('pilot has ten songs and thirteen distinct publications with valid routes',
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
  assert.equal((html.match(/<article class="song"/g)||[]).length,10);
  assert.match(html,/data-lang="ES FR MULTI"/);
- assert.match(html,/data-lang="MULTI"/);
+ assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA"/);
  assert.match(html,/<option value="MULTI">Multilingüe/);
  assert.match(html,/2021/);
@@ -180,4 +181,25 @@ test('Pokemon reciprocal details separate actual Japanese subdivisions from inte
  assert.equal(pokemonCounterpart({series:'Azur Lane'},'es'),'');
  const html=musicPage('/music/',new URLSearchParams({lang:'ja'}));
  assert.doesNotMatch(html,/海外版の対応作品（英語）/);
+});
+
+test('regional blocks use international season keys and never mix Horizons with original season 1',()=>{
+ const expected=['kanto','kanto','johto','johto','johto','hoenn','hoenn','hoenn','hoenn','sinnoh','sinnoh','sinnoh','sinnoh','unova','unova','unova','kalos','kalos','kalos','alola','alola','alola','journeys','journeys','journeys'];
+ expected.forEach((block,i)=>assert.equal(tagsForSeason('ash',i+1).block,block));
+ assert.equal(tagsForSeason('ash',1).seasonKey,'ash:1');
+ assert.equal(tagsForSeason('horizons',1).seasonKey,'horizons:1');
+ assert.equal(tagsForSeason('horizons',4).block,'horizons');
+ assert.equal(tagsForSeason('ash',26),null);
+ const doki=songs.find(s=>s.slug==='dokimeki-diary');
+ assert.equal(pokemonTags(doki).block,'horizons');
+ assert.equal(pokemonTags({...doki,sourceEdition:'international'}).seasonKey,'horizons:1');
+ assert.equal(seasonTagLabel(pokemonTags(doki),'ja'),'Horizons · 海外版シーズン1');
+ const h=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.match(h,/data-block="horizons" data-season="horizons:1"/);
+ assert.match(h,/<option value="horizons">Horizons<\/option>/);
+ assert.match(h,/<option value="horizons:1">Horizons · Temporada 1<\/option>/);
+ assert.match(h,/&amp;season=horizons%3A1/);
+ const d=musicPage('/music/dokimeki-diary/',new URLSearchParams({lang:'es'}));
+ assert.match(d,/&amp;block=horizons/);
+ assert.equal(pokemonTags(songs[0]),null);
 });
