@@ -387,7 +387,7 @@ test('compact cards have one franchise badge while fiches retain complete tags',
  const m=songs.find(s=>s.slug==='mumei'), snow=songs.find(s=>s.slug==='snow-halation');
  for(const lang of ['es','en','ja']){
   assert.deepEqual(catalogAffiliationBadge(m,lang),{id:'holo-en',label:'hololive EN'});
-  assert.deepEqual(catalogAffiliationBadge(snow,lang),{id:'ll-muse',label:"μ's"});
+  assert.deepEqual(catalogAffiliationBadge(snow,lang),{id:'ll-muse',label:"μ's",key:'series',value:'Love Live! School Idol Project'});
   const h=musicPage('/music/',new URLSearchParams({lang}));
   const card=slug=>h.match(new RegExp('<article class="song"[^>]*>[\\s\\S]*?<\\/article>','g')).find(x=>x.includes('/music/'+slug+'/'));
   const mc=card('mumei'),sc=card('snow-halation'),pc=card('dokimeki-diary');
@@ -395,7 +395,7 @@ test('compact cards have one franchise badge while fiches retain complete tags',
   assert.match(mc,/affiliation=holo-en">hololive EN<\/a>/);
   assert.doesNotMatch(mc,/class="pk-tag"[^>]*affiliation=holo-promise/);
   assert.equal((sc.match(/class="pk-tag"/g)||[]).length,1);
-  assert.match(sc,/affiliation=ll-muse">μ&#39;s<\/a>/);
+  assert.match(sc,/series=Love%20Live!%20School%20Idol%20Project">μ&#39;s<\/a>/);
   assert.match(pc,/block=horizons/);
   const detail=musicPage('/music/mumei/',new URLSearchParams({lang}));
   assert.match(detail,/affiliation=holo-promise/);
@@ -413,9 +413,9 @@ test('compact cards have one franchise badge while fiches retain complete tags',
 test('Love Live series badge stays independent from story-era performing unit',()=>{
  const bubble={series:'Love Live! Superstar!!',season:3,affiliation:{franchise:'love-live',unit:'ll-tomakanote'}};
  for(const lang of ['es','en','ja']){
-  assert.deepEqual(catalogAffiliationBadge(bubble,lang),{id:'ll-liella',label:'Superstar!!'});
+  assert.deepEqual(catalogAffiliationBadge(bubble,lang),{id:'ll-liella',label:'Superstar!!',key:'series',value:'Love Live! Superstar!!'});
   assert.ok(franchiseTags(bubble).includes('ll-tomakanote'));
-  assert.ok(franchiseTags(bubble).includes('ll-liella'));
+  assert.ok(!franchiseTags(bubble).includes('ll-liella'));
   assert.ok(affiliationDetails(bubble,lang).some(([k,v])=>v===franchiseTagLabel('ll-tomakanote',lang)));
   for(const unit of ['ll-catchu','ll-kaleidoscore','ll-5yncri5e'])assert.equal(catalogAffiliationBadge({...bubble,affiliation:{...bubble.affiliation,unit}},lang).label,'Superstar!!');
  }
