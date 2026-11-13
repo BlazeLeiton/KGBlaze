@@ -586,7 +586,10 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
  const ep=coverAlbums[0];
  assert.equal(ep.tracks.length,5);
  assert.equal(ep.releaseDate,null);
- assert.equal(ep.ordered,false);
+ assert.equal(ep.ordered,true);
+ assert.deepEqual(ep.tracks.map(t=>t.song),['only-one-yell','caesura-of-despair','song-for-you','watashi-no-na-wa-hikari','blue-spirit']);
+ const dates=ep.tracks.map(t=>songs.find(s=>s.slug===t.song).versions.find(v=>v.id===t.version).date);
+ assert.deepEqual(dates,[...dates].sort());
  assert.equal(ep.artworkStatus,'reference-only');
  assert.equal(ep.audioStatus,'deferred');
  for(const track of ep.tracks)assert.ok(songs.find(s=>s.slug===track.song).versions.some(v=>v.id===track.version));
