@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
-import {workName,workAliases} from '../src/music-works.mjs';
+import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from '../src/music-page.mjs';
 import {VIEWER_CSS} from '../src/viewer-enhancements.mjs';
 const origin='https://kgblaze.dpdns.org';
@@ -124,7 +124,11 @@ test('Pokémon source edition is independent of cover language and numbering',()
  assert.doesNotMatch(page('es','ensemble'),/Edición de origen<\/dt>/);
  assert.match(page('en','es'),/Pokémon Horizons: The Series · Season 1 \(JP\)/);
  assert.doesNotMatch(page('en','es'),/Source edition<\/dt>/);
- assert.match(page('ja','es'),/ポケットモンスター（2023） · シーズン1（日本版）/);
+ assert.match(page('ja','es'),/ポケットモンスター（2023）（日本版）/);
+ assert.doesNotMatch(page('ja','es'),/シーズン1（日本版）/);
+ assert.match(page('ja','es'),/海外版の対応作品（英語）<\/dt><dd>Pokémon Horizons: The Series · Season 1/);
+ assert.match(page('es','es'),/Nombre japonés \(rōmaji\)<\/dt><dd>Pocket Monsters \(2023\)/);
+ assert.match(page('en','es'),/Japanese title \(romaji\)<\/dt><dd>Pocket Monsters \(2023\)/);
  assert.doesNotMatch(page('ja','es'),/原曲の版<\/dt>/);
  assert.doesNotMatch(musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es'})),/Edición de origen<\/dt>/);
 });
@@ -158,4 +162,22 @@ test('localized work names preserve identity and map XY international seasons',(
  assert.match(ja,/魔法少女まどか☆マギカ/);
  assert.match(es,/Senpai is an Otokonoko/);
  assert.match(ja,/hololive English/);
+});
+
+test('Pokemon reciprocal details separate actual Japanese subdivisions from international seasons',()=>{
+ const xy={series:'Pokémon XY',season:18,sourceEdition:'jp'};
+ assert.equal(pokemonWorkLabel(xy,'ja'),'ポケットモンスター XY（日本版）');
+ assert.equal(pokemonCounterpart(xy,'ja'),'Pokémon the Series: XY Kalos Quest · Season 18');
+ assert.equal(pokemonCounterpart(xy,'es'),'Pocket Monsters XY');
+ assert.equal(pokemonWorkLabel(xy,'en'),'Pokémon the Series: XY Kalos Quest · Season 18 (JP)');
+ const xyz={...xy,season:19,sourceEdition:'international'};
+ assert.equal(pokemonWorkLabel(xyz,'ja'),'ポケットモンスター XY&Z（海外版）');
+ assert.equal(pokemonCounterpart(xyz,'en'),'Pocket Monsters XY&Z');
+ const bw={series:'Pokémon Black & White',season:16,sourceEdition:'jp',sourceJapanese:{title:'ポケットモンスター ベストウイッシュ シーズン2',romaji:'Pocket Monsters Best Wishes! Season 2'}};
+ assert.equal(pokemonWorkLabel(bw,'ja'),'ポケットモンスター ベストウイッシュ シーズン2（日本版）');
+ assert.equal(pokemonCounterpart(bw,'es'),'Pocket Monsters Best Wishes! Season 2');
+ assert.equal(pokemonCounterpart(bw,'ja'),'Pokémon: BW Adventures in Unova and Beyond · Season 16');
+ assert.equal(pokemonCounterpart({series:'Azur Lane'},'es'),'');
+ const html=musicPage('/music/',new URLSearchParams({lang:'ja'}));
+ assert.doesNotMatch(html,/海外版の対応作品（英語）/);
 });
