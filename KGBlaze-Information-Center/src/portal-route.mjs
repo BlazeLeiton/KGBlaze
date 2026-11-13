@@ -45,7 +45,7 @@ export function routePortalRequest(request){
  if(['/api/public','/api/health','/og-semana.png','/agenda_publica.json'].includes(url.pathname))
   return {request,isPortal:true};
  // Unlisted public Music pages, read-only; no new admin or API aliases.
- if(MUSIC_PATHS.has(url.pathname)||url.pathname===MUSIC_TYPE_PATH)return {request,isPortal:true};
+ if(MUSIC_PATHS.has(url.pathname)||url.pathname===MUSIC_TYPE_PATH||['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp'].includes(url.pathname))return {request,isPortal:true};
  if(!url.pathname.startsWith('/departures/'))
   return {response:error(404,'NOT_FOUND')};
  const internalPath=url.pathname.slice('/departures'.length);

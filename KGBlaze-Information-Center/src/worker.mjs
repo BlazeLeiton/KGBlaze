@@ -207,6 +207,11 @@ export default {
    if(routed.response)return routed.response;
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
+   if(['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp'].includes(dashboardPath)){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
+    return env.ASSETS.fetch(routed.request);
+   }
    if(dashboardPath===MUSIC_TYPE_PATH){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     // Extract the existing faces once per cache miss; no duplicate font files.
@@ -221,7 +226,7 @@ export default {
    if(MUSIC_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
-    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src data: https://i.ytimg.com; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
+    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src 'self' data: https://i.ytimg.com https://vocalmagazine.jp https://pjselection.com https://resources.tidal.com https://cdn.tower.jp https://www.feelmee.jp https://hololive.hololivepro.com https://www.lisani.jp https://www.giantrobot.com; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
    }
    if(['/dashboard/','/dashboard','/dashboard/library/'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
