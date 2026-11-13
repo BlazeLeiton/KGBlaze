@@ -409,3 +409,16 @@ test('compact cards have one franchise badge while fiches retain complete tags',
  assert.equal(catalogAffiliationBadge({affiliation:{...cross.affiliation,unit:'ll-aiscream'}},'es').label,'AiScReam');
  assert.match(franchiseSearchAliases(m),/hololive EN/);
 });
+
+test('Love Live series badge stays independent from story-era performing unit',()=>{
+ const bubble={series:'Love Live! Superstar!!',season:3,affiliation:{franchise:'love-live',unit:'ll-tomakanote'}};
+ for(const lang of ['es','en','ja']){
+  assert.deepEqual(catalogAffiliationBadge(bubble,lang),{id:'ll-liella',label:'Superstar!!'});
+  assert.ok(franchiseTags(bubble).includes('ll-tomakanote'));
+  assert.ok(franchiseTags(bubble).includes('ll-liella'));
+  assert.ok(affiliationDetails(bubble,lang).some(([k,v])=>v===franchiseTagLabel('ll-tomakanote',lang)));
+  for(const unit of ['ll-catchu','ll-kaleidoscore','ll-5yncri5e'])assert.equal(catalogAffiliationBadge({...bubble,affiliation:{...bubble.affiliation,unit}},lang).label,'Superstar!!');
+ }
+ assert.equal(affiliationDetails(bubble,'es').find(([k])=>k==='Unidad intérprete')[1],'TomaKanoTe');
+ assert.ok(!songs.some(s=>s.slug==='bubble-rise'));
+});
