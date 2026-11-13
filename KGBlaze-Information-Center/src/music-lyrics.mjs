@@ -1,5 +1,5 @@
-// User-provided adaptations for pilot review. Original lyrics, private Word files and unverified third-party translations excluded.
-// Text preserved from supplied documents; review markers are not proof of clearance or recorded take.
+// User-supplied adaptation and original-reference texts. No external lyrics scraped.
+// Recording IDs and lyric choices remain independent. Unmatched drafts are excluded.
 export const lyricsBySong={
   "blue-spirit": {
     "en": {
@@ -43,10 +43,18 @@ export const lyricsBySong={
       "language": "ES",
       "kind": "adaptation",
       "review": "spanish-only"
+    },
+    "fr": {
+      "text": "Ah, si je pouvais vivre dans l'eau\nLe monde serait-il plus beau\nNous pardonneras-tu, ô chère mère\nL'eau dans son courant fait danser nos vies\nEt la cité, elle nourrit\nAinsi que toi, mon doux amour\n\nNon, le grand amour ne suffit pas\nSeul un adieu fleurira\nC'est notre histoire de vie, douce et amère\nMoi, je suis et serai toujours là\nÀ voir le monde et sa beauté\nEt ça ne changera jamais, jamais",
+      "language": "FR",
+      "kind": "original",
+      "review": null
     }
   },
   "butter-fly": {
     "multi": {
+      "text": "Mugendai na yume no ato no nanimo nai yo no naka ja\nSou sa itoshii omoi mo makesou ni naru kedo\nStay shigachi na imeeji darake no tayorinai tsubasa demo\nKitto toberu sa oh yeah\n\nMugendai na yume no ato no yarusenai yo no naka ja\nSou sa joushiki hazure mo waruku wa nai ka na\nStay shisou na imeeji wo someta gikochinai tsubasa demo\nKitto toberu sa oh my love\n\nGokigen na chou ni natte kirameku kaze ni notte\nIma sugu kimi ni ai ni ikou\nYokei na koto nante wasureta hou ga mashi sa\nKore ijou shareteru jikan wa nai\n\nNani ga wow wow wow wow wow kono sora ni todoku no darou\nDakedo wow wow wow wow wow ashita no yotei mo wakaranai\n\nMe réveillant de ce rêve sans fin, Voyant ce monde sans aucun destin  \nNos rêves semblent briser mais il ne faut surtout pas abandonner\nRemplies de toutes ces données créer, Ces ailes pourront nous faire avancer \nNous pourrons nous envoler: être aimé !\n\nComo um pássaro contente, eu quero viajar no vento\nFeliz estou, porque logo irei te encontrar\nDecidieron engañarte, venderte un mundo impresionante\nPero al final, sólo vale tu fuerza de amar\n\nSo tell me, oh-whoa-whoa-whoa-whoa. Will my voice echo throughout the whole town?\nOh I don’t know-whoa-whoa-whoa-whoa. What tomorrow will bring. I am anticipating!\n\nAfter the dream that felt wouldn’t end, now I’m back in my own world again.\nBut I’ll be back. Sun or rain. I will do my best and fight through the day!\nStay strong, my wings. Don’t fail me now. We can make it, we’ll do it somehow.\nKeep flying on through the day. On my love!\n\nDepois de um sonho quase sem fim, estava preso num mundo vazio\nSem esperança em mim, até pensei que tudo estivesse perdido\nMas percebi que não é assim mesmo com asas meio ruins\nSei que podemos voar, oye\n\nSi tú lo deseas puedes volar, solo tienes que confiar\nMucho en ti y seguir, puedes contar conmigo te doy todo mi apoyo\nSi tu lo deseas puedes volar, si tú quieres el cielo alcanzar\n¡Y las estrellas tocar, oh mi amor!",
+      "language": "MULTI",
       "kind": "mixed",
       "review": "third-party"
     }
@@ -59,8 +67,10 @@ export const lyricsBySong={
       "review": null
     },
     "hso-orchestra": {
-      "kind": "original",
-      "review": "original-reference"
+      "text": "Fushigi da ne ima no kimochi\nSora kara futte kita mitai\nTokubetsu na kisetsu no iro ga tokimeki o miseru yo\n\nHajimete deatta toki kara\nYokan ni sawagu kokoro no Melody\nTomerarenai tomaranai na・ze\n\nTodokete\nSetsunasa ni wa namae o tsukeyou ka \"Snow halation\"\nOmoi ga kasanaru made matezu ni\nKuyashii kedo suki tte junjou\nBinetsu no naka tameratte mo dame da ne\nTobikomu yuuki ni sansei mamonaku Start!!\n\nOto mo naku kehai mo naku\nShizuka ni unmei wa kawaru\nKorekara no mirai ni mune no kodou ga hayaku naru\n\nTatoeba komatta toki ni wa\nSugu kaketsukete dakishimetakute\nDoko ni ite mo dokodemo Fly high\n\nIsoide\nItsu no ma ni ka ookiku nari sugita \"True emotion\"\nYume dake miteru you ja tsurai yo\nKoibito wa kimi tte iitai\nYasashii me ga tomadotteru iya da yo\nKono mama ikki ni aijou azukete Please!!\n\nTodokete\nSetsunasa ni wa namae o tsukeyou ka \"Snow halation\"\nOmoi ga kasanaru made matezu ni\nKuyashii kedo suki tte junjou\nBinetsu no naka tameratte mo dame da ne\nTobikomu yuuki ni sansei mamonaku Start!!",
+      "language": "JA",
+      "kind": "original_romanized",
+      "review": null
     }
   },
   "are-ga-koi-datta-no-ka-na": {
@@ -198,3 +208,6 @@ export const lyricsBySong={
     }
   }
 };
+// Reuse one lyric text for audio editions instead of duplicating it.
+export const lyricAliases={'dokimeki-diary':{'album-studio':'es'},'la-vaguelette':{'es-audio':'es-fr','fr-audio':'fr'}};
+export const lyricOrder={'blue-spirit':['es','en'],'la-vaguelette':['es-fr','fr'],'snow-halation':['naked-garden','hso-orchestra']};
