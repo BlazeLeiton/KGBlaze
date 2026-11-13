@@ -441,10 +441,10 @@ test('square catalog artwork prefers sourced anime editions without changing vid
   const art=releaseArtwork[s.slug];
   if(art){
    assert.ok(card.includes('src="'+artworkURL(s.slug)+'"'));
-   assert.ok(card.includes('data-fallback="https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg"'));
+   assert.ok(card.includes(art.framing?'data-fallback=""':'data-fallback="https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg"'));
    assert.ok(card.includes('data-art-kind="'+art.kind+'"'));
    const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang:'es'}));
-   assert.ok(h.includes(art.source));assert.match(h,art.kind==='illustration'?/Ilustración seleccionada/:/Portada del lanzamiento original/);
+   assert.ok(h.includes(art.source));assert.match(h,art.kind==='illustration'?/Ilustración seleccionada/:art.kind==='selected'?/Arte de referencia seleccionado/:/Portada del lanzamiento original/);
    assert.match(h,/class="video-stage"/);
   }else{assert.match(card,/data-art-kind="video"/);}
  }
@@ -650,4 +650,11 @@ test('Oregairu trilogy uses published Spanish covers and distinct season work na
   assert.match(page('yukitoki',lang),lang==='ja'?/北川勝利/:/Katsutoshi Kitagawa/);
  }
  assert.equal(lyricsBySong.harumodoki.en,undefined);
+});
+
+
+test('Oregairu selects clean historical artwork and individual square framing',()=>{
+ const slugs=['yukitoki','harumodoki','megumi-no-ame'];
+ const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ for(const slug of slugs){const art=releaseArtwork[slug];assert.equal(art.kind,'selected');assert.equal(art.version,2);assert.ok(art.originalRelease.source);assert.match(artworkURL(slug),/-v2$/);assert.ok(html.includes('data-framing="'+art.framing+'"'));const detail=musicPage('/music/'+slug+'/',new URLSearchParams({lang:'es'}));assert.ok(detail.includes('data-framing="'+art.framing+'"'));assert.ok(detail.includes('data-fallback=""'));}
 });
