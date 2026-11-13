@@ -23,15 +23,15 @@ body:not(.embedded){background:#020C41;color:#fff;font-family:Garnett,Arial,"Not
 body:not(.embedded) .viewer-header{border-bottom:2px solid #FA0073;padding:0 0 4px;height:55px}
 body:not(.embedded) .title-line{color:#fff;font-weight:600;letter-spacing:.045em}
 body:not(.embedded) .subline,body:not(.embedded) .week-label{color:#A5EBFF}
-body:not(.embedded) .panel-side{background:#0B1761;border:1px solid #276EF1;border-radius:0;box-shadow:none;padding:clamp(14px,1.45vw,23px)}
+body:not(.embedded) .panel-side{background:#0B1761;border:1px solid #276EF1;border-radius:8px;box-shadow:none;padding:clamp(14px,1.45vw,23px)}
 body:not(.embedded) .panel-mode>.card-label,body:not(.embedded) .panel-intro .card-label{color:#A5EBFF}
 body:not(.embedded) .panel-intro,body:not(.embedded) #flightTitle{border-bottom:2px solid #FA0073;padding-bottom:10px}
 body:not(.embedded) .side-title{font-weight:600;color:#fff;letter-spacing:-.02em}
-body:not(.embedded) .top-langs button,body:not(.embedded) .bottom-controls button,body:not(.embedded) .embed-code-row button,body:not(.embedded) .close-flight{background:#0B1761;border:1px solid #276EF1;border-radius:3px;color:#fff}
+body:not(.embedded) .top-langs button,body:not(.embedded) .bottom-controls button,body:not(.embedded) .embed-code-row button,body:not(.embedded) .close-flight{background:#0B1761;border:1px solid #276EF1;border-radius:6px;color:#fff}
 body:not(.embedded) .top-langs button.active,body:not(.embedded) .top-langs button:hover,body:not(.embedded) .bottom-controls button:hover:not(:disabled),body:not(.embedded) .embed-code-row button:hover,body:not(.embedded) .close-flight:hover{background:#276EF1;color:#fff}
-body:not(.embedded) .discord-btn{background:#276EF1;border-radius:3px;color:white}
-body:not(.embedded) .discord-btn:hover{background:#0B1761;outline:1px solid #A5EBFF}
-body:not(.embedded) .embed-code-row textarea{background:#020C41;border:1px solid #276EF1;border-radius:3px;color:#A5EBFF}
+body:not(.embedded) .discord-btn{background:#536ee5;border-radius:6px;color:white}
+body:not(.embedded) .discord-btn:hover{background:#708afa;outline:1px solid #A5EBFF}
+body:not(.embedded) .embed-code-row textarea{background:#020C41;border:1px solid #276EF1;border-radius:6px;color:#A5EBFF}
 body:not(.embedded) .embed-tools label{color:#A5EBFF}
 body:not(.embedded) .top-langs button:focus-visible,body:not(.embedded) .bottom-controls button:focus-visible,body:not(.embedded) .discord-btn:focus-visible,body:not(.embedded) .embed-code-row button:focus-visible{outline:2px solid #A5EBFF;outline-offset:2px}
 @media(max-width:1120px){body:not(.embedded) .viewer-header{height:auto;min-height:55px}}
