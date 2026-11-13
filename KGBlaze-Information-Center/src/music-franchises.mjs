@@ -48,3 +48,26 @@ export function affiliationDetails(song,lang){
 }
 
 export function franchiseSearchAliases(song){const a=song.affiliation;if(!a)return '';return [...new Set([...franchiseTags(song),a.debutUnit].filter(Boolean))].flatMap(id=>['es','en','ja'].map(l=>franchiseTagLabel(id,l))).join(' ');}
+
+// Compact catalog badges are editorial entry points, not the complete affiliation.
+// Keep full group/unit names and historical context in the detail page and filters.
+const compactLabels={
+ 'holo-jp':'hololive JP','holo-en':'hololive EN','holo-id':'hololive ID',
+ 'holo-cn':'hololive CN','holo-devis':'hololive DEV_IS',
+ 'll-muse':"μ's",'ll-aqours':'Sunshine!!','ll-nijigasaki':'Nijigasaki',
+ 'll-liella':'Superstar!!','ll-hasunosora':'Hasunosora','ll-bluebird':'BLUEBIRD',
+ 'll-aiscream':'AiScReam'
+};
+export function catalogAffiliationBadge(song,lang){
+ const a=song.affiliation;if(!a)return null;
+ let id;
+ if(a.franchise==='hololive')id=a.branch||a.franchise;
+ else if(a.franchise==='love-live'){
+  // Named cross-series units take precedence over constituent groups.
+  if(a.unit==='ll-aiscream')id=a.unit;
+  else if(a.groups?.length===1&&(!a.participatingGroups?.length||a.participatingGroups.every(g=>g===a.groups[0])))id=a.groups[0];
+  else if(a.participatingGroups?.length===1&&!a.groups?.length)id=a.participatingGroups[0];
+  else id='ll-crossover';
+ }else return null;
+ return {id,label:compactLabels[id]||franchiseTagLabel(id,lang)};
+}
