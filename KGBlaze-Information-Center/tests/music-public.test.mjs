@@ -435,7 +435,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
   const first=s.versions.find(v=>v.public!==false);
   const art=releaseArtwork[s.slug];
   if(art){
-   assert.ok(card.includes(art.image));
+   assert.ok(card.includes(art.image.replaceAll('&','&amp;')));
    assert.ok(card.includes('data-fallback="https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg"'));
    assert.ok(card.includes('data-art-kind="'+art.kind+'"'));
    const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang:'es'}));
