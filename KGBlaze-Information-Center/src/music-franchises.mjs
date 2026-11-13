@@ -26,7 +26,7 @@ export function franchiseTagLabel(id,lang){const t=all.find(t=>t.id===id);return
 export function franchiseTags(song){
  const a=song.affiliation;if(!a)return [];
  // Only the original-release unit is a filter tag; debut cohort is contextual/searchable.
- return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[]),catalogAffiliationBadge(song,'en')?.id].filter(Boolean))];
+ return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[]),(catalogAffiliationBadge(song,'en')?.key==='series'?null:catalogAffiliationBadge(song,'en')?.id)].filter(Boolean))];
 }
 export function affiliationWork(song,lang){
  const a=song.affiliation;
@@ -65,7 +65,10 @@ export function catalogAffiliationBadge(song,lang){
  else if(a.franchise==='love-live'){
   // Named cross-series units take precedence; otherwise the source series determines the badge, never the performers' later memberships.
   if(a.unit==='ll-aiscream')id=a.unit;
-  else if(franchiseRegistry['love-live'].series[song.series]?.length===1)id=franchiseRegistry['love-live'].series[song.series][0];
+  else if(franchiseRegistry['love-live'].series[song.series]?.length===1){
+   id=franchiseRegistry['love-live'].series[song.series][0];
+   if(id!=='ll-crossover')return {id,label:compactLabels[id]||franchiseTagLabel(id,lang),key:'series',value:song.series};
+  }
   else if(a.groups?.length===1&&(!a.participatingGroups?.length||a.participatingGroups.every(g=>g===a.groups[0])))id=a.groups[0];
   else if(a.participatingGroups?.length===1&&!a.groups?.length)id=a.participatingGroups[0];
   else id='ll-crossover';
