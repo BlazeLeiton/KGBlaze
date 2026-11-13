@@ -1,3 +1,5 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
@@ -523,4 +525,19 @@ test('durable artwork takes priority even when origin and edge cache disappear',
   if(method==='GET')assert.deepEqual(new Uint8Array(await response.arrayBuffer()),saved);else assert.equal(response.body,null);
  }
  assert.equal(network,0);
+});
+
+test('all ten selected artwork snapshots exist, with source and integrity manifest',()=>{
+ const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
+ assert.equal(Object.keys(manifest).length,8);
+ for(const [slug,art] of Object.entries(releaseArtwork)){
+  const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
+  assert.equal(bytes.toString('ascii',0,4),'RIFF');
+  assert.equal(bytes.toString('ascii',8,12),'WEBP');
+  if(art.image.startsWith('https://')){
+   assert.equal(manifest[slug].source,art.image);
+   assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest[slug].sha256);
+   assert.ok(Math.max(...manifest[slug].size)<=720);
+  }
+ }
 });
