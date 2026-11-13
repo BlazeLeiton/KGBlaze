@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
-import {lyricsBySong} from '../src/music-lyrics.mjs';
+import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from '../src/music-page.mjs';
@@ -76,7 +76,7 @@ test('public polish preserves platform color and exposes first release metadata'
  assert.match(catalog,/asmi feat\. Chinozo · 2023/);
  const blue=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es',version:'en'}));
  assert.match(blue,/Universe in Unison/);
- assert.match(blue,/Primer estreno<\/dt><dd>2022/);
+ assert.match(blue,/Primer estreno<\/dt><dd>abril de 2022/);
  assert.match(blue,/Fecha de esta versión<\/dt><dd>abril de 2024/);
  assert.match(blue,/border-radius:8px/);
 });
@@ -91,7 +91,7 @@ test('song header follows selected version while catalog keeps first release',()
  assert.doesNotMatch(en,/2024-04-26|26 de abril/);
  assert.doesNotMatch(es,/2022-04-01|1 de abril/);
  assert.match(header(en),/datetime="2024-04">abril de 2024/);
- assert.match(en,/Primer estreno<\/dt><dd>2022/);
+ assert.match(en,/Primer estreno<\/dt><dd>abril de 2022/);
  assert.match(header(get('blue-spirit','en','en')),/April 2024/);
  assert.match(header(get('blue-spirit','ja','en')),/2024年4月/);
  assert.match(header(get('dokimeki-diary','es','es')),/datetime="2023-05">mayo de 2023/);
@@ -102,9 +102,12 @@ test('song header follows selected version while catalog keeps first release',()
 test('pilot has ten songs and thirteen distinct publications with valid routes',()=>{
  assert.equal(songs.length,10);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,13);
- assert.equal(new Set(versions.map(v=>v.videoId)).size,13);
- assert.ok(versions.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
+ assert.equal(versions.length,16);
+ const videos=versions.filter(v=>v.videoId);
+ assert.equal(videos.length,13);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,13);
+ assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
+ assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
  assert.equal(MUSIC_PATHS.size,22);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
@@ -213,13 +216,13 @@ test('regional blocks use international season keys and never mix Horizons with 
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
  assert.equal(Object.keys(lyricsBySong).length,10);
- const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[v.id]));
- assert.equal(entries.length,13);
+ const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
+ assert.equal(entries.length,16);
  assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v.text).length,11);
+ assert.equal(entries.filter(v=>v.text).length,16);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
- assert.equal(lyricsBySong['butter-fly'].multi.text,undefined);
- assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].text,undefined);
+ assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
+ assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
  assert.equal(lyricsBySong['snow-halation'].hybrid,undefined);
  const page=(slug,version,lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const blue=page('blue-spirit','es');
@@ -237,8 +240,42 @@ test('pilot lyric fiches use only selected supplied adaptations with review stat
  assert.match(page('cake-song','es'),/V.A.F.M.O./);
  assert.match(page('cake-song','es'),/Todos \(por confirmar\)/);
  assert.match(page('butter-fly','multi'),/pendiente de verificar las atribuciones/);
- assert.match(page('snow-halation','hso-orchestra'),/Letra original en japonés/);
- assert.doesNotMatch(page('snow-halation','hso-orchestra'),/Fushigi da ne/);
+ assert.match(page('snow-halation','hso-orchestra'),/Japonés \(rōmaji\)/);
+ assert.match(page('snow-halation','hso-orchestra'),/Fushigi da ne/);
  assert.match(page('connect','es','ja'),/歌詞アダプテーション/);
  assert.doesNotMatch(musicPage('/music/',new URLSearchParams({lang:'es'})),/No debo olvidar la promesa/);
+});
+
+test('release dates and lyric choices remain independent from recording selection',()=>{
+ const page=(slug,query={})=>musicPage('/music/'+slug+'/',new URLSearchParams({lang:'es',...query}));
+ const connect=page('connect');
+ assert.doesNotMatch(connect,/class="version-bar"|Primer estreno<\/dt>|class="lyric-controls"/);
+ assert.match(connect,/Publicación<\/dt><dd>octubre de 2026/);
+ const blue=page('blue-spirit',{version:'en',lyric:'es'});
+ assert.match(blue,/Primer estreno<\/dt><dd>abril de 2022/);
+ assert.match(blue,/Fecha de esta versión<\/dt><dd>abril de 2024/);
+ assert.match(blue,/Por qué será que quiero ir más allá/);
+ const french=page('la-vaguelette',{version:'es-fr',lyric:'fr'});
+ assert.match(french,/class="lyric-text" lang="fr"/);
+ assert.match(french,/Nous pardonneras/);
+ assert.match(french,/version=es-fr&amp;lyric=fr/);
+ const both=page('la-vaguelette',{version:'es-fr',lyric:'es-fr',compare:'fr'});
+ assert.equal((both.match(/class="parallel-pair"/g)||[]).length,2);
+ assert.match(both,/class="parallel-stanza" lang="es"/);
+ assert.match(both,/class="parallel-stanza" lang="fr"/);
+ assert.match(both,/Comparación por estrofas/);
+ assert.match(page('snow-halation',{lyric:'naked-garden',compare:'hso-orchestra'}),/class="parallel-pairs"/);
+ assert.match(page('blue-spirit',{lyric:'es',compare:'en'}),/class="parallel-pairs"/);
+ assert.doesNotMatch(page('butter-fly'),/class="lyric-controls"|class="version-bar"/);
+ assert.match(page('butter-fly'),/JA \/ FR \/ PT \/ ES \/ EN/);
+ const studio=page('dokimeki-diary',{version:'album-studio'});
+ assert.match(studio,/Grabación de estudio para el álbum/);
+ assert.match(studio,/Audio pendiente de incorporar/);
+ assert.match(studio,/Fecha por confirmar/);
+ assert.match(studio,/Primer estreno<\/dt><dd>mayo de 2023/);
+ assert.doesNotMatch(studio,/Invalid Date| · null/);
+ const audio=page('la-vaguelette',{version:'fr-audio'});
+ assert.match(audio,/class="lyric-text" lang="fr"/);
+ assert.match(audio,/Audio pendiente de incorporar/);
+ assert.doesNotMatch(audio,/Invalid Date/);
 });
