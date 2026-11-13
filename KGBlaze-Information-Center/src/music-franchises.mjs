@@ -26,7 +26,7 @@ export function franchiseTagLabel(id,lang){const t=all.find(t=>t.id===id);return
 export function franchiseTags(song){
  const a=song.affiliation;if(!a)return [];
  // Only the original-release unit is a filter tag; debut cohort is contextual/searchable.
- return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[])].filter(Boolean))];
+ return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[]),catalogAffiliationBadge(song,'en')?.id].filter(Boolean))];
 }
 export function affiliationWork(song,lang){
  const a=song.affiliation;
@@ -47,7 +47,7 @@ export function affiliationDetails(song,lang){
  return rows;
 }
 
-export function franchiseSearchAliases(song){const a=song.affiliation;if(!a)return '';return [...new Set([...franchiseTags(song),a.debutUnit].filter(Boolean))].flatMap(id=>['es','en','ja'].map(l=>franchiseTagLabel(id,l))).join(' ');}
+export function franchiseSearchAliases(song){const a=song.affiliation;if(!a)return '';return [...new Set([...franchiseTags(song),a.debutUnit].filter(Boolean))].flatMap(id=>['es','en','ja'].map(l=>franchiseTagLabel(id,l))).concat(catalogAffiliationBadge(song,'en')?.label||'').join(' ');}
 
 // Compact catalog badges are editorial entry points, not the complete affiliation.
 // Keep full group/unit names and historical context in the detail page and filters.
