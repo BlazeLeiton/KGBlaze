@@ -1,6 +1,39 @@
 // User-supplied adaptation and original-reference texts. No external lyrics scraped.
 // Recording IDs and lyric choices remain independent. Unmatched drafts are excluded.
 export const lyricsBySong={
+"miiro": {
+    "es": {
+      "text": "Así el brillo del alba nos verá\nEmbarcar!\nSin palabras en mí, escucho las olas llamándome\nRefleja en su vaivén recuerdos de un pasado cuestionable\nAún en plena oscuridad te recordaré\nAl frente seguiré ¡sólo mírame!\nSe repite, no nos lamentaremos\nSuena en mi mente lo que alguna vez me guio\n“Anhelando” “anclar” nuestro “futuro”\n“Desesperados”, “perdidos” y “aislados”\nEn nuestro escape del fondo de este mar de penas\nEntonces – si el mundo entero queda hundido bajo el azul del mar\nSé que tu voz aún podré escuchar\n“Todo está bien” “Volveremos pronto”\nY aún si el mundo entero en contra nuestra llega a voltear\nNo habrá nada que nos pueda separar\nMirando al frente continuáremos\nMis deseos apuntando para al fin disparar\nEra una espléndida insignia, pero eso quedó atrás\nMantuvo la esperanza aún en los confines del mar\nEs porque no olvidaré, no importa cuál oculto esté\nMi camino abriré, sólo mírame\nSe lista, no repitas tragedia\nSon vacías palabras que ya no me engañarán\nUn “resplandor” al “cielo” da “esperanza”\nEl “fracaso” “durmiente” en el “abismo\"\nEn nuestro escape del fondo de este mar de lloros\nEntonces – si mi ser se esfuma enteramente en el ayer\nSiempre junto a mi aquí te podré ver\n“Cambiaremos lo que nos busca detener”\nY aún si sólo existe mi ser como otra ilusión\nSerá a tu lado este mi razón\nUn milagro más allá del tiempo\nMis plegarias con fuerza las haré resonar\nSi el mundo entero es disuelto en el azul del mar\nTu memoria en mi conservaré\nSi el mundo entero es derretido en el azul del mar\nDe buscarte nunca pararé\n“Todo está bien” “Volveremos” dices…\n“Todo está bien” “Cambiaremos” ¿pues cuándo?…\n“Seguiremos” “Lo lograremos” pero…\n“Mentira fue” “Nuestro final llegó” (Esta mal)\nAhora – si todo alrededor se derrite en el azul del mar\nY mi ser en el abismo cae\nE incluso – si todo eco se disipa en el azul del mar\nY se desvanece ante la luz\nEntonces – si el mundo entero queda hundido bajo el azul del mar\nSé que tu voz aún podré escuchar\n“Todo está bien” “Volveremos pronto”\nY cuando el día llegue en el que te vea otra vez\nSerá que junto a ti caminaré\nHasta el final ese es mi deseo\nEl futuro próximo para al fin\nEmbarcar!",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "graphite-diamond": {
+    "es": {
+      "text": "“Sobre todo lograremos avanzar\"\nNo miraremos atrás\nHay que seguir\nEn cualquier persona existe el miedo por aquello perder\nAntes que nadie lo alcancé, saltaré por él\nResistiré ante este mundo que se encuentra por perecer\nMientras mi corazón se detiene a esconder este sentir vil y cruel\nEl nocturno mar verá brillar un cañón\nLlorando a toda fuerza sin sonido algún\nEn busca de tan sólo un poco de calor\nPercibe el viento, rompe las olas\nSueña un puro océano AZUR\nMás allá del temor, más allá del dolor\n¿Qué se encuentra, dímelo por favor?\nMi corazón aún fuerte seguirá\nLleno de bondad irá continuar\nIncluso si estoy cerca de renunciar\nMis sentimientos los voy a abrazar\n“Sobre todo lograremos avanzar\"\nCual grafito a diamante\nDefinir lo que es correcto pareciera un perfecto rol\nPero entre las sombras la tristeza tiene el control\nTe llevará a la ira, la ira al odio, el odio a sufrir\nMis brazos una vez abiertos se escudan de ahora sentir\nMi corazón identifique en radar\nAsediado entre dogmas, no puede escapar\nLa alerta roja está por estallar\nPredice el cielo, estrellas guiarán\nAnhelando aquel lejano AZUR\nMás allá de la tormenta y del terror\n¿Qué se encuentra, dímelo por favor?\nNo perderé aquí, no caeré así\nAún si el dolor lo quiero encubrir\nIncluso si estoy cerca de renunciar\nMis sentimientos encuentro aquí\n“Sobre todo lograremos avanzar\"\nCual grafito a diamante\nTodo lo que oprimí aquí cual grafito\nUn día por “libertad\" pulido quedará\nY en diamantes destellantes se volverá\nPercibe el viento, rompe las olas\nSueña un puro océano AZUR\nMás allá del temor, más allá del dolor\n¿Qué se encuentra, dímelo por favor?\nMi corazón aún fuerte seguirá\nLleno de bondad irá continuar\nIncluso si estoy cerca de renunciar\nMis sentimientos voy a abrazar\n“Sobre todo lograremos avanzar\"\nGrafito a diamante\nNo miraremos atrás",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "savior-of-song": {
+    "es": {
+      "text": "",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": "rights-pending"
+    }
+  },
+  "high-free-spirits": {
+    "es": {
+      "text": "Las llamas sobre el mundo arderán\nDesde aquí todo comenzará\nEn el cielo nocturno donde terminará\nEsa luz tan tenue y singular\nLa voz que en mi pecho he de ocultar\nCon fuerza las sombras quebrantará\nNo me dejaré marchitar\nNo esperaré un segundo más\nDejaré al viento mi guiar\nNo será arrastrado\nPor las olas mi corazón\nTe protegeré sin dudar\nResuena determinación vivazmente hasta el final\nEstas cicatrices jamás se olvidarán\nTodavía es visible aquel débil resplandor\nEl mundo espera el llamar de un nuevo ilustre amanecer\nResuena determinación, no irá a desvanecer\nCuando el futuro y el pasado frente a frente estén\nSonará alto esta canción\nHacia la gloria el mundo va\nRecolectando luz al andar\nPrometiendo llevar a un brillante mañana\nEl destino que hasta aquí nos guio\nEl futuro que enfrente se abrió\nCon firmeza abrazaremos los dos\nTus pasos puedo recordar\nEn la arena los vi esfumar\nNostálgico era aquel deambular\nSi cierro mis ojos\nTu camino puedo seguir\nTe alcanzaré sin dudar\nResuena esta última canción ante el mar de aflicción\nEstas lágrimas al mundo purificarán\n\nTodavía es visible aquel destello entre el caos\nLa vida espera el responder de un efímero resplandor\nResuena esta última canción de “mucho gusto” y “adiós”\nAún si incierto es ahora lo que de frente vendrá\nSeguiré navegando allá\nEl resplandor del alba irá\nAl mar de esperanza llenar\nEl límite entre el hoy y el ayer\nAhora conectados\nLa turbulencia quedó atrás\nNuestro latir no parará\nResuena determinación vivazmente hasta el final\nEstas cicatrices jamás se olvidarán\nTodavía es visible aquel débil resplandor\nEl mundo espera el llamar de un nuevo ilustre amanecer\nResuena determinación, no irá a desvanecer\nCuando el futuro y el pasado frente a frente estén\nSonará alto esta canción",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+
 "caesura-of-despair":{
   "es": {
     "text": "La oscuridad se irá, la luz te guiará\nEsperanza ha llegado y sólo no estás\n\nLa lluvia, el arcoíris tejen un contraste\nEn medio de él ruego desesperación acabe\nY ahora estoy aquí, cantando así\nPor otro día vivir\n\nLa luz crepuscular, escuchará esta elegía, que de un\nAyer de lágrimas en alto se despedirá\n\nDesesperación, prometo mi canción alejará\nPide un deseo, que un escenario te cautivará\nLa oscuridad se irá, esperanza habrá\nPues aquí cantaré melodías para ti\n\nLa luna, las estrellas pintan los satélites\nEn plena oscuridad a tu lado yo volaré\nY aún en la noche, su brillo verás\nLuz aquí permanecerá\n\nNo debes de olvidar, es para ti esta serenata\nDonde continuará, el sueño que alguna vez vi aquí quebrantar\n\nPues hallé tu historia\nEl tiempo sigue corriendo y\nMe deja atrás en soledad\nCorreré más fuerte para tu mano antes de hundirse en el negro mar alcanzar\n\nHay que tocar con nuestro andar futuro esta orquesta\nNostálgica es está canción color de azul, su latir\nAl alba yo puedo escuchar\n\nCree en el destino, mi promesa aquí se cumplirá\nPara una Reunión, cuando la historia no se escuche más\nDe la pena y el dolor, reiremos sin temor\nY a esta rutina esperanza hemos de llamar\n\nDesesperación, prometo mi canción alejará\nPide un deseo, que un escenario te cautivará\nTu propia voz resonará, por sobre las demás\nEn este mundo que a mi lado encontrarás\n\nLa oscuridad se irá, IRyS tu luz será\nNuestro viaje apenas comienza ahora",
@@ -298,5 +331,5 @@ export const lyricsBySong={
   }
 };
 // Reuse one lyric text for audio editions instead of duplicating it.
-export const lyricAliases={'dokimeki-diary':{'album-studio':'es'},'la-vaguelette':{'es-audio':'es-fr','fr-audio':'fr'}};
+export const lyricAliases={'high-free-spirits':{'alternative-instrumental':'es','original-instrumental':'es'},'dokimeki-diary':{'album-studio':'es'},'la-vaguelette':{'es-audio':'es-fr','fr-audio':'fr'}};
 export const lyricOrder={'blue-spirit':['es','en'],'la-vaguelette':['es-fr','fr'],'snow-halation':['naked-garden','hso-orchestra']};
