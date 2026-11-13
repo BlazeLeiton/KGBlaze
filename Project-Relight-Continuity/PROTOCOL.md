@@ -1,5 +1,7 @@
 # KGRP v3 — Protocolo operativo profundo (obligatorio)
 
+> **Actualización de continuidad — ReSpark VIII (13-nov-2026):** la ejecución explícita «Ejecuta Relight ReSpark» usa el [protocolo nuclear v4](PROTOCOL_RESPARK_V4.md), ocho capas acumulativas y checkpoint verificable. KGRP v3 conserva sus reglas de auditoría técnica y continuidad; ante recuperación integral, v4 amplía y ordena esas reglas. Los paquetes privados no se almacenan en este repositorio público. No se modifica producción por esta actualización documental.
+
 ## 0. Ámbito y activación
 Aplicar cuando se solicite reanudar, recuperar, revisar, continuar o reconstruir KGBlaze / Project Relight; ejecutar igualmente si el chat previo se agotó, se interrumpió o desapareció. La modalidad predeterminada es **PROFUNDA**, nunca express. La respuesta breve puede ser un encabezado ejecutivo, no un recorte del análisis.
 
