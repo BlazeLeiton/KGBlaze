@@ -1,3 +1,5 @@
+import {artworkSources} from './music-artwork.mjs';
+import {serveArtwork} from './music-artwork-cache.mjs';
 import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO} from './core.mjs';
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
@@ -201,12 +203,13 @@ async function handler(req,env){
  return json({error:'NOT_FOUND'},404,cors);
 }
 export default {
- async fetch(req,env){
+ async fetch(req,env,ctx){
   try{
    const routed=routePortalRequest(req);
    if(routed.response)return routed.response;
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
+   if(artworkSources.has(dashboardPath))return serveArtwork(routed.request,{ctx});
    if(['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
