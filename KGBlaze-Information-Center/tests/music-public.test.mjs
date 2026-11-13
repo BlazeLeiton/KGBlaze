@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {routePortalRequest} from '../src/portal-route.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {releaseArtwork} from '../src/music-artwork.mjs';
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
@@ -325,7 +326,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="video-cover"/g)||[]).length,10);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,10);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
@@ -347,7 +348,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  assert.match(page('la-vaguelette','es','fr-audio'),/data-video-id="Y7UBoG9twvc"/);
  const res=await worker.fetch(req('/music/blue-spirit/'),environment);
  const csp=res.headers.get('Content-Security-Policy');
- assert.match(csp,/img-src data: https:\/\/i\.ytimg\.com;/);
+ assert.match(csp,/img-src data: https:\/\/i\.ytimg\.com /);
  assert.match(csp,/frame-src https:\/\/www\.youtube-nocookie\.com;/);
  assert.equal(res.headers.get('Referrer-Policy'),'strict-origin-when-cross-origin');
 });
@@ -421,4 +422,28 @@ test('Love Live series badge stays independent from story-era performing unit',(
  }
  assert.equal(affiliationDetails(bubble,'es').find(([k])=>k==='Unidad intérprete')[1],'TomaKanoTe');
  assert.ok(!songs.some(s=>s.slug==='bubble-rise'));
+});
+
+test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
+ const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
+ assert.equal(Object.keys(releaseArtwork).length,7);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,10);
+ assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
+ assert.match(catalog,/object-fit:contain/);
+ for(const s of songs){
+  const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/'+s.slug+'/'));
+  const first=s.versions.find(v=>v.public!==false);
+  const art=releaseArtwork[s.slug];
+  if(art){
+   assert.ok(card.includes(art.image));
+   assert.ok(card.includes('data-fallback="https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg"'));
+   assert.ok(card.includes('data-art-kind="'+art.kind+'"'));
+   const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang:'es'}));
+   assert.ok(h.includes(art.source));assert.match(h,/Portada del lanzamiento original/);
+   assert.match(h,/class="video-stage"/);
+  }else{assert.match(card,/data-art-kind="video"/);}
+ }
+ const response=await worker.fetch(req('/music/'),environment);
+ const csp=response.headers.get('Content-Security-Policy');
+ for(const a of Object.values(releaseArtwork))assert.ok(csp.includes(new URL(a.image).origin));
 });
