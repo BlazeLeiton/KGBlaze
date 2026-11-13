@@ -510,3 +510,17 @@ test('context filters appear only for relevant results or tag deep links',()=>{
  el.clear.onclick();start('?affiliation=holo-promise');assert.equal(el['affiliation-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
  el.clear.onclick();start('?block=horizons');assert.equal(el['block-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
 });
+
+test('durable artwork takes priority even when origin and edge cache disappear',async()=>{
+ const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
+ let network=0;const saved=new Uint8Array([82,73,70,70,8,0,0,0,87,69,66,80]);
+ const assets={fetch:async r=>{assert.equal(new URL(r.url).pathname,'/music-artwork/connect-v1.webp');return new Response(r.method==='HEAD'?null:saved,{headers:{'Content-Type':'image/webp'}})}};
+ const cache={match:async()=>{throw Error('evicted')},put:async()=>{throw Error('unavailable')}};
+ const fetcher=async()=>{network++;throw Error('removed')};
+ for(const method of ['GET','HEAD']){
+  const response=await serveArtwork(new Request(url,{method}),{assets,cache,fetcher});
+  assert.equal(response.status,200);assert.equal(response.headers.get('Content-Type'),'image/webp');
+  if(method==='GET')assert.deepEqual(new Uint8Array(await response.arrayBuffer()),saved);else assert.equal(response.body,null);
+ }
+ assert.equal(network,0);
+});
