@@ -119,9 +119,12 @@ test('Pokémon source edition is independent of cover language and numbering',()
  assert.equal(song.theme,'OP 1');
  assert.ok(song.versions.every(v=>v.langs.includes('ES')));
  const page=(lang,version)=>musicPage('/music/dokimeki-diary/',new URLSearchParams({lang,version}));
- assert.match(page('es','ensemble'),/Edición de origen<\/dt><dd>Japonesa/);
- assert.match(page('en','es'),/Source edition<\/dt><dd>Japanese/);
- assert.match(page('ja','es'),/原曲の版<\/dt><dd>日本版/);
+ assert.match(page('es','ensemble'),/Pokémon Horizons · Temporada 1 \(Japonesa\)/);
+ assert.doesNotMatch(page('es','ensemble'),/Edición de origen<\/dt>/);
+ assert.match(page('en','es'),/Pokémon Horizons · Season 1 \(Japanese\)/);
+ assert.doesNotMatch(page('en','es'),/Source edition<\/dt>/);
+ assert.match(page('ja','es'),/Pokémon Horizons · シーズン 1 \(日本版\)/);
+ assert.doesNotMatch(page('ja','es'),/原曲の版<\/dt>/);
  assert.doesNotMatch(musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es'})),/Edición de origen<\/dt>/);
 });
 test('pilot maintains version arrangement and first cover history',()=>{
