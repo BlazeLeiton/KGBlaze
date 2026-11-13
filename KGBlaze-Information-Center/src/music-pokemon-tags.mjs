@@ -12,16 +12,19 @@ export const pokemonBlocks=[
  {id:'journeys',label:'Journeys',ja:'Journeys',first:23,last:25},
  {id:'horizons',label:'Horizons',ja:'Horizons'}
 ];
-export function pokemonTags(song){
- if(!isPokemonWork(song.series)||!Number.isInteger(song.season)||song.season<1)return null;
- const era=song.series==='Pokémon Horizons'?'horizons':'ash';
- const block=era==='horizons'?pokemonBlocks.find(b=>b.id==='horizons'):pokemonBlocks.find(b=>song.season>=b.first&&song.season<=b.last);
+export function tagsForSeason(era,season){
+ if(!['ash','horizons'].includes(era)||!Number.isInteger(season)||season<1)return null;
+ const block=era==='horizons'?pokemonBlocks.find(b=>b.id==='horizons'):pokemonBlocks.find(b=>season>=b.first&&season<=b.last);
  if(!block)return null;
- return {block:block.id,seasonKey:era+':'+song.season,season:song.season};
+ return {block:block.id,seasonKey:era+':'+season,season};
+}
+export function pokemonTags(song){
+ if(!isPokemonWork(song.series))return null;
+ return tagsForSeason(song.series==='Pokémon Horizons'?'horizons':'ash',song.season);
 }
 export function blockLabel(id,lang){const b=pokemonBlocks.find(x=>x.id===id);return b?(lang==='ja'?b.ja:b.label):id;}
 export function seasonTagLabel(tag,lang){
  if(!tag)return '';
  const era=tag.seasonKey.startsWith('horizons:')?'Horizons · ':'';
- return era+({es:'Temporada ',en:'Season ',ja:'シーズン'}[lang]||'Season ')+tag.season;
+ return era+({es:'Temporada ',en:'Season ',ja:'海外版シーズン'}[lang]||'Season ')+tag.season;
 }
