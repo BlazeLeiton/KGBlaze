@@ -3,7 +3,7 @@ import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflig
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
-import {MUSIC_PATHS,musicPage} from './music-page.mjs';
+import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {DASHBOARD_HTML} from './dashboard-page.mjs';
 import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
@@ -207,18 +207,21 @@ export default {
    if(routed.response)return routed.response;
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
+   if(dashboardPath===MUSIC_TYPE_PATH){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    // Extract the existing faces once per cache miss; no duplicate font files.
+    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
+    const source=await env.ASSETS.fetch(new Request(new URL('/',requestURL),{method:'GET'}));
+    if(!source.ok)return err(503,'FONT_SOURCE_UNAVAILABLE');
+    const sourceHTML=await source.text();
+    const fonts=(sourceHTML.match(/@font-face\{font-family:'(?:Garnett|Noto Sans JP Project)'[^}]*\}/g)||[]).join('\n').replace(/font-display:block/g,'font-display:swap');
+    if(!fonts)return err(503,'FONT_SOURCE_UNAVAILABLE');
+    return new Response(req.method==='HEAD'?null:fonts,{headers:{'Content-Type':'text/css; charset=utf-8','Cache-Control':'public, max-age=86400','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff'}});
+   }
    if(MUSIC_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
-    // Reuse the existing public viewer's font faces rather than duplicating font assets.
-    let fonts='';
-    if(req.method==='GET'&&env.ASSETS){
-     try{
-      const source=await env.ASSETS.fetch(new Request(new URL('/',requestURL),{method:'GET'}));
-      if(source.ok){const html=await source.text();fonts=(html.match(/@font-face\{font-family:'(?:Garnett|Noto Sans JP Project)'[^}]*\}/g)||[]).join('\n');}
-     }catch{/* safe Arial and system Japanese fallbacks */}
-    }
-    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams,fonts),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; font-src data:; img-src data:; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
+    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src data:; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
    }
    if(['/dashboard/','/dashboard','/dashboard/library/'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
