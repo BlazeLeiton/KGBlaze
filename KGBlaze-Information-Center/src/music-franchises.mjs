@@ -9,7 +9,7 @@ export const franchiseRegistry={
  },
  'love-live':{
   root:tag('love-live','Love Live!','ラブライブ！'),
-  groups:[tag('ll-muse',"μ's"),tag('ll-aqours','Aqours'),tag('ll-nijigasaki','Nijigasaki','虹ヶ咲'),tag('ll-liella','Liella!'),tag('ll-hasunosora','Hasunosora','蓮ノ空'),tag('ll-bluebird','Ikizurai-bu!','いきづらい部！'),tag('ll-aiscream','AiScReam'),tag('ll-crossover','Crossover','シリーズ横断','Multiserie')],
+  groups:[tag('ll-muse',"μ's"),tag('ll-aqours','Aqours'),tag('ll-nijigasaki','Nijigasaki','虹ヶ咲'),tag('ll-liella','Liella!'),tag('ll-hasunosora','Hasunosora','蓮ノ空'),tag('ll-bluebird','Ikizurai-bu!','いきづらい部！'),tag('ll-aiscream','AiScReam'),tag('ll-tomakanote','TomaKanoTe','トマカノーテ'),tag('ll-catchu','CatChu!'),tag('ll-kaleidoscore','KALEIDOSCORE'),tag('ll-5yncri5e','5yncri5e!'),tag('ll-crossover','Crossover','シリーズ横断','Multiserie')],
   series:{
    'Love Live! School Idol Project':['ll-muse'],
    'Love Live! Sunshine!!':['ll-aqours'],
@@ -26,7 +26,7 @@ export function franchiseTagLabel(id,lang){const t=all.find(t=>t.id===id);return
 export function franchiseTags(song){
  const a=song.affiliation;if(!a)return [];
  // Only the original-release unit is a filter tag; debut cohort is contextual/searchable.
- return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[])].filter(Boolean))];
+ return [...new Set([a.franchise,a.branch,...(a.groups||[]),a.unit,...(a.participatingGroups||[]),(catalogAffiliationBadge(song,'en')?.key==='series'?null:catalogAffiliationBadge(song,'en')?.id)].filter(Boolean))];
 }
 export function affiliationWork(song,lang){
  const a=song.affiliation;
@@ -39,7 +39,7 @@ export function affiliationDetails(song,lang){
  const labels={es:{branch:'Rama histórica',unit:'Unidad al estreno original',debut:'Generación de debut',group:'Grupo principal',participants:'Grupos participantes',event:'Evento / proyecto'},en:{branch:'Historical branch',unit:'Unit at original release',debut:'Debut cohort',group:'Main group',participants:'Participating groups',event:'Event / project'},ja:{branch:'旧所属グループ',unit:'原曲発表時のユニット',debut:'デビュー時の期・ユニット',group:'所属グループ',participants:'参加グループ',event:'イベント・企画'}}[lang];
  const rows=[];
  if(a.branch)rows.push([labels.branch,franchiseTagLabel(a.branch,lang)]);
- if(a.unit)rows.push([labels.unit,franchiseTagLabel(a.unit,lang)]);
+ if(a.unit)rows.push([a.franchise==='love-live'?({es:'Unidad intérprete',en:'Performing unit',ja:'歌唱ユニット'}[lang]):labels.unit,franchiseTagLabel(a.unit,lang)]);
  if(a.debutUnit&&a.debutUnit!==a.unit)rows.push([labels.debut,franchiseTagLabel(a.debutUnit,lang)]);
  if(a.groups?.length)rows.push([labels.group,a.groups.map(id=>franchiseTagLabel(id,lang)).join(' · ')]);
  if(a.participatingGroups?.length)rows.push([labels.participants,a.participatingGroups.map(id=>franchiseTagLabel(id,lang)).join(' · ')]);
@@ -47,4 +47,31 @@ export function affiliationDetails(song,lang){
  return rows;
 }
 
-export function franchiseSearchAliases(song){const a=song.affiliation;if(!a)return '';return [...new Set([...franchiseTags(song),a.debutUnit].filter(Boolean))].flatMap(id=>['es','en','ja'].map(l=>franchiseTagLabel(id,l))).join(' ');}
+export function franchiseSearchAliases(song){const a=song.affiliation;if(!a)return '';return [...new Set([...franchiseTags(song),a.debutUnit].filter(Boolean))].flatMap(id=>['es','en','ja'].map(l=>franchiseTagLabel(id,l))).concat(catalogAffiliationBadge(song,'en')?.label||'').join(' ');}
+
+// Compact catalog badges are editorial entry points, not the complete affiliation.
+// Keep full group/unit names and historical context in the detail page and filters.
+const compactLabels={
+ 'holo-jp':'hololive JP','holo-en':'hololive EN','holo-id':'hololive ID',
+ 'holo-cn':'hololive CN','holo-devis':'hololive DEV_IS',
+ 'll-muse':"μ's",'ll-aqours':'Sunshine!!','ll-nijigasaki':'Nijigasaki',
+ 'll-liella':'Superstar!!','ll-hasunosora':'Hasunosora','ll-bluebird':'BLUEBIRD',
+ 'll-aiscream':'AiScReam'
+};
+export function catalogAffiliationBadge(song,lang){
+ const a=song.affiliation;if(!a)return null;
+ let id;
+ if(a.franchise==='hololive')id=a.branch||a.franchise;
+ else if(a.franchise==='love-live'){
+  // Named cross-series units take precedence; otherwise the source series determines the badge, never the performers' later memberships.
+  if(a.unit==='ll-aiscream')id=a.unit;
+  else if(franchiseRegistry['love-live'].series[song.series]?.length===1){
+   id=franchiseRegistry['love-live'].series[song.series][0];
+   if(id!=='ll-crossover')return {id,label:compactLabels[id]||franchiseTagLabel(id,lang),key:'series',value:song.series};
+  }
+  else if(a.groups?.length===1&&(!a.participatingGroups?.length||a.participatingGroups.every(g=>g===a.groups[0])))id=a.groups[0];
+  else if(a.participatingGroups?.length===1&&!a.groups?.length)id=a.participatingGroups[0];
+  else id='ll-crossover';
+ }else return null;
+ return {id,label:compactLabels[id]||franchiseTagLabel(id,lang)};
+}
