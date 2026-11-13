@@ -2,6 +2,9 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+ 'caesura-of-despair':{image:'https://hololive.hololivepro.com/wp-content/uploads/2021/07/irys_1stalbm_jk-1000x997.png',source:'https://hololive.hololivepro.com/en/music/caesura-of-despair/',release:'||:Caesura of Despair · CVRD-056',kind:'illustrated'},
+ 'watashi-no-na-wa-hikari':{image:'https://www.jvcmusic.co.jp/img/jackets/VICL-65454.jpg?_c=810975cb4b6218f5df509fa16a6c6446',source:'https://www.jvcmusic.co.jp/-/Discography/A026102/VICL-65454.html',release:'SKY FULL of MAGIC · VICL-65454',kind:'anime'},
+ 'song-for-you':{image:'https://idolypride.jp/wp-content/uploads/2021/10/IP1stAL_TsuJo_JK_JPEG_rgb-300x300.jpg',source:'https://www.sonymusic.co.jp/artist/mananagase/discography/SMCL-737',release:'IDOLY PRIDE Collection Album [奇跡] · SMCL-737',kind:'anime'},
  'blue-spirit':{image:'/music-artwork/blue-spirit-v1.webp',source:'https://wiki.biligame.com/blhx/%E7%A2%A7%E8%93%9D%E6%B5%B7%E4%BA%8B%E5%B1%80%E5%85%B1%E9%B8%A3%E7%9A%84PASSION%E6%B4%BB%E5%8A%A8%E4%B8%93%E9%A2%98',release:'Blue Spirit · Universe in Unison',kind:'game',artworkContext:'Official in-game collectible record artwork; documented among legacy song jackets in Heart-Linking Harmony (2024; Resonant Passion in translated Asian event references); first appearance unconfirmed.'},
  'are-ga-koi-datta-no-ka-na':{image:'/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp',source:'https://open.spotify.com/intl-ja/track/23eX2EUwE7EhiLWoPl1Pdv',release:'あれが恋だったのかな',kind:'anime'},
  'cake-song':{image:'https://www.giantrobot.com/cdn/shop/files/SubinYeon_CakeSong_8x10___500.jpg?v=1751643268&width=720',source:'https://www.giantrobot.com/products/reanimated-2025-subin-yeon-cake-song',release:'Cake Song — Subin Yeon',kind:'illustration',credit:'Subin Yeon'},
