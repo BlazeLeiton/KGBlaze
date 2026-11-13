@@ -20,7 +20,7 @@ export const VIEWER_CSS = `
 /* Relight public identity v1: exterior only. Never style #board, hit layer,
    row selectors, compact controls, canvas, status LEDs or status pills. */
 body:not(.embedded){background:#020C41;color:#fff;font-family:Garnett,Arial,"Noto Sans JP Project",sans-serif}
-body:not(.embedded) .viewer-header{border-bottom:2px solid #FA0073;padding:5px 0 8px;height:55px}
+body:not(.embedded) .viewer-header{border-bottom:2px solid #FA0073;padding:0 0 4px;height:55px}
 body:not(.embedded) .title-line{color:#fff;font-weight:600;letter-spacing:.045em}
 body:not(.embedded) .subline,body:not(.embedded) .week-label{color:#A5EBFF}
 body:not(.embedded) .panel-side{background:#0B1761;border:1px solid #276EF1;border-radius:0;box-shadow:none;padding:clamp(14px,1.45vw,23px)}
