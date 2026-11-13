@@ -4,6 +4,9 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Kantai Collection':names('Kantai Collection','艦隊これくしょん -艦これ-','Kantai Collection',['KanColle','Kantai Collection: KanColle']),
+ 'High School Fleet':names('High School Fleet','ハイスクール・フリート','High School Fleet',['Haifuri','Hai-Furi']),
+ 'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel -Ars Nova-','蒼き鋼のアルペジオ -アルス・ノヴァ-','Arpeggio of Blue Steel -Ars Nova-',['Arpeggio of Blue Steel','Aoki Hagane no Arpeggio']),
  'Azur Lane':names('Azur Lane','アズールレーン'),
  'Pokémon Horizons':{pokemon:true,romaji:'Pocket Monsters (2023)',...names('Pokémon Horizons: The Series','ポケットモンスター（2023）','La Serie Horizontes Pokémon',['Pokémon Horizons','Pokémon Horizontes','Horizontes Pokémon','Pocket Monsters 2023','Poketto Monsutā 2023']),seasons:{2:names('Pokémon Horizons: Season 2—The Search for Laqua','ポケットモンスター（2023）','La Serie Horizontes Pokémon: En busca de Laqua')}},
  'Pokémon XY':{pokemon:true,romaji:'Pocket Monsters XY',...names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY',['Pocket Monsters XY','Poketto Monsutā XY','Kalos Quest','XY&Z']),seasons:{
