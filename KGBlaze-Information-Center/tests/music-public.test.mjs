@@ -29,7 +29,7 @@ test('Music preview renders three pages in three languages without external medi
  }
  const html=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'ja',version:'en'}));
  assert.match(html,/楽曲選集/);
- assert.match(html,/2024-04-26/);
+ assert.match(html,/2024年4月/);
  assert.match(html,/version=en/);
 });
 test('Worker serves preview with noindex, canonical slash, HEAD and cached typography',async()=>{
@@ -73,7 +73,7 @@ test('public polish preserves platform color and exposes first release metadata'
  const blue=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es',version:'en'}));
  assert.match(blue,/Universe in Unison/);
  assert.match(blue,/Primer estreno<\/dt><dd>2022/);
- assert.match(blue,/Fecha de esta versión<\/dt><dd>2024-04-26/);
+ assert.match(blue,/Fecha de esta versión<\/dt><dd>abril de 2024/);
  assert.match(blue,/border-radius:8px/);
 });
 
@@ -82,13 +82,15 @@ test('song header follows selected version while catalog keeps first release',()
  const header=html=>html.match(/<div class="detail-title">[\s\S]*?<\/div><section class="version-bar">/)[0];
  const es=get('blue-spirit','es','es'),en=get('blue-spirit','es','en');
  assert.match(header(es),/Astrum · 2022/);
- assert.match(header(es),/datetime="2022-04-01">1 de abril de 2022/);
+ assert.match(header(es),/datetime="2022-04">abril de 2022/);
  assert.match(header(en),/Astrum · 2024/);
- assert.match(header(en),/datetime="2024-04-26">26 de abril de 2024/);
+ assert.doesNotMatch(en,/2024-04-26|26 de abril/);
+ assert.doesNotMatch(es,/2022-04-01|1 de abril/);
+ assert.match(header(en),/datetime="2024-04">abril de 2024/);
  assert.match(en,/Primer estreno<\/dt><dd>2022/);
- assert.match(header(get('blue-spirit','en','en')),/April 26, 2024/);
- assert.match(header(get('blue-spirit','ja','en')),/2024年4月26日/);
- assert.match(header(get('dokimeki-diary','es','es')),/datetime="2023-05-09"/);
- assert.match(header(get('dokimeki-diary','es','ensemble')),/datetime="2023-12-21"/);
+ assert.match(header(get('blue-spirit','en','en')),/April 2024/);
+ assert.match(header(get('blue-spirit','ja','en')),/2024年4月/);
+ assert.match(header(get('dokimeki-diary','es','es')),/datetime="2023-05">mayo de 2023/);
+ assert.match(header(get('dokimeki-diary','es','ensemble')),/datetime="2023-12">diciembre de 2023/);
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
