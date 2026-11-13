@@ -269,13 +269,53 @@ test('release dates and lyric choices remain independent from recording selectio
  assert.doesNotMatch(page('butter-fly'),/class="lyric-controls"|class="version-bar"/);
  assert.match(page('butter-fly'),/JA \/ FR \/ PT \/ ES \/ EN/);
  const studio=page('dokimeki-diary',{version:'album-studio'});
- assert.match(studio,/Grabación de estudio para el álbum/);
- assert.match(studio,/Audio pendiente de incorporar/);
- assert.match(studio,/Fecha por confirmar/);
+ assert.doesNotMatch(studio,/Grabación de estudio para el álbum|Audio pendiente de incorporar|Fecha por confirmar|version=album-studio/);
  assert.match(studio,/Primer estreno<\/dt><dd>mayo de 2023/);
- assert.doesNotMatch(studio,/Invalid Date| · null/);
+ assert.match(studio,/Fecha de esta versión<\/dt><dd>mayo de 2023/);
  const audio=page('la-vaguelette',{version:'fr-audio'});
- assert.match(audio,/class="lyric-text" lang="fr"/);
- assert.match(audio,/Audio pendiente de incorporar/);
- assert.doesNotMatch(audio,/Invalid Date/);
+ assert.doesNotMatch(audio,/class="version-bar"|version=fr-audio|Audio pendiente de incorporar/);
+ assert.match(audio,/class="lyric-text" lang="es"/);
+ assert.match(audio,/Publicación<\/dt><dd>diciembre de 2023/);
+ assert.match(page('la-vaguelette',{lyric:'fr'}),/class="lyric-text" lang="fr"/);
+ const deferred=songs.flatMap(s=>s.versions).filter(v=>v.public===false);
+ assert.equal(deferred.length,3);
+ assert.ok(deferred.every(v=>v.medium==='audio'&&v.date===null));
+ assert.ok(deferred.filter(v=>v.id.endsWith('-audio')).every(v=>v.recordingMonth==='2023-12'&&v.recordingGroup==='la-vaguelette-2023-12'));
+ assert.equal(songs.find(s=>s.slug==='la-vaguelette').versions[0].recordingMonth,'2023-12');
+});
+
+test('Japanese lyric script follows locale, including mixed-language segments and comparison',()=>{
+ const page=(slug,lang,query={})=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,...query}));
+ for(const lang of ['es','en']){
+  const h=page('snow-halation',lang,{version:'hso-orchestra'});
+  assert.match(h,/class="lyric-text" lang="ja-Latn"/);
+  assert.match(h,/Fushigi da ne/);
+  assert.doesNotMatch(h,/不思議だね/);
+ }
+ const ja=page('snow-halation','ja',{version:'hso-orchestra'});
+ assert.match(ja,/class="lyric-text" lang="ja"/);
+ assert.match(ja,/不思議だね/);
+ assert.doesNotMatch(ja,/Fushigi da ne/);
+ const compare=page('snow-halation','ja',{lyric:'naked-garden',compare:'hso-orchestra'});
+ assert.match(compare,/class="parallel-stanza" lang="ja"/);
+ assert.match(compare,/class="parallel-stanza" lang="es"/);
+ const source=lyricsBySong['butter-fly'].multi;
+ assert.equal(source.segments.map(s=>s.lang).join(','),'JA,JA,JA,JA,FR,PT,ES,EN,EN,PT,ES');
+ const stanzas=source.text.trim().split(/\n\s*\n/);
+ for(let i=0;i<stanzas.length;i++)assert.equal(source.segments.filter(s=>s.stanza===i).map(s=>s.text).join('\n'),stanzas[i]);
+ for(const lang of ['es','en','ja']){
+  const h=page('butter-fly',lang);
+  assert.equal((h.match(/class="lyric-segment"/g)||[]).length,11);
+  assert.match(h,/class="lyric-segment" lang="fr"/);
+  assert.match(h,/class="lyric-segment" lang="pt"/);
+  assert.match(h,/class="lyric-segment" lang="es"/);
+  assert.match(h,/class="lyric-segment" lang="en"/);
+  assert.match(h,/Me réveillant de ce rêve sans fin/);
+  assert.match(h,/Como um pássaro contente/);
+  assert.match(h,/Decidieron engañarte/);
+  assert.match(h,/So tell me/);
+  assert.doesNotMatch(h,/class="lyric-controls"/);
+  if(lang==='ja'){assert.match(h,/class="lyric-segment" lang="ja"/);assert.match(h,/無限大な夢のあとの/);assert.doesNotMatch(h,/Mugendai na yume/);}
+  else{assert.match(h,/class="lyric-segment" lang="ja-Latn"/);assert.match(h,/Mugendai na yume/);assert.doesNotMatch(h,/無限大な夢のあとの/);}
+ }
 });

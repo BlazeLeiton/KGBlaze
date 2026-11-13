@@ -56,7 +56,69 @@ export const lyricsBySong={
       "text": "Mugendai na yume no ato no nanimo nai yo no naka ja\nSou sa itoshii omoi mo makesou ni naru kedo\nStay shigachi na imeeji darake no tayorinai tsubasa demo\nKitto toberu sa oh yeah\n\nMugendai na yume no ato no yarusenai yo no naka ja\nSou sa joushiki hazure mo waruku wa nai ka na\nStay shisou na imeeji wo someta gikochinai tsubasa demo\nKitto toberu sa oh my love\n\nGokigen na chou ni natte kirameku kaze ni notte\nIma sugu kimi ni ai ni ikou\nYokei na koto nante wasureta hou ga mashi sa\nKore ijou shareteru jikan wa nai\n\nNani ga wow wow wow wow wow kono sora ni todoku no darou\nDakedo wow wow wow wow wow ashita no yotei mo wakaranai\n\nMe réveillant de ce rêve sans fin, Voyant ce monde sans aucun destin  \nNos rêves semblent briser mais il ne faut surtout pas abandonner\nRemplies de toutes ces données créer, Ces ailes pourront nous faire avancer \nNous pourrons nous envoler: être aimé !\n\nComo um pássaro contente, eu quero viajar no vento\nFeliz estou, porque logo irei te encontrar\nDecidieron engañarte, venderte un mundo impresionante\nPero al final, sólo vale tu fuerza de amar\n\nSo tell me, oh-whoa-whoa-whoa-whoa. Will my voice echo throughout the whole town?\nOh I don’t know-whoa-whoa-whoa-whoa. What tomorrow will bring. I am anticipating!\n\nAfter the dream that felt wouldn’t end, now I’m back in my own world again.\nBut I’ll be back. Sun or rain. I will do my best and fight through the day!\nStay strong, my wings. Don’t fail me now. We can make it, we’ll do it somehow.\nKeep flying on through the day. On my love!\n\nDepois de um sonho quase sem fim, estava preso num mundo vazio\nSem esperança em mim, até pensei que tudo estivesse perdido\nMas percebi que não é assim mesmo com asas meio ruins\nSei que podemos voar, oye\n\nSi tú lo deseas puedes volar, solo tienes que confiar\nMucho en ti y seguir, puedes contar conmigo te doy todo mi apoyo\nSi tu lo deseas puedes volar, si tú quieres el cielo alcanzar\n¡Y las estrellas tocar, oh mi amor!",
       "language": "MULTI",
       "kind": "mixed",
-      "review": "third-party"
+      "review": "third-party",
+      "segments": [
+        {
+          "lang": "JA",
+          "text": "Mugendai na yume no ato no nanimo nai yo no naka ja\nSou sa itoshii omoi mo makesou ni naru kedo\nStay shigachi na imeeji darake no tayorinai tsubasa demo\nKitto toberu sa oh yeah",
+          "textJa": "無限大な夢のあとの何もない世の中じゃ\nそうさ 愛しい想いも負けそうになるけど\nStayしがちなイメージだらけの頼りない翼でも\nきっと飛べるさ oh yeah",
+          "stanza": 0
+        },
+        {
+          "lang": "JA",
+          "text": "Mugendai na yume no ato no yarusenai yo no naka ja\nSou sa joushiki hazure mo waruku wa nai ka na\nStay shisou na imeeji wo someta gikochinai tsubasa demo\nKitto toberu sa oh my love",
+          "textJa": "無限大な夢のあとのやるせない世の中じゃ\nそうさ 常識外れも悪くはないかな\nStayしそうなイメージを染めたぎこちない翼でも\nきっと飛べるさ oh my love",
+          "stanza": 1
+        },
+        {
+          "lang": "JA",
+          "text": "Gokigen na chou ni natte kirameku kaze ni notte\nIma sugu kimi ni ai ni ikou\nYokei na koto nante wasureta hou ga mashi sa\nKore ijou shareteru jikan wa nai",
+          "textJa": "ゴキゲンな蝶になって きらめく風に乗って\n今すぐキミに会いに行こう\n余計な事なんて忘れた方がマシさ\nこれ以上シャレてる時間はない",
+          "stanza": 2
+        },
+        {
+          "lang": "JA",
+          "text": "Nani ga wow wow wow wow wow kono sora ni todoku no darou\nDakedo wow wow wow wow wow ashita no yotei mo wakaranai",
+          "textJa": "何が wow wow wow wow wow この空に届くのだろう\nだけど wow wow wow wow wow 明日の予定もわからない",
+          "stanza": 3
+        },
+        {
+          "lang": "FR",
+          "text": "Me réveillant de ce rêve sans fin, Voyant ce monde sans aucun destin  \nNos rêves semblent briser mais il ne faut surtout pas abandonner\nRemplies de toutes ces données créer, Ces ailes pourront nous faire avancer \nNous pourrons nous envoler: être aimé !",
+          "stanza": 4
+        },
+        {
+          "lang": "PT",
+          "text": "Como um pássaro contente, eu quero viajar no vento\nFeliz estou, porque logo irei te encontrar",
+          "stanza": 5
+        },
+        {
+          "lang": "ES",
+          "text": "Decidieron engañarte, venderte un mundo impresionante\nPero al final, sólo vale tu fuerza de amar",
+          "stanza": 5
+        },
+        {
+          "lang": "EN",
+          "text": "So tell me, oh-whoa-whoa-whoa-whoa. Will my voice echo throughout the whole town?\nOh I don’t know-whoa-whoa-whoa-whoa. What tomorrow will bring. I am anticipating!",
+          "stanza": 6
+        },
+        {
+          "lang": "EN",
+          "text": "After the dream that felt wouldn’t end, now I’m back in my own world again.\nBut I’ll be back. Sun or rain. I will do my best and fight through the day!\nStay strong, my wings. Don’t fail me now. We can make it, we’ll do it somehow.\nKeep flying on through the day. On my love!",
+          "stanza": 7
+        },
+        {
+          "lang": "PT",
+          "text": "Depois de um sonho quase sem fim, estava preso num mundo vazio\nSem esperança em mim, até pensei que tudo estivesse perdido\nMas percebi que não é assim mesmo com asas meio ruins\nSei que podemos voar, oye",
+          "stanza": 8
+        },
+        {
+          "lang": "ES",
+          "text": "Si tú lo deseas puedes volar, solo tienes que confiar\nMucho en ti y seguir, puedes contar conmigo te doy todo mi apoyo\nSi tu lo deseas puedes volar, si tú quieres el cielo alcanzar\n¡Y las estrellas tocar, oh mi amor!",
+          "stanza": 9
+        }
+      ],
+      "scriptSource": "Japanese transcription from supplied romaji; orthography checked against published reference, non-Japanese segments unchanged"
     }
   },
   "snow-halation": {
@@ -70,7 +132,9 @@ export const lyricsBySong={
       "text": "Fushigi da ne ima no kimochi\nSora kara futte kita mitai\nTokubetsu na kisetsu no iro ga tokimeki o miseru yo\n\nHajimete deatta toki kara\nYokan ni sawagu kokoro no Melody\nTomerarenai tomaranai na・ze\n\nTodokete\nSetsunasa ni wa namae o tsukeyou ka \"Snow halation\"\nOmoi ga kasanaru made matezu ni\nKuyashii kedo suki tte junjou\nBinetsu no naka tameratte mo dame da ne\nTobikomu yuuki ni sansei mamonaku Start!!\n\nOto mo naku kehai mo naku\nShizuka ni unmei wa kawaru\nKorekara no mirai ni mune no kodou ga hayaku naru\n\nTatoeba komatta toki ni wa\nSugu kaketsukete dakishimetakute\nDoko ni ite mo dokodemo Fly high\n\nIsoide\nItsu no ma ni ka ookiku nari sugita \"True emotion\"\nYume dake miteru you ja tsurai yo\nKoibito wa kimi tte iitai\nYasashii me ga tomadotteru iya da yo\nKono mama ikki ni aijou azukete Please!!\n\nTodokete\nSetsunasa ni wa namae o tsukeyou ka \"Snow halation\"\nOmoi ga kasanaru made matezu ni\nKuyashii kedo suki tte junjou\nBinetsu no naka tameratte mo dame da ne\nTobikomu yuuki ni sansei mamonaku Start!!",
       "language": "JA",
       "kind": "original_romanized",
-      "review": null
+      "review": null,
+      "textJa": "不思議だね いまの気持ち\n空から降ってきたみたい\n特別な季節の色がときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\nとめられない とまらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の鼓動が早くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつの間にか大きくなりすぎた \"True emotion\"\n夢だけみてる様じゃつらいよ\n恋人は君って言いたい\n優しい目がとまどってるイヤだよ\nこのまま一気に愛情あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
+      "scriptSource": "Transcription from supplied romaji; orthography checked against published reference, supplied wording retained"
     }
   },
   "are-ga-koi-datta-no-ka-na": {
