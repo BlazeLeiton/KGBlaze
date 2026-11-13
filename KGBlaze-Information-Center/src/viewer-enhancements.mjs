@@ -16,6 +16,27 @@ export const VIEWER_CSS = `
 .flight-category-box img.padoru-cover{object-fit:cover;object-position:center}
 .flight-category-box .category-placeholder{font-size:11px;line-height:1.3;padding:10px;color:#d6c8ec;text-align:center;overflow-wrap:anywhere}
 @media(max-width:390px){.flight-row-top{grid-template-columns:5px minmax(0,1fr) 76px}.flight-category-box{width:76px;min-height:98px}.flight-category-box img{height:98px}.flight-name{font-size:18px}}
+
+/* Relight public identity v1: exterior only. Never style #board, hit layer,
+   row selectors, compact controls, canvas, status LEDs or status pills. */
+body:not(.embedded){background:#020C41;color:#fff;font-family:Garnett,Arial,"Noto Sans JP Project",sans-serif}
+body:not(.embedded) .viewer-header{border-bottom:2px solid #FA0073;padding:5px 0 8px;height:55px}
+body:not(.embedded) .title-line{color:#fff;font-weight:600;letter-spacing:.045em}
+body:not(.embedded) .subline,body:not(.embedded) .week-label{color:#A5EBFF}
+body:not(.embedded) .panel-side{background:#0B1761;border:1px solid #276EF1;border-radius:0;box-shadow:none;padding:clamp(14px,1.45vw,23px)}
+body:not(.embedded) .panel-mode>.card-label,body:not(.embedded) .panel-intro .card-label{color:#A5EBFF}
+body:not(.embedded) .panel-intro,body:not(.embedded) #flightTitle{border-bottom:2px solid #FA0073;padding-bottom:10px}
+body:not(.embedded) .side-title{font-weight:600;color:#fff;letter-spacing:-.02em}
+body:not(.embedded) .top-langs button,body:not(.embedded) .bottom-controls button,body:not(.embedded) .embed-code-row button,body:not(.embedded) .close-flight{background:#0B1761;border:1px solid #276EF1;border-radius:3px;color:#fff}
+body:not(.embedded) .top-langs button.active,body:not(.embedded) .top-langs button:hover,body:not(.embedded) .bottom-controls button:hover:not(:disabled),body:not(.embedded) .embed-code-row button:hover,body:not(.embedded) .close-flight:hover{background:#276EF1;color:#fff}
+body:not(.embedded) .discord-btn{background:#276EF1;border-radius:3px;color:white}
+body:not(.embedded) .discord-btn:hover{background:#0B1761;outline:1px solid #A5EBFF}
+body:not(.embedded) .embed-code-row textarea{background:#020C41;border:1px solid #276EF1;border-radius:3px;color:#A5EBFF}
+body:not(.embedded) .embed-tools label{color:#A5EBFF}
+body:not(.embedded) .top-langs button:focus-visible,body:not(.embedded) .bottom-controls button:focus-visible,body:not(.embedded) .discord-btn:focus-visible,body:not(.embedded) .embed-code-row button:focus-visible{outline:2px solid #A5EBFF;outline-offset:2px}
+@media(max-width:1120px){body:not(.embedded) .viewer-header{height:auto;min-height:55px}}
+@media(max-width:590px){body:not(.embedded) .viewer-header{padding:8px 9px}body:not(.embedded) .panel-side{padding:16px}}
+
 /* Stage 12: hide only the obsolete non-iframe sharing fields. Keep nodes alive: old JS translates and binds them. */
 #plainLabel,.embed-code-row:has(#plainCode){display:none!important}
 /* Stage 12 follow-up: the public viewer is already HTTPS. Remove only its obsolete publishing reminder in ES/EN/JA; keep iframe controls. */
