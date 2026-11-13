@@ -5,6 +5,15 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'song-for-you':{kind:'character',name:name('Mana Nagase','長瀬麻奈'),cast:[voice('Mana Nagase','長瀬麻奈','Sayaka Kanda','神田沙也加')],source:'https://idolypride.jp/gallery/mv_song-for-you/',writing:name('PA-NON'),composition:name('Yu Sakai','さかいゆう')},
+ 'watashi-no-na-wa-hikari':group(name('LiGHTs'),[
+  voice('Tiara','ティアラ','Yukari Anzai','安齋由香里'),
+  voice('Rosetta','ロゼッタ','Risa Kubota','久保田梨沙'),
+  voice('Lavie','ラヴィ','Live Mukai','向井莉生'),
+  voice('Ashley','アシュレイ','Iori Saeki','佐伯伊織'),
+  voice('Lynette','リネット','Mizuki Yamamoto','山本瑞稀')
+ ],'https://www.youtube.com/watch?v=2pm28PVSYBc',{castSource:'https://www.jvcmusic.co.jp/-/Discography/A026102/VICL-65454.html',writing:name('y0c1e')}),
+
  'blue-spirit':group(name('Astrum'),[
   voice('Illustrious','イラストリアス','Sora Amamiya','雨宮天'),
   voice('Baltimore','ボルチモア','Minami Takahashi','高橋未奈美'),
@@ -49,7 +58,7 @@ export const originalPerformances={
  })
 };
 export function localizedName(n,lang){return n?(lang==='ja'?n.ja||n.latin:n.latin):'';}
-export function originalArtist(song,lang){const p=originalPerformances[song.slug];if(!p)return song.artist||'';return localizedName(p.name,lang)||p.cast.map(c=>voiceLabel(c,lang)).join(' · ');}
+export function originalArtist(song,lang){const p=originalPerformances[song.slug];if(!p)return song.artist||'';if(p.kind==='character')return voiceLabel(p.cast[0],lang);return localizedName(p.name,lang)||p.cast.map(c=>voiceLabel(c,lang)).join(' · ');}
 export function voiceLabel(c,lang){return localizedName(c.character,lang)+(c.cv?(lang==='ja'?'（CV：':' (CV: ')+localizedName(c.cv,lang)+(lang==='ja'?'）':')'):'');}
 export function originalArtistAliases(song){const p=originalPerformances[song.slug];return p?[p.name,...p.cast.flatMap(c=>[c.character,c.cv])].filter(Boolean).flatMap(n=>[n.latin,n.ja]).join(' '):'';}
 
