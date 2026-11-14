@@ -1,0 +1,36 @@
+name: Stuck on you artwork source inspection
+on:
+  pull_request:
+    branches: [main]
+    paths: ['.github/workflows/stuck-on-you-frame-source.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    if: github.head_ref == 'relight/stuck-on-you-frame-source'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Recover public ending reference frames
+        shell: bash
+        run: |
+          set -eu
+          mkdir -p /tmp/ending
+          cd /tmp/ending
+          for url in 'https://eudist.animemusicquiz.com/jn5ozo.webm' 'https://naedist.animemusicquiz.com/jn5ozo.webm' 'https://files.catbox.moe/jn5ozo.webm' 'https://v.animethemes.moe/FuufuIjouKoibitoMiman-ED1-NCBD1080.webm' 'https://v.animethemes.moe/FuufuIjouKoibitoMiman-ED1.webm'; do
+            if curl -fL --max-time 25 "$url" -o ending.webm && ffprobe -v error ending.webm; then break; fi
+          done
+          ffprobe -v error -show_entries format=duration:stream=width,height -of json ending.webm
+          ffmpeg -loglevel error -i ending.webm -vf 'fps=1/2,scale=160:90,tile=6x8' -frames:v 1 sheet.jpg
+          echo "SHEET_BASE64_BEGIN"
+          base64 -w 0 sheet.jpg
+          echo
+          echo "SHEET_BASE64_END"
+          mkdir frames
+          ffmpeg -loglevel error -i ending.webm -vf 'fps=2,scale=960:-2' -q:v 3 frames/%03d.jpg
+          tar -czf frames.tar.gz frames
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ending-frame-reference
+          path: /tmp/ending/frames.tar.gz
+          retention-days: 1
