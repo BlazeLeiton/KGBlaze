@@ -89,21 +89,21 @@ test('public polish preserves platform color and exposes first release metadata'
  assert.match(blue,/border-radius:8px/);
 });
 
-test('song header follows selected version while catalog keeps first release',()=>{
+test('song header keeps selected year without redundant date while catalog keeps first release',()=>{
  const get=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const header=html=>html.match(/<div class="detail-title">[\s\S]*?<\/div><section class="version-bar">/)[0];
  const es=get('blue-spirit','es','es'),en=get('blue-spirit','es','en');
  assert.match(header(es),/Astrum · 2022/);
- assert.match(header(es),/datetime="2022-04">abril de 2022/);
+ assert.doesNotMatch(header(es),/datetime="2022-04">abril de 2022/);
  assert.match(header(en),/Astrum · 2024/);
  assert.doesNotMatch(en,/2024-04-26|26 de abril/);
  assert.doesNotMatch(es,/2022-04-01|1 de abril/);
- assert.match(header(en),/datetime="2024-04">abril de 2024/);
+ assert.doesNotMatch(header(en),/datetime="2024-04">abril de 2024/);
  assert.match(en,/Primer estreno<\/dt><dd>abril de 2022/);
- assert.match(header(get('blue-spirit','en','en')),/April 2024/);
- assert.match(header(get('blue-spirit','ja','en')),/2024年4月/);
- assert.match(header(get('dokimeki-diary','es','es')),/datetime="2023-05">mayo de 2023/);
- assert.match(header(get('dokimeki-diary','es','ensemble')),/datetime="2023-12">diciembre de 2023/);
+ assert.doesNotMatch(header(get('blue-spirit','en','en')),/April 2024/);
+ assert.doesNotMatch(header(get('blue-spirit','ja','en')),/2024年4月/);
+ assert.doesNotMatch(header(get('dokimeki-diary','es','es')),/datetime="2023-05">mayo de 2023/);
+ assert.doesNotMatch(header(get('dokimeki-diary','es','ensemble')),/datetime="2023-12">diciembre de 2023/);
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
@@ -685,4 +685,10 @@ test('Villain Vibes uses the creator-matched MV illustration, not the album jack
 test('SSSS.LYCORIS preserves album seven and official uppercase franchise names',()=>{
  const ep=coverAlbums.find(a=>a.id==='ssss-lycoris');assert.equal(ep.historicalNumber,7);assert.equal(ep.tracks.length,5);for(const lang of ['es','en','ja']){assert.equal(ep.titles[lang],'SSSS.LYCORIS');assert.match(musicPage('/music/youthful-beautiful/',new URLSearchParams({lang})),/SSSS\.GRIDMAN/);assert.match(musicPage('/music/strobe-memory/',new URLSearchParams({lang})),/SSSS\.DYNAZENON/);}
  const alive=songs.find(s=>s.slug==='alive');assert.equal(alive.versions.length,2);assert.equal(lyricAliases.alive.lycoreco,'es');const lycoreco=musicPage('/music/alive/',new URLSearchParams({version:'lycoreco',lang:'es'}));assert.match(lycoreco,/data-video-id="HLOolKuY1ao"/);assert.doesNotMatch(lycoreco,/class="archive-video"|class="archive-status"/);assert.equal(alive.versions.find(v=>v.id==='lycoreco').historicalUploadStatus,'removed-claims');assert.match(musicPage('/music/alive/',new URLSearchParams({lang:'es'})),/data-video-id="p9E3jlxtRr4"/);assert.match(musicPage('/music/hana-no-tou/',new URLSearchParams({lang:'es'})),/data-video-id="OVCKHOyazEQ"/);assert.equal(alive.versions[0].historicalUploadStatus,'removed-claims');assert.match(lyricsBySong.alive.es.text,/Mi anhelo es el coraje/);assert.doesNotMatch(lyricsBySong['bad-candy'].es.text,/You need to show me, babe/);
+});
+
+
+test('reuploads retain original interpretation month and separate video publication date',()=>{
+ for(const [slug,date,id] of [['alive','2022-12','p9E3jlxtRr4'],['hana-no-tou','2023-02','OVCKHOyazEQ']]){const v=songs.find(s=>s.slug===slug).versions[0];assert.equal(v.date,date);assert.equal(v.videoPublishedDate,'2023-06-01');assert.equal(v.reuploaded,true);assert.equal(v.datePrecision,'month');assert.match(v.label[0],/Original \(Resubido\)/);const h=musicPage('/music/'+slug+'/',new URLSearchParams({lang:'es'}));assert.match(h,new RegExp('data-video-id="'+id+'"'));assert.match(h,/Publicación del video resubido<\/dt><dd>junio de 2023/);assert.doesNotMatch(h,/class="release-date"/);}
+ for(const lang of ['es','en','ja'])for(const s of songs){const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang}));assert.doesNotMatch(h,/class="release-date"/);}
 });
