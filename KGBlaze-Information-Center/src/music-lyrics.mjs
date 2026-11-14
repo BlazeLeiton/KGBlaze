@@ -1,19 +1,613 @@
 // User-supplied adaptation and original-reference texts. No external lyrics scraped.
 // Recording IDs and lyric choices remain independent. Unmatched drafts are excluded.
 export const lyricsBySong={
-  // Future duet presentation: original ALIVE DOCX uses C00000 (Chisato), 0070C0 (Takina), and uncolored runs (shared voices, creator-confirmed). Preserve run-level divisions; styling deferred.
-  "alive": {
+  // ALIVE: exact run-level voice divisions from supplied DOCX; uncolored = both (creator confirmed).
+    "alive": {
     "es": {
       "text": "Mi anhelo es el coraje de elegir\nUn futuro que hoy todo ilumine\n\nEse egoísta sentir, no creo que este en mí (o aún) no lo llego a ver\nTal vez en lugar de huir, pueda el camino unir (vamos) y un viaje vivir\n\nIncluso si no es lejos, el horizonte que veo\nMi vida igual quemaría, pues solamente el hoy y aquí yo quiero vivir\n\nMi anhelo es evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar\n\nRiesgos puede esconder, esta ruta más (seguro) un sueño hay\nSólo somos tú y yo, la posibilidad (vamos) hay que pronto hallar\n\nEn vez de a lo lejos, el presente yo veo\nPues la historia aún no termina, y el desenlace hoy aquí aún puedo cambiar\n\nMi promesa es probar mi existir\nPues yo sé que aquel cielo que sólo vi, vale la pena perseguir sin fin\nPuede complicado ser, más mi mano no sueltes (en lo lejos no me sueltes)\nLo que vendrá sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nDonde nuestro camino vea iluminar\n\nY en lágrimas me quebranté, esa helada y airosa noche\nPues tan sólo ser más fuerte mi anhelo es\n\nY evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar",
       "language": "ES",
       "kind": "adaptation",
-      "review": null
+      "review": null,
+      "duetStanzas": [
+        [
+          [
+            {
+              "voice": "chisato",
+              "text": "Mi anhelo es el coraje de elegir"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Un futuro que hoy"
+            },
+            {
+              "voice": "shared",
+              "text": " todo ilumine"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "chisato",
+              "text": "Ese egoísta sentir, no creo que este en mí"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "takina",
+              "text": "(o aún)"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "no lo llego a ver"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Tal vez en lugar de huir, pueda el camino unir"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(vamos)"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "takina",
+              "text": "y un viaje vivir"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "chisato",
+              "text": "Incluso si no es lejos, el horizonte que veo"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Mi vida igual quemaría"
+            },
+            {
+              "voice": "shared",
+              "text": ", pues solamente el hoy y aquí yo quiero vivir"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "chisato",
+              "text": "Mi anhelo "
+            },
+            {
+              "voice": "shared",
+              "text": "es evidenciar mi existir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Pues mi voz siento dentro de mi temblar, "
+            },
+            {
+              "voice": "chisato",
+              "text": "aún si alto logra resonar"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Suelta todo tu pesar"
+            },
+            {
+              "voice": "takina",
+              "text": ", y mi mano no sueltes "
+            },
+            {
+              "voice": "chisato",
+              "text": "(en las sombras no me sueltes)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Lo que fue ayer sólo deja pasar"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "No hay respuesta aquí que este decidido a elegir"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Pues a un nuevo sueño yo voy a apuntar"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(por siempre)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Donde nuestro camino vea iluminar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "takina",
+              "text": "Riesgos puede esconder, esta ruta más"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(seguro)"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "takina",
+              "text": "un sueño hay"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "Sólo somos tú y yo, la posibilidad"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "takina",
+              "text": "(vamos)"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "hay que pronto hallar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "takina",
+              "text": "En vez de a lo lejos, el presente yo veo"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "Pues la historia aún no termina"
+            },
+            {
+              "voice": "shared",
+              "text": ", y el desenlace hoy aquí aún puedo cambiar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Mi promesa es probar mi existir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Pues yo sé que aquel cielo que sólo vi, "
+            },
+            {
+              "voice": "takina",
+              "text": "vale la pena perseguir sin fin"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Puede complicado ser, "
+            },
+            {
+              "voice": "chisato",
+              "text": "más mi mano no sueltes "
+            },
+            {
+              "voice": "takina",
+              "text": "(en lo lejos no me sueltes)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Lo que vendrá sólo deja pasar"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "No hay respuesta aquí que este decidido a elegir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Donde nuestro camino vea iluminar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "chisato",
+              "text": "Y en lágrimas me quebranté, esa helada y airosa noche"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Pues tan sólo ser más fuerte mi anhelo es"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Y evidenciar mi existir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Pues mi voz siento dentro de mi temblar, "
+            },
+            {
+              "voice": "chisato",
+              "text": "aún si alto logra resonar"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Suelta todo tu pesar, "
+            },
+            {
+              "voice": "takina",
+              "text": "y mi mano no sueltes "
+            },
+            {
+              "voice": "chisato",
+              "text": "(en las sombras no me sueltes)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Lo que fue ayer sólo deja pasar"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "No hay respuesta aquí que este decidido a elegir"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Pues a un nuevo sueño yo voy a apuntar"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(por siempre)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Donde nuestro camino vea iluminar"
+            }
+          ]
+        ]
+      ],
+      "duetPalette": "chisato-takina"
     },
     "lycoreco": {
       "text": "Mi anhelo es evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar\n\nRiesgos puede esconder, esta ruta más (seguro) un sueño hay\nSólo somos tú y yo, la posibilidad (vamos) hay que pronto hallar\n\nEn vez de a lo lejos, el presente yo veo\nPues la historia aún no termina, y el desenlace hoy aquí aún puedo cambiar\n\nMi promesa es probar mi existir\nPues yo sé que aquel cielo que sólo vi, vale la pena perseguir sin fin\nPuede complicado ser, más mi mano no sueltes (en lo lejos no me sueltes)\nLo que vendrá sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nDonde nuestro camino vea iluminar\n\nY evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar",
       "language": "ES",
       "kind": "adaptation",
-      "review": null
+      "review": null,
+      "duetStanzas": [
+        [
+          [
+            {
+              "voice": "chisato",
+              "text": "Mi anhelo "
+            },
+            {
+              "voice": "shared",
+              "text": "es evidenciar mi existir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Pues mi voz siento dentro de mi temblar, "
+            },
+            {
+              "voice": "chisato",
+              "text": "aún si alto logra resonar"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Suelta todo tu pesar"
+            },
+            {
+              "voice": "takina",
+              "text": ", y mi mano no sueltes "
+            },
+            {
+              "voice": "chisato",
+              "text": "(en las sombras no me sueltes)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Lo que fue ayer sólo deja pasar"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "No hay respuesta aquí que este decidido a elegir"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Pues a un nuevo sueño yo voy a apuntar"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(por siempre)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Donde nuestro camino vea iluminar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "takina",
+              "text": "Riesgos puede esconder, esta ruta más"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(seguro)"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "takina",
+              "text": "un sueño hay"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "Sólo somos tú y yo, la posibilidad"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "takina",
+              "text": "(vamos)"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "hay que pronto hallar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "takina",
+              "text": "En vez de a lo lejos, el presente yo veo"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "Pues la historia aún no termina"
+            },
+            {
+              "voice": "shared",
+              "text": ", y el desenlace hoy aquí aún puedo cambiar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Mi promesa es probar mi existir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Pues yo sé que aquel cielo que sólo vi, "
+            },
+            {
+              "voice": "takina",
+              "text": "vale la pena perseguir sin fin"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Puede complicado ser, "
+            },
+            {
+              "voice": "chisato",
+              "text": "más mi mano no sueltes "
+            },
+            {
+              "voice": "takina",
+              "text": "(en lo lejos no me sueltes)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Lo que vendrá sólo deja pasar"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "No hay respuesta aquí que este decidido a elegir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Donde nuestro camino vea iluminar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Y evidenciar mi existir"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Pues mi voz siento dentro de mi temblar, "
+            },
+            {
+              "voice": "chisato",
+              "text": "aún si alto logra resonar"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Suelta todo tu pesar, "
+            },
+            {
+              "voice": "takina",
+              "text": "y mi mano no sueltes "
+            },
+            {
+              "voice": "chisato",
+              "text": "(en las sombras no me sueltes)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Lo que fue ayer sólo deja pasar"
+            }
+          ],
+          [
+            {
+              "voice": "chisato",
+              "text": "No hay respuesta aquí que este decidido a elegir"
+            }
+          ],
+          [
+            {
+              "voice": "takina",
+              "text": "Pues a un nuevo sueño yo voy a apuntar"
+            },
+            {
+              "voice": "shared",
+              "text": " "
+            },
+            {
+              "voice": "chisato",
+              "text": "(por siempre)"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Donde nuestro camino vea iluminar"
+            }
+          ]
+        ]
+      ],
+      "duetPalette": "chisato-takina"
     }
   },
   "hana-no-tou": {
