@@ -5,6 +5,12 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'bad-candy':{kind:'artist',name:name('yukaDD(;´∀｀)'),cast:[],source:'https://wmg.jp/yukadd/discography/25506'},
+ 'alive':{kind:'artist',name:name('ClariS'),cast:[],source:'https://www.sonymusic.co.jp/artist/claris/info/543244',writing:name('Ryosuke Shigenaga','重永亮介'),composition:name('Ryosuke Shigenaga','重永亮介')},
+ 'hana-no-tou':{kind:'artist',name:name('Sayuri','さユり'),cast:[],source:'https://lycoris-recoil.com/music/ed.html',writing:name('Sayuri','さユり'),composition:name('Sayuri','さユり'),musicSource:'https://www.uta-net.com/song/321038/'},
+ 'strobe-memory':{kind:'artist',name:name('Maaya Uchida','内田真礼'),cast:[],source:'https://uchidamaaya.jp/discography/12th_sg/',writing:name('RIRIKO'),composition:name('RIRIKO')},
+ 'youthful-beautiful':{kind:'artist',name:name('Maaya Uchida','内田真礼'),cast:[],source:'https://gridman.net/news/archives/233',writing:name('RIRIKO'),composition:name('RIRIKO')},
+
  'shiny-smily-story':group(name('hololive IDOL PROJECT'),[],'https://hololive.hololivepro.com/en/music/shiny-smily-story-2/'),
  'villain-vibes':{kind:'artist',name:name('AmaLee feat. Mori Calliope'),cast:[],source:'https://www.youtube.com/watch?v=kFaie-Tp1Jw',writing:name('AmaLee · Mori Calliope'),composition:name('AmaLee · Mori Calliope · Shawn Christmas')},
  'sparks-of-joy':{kind:'artist',name:name('IRyS'),cast:[],source:'https://hololive.hololivepro.com/music/sparks-of-joy/',writing:name('Konnie Aoki'),composition:name('Atsuhito Sato','佐藤厚仁')},

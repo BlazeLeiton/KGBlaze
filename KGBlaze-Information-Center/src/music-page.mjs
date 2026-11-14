@@ -27,7 +27,7 @@ export function musicPage(path,query){
  const extraLabels=({es:{original:'Original',romaji:'Japonés (rōmaji)',mixed:'Multilingüe',compare:'En paralelo',audioPending:'Audio pendiente de incorporar.',undated:'Fecha por confirmar',chooseLyrics:'Letra disponible',audio:'Audio',parallelNote:'Comparación por estrofas; no implica equivalencia literal.'},en:{original:'Original',romaji:'Japanese (romaji)',mixed:'Multilingual',compare:'Side by side',audioPending:'Audio not yet available.',undated:'Date to be confirmed',chooseLyrics:'Available lyrics',audio:'Audio',parallelNote:'Comparison by stanza; not a line-by-line translation.'},ja:{original:'原曲',romaji:'日本語（ローマ字）',mixed:'多言語',compare:'並列表示',audioPending:'音源は準備中です。',undated:'公開日確認中',chooseLyrics:'歌詞を選択',audio:'音源',parallelNote:'節ごとの比較です。逐語訳ではありません。'}})[lang];
  const edition=s=>s.sourceEdition?t[s.sourceEdition]||'':'';
  const work=s=>isPokemonWork(s.series)?pokemonWorkLabel(s,lang):affiliationWork(s,lang)||workName(s.series,lang,s.season)+(s.season?' · '+t.season+(lang==='ja'?'':' ')+s.season:'')+(edition(s)?(lang==='ja'?'（'+edition(s)+'）':' ('+edition(s)+')'):'');
- const themeLine=s=>s.theme||'';
+ const themeLine=s=>((s===song&&selected?.sourceTheme)||s.theme||'');
  const artist=s=>originalArtist(s,lang)||t.artistPending;
  const languages=s=>[...new Set(visibleVersions(s).flatMap(v=>v.langs))];
  const isMulti=s=>visibleVersions(s).some(v=>v.multilingual||v.langs.length>1);
