@@ -8,13 +8,14 @@ permissions:
 jobs:
   inspect:
     if: github.head_ref == 'relight/stuck-on-you-frame-source'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - name: Recover public ending reference frames
         shell: bash
         run: |
           set -eu
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
           mkdir -p /tmp/ending
           cd /tmp/ending
           for url in 'https://eudist.animemusicquiz.com/jn5ozo.webm' 'https://naedist.animemusicquiz.com/jn5ozo.webm' 'https://files.catbox.moe/jn5ozo.webm' 'https://v.animethemes.moe/FuufuIjouKoibitoMiman-ED1-NCBD1080.webm' 'https://v.animethemes.moe/FuufuIjouKoibitoMiman-ED1.webm'; do
