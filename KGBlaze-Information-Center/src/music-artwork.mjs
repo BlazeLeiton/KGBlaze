@@ -22,10 +22,17 @@ export const releaseArtwork={
     "version": 2
   },
   "stuck-on-you": {
-    "image": "https://fuukoi-anime.com/core_sys/images/main/cont/music/stuck_on_you_BJK.jpg",
-    "source": "https://fuukoi-anime.com/music/",
-    "release": "Stuck on you · LACM-24324 (illustrated back jacket)",
-    "kind": "anime"
+    "image": "/music-artwork/stuck-on-you-v2.webp",
+    "source": "https://www.youtube.com/watch?v=8BBbe24Eg5w",
+    "release": "Fuukoi — Stuck on you (ED1 ending frame)",
+    "kind": "selected",
+    "version": 2,
+    "artworkContext": "Selected clean ending frame at 70.9s; square crop from the 1280 × 720 reference, matching the historical cover thumbnail.",
+    "originalRelease": {
+      "image": "https://fuukoi-anime.com/core_sys/images/main/cont/music/stuck_on_you_BJK.jpg",
+      "source": "https://fuukoi-anime.com/music/",
+      "release": "Stuck on you · LACM-24324 (illustrated back jacket)"
+    }
   },
   "rakuen-project": {
     "image": "https://static.jmusicitalia.com/artisti/ray/single/rakuen-project-project-cd-dvd-sbig.jpg",
