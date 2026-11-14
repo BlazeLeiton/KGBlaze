@@ -27,20 +27,12 @@ jobs:
           base64 -w 0 sheet.jpg
           echo
           echo "SHEET_BASE64_END"
-          ffmpeg -loglevel error -ss 71 -i ending.webm -frames:v 1 -q:v 2 frame71.jpg
-          ffmpeg -loglevel error -ss 71.5 -i ending.webm -frames:v 1 -q:v 2 frame715.jpg
-          ffmpeg -loglevel error -ss 71.5 -i ending.webm -vf 'crop=720:720:340:0' -frames:v 1 -q:v 2 square715.jpg
-          for f in frame71.jpg frame715.jpg square715.jpg; do
+          ffmpeg -loglevel error -ss 70.9 -i ending.webm -vf 'crop=720:720:320:0' -frames:v 1 -c:v libwebp -quality 92 square709.webp
+          ffmpeg -loglevel error -ss 71 -i ending.webm -vf 'crop=720:720:320:0' -frames:v 1 -c:v libwebp -quality 92 square71.webp
+          ffmpeg -loglevel error -ss 71 -i ending.webm -vf 'crop=720:720:320:0,eq=brightness=0.035' -frames:v 1 -c:v libwebp -quality 92 square71-bright.webp
+          for f in square709.webp square71.webp square71-bright.webp; do
             echo "FRAME_BASE64_BEGIN $f"
             base64 -w 0 "$f"
             echo
             echo "FRAME_BASE64_END"
           done
-          mkdir frames
-          ffmpeg -loglevel error -i ending.webm -vf 'fps=2,scale=960:-2' -q:v 3 frames/%03d.jpg
-          tar -czf frames.tar.gz frames
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ending-frame-reference
-          path: /tmp/ending/frames.tar.gz
-          retention-days: 1
