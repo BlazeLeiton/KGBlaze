@@ -1,0 +1,28 @@
+name: Villain Vibes artwork inspection
+on:
+  pull_request:
+    paths: ['.github/workflows/villain-art-inspection.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect original artist source
+        run: |
+          python - <<'PY'
+          import requests,base64,io
+          from PIL import Image
+          urls=[]
+          for tid in ['1540382808937734144','1550392328766263296']:
+            try:
+              d=requests.get('https://api.fxtwitter.com/szainx/status/'+tid,timeout=15).json()
+              for x in d.get('tweet',{}).get('media',{}).get('photos',[]): urls.append(x['url'])
+            except Exception as e: print(e)
+          urls+=['https://cdn.donmai.us/original/4d/94/4d947d94146ff59571ab74b3ff0d9a5b.jpg','https://i.ytimg.com/vi/kFaie-Tp1Jw/maxresdefault.jpg']
+          for i,u in enumerate(urls):
+            try:
+              r=requests.get(u,timeout=15);r.raise_for_status(); im=Image.open(io.BytesIO(r.content)).convert('RGB'); print('SOURCE',i,u,im.size)
+              im.thumbnail((850,850)); buf=io.BytesIO();im.save(buf,'WEBP',quality=90);print('IMAGE',i,base64.b64encode(buf.getvalue()).decode())
+            except Exception as e: print('FAILED',i,str(e))
+          PY
