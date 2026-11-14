@@ -9,7 +9,7 @@ export const franchiseRegistry={
  },
  'love-live':{
   root:tag('love-live','Love Live!','ラブライブ！'),
-  groups:[tag('ll-muse',"μ's"),tag('ll-aqours','Aqours'),tag('ll-nijigasaki','Nijigasaki','虹ヶ咲'),tag('ll-liella','Liella!'),tag('ll-hasunosora','Hasunosora','蓮ノ空'),tag('ll-bluebird','Ikizurai-bu!','いきづらい部！'),tag('ll-aiscream','AiScReam'),tag('ll-tomakanote','TomaKanoTe','トマカノーテ'),tag('ll-catchu','CatChu!'),tag('ll-kaleidoscore','KALEIDOSCORE'),tag('ll-5yncri5e','5yncri5e!'),tag('ll-crossover','Crossover','シリーズ横断','Multiserie')],
+  groups:[tag('ll-muse',"μ's"),tag('ll-aqours','Aqours'),tag('ll-nijigasaki','Nijigasaki','虹ヶ咲'),tag('ll-liella','Liella!'),tag('ll-hasunosora','Hasunosora','蓮ノ空'),tag('ll-bluebird','Ikizurai-bu!','いきづらい部！'),tag('ll-aiscream','AiScReam'),tag('ll-tomakanote','TomaKanoTe','トマカノーテ'),tag('ll-catchu','CatChu!'),tag('ll-kaleidoscore','KALEIDOSCORE'),tag('ll-5yncri5e','5yncri5e!'),tag('ll-qu4rtz','QU4RTZ'),tag('ll-crossover','Crossover','シリーズ横断','Multiserie')],
   series:{
    'Love Live! School Idol Project':['ll-muse'],
    'Love Live! Sunshine!!':['ll-aqours'],

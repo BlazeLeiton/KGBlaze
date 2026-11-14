@@ -2,6 +2,44 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+"shiny-smily-story": {
+    "image": "https://hololive.hololivepro.com/wp-content/uploads/2020/07/SSS_artwork_fix-1000x1000.png",
+    "source": "https://hololive.hololivepro.com/en/music/shiny-smily-story-2/",
+    "release": "Shiny Smily Story · CVRD-001",
+    "kind": "illustrated"
+  },
+  "villain-vibes": {
+    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/aa/27/20/aa2720e0-b695-4b49-1dd3-c0ddee0c9993/198001804793.png/1200x1200bf-60.jpg",
+    "source": "https://music.apple.com/us/album/rise-of-the-monarch/1629583992",
+    "release": "Rise of the Monarch · 2022",
+    "kind": "illustrated",
+    "credit": "LucidSky"
+  },
+  "sparks-of-joy": {
+    "image": "https://hololive.hololivepro.com/wp-content/uploads/2022/01/IRyS_Sparks-of-Joy_jk-1000x1000.png",
+    "source": "https://hololive.hololivepro.com/en/music/sparks-of-joy/",
+    "release": "Sparks of Joy · CVRD-104",
+    "kind": "illustrated"
+  },
+  "sparks": {
+    "image": "https://hololive.hololivepro.com/wp-content/uploads/2021/07/kiara_sparks_jk-1000x1000.png",
+    "source": "https://hololive.hololivepro.com/en/music/sparks/",
+    "release": "SPARKS · CVRD-054",
+    "kind": "illustrated"
+  },
+  "stars-we-chase": {
+    "image": "https://go-for-launch.net/nijigasaki/img/cd/cd44.png",
+    "source": "https://go-for-launch.net/nijigasaki/cd.php",
+    "release": "Eutopia / EMOTION / stars we chase · Mia Taylor edition · LACM-24275",
+    "kind": "anime"
+  },
+  "pastel": {
+    "image": "https://go-for-launch.net/nijigasaki/img/cd/cd52.png",
+    "source": "https://go-for-launch.net/nijigasaki/cd.php",
+    "release": "PASTEL · QU4RTZ 3rd single",
+    "kind": "anime"
+  },
+
 "daisuki": {
     "image": "https://www.asmart.jp/images/product/10021317/V8w7a5cyvMgfBzAGv8RiroL2Aa9gQCiz.jpg",
     "source": "https://www.asmart.jp/en/a-onstore/shop/lantis_music/product/10021317",
