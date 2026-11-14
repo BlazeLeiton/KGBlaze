@@ -16,6 +16,10 @@ export const works={
  'More than a Married Couple, But Not Lovers':names('More than a Married Couple, But Not Lovers','夫婦以上、恋人未満。','More than a Married Couple, But Not Lovers',['Fuukoi','Fuufu Ijou Koibito Miman']),
  'To LOVE-Ru Darkness':names('To LOVE-Ru Darkness','To LOVEる -とらぶる- ダークネス'),
  'Masamune-kun’s Revenge R':names('Masamune-kun’s Revenge R','政宗くんのリベンジR','Masamune-kun’s Revenge R',['Masamune-kun no Revenge R']),
+ "Girls' Frontline":names("Girls' Frontline","ドールズフロントライン","Girls' Frontline",["Dolls' Frontline","Doll's Frontline","少女前線"]),
+ 'Lycoris Recoil':names('Lycoris Recoil','リコリス・リコイル','Lycoris Recoil',['LycoReco']),
+ 'SSSS.GRIDMAN':names('SSSS.GRIDMAN','SSSS.GRIDMAN'),
+ 'SSSS.DYNAZENON':names('SSSS.DYNAZENON','SSSS.DYNAZENON'),
  'Azur Lane':names('Azur Lane','アズールレーン'),
  'Pokémon Horizons':{pokemon:true,romaji:'Pocket Monsters (2023)',...names('Pokémon Horizons: The Series','ポケットモンスター（2023）','La Serie Horizontes Pokémon',['Pokémon Horizons','Pokémon Horizontes','Horizontes Pokémon','Pocket Monsters 2023','Poketto Monsutā 2023']),seasons:{2:names('Pokémon Horizons: Season 2—The Search for Laqua','ポケットモンスター（2023）','La Serie Horizontes Pokémon: En busca de Laqua')}},
  'Pokémon XY':{pokemon:true,romaji:'Pocket Monsters XY',...names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY',['Pocket Monsters XY','Poketto Monsutā XY','Kalos Quest','XY&Z']),seasons:{
