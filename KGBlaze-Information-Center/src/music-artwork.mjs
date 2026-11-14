@@ -15,10 +15,11 @@ export const releaseArtwork={
     "kind": "anime"
   },
   "honey-jet-coaster": {
-    "image": "https://shikimori-anime.com/core_sys/images/contents/00000014/block/00000264/sn_00000447.jpg?1671507928=",
+    "image": "https://shikimori-anime.com/core_sys/images/contents/00000014/block/00000074/sn_00000127.jpg?1671507928=",
     "source": "https://shikimori-anime.com/music/op.html",
-    "release": "ハニージェットコースター · GNCA-1614",
-    "kind": "anime"
+    "release": "ハニージェットコースター · Digital single (2022-04-10)",
+    "kind": "anime",
+    "version": 2
   },
   "stuck-on-you": {
     "image": "https://fuukoi-anime.com/core_sys/images/main/cont/music/stuck_on_you_BJK.jpg",
