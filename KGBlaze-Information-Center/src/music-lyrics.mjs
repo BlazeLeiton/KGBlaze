@@ -1,9 +1,16 @@
 // User-supplied adaptation and original-reference texts. No external lyrics scraped.
 // Recording IDs and lyric choices remain independent. Unmatched drafts are excluded.
 export const lyricsBySong={
-"alive": {
+  // Future duet presentation: original ALIVE DOCX uses C00000 (Chisato), 0070C0 (Takina), and uncolored runs (shared voices, creator-confirmed). Preserve run-level divisions; styling deferred.
+  "alive": {
     "es": {
       "text": "Mi anhelo es el coraje de elegir\nUn futuro que hoy todo ilumine\n\nEse egoísta sentir, no creo que este en mí (o aún) no lo llego a ver\nTal vez en lugar de huir, pueda el camino unir (vamos) y un viaje vivir\n\nIncluso si no es lejos, el horizonte que veo\nMi vida igual quemaría, pues solamente el hoy y aquí yo quiero vivir\n\nMi anhelo es evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar\n\nRiesgos puede esconder, esta ruta más (seguro) un sueño hay\nSólo somos tú y yo, la posibilidad (vamos) hay que pronto hallar\n\nEn vez de a lo lejos, el presente yo veo\nPues la historia aún no termina, y el desenlace hoy aquí aún puedo cambiar\n\nMi promesa es probar mi existir\nPues yo sé que aquel cielo que sólo vi, vale la pena perseguir sin fin\nPuede complicado ser, más mi mano no sueltes (en lo lejos no me sueltes)\nLo que vendrá sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nDonde nuestro camino vea iluminar\n\nY en lágrimas me quebranté, esa helada y airosa noche\nPues tan sólo ser más fuerte mi anhelo es\n\nY evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    },
+    "lycoreco": {
+      "text": "Mi anhelo es evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar\n\nRiesgos puede esconder, esta ruta más (seguro) un sueño hay\nSólo somos tú y yo, la posibilidad (vamos) hay que pronto hallar\n\nEn vez de a lo lejos, el presente yo veo\nPues la historia aún no termina, y el desenlace hoy aquí aún puedo cambiar\n\nMi promesa es probar mi existir\nPues yo sé que aquel cielo que sólo vi, vale la pena perseguir sin fin\nPuede complicado ser, más mi mano no sueltes (en lo lejos no me sueltes)\nLo que vendrá sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nDonde nuestro camino vea iluminar\n\nY evidenciar mi existir\nPues mi voz siento dentro de mi temblar, aún si alto logra resonar\nSuelta todo tu pesar, y mi mano no sueltes (en las sombras no me sueltes)\nLo que fue ayer sólo deja pasar\nNo hay respuesta aquí que este decidido a elegir\nPues a un nuevo sueño yo voy a apuntar (por siempre)\nDonde nuestro camino vea iluminar",
       "language": "ES",
       "kind": "adaptation",
       "review": null
@@ -509,5 +516,5 @@ export const lyricsBySong={
   }
 };
 // Reuse one lyric text for audio editions instead of duplicating it.
-export const lyricAliases={'alive':{'lycoreco':'es'},'high-free-spirits':{'alternative-instrumental':'es','original-instrumental':'es'},'dokimeki-diary':{'album-studio':'es'},'la-vaguelette':{'es-audio':'es-fr','fr-audio':'fr'}};
+export const lyricAliases={'high-free-spirits':{'alternative-instrumental':'es','original-instrumental':'es'},'dokimeki-diary':{'album-studio':'es'},'la-vaguelette':{'es-audio':'es-fr','fr-audio':'fr'}};
 export const lyricOrder={'blue-spirit':['es','en'],'la-vaguelette':['es-fr','fr'],'snow-halation':['naked-garden','hso-orchestra']};
