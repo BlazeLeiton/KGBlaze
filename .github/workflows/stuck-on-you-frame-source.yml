@@ -27,10 +27,10 @@ jobs:
           base64 -w 0 sheet.jpg
           echo
           echo "SHEET_BASE64_END"
-          ffmpeg -loglevel error -ss 70 -i ending.webm -frames:v 1 -q:v 2 frame70.jpg
-          ffmpeg -loglevel error -ss 69.5 -i ending.webm -frames:v 1 -q:v 2 frame695.jpg
-          ffmpeg -loglevel error -ss 70.5 -i ending.webm -frames:v 1 -q:v 2 frame705.jpg
-          for f in frame70.jpg frame695.jpg frame705.jpg; do
+          ffmpeg -loglevel error -ss 71 -i ending.webm -frames:v 1 -q:v 2 frame71.jpg
+          ffmpeg -loglevel error -ss 71.5 -i ending.webm -frames:v 1 -q:v 2 frame715.jpg
+          ffmpeg -loglevel error -ss 71.5 -i ending.webm -vf 'crop=720:720:340:0' -frames:v 1 -q:v 2 square715.jpg
+          for f in frame71.jpg frame715.jpg square715.jpg; do
             echo "FRAME_BASE64_BEGIN $f"
             base64 -w 0 "$f"
             echo
