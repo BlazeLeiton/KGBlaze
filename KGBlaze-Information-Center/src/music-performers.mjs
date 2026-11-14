@@ -5,6 +5,13 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'shiny-smily-story':group(name('hololive IDOL PROJECT'),[],'https://hololive.hololivepro.com/en/music/shiny-smily-story-2/'),
+ 'villain-vibes':{kind:'artist',name:name('AmaLee feat. Mori Calliope'),cast:[],source:'https://www.youtube.com/watch?v=kFaie-Tp1Jw',writing:name('AmaLee · Mori Calliope'),composition:name('AmaLee · Mori Calliope · Shawn Christmas')},
+ 'sparks-of-joy':{kind:'artist',name:name('IRyS'),cast:[],source:'https://hololive.hololivepro.com/music/sparks-of-joy/',writing:name('Konnie Aoki'),composition:name('Atsuhito Sato','佐藤厚仁')},
+ 'sparks':{kind:'artist',name:name('Takanashi Kiara','小鳥遊キアラ'),cast:[],source:'https://hololive.hololivepro.com/en/music/sparks/'},
+ 'stars-we-chase':{kind:'character',name:name('Mia Taylor','ミア・テイラー'),cast:[voice('Mia Taylor','ミア・テイラー','Shu Uchida','内田秀')],source:'https://go-for-launch.net/nijigasaki/cd.php',writing:name('Konnie Aoki'),composition:name('TeddyLoid')},
+ 'pastel':group(name('QU4RTZ'),[voice('Kasumi Nakasu','中須かすみ','Mayu Sagara','相良茉優'),voice('Kanata Konoe','近江彼方','Akari Kitō','鬼頭明里'),voice('Emma Verde','エマ・ヴェルデ','Maria Sashide','指出毬亜'),voice('Rina Tennoji','天王寺璃奈','Chiemi Tanaka','田中ちえ美')],'https://go-for-launch.net/nijigasaki/cd.php',{writing:name('nine'),composition:name('ygarshy · PASSiON KiNG')}),
+
  'yukitoki':{kind:'artist',name:name('yanaginagi','やなぎなぎ'),cast:[],source:'https://yanaginagi.net/discography/%E3%83%A6%E3%82%AD%E3%83%88%E3%82%AD/',writing:name('yanaginagi','やなぎなぎ'),composition:name('Katsutoshi Kitagawa','北川勝利')},
  'harumodoki':{kind:'artist',name:name('yanaginagi','やなぎなぎ'),cast:[],source:'https://yanaginagi.net/discography/%E6%98%A5%E6%93%AC%E3%81%8D-2/',writing:name('yanaginagi','やなぎなぎ'),composition:name('Katsutoshi Kitagawa','北川勝利')},
  'megumi-no-ame':{kind:'artist',name:name('yanaginagi','やなぎなぎ'),cast:[],source:'https://yanaginagi.net/discography/%E8%8A%BD%E3%81%90%E3%81%BF%E3%81%AE%E9%9B%A8/',writing:name('yanaginagi','やなぎなぎ'),composition:name('Katsutoshi Kitagawa','北川勝利')},
