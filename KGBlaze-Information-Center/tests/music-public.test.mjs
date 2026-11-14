@@ -455,7 +455,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
  assert.match(releaseArtwork['blue-spirit'].artworkContext,/Heart-Linking Harmony/);
  assert.equal(releaseArtwork.connect.image,'https://www.lisani.jp/claris-best1st/images/connect_img01.jpg');
  assert.equal(releaseArtwork['cake-song'].credit,'Subin Yeon');
- for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na']){
+ for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na','stuck-on-you']){
   const path=releaseArtwork[slug].image;
   const routed=await worker.fetch(req(path),{...environment,ASSETS:{fetch:async request=>new Response(new Uint8Array([82,73,70,70]),{headers:{'Content-Type':'image/webp'}})}});
   assert.equal(routed.status,200);
@@ -466,7 +466,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,25);
+ assert.equal(artworkSources.size,24);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
