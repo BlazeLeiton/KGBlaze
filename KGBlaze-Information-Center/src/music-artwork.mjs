@@ -2,6 +2,38 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+"bad-candy": {
+    "image": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
+    "source": "https://wmg.jp/yukadd/discography/25506",
+    "release": "BAD CANDY · digital single · 2021",
+    "kind": "illustration"
+  },
+  "alive": {
+    "image": "https://www.sonymusic.co.jp/img/common/artist_image/70006000/70006298/images/WebSize_VVCL-2078-9_H1_0703_RGB.jpg",
+    "source": "https://www.sonymusic.co.jp/artist/claris/info/543244",
+    "release": "ALIVE · VVCL-2078/9 · anime edition",
+    "kind": "anime",
+    "framing": "lycoris-alive"
+  },
+  "hana-no-tou": {
+    "image": "https://imgs.ototoy.jp/imgs/jacket/1266/00000003.1655357395.5539_320.jpg",
+    "source": "https://ototoy.jp/_/default/p/1266806",
+    "release": "花の塔 · BVXX01674B00Z · digital single",
+    "kind": "anime"
+  },
+  "strobe-memory": {
+    "image": "https://uchidamaaya.jp/discography/12th_sg/img/12th_sg_jk_normal.jpg",
+    "source": "https://uchidamaaya.jp/discography/12th_sg/",
+    "release": "ストロボメモリー · PCCG-01993",
+    "kind": "anime"
+  },
+  "youthful-beautiful": {
+    "image": "https://gridman.net/news/wordpress/wp-content/uploads/2018/09/web_yb_tsujo_JKT-304x300.jpg",
+    "source": "https://gridman.net/news/archives/233",
+    "release": "youthful beautiful · PCCG-70435",
+    "kind": "anime"
+  },
+
 "shiny-smily-story": {
     "image": "https://hololive.hololivepro.com/wp-content/uploads/2020/07/SSS_artwork_fix-1000x1000.png",
     "source": "https://hololive.hololivepro.com/en/music/shiny-smily-story-2/",
