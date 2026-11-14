@@ -25,5 +25,12 @@ export const songs=[
  {slug:'savior-of-song',title:'SAVIOR OF SONG',artist:'nano feat. MY FIRST STORY',series:'Arpeggio of Blue Steel',theme:'OP',adaptationCredit:'DarkHole y Pineapple',versions:[v('es',['ES'],'2022-05-10','lemmMufYL3A',es)]},
  {slug:'yukitoki',title:'ユキトキ',romanized:'Yukitoki',artist:'yanaginagi',series:'Oregairu',theme:'OP',adaptationCredit:'Beldiner',versions:[v('es',['ES'],'2022-05-21','V6uGXJoucPE',es)]},
  {slug:'harumodoki',title:'春擬き',romanized:'Harumodoki',artist:'yanaginagi',series:'Oregairu Zoku',theme:'OP',adaptationCredit:'Blaze Leiton (inspirada en las adaptaciones de beck y matcha allen)',versions:[v('es',['ES'],'2022-05-28','e4_Krpq9JQM',es)]},
- {slug:'megumi-no-ame',title:'芽ぐみの雨',romanized:'Megumi no Ame',artist:'yanaginagi',series:'Oregairu Kan',theme:'OP',adaptationCredit:'Blaze Leiton',versions:[v('es',['ES'],'2022-06-04','ghOdV3BL3IY',es)]}
+ {slug:'megumi-no-ame',title:'芽ぐみの雨',romanized:'Megumi no Ame',artist:'yanaginagi',series:'Oregairu Kan',theme:'OP',adaptationCredit:'Blaze Leiton',versions:[v('es',['ES'],'2022-06-04','ghOdV3BL3IY',es)]},
+ {slug:'daisuki',title:'ダイスキ。',romanized:'Daisuki',artist:'Ayaka Ohashi',series:'Hensuki',theme:'OP',versions:[v('es',['ES'],'2022-07-19','8rpx0PXAGO8',es),v('acoustic',['ES'],'2023-12-19','_rieomxnADk',['Español · Acústica','Spanish · Acoustic','スペイン語・アコースティック版'],{arrangement:'Lumière · Acoustic Ver.',lyricVersion:'es'})]},
+ {slug:'love-evidence',title:'Love-Evidence',artist:'Sora Amamiya',series:'Science Fell in Love r=1-sinθ',theme:'OP',versions:[v('es',['ES'],'2022-08-09','dHg5kQsM3-A',es)]},
+ {slug:'honey-jet-coaster',title:'ハニージェットコースター',romanized:'Honey Jet Coaster',artist:'nasuo☆',series:'Shikimori’s Not Just a Cutie',theme:'OP',versions:[v('es',['ES'],'2022-09-27','-PN51cnunbU',es)]},
+ {slug:'stuck-on-you',title:'Stuck on you',artist:'Nowlu',series:'More than a Married Couple, But Not Lovers',theme:'ED',versions:[v('es',['ES'],'2023-02-14','wiSboQWYnls',es,{historicalUploads:['E0kDLsmvyio','MguiaNXENig','4iuYzfOMD68']})]},
+ {slug:'rakuen-project',title:'楽園PROJECT',romanized:'Rakuen PROJECT',artist:'Ray',series:'To LOVE-Ru Darkness',theme:'OP',versions:[v('es',['ES'],'2023-07-26','JuBqk35Rn0c',es)]},
+ {slug:'please-please',title:'Please, please!',artist:'Ayaka Ohashi',series:'Masamune-kun’s Revenge R',theme:'OP',versions:[v('es',['ES'],'2023-08-26','qFGNu5tOcSI',es,{videoStatus:'blocked',audioStatus:'preserved-private',historicalUploads:['8MsELqeATLQ'],reuploadPending:true})]},
+ {slug:'twilight-little-star',title:'twilight little star',artist:'ChouCho',series:'Masamune-kun’s Revenge R',theme:'ED',versions:[v('es',['ES'],'2023-09-01','R1kD41P6KCI',es,{videoStatus:'blocked',audioStatus:'preserved-private',reuploadPending:true})]}
 ];
