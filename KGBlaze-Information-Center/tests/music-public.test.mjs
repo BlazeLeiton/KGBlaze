@@ -689,6 +689,6 @@ test('SSSS.LYCORIS preserves album seven and official uppercase franchise names'
 
 
 test('reuploads retain original interpretation month and separate video publication date',()=>{
- for(const [slug,date,id] of [['alive','2022-12','p9E3jlxtRr4'],['hana-no-tou','2023-02','OVCKHOyazEQ']]){const v=songs.find(s=>s.slug===slug).versions[0];assert.equal(v.date,date);assert.equal(v.videoPublishedDate,'2023-06-01');assert.equal(v.reuploaded,true);assert.equal(v.datePrecision,'month');assert.match(v.label[0],/Original \(Resubido\)/);const h=musicPage('/music/'+slug+'/',new URLSearchParams({lang:'es'}));assert.match(h,new RegExp('data-video-id="'+id+'"'));assert.match(h,/Publicación del video resubido<\/dt><dd>junio de 2023/);assert.doesNotMatch(h,/class="release-date"/);}
+ for(const [slug,date,id] of [['alive','2022-12','p9E3jlxtRr4'],['hana-no-tou','2022-12','OVCKHOyazEQ']]){const v=songs.find(s=>s.slug===slug).versions[0];assert.equal(v.date,date);assert.equal(v.videoPublishedDate,'2023-06-01');assert.equal(v.reuploaded,true);assert.equal(v.datePrecision,'month');assert.match(v.label[0],/Original \(Resubido\)/);const h=musicPage('/music/'+slug+'/',new URLSearchParams({lang:'es'}));assert.match(h,new RegExp('data-video-id="'+id+'"'));assert.match(h,/Publicación del video resubido<\/dt><dd>junio de 2023/);assert.doesNotMatch(h,/class="release-date"/);}
  for(const lang of ['es','en','ja'])for(const s of songs){const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang}));assert.doesNotMatch(h,/class="release-date"/);}
 });
