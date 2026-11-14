@@ -210,7 +210,7 @@ export default {
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
    if(artworkSources.has(dashboardPath))return serveArtwork(routed.request,{assets:env.ASSETS,ctx});
-   if(['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp'].includes(dashboardPath)){
+   if(['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp','/music-artwork/stuck-on-you-v2.webp'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
     return env.ASSETS.fetch(routed.request);
