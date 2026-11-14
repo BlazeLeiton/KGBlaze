@@ -2,6 +2,49 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+"daisuki": {
+    "image": "https://www.asmart.jp/images/product/10021317/V8w7a5cyvMgfBzAGv8RiroL2Aa9gQCiz.jpg",
+    "source": "https://www.asmart.jp/en/a-onstore/shop/lantis_music/product/10021317",
+    "release": "ダイスキ。 · LACM-14890",
+    "kind": "anime"
+  },
+  "love-evidence": {
+    "image": "https://www.sonymusic.co.jp/img/common/artist_image/70007000/70007954/images/love_anime_JK_fix.jpg",
+    "source": "https://www.sonymusic.co.jp/artist/amamiyasora/info/540045",
+    "release": "Love-Evidence · SMCL-764/765",
+    "kind": "anime"
+  },
+  "honey-jet-coaster": {
+    "image": "https://shikimori-anime.com/core_sys/images/contents/00000014/block/00000264/sn_00000447.jpg?1671507928=",
+    "source": "https://shikimori-anime.com/music/op.html",
+    "release": "ハニージェットコースター · GNCA-1614",
+    "kind": "anime"
+  },
+  "stuck-on-you": {
+    "image": "https://fuukoi-anime.com/core_sys/images/main/cont/music/stuck_on_you_BJK.jpg",
+    "source": "https://fuukoi-anime.com/music/",
+    "release": "Stuck on you · LACM-24324 (illustrated back jacket)",
+    "kind": "anime"
+  },
+  "rakuen-project": {
+    "image": "https://static.jmusicitalia.com/artisti/ray/single/rakuen-project-project-cd-dvd-sbig.jpg",
+    "source": "https://www.jmusicitalia.com/ray/single/rakuen-project-project-cd-dvd/",
+    "release": "楽園PROJECT · 1000344850",
+    "kind": "anime"
+  },
+  "please-please": {
+    "image": "https://masamune-tv.com/2ndwp/wp-content/uploads/2023/04/op_002.png",
+    "source": "https://masamune-tv.com/music/",
+    "release": "Please, please! · LACM-24369",
+    "kind": "anime"
+  },
+  "twilight-little-star": {
+    "image": "https://choucho-net.com/choucho/wp-content/uploads/2023/08/ChouCho_H1.jpg",
+    "source": "https://choucho-net.com/discography",
+    "release": "twilight little star · LACM-24377",
+    "kind": "anime"
+  },
+
 "yukitoki": {
     "image": "https://www.marv.jp/uploads/news/7801/5dd4afa9afba7.jpg",
     "source": "https://www.marv.jp/news/article/7801/",
