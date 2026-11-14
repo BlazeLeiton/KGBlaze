@@ -10,6 +10,12 @@ export const works={
  'Oregairu':names('My Teen Romantic Comedy SNAFU','やはり俺の青春ラブコメはまちがっている。','Oregairu',['My Teen Romantic Comedy Is Wrong, as I Expected','Yahari Ore no Seishun Love Come wa Machigatteiru','Oregairu']),
  'Oregairu Zoku':names('My Teen Romantic Comedy SNAFU TOO!','やはり俺の青春ラブコメはまちがっている。続','Oregairu Zoku',['Oregairu','My Teen Romantic Comedy Is Wrong, as I Expected Too']),
  'Oregairu Kan':names('My Teen Romantic Comedy SNAFU Climax','やはり俺の青春ラブコメはまちがっている。完','Oregairu Kan',['Oregairu','My Teen Romantic Comedy Is Wrong, as I Expected: Climax']),
+ 'Hensuki':names("Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She's a Cutie?",'可愛ければ変態でも好きになってくれますか？','Hensuki',['Kawaikereba Hentai demo Suki ni Natte Kuremasuka']),
+ 'Science Fell in Love r=1-sinθ':names('Science Fell in Love, So I Tried to Prove It r=1-sinθ','理系が恋に落ちたので証明してみた。r=1-sinθ','Science Fell in Love r=1-sinθ',['Rikekoi']),
+ 'Shikimori’s Not Just a Cutie':names('Shikimori’s Not Just a Cutie','可愛いだけじゃない式守さん','Shikimori’s Not Just a Cutie',['Kawaii dake ja Nai Shikimori-san']),
+ 'More than a Married Couple, But Not Lovers':names('More than a Married Couple, But Not Lovers','夫婦以上、恋人未満。','More than a Married Couple, But Not Lovers',['Fuukoi','Fuufu Ijou Koibito Miman']),
+ 'To LOVE-Ru Darkness':names('To LOVE-Ru Darkness','To LOVEる -とらぶる- ダークネス'),
+ 'Masamune-kun’s Revenge R':names('Masamune-kun’s Revenge R','政宗くんのリベンジR','Masamune-kun’s Revenge R',['Masamune-kun no Revenge R']),
  'Azur Lane':names('Azur Lane','アズールレーン'),
  'Pokémon Horizons':{pokemon:true,romaji:'Pocket Monsters (2023)',...names('Pokémon Horizons: The Series','ポケットモンスター（2023）','La Serie Horizontes Pokémon',['Pokémon Horizons','Pokémon Horizontes','Horizontes Pokémon','Pocket Monsters 2023','Poketto Monsutā 2023']),seasons:{2:names('Pokémon Horizons: Season 2—The Search for Laqua','ポケットモンスター（2023）','La Serie Horizontes Pokémon: En busca de Laqua')}},
  'Pokémon XY':{pokemon:true,romaji:'Pocket Monsters XY',...names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY',['Pocket Monsters XY','Poketto Monsutā XY','Kalos Quest','XY&Z']),seasons:{
