@@ -27,6 +27,15 @@ jobs:
           base64 -w 0 sheet.jpg
           echo
           echo "SHEET_BASE64_END"
+          ffmpeg -loglevel error -ss 70 -i ending.webm -frames:v 1 -q:v 2 frame70.jpg
+          ffmpeg -loglevel error -ss 69.5 -i ending.webm -frames:v 1 -q:v 2 frame695.jpg
+          ffmpeg -loglevel error -ss 70.5 -i ending.webm -frames:v 1 -q:v 2 frame705.jpg
+          for f in frame70.jpg frame695.jpg frame705.jpg; do
+            echo "FRAME_BASE64_BEGIN $f"
+            base64 -w 0 "$f"
+            echo
+            echo "FRAME_BASE64_END"
+          done
           mkdir frames
           ffmpeg -loglevel error -i ending.webm -vf 'fps=2,scale=960:-2' -q:v 3 frames/%03d.jpg
           tar -czf frames.tar.gz frames
