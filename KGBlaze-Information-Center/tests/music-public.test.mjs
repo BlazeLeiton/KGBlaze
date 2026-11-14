@@ -455,7 +455,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
  assert.match(releaseArtwork['blue-spirit'].artworkContext,/Heart-Linking Harmony/);
  assert.equal(releaseArtwork.connect.image,'https://www.lisani.jp/claris-best1st/images/connect_img01.jpg');
  assert.equal(releaseArtwork['cake-song'].credit,'Subin Yeon');
- for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na','stuck-on-you']){
+ for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na','stuck-on-you','villain-vibes']){
   const path=releaseArtwork[slug].image;
   const routed=await worker.fetch(req(path),{...environment,ASSETS:{fetch:async request=>new Response(new Uint8Array([82,73,70,70]),{headers:{'Content-Type':'image/webp'}})}});
   assert.equal(routed.status,200);
@@ -466,7 +466,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,30);
+ assert.equal(artworkSources.size,29);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -674,4 +674,9 @@ test('Rebel Live Idol Project and streamlined song detail',()=>{
  for(const lang of ['es','en','ja']){assert.equal(album.titles[lang],'Rebel Live Idol Project');for(const {song} of album.tracks){const h=musicPage('/music/'+song+'/',new URLSearchParams({lang}));assert.match(h,/Rebel Live Idol Project/);assert.match(h,/class="video-stage"/);assert.doesNotMatch(h,/class="release-art-note"|class="video-note"/);}}
  assert.equal(lyricsBySong['shiny-smily-story'].en,undefined);assert.match(lyricsBySong['shiny-smily-story'].es.text,/Un mismo gran futuro/);assert.doesNotMatch(lyricsBySong['shiny-smily-story'].es.text,/We took our hands/);
  assert.equal(originalPerformances.pastel.cast.length,4);assert.equal(originalPerformances['stars-we-chase'].cast[0].cv.latin,'Shu Uchida');
+});
+
+
+test('Villain Vibes uses the creator-matched MV illustration, not the album jacket',()=>{
+ const a=releaseArtwork['villain-vibes'];assert.equal(a.image,'/music-artwork/villain-vibes-v2.webp');assert.equal(a.credit,'Szainx');assert.equal(a.kind,'selected');assert.ok(a.originalRelease.image.includes('mzstatic.com'));const bytes=readFileSync(new URL('../public'+a.image,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');const card=musicPage('/music/',new URLSearchParams({lang:'es'})).match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/villain-vibes/'));assert.ok(card.includes(a.image));assert.ok(card.includes('data-fallback=""'));assert.ok(!card.includes(a.originalRelease.image));
 });

@@ -9,11 +9,21 @@ export const releaseArtwork={
     "kind": "illustrated"
   },
   "villain-vibes": {
-    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/aa/27/20/aa2720e0-b695-4b49-1dd3-c0ddee0c9993/198001804793.png/1200x1200bf-60.jpg",
-    "source": "https://music.apple.com/us/album/rise-of-the-monarch/1629583992",
-    "release": "Rise of the Monarch · 2022",
-    "kind": "illustrated",
-    "credit": "LucidSky"
+    "image": "/music-artwork/villain-vibes-v2.webp",
+    "source": "https://twitter.com/szainx/status/1540382808937734144",
+    "release": "Villain Vibes · original MV promotional illustration (2022)",
+    "kind": "selected",
+    "version": 2,
+    "framing": "villain-vibes",
+    "credit": "Szainx",
+    "artworkContext": "Original illustration by Szainx, matching the historical Rebel Live Idol Project cover. Original lettering and signature preserved in the source.",
+    "originalRelease": {
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/aa/27/20/aa2720e0-b695-4b49-1dd3-c0ddee0c9993/198001804793.png/1200x1200bf-60.jpg",
+      "source": "https://music.apple.com/us/album/rise-of-the-monarch/1629583992",
+      "release": "Rise of the Monarch · 2022",
+      "kind": "illustrated",
+      "credit": "LucidSky"
+    }
   },
   "sparks-of-joy": {
     "image": "https://hololive.hololivepro.com/wp-content/uploads/2022/01/IRyS_Sparks-of-Joy_jk-1000x1000.png",
