@@ -6,10 +6,11 @@ permissions:
   contents: read
 jobs:
   inspect:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Inspect original artist source
         run: |
+          python -m pip install --quiet pillow requests
           python - <<'PY'
           import requests,base64,io
           from PIL import Image
