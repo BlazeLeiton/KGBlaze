@@ -2,6 +2,10 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+"yuukyuu-no-catharsis":{"image":"/music-artwork/yuukyuu-no-catharsis-v1.webp","source":"https://straycats.co.jp/release/xnst-10004/","release":"Azur Lane Character Song Singles Vol. 2–5 · Laffey / Javelin / Ayanami / Z23","kind":"anime","artworkContext":"Four original square CD jackets aligned into a 2×2 composite. XNST-10004–10007.","sources":["https://straycats.co.jp/release/xnst-10004/","https://straycats.co.jp/release/xnst-10005/","https://straycats.co.jp/release/xnst-10006/","https://straycats.co.jp/release/xnst-10007/"]},
+"meant-to-be":{"image":"/music-artwork/meant-to-be-v1.webp","source":"https://music.163.com/#/song?id=1454741418","release":"Meant to Be · Tower of Fantasy","kind":"game"},
+"feelin-it-all":{"image":"/music-artwork/feelin-it-all-v1.webp","source":"https://music.apple.com/us/album/feelin-it-all-azur-lane-soundtrack/1636338935","release":"Feelin’ It All · Azur Lane Soundtrack · Annie Sollange","kind":"game"},
+
 "bad-candy": {
     "image": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
     "source": "https://wmg.jp/yukadd/discography/25506",
