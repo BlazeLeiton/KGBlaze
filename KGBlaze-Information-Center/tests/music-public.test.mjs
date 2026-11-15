@@ -467,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,49);
+ assert.equal(artworkSources.size,46);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -902,3 +902,6 @@ test('Stage 30 post-publication editorial corrections',()=>{const es=new URLSear
 
 
 test('Ano ne official releases remain distinct from the two creator recordings',()=>{const a=songs.find(s=>s.slug==='ano-ne');assert.equal(a.versions.length,2);const solo=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'es'}));const duet=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'loved-ones'}));assert.match(solo,/2020-10-21 · COCC-17809/);assert.match(duet,/2020-12-24 · COKM-43033/);assert.match(duet,/2023-04-19 · COCC-18117 · Track 3/);});
+
+
+test('Stage 30 approved crops are local square version 2 assets with provenance',()=>{const m=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;for(const slug of ['xy-and-z','level','el-nano']){const a=releaseArtwork[slug],r=m[slug];assert.equal(a.image,'/music-artwork/'+slug+'-v2.webp');assert.equal(a.sourceImage,r.origin);assert.equal(a.version,2);assert.equal(r.status,'preserved');assert.equal(r.size[0],r.size[1]);assert.equal(r.previous.version,1);assert.ok(a.originalRelease.source);assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),new RegExp(a.image));}});
