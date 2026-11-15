@@ -833,11 +833,11 @@ test('hololive branch label is localized without changing other franchise filter
 test('Horizontes intake retains all source lyric lines and Word stanza divisions',()=>{
  const hashes={"ano-ne:es":"e761555d3ed8bc2619ff7e9058d105a0efca1f12c7877863235edc113563dd8a","ano-ne:loved-ones":"bb57dab73f6654531152f9ea58dbf4a619d95d5b55f7a026a0e916910dedaa5a","kono-tate-ni-kakuremasu:es":"d720ba7525c6b224a7848682a4940f2de68a523ea1ea6158597261a9e95944a8","koko-kara-koko-kara:es":"b50036ced33d2bd6d835cfa5e68b517151bf1efdf3f66050e09f4e7560457aa2","rvr:es":"975ab8d47585739945d904100e5a8f955121049768730103639d64fdfc12aa31","zutto:es":"4776691f695d4cd10de011dc54afd855d583d2796423bae94e1ca816d9cae261","level:es":"6368a2126e67181687d11da009cde9e9ad126955e7b55113017ea427f5291936"};
  const layouts={"ano-ne:es":[5,3,4,6,3,5,7,6,6,3],"ano-ne:loved-ones":[5,3,5,7,3,5,8,8,7,2],"kono-tate-ni-kakuremasu:es":[4,4,4,8,4,4,4,8,8],"koko-kara-koko-kara:es":[2,1,4,2,1,4,4,4,2],"rvr:es":[3,4,4,3,7,4,4,3,7],"zutto:es":[4,2,4,4,2,4,2,2,2,2,2,1],"level:es":[6,2,4,3,3,3,3,7,3,4,4,3,1]};
- for(const [key,hash] of Object.entries(hashes)){const [slug,id]=key.split(':');const l=lyricsBySong[slug][id];assert.deepEqual(l.text.split(/\n\s*\n/).map(s=>s.split('\n').length),layouts[key],key);const normalized=l.text.split('\n').map(x=>x.trim()).filter(Boolean).join('\n');assert.equal(createHash('sha256').update(normalized).digest('hex'),hash,key);}
+ for(const [key,hash] of Object.entries(hashes)){const [slug,id]=key.split(':');const l=lyricsBySong[slug][id];assert.deepEqual(l.text.split(/\n\s*\n/).map(s=>s.split('\n').length),layouts[key],key);const normalized=l.text.split('\n').map(x=>x.trim()).filter(Boolean).join('\n');assert.equal(createHash('sha256').update(key==='rvr:es'?normalized.replace('(Inserte su propia versión de letra)','Hey, que tal a todos aquí Blaze'):normalized).digest('hex'),hash,key);}
  const album=coverAlbums.find(a=>a.historicalNumber===6);assert.equal(album.id,'horizontes-de-aventura');assert.equal(album.tracklistStatus,'pending-confirmation');assert.equal(album.tracks.length,0);assert.equal(album.candidateTracks.length,8);assert.ok(album.candidateTracks.every(t=>songs.find(s=>s.slug===t.song)?.versions.some(v=>v.id===t.version)));
- const loved=lyricsBySong['ano-ne']['loved-ones'];assert.equal(loved.colorStanzas.flat().length,53);assert.deepEqual(loved.colorStanzas[0][3].map(p=>p.voice),['green','blue','shared']);
+ const loved=lyricsBySong['ano-ne']['loved-ones'];assert.equal(loved.colorStanzas.flat().length,53);assert.deepEqual(loved.colorStanzas[0][3].map(p=>p.voice),['fina','yuna','shared']);
  const solo=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'es'}));const duet=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'loved-ones'}));assert.match(solo,/Maki Kawase/);assert.doesNotMatch(solo,/Azumi Waki/);assert.match(duet,/Azumi Waki/);assert.match(duet,/class="color-part/);
- assert.match(musicPage('/music/song/rvr/',new URLSearchParams({lang:'es'})),/class="archive-video"/);
+ const rvr=musicPage('/music/song/rvr/',new URLSearchParams({lang:'es'}));assert.match(rvr,/data-video-id="nm1zAvt0EZI"/);assert.doesNotMatch(rvr,/class="archive-video"/);assert.match(rvr,/Versión corta publicada/);assert.match(rvr,/Inserte su propia versión de letra/);assert.match(rvr,/desde México para el mundo/);assert.match(duet,/Fina/);assert.match(duet,/Ambas/);assert.doesNotMatch(duet,/Voz verde|Voz azul/);
  assert.equal(songs.filter(s=>s.slug==='dokimeki-diary').length,1);
 });
 
@@ -849,10 +849,10 @@ test('LEVEL revised duet preserves exact lyric and all source run boundaries',()
  assert.equal(lyric.colorStanzas.map(stanza=>stanza.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),lyric.text);
  assert.deepEqual(lines[6].map(p=>p.voice),['yanaginagi','sixth-lie']);
  assert.deepEqual(lines[14].map(p=>p.voice),['sixth-lie','shared']);
- assert.deepEqual(lines[30].map(p=>p.voice),['shared','sixth-lie','secondary']);
+ assert.deepEqual(lines[30].map(p=>p.voice),['shared','sixth-lie','shared']);
  assert.equal(lines[30][2].text,'(ahh)');
  const html=musicPage('/music/song/level/',new URLSearchParams({lang:'es'}));
- assert.match(html,/class="color-part/);assert.match(html,/yanaginagi/);assert.match(html,/THE SIXTH LIE/);
+ assert.match(html,/class="color-part/);assert.match(html,/yanaginagi/);assert.match(html,/THE SIXTH LIE/);assert.match(html,/Ambos/);assert.doesNotMatch(html,/Intervención secundaria/);
 });
 
 test('Ensamble Alternativo records only confirmed alternate recordings as a planned unreleased album',()=>{
@@ -896,3 +896,6 @@ test('Beyond the World preserves six historical Spanish recordings and does not 
  const xy=songs.find(s=>s.slug==='xy-and-z');assert.equal(xy.season,19);assert.equal(xy.sourceEdition,'jp');assert.match(xy.adaptationCredit,/Itani/);assert.match(musicPage('/music/song/xy-and-z/',new URLSearchParams({lang:'es'})),/Itani/);
  assert.equal(songs.find(s=>s.slug==='el-nano').versions[0].historicalUploads[0],'QSNDk42U1OM');
 });
+
+
+test('Stage 30 post-publication editorial corrections',()=>{const es=new URLSearchParams({lang:'es'});const catalog=musicPage('/music/',es);assert.match(catalog,/data-primary-series="Kuma Kuma Kuma Bear"/);assert.doesNotMatch(catalog,/data-primary-series="Kuma Kuma Kuma Bear Punch!/);assert.match(musicPage('/music/song/kono-tate-ni-kakuremasu/',es),/I Don’t Want to Get Hurt, so I’ll Max Out My Defense\. Season 2/);for(const slug of ['one-step','koko-kara-koko-kara'])assert.doesNotMatch(musicPage('/music/song/'+slug+'/',es),/no representa el reparto de este cover/);assert.match(musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'en',version:'loved-ones'})),/Both/);assert.match(musicPage('/music/song/level/',new URLSearchParams({lang:'en'})),/Both/);});
