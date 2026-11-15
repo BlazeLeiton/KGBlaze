@@ -1,86 +1,58 @@
-name: Read-only artwork alternatives review
+name: Editorial comparison previews
 on:
   pull_request:
     types: [opened, synchronize]
     branches: [main]
 permissions:
-  contents: write
+  contents: read
 jobs:
   preview:
     if: github.head_ref == 'relight/artwork-options-review' && github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
           ref: relight/artwork-options-review
-      - name: Collect reference images and contact sheets
+      - name: Compose review-only candidates from recovered real frames
         run: |
-          python -m pip install Pillow yt-dlp imageio-ffmpeg
-          mkdir -p /tmp/artwork-video docs/artwork-options
+          python -m pip install Pillow
           python - <<'PY'
-          import urllib.request, subprocess, pathlib, io, imageio_ffmpeg, concurrent.futures
-          from PIL import Image, ImageOps, ImageDraw
-          out=pathlib.Path('docs/artwork-options')
-          work=pathlib.Path('/tmp/artwork-video')
-          def get(url,p):
-              try:
-                  with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=12) as r: data=r.read(80000000)
-                  p.write_bytes(data)
-                  print('downloaded',url,len(data),flush=True)
-                  return True
-              except Exception as e: print('failed',url,str(e),flush=True); return False
-          def still(url,name):
-              p=work/(name+'.jpg')
-              if get(url,p):
-                  try:
-                      im=Image.open(p).convert('RGB')
-                      im.thumbnail((1280,1280))
-                      im.save(out/(name+'.jpg'),quality=94)
-                  except Exception as e: print(e)
-          def frames(p,name,seconds):
-              ims=[]
-              for s in seconds:
-                  f=work/(name+'-'+str(s)+'.jpg')
-                  r=subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-loglevel','error','-y','-ss',str(s),'-i',str(p),'-frames:v','1','-vf','scale=640:-1',str(f)],capture_output=True)
-                  if f.exists():
-                      im=Image.open(f).convert('RGB')
-                      ims.append((s,im.copy()))
-              if not ims: return
-              w,h=480,270
-              c=Image.new('RGB',(w*3,(h+26)*((len(ims)+2)//3)),(24,24,24))
-              d=ImageDraw.Draw(c)
-              for i,(s,im) in enumerate(ims):
-                  x=(i%3)*w;y=(i//3)*(h+26)
-                  c.paste(ImageOps.contain(im,(w,h)),(x,y))
-                  d.text((x+6,y+h+5),f'{name} | {s}s',fill='white')
-              c.save(out/(name+'-sheet.jpg'),quality=90)
-          sources=[
-             ('petra','https://content.archive.ragtag.moe/s3%3Aarchive-eye-1/xKqHPsDxXBU/xKqHPsDxXBU.webm'),
-             ('kotoka','https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webm'),
-             ('meloco','https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/7AgV7UGobuc/7AgV7UGobuc.webm')]
-          def teaser(pair):
-              name,url=pair
-              p=work/(name+'.webm')
-              if get(url,p): frames(p,name,[3,7,11,15,19,23,27,30])
-          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as ex:
-              list(ex.map(teaser,sources))
-          for name,url in [('izetta-user-thumbnail','https://i.ytimg.com/vi/FVX1NYWkxdk/maxresdefault.jpg'),('izetta-ending-thumbnail','https://i.ytimg.com/vi/PrU52BW1btE/maxresdefault.jpg'),('izetta-single-limited','https://www.jvcmusic.co.jp/img/jackets/VTZL-117.jpg?_c=init'),('izetta-opening','https://www.jvcmusic.co.jp/img/jackets/VTCL-35240.jpg?_c=init')]:
-              still(url,name)
-          p=work/'izetta-ed.webm'
-          if get('https://v.animethemes.moe/ShuumatsuNoIzetta-ED1.webm',p):
-              frames(p,'izetta-ending',list(range(3,90,5)))
-          else:
-              try:
-                  subprocess.run(['yt-dlp','--no-playlist','-f','best[height<=720]','-o',str(p),'https://www.youtube.com/watch?v=PrU52BW1btE'],timeout=35,check=True)
-                  frames(p,'izetta-ending',list(range(3,90,5)))
-              except Exception as e: print(e)
+          from PIL import Image, ImageOps
+          from pathlib import Path
+          p=Path('docs/artwork-options')
+          def frame(sheet,i):
+              im=Image.open(p/(sheet+'-sheet.jpg')).convert('RGB')
+              x=(i%3)*480; y=(i//3)*296
+              return im.crop((x,y,x+480,y+270))
+          for name,i,box in [('izetta-E-running',12,(210,0,480,270)),('izetta-F-closeup',13,(210,0,480,270)),('izetta-G-finale',17,(0,0,270,270))]:
+              frame('izetta-ending',i).crop(box).save(p/(name+'.jpg'),quality=96)
+          art=Image.open('KGBlaze-Information-Center/public/music-artwork/tempestas-claim-v2.webp').convert('RGB')
+          c=Image.new('RGB',(960,960))
+          for name,xy,cx in [('petra',(0,0),240),('kotoka',(480,0),240),('meloco',(0,480),240)]:
+              im=frame(name,3)
+              # Cropping the storm portraits square keeps the artists balanced.
+              im=im.crop((cx-120,0,cx+120,240))
+              c.paste(im.resize((480,480),Image.Resampling.LANCZOS),xy)
+          c.paste(art.resize((480,480),Image.Resampling.LANCZOS),(480,480))
+          c.save(p/'tempesta-C-four-panels.jpg',quality=94)
+          d=Image.new('RGB',(960,960))
+          for i,name in enumerate(['petra','meloco','kotoka']):
+              im=frame(name,4)
+              # Portraits from the close-up teaser scenes; trim subtitle area.
+              im=im.crop((170,0,310,220))
+              d.paste(ImageOps.fit(im,(320,680),method=Image.Resampling.LANCZOS,centering=(0.5,0.25)),(i*320,0))
+          title=art.crop((0,300,960,650))
+          d.paste(title.resize((960,280),Image.Resampling.LANCZOS),(0,680))
+          d.save(p/'tempesta-D-triptych.jpg',quality=94)
           PY
-      - name: Save reference sheets to isolated review branch
+      - name: Preserve review previews without touching production
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/artwork-options
           if ! git diff --cached --quiet; then
-            git commit -m "Collect source reference images for editorial review"
+            git commit -m "Create editorial comparison previews from source frames"
             git push origin HEAD:relight/artwork-options-review
           fi
