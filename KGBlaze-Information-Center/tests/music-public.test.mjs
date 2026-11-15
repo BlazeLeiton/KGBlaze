@@ -731,8 +731,8 @@ test('Arcana Integrity: all fifty works have art, individually framed jackets an
  for(const lang of ['es','en','ja']){
   const h=musicPage('/music/',new URLSearchParams({lang}));
   assert.equal((h.match(/class="square-art"/g)||[]).length,50);
-  for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\\s\\S]*?<\\/article>/g).find(x=>x.includes('/music/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
+  for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
-  assert.match(h,/grid-template-columns:repeat\\(2,minmax\\(0,1fr\\)\\)/);
+  assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  }
 });
