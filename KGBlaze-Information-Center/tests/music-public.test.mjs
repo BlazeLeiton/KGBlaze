@@ -899,3 +899,6 @@ test('Beyond the World preserves six historical Spanish recordings and does not 
 
 
 test('Stage 30 post-publication editorial corrections',()=>{const es=new URLSearchParams({lang:'es'});const catalog=musicPage('/music/',es);assert.match(catalog,/data-primary-series="Kuma Kuma Kuma Bear"/);assert.doesNotMatch(catalog,/data-primary-series="Kuma Kuma Kuma Bear Punch!/);assert.match(musicPage('/music/song/kono-tate-ni-kakuremasu/',es),/I Don’t Want to Get Hurt, so I’ll Max Out My Defense\. Season 2/);for(const slug of ['one-step','koko-kara-koko-kara'])assert.doesNotMatch(musicPage('/music/song/'+slug+'/',es),/no representa el reparto de este cover/);assert.match(musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'en',version:'loved-ones'})),/Both/);assert.match(musicPage('/music/song/level/',new URLSearchParams({lang:'en'})),/Both/);});
+
+
+test('Ano ne official releases remain distinct from the two creator recordings',()=>{const a=songs.find(s=>s.slug==='ano-ne');assert.equal(a.versions.length,2);const solo=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'es'}));const duet=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'loved-ones'}));assert.match(solo,/2020-10-21 · COCC-17809/);assert.match(duet,/2020-12-24 · COKM-43033/);assert.match(duet,/2023-04-19 · COCC-18117 · Track 3/);});
