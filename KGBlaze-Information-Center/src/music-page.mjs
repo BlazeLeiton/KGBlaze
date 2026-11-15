@@ -29,7 +29,7 @@ export function musicPage(path,query,mode='html'){
  const debut=s=>firstRelease(s)?.year??null;
  const extraLabels=({es:{original:'Original',romaji:'Japonés (rōmaji)',mixed:'Multilingüe',compare:'En paralelo',audioPending:'Audio pendiente de incorporar.',undated:'Fecha por confirmar',chooseLyrics:'Letra disponible',audio:'Audio',parallelNote:'Comparación por estrofas; no implica equivalencia literal.'},en:{original:'Original',romaji:'Japanese (romaji)',mixed:'Multilingual',compare:'Side by side',audioPending:'Audio not yet available.',undated:'Date to be confirmed',chooseLyrics:'Available lyrics',audio:'Audio',parallelNote:'Comparison by stanza; not a line-by-line translation.'},ja:{original:'原曲',romaji:'日本語（ローマ字）',mixed:'多言語',compare:'並列表示',audioPending:'音源は準備中です。',undated:'公開日確認中',chooseLyrics:'歌詞を選択',audio:'音源',parallelNote:'節ごとの比較です。逐語訳ではありません。'}})[lang];
  const edition=s=>s.sourceEdition?t[s.sourceEdition]||'':'';
- const work=s=>s.sourceWorks?s.sourceWorks.map(w=>workName(w,lang)).join(' / '):isPokemonWork(s.series)?pokemonWorkLabel(s,lang):affiliationWork(s,lang)||workName(s.series,lang,s.season)+(s.season?' · '+t.season+(lang==='ja'?'':' ')+s.season:'')+(edition(s)?(lang==='ja'?'（'+edition(s)+'）':' ('+edition(s)+')'):'');
+ const work=s=>s===song&&s.series==='BOFURI 2'?workName(s.series,lang==='es'?'en':lang):s.sourceWorks?s.sourceWorks.map(w=>workName(w,lang)).join(' / '):isPokemonWork(s.series)?pokemonWorkLabel(s,lang):affiliationWork(s,lang)||workName(s.series,lang,s.season)+(s.season?' · '+t.season+(lang==='ja'?'':' ')+s.season:'')+(edition(s)?(lang==='ja'?'（'+edition(s)+'）':' ('+edition(s)+')'):'');
  const themeLine=s=>((s===song&&selected?.sourceTheme)||s.theme||'');
  const artist=s=>originalArtist(s,lang,s===song?selected?.id:null)||t.artistPending;
  const languages=s=>[...new Set(visibleVersions(s).flatMap(v=>v.langs))];
@@ -72,7 +72,7 @@ export function musicPage(path,query,mode='html'){
  const otherId=choiceIds.includes(compareId)&&compareId!==activeId?compareId:null;
  const other=otherId?entries[otherId]:null;
  const parallel=!!(lyric?.text&&other?.text);
- const reviewFor=l=>l?({'annotations':lyricLabels.annotations,'shared':lyricLabels.shared,'spanish-only':lyricLabels.spanishOnly,'third-party':lyricLabels.thirdParty,'original-reference':lyricLabels.originalReference,'script':lyricLabels.scriptNote,'rights-pending':({es:'Adaptación de terceros; texto pendiente de autorización.',en:'Third-party adaptation; lyrics awaiting authorization.',ja:'第三者による翻案歌詞。掲載許可の確認中です。'})[lang]}[l.review]||''):'';
+ const reviewFor=l=>l?({'annotations':lyricLabels.annotations,'shared':lyricLabels.shared,'spanish-only':lyricLabels.spanishOnly,'third-party':lyricLabels.thirdParty,'original-reference':lyricLabels.originalReference,'script':lyricLabels.scriptNote,'rvr-template':({es:'Versión corta publicada. Letra de trabajo con espacio de invitado rotativo: en el video se escucha «Hey qué tal a todos aquí Blaze de regreso transmitiendo desde México para el mundo». Puedes insertar tu propia letra; ampliación pendiente.',en:'Published short version. Working lyric with a rotating guest slot; in the video Blaze introduces himself as broadcasting from Mexico to the world. Insert your own verse; expansion pending.',ja:'公開済みショート版。ゲストが交代する歌詞の作業版。動画ではBlazeがメキシコから世界へ配信すると自己紹介。自由に歌詞を入れられます。拡張予定。'})[lang],'rights-pending':({es:'Adaptación de terceros; texto pendiente de autorización.',en:'Third-party adaptation; lyrics awaiting authorization.',ja:'第三者による翻案歌詞。掲載許可の確認中です。'})[lang]}[l.review]||''):'';
  const kindLabel=l=>l.kind==='fandub_script'?lyricLabels.script:l.kind==='original'||l.kind==='original_romanized'?extraLabels.original:l.kind==='mixed'?extraLabels.mixed:lyricLabels.adaptation;
  const languageLabel=l=>l.kind==='original_romanized'?(lang==='ja'&&l.textJa?'日本語':extraLabels.romaji):l.language==='MULTI'?'JP / FR / PT / ES / EN':({ES:['Español','Spanish','スペイン語'],EN:['Inglés','English','英語'],FR:['Francés','French','フランス語'],JA:['Japonés','Japanese','日本語']}[l.language]?.[li]||l.language);
  const lyricLabel=l=>languageLabel(l)+' · '+kindLabel(l);
@@ -91,7 +91,7 @@ export function musicPage(path,query,mode='html'){
  const colorStanzas=lang==='ja'&&l.colorStanzasJa?l.colorStanzasJa:l.colorStanzas;
  const localRole=x=>({main:({es:'Principal',en:'Lead',ja:'主旋律'})[lang],secondary:({es:'Intervención secundaria',en:'Secondary part',ja:'重唱'})[lang]})[x.id]||x.label;
  const color=x=>/^#[0-9a-f]{6}$/i.test(x||'')?x:'#FFFFFF';
- const sharedLabel=({es:'Todas / Todos',en:'All',ja:'全員'})[lang];
+ const sharedLabel=l.sharedLabel?.[lang]||({es:'Todas / Todos',en:'All',ja:'全員'})[lang];
  const labelFor=v=>v==='shared'?sharedLabel:v.split('+').map(id=>palette[id]?.label||id).join(' · ');
  const dots=v=>v.includes('+')?'<span class="color-group" aria-label="'+e(labelFor(v))+'" title="'+e(labelFor(v))+'">'+v.split('+').map(id=>'<span class="color-dot" style="background:'+color(palette[id]?.color)+'"></span>').join('')+'</span>':'';
  const legendLabel=l.colorRole==='song'?({es:'Canciones',en:'Songs',ja:'楽曲'})[lang]:l.colorRole==='overlap'?({es:'Intervenciones',en:'Parts',ja:'歌唱パート'})[lang]:({es:'Voces',en:'Voices',ja:'歌唱パート'})[lang];
