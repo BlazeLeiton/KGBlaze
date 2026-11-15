@@ -255,25 +255,34 @@
       "bytes": 73896
     },
     "el-nano": {
-      "release": "El Nano · 2008 digital single (2005 recording)",
-      "source": "https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750",
-      "origin": "https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg",
-      "version": 1,
+      "release": "Fernando Alonso · Bahrain GP · 5 March 2023",
+      "source": "https://www.astonmartinf1.com/en-GB/news/gallery/in-pictures-fernandos-first-amf1-podium",
+      "origin": "https://assets.astonmartinf1.com/public/cms/1LIVxEMAz7FlhVKCDNUlXo/0ba3627e3320b27914f7ecdb283264c6/GP2301_135418_ONZ2597__1__copy.jpg?fit=thumb&h=296&w=450",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/el-nano-v1.webp",
-      "status": "preserved",
-      "size": [
-        600,
-        600
-      ],
-      "sha256": "2cffc3a785cfc57389ce65e10690590caa7a9a18fe15fb039d5190f918ed8bdc",
-      "bytes": 63380,
-      "original_size": [
-        600,
-        600
-      ],
-      "retrieved_from": "https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg",
-      "source_sha256": "7485b7fe574e95fbdefb17bc8db64c09610c589c9be0dbc6427c3a6a11850e46"
+      "path": "/music-artwork/el-nano-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "release": "El Nano · 2008 digital single (2005 recording)",
+        "source": "https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750",
+        "origin": "https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg",
+        "version": 1,
+        "fit": "contain",
+        "path": "/music-artwork/el-nano-v1.webp",
+        "status": "preserved",
+        "size": [
+          600,
+          600
+        ],
+        "sha256": "2cffc3a785cfc57389ce65e10690590caa7a9a18fe15fb039d5190f918ed8bdc",
+        "bytes": 63380,
+        "original_size": [
+          600,
+          600
+        ],
+        "retrieved_from": "https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg",
+        "source_sha256": "7485b7fe574e95fbdefb17bc8db64c09610c589c9be0dbc6427c3a6a11850e46"
+      }
     },
     "feelin-it-all": {
       "release": "Feelin’ It All · Azur Lane Soundtrack · Annie Sollange",
@@ -602,25 +611,34 @@
       "bytes": 86150
     },
     "level": {
-      "release": "The Genius Prince · Blu-ray Vol. 1 · GNXA-2381",
-      "source": "https://tensaiouji-anime.com/bd/01.html",
-      "origin": "https://tensaiouji-anime.com/core_sys/images/contents/00000017/block/00000047/00000041.jpg?1656652640=",
-      "version": 1,
+      "release": "The Genius Prince · official anime key visual Ver. 2.0 (19 Nov 2021)",
+      "source": "https://tensaiouji-anime.com/news/index00320000.html",
+      "origin": "https://tensaiouji-anime.com/core_sys/images/news/00000032/block/00000090/sn_00000036.jpg?1656652635=",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/level-v1.webp",
-      "status": "preserved",
-      "size": [
-        360,
-        458
-      ],
-      "sha256": "617e58ac30f8c415df55a168d89e0ba311002e0657b04978684cc90faec819c8",
-      "bytes": 51704,
-      "original_size": [
-        360,
-        458
-      ],
-      "retrieved_from": "https://tensaiouji-anime.com/core_sys/images/contents/00000017/block/00000047/00000041.jpg?1656652640=",
-      "source_sha256": "ef40ce686b56bdf09353cf8033f950aa5ce55cb9ecb02fbc52da7278ba636304"
+      "path": "/music-artwork/level-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "release": "The Genius Prince · Blu-ray Vol. 1 · GNXA-2381",
+        "source": "https://tensaiouji-anime.com/bd/01.html",
+        "origin": "https://tensaiouji-anime.com/core_sys/images/contents/00000017/block/00000047/00000041.jpg?1656652640=",
+        "version": 1,
+        "fit": "contain",
+        "path": "/music-artwork/level-v1.webp",
+        "status": "preserved",
+        "size": [
+          360,
+          458
+        ],
+        "sha256": "617e58ac30f8c415df55a168d89e0ba311002e0657b04978684cc90faec819c8",
+        "bytes": 51704,
+        "original_size": [
+          360,
+          458
+        ],
+        "retrieved_from": "https://tensaiouji-anime.com/core_sys/images/contents/00000017/block/00000047/00000041.jpg?1656652640=",
+        "source_sha256": "ef40ce686b56bdf09353cf8033f950aa5ce55cb9ecb02fbc52da7278ba636304"
+      }
     },
     "love-evidence": {
       "release": "Love-Evidence · SMCL-764/765",
@@ -1278,22 +1296,31 @@
       "release": "Pokémon XY&Z Character Song Project Vol. 1 · SECL-1832",
       "source": "https://www.cdjapan.co.jp/product/SECL-1832",
       "origin": "https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3",
-      "version": 1,
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/xy-and-z-v1.webp",
-      "status": "preserved",
-      "size": [
-        500,
-        445
-      ],
-      "sha256": "0cf45833379c08affdafa0c1f2b533cd48dcbe57c63af52d95a26630a26d7dc3",
-      "bytes": 101670,
-      "original_size": [
-        500,
-        445
-      ],
-      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3",
-      "source_sha256": "34a51466856fc8753c5017bf2fe866dc3330a922538d031513eb335a02df74e4"
+      "path": "/music-artwork/xy-and-z-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "release": "Pokémon XY&Z Character Song Project Vol. 1 · SECL-1832",
+        "source": "https://www.cdjapan.co.jp/product/SECL-1832",
+        "origin": "https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3",
+        "version": 1,
+        "fit": "contain",
+        "path": "/music-artwork/xy-and-z-v1.webp",
+        "status": "preserved",
+        "size": [
+          500,
+          445
+        ],
+        "sha256": "0cf45833379c08affdafa0c1f2b533cd48dcbe57c63af52d95a26630a26d7dc3",
+        "bytes": 101670,
+        "original_size": [
+          500,
+          445
+        ],
+        "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3",
+        "source_sha256": "34a51466856fc8753c5017bf2fe866dc3330a922538d031513eb335a02df74e4"
+      }
     },
     "youthful-beautiful": {
       "release": "youthful beautiful · PCCG-70435",
