@@ -858,9 +858,9 @@ test('LEVEL revised duet preserves exact lyric and all source run boundaries',()
 test('Ensamble Alternativo records only confirmed alternate recordings as a planned unreleased album',()=>{
  const album=coverAlbums.find(a=>a.historicalNumber===10);
  assert.equal(album.id,'ensamble-alternativo');assert.equal(album.releaseStatus,'planned-unreleased');assert.equal(album.releaseDate,null);assert.equal(album.ordered,false);assert.equal(album.englishTitleStatus,'provisional');
- assert.deepEqual(album.tracks.map(t=>[t.song,t.version]),[['daisuki','acoustic'],['snow-halation','naked-garden'],['snow-halation','hso-orchestra'],['dokimeki-diary','ensemble']]);
+ assert.deepEqual(album.tracks.map(t=>[t.song,t.version]),[['daisuki','acoustic'],['starlog','naked-garden'],['snow-halation','naked-garden'],['snow-halation','hso-orchestra'],['dokimeki-diary','ensemble']]);
  assert.ok(album.tracks.every(t=>songs.find(s=>s.slug===t.song)?.versions.some(v=>v.id===t.version)));
- assert.ok(!albumsForVersion('daisuki','es').some(a=>a.id===album.id));assert.ok(!albumsForVersion('dokimeki-diary','album-studio').some(a=>a.id===album.id));assert.ok(!albumsForVersion('starlog','naked-garden').some(a=>a.id===album.id));
+ assert.ok(!albumsForVersion('daisuki','es').some(a=>a.id===album.id));assert.ok(!albumsForVersion('dokimeki-diary','album-studio').some(a=>a.id===album.id));assert.ok(albumsForVersion('starlog','naked-garden').some(a=>a.id===album.id));assert.ok(albumsForVersion('starlog','naked-garden').some(a=>a.id==='cronica-maxica'));assert.ok(!albumsForVersion('starlog','es').some(a=>a.id===album.id));assert.equal(album.tracklistStatus,'confirmed-membership-order-pending');
  assert.match(musicPage('/music/song/snow-halation/',new URLSearchParams({lang:'es',version:'naked-garden'})),/Álbum planeado \(no publicado\)<\/dt><dd>Ensamble Alternativo/);
  assert.equal(lyricsBySong['snow-halation'].hybrid,undefined);
 });
