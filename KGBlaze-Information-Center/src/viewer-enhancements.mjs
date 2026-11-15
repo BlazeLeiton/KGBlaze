@@ -175,19 +175,21 @@ export const VIEWER_JS = `(function(){
  }
  syncChrome=function(){
   const ret=baseChrome();
-  document.documentElement.lang=state.lang;
+  if(document.documentElement)document.documentElement.lang=state.lang;
   document.title=({es:'Salidas | KGBlaze',en:'Departures | KGBlaze',ja:'出発 | KGBlaze'})[state.lang]||'Salidas | KGBlaze';
   return ret;
  };
  // Share the chosen locale with Rebel Mix, without changing the viewer URL.
  const localeKey='kgblaze.locale.v1';
  const validLocale=l=>['es','en','ja'].includes(l);
+ if(typeof setLang==='function'){
  const originalSetLang=setLang;
  const persistLocale=l=>{try{localStorage.setItem(localeKey,l)}catch{}try{document.cookie='kgblaze_lang='+l+'; Path=/; Max-Age=31536000; SameSite=Lax'}catch{}};
  setLang=function(l){if(!validLocale(l))return;persistLocale(l);return originalSetLang(l)};
  let preferred=null;try{preferred=localStorage.getItem(localeKey)}catch{}
  if(validLocale(preferred)&&preferred!==state.lang)originalSetLang(preferred);
  window.addEventListener('storage',e=>{if(e.key===localeKey&&validLocale(e.newValue)&&e.newValue!==state.lang)originalSetLang(e.newValue)});
- document.documentElement.lang=state.lang;
+ }
+ if(document.documentElement)document.documentElement.lang=state.lang;
  syncChrome();
 })();`;
