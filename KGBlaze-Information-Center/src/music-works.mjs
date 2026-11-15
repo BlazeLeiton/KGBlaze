@@ -21,6 +21,8 @@ export const works={
  'SSSS.GRIDMAN':names('SSSS.GRIDMAN','SSSS.GRIDMAN'),
  'SSSS.DYNAZENON':names('SSSS.DYNAZENON','SSSS.DYNAZENON'),
  'Azur Lane':names('Azur Lane','アズールレーン'),
+ 'Azur Lane The Animation':names('Azur Lane The Animation','アズールレーン THE ANIMATION'),
+ 'Pokémon':names('Pokémon','ポケットモンスター'),
  'Pokémon Horizons':{pokemon:true,romaji:'Pocket Monsters (2023)',...names('Pokémon Horizons: The Series','ポケットモンスター（2023）','La Serie Horizontes Pokémon',['Pokémon Horizons','Pokémon Horizontes','Horizontes Pokémon','Pocket Monsters 2023','Poketto Monsutā 2023']),seasons:{2:names('Pokémon Horizons: Season 2—The Search for Laqua','ポケットモンスター（2023）','La Serie Horizontes Pokémon: En busca de Laqua')}},
  'Pokémon XY':{pokemon:true,romaji:'Pocket Monsters XY',...names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY',['Pocket Monsters XY','Poketto Monsutā XY','Kalos Quest','XY&Z']),seasons:{
   17:names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY'),
@@ -80,3 +82,16 @@ export function pokemonCounterpart(song,lang){
  if(lang==='ja')return workName(song.series,'en',song.season)+(song.season?' · Season '+song.season:'');
  return japaneseWork(song,true);
 }
+
+ // Primary catalog filter is a franchise membership, never a replacement for the original work.
+ export function primaryWorkKey(key){
+  if(key==='Azur Lane The Animation')return 'Azur Lane';
+  if(isPokemonWork(key))return 'Pokémon';
+  if(key==='Love Live!'||key.startsWith('Love Live! ')||key==='Ikizulive! LOVELIVE! BLUEBIRD')return 'Love Live!';
+  if(key==='hololive'||key.startsWith('hololive '))return 'hololive';
+  return key;
+ }
+ export function primaryWorkKeys(song){
+  const source=song.slug==='melodia-del-oceano'?['Kantai Collection','Azur Lane The Animation','High School Fleet','Arpeggio of Blue Steel']:[song.series];
+  return [...new Set(source.map(primaryWorkKey))];
+ }
