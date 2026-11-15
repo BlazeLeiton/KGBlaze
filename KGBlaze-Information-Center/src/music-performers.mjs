@@ -66,7 +66,7 @@ export const originalPerformances={
   voice('Mami Tomoe','巴マミ','Kaori Mizuhashi','水橋かおり'),
   voice('Sayaka Miki','美樹さやか','Eri Kitamura','喜多村英梨'),
   voice('Kyōko Sakura','佐倉杏子','Ai Nonaka','野中藍'),
-  voice('Bebe / Nagisa Momoe','ベベ／百江なぎさ','Kana Asumi','阿澄佳奈',{guest:true})
+  voice('Bebe','ベベ','Kana Asumi','阿澄佳奈',{guest:true})
  ],'https://www.madoka-magica.com/rebellion/sp/character/',{
   editorial:true,groupSource:'https://online.aniplex.co.jp/itemPmhqAkdD.html',
   sceneSource:'https://wiki.puella-magi.net/Cake_Song',
@@ -74,17 +74,22 @@ export const originalPerformances={
   musicSource:'https://note.com/madoka_magica/n/n65b32509a511'
  })
 };
+// Original cast information remains separate from cover participants.
+originalPerformances['kokuan-glossolalia']=group(name('IV KLORE'),[
+ voice('Emilia','エミリア','Hazuki Hoshino','星乃葉月'),
+ voice('Salsa','サルサ','Yū Sasahara','篠原侑'),
+ voice('Garnet','ガーネット','Yōko Nakayama','中山瑶子'),
+ voice('Alpha','あるふぁ','Tomomi Mineuchi','嶺内ともみ')
+],'https://www.crunchyroll.com/es/news/latest/2020/5/11/el-anime-lapis-relights-aspirar-a-alcanzar-las-estrellas-en-julio');
 export function localizedName(n,lang){return n?(lang==='ja'?n.ja||n.latin:n.latin):'';}
-export function originalArtist(song,lang){const p=originalPerformances[song.slug];if(!p)return song.artist||'';if(p.kind==='character')return voiceLabel(p.cast[0],lang);return localizedName(p.name,lang)||p.cast.map(c=>voiceLabel(c,lang)).join(' · ');}
+export function originalArtist(song,lang){const p=originalPerformances[song.slug];if(!p)return song.artistLocalized?.[lang]||song.artist||'';if(p.kind==='character')return voiceLabel(p.cast[0],lang);return localizedName(p.name,lang)||p.cast.map(c=>voiceLabel(c,lang)).join(' · ');}
 export function voiceLabel(c,lang){return localizedName(c.character,lang)+(c.cv?(lang==='ja'?'（CV：':' (CV: ')+localizedName(c.cv,lang)+(lang==='ja'?'）':')'):'');}
 export function originalArtistAliases(song){const p=originalPerformances[song.slug];return p?[p.name,...p.cast.flatMap(c=>[c.character,c.cv])].filter(Boolean).flatMap(n=>[n.latin,n.ja]).join(' '):'';}
 
 export function originalCreditRows(song,lang){
  const p=originalPerformances[song.slug];if(!p)return [];
- const labels=({es:{cast:'Personajes y voces originales',writing:'Letra original',composition:'Composición',note:'Identificación editorial de los intérpretes de la escena; no es un crédito discográfico oficial.'},en:{cast:'Original characters and voices',writing:'Original lyrics',composition:'Composition',note:'Editorial identification of the scene performers, not an official release credit.'},ja:{cast:'原曲の登場人物・声優',writing:'作詞',composition:'作曲',note:'シーンの歌唱者を示す編集上の表記であり、公式の音源クレジットではありません。'}})[lang];
+ const labels=({es:{cast:'Voces originales',writing:'Letra original',composition:'Composición',note:'Identificación editorial de los intérpretes de la escena; no es un crédito discográfico oficial.'},en:{cast:'Original voices',writing:'Original lyrics',composition:'Composition',note:'Editorial identification of the scene performers, not an official release credit.'},ja:{cast:'原曲の声優',writing:'作詞',composition:'作曲',note:'シーンの歌唱者を示す編集上の表記であり、公式の音源クレジットではありません。'}})[lang];
  const rows=p.cast.length?[{label:labels.cast,values:p.cast.map(c=>voiceLabel(c,lang))}]:[];
- if(p.writing)rows.push({label:labels.writing,values:[localizedName(p.writing,lang)]});
- if(p.composition)rows.push({label:labels.composition,values:[localizedName(p.composition,lang)]});
  return rows;
 }
 export function originalCreditNote(song,lang){return originalPerformances[song.slug]?.editorial?({es:'Identificación editorial de los intérpretes de la escena; no es un crédito discográfico oficial.',en:'Editorial identification of the scene performers, not an official release credit.',ja:'シーンの歌唱者を示す編集上の表記であり、公式の音源クレジットではありません。'})[lang]:'';}
