@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   verify:
-    if: (github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/st30-editorial-hotfix' || github.head_ref == 'relight/st30-artwork-ano-ne' || github.head_ref == 'relight/st30-public-lyric-cleanup' || github.head_ref == 'relight/st30-stanza-recovery') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/st30-editorial-hotfix' || github.head_ref == 'relight/st30-artwork-ano-ne' || github.head_ref == 'relight/st30-public-lyric-cleanup' || github.head_ref == 'relight/st30-stanza-recovery' || github.head_ref == 'relight/contextual-repertoire') && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: write
     runs-on: ubuntu-24.04
@@ -23,20 +23,20 @@ jobs:
         with:
           python-version: '3.12'
       - name: Preserve all registered artwork
-        if: github.head_ref == 'relight/horizontes-intake'
+        if: github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/contextual-repertoire'
         working-directory: KGBlaze-Information-Center
         run: |
           python -m pip install Pillow
           python scripts/preserve-artwork.py --strict
-      - name: Record six verified new jackets
-        if: github.head_ref == 'relight/horizontes-intake'
+      - name: Record verified new jackets
+        if: github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/contextual-repertoire'
         run: |
           git add KGBlaze-Information-Center/public/music-artwork/
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "Preserve six new repertoire jackets"
-            git push origin HEAD:relight/horizontes-intake
+            git commit -m "Preserve new repertoire jackets"
+            git push origin HEAD:${{ github.head_ref }}
           fi
       - name: Frame approved Stage 30 artwork
         if: github.head_ref == 'relight/st30-artwork-ano-ne'
