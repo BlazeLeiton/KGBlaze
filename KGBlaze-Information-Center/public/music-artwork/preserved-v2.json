@@ -65,46 +65,55 @@
       "source_sha256": "14d939c4fa42c350028bfa8a45fd15eb6cbc1de4d8c078076030c23948003a67"
     },
     "hikari-aru-basho-e": {
-      "release": "Izetta: The Last Witch · Original Soundtrack · VTCL-60440",
-      "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A025666/VTCL-60440.html",
-      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
-      "version": 2,
+      "release": "Izetta: The Last Witch · Blu-ray Vol. 1",
+      "source": "https://cinemaplus.shochiku.co.jp/files_thumbnail/co/main/shumatsunoizetta.jpg/500.jpg",
+      "origin": "/music-artwork/hikari-aru-basho-e-v3.webp",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/hikari-aru-basho-e-v2.webp",
-      "status": "preserved",
+      "path": "/music-artwork/hikari-aru-basho-e-v3.webp",
+      "status": "pending-snapshot",
       "previous": {
-        "release": "光ある場所へ · VTCL-35246 · May’n",
-        "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A021682/VTCL-35246.html",
-        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
-        "version": 1,
-        "fit": "cover",
-        "path": "/music-artwork/hikari-aru-basho-e-v1.webp",
+        "release": "Izetta: The Last Witch · Original Soundtrack · VTCL-60440",
+        "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A025666/VTCL-60440.html",
+        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
+        "version": 2,
+        "fit": "contain",
+        "path": "/music-artwork/hikari-aru-basho-e-v2.webp",
         "status": "preserved",
+        "previous": {
+          "release": "光ある場所へ · VTCL-35246 · May’n",
+          "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A021682/VTCL-35246.html",
+          "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
+          "version": 1,
+          "fit": "cover",
+          "path": "/music-artwork/hikari-aru-basho-e-v1.webp",
+          "status": "preserved",
+          "size": [
+            600,
+            595
+          ],
+          "sha256": "d0ada0928d19f2ae1ec26952d2f698e9aea66a68392e431d37d0ab30e80d9553",
+          "bytes": 61682,
+          "original_size": [
+            600,
+            595
+          ],
+          "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
+          "source_sha256": "010480f9cd7030be4b5f01c3a23d42d0571106014000ef4821d92886c9a079d4"
+        },
         "size": [
           600,
-          595
+          593
         ],
-        "sha256": "d0ada0928d19f2ae1ec26952d2f698e9aea66a68392e431d37d0ab30e80d9553",
-        "bytes": 61682,
+        "sha256": "9e25c81f8f4d88272e8ae8f14f1066015cf88eaf203ed2dafc1e4fe98f4a7b80",
+        "bytes": 88768,
         "original_size": [
           600,
-          595
+          593
         ],
-        "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
-        "source_sha256": "010480f9cd7030be4b5f01c3a23d42d0571106014000ef4821d92886c9a079d4"
-      },
-      "size": [
-        600,
-        593
-      ],
-      "sha256": "9e25c81f8f4d88272e8ae8f14f1066015cf88eaf203ed2dafc1e4fe98f4a7b80",
-      "bytes": 88768,
-      "original_size": [
-        600,
-        593
-      ],
-      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
-      "source_sha256": "17d95a241055f8b77037c528ae9bd3cba1fb30480485021396640cb6727a0a01"
+        "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
+        "source_sha256": "17d95a241055f8b77037c528ae9bd3cba1fb30480485021396640cb6727a0a01"
+      }
     },
     "starlog": {
       "release": "starlog · LACM-14116 · Prisma☆Illya",
@@ -149,51 +158,65 @@
       "source_sha256": "c76633530556de14dc318c8f00e8182c1702ac7e13cbee49882c67c744f997bb"
     },
     "tempestas-claim": {
-      "release": "Tempesta’s Claim · official Kotoka Torahime teaser · 29 Oct 2023",
-      "source": "https://archive.ragtag.moe/watch?v=ZLE-wsYXI2o",
-      "origin": "https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp",
-      "version": 2,
+      "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane · editorial triptych",
+      "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
+      "origin": "/music-artwork/tempestas-claim-v3.webp",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/tempestas-claim-v2.webp",
-      "status": "preserved",
+      "path": "/music-artwork/tempestas-claim-v3.webp",
+      "status": "pending-snapshot",
       "previous": {
-        "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane",
-        "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
-        "origin": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
-        "version": 1,
+        "release": "Tempesta’s Claim · official Kotoka Torahime teaser · 29 Oct 2023",
+        "source": "https://archive.ragtag.moe/watch?v=ZLE-wsYXI2o",
+        "origin": "https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp",
+        "version": 2,
         "fit": "contain",
-        "path": "/music-artwork/tempestas-claim-v1.webp",
+        "path": "/music-artwork/tempestas-claim-v2.webp",
         "status": "preserved",
+        "previous": {
+          "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane",
+          "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
+          "origin": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
+          "version": 1,
+          "fit": "contain",
+          "path": "/music-artwork/tempestas-claim-v1.webp",
+          "status": "preserved",
+          "size": [
+            320,
+            180
+          ],
+          "sha256": "54e4e67dadf43c1920ce9c57575f00a552f4a9772777bf1e0760ae4c8b05da89",
+          "bytes": 29450,
+          "original_size": [
+            320,
+            180
+          ],
+          "retrieved_from": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
+          "source_sha256": "715729c01b8c6d81b6f5fa51765c43a8f7440b61dd89ac9c52d13a2d328bafd1"
+        },
         "size": [
-          320,
-          180
+          960,
+          960
         ],
-        "sha256": "54e4e67dadf43c1920ce9c57575f00a552f4a9772777bf1e0760ae4c8b05da89",
-        "bytes": 29450,
+        "bytes": 260798,
+        "sha256": "76707fce4ef04321489e2b31f5d09be6b8bb43451fd72e5a8adc16014eb6c69f",
         "original_size": [
-          320,
-          180
+          1280,
+          720
         ],
-        "retrieved_from": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
-        "source_sha256": "715729c01b8c6d81b6f5fa51765c43a8f7440b61dd89ac9c52d13a2d328bafd1"
+        "retrieved_from": "https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp",
+        "source_sha256": "2261593dc2ea522027542ea1d809c8135e27dcf4b832335901c77b731e05f065",
+        "editorial_crop": [
+          80,
+          4,
+          1040,
+          716
+        ]
       },
-      "size": [
-        960,
-        960
-      ],
-      "bytes": 260798,
-      "sha256": "76707fce4ef04321489e2b31f5d09be6b8bb43451fd72e5a8adc16014eb6c69f",
-      "original_size": [
-        1280,
-        720
-      ],
-      "retrieved_from": "https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp",
-      "source_sha256": "2261593dc2ea522027542ea1d809c8135e27dcf4b832335901c77b731e05f065",
-      "editorial_crop": [
-        80,
-        4,
-        1040,
-        716
+      "sources": [
+        "https://archive.ragtag.moe/watch?v=xKqHPsDxXBU",
+        "https://archive.ragtag.moe/watch?v=7AgV7UGobuc",
+        "https://archive.ragtag.moe/watch?v=ZLE-wsYXI2o"
       ]
     },
     "melodia-del-oceano": {
