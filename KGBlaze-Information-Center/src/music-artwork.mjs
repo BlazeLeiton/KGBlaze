@@ -8,7 +8,7 @@ export const releaseArtwork={
 "starlog":{"image":"https://ogre.natalie.mu/media/news/music/2013/0731/ChouCho_starlog_jkt.jpg?imdensity=1&imwidth=750","source":"https://natalie.mu/music/gallery/news/96168/191269","release":"starlog · LACM-14116 · Prisma☆Illya","kind":"anime","artworkContext":"Original illustrated single jacket, © 2013 Hiroyama Hiroshi / TYPE-MOON / Kadokawa / Prisma☆Illya committee."},
 "aint-backing-down":{"image":"https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b9/f5/95/b9f595e8-764f-4e0a-2d9a-3abd3c92dcd5/8720996196120.png/1200x630bb.jpg","source":"https://music.apple.com/us/album/aint-backing-down-azur-lane-soundtrack-single/1697857988","release":"Ain’t Backing Down · Azur Lane Soundtrack · LIZ","kind":"game","fit":"cover","artworkContext":"Fifth-anniversary soundtrack jacket; original release confirmed by Yostar."},
 "tempestas-claim":{"image":"https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg","source":"https://www.youtube.com/watch?v=IlsPs9zplOE","release":"Tempesta’s Claim · NIJISANJI EN × Azur Lane","kind":"selected","fit":"cover","artworkContext":"Official Yostar music-video artwork, not the creator’s cover thumbnail; a separate commercial single jacket has not been verified."},
-"melodia-del-oceano":{"image":"https://i.ytimg.com/vi/50fy19RJ6Wo/hqdefault.jpg","source":"https://www.youtube.com/watch?v=50fy19RJ6Wo","release":"Melodía del Océano · Rebel Mix medley","kind":"selected","components":["miiro","graphite-diamond","high-free-spirits","savior-of-song"],"artworkContext":"Editorial 2×2 composition of the four underlying works, in medley order; not the historical EP jacket. Video thumbnail is an emergency fallback only."},
+"melodia-del-oceano":{"image":"https://i.ytimg.com/vi/50fy19RJ6Wo/hqdefault.jpg","source":"https://www.youtube.com/watch?v=50fy19RJ6Wo","release":"Melodía del Océano · Rebel Mix medley","kind":"selected","compositePath":"/music-artwork/melodia-del-oceano-v1.webp","components":["miiro","graphite-diamond","high-free-spirits","savior-of-song"],"artworkContext":"Editorial 2×2 composition of the four underlying works, in medley order; not the historical EP jacket. Video thumbnail is an emergency fallback only."},
 
 "signal":{"image":"/music-artwork/signal-v1.webp","source":"https://avex.jp/beverly/news/detail.php?id=1088400","release":"Signal · Beverly · Azur Lane","kind":"game"},
 "what-youre-made-of":{"image":"/music-artwork/what-youre-made-of-v1.webp","source":"https://found.ee/LS_WYMO","release":"What You’re Made Of · Lindsey Stirling feat. Kiesza · Azur Lane Soundtrack","kind":"game"},
@@ -231,7 +231,7 @@ export const releaseArtwork={
 // Versioned, same-origin URLs. Original source URLs remain in the registry for attribution.
 export const artworkPath=slug=>'/music/artwork-cache/'+slug+'-v'+(releaseArtwork[slug]?.version||1);
 export const artworkSources=new Map(Object.entries(releaseArtwork).filter(([,a])=>!a.components&&a.image.startsWith('https://')).map(([slug,a])=>[artworkPath(slug),a.image]));
-export function artworkURL(slug){const a=releaseArtwork[slug];return a?(a.image.startsWith('https://')?artworkPath(slug):a.image):'';}
+export function artworkURL(slug){const a=releaseArtwork[slug];return a?(a.compositePath||(a.image.startsWith('https://')?artworkPath(slug):a.image)):'';}
 
 // Preserved WebP snapshot is independent of the external URL and cache expiry.
 export const artworkBackupPath=path=>artworkSources.has(path)?'/music-artwork/'+path.split('/').pop()+'.webp':null;
