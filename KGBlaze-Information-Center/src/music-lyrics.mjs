@@ -2791,3 +2791,74 @@ stage27Color(cake,[['bebe','Bebe','#FFE6DC'],['sayaka','Sayaka','#A5EBFF'],['kyo
 // The two Spanish Starlog recordings share the supplied Spanish adaptation.
 delete lyricsBySong.starlog['naked-garden'];
 lyricAliases.starlog={'naked-garden':'es'};
+
+// Horizontes de Aventura intake — user supplied Spanish texts; English references retained separately pending attribution review.
+Object.assign(lyricsBySong,{
+  "ano-ne": {
+    "es": {
+      "text": "Óyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY no sé, y no sé si tenga ver que en este día yo te encontré\nPero sé, pero sé, que ahora mismo yo me divertiré\nY más feliz seré\n\nDeslumbra tanto el sol aquí, que un poco tengo que cubrirme\nDe mi propia creación es el mundo tras el portón\nDel que voy y vengo a diario como hoy\n\nEl dolor en mi interior, heridas en mi corazón\nFalsos no son, realmente esto sucedió\nNo sé cómo transmitir, lo que pienso dentro de mí\nTorpe podré ser, pero estaré bien… ¿de verdad lo puedo hacer?\n\nÓyeme, óyeme, escúchame\nQue cuenta yo me acabo de dar\nDe seguro este sitio protegeré, pues ahora importante para mí es\nY de una, de dos… más y más crece\nAquello que solo yo puedo hacer\nPara guardar en mi ser, ese pequeño sentir\n\nTan buena está mi cena habitual, que de felicidad quedé llena\nDe una vez olvídate, de lo que ya no te agrade\nPues ya es hora, mira, vamos suéltalo ya\n\nMi angustiada expresión, reflejo de mi depresión\nCae en mi mirar y siento mi cuerpo temblar\nVamos sonríe por mí, estoy contigo justo aquí\nMuy fuerte resuena este sentir\n¿No crees que es así?\n\nÓyeme, óyeme, escúchame\nPues es que yo me siento tan bien\nSerá esto o aquello, no sé muy bien, pero lo que me gusta puedo hacer\nY de una, de dos… menos cada vez\nUn fastidio todo deja ya de ser\nPues ¿qué más se puede hacer?\nVamos de una vez\n\nÓyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY no sé, y no sé si tenga ver que en este día yo te encontré\nPero sé, pero sé, que ahora mismo ya\nSiento que puedo seguir un rato más\nY algo malo no debe de ser… bueno ¿no crees?\nÓyeme, óyeme, escúchame\nQue cuenta al fin yo me acabo de dar\nDe seguro este sitio protegeré, pues ahora importante para mí es\nY de una, de dos… más y más crece\nLa gente aquí que ahora llego a querer\nY este pequeño sentir, da comienzo\n\n(la la la)\nPues ¿qué más se puede hacer?\nVamos de una vez",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    },
+    "loved-ones": {
+      "text": "Óyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY está vez, esta vez verás que también más bello aún todo llega a ser\nPara mí… Para mí este tiempo aquí es el mejor\nY muy feliz estoy\n\nNostalgia siento al acercar a mi corazón tantos recuerdos\nMe llega a relajar, este momento de los dos\nEstos días juntos, justo como hoy\n\nUn poco de valor, me falta para al fin decir\nEste sentir que en mi late y quiero transmitir\nY recibirte al volver, con una sonrisa en mí\nMientras al llegar digo “ya volví”\n“Bienvenida a casa”, así\n\nÓyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY seguro, seguro, desde hoy ves\nQue aún más bello todo llega a ser\nPara siempre y por siempre juntos los dos\nPasemos días con cariño tú y yo\nY ese precioso sentir, lo amo todo de ti\n\nNo tengo que preocuparme más por lo que ansiedad me provocaba\nEstaré bien ya lo verás, todo lo voy a superar\nPues cualquier cosa ya llego a disfrutar\n\nEl a tu lado estar, se nos ha vuelto natural\nNo pensé que esto pudiera llegar a pasar\nEl “buenos días” decir\nY las “buenas noches” también\nCada amanecer, cada anochecer, así hay que seguir\n\nÓyeme, óyeme, escúchame\nQue cuenta yo me acabo de dar\nQue todo esto o aquello, si estamos dos\nNo hay nada que no podamos hacer\nY de una, de dos… más y más crece\nAquello que para ti quiero hacer\nPara verte sonreír\n¿Qué debería hacer?\n\nÓyeme, óyeme, escúchame\nQue en serio, ya te debo explicar\nY está vez, esta vez verás que también\nPor siempre así hay que continuar\nTanto en prosperidad como en adversidad\nTodo contigo lo quiero compartir\nY por estar siempre junto a mi\nGracias te doy\n\nÓyeme, óyeme, escúchame\nQue un buen día hoy tuve también\nY seguro, seguro, desde hoy ves\nQue aún más bello todo llega a ser\nPara siempre y por siempre juntos las dos\nPasemos días con cariño y amor\nPues nada importa más que tú y yo\n\n(la la la)\nY ese precioso sentir, lo amo todo de ti",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "green",
+          "label": "Voz verde",
+          "color": "#86C98B"
+        },
+        {
+          "id": "blue",
+          "label": "Voz azul",
+          "color": "#A5BEFF"
+        }
+      ],
+      "colorRole": "voice"
+    }
+  },
+  "kono-tate-ni-kakuremasu": {
+    "es": {
+      "text": "Mira aún más allá, que puedes encontrar\nTus sueños hacerse realidad\nPor siempre déjate, por un suave velo de\nAlegría envolver\n\nMucho por descubrir, aún si riesgo tendré, pero\nTanto así me divierte\nEntre bellas flores, o estrellas de noche, tan sólo\nUn botón basta ¿a dónde llegaremos?\n\nPero al disfrutar mi caminar\nRodeado me parezco hallar\n¿Qué procede? ¿Cuál es el plan? ¡Toca huir! No, mejor\n¡Proteger!\n\nAquellos que contra el sentido común van, que dejando leyendas atrás van\n¿En este vasto mundo los habrá? ¿Será uno? ¿Serán dos?\nEntre ellos ¿tú estarás?\nEl charlar así me llega a entrenar también pues me gusta amigos cerca tener\nEsos aventureros tan serios invariablemente siempre\n¡Así están!\nComienza un nuevo evento, y tengo un mal presentimiento\nMás con mis manos sostendré, este escudo y me esconderé\n\nEsa puerta de allí, si la llegas a abrir\nDe la emoción no vas a parar\nUna vez más verás, un deslumbrante cielo\nQue el paisaje llega a cubrir\n\nVamos a caminar y mientras platicar, y así\nMás de verdad no me falta\nPues, aunque esta no sea artificial, esta\nExperiencia sin puntos también es experiencia\n\nAun cuando conectado estás\nTu memoria de aquí es real\nPuedo seguir siendo quien soy, y el mundo así me va a\nConocer\n\nComo aquel gran guerrero que aspiran ser, esta es la estrategia para vencer\nMuy claro no me queda, más mira, tres victorias, tres derrotas\nCreo que me fue bien\nAquel récord perfecto para presumir la verdad imposible para mí\nMás mis amigos bien se que pueden, así que muchas ventajas\n¡Les daré!\nEn el viento que veo venir, sospechosamente algo me ve\nCon valor seleccionaré, este escudo y me esconderé\n\nAquellos que contra el sentido común van, que dejando leyendas atrás van\n¿En este vasto mundo los habrá? ¿Será uno? ¿Serán dos?\nEntre ellos ¿tú estarás?\nEl charlar así me llega a entrenar también pues me gusta amigos cerca tener\nEsos aventureros tan serios invariablemente siempre\n¡Así están!\nLlegó un nuevo evento, y tengo un mal presentimiento\nMás con mis manos sostendré, este escudo y me esconderé",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "koko-kara-koko-kara": {
+    "es": {
+      "text": "Camino un túnel sin fin, la salida, he buscado hasta aquí\nPuedo ver las vías seguir hacia la luz, su esencia percibí\n\nAún si nos desviamos hay que reír\n\nDesde aquí, hay que comenzar, y un nuevo viaje empezar\nPor todo déjate llevar, por simple que sea de apreciar\nSé que al andar podremos hallar las palabras y hablar\nNo importa que absurdo pueda aparentar, creo en que resultará\n\nLas olas llegan a encubrir mis pies entre los peces al nadar\nLas ambiciones que hay en mí, sobre la mesa, hay que dejarlas ver\n\nNuestras emociones perdurarán\n\nDesde aquí, hay que comenzar, y el mundo entero explorar\nLanza los dados a rodar, más allá del cielo nos llevarán\nLas estaciones podrán cambiar y los días continuarán\nHasta el día en que todo llegué a parar, no dejes de avanzar\n\nEsas miradas atrás quedarán\nPor encima saltaremos la rutina\nY aún si quedamos heridos al caer\nSerán recuerdos que apreciar\n\nDesde aquí, hay que comenzar, y un nuevo viaje empezar\nPor todo déjate llevar, por simple que sea de apreciar\nSé que al andar podremos hallar las palabras y hablar\nNo importa que absurdo pueda aparentar, creo en que resultará\n\nY mientras los días avancen te recordaré\nQue suerte te desearé",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "rvr": {
+    "es": {
+      "text": "Yo! Nosotros somos los voltios ascendentes\nAhora que clase de Pokémon nos vamos a encontrar\nLa aventura va a empezar\n\nYo! Listos, ya!\nPues muchos más Pokémon conoceremos hoy\nVamos con Pokémon que lleven Don\n3, 2, 1, YA!\n\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n¿Sigue ahora Liko con esto?\n¿Estas lista?\n\nHmm, no sé si pueda, pero lo voy a intentar\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n\nBravo en corazón\nPor el cielo montando olas\nQue me llenan de emoción\nEl viaje recién empieza\nToma el timón, por el mundo es la ruta a navegar\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes\n\nMás y más aprendamos hoy\nTocan los Pokémon con forma de región\nAhora escuchemos el ejemplo de Roy\n3, 2, 1, YA!\n\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\nSigue nuestro invitado ¿a quién tendremos hoy?\nVamos\n\nHey, que tal a todos aquí Blaze\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\n\nAve brava va\nCon valor conquistando el cielo\nY volando va\nPues a un lugar más alto apunta\nNo importa que tropiece y caiga, fuerte seguiré\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "zutto": {
+    "es": {
+      "text": "Correré una y otra vez, aún si me llego a caer\nCorreré una y otra vez hasta en realidad volver\nPues frente a mi puedo creer, y corriendo así continuaré\nPor siempre, junto a ti correré\n\nY al conectados estar hoy, lo lograremos tú y yo\nEl sueño que una vez te conté…tuve\n\nCuando yo más joven era con inocencia solía creer\nQue con el viento soplando detrás, por fin cerca estaba de poder adulta ser\nMis limites yo definiré, solamente yo decidiré\nSi los quebrantaré, si lucharé, y si una vez más todo lo repetiré\n\nCorreré una y otra vez, aún si mis pies van a doler\nCorreré una y otra vez, aunque me llegue a perder\nCon la frente en alto yo seguiré, y corriendo así continuaré\nPor siempre, pues sé que contigo estoy\n\nTantas rutas distintas hay, en todas direcciones van\nMás nuestros caminos se van a cruzar, lo sé\n\nLo mejor de ti has dado bajo este cielo que de color ves\nPor eso yo también todo de mi daré, para el mismo paisaje poder ver\nAún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré\n\n[Aún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré]\n\n¿Acaso puedes recordar? que sola más ya no estarás\nAunque algo simple sea, tenlo en ti, siempre\n\nLo mejor de ti has dado bajo este cielo que de color ves\nPor eso yo también todo de mi daré, para el mismo paisaje poder ver\n\nAún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré\n\n[Aún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré]\n\nSé que contigo correré y otra vez, una historia nueva escribiré",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "level": {
+    "es": {
+      "text": "Los días resuenan una y otra vez\nEntre escombros de lo que hubo alguna vez\nY un nombre no encuentro para esto aún después\nUn lazo por sí solo frágil es\nPor sí solo no se podrá sostener\nY entre más se extiende el dolor sólo va a crecer\n\nEn el mismo lugar, lo mismo puedo mirar\nMientras no nos lleguemos a desviar\n\nSi sientes que el peso te empieza a desbalancear\nEstaré allí, no tienes que todo cargar\nTu espalda, con la mía, mantendrán el nivel\nRespira bien, tu ritmo conservaré\n\nÁtalo bien, no veas atrás\nQue este latir una unión de promesa es\nPues siempre conectados nos mantendrá\n\nViendo a lo lejos cada día que fue\nPorque no fuera a cambiar recé\nMás sólo una pequeña sombra dejé caer\n\nIluminado este contorno\nParece derretirse en medio de la luz\n¿Qué clase de palabras son las tú puedes tocar?\n\nTu pasado que fue\nTu futuro aún por ser\nNo los detengas, déjalos fluir\n\nSi llegas a perderte, deja todo de una vez\nDe cero hoy comenzaremos otra vez\nY aunque absurdas resulten nuestras sagas ser\nY el mundo así justo las llega a exponer\nAún si la historia verdadera\nSólo dos personas la conocen como es\nTe diré, tan solo eso bastará\n\nLa sombra que solté cubierta ahora está\nEl tiempo estancado en su velo\nPues nuestros días juntos van a seguir\n\nSi sientes que el peso te empieza a desbalancear\nEstaré allí, no tienes que todo cargar\nTu espalda, con la mía, mantendrán el nivel\nRespira bien, tu ritmo conservaré\n\nMientras, este sonido va y viene llamándote\nPues más y más, nos buscamos mutuamente\nTu espalda, con la mía, mantendrán el nivel\nTodo este tiempo pude escucharte\n\nÁtalo bien, no veas atrás\nQue este latir una unión de promesa es\nPues siempre conectados nos mantendrá\n\nConectados nos mantendrá",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  }
+});
