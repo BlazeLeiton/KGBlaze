@@ -37,7 +37,7 @@ test('Music preview renders all pages in three languages with scoped YouTube med
   assert.match(html,/noindex,nofollow,noarchive/);
   assert.match(html,/typography-v1\.css/);
   assert.doesNotMatch(html,/mega\.nz|undefined|<iframe /);
-  if(!p.includes('/one-step/')&&!p.includes('/there-is-a-reason/'))assert.match(html,/i\.ytimg\.com\/vi\//);else assert.doesNotMatch(html,/data-video-id=|youtube-link"/);
+  if(!p.includes('/there-is-a-reason/'))assert.match(html,/i\.ytimg\.com\/vi\//);else assert.doesNotMatch(html,/data-video-id=|youtube-link"/);
  }
  const html=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'ja',version:'en'}));
  assert.match(html,/楽曲選集/);
@@ -107,13 +107,13 @@ test('song header keeps selected year without redundant date while catalog keeps
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
-test('catalog has sixty-two songs and sixty-nine historical video IDs with valid routes',()=>{
+test('catalog has sixty-two songs and seventy historical video IDs with valid routes',()=>{
  assert.equal(songs.length,62);
  const versions=songs.flatMap(s=>s.versions);
  assert.equal(versions.length,73);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,69);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,69);
+ assert.equal(videos.length,70);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,70);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
  assert.equal(MUSIC_PATHS.size,250);
@@ -334,7 +334,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  assert.equal((catalog.match(/class="square-art"/g)||[]).length,62);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
-  const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0]||visible[0];
   if(first?.videoId&&first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing&&!releaseArtwork[s.slug]?.components)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
   for(const v of visible.filter(v=>v.videoId&&v.videoStatus!=='blocked'))for(const lang of ['es','en','ja']){
    const h=page(s.slug,lang,v.id);
@@ -620,7 +620,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,68);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,69);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
@@ -886,7 +886,7 @@ test('Yorimoi songs retain shared cast, editorial alias and original vocal divis
  assert.equal(a.colorStanzas.flat()[14][0].voice,'kimari');assert.equal(a.colorStanzas.flat()[16][0].voice,'kimari+shirase+hinata');assert.deepEqual(a.colorStanzas.flat()[18].map(p=>p.voice),['yuzuki','hinata']);
  assert.equal(b.colorStanzas.flat()[0][0].voice,'kimari+shirase');assert.equal(b.colorStanzas.flat()[2][0].voice,'hinata+yuzuki');assert.ok(b.colorStanzas.at(-1).every(line=>line.every(p=>p.voice==='shared')));
  for(const slug of ['koko-kara-koko-kara','one-step']){const html=musicPage('/music/song/'+slug+'/',new URLSearchParams({lang:'es'}));assert.match(html,/Penguin Manjuu Crew/);assert.match(html,/alias creado por Blaze Leiton/);assert.match(html,/Inori Minase/);assert.match(html,/class="color-group"/);}
- const one=songs.find(s=>s.slug==='one-step');assert.equal(one.versions[0].videoId,null);assert.equal(one.versions[0].firstDocumented,'2024-04-04');assert.equal(one.versions[0].date,null);assert.equal(one.versions[0].year,null);assert.equal(one.versions[0].publishedBefore,'2024-01-01');
+ const one=songs.find(s=>s.slug==='one-step');assert.equal(one.versions[0].videoId,'P9xpo3bEuo8');assert.match(musicPage('/music/song/one-step/',new URLSearchParams({lang:'es'})),/data-video-id="P9xpo3bEuo8"/);assert.equal(one.versions[0].firstDocumented,'2024-04-04');assert.equal(one.versions[0].date,null);assert.equal(one.versions[0].year,null);assert.equal(one.versions[0].publishedBefore,'2024-01-01');
 });
 
 test('Beyond the World preserves six historical Spanish recordings and does not imply an album release',()=>{
