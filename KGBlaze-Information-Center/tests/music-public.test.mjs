@@ -886,7 +886,7 @@ test('Yorimoi songs retain shared cast, editorial alias and original vocal divis
  assert.equal(a.colorStanzas.flat()[14][0].voice,'kimari');assert.equal(a.colorStanzas.flat()[16][0].voice,'kimari+shirase+hinata');assert.deepEqual(a.colorStanzas.flat()[18].map(p=>p.voice),['yuzuki','hinata']);
  assert.equal(b.colorStanzas.flat()[0][0].voice,'kimari+shirase');assert.equal(b.colorStanzas.flat()[2][0].voice,'hinata+yuzuki');assert.ok(b.colorStanzas.at(-1).every(line=>line.every(p=>p.voice==='shared')));
  for(const slug of ['koko-kara-koko-kara','one-step']){const html=musicPage('/music/song/'+slug+'/',new URLSearchParams({lang:'es'}));assert.match(html,/Penguin Manjuu Crew/);assert.match(html,/alias creado por Blaze Leiton/);assert.match(html,/Inori Minase/);assert.match(html,/class="color-group"/);}
- const one=songs.find(s=>s.slug==='one-step');assert.equal(one.versions[0].videoId,null);assert.equal(one.versions[0].firstDocumented,'2024-04-04');assert.equal(one.versions[0].date,null);
+ const one=songs.find(s=>s.slug==='one-step');assert.equal(one.versions[0].videoId,null);assert.equal(one.versions[0].firstDocumented,'2024-04-04');assert.equal(one.versions[0].date,null);assert.equal(one.versions[0].year,null);assert.equal(one.versions[0].publishedBefore,'2024-01-01');
 });
 
 test('Beyond the World preserves six historical Spanish recordings and does not imply an album release',()=>{
