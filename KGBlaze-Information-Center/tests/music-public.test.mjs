@@ -437,7 +437,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
   const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/song/'+s.slug+'/'));
-  const first=s.versions.find(v=>v.public!==false);
+  const first=s.versions.filter(v=>v.public!==false&&v.date).sort((a,b)=>a.date.localeCompare(b.date))[0]||s.versions.find(v=>v.public!==false);
   const art=releaseArtwork[s.slug];
   if(art?.components){assert.equal((card.match(/class="art-cell"/g)||[]).length,4);assert.match(card,/data-composite="medley"/);for(const slug of art.components)assert.ok(card.includes(artworkURL(slug)));}
   else if(art){
@@ -533,6 +533,8 @@ test('durable artwork takes priority even when origin and edge cache disappear',
 
 test('all thirteen selected artwork snapshots exist, with source and integrity manifest',()=>{
  const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
+ const manifestV2=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;
+ const newSlugs=['ai-no-uta','beginners-rock','dakara-boku-wa-boku-wo-tebanasu','end-of-a-life','gg','gimi-gimi','leon-no-sabe-que-existo','hitoribocchi-tokyo','kaze-no-uta'];
  assert.equal(Object.keys(manifest).length,11);
  for(const [slug,art] of Object.entries(releaseArtwork)){
   if(art.components||['ano-ne','kono-tate-ni-kakuremasu','koko-kara-koko-kara','one-step','el-nano','there-is-a-reason','xy-and-z','ten-to-sen','kimi-to-iu-shinwa','rvr','zutto','level','kenka','kokuan-glossolalia','hikari-aru-basho-e','starlog','aint-backing-down','tempestas-claim'].includes(slug))continue;
@@ -540,6 +542,7 @@ test('all thirteen selected artwork snapshots exist, with source and integrity m
   const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
   assert.equal(bytes.toString('ascii',8,12),'WEBP');
+  if(newSlugs.includes(slug)){const row=manifestV2[slug];assert.equal(row.origin,art.image);assert.equal(row.status,'preserved');assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);continue;}
   if(art.image.startsWith('https://')){
    assert.equal(manifest[slug].source,art.image);
    assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest[slug].sha256);
@@ -818,7 +821,7 @@ test('editorial family members retain exact catalogue ordering and medley is a s
  assert.deepEqual(ids('Kantai Collection'),['miiro','melodia-del-oceano']);
  assert.deepEqual(ids('High School Fleet'),['high-free-spirits','melodia-del-oceano']);
  assert.deepEqual(ids('Arpeggio of Blue Steel'),['savior-of-song','melodia-del-oceano']);
- assert.deepEqual(ids('Love Live!'),['snow-halation','stars-we-chase','pastel']);
+ assert.deepEqual(ids('Love Live!'),['beginners-rock','snow-halation','stars-we-chase','pastel']);
  }
 });
 
