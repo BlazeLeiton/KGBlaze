@@ -23,7 +23,7 @@ try{
    await page.locator('.square-art img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
    await page.waitForFunction(()=>[...document.querySelectorAll('.square-art img')].every(i=>i.complete),{},{timeout:30000});
    const rows=await page.locator('.song').evaluateAll(cards=>cards.map(c=>{const a=c.querySelector('.square-art'),r=a.getBoundingClientRect();return {href:c.querySelector('a').getAttribute('href'),square:Math.abs(r.width-r.height)<1.5,kind:a.dataset.artKind,images:[...a.querySelectorAll('img')].map(i=>({src:i.currentSrc,width:i.naturalWidth,height:i.naturalHeight,hidden:i.hidden}))}}));
-   assert.equal(rows.length,50);
+   assert.equal(rows.length,songs.length);
    for(const r of rows){assert.ok(r.square,r.href+' is not square');assert.notEqual(r.kind,'video',r.href+' fell back to cover video');assert.ok(r.images.length&&r.images.every(i=>i.width>0&&i.height>0&&!i.hidden),r.href+' image failed');}
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'catalog horizontal overflow');
    await page.screenshot({path:resolve(out,device+'-'+lang+'-catalog.png'),fullPage:true});
@@ -85,7 +85,7 @@ try{
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
   await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
   const series=page.locator('#series'), aff=page.locator('#affiliation'), visible=page.locator('#songs .song:not([hidden])');
-  for(const [family,count] of [['Azur Lane',9],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',1],['Love Live!',3],['hololive',5],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]]){
+  for(const [family,count] of [['Azur Lane',9],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',3],['Love Live!',3],['hololive',5],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]]){
    await series.selectOption(family);assert.equal(await visible.count(),count,family);
    if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(family))assert.equal(await visible.filter({hasText:'Melodía del Océano'}).count(),1);
   }
@@ -116,5 +116,5 @@ try{
   await page.close();
  }
  await import('node:fs/promises').then(fs=>fs.writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2)));
- console.log('Visual audit: 6 catalogs, 300 detail views, 300 square cards');
+ console.log('Visual audit: 6 catalogs, '+songs.length*6+' detail views, '+songs.length*6+' square cards');
 }finally{await browser.close();await new Promise(r=>server.close(r));}

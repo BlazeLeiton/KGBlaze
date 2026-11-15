@@ -970,8 +970,8 @@ export const lyricsBySong={
       "language": "JA",
       "kind": "original_romanized",
       "review": null,
-      "textJa": "不思議だね いまの気持ち\n空から降ってきたみたい\n特別な季節の色がときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\nとめられない とまらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の鼓動が早くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつの間にか大きくなりすぎた \"True emotion\"\n夢だけみてる様じゃつらいよ\n恋人は君って言いたい\n優しい目がとまどってるイヤだよ\nこのまま一気に愛情あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
-      "scriptSource": "Transcription from supplied romaji; orthography checked against published reference, supplied wording retained"
+      "textJa": "不思議だね いまの気持ち\n空から降ってきたみたい\n特別な季節の色が ときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\nとめられないとまらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の 鼓動が早くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつの間にか大きくなりすぎた \"True emotion\"\n夢だけみてる様じゃつらいよ\n恋人は君って言いたい\n優しい目が とまどってるイヤだよ\nこのまま一気に愛情 あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
+      "scriptSource": "Japanese text from supplied romaji and existing transcription; checked against UtaTen (https://utaten.com/lyric/xs15022077/) and Lantis release LACM-4774 (credits). Retains the supplied sugu reading."
     }
   },
   "are-ga-koi-datta-no-ka-na": {
@@ -2791,3 +2791,161 @@ stage27Color(cake,[['bebe','Bebe','#FFE6DC'],['sayaka','Sayaka','#A5EBFF'],['kyo
 // The two Spanish Starlog recordings share the supplied Spanish adaptation.
 delete lyricsBySong.starlog['naked-garden'];
 lyricAliases.starlog={'naked-garden':'es'};
+
+// Horizontes de Aventura intake — user supplied Spanish texts; English references retained separately pending attribution review.
+Object.assign(lyricsBySong,{
+  "ano-ne": {
+    "es": {
+      "text": "Óyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY no sé, y no sé si tenga ver que en este día yo te encontré\nPero sé, pero sé, que ahora mismo yo me divertiré\nY más feliz seré\n\nDeslumbra tanto el sol aquí, que un poco tengo que cubrirme\nDe mi propia creación es el mundo tras el portón\nDel que voy y vengo a diario como hoy\n\nEl dolor en mi interior, heridas en mi corazón\nFalsos no son, realmente esto sucedió\nNo sé cómo transmitir, lo que pienso dentro de mí\nTorpe podré ser, pero estaré bien… ¿de verdad lo puedo hacer?\n\nÓyeme, óyeme, escúchame\nQue cuenta yo me acabo de dar\nDe seguro este sitio protegeré, pues ahora importante para mí es\nY de una, de dos… más y más crece\nAquello que solo yo puedo hacer\nPara guardar en mi ser, ese pequeño sentir\n\nTan buena está mi cena habitual, que de felicidad quedé llena\nDe una vez olvídate, de lo que ya no te agrade\nPues ya es hora, mira, vamos suéltalo ya\n\nMi angustiada expresión, reflejo de mi depresión\nCae en mi mirar y siento mi cuerpo temblar\nVamos sonríe por mí, estoy contigo justo aquí\nMuy fuerte resuena este sentir\n¿No crees que es así?\n\nÓyeme, óyeme, escúchame\nPues es que yo me siento tan bien\nSerá esto o aquello, no sé muy bien, pero lo que me gusta puedo hacer\nY de una, de dos… menos cada vez\nUn fastidio todo deja ya de ser\nPues ¿qué más se puede hacer?\nVamos de una vez\n\nÓyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY no sé, y no sé si tenga ver que en este día yo te encontré\nPero sé, pero sé, que ahora mismo ya\nSiento que puedo seguir un rato más\nY algo malo no debe de ser… bueno ¿no crees?\n\nÓyeme, óyeme, escúchame\nQue cuenta al fin yo me acabo de dar\nDe seguro este sitio protegeré, pues ahora importante para mí es\nY de una, de dos… más y más crece\nLa gente aquí que ahora llego a querer\nY este pequeño sentir, da comienzo\n\n(la la la)\nPues ¿qué más se puede hacer?\nVamos de una vez",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    },
+    "loved-ones": {
+      "text": "Óyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY está vez, esta vez verás que también más bello aún todo llega a ser\nPara mí… Para mí este tiempo aquí es el mejor\nY muy feliz estoy\n\nNostalgia siento al acercar a mi corazón tantos recuerdos\nMe llega a relajar, este momento de los dos\nEstos días juntos, justo como hoy\n\nUn poco de valor, me falta para al fin decir\nEste sentir que en mi late y quiero transmitir\nY recibirte al volver, con una sonrisa en mí\nMientras al llegar digo “ya volví”\n“Bienvenida a casa”, así\n\nÓyeme, óyeme, escúchame\nQue un buen día hoy pude tener\nY seguro, seguro, desde hoy ves\nQue aún más bello todo llega a ser\nPara siempre y por siempre juntos los dos\nPasemos días con cariño tú y yo\nY ese precioso sentir, lo amo todo de ti\n\nNo tengo que preocuparme más por lo que ansiedad me provocaba\nEstaré bien ya lo verás, todo lo voy a superar\nPues cualquier cosa ya llego a disfrutar\n\nEl a tu lado estar, se nos ha vuelto natural\nNo pensé que esto pudiera llegar a pasar\nEl “buenos días” decir\nY las “buenas noches” también\nCada amanecer, cada anochecer, así hay que seguir\n\nÓyeme, óyeme, escúchame\nQue cuenta yo me acabo de dar\nQue todo esto o aquello, si estamos dos\nNo hay nada que no podamos hacer\nY de una, de dos… más y más crece\nAquello que para ti quiero hacer\nPara verte sonreír\n¿Qué debería hacer?\n\nÓyeme, óyeme, escúchame\nQue en serio, ya te debo explicar\nY está vez, esta vez verás que también\nPor siempre así hay que continuar\nTanto en prosperidad como en adversidad\nTodo contigo lo quiero compartir\nY por estar siempre junto a mi\nGracias te doy\n\nÓyeme, óyeme, escúchame\nQue un buen día hoy tuve también\nY seguro, seguro, desde hoy ves\nQue aún más bello todo llega a ser\nPara siempre y por siempre juntos las dos\nPasemos días con cariño y amor\nPues nada importa más que tú y yo\n\n(la la la)\nY ese precioso sentir, lo amo todo de ti",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "green",
+          "label": "Voz verde",
+          "color": "#86C98B"
+        },
+        {
+          "id": "blue",
+          "label": "Voz azul",
+          "color": "#A5BEFF"
+        }
+      ],
+      "colorRole": "voice"
+    }
+  },
+  "kono-tate-ni-kakuremasu": {
+    "es": {
+      "text": "Mira aún más allá, que puedes encontrar\nTus sueños hacerse realidad\nPor siempre déjate, por un suave velo de\nAlegría envolver\n\nMucho por descubrir, aún si riesgo tendré, pero\nTanto así me divierte\nEntre bellas flores, o estrellas de noche, tan sólo\nUn botón basta ¿a dónde llegaremos?\n\nPero al disfrutar mi caminar\nRodeado me parezco hallar\n¿Qué procede? ¿Cuál es el plan? ¡Toca huir! No, mejor\n¡Proteger!\n\nAquellos que contra el sentido común van, que dejando leyendas atrás van\n¿En este vasto mundo los habrá? ¿Será uno? ¿Serán dos?\nEntre ellos ¿tú estarás?\nEl charlar así me llega a entrenar también pues me gusta amigos cerca tener\nEsos aventureros tan serios invariablemente siempre\n¡Así están!\nComienza un nuevo evento, y tengo un mal presentimiento\nMás con mis manos sostendré, este escudo y me esconderé\n\nEsa puerta de allí, si la llegas a abrir\nDe la emoción no vas a parar\nUna vez más verás, un deslumbrante cielo\nQue el paisaje llega a cubrir\n\nVamos a caminar y mientras platicar, y así\nMás de verdad no me falta\nPues, aunque esta no sea artificial, esta\nExperiencia sin puntos también es experiencia\n\nAun cuando conectado estás\nTu memoria de aquí es real\nPuedo seguir siendo quien soy, y el mundo así me va a\nConocer\n\nComo aquel gran guerrero que aspiran ser, esta es la estrategia para vencer\nMuy claro no me queda, más mira, tres victorias, tres derrotas\nCreo que me fue bien\nAquel récord perfecto para presumir la verdad imposible para mí\nMás mis amigos bien se que pueden, así que muchas ventajas\n¡Les daré!\nEn el viento que veo venir, sospechosamente algo me ve\nCon valor seleccionaré, este escudo y me esconderé\n\nAquellos que contra el sentido común van, que dejando leyendas atrás van\n¿En este vasto mundo los habrá? ¿Será uno? ¿Serán dos?\nEntre ellos ¿tú estarás?\nEl charlar así me llega a entrenar también pues me gusta amigos cerca tener\nEsos aventureros tan serios invariablemente siempre\n¡Así están!\nLlegó un nuevo evento, y tengo un mal presentimiento\nMás con mis manos sostendré, este escudo y me esconderé",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "koko-kara-koko-kara": {
+    "es": {
+      "text": "Camino un túnel sin fin, la salida, he buscado hasta aquí\nPuedo ver las vías seguir hacia la luz, su esencia percibí\n\nAún si nos desviamos hay que reír\n\nDesde aquí, hay que comenzar, y un nuevo viaje empezar\nPor todo déjate llevar, por simple que sea de apreciar\nSé que al andar podremos hallar las palabras y hablar\nNo importa que absurdo pueda aparentar, creo en que resultará\n\nLas olas llegan a encubrir mis pies entre los peces al nadar\nLas ambiciones que hay en mí, sobre la mesa, hay que dejarlas ver\n\nNuestras emociones perdurarán\n\nDesde aquí, hay que comenzar, y el mundo entero explorar\nLanza los dados a rodar, más allá del cielo nos llevarán\nLas estaciones podrán cambiar y los días continuarán\nHasta el día en que todo llegué a parar, no dejes de avanzar\n\nEsas miradas atrás quedarán\nPor encima saltaremos la rutina\nY aún si quedamos heridos al caer\nSerán recuerdos que apreciar\n\nDesde aquí, hay que comenzar, y un nuevo viaje empezar\nPor todo déjate llevar, por simple que sea de apreciar\nSé que al andar podremos hallar las palabras y hablar\nNo importa que absurdo pueda aparentar, creo en que resultará\n\nY mientras los días avancen te recordaré\nQue suerte te desearé",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "rvr": {
+    "es": {
+      "text": "Yo! Nosotros somos los voltios ascendentes\nAhora que clase de Pokémon nos vamos a encontrar\nLa aventura va a empezar\n\nYo! Listos, ya!\nPues muchos más Pokémon conoceremos hoy\nVamos con Pokémon que lleven Don\n3, 2, 1, YA!\n\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n¿Sigue ahora Liko con esto?\n¿Estas lista?\n\nHmm, no sé si pueda, pero lo voy a intentar\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n\nBravo en corazón\nPor el cielo montando olas\nQue me llenan de emoción\nEl viaje recién empieza\nToma el timón, por el mundo es la ruta a navegar\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes\n\nMás y más aprendamos hoy\nTocan los Pokémon con forma de región\nAhora escuchemos el ejemplo de Roy\n3, 2, 1, YA!\n\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\nSigue nuestro invitado ¿a quién tendremos hoy?\nVamos\n\nHey, que tal a todos aquí Blaze\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\n\nAve brava va\nCon valor conquistando el cielo\nY volando va\nPues a un lugar más alto apunta\nNo importa que tropiece y caiga, fuerte seguiré\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "zutto": {
+    "es": {
+      "text": "Correré una y otra vez, aún si me llego a caer\nCorreré una y otra vez hasta en realidad volver\nPues frente a mi puedo creer, y corriendo así continuaré\nPor siempre, junto a ti correré\n\nY al conectados estar hoy, lo lograremos tú y yo\nEl sueño que una vez te conté…tuve\n\nCuando yo más joven era con inocencia solía creer\nQue con el viento soplando detrás, por fin cerca estaba de poder adulta ser\nMis limites yo definiré, solamente yo decidiré\nSi los quebrantaré, si lucharé, y si una vez más todo lo repetiré\n\nCorreré una y otra vez, aún si mis pies van a doler\nCorreré una y otra vez, aunque me llegue a perder\nCon la frente en alto yo seguiré, y corriendo así continuaré\nPor siempre, pues sé que contigo estoy\n\nTantas rutas distintas hay, en todas direcciones van\nMás nuestros caminos se van a cruzar, lo sé\n\nLo mejor de ti has dado bajo este cielo que de color ves\nPor eso yo también todo de mi daré, para el mismo paisaje poder ver\nAún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré\n\n[Aún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré]\n\n¿Acaso puedes recordar? que sola más ya no estarás\nAunque algo simple sea, tenlo en ti, siempre\n\nLo mejor de ti has dado bajo este cielo que de color ves\nPor eso yo también todo de mi daré, para el mismo paisaje poder ver\n\nAún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré\n\n[Aún si siento que colapsaré, aún si siento que estoy por perder\nSé que contigo correré y otra vez, una historia nueva escribiré]\n\nSé que contigo correré y otra vez, una historia nueva escribiré",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "level": {
+    "es": {
+      "text": "Los días resuenan una y otra vez\nEntre escombros de lo que hubo alguna vez\nY un nombre no encuentro para esto aún después\nUn lazo por sí solo frágil es\nCarga todo y no se podrá sostener\nY entre más se extiende el dolor sólo va a crecer\n\nEn el mismo lugar, lo mismo puedo mirar\nMientras no nos lleguemos a desviar\n\nSi sientes que el peso te empieza a desbalancear\nEstaré allí, no tienes que todo cargar\nTu espalda, con la mía, mantendrán el nivel\nRespira bien, tu ritmo conservaré\n\nÁtalo bien, no veas atrás\nQue este latir una unión de promesa es\nPues siempre conectados nos mantendrá\n\nViendo a lo lejos cada día que fue\nPorque nada fuera a cambiar recé\nMás sólo una pequeña sombra dejé caer\n\nIluminado este contorno\nParece derretirse en medio de la luz\n¿Qué clase de palabras son las que tú puedes tocar?\n\nTu pasado que fue\nTu futuro aún por ser\nNo los detengas, déjalos fluir\n\nSi llegas a perderte, deja todo de una vez\nDe cero hoy comenzaremos otra vez\nY aunque absurdas resulten nuestras sagas ser\nY el mundo así justo las llega a exponer\nAún si la historia verdadera\nSólo dos personas la conocen como es\nTe diré, tan solo eso bastará (ahh)\n\nLa sombra que solté cubierta ahora está\nEl tiempo estancado en su velo\nPues nuestros días juntos van a seguir\n\nSi sientes que el peso te empieza a desbalancear\nEstaré allí, no tienes que todo cargar\nTu espalda, con la mía, mantendrán el nivel\nRespira bien, tu ritmo conservaré\n\nMientras, este sonido va y viene llamándote\nPues más y más, nos buscamos mutuamente\nTu espalda, con la mía, mantendrán el nivel\nTodo este tiempo pude escucharte\n\nÁtalo bien, no veas atrás\nQue este latir una unión de promesa es\nPues siempre conectados nos mantendrá\n\nConectados nos mantendrá",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  }
+});
+
+// Original Word colors retained as separate parts; character assignment awaits editorial confirmation.
+const lovedOnes=lyricsBySong['ano-ne']['loved-ones'];
+stage27Color(lovedOnes,[['green','Voz verde','#86C98B'],['blue','Voz azul','#A5BEFF']],Array.from({length:53},(_,i)=>[1,2,9,10,11,21,22,23].includes(i+1)?'green':[3,6,7,8,12,24,25,26].includes(i+1)?'blue':'shared'),{4:[['green','Para mí… '],['blue','Para mí '],['shared','']]});
+
+// LEVEL: preserve Word run divisions and exact revised lyric (15 Nov 2026).
+// Gold/blue role assignment follows the proposed duet legend; olive is a secondary ad-lib, not a third vocalist.
+const levelLyric=lyricsBySong.level.es;
+stage27Color(levelLyric,[['yanaginagi','yanaginagi','#E9C66B'],['sixth-lie','THE SIXTH LIE','#8AB8FF'],['secondary','Ad-lib','#C8CB78']],Array.from({length:46},(_,i)=>[1,2,3,7,10,13,16,17,18,23,24,26,29,32,33,34,40,43].includes(i+1)?'yanaginagi':[4,5,6,8,12,15,42].includes(i+1)?'sixth-lie':'shared'),{
+ 7:[['yanaginagi','En el mismo lugar, '],['sixth-lie','']],
+ 15:[['sixth-lie','Pues siempre '],['shared','']],
+ 31:[['shared','Te diré, '],['sixth-lie','tan solo eso bastará '],['secondary','']]
+});
+
+// Snow halation: original μ's vocal arrangement, not Blaze's vocal cast.
+const snowLegend=[['honoka','Honoka Kōsaka','#FF9B43'],['eli','Eli Ayase','#73DDF5'],['kotori','Kotori Minami','#C9CDD3'],['umi','Umi Sonoda','#6698FF'],['rin','Rin Hoshizora','#F9D65C'],['maki','Maki Nishikino','#FF747A'],['nozomi','Nozomi Tōjō','#B590F5'],['hanayo','Hanayo Koizumi','#A7D77C'],['nico','Nico Yazawa','#F58DBE']];
+const snowA='honoka+umi+nozomi',snowB='eli+hanayo+nico',snowC='kotori+rin+maki',snowBC='eli+kotori+rin+maki+hanayo+nico';
+const snowJP=lyricsBySong['snow-halation']['hso-orchestra'],snowES=lyricsBySong['snow-halation']['naked-garden'];
+const snowJpAssignments=[snowA,snowA,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),snowC,snowC,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),'honoka',snowA,...Array(4).fill('shared')];
+stage27Color(snowJP,snowLegend,snowJpAssignments,{6:[[snowA,'Tomerarenai tomaranai '],['shared','']],18:[[snowA,'Doko ni ite mo dokodemo '],['shared','']],26:[['honoka','Setsunasa ni wa '],[snowA,'namae o tsukeyou ka '],['shared','']]});
+const snowNative={text:snowJP.textJa};
+stage27Color(snowNative,snowLegend,snowJpAssignments,{6:[[snowA,'とめられないとまらない '],['shared','']],18:[[snowA,'どこにいてもどこでも '],['shared','']],26:[['honoka','切なさには'],[snowA,'名前をつけようか '],['shared','']]});
+snowJP.colorStanzasJa=snowNative.colorStanzas;
+const snowEsAssignments=[snowA,snowA,snowB,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),snowC,snowC,snowB,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),'honoka',snowA,...Array(4).fill('shared')];
+stage27Color(snowES,snowLegend,snowEsAssignments,{7:[[snowA,'No se detendrá, no parará… '],['shared','']],20:[[snowA,'Donde sea que estés, '],['shared','']],28:[[snowA,'Y nombraré la tristeza aquí '],['shared','']]});
+const snowVoiceSources=['https://lyruca.com/song/37390','https://ameblo.jp/love-live-kasi/entry-11619778740.html'];
+snowJP.colorSources=snowVoiceSources;snowES.colorSources=snowVoiceSources;
+snowJP.colorAttribution={es:'Reparto vocal de μ\'s reconstruido a partir de dos transcripciones coincidentes; no es una hoja oficial de partes vocales.',en:'Original μ\'s vocal parts reconstructed from two matching transcriptions; not an official publisher part sheet.',ja:'μ\'sの歌唱パートは一致する2つの資料をもとに再構成（公式パート譜ではありません）。'};
+snowES.colorAttribution={es:'Reparto vocal original de μ\'s trasladado a la adaptación española según sus frases musicales; no describe las voces de esta grabación.',en:'Original μ\'s vocal parts mapped to the Spanish adaptation by musical phrase; not the cast of this recording.',ja:'μ\'sの歌唱パートをスペイン語詞のフレーズに対応させたもの。カバー音源の歌唱者を示すものではありません。'};
+
+// Yorimoi: original performer parts, Spanish adaptation by Blaze; shared palette across both works.
+lyricsBySong['one-step']={es:{text:"Camino a casa es que escucho nuestros pasos suenan algo extraño\nMuy distinto que antes ¿será que la ruta cambió?\nUn nudo siento aquí al querer respirar, me asfixia hasta no ver más\nSacaré lo que dentro está\n\nSiempre todo comenzará con un paso\nDónde sea que vayas estarás a un paso\nMás allá, más allá, dónde aún quedan lugares por ver\nHacia ellos hay que viajar\nEl caparazón deja atrás de un paso\nY la luz persigue dando al fin un paso\nAsí es, hoy ve hacia aquel mundo por conocer\nUn paso, un paso da\n\nSi te detienes ya, claro que será simple el final alcanzar\nPero que caso tiene si todavía puedes caminar\n¿Qué futuro verás? ¿A dónde llegarás? Aún si borroso está\nEs hora de correr otra vez\n\nNunca cambiará el tener que dar un paso\nNo perdurará por siempre el dar un paso\nMás allá, más allá, donde paisajes resplandecen\nHacia ellos hay que viajar\nCree en todo lo posible a sólo un paso\nSigue avanzando al frente con un paso\nAsí es, hoy ve cómo cambia el mundo otra vez\nUn paso, un paso da\n\nTu mano me guio hasta aquí, donde tu curiosidad vi\nY una suave voz y su mirar me hicieron dar un paso más\n\nSiempre todo comenzará con un paso\nDónde sea que vayas estarás a un paso\nMás allá, más allá, dónde aún quedan lugares por ver\nHacia ellos hay que viajar\nEl caparazón deja atrás de un paso\nY la luz persigue dando al fin un paso\nAsí es, hoy ve hacia aquel mundo por conocer\nUn paso, un paso da",language:'ES',kind:'adaptation',review:null}};
+const penguinLegend=[['kimari','Kimari','#FFD166'],['shirase','Shirase','#FF8A93'],['hinata','Hinata','#A8DB85'],['yuzuki','Yuzuki','#83BAFF']];
+const pmKS='kimari+shirase',pmHY='hinata+yuzuki',pmKSH='kimari+shirase+hinata';
+const kokoLyric=lyricsBySong['koko-kara-koko-kara'].es,oneStepLyric=lyricsBySong['one-step'].es;
+stage27Color(kokoLyric,penguinLegend,[pmKS,pmHY,...Array(5).fill('shared'),pmHY,pmKS,...Array(5).fill('shared'),'kimari',pmKS,pmKSH,'shared','yuzuki','shirase',...Array(4).fill('shared')],{19:[['yuzuki','Desde aquí, hay que comenzar, '],['hinata','']],20:[['shirase','Por todo déjate llevar, '],['kimari','']]});
+stage27Color(oneStepLyric,penguinLegend,[pmKS,pmKS,pmHY,pmHY,'shared','shared',pmKS,'shared','shared','shared',pmHY,'shared',pmHY,pmHY,pmKS,pmKS,'shared','shared',pmHY,'shared','shared','shared',pmKS,'shared',...Array(10).fill('shared')]);
+kokoLyric.colorSources=['https://j-lyric.net/artist/a05e0ce/l045124.html','https://kafkafuura.wordpress.com/2018/06/'];
+oneStepLyric.colorSources=['https://j-lyric.net/artist/a05e0ce/l045123.html','https://a-place-further-than-the-universe.fandom.com/wiki/One_Step'];
+for(const lyric of [kokoLyric,oneStepLyric]){
+ lyric.colorAttribution={es:'Reparto original de las cuatro protagonistas trasladado a las frases de la adaptación española; no representa el reparto de este cover.',en:'Original character vocal parts mapped to the Spanish adaptation; not the cast of this cover.',ja:'原曲の4人の歌唱パートをスペイン語詞に対応させたもの。カバーの歌唱者とは異なります。'};
+ lyric.colorPaletteSource='Character color associations from licensed Yorimoi merchandise; contrast-adjusted editorial hex values.';
+}
+
+// Stage 30 — Beyond the World: Spanish source texts only; unpublished/third-party English drafts excluded.
+Object.assign(lyricsBySong,{
+  "el-nano": {
+    "es": {
+      "text": "El Nano ahora una bala verde que sin cañón\nDispara en un circuito directo al corazón\nEl Nano no es humano, el Nano es inmortal\nY sale en el Insta junto a Stark y el Black Adam\n\nEl Nano es un gigante en un cuerpo de mortal\nY nadie le echa el guante, nadie le puede alcanzar\n\nEl Nano ah-eh, el Nano ah-oh\nNo quiero a Verstappen, Leclerc o Hamilton\nPorque es el Nano quien llena a todos de ilusión\nCon su Aston Martin vuelve hoy (Magic Alonso)\n\nEl Nano es buena gente, es un tío enrollao'\nY dentro del circuito es el que parte el bacalao\nFernando, te queremos por solo una razón\nCoges un día negro y nos lo llenas de emoción\n\nFernando es un gigante en un cuerpo de mortal\nY nadie le echa el guante, nadie la puede alcanzar\n\nEl Nano ah-eh, el Nano ah-oh\nNo quiero a Verstappen, Leclerc o Hamilton\nPorque es el Nano quien llena a todos de ilusión\nCon su Aston Martin vuelve hoy (Magic Alonso)\n\nEl Nano ah-eh, el Nano ah-oh\nNo quiero a Verstappen, Leclerc o Hamilton\nPorque es el Nano quien llena a todos de ilusión\nCon su Aston Martin vuelve hoy (Magic Alonso)\n\nEl Nano no nos falla, si hay anuncios no te vayas\nPorque el siempre da la talla, da igual el puesto que salga\nNo se arruga, no defrauda, no se encoge porque no conoce el miedo\nSe cayó de pequeño en una marmita de sidra\nY desde entonces no le frenan ni con pura criptonita\nPorque el Nano es para el pueblo y por el pueblo sin dudarlo, el rey del viento\n\nEl Nano ah-eh-eh-eh-oh\nEl Nano ah-eh-eh-eh-oh",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "there-is-a-reason": {
+    "es": {
+      "text": "¿Dónde comienzo esta historia?\nCansado tal vez estés de escuchar\nPero te advierto que aún lejos está el final\n\nSe apodera de mí un impulso que he venido trazando–\nAún si todo encuentro roto sin remedio\nDe cero comienzo\n\nHay una razón de habernos cruzado\nHay una razón de esta ola magnética\nLastimándonos, el mundo se queda igual\n\nSé qué la razón de llorar por amor\nEs porque esperas aún por mi hoy\nY continuaré llamándote sólo a ti\nLa razón para cantar por amor\nY el como todo sobreviviremos hoy\nEs porque... contigo estoy\n\nMirando hacia el horizonte, el océano refleja gran serenidad...un azul vibrante\nNo importa dónde estés, no importa cómo te ves, no importa cuando te encuentre, lo haré\n¿Vendrás conmigo?\nA vencer al destino y más. La moneda está en el aire\n\nHay una razón de habernos cruzado\nHay una razón de esta ola magnética\nAcercándonos, nuestra distancia es igual\n\nSé qué la razón de seguir por amor\nEs porque estás conmigo aún hoy\nY continuaré protegiéndote sólo a ti\nLa razón de hoy aún desear amor\nY porque nadie herido resultará\nEs porque...junto a mí estás\n\nEste mundo lleno de duelo,\nVerás que podremos superar,\nYa es tiempo de que dejes atrás tu justicia ideal\n\nSé qué la razón de llorar por amor\nEs porque esperas aún por mi hoy\nSiempre estaremos juntos\n\nY sé qué — La razón para seguir por amor\nEs porque estás conmigo aún hoy\nY continuaré protegiéndote sólo a ti\nLa razón de hoy aún desear amor\nY porque nadie herido resultará\nEs porque... siempre estaremos juntos",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "xy-and-z": {
+    "es": {
+      "text": "Hey! Como el sol de Kalos brillaré en el horizonte\n(Con una carga de fuego al frente)\nVe! Con la cabeza en alto, estaremos listos siempre\n(Muta tu tipo, el molde rompe fuerte)\n\nNuestros sentimientos con fuerza se sincronizarán\nVolviéndose en lazos que irrompibles se harán\nSi somos tu y yo podremos avanzar\nFuertes hasta el final, woh woh woh yeah...\n\nVamoZ ve!! La batalla se encenderá otra vez\nVamoZ ve!! Cada crisis oportuna es\nVamoZ ve!! Todo habrá que invertir\nPero nunca te vayas a rendir\nAsí es nunca nos vamos a rendir\n\nHey! No importa si encontramos piedras en nuestro camino\n(Siempre abriremos un nuevo trayecto)\nVe! Y sigue aquella Estrella de Victoria al destino\n(Mi corazón se ha vuelto impasible)\n\n¿Por qué? ¿Dónde? y ¿Cuándo? son cosas que ya no importarán\nPorque nuestros corazones conectados vibrarán\nNo importa cuánto caiga seguiré\nY me levantaré\n\nVamoZ ve!! Tú puedes detener a tu rival\nVamoZ ve!! De un golpe se decidirá\nVamoZ ve!! Sin lucha no caeré\nPorque mis sentimientos están aquí\nPorque mis sueños los encuentro en mí\n\nVamoZ ve!! Ganar, perder, seguiré con valor\nVamoZ ve!! Compartiendo esos momentos\nVamoZ ve!! Brindando tu amistad\nLa soledad no conocerás jamás\n\nVamoZ ve!! La batalla se encenderá otra vez\nVamoZ ve!! Cada crisis oportuna es\nVamoZ ve!! Todo habrá que invertir\nPero nunca te vayas a rendir\n\nVamoZ ve!! Sigue el camino hacia tus sueños\nVamoZ ve!! ¡Porque vamos a Atraparlos Ya!\nVamoZ ve!! Alza tus manos, ve\nEl futuro frente a ti se va extender\nToca dimensiones aún sin conocer\n\nHey! Sigue aumentando (Hasta un millón de volts)\nSi, y date cuenta que el viaje empezó\nY juntos vamos a avanzar\nPara volver tus sueños en realidad",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "ten-to-sen": {
+    "es": {
+      "text": "No acabará el sueño ideal, se esparcirá más, si al cielo tú has de voltear\nY en la ansiedad que en mi pecho está un deseo brillará\n\nAl pensar conectar y alcanzar\n\nLentamente mi ser llena y me envuelve esta emoción fugaz y radiante abrazando fuerte\nSiento que alcanzar más puedo, mucho más allá de otro amanecer, mi voz yo llevaré\nQuiero sentir este anhelo, lo he buscado tanto y más y más dentro crece hasta desbordarse\nY en este mundo al que salto, conectándonos un astro estará, una luz\n\nEse pensar que “imposible” es, veo desvanecer tras tu sonrisa mirar\nY al escuchar mi dudar sonar, decisión se volverá\n\nPararé, seguiré y avanzaré\n\nSu latir está presente, siento fluir la inspiración desbordante, la sostendré fuerte\nAún si parece caerse, el cielo estrellado lejos veré y sobre el trazaré\nDando un paso al frente siento que me encuentro y más y más me acerco a mi llanto superarlo verme\nY en este mundo al que salto, no dejaremos de creer y en mira lo tendré\n\nNo acabará esa luz, siento aquí alcanzar\nEl mundo luz dará, muy lejos llegará a conectar y alcanzar\nUn brillo más allá del cielo su voz hoy llevará\n\nLentamente mi ser llena y me envuelve esta emoción fugaz y radiante abrazando fuerte\nSiento que alcanzar más puedo, mucho más allá de otro amanecer, sobre el viento yo iré\nQuiero sentir este anhelo, lo he seguido tanto y más y más dentro crece en mi tan latente\nComenzó el mundo a moverse, donde nuestras alas nos alzarán a volar, yo lo sé, yo lo sé",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "kimi-to-iu-shinwa": {
+    "es": {
+      "text": "El mundo que tú ves también puedo mirar\n¿Y me pregunto si hermoso lo verás?\nEl tiempo que tú vives también veo pasar\n¿Y me pregunto si me lo permitirán?\nHay cosas que es mejor no saber\nPero he de conocer, pues algo bueno en ellas debe de haber\n\nPonte alerta y una oración\nDirige al cielo, develando el destino\nUna nueva puerta verás, con un crujido frente a ti se abrirá\nEse camino a dónde estás me guiará\n\nLa luz que me despierta esta mañana\nTus pasos me revela y hasta ti me lleva\nAún sí el mundo se acerca a su día final\nEsta melodía yo habré de entonar\n\nY aún si te hallas lejos, lejos, lejos, lejos, hasta ya no verte más\nAún no tienes que irte lejos, lejos, lejos, espérame en el final\n\nEl mismo mar que ves también quiero mirar\n¿Y me pregunto cuál color en él habrá?\nY reírme contigo quiero disfrutar\n¿Y me pregunto si algún lujo será?\n\nEn todo ser, repulsión ha de haber\nPero entre ello también, algo de bondad también debe caber\n\nMira al cielo y predice el viento\nQue nos llevará hasta abrir el futuro\nUn circuito oculto será el despertar de un saber ancestral\nDónde la luz brillará y se reunirá\n\nEsa fugaz estrella que esa noche vi\nSu soledad retiembla dentro de mí al verla\nY aún sí Dios tiene cerca mí sueño final\nOtro amanecer como ayer no dejaré de desear\n\nDesde el momento en que nací\nY hasta hoy algo extraño sentí\nPues hasta respirar un milagro es para mí\nPor eso felicidad quiero hallar\nY sé que contigo puedo vivirla\nPues sencillamente lo único que en verdad\nLlegué a amar aquí eres tú\n\nLa luz que me despierta esta mañana\nTus pasos me revela y hasta ti me lleva\nAún sí el mundo se acerca a su día final\nEsa melodía tuya déjame escuchar\n\nY aún si te hallas lejos, lejos, lejos, lejos, hasta ya no verte más\nAún no tienes que irte lejos, lejos, en un mito no te vuelvas ya\n\nEste palpito resonará\nAl sentir algo acercarse más\nPronto frente nuestra ocurrirá\nEl día en que el destino se abrirá\nAlejándose aún más y más\nLa cálida estación ya se va\nMas recé para que no se desvanezca",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  }
+});
