@@ -1,0 +1,58 @@
+name: Arcana Integrity artwork preservation and visual audit
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, closed]
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  restore:
+    if: github.event.action != 'closed' && github.head_ref == 'relight/arcana-integrity-artwork' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: relight/arcana-integrity-artwork
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image tooling
+        run: python -m pip install Pillow
+      - name: Verify every artwork has a preserved snapshot
+        working-directory: KGBlaze-Information-Center
+        run: python scripts/preserve-artwork.py --strict
+      - name: Regression suite
+        working-directory: KGBlaze-Information-Center
+        run: npm test
+      - name: Install browser tooling
+        working-directory: KGBlaze-Information-Center
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Desktop and mobile visual audit
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/audit-artwork-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arcana-integrity-visual-audit
+          path: KGBlaze-Information-Center/artwork-audit/
+          if-no-files-found: ignore
+  production:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'relight/arcana-integrity-artwork'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm deployed catalogue and all 50 assets
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/verify-artwork-production.mjs

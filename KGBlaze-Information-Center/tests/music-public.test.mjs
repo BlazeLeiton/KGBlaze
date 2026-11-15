@@ -335,7 +335,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  if(first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
+  if(first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing&&!releaseArtwork[s.slug]?.components)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
   for(const v of visible.filter(v=>v.videoStatus!=='blocked'))for(const lang of ['es','en','ja']){
    const h=page(s.slug,lang,v.id);
    assert.ok(h.includes('data-video-id="'+v.videoId+'"'));
@@ -431,7 +431,7 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,43);
+ assert.equal(Object.keys(releaseArtwork).length,50);
  assert.equal((catalog.match(/class="square-art"/g)||[]).length,50);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
@@ -439,7 +439,8 @@ test('square catalog artwork prefers sourced anime editions without changing vid
   const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/'+s.slug+'/'));
   const first=s.versions.find(v=>v.public!==false);
   const art=releaseArtwork[s.slug];
-  if(art){
+  if(art?.components){assert.equal((card.match(/class="art-cell"/g)||[]).length,4);assert.match(card,/data-composite="medley"/);for(const slug of art.components)assert.ok(card.includes(artworkURL(slug)));}
+  else if(art){
    assert.ok(card.includes('src="'+artworkURL(s.slug)+'"'));
    assert.ok(card.includes((art.framing||first.videoStatus==='blocked')?'data-fallback=""':'data-fallback="https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg"'));
    assert.ok(card.includes('data-art-kind="'+art.kind+'"'));
@@ -455,7 +456,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
  assert.match(releaseArtwork['blue-spirit'].artworkContext,/Heart-Linking Harmony/);
  assert.equal(releaseArtwork.connect.image,'https://www.lisani.jp/claris-best1st/images/connect_img01.jpg');
  assert.equal(releaseArtwork['cake-song'].credit,'Subin Yeon');
- for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na','stuck-on-you','villain-vibes']){
+ for(const slug of ['blue-spirit','are-ga-koi-datta-no-ka-na','stuck-on-you','villain-vibes','feelin-it-all','meant-to-be','signal','what-youre-made-of','yuukyuu-no-catharsis']){
   const path=releaseArtwork[slug].image;
   const routed=await worker.fetch(req(path),{...environment,ASSETS:{fetch:async request=>new Response(new Uint8Array([82,73,70,70]),{headers:{'Content-Type':'image/webp'}})}});
   assert.equal(routed.status,200);
@@ -466,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,34);
+ assert.equal(artworkSources.size,40);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -533,6 +534,7 @@ test('all thirteen selected artwork snapshots exist, with source and integrity m
  const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
  assert.equal(Object.keys(manifest).length,11);
  for(const [slug,art] of Object.entries(releaseArtwork)){
+  if(art.components||['kenka','kokuan-glossolalia','hikari-aru-basho-e','starlog','aint-backing-down','tempestas-claim'].includes(slug))continue;
   if(['miiro','graphite-diamond','high-free-spirits','savior-of-song','yukitoki','harumodoki','megumi-no-ame','daisuki','love-evidence','honey-jet-coaster','stuck-on-you','rakuen-project','please-please','twilight-little-star','shiny-smily-story','villain-vibes','sparks-of-joy','sparks','stars-we-chase','pastel','bad-candy','alive','hana-no-tou','strobe-memory','youthful-beautiful'].includes(slug))continue; // new official sources use cache and fallback until snapshots are captured
   const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
@@ -719,4 +721,30 @@ test('Stage 27 albums, lyrics and recovered covers are available in all three lo
   for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all','melodia-del-oceano']){assert.ok(html.includes('/music/'+slug+'/'));const detail=musicPage('/music/'+slug+'/',new URLSearchParams({lang}));assert.ok(detail.includes('class="lyric-text'));}
   const medley=musicPage('/music/melodia-del-oceano/',new URLSearchParams({lang}));assert.match(medley,/color-legend/);assert.match(medley,/será hora de regresar/);assert.match(medley,/DarkHole y Pineapple/);
  }
+});
+
+
+test('Arcana Integrity: all fifty works have art, individually framed jackets and medley quadrants',()=>{
+ const adjusted=['dokimeki-diary','connect','miiro','savior-of-song','love-evidence','youthful-beautiful','please-please'];
+ assert.equal(Object.keys(releaseArtwork).length,songs.length);
+ for(const slug of adjusted)assert.equal(releaseArtwork[slug].fit,'cover');
+ for(const lang of ['es','en','ja']){
+  const h=musicPage('/music/',new URLSearchParams({lang}));
+  assert.equal((h.match(/class="square-art"/g)||[]).length,50);
+  for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
+  assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
+  assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ }
+});
+
+test('Arcana Integrity preservation manifest covers every work and verifies available files',()=>{
+ const m=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;
+ assert.deepEqual(Object.keys(m).sort(),songs.map(s=>s.slug).sort());
+ for(const [slug,row] of Object.entries(m)){
+  const a=releaseArtwork[slug];assert.equal(row.source,a.source);
+  if(row.status==='preserved'||row.status==='preserved-composite'){
+   const bytes=readFileSync(new URL('../public'+row.path,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);
+  }else assert.ok(['pending-snapshot','composite'].includes(row.status),slug);
+ }
+ assert.deepEqual(m['melodia-del-oceano'].components,['miiro','graphite-diamond','high-free-spirits','savior-of-song']);
 });
