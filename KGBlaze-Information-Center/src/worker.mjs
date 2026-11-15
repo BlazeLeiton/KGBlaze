@@ -1,4 +1,4 @@
-import {artworkSources} from './music-artwork.mjs';
+import {artworkSources,releaseArtwork} from './music-artwork.mjs';
 import {serveArtwork} from './music-artwork-cache.mjs';
 import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnvelope,nowISO} from './core.mjs';
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
@@ -210,7 +210,7 @@ export default {
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
    if(artworkSources.has(dashboardPath))return serveArtwork(routed.request,{assets:env.ASSETS,ctx});
-   if(['/music-artwork/blue-spirit-v1.webp','/music-artwork/are-ga-koi-datta-no-ka-na-v1.webp','/music-artwork/stuck-on-you-v2.webp','/music-artwork/villain-vibes-v2.webp'].includes(dashboardPath)){
+   if(Object.values(releaseArtwork).some(a=>a.image===dashboardPath&&a.image.startsWith('/music-artwork/'))){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
     return env.ASSETS.fetch(routed.request);
@@ -229,7 +229,7 @@ export default {
    if(MUSIC_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
-    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src 'self' data: https://i.ytimg.com https://vocalmagazine.jp https://pjselection.com https://resources.tidal.com https://cdn.tower.jp https://www.feelmee.jp https://hololive.hololivepro.com https://www.lisani.jp https://www.giantrobot.com https://www.jvcmusic.co.jp https://idolypride.jp https://straycats.co.jp https://trysail.jp https://nanonano.me https://m.media-amazon.com https://img.hmv.co.jp https://image.sofmap.com https://www.marv.jp https://www.famitsu.com https://blue.kumparan.com https://www.asmart.jp https://www.sonymusic.co.jp https://shikimori-anime.com https://fuukoi-anime.com https://static.jmusicitalia.com https://masamune-tv.com https://choucho-net.com https://is1-ssl.mzstatic.com https://go-for-launch.net https://prod-v2-assets.wmg.jp https://imgs.ototoy.jp https://uchidamaaya.jp https://gridman.net; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
+    return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,requestURL.searchParams),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src 'self' data: https://i.ytimg.com https://vocalmagazine.jp https://pjselection.com https://resources.tidal.com https://cdn.tower.jp https://www.feelmee.jp https://hololive.hololivepro.com https://www.lisani.jp https://www.giantrobot.com https://www.jvcmusic.co.jp https://idolypride.jp https://straycats.co.jp https://trysail.jp https://nanonano.me https://m.media-amazon.com https://img.hmv.co.jp https://image.sofmap.com https://www.marv.jp https://www.famitsu.com https://blue.kumparan.com https://www.asmart.jp https://www.sonymusic.co.jp https://shikimori-anime.com https://fuukoi-anime.com https://static.jmusicitalia.com https://masamune-tv.com https://choucho-net.com https://is1-ssl.mzstatic.com https://go-for-launch.net https://prod-v2-assets.wmg.jp https://imgs.ototoy.jp https://uchidamaaya.jp https://gridman.net https://pbs.twimg.com https://ogre.natalie.mu; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
    }
    if(['/dashboard/','/dashboard','/dashboard/library/'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
