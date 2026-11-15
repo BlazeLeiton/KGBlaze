@@ -1,4 +1,4 @@
-name: Editorial comparison previews
+name: Text-free triptych comparison
 on:
   pull_request:
     types: [opened, synchronize]
@@ -15,44 +15,57 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: relight/artwork-options-review
-      - name: Compose review-only candidates from recovered real frames
+      - name: Arrange original frames only
         run: |
           python -m pip install Pillow
           python - <<'PY'
-          from PIL import Image, ImageOps
+          from PIL import Image, ImageOps, ImageDraw
           from pathlib import Path
+          import urllib.request, io
           p=Path('docs/artwork-options')
-          def frame(sheet,i):
-              im=Image.open(p/(sheet+'-sheet.jpg')).convert('RGB')
-              x=(i%3)*480; y=(i//3)*296
-              return im.crop((x,y,x+480,y+270))
-          for name,i,box in [('izetta-E-running',12,(210,0,480,270)),('izetta-F-closeup',13,(210,0,480,270)),('izetta-G-finale',17,(0,0,270,270))]:
-              frame('izetta-ending',i).crop(box).save(p/(name+'.jpg'),quality=96)
-          art=Image.open('KGBlaze-Information-Center/public/music-artwork/tempestas-claim-v2.webp').convert('RGB')
-          c=Image.new('RGB',(960,960))
-          for name,xy,cx in [('petra',(0,0),240),('kotoka',(480,0),240),('meloco',(0,480),240)]:
-              im=frame(name,3)
-              # Cropping the storm portraits square keeps the artists balanced.
-              im=im.crop((cx-120,0,cx+120,240))
-              c.paste(im.resize((480,480),Image.Resampling.LANCZOS),xy)
-          c.paste(art.resize((480,480),Image.Resampling.LANCZOS),(480,480))
-          c.save(p/'tempesta-C-four-panels.jpg',quality=94)
-          d=Image.new('RGB',(960,960))
-          for i,name in enumerate(['petra','meloco','kotoka']):
-              im=frame(name,4)
-              # Portraits from the close-up teaser scenes; trim subtitle area.
-              im=im.crop((170,0,310,220))
-              d.paste(ImageOps.fit(im,(320,680),method=Image.Resampling.LANCZOS,centering=(0.5,0.25)),(i*320,0))
-          title=art.crop((0,300,960,650))
-          d.paste(title.resize((960,280),Image.Resampling.LANCZOS),(0,680))
-          d.save(p/'tempesta-D-triptych.jpg',quality=94)
+          # Source frame: 15 seconds of each official teaser.
+          # All three panels use identical scale and crop height, no subtitles or title.
+          centers={'petra':241,'meloco':235,'kotoka':244}
+          panels={}
+          for name,cx in centers.items():
+              im=Image.open(p/(name+'-sheet.jpg')).convert('RGB')
+              # The source frame occupies column 1, row 2 of the contact sheet.
+              frame=im.crop((0,296,480,566))
+              # A 1:3 panel, kept above the original lyric caption.
+              panel=frame.crop((cx-39,0,cx+39,234))
+              panels[name]=panel.resize((320,960),Image.Resampling.LANCZOS)
+          orders=[('petra','meloco','kotoka'),('petra','kotoka','meloco'),('kotoka','petra','meloco')]
+          results=[]
+          for i,order in enumerate(orders,1):
+              c=Image.new('RGB',(960,960))
+              for j,name in enumerate(order): c.paste(panels[name],(j*320,0))
+              c.save(p/f'tempesta-textfree-{i}.jpg',quality=95)
+              results.append(c)
+          # A compact comparison sheet. Labels outside the artwork only.
+          sheet=Image.new('RGB',(1500,555),'#111827')
+          draw=ImageDraw.Draw(sheet)
+          for i,(im,order) in enumerate(zip(results,orders)):
+              x=10+i*500
+              sheet.paste(im.resize((480,480),Image.Resampling.LANCZOS),(x,10))
+              draw.text((x+8,503),f'{i+1}: '+ ' / '.join(n.title() for n in order),fill='white')
+          sheet.save(p/'tempesta-textfree-comparison.jpg',quality=94)
+          # Preserve the exact Shochiku image selected in the previous comparison.
+          url='https://cinemaplus.shochiku.co.jp/files_thumbnail/co/main/shumatsunoizetta.jpg/500.jpg'
+          req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+          with urllib.request.urlopen(req,timeout=20) as r: raw=r.read(12000000)
+          im=Image.open(io.BytesIO(raw)).convert('RGB')
+          print('Izetta source dimensions:',im.size)
+          # Avoid cutting the original printed title or portrait; white padding only if needed.
+          c=Image.new('RGB',(max(im.size),max(im.size)),'white')
+          c.paste(im,((c.width-im.width)//2,(c.height-im.height)//2))
+          c.save(p/'izetta-bluray-vol1-square.jpg',quality=96)
           PY
-      - name: Preserve review previews without touching production
+      - name: Save preview images without touching production
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/artwork-options
           if ! git diff --cached --quiet; then
-            git commit -m "Create editorial comparison previews from source frames"
+            git commit -m "Compare three text-free triptych orders and Izetta Blu-ray portrait"
             git push origin HEAD:relight/artwork-options-review
           fi
