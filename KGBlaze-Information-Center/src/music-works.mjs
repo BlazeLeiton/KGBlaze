@@ -4,6 +4,11 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Kuma Kuma Kuma Bear':names('Kuma Kuma Kuma Bear','くまクマ熊ベアー'),
+ 'Kuma Kuma Kuma Bear Punch!':names('Kuma Kuma Kuma Bear Punch!','くまクマ熊ベアーぱーんち！'),
+ 'BOFURI 2':names('BOFURI: I Don’t Want to Get Hurt, so I’ll Max Out My Defense. Season 2','痛いのは嫌なので防御力に極振りしたいと思います。2','BOFURI 2',['BOFURI','Bofuri Season 2']),
+ 'A Place Further than the Universe':names('A Place Further than the Universe','宇宙よりも遠い場所','A Place Further than the Universe',['Sora yori mo Tooi Basho','Sora Yori']),
+ 'The Genius Prince’s Guide to Raising a Nation Out of Debt':names('The Genius Prince’s Guide to Raising a Nation Out of Debt','天才王子の赤字国家再生術','The Genius Prince’s Guide to Raising a Nation Out of Debt',['Tensai Ouji','Tensai Ōji']),
  'Kantai Collection':names('Kantai Collection','艦隊これくしょん -艦これ-','Kantai Collection',['KanColle','Kantai Collection: KanColle']),
  'High School Fleet':names('High School Fleet','ハイスクール・フリート','High School Fleet',['Haifuri','Hai-Furi']),
  'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel -Ars Nova-','蒼き鋼のアルペジオ -アルス・ノヴァ-','Arpeggio of Blue Steel -Ars Nova-',['Arpeggio of Blue Steel','Aoki Hagane no Arpeggio']),
