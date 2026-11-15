@@ -8,7 +8,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/kenka-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        320,
+        320
+      ],
+      "sha256": "9129fdb0b927f5de4e534d283402da25dd8bae2b60e4756a6bd2951e12366751",
+      "bytes": 31996,
+      "original_size": [
+        320,
+        320
+      ],
+      "retrieved_from": "https://imgs.ototoy.jp/imgs/jacket/1731/00000003.1695784583.746_320.jpg",
+      "source_sha256": "e03418b3a40edf312ee7cb2a23496763a7661b982aa6c81170c66a88bd5288b2"
     },
     "kokuan-glossolalia": {
       "release": "IV KLORE · SKY FULL of MAGIC · track 10",
@@ -17,7 +29,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/kokuan-glossolalia-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        800,
+        800
+      ],
+      "sha256": "c1c750b7c98b34775752205811f6c728f3ebfed86fdc7d4dac58236f785b8b63",
+      "bytes": 238768,
+      "original_size": [
+        800,
+        800
+      ],
+      "retrieved_from": "https://pbs.twimg.com/media/D9lTBb6VUAA8AOl.png",
+      "source_sha256": "14d939c4fa42c350028bfa8a45fd15eb6cbc1de4d8c078076030c23948003a67"
     },
     "hikari-aru-basho-e": {
       "release": "光ある場所へ · VTCL-35246 · May’n",
@@ -26,7 +50,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/hikari-aru-basho-e-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        595
+      ],
+      "sha256": "d0ada0928d19f2ae1ec26952d2f698e9aea66a68392e431d37d0ab30e80d9553",
+      "bytes": 61682,
+      "original_size": [
+        600,
+        595
+      ],
+      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
+      "source_sha256": "010480f9cd7030be4b5f01c3a23d42d0571106014000ef4821d92886c9a079d4"
     },
     "starlog": {
       "release": "starlog · LACM-14116 · Prisma☆Illya",
@@ -35,7 +71,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/starlog-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        750,
+        750
+      ],
+      "sha256": "2a75d29edbe0c498e33c4132c73f9a33531c48970e1c40ee68a1b31dd922b8ea",
+      "bytes": 89508,
+      "original_size": [
+        750,
+        750
+      ],
+      "retrieved_from": "https://ogre.natalie.mu/media/news/music/2013/0731/ChouCho_starlog_jkt.jpg?imdensity=1&imwidth=750",
+      "source_sha256": "36862ae3f670ee6f01ff3a4c2826bd4fd03feb6b2cd65180c0f664de828af397"
     },
     "aint-backing-down": {
       "release": "Ain’t Backing Down · Azur Lane Soundtrack · LIZ",
@@ -44,7 +92,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/aint-backing-down-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "62c7bc1b67f4bbdec671561ca27950452c2d9812072b97052aaa51ab796b49dc",
+      "bytes": 272166,
+      "original_size": [
+        1200,
+        1200
+      ],
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b9/f5/95/b9f595e8-764f-4e0a-2d9a-3abd3c92dcd5/8720996196120.png/1200x1200bb.jpg",
+      "source_sha256": "c76633530556de14dc318c8f00e8182c1702ac7e13cbee49882c67c744f997bb"
     },
     "tempestas-claim": {
       "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane",
@@ -53,7 +113,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/tempestas-claim-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        320,
+        180
+      ],
+      "sha256": "54e4e67dadf43c1920ce9c57575f00a552f4a9772777bf1e0760ae4c8b05da89",
+      "bytes": 29450,
+      "original_size": [
+        320,
+        180
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
+      "source_sha256": "715729c01b8c6d81b6f5fa51765c43a8f7440b61dd89ac9c52d13a2d328bafd1"
     },
     "melodia-del-oceano": {
       "release": "Melodía del Océano · Rebel Mix medley",
@@ -62,13 +134,25 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/melodia-del-oceano-v1.webp",
-      "status": "composite",
+      "status": "preserved-composite",
       "components": [
         "miiro",
         "graphite-diamond",
         "high-free-spirits",
         "savior-of-song"
-      ]
+      ],
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "02a2a814645140d641d0473c166c5866a3b542027d958ab04ff2cc17c4617157",
+      "bytes": 380344,
+      "component_hashes": {
+        "miiro": "4451bce705ab6c694c8261f426db446a5793d9d6a30f60ba7b17018929fa7f55",
+        "graphite-diamond": "7ed5198de24ccfd055c9105e56c115052d001e43cd0aa32a3c583bfb32c2c0b0",
+        "high-free-spirits": "de59a5aef8421f7058e8d0559acf9a109e6bdc0666ea73f357292c4cfe4848c8",
+        "savior-of-song": "3273e1cb335e47acf99ffdadbedd8ec819ce9ddf1c399aea2e2a28448ef6be64"
+      }
     },
     "signal": {
       "release": "Signal · Beverly · Azur Lane",
@@ -157,7 +241,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/bad-candy-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        640,
+        640
+      ],
+      "sha256": "8e5c5ccd25da0574105036dc2fa43e2b8b0d326f7433e654cfdb61a625e3095c",
+      "bytes": 58142,
+      "original_size": [
+        640,
+        640
+      ],
+      "retrieved_from": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
+      "source_sha256": "27c4bfc73a1fd3522c94a9154fedbd63fce71a76ec86a2beac533f8bec02106b"
     },
     "alive": {
       "release": "ALIVE · VVCL-2078/9 · anime edition",
@@ -166,7 +262,19 @@
       "version": 1,
       "fit": "lycoris-alive",
       "path": "/music-artwork/alive-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        880,
+        783
+      ],
+      "sha256": "8ece4352aa02fa3638331eafba06078c2dfb222a23e70d19c6d3880d0365e36e",
+      "bytes": 146548,
+      "original_size": [
+        880,
+        783
+      ],
+      "retrieved_from": "https://www.sonymusic.co.jp/img/common/artist_image/70006000/70006298/images/WebSize_VVCL-2078-9_H1_0703_RGB.jpg",
+      "source_sha256": "1c477492711372c88b3ea7393498cc39bdd5c54891b7d52e0d05ceafcdb13c31"
     },
     "hana-no-tou": {
       "release": "花の塔 · BVXX01674B00Z · digital single",
@@ -175,7 +283,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/hana-no-tou-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        320,
+        320
+      ],
+      "sha256": "9c33b8710548396cdcde9566016d23b2cb5d4da9c0fbcc3b8f1546c14489b525",
+      "bytes": 18276,
+      "original_size": [
+        320,
+        320
+      ],
+      "retrieved_from": "https://imgs.ototoy.jp/imgs/jacket/1266/00000003.1655357395.5539_320.jpg",
+      "source_sha256": "579644f6cdb0220105986e44cfcf7cf5093c52d22c2a68e79aefdc24738f9427"
     },
     "strobe-memory": {
       "release": "ストロボメモリー · PCCG-01993",
@@ -184,7 +304,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/strobe-memory-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "ca3063844360b402a30bcc141532fc7e951ed417403211ed584311dc2a83a5c3",
+      "bytes": 43370,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://uchidamaaya.jp/discography/12th_sg/img/12th_sg_jk_normal.jpg",
+      "source_sha256": "d8662f04e90ce6b009f09a25f99253b30af4af5602007f33c777cd4a9fb4d60f"
     },
     "youthful-beautiful": {
       "release": "youthful beautiful · PCCG-70435",
@@ -193,7 +325,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/youthful-beautiful-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        304,
+        300
+      ],
+      "sha256": "d57bf528d68415f0378fecd3b49ea06c9e1b2ec37cc65d130236f549bb304a0c",
+      "bytes": 17150,
+      "original_size": [
+        304,
+        300
+      ],
+      "retrieved_from": "https://gridman.net/news/wordpress/wp-content/uploads/2018/09/web_yb_tsujo_JKT-304x300.jpg",
+      "source_sha256": "b2e437ad3a32890973072202d16c44530a247efccd5eb42a3e1da63ed786a048"
     },
     "shiny-smily-story": {
       "release": "Shiny Smily Story · CVRD-001",
@@ -202,7 +346,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/shiny-smily-story-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "f38403132173e0c80b78fa1fb9dc006c27241f29a4b2368929aa76898422f319",
+      "bytes": 319906,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://hololive.hololivepro.com/wp-content/uploads/2020/07/SSS_artwork_fix-1000x1000.png",
+      "source_sha256": "897cb804aae8be076e0a40028616670152f4c21da9f0a5072f6380e2edb676a1"
     },
     "villain-vibes": {
       "release": "Villain Vibes · original MV promotional illustration (2022)",
@@ -227,7 +383,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/sparks-of-joy-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "cc004bf8a49e602df62fe70dfe123270c92f2ec8464932bad19de19f58509ac1",
+      "bytes": 189834,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://hololive.hololivepro.com/wp-content/uploads/2022/01/IRyS_Sparks-of-Joy_jk-1000x1000.png",
+      "source_sha256": "c34bcc8e067c5063089f525a1c32a80c4468805523871ae3dc9600dda6b03c93"
     },
     "sparks": {
       "release": "SPARKS · CVRD-054",
@@ -236,7 +404,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/sparks-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "bba91d5047cb37b476f6ec8bd10c0f7bc4baa45d1779407d67846c88359dad18",
+      "bytes": 191976,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://hololive.hololivepro.com/wp-content/uploads/2021/07/kiara_sparks_jk-1000x1000.png",
+      "source_sha256": "d5fe52e21a5095728bc2d76ffb378762a211381c8455170ee4366e37143e1e8a"
     },
     "stars-we-chase": {
       "release": "Eutopia / EMOTION / stars we chase · Mia Taylor edition · LACM-24275",
@@ -245,7 +425,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/stars-we-chase-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        300,
+        297
+      ],
+      "sha256": "e91b799388860dd6af52e62efec3535ed3bff222501461e3bbc72416e0ae4c2b",
+      "bytes": 44930,
+      "original_size": [
+        300,
+        297
+      ],
+      "retrieved_from": "https://go-for-launch.net/nijigasaki/img/cd/cd44.png",
+      "source_sha256": "7402c27cd90737a104b8acbfc2f0ea76cdf63d5fc4792bcb45aeab5ec0200626"
     },
     "pastel": {
       "release": "PASTEL · QU4RTZ 3rd single",
@@ -254,7 +446,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/pastel-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        300,
+        296
+      ],
+      "sha256": "5d2a37662d07759b91ff5283a8288c320b2e31ebb6e41ca4271a2c65a829d0a6",
+      "bytes": 42734,
+      "original_size": [
+        300,
+        296
+      ],
+      "retrieved_from": "https://go-for-launch.net/nijigasaki/img/cd/cd52.png",
+      "source_sha256": "6b3118bc1501979e41319e5deac8ffd36a1e9a2ad957e76e20fadcf314546489"
     },
     "daisuki": {
       "release": "ダイスキ。 · LACM-14890",
@@ -263,7 +467,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/daisuki-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "f3c3885226b5194709b9e052984063afcff0196d26ea8d1f51b9f338a3ca715a",
+      "bytes": 67944,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://www.asmart.jp/images/product/10021317/V8w7a5cyvMgfBzAGv8RiroL2Aa9gQCiz.jpg",
+      "source_sha256": "3c39a0ab6422a3f3c020dee42744d7fbee6a63a4642a02770893d9f5c125489c"
     },
     "love-evidence": {
       "release": "Love-Evidence · SMCL-764/765",
@@ -272,7 +488,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/love-evidence-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        880,
+        784
+      ],
+      "sha256": "3dbf8528dea067b96316fed910146a1b85561bd8fcbcc830a642c7dd4a69f4d7",
+      "bytes": 139778,
+      "original_size": [
+        880,
+        784
+      ],
+      "retrieved_from": "https://www.sonymusic.co.jp/img/common/artist_image/70007000/70007954/images/love_anime_JK_fix.jpg",
+      "source_sha256": "3c9f0a92ef43521c9b8d09775241447ea9042ebcd27a6fca32176059a81bcc2b"
     },
     "honey-jet-coaster": {
       "release": "ハニージェットコースター · Digital single (2022-04-10)",
@@ -281,7 +509,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/honey-jet-coaster-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        300,
+        300
+      ],
+      "sha256": "8e442926f3f19fe6d66ad2b1580d52a50bd3cf8f00b282d97d35f26a7f25c717",
+      "bytes": 27460,
+      "original_size": [
+        300,
+        300
+      ],
+      "retrieved_from": "https://shikimori-anime.com/core_sys/images/contents/00000014/block/00000074/sn_00000127.jpg?1671507928=",
+      "source_sha256": "e0a2090c8d30b8fa31ec590e9714b146ba190532d8370ec10b2c5a0a12094862"
     },
     "stuck-on-you": {
       "release": "Fuukoi — Stuck on you (ED1 ending frame)",
@@ -306,7 +546,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/rakuen-project-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "123468a060c606f789e44ace3cf07b3748436cf6c50b40193d76bb876085aadf",
+      "bytes": 249306,
+      "original_size": [
+        1421,
+        1421
+      ],
+      "retrieved_from": "https://static.jmusicitalia.com/artisti/ray/single/rakuen-project-project-cd-dvd-sbig.jpg",
+      "source_sha256": "86ba776ca84f40d4b64cd8d149ca4c1a62c099b2084066da18b1f5f44c846cfe"
     },
     "please-please": {
       "release": "Please, please! · LACM-24369",
@@ -315,7 +567,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/please-please-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        650,
+        650
+      ],
+      "sha256": "b8f2ffa5831a7504be8f9457416e3e3cf77ae92385041658cefeecc87e5d261a",
+      "bytes": 71488,
+      "original_size": [
+        650,
+        650
+      ],
+      "retrieved_from": "https://masamune-tv.com/2ndwp/wp-content/uploads/2023/04/op_002.png",
+      "source_sha256": "f30a865a022490a16f81a53337ebd9143b041a4d09c27c010f2ea87e701b5028"
     },
     "twilight-little-star": {
       "release": "twilight little star · LACM-24377",
@@ -324,7 +588,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/twilight-little-star-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "4bb54c54be7956d843a854ab04181b9fa032b14c843e212b8778ca2dbd697681",
+      "bytes": 64370,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://choucho-net.com/choucho/wp-content/uploads/2023/08/ChouCho_H1.jpg",
+      "source_sha256": "080f622bddb9b6f0a0fe84c9d7107b6003d19c44b7ed634ae7e38404650274f3"
     },
     "yukitoki": {
       "release": "Oregairu Kan — teaser visual (2019)",
@@ -333,7 +609,19 @@
       "version": 2,
       "fit": "oregairu-yukitoki",
       "path": "/music-artwork/yukitoki-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        854,
+        1200
+      ],
+      "sha256": "fe0b2934f65c7757c4ec5270503c7de4aae8bde7a4d404a2e326ac32722bab5b",
+      "bytes": 199294,
+      "original_size": [
+        1323,
+        1860
+      ],
+      "retrieved_from": "https://www.marv.jp/uploads/news/7801/5dd4afa9afba7.jpg",
+      "source_sha256": "ffad1f94d4aba3bd30e5c890a3fb8a4e7db391005b24741cd3e6d2a8d6ec3333"
     },
     "harumodoki": {
       "release": "Oregairu Zoku — key visual",
@@ -342,7 +630,19 @@
       "version": 2,
       "fit": "oregairu-harumodoki",
       "path": "/music-artwork/harumodoki-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1079
+      ],
+      "sha256": "3c5df76f72bb6530e4db1576060ebc0070de24556fd02051148be8e04dcfa6f4",
+      "bytes": 191592,
+      "original_size": [
+        1201,
+        1080
+      ],
+      "retrieved_from": "https://www.famitsu.com/images/000/189/760/z_5e01fb6d7cfa9.jpg",
+      "source_sha256": "405fc7d5776ab25bd399482b8042c721a70522ea6d5ebd0ef3f9347ec95668bd"
     },
     "megumi-no-ame": {
       "release": "Oregairu — waterfront illustration",
@@ -351,7 +651,19 @@
       "version": 2,
       "fit": "oregairu-megumi",
       "path": "/music-artwork/megumi-no-ame-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        640,
+        945
+      ],
+      "sha256": "0893254f2284021466a7ca98f13c3957f114f7f33843855a11a821565bf6b296",
+      "bytes": 155254,
+      "original_size": [
+        640,
+        945
+      ],
+      "retrieved_from": "https://blue.kumparan.com/image/upload/fl_progressive%2Cfl_lossy%2Cc_fill%2Cf_auto%2Cq_auto%3Abest%2Cw_640/v1594362675/My-Teen-Romantic-Comedy_rxpxk3.png",
+      "source_sha256": "c12f7f2844d3af1c1dff9449921cc3b4901538baf89914b1c6c244b82e25561c"
     },
     "miiro": {
       "release": "海色 · VTCL-35202",
@@ -360,7 +672,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/miiro-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        519
+      ],
+      "sha256": "4451bce705ab6c694c8261f426db446a5793d9d6a30f60ba7b17018929fa7f55",
+      "bytes": 93884,
+      "original_size": [
+        600,
+        519
+      ],
+      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35202.jpg?_c=init",
+      "source_sha256": "333ca5bbc2f71a4202e26d3ecd8ff653c2921459289a769146f24eacb6713cad"
     },
     "graphite-diamond": {
       "release": "graphite/diamond · XNST-10014",
@@ -369,7 +693,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/graphite-diamond-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1190
+      ],
+      "sha256": "7ed5198de24ccfd055c9105e56c115052d001e43cd0aa32a3c583bfb32c2c0b0",
+      "bytes": 265322,
+      "original_size": [
+        1662,
+        1648
+      ],
+      "retrieved_from": "https://straycats.co.jp/wp/wp-content/uploads/2019/09/mayn_anime_h1.jpg",
+      "source_sha256": "19081ae6114cf5ddf5d60cb0331352807b2e1a5492939d9d227739b1a65a7acd"
     },
     "high-free-spirits": {
       "release": "High Free Spirits · SVWC-70153/54",
@@ -378,7 +714,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/high-free-spirits-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        400,
+        397
+      ],
+      "sha256": "de59a5aef8421f7058e8d0559acf9a109e6bdc0666ea73f357292c4cfe4848c8",
+      "bytes": 52362,
+      "original_size": [
+        400,
+        397
+      ],
+      "retrieved_from": "https://trysail.jp/s3/skiyaki/uploads/ckeditor/pictures/32044/content_for_web_SVWC70153.jpg",
+      "source_sha256": "34f6861222d06273089912a59a930773e08e9670470604d1a82df747f62ee511"
     },
     "savior-of-song": {
       "release": "SAVIOR OF SONG · Arpeggio of Blue Steel ver.",
@@ -387,7 +735,19 @@
       "version": 1,
       "fit": "cover",
       "path": "/music-artwork/savior-of-song-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        591,
+        518
+      ],
+      "sha256": "3273e1cb335e47acf99ffdadbedd8ec819ce9ddf1c399aea2e2a28448ef6be64",
+      "bytes": 78924,
+      "original_size": [
+        591,
+        518
+      ],
+      "retrieved_from": "https://nanonano.me/s3/skiyaki/uploads/image/file/1370/VICL-35166.jpg",
+      "source_sha256": "1b057669eb703ce52e55f364963185f3ae26574ac0be0eca6f7708db09101e0f"
     },
     "caesura-of-despair": {
       "release": "||:Caesura of Despair · CVRD-056",
@@ -405,7 +765,8 @@
       "original_size": [
         1000,
         997
-      ]
+      ],
+      "bytes": 89510
     },
     "watashi-no-na-wa-hikari": {
       "release": "SKY FULL of MAGIC · VICL-65454",
@@ -423,7 +784,8 @@
       "original_size": [
         799,
         800
-      ]
+      ],
+      "bytes": 183210
     },
     "song-for-you": {
       "release": "IDOLY PRIDE Collection Album [奇跡] · SMCL-737",
@@ -441,7 +803,8 @@
       "original_size": [
         300,
         300
-      ]
+      ],
+      "bytes": 9944
     },
     "blue-spirit": {
       "release": "Blue Spirit · Universe in Unison",
@@ -491,7 +854,8 @@
       "original_size": [
         720,
         720
-      ]
+      ],
+      "bytes": 139786
     },
     "dokimeki-diary": {
       "release": "Dokimeki Diary · SRCL-12528",
@@ -509,7 +873,8 @@
       "original_size": [
         1024,
         911
-      ]
+      ],
+      "bytes": 73896
     },
     "only-one-yell": {
       "release": "SELECTION PROJECT Main Theme Song CD · ZMCZ-15051",
@@ -527,7 +892,8 @@
       "original_size": [
         1280,
         1280
-      ]
+      ],
+      "bytes": 112064
     },
     "la-vaguelette": {
       "release": "Genshin Impact - La vaguelette (Original Game Soundtrack)",
@@ -545,7 +911,8 @@
       "original_size": [
         1280,
         1280
-      ]
+      ],
+      "bytes": 86150
     },
     "snow-halation": {
       "release": "Snow halation · LACM-4774",
@@ -563,7 +930,8 @@
       "original_size": [
         500,
         500
-      ]
+      ],
+      "bytes": 92260
     },
     "butter-fly": {
       "release": "Butter-Fly ~tri. Version~ · NECM-10231",
@@ -581,7 +949,8 @@
       "original_size": [
         180,
         180
-      ]
+      ],
+      "bytes": 12044
     },
     "connect": {
       "release": "Connect · SECL-949",
@@ -599,7 +968,8 @@
       "original_size": [
         640,
         720
-      ]
+      ],
+      "bytes": 91672
     },
     "mumei": {
       "release": "mumei · CVRD-339",
@@ -617,7 +987,8 @@
       "original_size": [
         500,
         500
-      ]
+      ],
+      "bytes": 39960
     }
   }
 }
