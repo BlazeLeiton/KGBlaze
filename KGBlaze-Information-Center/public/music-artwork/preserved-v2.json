@@ -1454,6 +1454,15 @@
       ],
       "retrieved_from": "https://columbia.jp/prod-info/jacket/COCC-18117.jpg",
       "source_sha256": "6ada6a3f51006d5451472cd23efa126e92ea893c4f1cf60397da1173e942b7d6"
+    },
+    "el-mismo-sol": {
+      "release": "El Mismo Sol · 2011 CD single",
+      "source": "https://www.coveralia.com/caratulas/Alejandro-Fernandez-El-Mismo-Sol-%28CD-Single%29-Frontal.php",
+      "origin": "https://images.coveralia.com/audio/a/Alejandro_Fernandez-El_Mismo_Sol_%28CD_Single%29-Frontal.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/el-mismo-sol-v1.webp",
+      "status": "pending-snapshot"
     }
   }
 }
