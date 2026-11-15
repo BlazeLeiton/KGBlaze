@@ -2839,7 +2839,7 @@ Object.assign(lyricsBySong,{
   },
   "rvr": {
     "es": {
-      "text": "Yo! Nosotros somos los voltios ascendentes\nAhora que clase de Pokémon nos vamos a encontrar\nLa aventura va a empezar\n\nYo! Listos, ya!\nPues muchos más Pokémon conoceremos hoy\nVamos con Pokémon que lleven Don\n3, 2, 1, YA!\n\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n¿Sigue ahora Liko con esto?\n¿Estas lista?\n\nHmm, no sé si pueda, pero lo voy a intentar\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n\nBravo en corazón\nPor el cielo montando olas\nQue me llenan de emoción\nEl viaje recién empieza\nToma el timón, por el mundo es la ruta a navegar\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes\n\nMás y más aprendamos hoy\nTocan los Pokémon con forma de región\nAhora escuchemos el ejemplo de Roy\n3, 2, 1, YA!\n\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\nSigue nuestro invitado ¿a quién tendremos hoy?\nVamos\n\n(Inserte su propia versión de letra)\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\n\nAve brava va\nCon valor conquistando el cielo\nY volando va\nPues a un lugar más alto apunta\nNo importa que tropiece y caiga, fuerte seguiré\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes",
+      "text": "Yo! Nosotros somos los voltios ascendentes\nAhora que clase de Pokémon nos vamos a encontrar\nLa aventura va a empezar\n\nYo! Listos, ya!\nPues muchos más Pokémon conoceremos hoy\nVamos con Pokémon que lleven Don\n3, 2, 1, YA!\n\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n¿Sigue ahora Liko con esto?\n¿Estas lista?\n\nHmm, no sé si pueda, pero lo voy a intentar\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n\nBravo en corazón\nPor el cielo montando olas\nQue me llenan de emoción\nEl viaje recién empieza\nToma el timón, por el mundo es la ruta a navegar\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes\n\nMás y más aprendamos hoy\nTocan los Pokémon con forma de región\nAhora escuchemos el ejemplo de Roy\n3, 2, 1, YA!\n\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\nSigue nuestro invitado ¿a quién tendremos hoy?\nVamos\n\nHey qué tal a todos aquí Blaze de regreso transmitiendo desde México para el mundo\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\n\nAve brava va\nCon valor conquistando el cielo\nY volando va\nPues a un lugar más alto apunta\nNo importa que tropiece y caiga, fuerte seguiré\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes",
       "language": "ES",
       "kind": "adaptation",
       "review": null
@@ -2865,7 +2865,8 @@ Object.assign(lyricsBySong,{
 
 // Original Word colors retained as separate parts; character assignment awaits editorial confirmation.
 lyricsBySong.rvr.es.review='rvr-template';
-lyricsBySong.rvr.es.guestSlot='(Inserte su propia versión de letra)';
+lyricsBySong.rvr.es.guestSlot='Hey qué tal a todos aquí Blaze de regreso transmitiendo desde México para el mundo';
+lyricsBySong.rvr.es.guestTemplate='(Inserte su propia versión de letra)';
 const lovedOnes=lyricsBySong['ano-ne']['loved-ones'];
 stage27Color(lovedOnes,[['fina','Fina','#86C98B'],['yuna','Yuna','#A5BEFF']],Array.from({length:53},(_,i)=>[1,2,9,10,11,21,22,23].includes(i+1)?'fina':[3,6,7,8,12,24,25,26].includes(i+1)?'yuna':'shared'),{4:[['fina','Para mí… '],['yuna','Para mí '],['shared','']]});
 lovedOnes.sharedLabel={es:'Ambas',en:'Both',ja:'二人'};
