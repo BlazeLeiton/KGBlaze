@@ -32,21 +32,21 @@ jobs:
           with Image.open(source) as im:
               assert im.size==(1280,720), im.size
               # Keep the entire title and red X: only crop peripheral map.
-              crop=im.convert('RGB').crop((80,0,1040,720))
+              crop=im.convert('RGB').crop((80,4,1040,716))
               canvas=Image.new('RGB',(960,960))
               # Extend the actual parchment texture with narrow mirrored edge strips.
-              top=crop.crop((0,0,960,24))
-              bottom=crop.crop((0,696,960,720))
-              for i in range(5):
-                  canvas.paste(ImageOps.flip(top) if i%2==0 else top,(0,96-i*24))
-                  canvas.paste(ImageOps.flip(bottom) if i%2==0 else bottom,(0,840+i*24))
-              canvas.paste(crop,(0,120))
+              top=crop.crop((0,0,960,31))
+              bottom=crop.crop((0,681,960,712))
+              for i in range(4):
+                  canvas.paste(ImageOps.flip(top) if i%2==0 else top,(0,93-i*31))
+                  canvas.paste(ImageOps.flip(bottom) if i%2==0 else bottom,(0,836+i*31))
+              canvas.paste(crop,(0,124))
               canvas.save(target,'WEBP',quality=94,method=6)
           mf=art/'preserved-v2.json'
           j=json.loads(mf.read_text())
           a=j['works']['tempestas-claim']
           raw=target.read_bytes()
-          a.update(status='preserved',size=[960,960],bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),original_size=[1280,720],retrieved_from=a['origin'],source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),editorial_crop=[80,0,1040,720])
+          a.update(status='preserved',size=[960,960],bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),original_size=[1280,720],retrieved_from=a['origin'],source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),editorial_crop=[80,4,1040,716])
           mf.write_text(json.dumps(j,ensure_ascii=False,indent=2)+'\n')
           PY
       - name: Commit derived image and verified manifest
