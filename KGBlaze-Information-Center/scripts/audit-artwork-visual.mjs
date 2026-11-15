@@ -83,6 +83,18 @@ try{
   await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
+  await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  const series=page.locator('#series'), aff=page.locator('#affiliation'), visible=page.locator('#songs .song:not([hidden])');
+  for(const [family,count] of [['Azur Lane',9],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',1],['Love Live!',3],['hololive',5],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]]){
+   await series.selectOption(family);assert.equal(await visible.count(),count,family);
+   if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(family))assert.equal(await visible.filter({hasText:'Melodía del Océano'}).count(),1);
+  }
+  await series.selectOption('hololive');for(const [branch,count] of [['holo-en',5],['holo-jp',1],['holo-id',1]]){await aff.selectOption(branch);assert.equal(await visible.count(),count);assert.equal(await visible.filter({hasText:'Shiny Smily Story'}).count(),1);}
+  await series.selectOption('Love Live!');await aff.selectOption('ll-nijigasaki');assert.equal(await visible.count(),2);await aff.selectOption('ll-muse');assert.equal(await visible.count(),1);
+  await series.selectOption('Azur Lane');await visible.filter({hasText:'graphite/diamond'}).locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.match(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),/Azur Lane The Animation/);
+  await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),'Azur Lane');assert.equal(await visible.count(),9);
+  console.log(device+' editorial franchise filters, multi-membership, and overlay restoration verified');
+  await page.locator('.langs a').filter({hasText:'EN'}).click();await page.waitForFunction(()=>document.documentElement.lang==='en');
   await page.goto(origin+'/departures/',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.documentElement.lang==='en');
   await page.locator('[data-lang="ja"]:visible').first().click();
