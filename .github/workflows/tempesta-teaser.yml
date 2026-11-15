@@ -1,0 +1,47 @@
+name: Tempesta teaser source verification
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.head_ref == 'relight/tempesta-teaser' && github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: relight/tempesta-teaser
+      - name: Recover original teaser art and thumbnail reference
+        run: |
+          python -m pip install Pillow
+          python - <<'PY'
+          import urllib.request, io
+          from PIL import Image
+          from pathlib import Path
+          urls=['https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp','https://i.ytimg.com/vi/ZLE-wsYXI2o/maxresdefault.jpg','https://i.ytimg.com/vi/ZLE-wsYXI2o/hqdefault.jpg']
+          p=Path('KGBlaze-Information-Center/public/music-artwork/tempestas-claim-teaser-source.webp')
+          for url in urls:
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=15) as r: raw=r.read(12000000)
+                  im=Image.open(io.BytesIO(raw)).convert('RGB')
+                  im.load()
+                  if min(im.size)<180: raise ValueError('too small')
+                  print(url,im.size)
+                  im.save(p,'WEBP',quality=95)
+                  break
+              except Exception as e: print(str(e))
+          else: raise RuntimeError('No valid teaser image')
+          PY
+      - name: Preserve source on the isolated branch
+        run: |
+          git add KGBlaze-Information-Center/public/music-artwork/tempestas-claim-teaser-source.webp
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Preserve Tempesta teaser reference"
+            git push origin HEAD:relight/tempesta-teaser
+          fi
