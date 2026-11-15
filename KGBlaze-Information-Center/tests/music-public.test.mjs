@@ -494,8 +494,9 @@ test('context filters appear only for relevant results or tag deep links',()=>{
  assert.match(html,/id="context-filters" hidden/);
  const js=html.match(/<script>([\s\S]*?)<\/script>/)[1];
  const make=()=>({value:'',options:[],hidden:false,addEventListener(name,fn){this[name]=fn},setAttribute(){}});
- const ids=['search','language','year','series','block','affiliation','block-filter','affiliation-filter','context-filters','empty','clear','grid','list'];
+ const ids=['search','language','year','series','block','affiliation','block-filter','affiliation-filter','affiliation-label','context-filters','empty','clear','grid','list'];
  const el=Object.fromEntries(ids.map(k=>[k,make()]));
+ el['affiliation-label'].dataset={branchLabel:'Rama',groupLabel:'Franquicia / grupo'};
  const options=(...values)=>values.map(value=>({value}));
  el.series.options=options('','Pokémon','hololive','Love Live!','Azur Lane');
  el.block.options=options('','horizons');el.affiliation.options=options('','hololive','holo-en','holo-promise','love-live','ll-muse');
@@ -507,11 +508,11 @@ test('context filters appear only for relevant results or tag deep links',()=>{
  start('');assert.equal(el['context-filters'].hidden,true);
  el.series.value='Pokémon';el.series.input();assert.equal(el['block-filter'].hidden,false);assert.equal(el['affiliation-filter'].hidden,true);
  el.block.value='horizons';el.block.input();assert.equal(items.filter(x=>!x.hidden).length,1);
- el.series.value='hololive';el.series.input();assert.equal(el.block.value,'');assert.equal(el['block-filter'].hidden,true);assert.equal(el['affiliation-filter'].hidden,false);
+ el.series.value='hololive';el.series.input();assert.equal(el.block.value,'');assert.equal(el['block-filter'].hidden,true);assert.equal(el['affiliation-filter'].hidden,false);assert.equal(el['affiliation-label'].textContent,'Rama');
  assert.equal(el.affiliation.options.find(o=>o.value==='ll-muse').disabled,true);
  el.series.value='Azur Lane';el.series.input();assert.equal(el['context-filters'].hidden,true);
  el.clear.onclick();assert.equal(el['context-filters'].hidden,true);assert.equal(items.filter(x=>!x.hidden).length,4);
- el.search.value='snow';el.search.input();assert.equal(el['affiliation-filter'].hidden,false);assert.equal(el.affiliation.options.find(o=>o.value==='holo-en').disabled,true);
+ el.search.value='snow';el.search.input();assert.equal(el['affiliation-filter'].hidden,false);assert.equal(el['affiliation-label'].textContent,'Franquicia / grupo');assert.equal(el.affiliation.options.find(o=>o.value==='holo-en').disabled,true);
  el.clear.onclick();start('?affiliation=holo-promise');assert.equal(el['affiliation-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
  el.clear.onclick();start('?block=horizons');assert.equal(el['block-filter'].hidden,false);assert.equal(items.filter(x=>!x.hidden).length,1);
 });
@@ -818,5 +819,13 @@ test('editorial family members retain exact catalogue ordering and medley is a s
  assert.deepEqual(ids('High School Fleet'),['high-free-spirits','melodia-del-oceano']);
  assert.deepEqual(ids('Arpeggio of Blue Steel'),['savior-of-song','melodia-del-oceano']);
  assert.deepEqual(ids('Love Live!'),['snow-halation','stars-we-chase','pastel']);
+ }
+});
+
+test('hololive branch label is localized without changing other franchise filter labels',()=>{
+ for(const [lang,branch,group] of [['es','Rama','Franquicia / grupo'],['en','Branch','Franchise / group'],['ja','所属支部','シリーズ・グループ']]){
+  const h=musicPage('/music/',new URLSearchParams({lang}));
+  assert.ok(h.includes('id="affiliation-label" data-branch-label="'+branch+'" data-group-label="'+group+'">'+group+'</span>'));
+  assert.match(h,/label.textContent=holo\?label.dataset.branchLabel:label.dataset.groupLabel/);
  }
 });
