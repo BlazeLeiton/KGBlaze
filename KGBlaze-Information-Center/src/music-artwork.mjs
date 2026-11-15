@@ -2,6 +2,12 @@
 // Prefer illustrated anime/game editions. Preserve source and edition separately from video thumbnails.
 // External artwork references are review candidates; fallback always uses the creator's video thumbnail.
 export const releaseArtwork={
+ "el-nano":{"image":"https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg","source":"https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750","release":"El Nano · 2008 digital single (2005 recording)","kind":"artist","fit":"contain"},
+ "there-is-a-reason":{"image":"https://ngnl.jp/common/images/pc/goods/img_music_complete-songs.jpg","source":"https://ngnl.jp/goods/music/","release":"NO SONG NO LIFE · ZMCZ-11294 · track 10","kind":"anime","fit":"contain"},
+ "xy-and-z":{"image":"https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3","source":"https://www.cdjapan.co.jp/product/SECL-1832","release":"Pokémon XY&Z Character Song Project Vol. 1 · SECL-1832","kind":"anime","fit":"contain"},
+ "ten-to-sen":{"image":"https://columbia.jp/artist-info/jacket/COCC-18148.jpg","source":"https://columbia.jp/artist-info/itomiku/discography/COCC-18148.html","release":"点と線 · COCC-18148","kind":"anime","fit":"contain"},
+ "kimi-to-iu-shinwa":{"image":"https://static.qobuz.com/images/covers/sa/xw/o9m62vb66xwsa_600.jpg","source":"https://www.qobuz.com/jp-ja/album/kimi-to-iu-shinwa-goodbye-seven-seas-tv-animation-kamisama-ni-natta-hi-openingending-song-jun-maeda-yanaginagi-/o9m62vb66xwsa","release":"君という神話／Goodbye Seven Seas · 2020 single","kind":"anime","fit":"contain"},
+
 "ano-ne":{"image":"https://columbia.jp/prod-info/jacket/COCC-17809.jpg","source":"https://columbia.jp/prod-info/COCC-17809/","release":"あのね。 · COCC-17809","kind":"anime","fit":"contain"},
 "kono-tate-ni-kakuremasu":{"image":"https://bofuri.jp/assets/music/op.jpg","source":"https://bofuri.jp/music/","release":"この盾に、隠れます。 · anime collaboration edition USSW-0399","kind":"anime","fit":"contain"},
 "koko-kara-koko-kara":{"image":"https://yorimoi.com/assets/music/ed.png","source":"https://yorimoi.com/products/music.html","release":"ここから、ここから · ZMCZ-11855","kind":"anime","fit":"contain"},
