@@ -351,7 +351,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  assert.equal((page('blue-spirit','es','en').match(/data-video-id="v3QAe_f6Eh0"/g)||[]).length,1);
  assert.match(page('dokimeki-diary','es','album-studio'),/data-video-id="8sAotUCAJH8"/);
  assert.match(page('la-vaguelette','es','fr-audio'),/data-video-id="Y7UBoG9twvc"/);
- const res=await worker.fetch(req('/music/blue-spirit/'),environment);
+ const res=await worker.fetch(req('/music/song/blue-spirit/'),environment);
  const csp=res.headers.get('Content-Security-Policy');
  assert.match(csp,/img-src 'self' data: https:\/\/i\.ytimg\.com /);
  assert.match(csp,/frame-src https:\/\/www\.youtube-nocookie\.com;/);
@@ -773,6 +773,7 @@ test('music fragments omit the document shell and preserve original voice divisi
 
 test('canonical song paths and one independent state payload per work',async()=>{
  assert.ok(MUSIC_PATHS.has('/music/song/blue-spirit/'));
+ const old=await worker.fetch(req('/music/blue-spirit/?lang=es&version=en'),environment);assert.equal(old.status,308);assert.equal(old.headers.get('Location'),origin+'/music/song/blue-spirit/?lang=es&version=en');
  assert.equal(routePortalRequest(req('/music/album/azur-sin-limites/')).response.status,404);
  assert.equal(routePortalRequest(req('/music/data/song/unpublished.json')).response.status,404);
  for(const s of songs){
