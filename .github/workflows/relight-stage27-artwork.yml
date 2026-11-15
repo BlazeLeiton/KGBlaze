@@ -1,0 +1,101 @@
+name: Relight Stage 27 artwork recovery
+on:
+  push:
+    branches: [relight/stage27-arcana-registry]
+    paths: ['.github/workflows/relight-stage27-artwork.yml']
+permissions:
+  contents: write
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow requests
+      - name: Recover exact published artwork
+        shell: bash
+        run: |
+          python - <<'PY'
+          import io, json, re, os, pathlib
+          import requests
+          from PIL import Image, ImageOps, ImageChops
+          out=pathlib.Path('KGBlaze-Information-Center/public/music-artwork')
+          out.mkdir(parents=True,exist_ok=True)
+          s=requests.Session()
+          s.headers.update({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36','Accept':'image/avif,image/webp,image/png,image/jpeg,*/*'})
+          def get(url):
+              r=s.get(url,timeout=22); r.raise_for_status()
+              im=ImageOps.exif_transpose(Image.open(io.BytesIO(r.content))).convert('RGB')
+              if min(im.size)<180: raise ValueError('image too small: '+str(im.size))
+              print(url,im.size,flush=True)
+              return im
+          def square(im):
+              w,h=im.size
+              if w==h: return im
+              n=min(w,h)
+              # Discographic banners sometimes include an external white/black margin.
+              # Only trim the external sides; center on visible graphic rather than the outer canvas.
+              bg=Image.new('RGB',im.size,im.getpixel((0,0)))
+              diff=ImageChops.difference(im,bg).convert('L').point(lambda p:255 if p>22 else 0)
+              b=diff.getbbox()
+              if b and (w>h*1.08 or h>w*1.08):
+                  cx=(b[0]+b[2])/2; cy=(b[1]+b[3])/2
+                  left=max(0,min(w-n,round(cx-n/2))); top=max(0,min(h-n,round(cy-n/2)))
+              else:
+                  left=(w-n)//2; top=(h-n)//2
+              return im.crop((left,top,left+n,top+n))
+          def save(im,name):
+              im.save(out/name,'WEBP',quality=94,method=6)
+          def first(urls):
+              for url in urls:
+                  try: return get(url),url
+                  except Exception as e: print('failed',url,str(e),flush=True)
+              return None,None
+          tiles=[]
+          for vol,month,cat in [(2,'08','10004'),(3,'08','10005'),(4,'09','10006'),(5,'10','10007')]:
+              im,url=first([f'https://straycats.co.jp/wp/wp-content/uploads/2019/{month}/XNST_{cat}.jpg',f'https://azurlane-anime.jp/images/music_vol{vol}jk.png'])
+              if im: tiles.append(square(im))
+          if len(tiles)==4:
+              size=min(600,min(im.width for im in tiles))
+              mosaic=Image.new('RGB',(2*size,2*size),'white')
+              for i,im in enumerate(tiles): mosaic.paste(im.resize((size,size),Image.Resampling.LANCZOS),((i%2)*size,(i//2)*size))
+              save(mosaic,'yuukyuu-no-catharsis-v1.webp')
+              print('CATHARSIS composed',mosaic.size,flush=True)
+          else: print('CATHARSIS not complete',len(tiles),flush=True)
+          meant=[]
+          try:
+              data=s.get('https://music.163.com/api/song/detail/',params={'id':1454741418,'ids':'[1454741418]'},timeout=22).json()
+              alb=data['songs'][0]['album']; meant.append(alb['picUrl'])
+              print('NETEASE album',alb.get('name'),flush=True)
+          except Exception as e: print('NetEase',str(e),flush=True)
+          meant+=['https://image.joox.com/JOOXcover/0/c6e36e9f5afb9a34/300','https://bkimg.cdn.bcebos.com/smart/241f95cad1c8a786c917db679a58de3d70cf3bc7fa02-bkimg-process%2Cv_1%2Crw_1%2Crh_1%2Cmaxl_324?x-bce-process=image%2Fformat%2Cf_auto']
+          im,url=first(meant)
+          if im: save(square(im),'meant-to-be-v1.webp')
+          feel=[]
+          try:
+              data=s.get('https://itunes.apple.com/lookup',params={'id':'1636338935','country':'us'},timeout=22).json()
+              row=next(x for x in data['results'] if x.get('collectionId')==1636338935)
+              print('iTunes',row.get('collectionName'),row.get('artistName'),flush=True)
+              u=row['artworkUrl100'];feel+=[re.sub(r'\d+x\d+bb', '1200x1200bb',u),u]
+          except Exception as e: print('iTunes',str(e),flush=True)
+          try:
+              d=s.get('https://open.spotify.com/oembed',params={'url':'https://open.spotify.com/track/5tcLHS2fpe6I3rf9m1q0qA'},timeout=22).json()
+              if d.get('thumbnail_url'):feel.append(d['thumbnail_url'])
+          except Exception as e: print('Spotify',str(e),flush=True)
+          feel+=['https://i.ytimg.com/vi/UwSAHPXuSes/maxresdefault.jpg','https://i.ytimg.com/vi/UwSAHPXuSes/hqdefault.jpg']
+          im,url=first(feel)
+          if im: save(square(im),'feelin-it-all-v1.webp')
+          print('Artwork files:',[p.name for p in out.glob('*') if any(k in p.name for k in ('yuukyuu','meant-to-be','feelin-it-all'))],flush=True)
+          PY
+      - name: Commit recovered files to working branch only
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add KGBlaze-Information-Center/public/music-artwork/
+          if git diff --cached --quiet; then echo "No recovered files"; exit 0; fi
+          git commit -m "Relight Stage 27: preserve recovered cover artwork"
+          git pull --rebase origin relight/stage27-arcana-registry
+          git push origin HEAD:relight/stage27-arcana-registry
