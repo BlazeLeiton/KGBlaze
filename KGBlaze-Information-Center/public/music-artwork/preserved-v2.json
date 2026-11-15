@@ -1120,6 +1120,60 @@
         500
       ],
       "bytes": 39960
+    },
+    "ano-ne": {
+      "release": "あのね。 · COCC-17809",
+      "source": "https://columbia.jp/prod-info/COCC-17809/",
+      "origin": "https://columbia.jp/prod-info/jacket/COCC-17809.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/ano-ne-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "kono-tate-ni-kakuremasu": {
+      "release": "この盾に、隠れます。 · anime collaboration edition USSW-0399",
+      "source": "https://bofuri.jp/music/",
+      "origin": "https://bofuri.jp/assets/music/op.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/kono-tate-ni-kakuremasu-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "koko-kara-koko-kara": {
+      "release": "ここから、ここから · ZMCZ-11855",
+      "source": "https://yorimoi.com/products/music.html",
+      "origin": "https://yorimoi.com/assets/music/ed.png",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/koko-kara-koko-kara-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "rvr": {
+      "release": "RVR · BVCL-1357/8",
+      "source": "https://www.pokemoncenter-online.com/4547366652475.html",
+      "origin": "https://www.pokemoncenter-online.com/a/img/item/4547366652475/L/671c62e0990aa48f1c52da5661d631b95ade0c52f828b0c39c8c9273a1501efc.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/rvr-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "zutto": {
+      "release": "ずっと · COCC-18117",
+      "source": "https://columbia.jp/prod-info/COCC-18117/",
+      "origin": "https://columbia.jp/prod-info/jacket/COCC-18117.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/zutto-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "level": {
+      "release": "The Genius Prince · Blu-ray Vol. 1 · GNXA-2381",
+      "source": "https://tensaiouji-anime.com/bd/01.html",
+      "origin": "https://tensaiouji-anime.com/core_sys/images/contents/00000017/block/00000047/00000041.jpg?1656652640=",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/level-v1.webp",
+      "status": "pending-snapshot"
     }
   }
 }
