@@ -1,0 +1,79 @@
+name: Read-only artwork alternatives review
+on:
+  push:
+    branches: [relight/artwork-options-review]
+    paths: ['.github/workflows/artwork-options-review.yml']
+permissions:
+  contents: write
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect reference images and contact sheets
+        run: |
+          python -m pip install Pillow yt-dlp
+          mkdir -p /tmp/artwork-video docs/artwork-options
+          python - <<'PY'
+          import urllib.request, subprocess, pathlib, io
+          from PIL import Image, ImageOps, ImageDraw
+          out=pathlib.Path('docs/artwork-options')
+          work=pathlib.Path('/tmp/artwork-video')
+          def get(url,p):
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=12) as r: data=r.read(80000000)
+                  p.write_bytes(data)
+                  print('downloaded',url,len(data),flush=True)
+                  return True
+              except Exception as e: print('failed',url,str(e),flush=True); return False
+          def still(url,name):
+              p=work/(name+'.jpg')
+              if get(url,p):
+                  try:
+                      im=Image.open(p).convert('RGB')
+                      im.thumbnail((1280,1280))
+                      im.save(out/(name+'.jpg'),quality=94)
+                  except Exception as e: print(e)
+          def frames(p,name,seconds):
+              ims=[]
+              for s in seconds:
+                  f=work/(name+'-'+str(s)+'.jpg')
+                  r=subprocess.run(['ffmpeg','-loglevel','error','-y','-ss',str(s),'-i',str(p),'-frames:v','1','-vf','scale=640:-1',str(f)],capture_output=True)
+                  if f.exists():
+                      im=Image.open(f).convert('RGB')
+                      ims.append((s,im.copy()))
+              if not ims: return
+              w,h=480,270
+              c=Image.new('RGB',(w*3,(h+26)*((len(ims)+2)//3)),(24,24,24))
+              d=ImageDraw.Draw(c)
+              for i,(s,im) in enumerate(ims):
+                  x=(i%3)*w;y=(i//3)*(h+26)
+                  c.paste(ImageOps.contain(im,(w,h)),(x,y))
+                  d.text((x+6,y+h+5),f'{name} | {s}s',fill='white')
+              c.save(out/(name+'-sheet.jpg'),quality=90)
+          for name,url in [
+             ('petra','https://content.archive.ragtag.moe/s3%3Aarchive-eye-1/xKqHPsDxXBU/xKqHPsDxXBU.webm'),
+             ('kotoka','https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webm'),
+             ('meloco','https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/7AgV7UGobuc/7AgV7UGobuc.webm')]:
+              p=work/(name+'.webm')
+              if get(url,p): frames(p,name,[3,7,11,15,19,23,27,30])
+          for name,url in [('izetta-user-thumbnail','https://i.ytimg.com/vi/FVX1NYWkxdk/maxresdefault.jpg'),('izetta-ending-thumbnail','https://i.ytimg.com/vi/PrU52BW1btE/maxresdefault.jpg'),('izetta-single-limited','https://www.jvcmusic.co.jp/img/jackets/VTZL-117.jpg?_c=init'),('izetta-opening','https://www.jvcmusic.co.jp/img/jackets/VTCL-35240.jpg?_c=init')]:
+              still(url,name)
+          p=work/'izetta-ed.webm'
+          if get('https://v.animethemes.moe/ShuumatsuNoIzetta-ED1.webm',p):
+              frames(p,'izetta-ending',list(range(3,90,5)))
+          else:
+              try:
+                  subprocess.run(['yt-dlp','--no-playlist','-f','best[height<=720]','-o',str(p),'https://www.youtube.com/watch?v=PrU52BW1btE'],timeout=35,check=True)
+                  frames(p,'izetta-ending',list(range(3,90,5)))
+              except Exception as e: print(e)
+          PY
+      - name: Save reference sheets to isolated review branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/artwork-options
+          if ! git diff --cached --quiet; then
+            git commit -m "Collect source reference images for editorial review"
+            git push origin HEAD:relight/artwork-options-review
+          fi
