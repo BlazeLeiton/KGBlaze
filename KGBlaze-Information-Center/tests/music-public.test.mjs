@@ -37,7 +37,7 @@ test('Music preview renders all pages in three languages with scoped YouTube med
   assert.match(html,/noindex,nofollow,noarchive/);
   assert.match(html,/typography-v1\.css/);
   assert.doesNotMatch(html,/mega\.nz|undefined|<iframe /);
-  assert.match(html,/i\.ytimg\.com\/vi\//);
+  if(!p.includes('/one-step/'))assert.match(html,/i\.ytimg\.com\/vi\//);else assert.doesNotMatch(html,/data-video-id=|youtube-link"/);
  }
  const html=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'ja',version:'en'}));
  assert.match(html,/楽曲選集/);
@@ -335,8 +335,8 @@ test('video thumbnails and playback are bound to the selected public recording',
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  if(first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing&&!releaseArtwork[s.slug]?.components)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
-  for(const v of visible.filter(v=>v.videoStatus!=='blocked'))for(const lang of ['es','en','ja']){
+  if(first?.videoId&&first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing&&!releaseArtwork[s.slug]?.components)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
+  for(const v of visible.filter(v=>v.videoId&&v.videoStatus!=='blocked'))for(const lang of ['es','en','ja']){
    const h=page(s.slug,lang,v.id);
    assert.ok(h.includes('data-video-id="'+v.videoId+'"'));
    assert.ok(h.includes('https://www.youtube.com/watch?v='+v.videoId+'"'));
@@ -446,7 +446,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
    assert.ok(card.includes('data-art-kind="'+art.kind+'"'));
    const h=musicPage('/music/'+s.slug+'/',new URLSearchParams({lang:'es'}));
    assert.doesNotMatch(h,/class="release-art-note"|class="video-note"/);
-   assert.match(h,first.videoStatus==='blocked'?/class="archive-video"/:/class="video-stage"/);
+   if(first.videoId||first.videoStatus==='blocked')assert.match(h,first.videoStatus==='blocked'?/class="archive-video"/:/class="video-stage"/);else assert.doesNotMatch(h,/class="video-stage"/);
   }else{assert.match(card,/data-art-kind="video"/);}
  }
  const response=await worker.fetch(req('/music/'),environment);
@@ -486,7 +486,7 @@ test('registered external artwork cache reuses successful responses and rejects 
  assert.equal((await worker.fetch(req('/music/artwork-cache/unknown-v1'),environment)).status,404);
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
  assert.equal((catalog.match(/loading="eager"/g)||[]).length,2);
- assert.equal((catalog.match(/loading="lazy"/g)||[]).length,54);
+ assert.equal((catalog.match(/loading="lazy"/g)||[]).length,55);
  assert.match(catalog,/data-origin="https:\/\/www\.lisani\.jp/);
 });
 test('context filters appear only for relevant results or tag deep links',()=>{
