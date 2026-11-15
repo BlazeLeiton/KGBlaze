@@ -58,10 +58,10 @@
     "melodia-del-oceano": {
       "release": "Melodía del Océano · Rebel Mix medley",
       "source": "https://www.youtube.com/watch?v=50fy19RJ6Wo",
-      "origin": "https://i.ytimg.com/vi/50fy19RJ6Wo/hqdefault.jpg",
+      "origin": "/music-artwork/melodia-del-oceano-v1.webp",
       "version": 1,
       "fit": "contain",
-      "path": null,
+      "path": "/music-artwork/melodia-del-oceano-v1.webp",
       "status": "composite",
       "components": [
         "miiro",
