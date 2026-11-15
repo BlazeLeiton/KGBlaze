@@ -63,7 +63,7 @@ try{
   await page.locator('#music-detail-content[data-locale="en"]').waitFor();
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   await page.keyboard.press('Escape');
-  await page.locator('.music-overlay:not(.is-open)').waitFor();
+  await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
   assert.equal(await page.evaluate(()=>document.documentElement.lang),'es');
@@ -71,7 +71,7 @@ try{
   await page.goForward();
   await page.locator('.music-overlay.is-open').waitFor();
   await page.goBack();
-  await page.locator('.music-overlay:not(.is-open)').waitFor();
+  await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
   await page.close();
