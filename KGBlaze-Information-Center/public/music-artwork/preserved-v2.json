@@ -155,7 +155,7 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/tempestas-claim-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane",
         "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
@@ -176,7 +176,25 @@
         ],
         "retrieved_from": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
         "source_sha256": "715729c01b8c6d81b6f5fa51765c43a8f7440b61dd89ac9c52d13a2d328bafd1"
-      }
+      },
+      "size": [
+        960,
+        960
+      ],
+      "bytes": 245796,
+      "sha256": "af636bc8074be97af8d2efbbb7c5a28555aae21f170f0e47f0bd4c316c535250",
+      "original_size": [
+        1280,
+        720
+      ],
+      "retrieved_from": "https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp",
+      "source_sha256": "2261593dc2ea522027542ea1d809c8135e27dcf4b832335901c77b731e05f065",
+      "editorial_crop": [
+        80,
+        0,
+        1040,
+        720
+      ]
     },
     "melodia-del-oceano": {
       "release": "Melodía del Océano · Rebel Mix medley",
