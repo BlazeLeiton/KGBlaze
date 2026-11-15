@@ -40,6 +40,21 @@ try{
   }
   // Real navigation, rather than just independent document renders.
   await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  // Primary franchise filters must match multi-source works without duplication.
+  for(const [key,count] of [['Azur Lane',9],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',1],['Love Live!',3],['hololive',5]]){
+   await page.locator('#series').selectOption(key);
+   assert.equal(await page.locator('#songs .song:not([hidden])').count(),count,key);
+   if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(key))assert.equal(await page.locator('#songs .song:not([hidden]) > a[href="/music/song/melodia-del-oceano/"]').count(),1,key);
+  }
+  await page.locator('#series').selectOption('Love Live!');
+  await page.locator('#affiliation').selectOption('ll-nijigasaki');
+  assert.equal(await page.locator('#songs .song:not([hidden])').count(),2);
+  await page.locator('#clear').click();
+  await page.locator('#songs a[href="/music/"][data-music-intent]').filter({hasText:"μ's"}).first().click();
+  await page.waitForFunction(()=>document.getElementById('affiliation').value==='ll-muse');
+  assert.equal(await page.locator('#songs .song:not([hidden])').count(),1);
+  await page.locator('#clear').click();
+  console.log(device+' franchise and medley filters verified');
   const calls=[];page.on('request',r=>{if(r.url().includes('/music/data/'))calls.push(r.url())});
   const initial=await page.evaluate(()=>{window.__musicDocument=Math.random();return window.__musicDocument});
   await page.locator('#search').fill('blue spirit');
