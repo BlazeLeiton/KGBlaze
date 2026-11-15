@@ -757,3 +757,16 @@ test('Visor refinement: JP display keeps the internal JA filtering and approved 
  for(const slug of ['kenka','bad-candy','hikari-aru-basho-e']){assert.equal(releaseArtwork[slug].version,slug==='hikari-aru-basho-e'?3:2);assert.ok(releaseArtwork[slug].originalRelease);}
  assert.match(releaseArtwork.kenka.release,/Disc 3 track 13/);
 });
+
+test('music fragments omit the document shell and preserve original voice divisions in comparison',()=>{
+ const h=musicPage('/music/blue-spirit/',new URLSearchParams({lang:'es',version:'en',lyric:'en',compare:'es',fragment:'1'}));
+ assert.match(h,/^<div id="music-content" data-view="detail"/);
+ assert.doesNotMatch(h,/<!doctype|<script>/);
+ assert.match(h,/data-version="en"/);
+ assert.match(h,/class="parallel-pairs"/);
+ assert.match(h,/class="color-legend"/);
+ assert.match(h,/class="color-part/);
+ const catalogue=musicPage('/music/',new URLSearchParams({lang:'es',fragment:'1'}));
+ assert.match(catalogue,/^<div id="music-content" data-view="catalog"/);
+ assert.equal((catalogue.match(/class="square-art"/g)||[]).length,50);
+});
