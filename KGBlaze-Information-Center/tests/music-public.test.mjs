@@ -223,11 +223,11 @@ test('regional blocks use international season keys and never mix Horizons with 
 });
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
- assert.equal(Object.keys(lyricsBySong).length,62);
+ assert.equal(Object.keys(lyricsBySong).length,63);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
  assert.equal(entries.length,74);
- assert.equal(entries.filter(Boolean).length,73);assert.equal(lyricsBySong['el-mismo-sol'],undefined);
- assert.equal(entries.filter(v=>v?.text).length,73);
+ assert.ok(entries.every(Boolean));
+ assert.equal(entries.filter(v=>v?.text).length,74);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
@@ -930,3 +930,6 @@ test('Contextual repertoire: independent catalog labels and full detail headings
 
 
 test('El mismo sol credits the original lyricist-composer in both direct and persistent views',()=>{for(const [lang,label] of [['es','Letra y composición original'],['en','Original lyrics and composition'],['ja','原曲作詞・作曲']]){const params=new URLSearchParams({lang});const html=musicPage('/music/song/el-mismo-sol/',params);const state=musicStateData('/music/data/song/el-mismo-sol.json').locales[lang].es;for(const h of [html,state.html]){assert.ok(h.includes('<dt>'+label+'</dt><dd>Gian Marco Zignago</dd>'));}for(const h of [html,state.lyrics.es.full]){assert.ok(h.includes(label+': Gian Marco Zignago'));assert.ok(h.includes('gacetaoctubre11.pdf#page=14'));}assert.doesNotMatch(html,/<dt>Adaptación/);}});
+
+
+test('El mismo sol preserves the supplied Spanish original and editorial stanza breaks',()=>{const l=lyricsBySong['el-mismo-sol'].es;assert.equal(l.kind,'original');assert.equal(l.language,'ES');assert.deepEqual(l.text.split('\n\n').map(s=>s.split('\n').length),[4,5,4,5,4,5,4,5,4,4,5,3]);assert.equal(l.text.replace(/\s+/g,' ').trim(),"Tengo un pensamiento que me abraza Y en mis pasos las distancias que me quedan por vencer Tengo en cada reto una esperanza de llegar hasta la cima Que la recompensa llega con la fe Somos el futuro de la historia Quedará en nuestra memoria cada día que pasó Somos alas libres en el viento Con un solo sentimiento somos todos Alma fuerza y corazón Sigo caminando y no me rindo Vengo de muy lejos a ganar En mi corazón una bandera colorea La alegría de mi pueblo y mi ciudad Sigo hasta el final y no me rindo Sueño con mi tierra y su calor Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol Soy de la montaña de la costa y de la selva Soy amigo de la libertad Tengo la alegría de saber que yo he nacido Para hacer mi sueño siempre realidad Somos el futuro de la historia Quedará en nuestra memoria cada día que pasó Somos alas libres en el viento Con un solo sentimiento somos todos Alma fuerza y corazón Sigo caminando y no me rindo Vengo de muy lejos a ganar En mi corazón una bandera colorea La alegría de mi pueblo y mi ciudad Sigo hasta el final y no me rindo Sueño con mi tierra y su calor Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol Nadie me puede parar Yo sé que arriba hay una luz que me ilumina Llega hasta la cima Nadie me puede parar, mi corazón solo sabe ganar Sigo caminando y no me rindo Vengo de muy lejos a ganar En mi corazón una bandera colorea La alegría de mi pueblo y mi ciudad Sigo hasta el final y no me rindo Sueño con mi tierra y su calor Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol.");for(const lang of ['es','en','ja']){const state=musicStateData('/music/data/song/el-mismo-sol.json').locales[lang].es;assert.equal(state.lyrics.es.hasText,true);assert.equal(state.lyrics.es.cells.length,12);assert.match(state.lyrics.es.full,/class="lyric-text" lang="es"/);assert.match(state.lyrics.es.full,/Gian Marco Zignago/);assert.match(state.lyrics.es.full,/gacetaoctubre11.pdf#page=14/);assert.doesNotMatch(state.lyrics.es.full,/class="empty-lyrics"/);}});
