@@ -2,25 +2,46 @@
   "schema": "kgblaze-artwork-inventory-v2",
   "works": {
     "kenka": {
-      "release": "剣花 · LZC-2445 · Lantis digital single",
-      "source": "https://ototoy.jp/_/default/p/1731845",
-      "origin": "https://imgs.ototoy.jp/imgs/jacket/1731/00000003.1695784583.746_320.jpg",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/kenka-v1.webp",
+      "release": "Reign of the Seven Spellblades · Original Soundtrack · LACA-9994–9996 · Disc 3 track 13 剣花",
+      "source": "https://catalog.bandainamcomusiclive.co.jp/release/70963/",
+      "origin": "https://catalog.bandainamcomusiclive.co.jp/wp-content/uploads/2026/05/LACA-9994-scaled.jpg",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/kenka-v2.webp",
       "status": "preserved",
+      "previous": {
+        "release": "剣花 · LZC-2445 · Lantis digital single",
+        "source": "https://ototoy.jp/_/default/p/1731845",
+        "origin": "https://imgs.ototoy.jp/imgs/jacket/1731/00000003.1695784583.746_320.jpg",
+        "version": 1,
+        "fit": "contain",
+        "path": "/music-artwork/kenka-v1.webp",
+        "status": "preserved",
+        "size": [
+          320,
+          320
+        ],
+        "sha256": "9129fdb0b927f5de4e534d283402da25dd8bae2b60e4756a6bd2951e12366751",
+        "bytes": 31996,
+        "original_size": [
+          320,
+          320
+        ],
+        "retrieved_from": "https://imgs.ototoy.jp/imgs/jacket/1731/00000003.1695784583.746_320.jpg",
+        "source_sha256": "e03418b3a40edf312ee7cb2a23496763a7661b982aa6c81170c66a88bd5288b2"
+      },
       "size": [
-        320,
-        320
+        1200,
+        1200
       ],
-      "sha256": "9129fdb0b927f5de4e534d283402da25dd8bae2b60e4756a6bd2951e12366751",
-      "bytes": 31996,
+      "sha256": "f0756b5a08159d3f53e84428fe0897f57ecef9e1b3cb0e7ea69af1492afde2d7",
+      "bytes": 255722,
       "original_size": [
-        320,
-        320
+        2560,
+        2560
       ],
-      "retrieved_from": "https://imgs.ototoy.jp/imgs/jacket/1731/00000003.1695784583.746_320.jpg",
-      "source_sha256": "e03418b3a40edf312ee7cb2a23496763a7661b982aa6c81170c66a88bd5288b2"
+      "retrieved_from": "https://catalog.bandainamcomusiclive.co.jp/wp-content/uploads/2026/05/LACA-9994-scaled.jpg",
+      "source_sha256": "7c936ba4c850565904a6e388d7f03d4d392d22f5034898893e3de424db50e5d4"
     },
     "kokuan-glossolalia": {
       "release": "IV KLORE · SKY FULL of MAGIC · track 10",
@@ -44,25 +65,46 @@
       "source_sha256": "14d939c4fa42c350028bfa8a45fd15eb6cbc1de4d8c078076030c23948003a67"
     },
     "hikari-aru-basho-e": {
-      "release": "光ある場所へ · VTCL-35246 · May’n",
-      "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A021682/VTCL-35246.html",
-      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
-      "version": 1,
-      "fit": "cover",
-      "path": "/music-artwork/hikari-aru-basho-e-v1.webp",
+      "release": "Izetta: The Last Witch · Original Soundtrack · VTCL-60440",
+      "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A025666/VTCL-60440.html",
+      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
+      "version": 2,
+      "fit": "contain",
+      "path": "/music-artwork/hikari-aru-basho-e-v2.webp",
       "status": "preserved",
+      "previous": {
+        "release": "光ある場所へ · VTCL-35246 · May’n",
+        "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A021682/VTCL-35246.html",
+        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
+        "version": 1,
+        "fit": "cover",
+        "path": "/music-artwork/hikari-aru-basho-e-v1.webp",
+        "status": "preserved",
+        "size": [
+          600,
+          595
+        ],
+        "sha256": "d0ada0928d19f2ae1ec26952d2f698e9aea66a68392e431d37d0ab30e80d9553",
+        "bytes": 61682,
+        "original_size": [
+          600,
+          595
+        ],
+        "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
+        "source_sha256": "010480f9cd7030be4b5f01c3a23d42d0571106014000ef4821d92886c9a079d4"
+      },
       "size": [
         600,
-        595
+        593
       ],
-      "sha256": "d0ada0928d19f2ae1ec26952d2f698e9aea66a68392e431d37d0ab30e80d9553",
-      "bytes": 61682,
+      "sha256": "9e25c81f8f4d88272e8ae8f14f1066015cf88eaf203ed2dafc1e4fe98f4a7b80",
+      "bytes": 88768,
       "original_size": [
         600,
-        595
+        593
       ],
-      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
-      "source_sha256": "010480f9cd7030be4b5f01c3a23d42d0571106014000ef4821d92886c9a079d4"
+      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
+      "source_sha256": "17d95a241055f8b77037c528ae9bd3cba1fb30480485021396640cb6727a0a01"
     },
     "starlog": {
       "release": "starlog · LACM-14116 · Prisma☆Illya",
@@ -235,25 +277,46 @@
       "gitBlob": "0a962d8848f1dc0e727094bfbdae120e16fdb10d"
     },
     "bad-candy": {
-      "release": "BAD CANDY · digital single · 2021",
-      "source": "https://wmg.jp/yukadd/discography/25506",
-      "origin": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/bad-candy-v1.webp",
+      "release": "Girls’ Frontline · first anime key visual · BAD CANDY opening announcement",
+      "source": "https://gf-anime.com/news/40/",
+      "origin": "https://gf-anime.com/wp/wp-content/themes/dfl-main/_assets/images/top/fv/fv_002_pc.png",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/bad-candy-v2.webp",
       "status": "preserved",
+      "previous": {
+        "release": "BAD CANDY · digital single · 2021",
+        "source": "https://wmg.jp/yukadd/discography/25506",
+        "origin": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
+        "version": 1,
+        "fit": "contain",
+        "path": "/music-artwork/bad-candy-v1.webp",
+        "status": "preserved",
+        "size": [
+          640,
+          640
+        ],
+        "sha256": "8e5c5ccd25da0574105036dc2fa43e2b8b0d326f7433e654cfdb61a625e3095c",
+        "bytes": 58142,
+        "original_size": [
+          640,
+          640
+        ],
+        "retrieved_from": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
+        "source_sha256": "27c4bfc73a1fd3522c94a9154fedbd63fce71a76ec86a2beac533f8bec02106b"
+      },
       "size": [
-        640,
-        640
+        1200,
+        856
       ],
-      "sha256": "8e5c5ccd25da0574105036dc2fa43e2b8b0d326f7433e654cfdb61a625e3095c",
-      "bytes": 58142,
+      "sha256": "ac2f6daf7d9591cd4635850de2b77593be75da97fe890952797e932e19da9b3f",
+      "bytes": 244788,
       "original_size": [
-        640,
-        640
+        3200,
+        2283
       ],
-      "retrieved_from": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
-      "source_sha256": "27c4bfc73a1fd3522c94a9154fedbd63fce71a76ec86a2beac533f8bec02106b"
+      "retrieved_from": "https://gf-anime.com/wp/wp-content/themes/dfl-main/_assets/images/top/fv/fv_002_pc.png",
+      "source_sha256": "0e374acab2cc8578a503f0fda5b8bfe06a8eaaf2ba03e28129e5be1670923606"
     },
     "alive": {
       "release": "ALIVE · VVCL-2078/9 · anime edition",

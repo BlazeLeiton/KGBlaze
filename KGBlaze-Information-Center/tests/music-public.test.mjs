@@ -275,7 +275,7 @@ test('release dates and lyric choices remain independent from recording selectio
  assert.match(page('snow-halation',{lyric:'naked-garden',compare:'hso-orchestra'}),/class="parallel-pairs"/);
  assert.match(page('blue-spirit',{lyric:'es',compare:'en'}),/class="parallel-pairs"/);
  assert.doesNotMatch(page('butter-fly'),/class="lyric-controls"|class="version-bar"/);
- assert.match(page('butter-fly'),/JA \/ FR \/ PT \/ ES \/ EN/);
+ assert.match(page('butter-fly'),/JP \/ FR \/ PT \/ ES \/ EN/);
  const studio=page('dokimeki-diary',{version:'album-studio'});
  assert.doesNotMatch(studio,/Grabación de estudio para el álbum|Audio pendiente de incorporar|Fecha por confirmar|version=album-studio/);
  assert.match(studio,/Primer estreno<\/dt><dd>mayo de 2023/);
@@ -747,4 +747,13 @@ test('Arcana Integrity preservation manifest covers every work and verifies avai
   }else assert.ok(['pending-snapshot','composite'].includes(row.status),slug);
  }
  assert.deepEqual(m['melodia-del-oceano'].components,['miiro','graphite-diamond','high-free-spirits','savior-of-song']);
+});
+
+test('Visor refinement: JP display keeps the internal JA filtering and approved artwork unchanged',()=>{
+ for(const lang of ['es','en','ja']){
+  const h=musicPage('/music/',new URLSearchParams({lang}));assert.match(h,/<option value="JA">JP<\/option>/);assert.match(h,/JP \/ FR \/ PT \/ ES \/ EN/);assert.match(h,/data-lang="JA FR PT ES EN MULTI"/);assert.doesNotMatch(h,/<p class="meta">[^<]*\bJA\b/);
+  for(const slug of ['kenka','bad-candy','hikari-aru-basho-e'])assert.ok(h.includes(artworkURL(slug)));
+ }
+ for(const slug of ['kenka','bad-candy','hikari-aru-basho-e']){assert.equal(releaseArtwork[slug].version,2);assert.ok(releaseArtwork[slug].originalRelease);}
+ assert.match(releaseArtwork.kenka.release,/Disc 3 track 13/);
 });
