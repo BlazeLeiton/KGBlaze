@@ -1462,7 +1462,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/el-mismo-sol-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        953,
+        953
+      ],
+      "sha256": "9bc8bef9ec9e9503c6d7327a4621a081dcca56e56366d098b232e5b6b285a453",
+      "bytes": 115840,
+      "original_size": [
+        953,
+        953
+      ],
+      "retrieved_from": "https://images.coveralia.com/audio/a/Alejandro_Fernandez-El_Mismo_Sol_%28CD_Single%29-Frontal.jpg",
+      "source_sha256": "9d53ed330244187fe7a14a54c99ba36ffef6b064ca3529314a498833aee3508c"
     }
   }
 }
