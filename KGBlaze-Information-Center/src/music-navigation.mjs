@@ -7,7 +7,8 @@ const normalize=value=>{const u=new URL(value,location.href);u.searchParams.dele
 const isMusic=u=>u.origin===location.origin&&/^\/music\/(?:[a-z0-9-]+\/?)?$/.test(u.pathname);
 const isDetail=u=>u.pathname.split('/').filter(Boolean).length===2;
 let catalog=initial.dataset.view==='catalog'?initial:null, active=null, overlay=null, closeTimer=0, request=0, priorFocus=null, catalogURL=catalog?normalize(location.href):'/music/?lang='+initial.dataset.locale;
-let currentURL=normalize(location.href), busy=false, openedFromCatalog=false;
+let currentURL=normalize(location.href), busy=false, openedFromCatalog=false, catalogueScroll=0;
+if('scrollRestoration' in history)history.scrollRestoration='manual';
 const remember=(k,v)=>{cache.delete(k);cache.set(k,v);if(cache.size>maxCache)cache.delete(cache.keys().next().value)};
 remember(currentURL,initial.outerHTML);
 function fetchFragment(value){
@@ -40,7 +41,7 @@ function openNode(node, u, opts={}){
  panel.replaceChildren(node);active=node;wrap.hidden=false;document.body.classList.add('music-modal-open');main.inert=true;document.querySelector('.footer').inert=true;document.querySelector('.header').inert=true;
  // Site locale links remain reachable inside the overlay without touching the background.
  const nav=document.createElement('nav');nav.className='music-detail-langs';nav.setAttribute('aria-label','Language');for(const lang of ['es','en','ja']){const a=document.createElement('a'),url=new URL(u,location.origin);url.searchParams.set('lang',lang);a.href=url.pathname+'?'+url.searchParams.toString();a.textContent=lang==='ja'?'JP':lang.toUpperCase();if(lang===node.dataset.locale)a.setAttribute('aria-current','true');nav.append(a)}node.prepend(nav);
- if(!wasOpen){panel.scrollTop=0;requestAnimationFrame(()=>requestAnimationFrame(()=>{wrap.classList.add('is-open');panel.focus({preventScroll:true})}))}
+ if(!wasOpen){panel.scrollTop=0;requestAnimationFrame(()=>requestAnimationFrame(()=>{if(active===node){wrap.classList.add('is-open');panel.focus({preventScroll:true})}}))}
  else{wrap.classList.add('is-open');panel.scrollTop=opts.preserve?oldTop:0;}
  updateLocale(node,u);
  // Related artwork is just three local images; load them now rather than blank screenshots.
@@ -70,7 +71,7 @@ async function navigate(value,mode='push'){
  try{
   if(detail){
    const h=await fetchFragment(u);if(seq!==request)return;const node=parse(h);if(!node)throw Error('Invalid detail');
-   if(!active){priorFocus=document.activeElement;openedFromCatalog=mode==='push'&&!!catalog;}
+   if(!active){priorFocus=document.activeElement;catalogueScroll=window.scrollY;openedFromCatalog=mode==='push'&&!!catalog;}
    commitURL(target,mode);openNode(node,u,{preserve:same});
    if(!catalog)ensureCatalog('/music/?lang='+node.dataset.locale).catch(()=>{});
   }else{
@@ -84,7 +85,7 @@ async function navigate(value,mode='push'){
 function hideOverlay(){
  if(!overlay)return;overlay.classList.remove('is-open');document.body.classList.remove('music-modal-open');main.inert=false;document.querySelector('.footer').inert=false;document.querySelector('.header').inert=false;active=null;openedFromCatalog=false;
  clearTimeout(closeTimer);closeTimer=setTimeout(()=>{if(!active){overlay.hidden=true;overlay.firstElementChild.replaceChildren()}},280);
- if(priorFocus?.isConnected)priorFocus.focus({preventScroll:true});priorFocus=null;
+ window.scrollTo(0,catalogueScroll);if(priorFocus?.isConnected)priorFocus.focus({preventScroll:true});priorFocus=null;
 }
 function closeDetail(){if(!active)return;const u=new URL(catalogURL,location.origin);if(openedFromCatalog&&catalog){openedFromCatalog=false;history.back();return}navigate(u,'replace')}
 document.addEventListener('click',e=>{
