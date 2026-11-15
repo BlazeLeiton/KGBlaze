@@ -71,7 +71,7 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/hikari-aru-basho-e-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "release": "Izetta: The Last Witch · Original Soundtrack · VTCL-60440",
         "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A025666/VTCL-60440.html",
@@ -113,7 +113,16 @@
         ],
         "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
         "source_sha256": "17d95a241055f8b77037c528ae9bd3cba1fb30480485021396640cb6727a0a01"
-      }
+      },
+      "size": [
+        514,
+        514
+      ],
+      "bytes": 173732,
+      "sha256": "b67ff9aebeb70f87e783c7a029d2b66faec8215b3a9d522a65215aadb8b5d140",
+      "source_sha256": "93691a725f790f602c66456f2d9c959f38fd636604b41b8c89bc9b2f6a68f891",
+      "review_commit": "8522f04a13420dd1574cbf4629dc088bc6311013",
+      "review_path": "approved-review/docs/artwork-options/izetta-bluray-vol1-square.jpg"
     },
     "starlog": {
       "release": "starlog · LACM-14116 · Prisma☆Illya",
@@ -164,7 +173,7 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/tempestas-claim-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "release": "Tempesta’s Claim · official Kotoka Torahime teaser · 29 Oct 2023",
         "source": "https://archive.ragtag.moe/watch?v=ZLE-wsYXI2o",
@@ -217,7 +226,16 @@
         "https://archive.ragtag.moe/watch?v=xKqHPsDxXBU",
         "https://archive.ragtag.moe/watch?v=7AgV7UGobuc",
         "https://archive.ragtag.moe/watch?v=ZLE-wsYXI2o"
-      ]
+      ],
+      "size": [
+        960,
+        960
+      ],
+      "bytes": 928746,
+      "sha256": "ab3e245e3cdad20d08ae10d070d3ccb9302fb703db9285a83dbf1fe9c6ebd3b7",
+      "source_sha256": "4d1a61fef5e92e65a518a0dc60bea123e898bddc04af99ea25ce8e6ca0378793",
+      "review_commit": "8522f04a13420dd1574cbf4629dc088bc6311013",
+      "review_path": "approved-review/docs/artwork-options/tempesta-height-1C-refined.png"
     },
     "melodia-del-oceano": {
       "release": "Melodía del Océano · Rebel Mix medley",
