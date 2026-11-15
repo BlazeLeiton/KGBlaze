@@ -668,7 +668,7 @@ test('Love Experiment archive retains blocked tracks without broken playback',()
  const page=(slug,lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({lang}));
  for(const slug of ['please-please','twilight-little-star']){const h=page(slug);assert.match(h,/Video original no disponible actualmente\./);assert.match(h,/La interpretación sigue formando parte del archivo histórico\./);assert.match(h,/Re-upload pendiente/);assert.doesNotMatch(h,/class="video-stage"|class="youtube-link"/);assert.match(page(slug,'en'),/Original video currently unavailable/);assert.match(page(slug,'ja'),/元の動画は現在視聴できません/);}
  assert.match(page('daisuki'),/Cada instante/);assert.match(page('honey-jet-coaster'),/Ella parece mucho más novio que yo/);assert.doesNotMatch(page('honey-jet-coaster'),/La Shikimori parece más vato que yo/);
- assert.equal(albumsForVersion('daisuki','acoustic').length,0);
+ assert.equal(albumsForVersion('daisuki','acoustic').length,1);
 });
 
 
@@ -853,4 +853,14 @@ test('LEVEL revised duet preserves exact lyric and all source run boundaries',()
  assert.equal(lines[30][2].text,'(ahh)');
  const html=musicPage('/music/song/level/',new URLSearchParams({lang:'es'}));
  assert.match(html,/class="color-part/);assert.match(html,/yanaginagi/);assert.match(html,/THE SIXTH LIE/);
+});
+
+test('Ensamble Alternativo records only confirmed alternate recordings as a planned unreleased album',()=>{
+ const album=coverAlbums.find(a=>a.historicalNumber===10);
+ assert.equal(album.id,'ensamble-alternativo');assert.equal(album.releaseStatus,'planned-unreleased');assert.equal(album.releaseDate,null);assert.equal(album.ordered,false);assert.equal(album.englishTitleStatus,'provisional');
+ assert.deepEqual(album.tracks.map(t=>[t.song,t.version]),[['daisuki','acoustic'],['snow-halation','naked-garden'],['snow-halation','hso-orchestra'],['dokimeki-diary','ensemble']]);
+ assert.ok(album.tracks.every(t=>songs.find(s=>s.slug===t.song)?.versions.some(v=>v.id===t.version)));
+ assert.ok(!albumsForVersion('daisuki','es').some(a=>a.id===album.id));assert.ok(!albumsForVersion('dokimeki-diary','album-studio').some(a=>a.id===album.id));assert.ok(!albumsForVersion('starlog','naked-garden').some(a=>a.id===album.id));
+ assert.match(musicPage('/music/song/snow-halation/',new URLSearchParams({lang:'es',version:'naked-garden'})),/Álbum planeado \(no publicado\)<\/dt><dd>Ensamble Alternativo/);
+ assert.equal(lyricsBySong['snow-halation'].hybrid,undefined);
 });
