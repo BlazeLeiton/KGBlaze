@@ -29,7 +29,7 @@ try{
    // Test every detail route in all locales and both viewport sizes; external YouTube
    // thumbnails are not revalidated as release artwork.
    for(const s of songs){
-    const response=await page.goto(origin+'/music/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
+    const response=await page.goto(origin+'/music/song/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),s.slug+' horizontal overflow');
     const video=page.locator('.video-stage,.archive-video').first();
     assert.ok(await video.count(),s.slug+' has no video/archive stage');
@@ -39,6 +39,7 @@ try{
   }
   // Real navigation, rather than just independent document renders.
   await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  const calls=[];page.on('request',r=>{if(r.url().includes('/music/data/'))calls.push(r.url())});
   const initial=await page.evaluate(()=>{window.__musicDocument=Math.random();return window.__musicDocument});
   await page.locator('#search').fill('blue spirit');
   await page.locator('#list').click();
@@ -46,6 +47,8 @@ try{
   await page.locator('.music-overlay.is-open #music-detail-content').waitFor();
   const overlay=page.locator('.music-overlay-panel');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial,'opening navigated document');
+  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
   assert.ok(await overlay.evaluate(n=>Math.abs(n.getBoundingClientRect().width-innerWidth)<2));
@@ -58,6 +61,8 @@ try{
   assert.ok(await overlay.locator('.parallel-pairs .color-part').count());
   assert.ok(await page.evaluate(()=>window.__player===document.querySelector('.music-overlay .video-stage')),'player remounted on lyric change');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
+  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   await page.screenshot({path:resolve(out,device+'-overlay-parallel.png'),fullPage:false});
   await overlay.locator('.music-detail-langs a').filter({hasText:'EN'}).click();
   await page.locator('#music-detail-content[data-locale="en"]').waitFor();
@@ -66,7 +71,10 @@ try{
   await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
-  assert.equal(await page.evaluate(()=>document.documentElement.lang),'es');
+  assert.equal(await page.evaluate(()=>document.documentElement.lang),'en');
+  assert.ok(page.url().endsWith('/music/'));
+  assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
+  assert.equal(await page.evaluate(()=>localStorage.getItem('kgblaze.locale.v1')),'en');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   await page.goForward();
   await page.locator('.music-overlay.is-open').waitFor();
