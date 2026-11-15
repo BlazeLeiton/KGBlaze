@@ -1128,7 +1128,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/ano-ne-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        400,
+        400
+      ],
+      "sha256": "48dfcb00b9aae073fb2c8bc885fd5796bd0617c30e1e332656a0edea12920e11",
+      "bytes": 47486,
+      "original_size": [
+        400,
+        400
+      ],
+      "retrieved_from": "https://columbia.jp/prod-info/jacket/COCC-17809.jpg",
+      "source_sha256": "cf61e8d4f7bebbe38d549cd705c6427348ea70d0a07d2cf4d24066e44a259a9d"
     },
     "kono-tate-ni-kakuremasu": {
       "release": "この盾に、隠れます。 · anime collaboration edition USSW-0399",
@@ -1137,7 +1149,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/kono-tate-ni-kakuremasu-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "7ee8ef54afd78586f315479d2d0b2e1082c991e626964a5acd3612b98c7c97e2",
+      "bytes": 308676,
+      "original_size": [
+        1280,
+        1280
+      ],
+      "retrieved_from": "https://bofuri.jp/assets/music/op.jpg",
+      "source_sha256": "be56597e3b7b6a3041624afc4ae001755f2324d57e6457be518545acf3046233"
     },
     "koko-kara-koko-kara": {
       "release": "ここから、ここから · ZMCZ-11855",
@@ -1146,7 +1170,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/koko-kara-koko-kara-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        300,
+        300
+      ],
+      "sha256": "d58711c21da74411cd0f387741cbbab3cb1f3771b97b5fd2377dd1f945670077",
+      "bytes": 16308,
+      "original_size": [
+        300,
+        300
+      ],
+      "retrieved_from": "https://yorimoi.com/assets/music/ed.png",
+      "source_sha256": "b63a8bec1063bbff148a42379d75339693463687ca39a1c6fbf5a979e2aebf1a"
     },
     "rvr": {
       "release": "RVR · BVCL-1357/8",
@@ -1155,7 +1191,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/rvr-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "5b136393d830094c0af2fad0aeccabf17a7760a58ab686fe00d5ff9eb7b3b9fc",
+      "bytes": 271746,
+      "original_size": [
+        1500,
+        1500
+      ],
+      "retrieved_from": "https://www.pokemoncenter-online.com/a/img/item/4547366652475/L/671c62e0990aa48f1c52da5661d631b95ade0c52f828b0c39c8c9273a1501efc.jpg",
+      "source_sha256": "a61ef8393dc212a9273dfd71e414e84502815d45c78b84adf3ce49db5dfa4408"
     },
     "zutto": {
       "release": "ずっと · COCC-18117",
@@ -1164,7 +1212,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/zutto-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        400,
+        400
+      ],
+      "sha256": "71eaa356b3ec9cd458bb4a6f813c70c8350c6ba2eee248b52e2540b738e70ad5",
+      "bytes": 29092,
+      "original_size": [
+        400,
+        400
+      ],
+      "retrieved_from": "https://columbia.jp/prod-info/jacket/COCC-18117.jpg",
+      "source_sha256": "6ada6a3f51006d5451472cd23efa126e92ea893c4f1cf60397da1173e942b7d6"
     },
     "level": {
       "release": "The Genius Prince · Blu-ray Vol. 1 · GNXA-2381",
@@ -1173,7 +1233,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/level-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        360,
+        458
+      ],
+      "sha256": "617e58ac30f8c415df55a168d89e0ba311002e0657b04978684cc90faec819c8",
+      "bytes": 51704,
+      "original_size": [
+        360,
+        458
+      ],
+      "retrieved_from": "https://tensaiouji-anime.com/core_sys/images/contents/00000017/block/00000047/00000041.jpg?1656652640=",
+      "source_sha256": "ef40ce686b56bdf09353cf8033f950aa5ce55cb9ecb02fbc52da7278ba636304"
     }
   }
 }
