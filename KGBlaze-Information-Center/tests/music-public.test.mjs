@@ -401,7 +401,7 @@ test('compact cards have one franchise badge while fiches retain complete tags',
   assert.match(mc,/affiliation=holo-en">hololive EN<\/a>/);
   assert.doesNotMatch(mc,/class="pk-tag"[^>]*affiliation=holo-promise/);
   assert.equal((sc.match(/class="pk-tag"/g)||[]).length,1);
-  assert.match(sc,/series=Love%20Live!%20School%20Idol%20Project">μ&#39;s<\/a>/);
+  assert.match(sc,/affiliation=ll-muse">μ&#39;s<\/a>/);
   assert.match(pc,/block=horizons/);
   const detail=musicPage('/music/mumei/',new URLSearchParams({lang}));
   assert.match(detail,/affiliation=holo-promise/);
@@ -497,17 +497,17 @@ test('context filters appear only for relevant results or tag deep links',()=>{
  const ids=['search','language','year','series','block','affiliation','block-filter','affiliation-filter','context-filters','empty','clear','grid','list'];
  const el=Object.fromEntries(ids.map(k=>[k,make()]));
  const options=(...values)=>values.map(value=>({value}));
- el.series.options=options('','Pokémon Horizons','hololive English','Love Live! School Idol Project','Azur Lane');
+ el.series.options=options('','Pokémon','hololive','Love Live!','Azur Lane');
  el.block.options=options('','horizons');el.affiliation.options=options('','hololive','holo-en','holo-promise','love-live','ll-muse');
- const item=(title,series,block,affiliation)=>({dataset:{title,series,block,affiliation,lang:'ES',year:'2023'}});
+ const item=(title,series,block,affiliation)=>({dataset:{title,series,primarySeries:({'Pokémon Horizons':'Pokémon','hololive English':'hololive','Love Live! School Idol Project':'Love Live!'})[series]||series,block,affiliation,lang:'ES',year:'2023'}});
  const items=[item('dokimeki','Pokémon Horizons','horizons',''),item('mumei','hololive English','','hololive holo-en holo-promise'),item('snow','Love Live! School Idol Project','','love-live ll-muse'),item('blue','Azur Lane','','')];
  el.songs={children:items,classList:{toggle(){}}};
  const doc={querySelectorAll:()=>[],getElementById:id=>el[id]};
  const start=search=>new Function('document','location','URLSearchParams',js)(doc,{search},URLSearchParams);
  start('');assert.equal(el['context-filters'].hidden,true);
- el.series.value='Pokémon Horizons';el.series.input();assert.equal(el['block-filter'].hidden,false);assert.equal(el['affiliation-filter'].hidden,true);
+ el.series.value='Pokémon';el.series.input();assert.equal(el['block-filter'].hidden,false);assert.equal(el['affiliation-filter'].hidden,true);
  el.block.value='horizons';el.block.input();assert.equal(items.filter(x=>!x.hidden).length,1);
- el.series.value='hololive English';el.series.input();assert.equal(el.block.value,'');assert.equal(el['block-filter'].hidden,true);assert.equal(el['affiliation-filter'].hidden,false);
+ el.series.value='hololive';el.series.input();assert.equal(el.block.value,'');assert.equal(el['block-filter'].hidden,true);assert.equal(el['affiliation-filter'].hidden,false);
  assert.equal(el.affiliation.options.find(o=>o.value==='ll-muse').disabled,true);
  el.series.value='Azur Lane';el.series.input();assert.equal(el['context-filters'].hidden,true);
  el.clear.onclick();assert.equal(el['context-filters'].hidden,true);assert.equal(items.filter(x=>!x.hidden).length,4);
@@ -788,4 +788,40 @@ test('canonical song paths and one independent state payload per work',async()=>
  assert.equal(response.status,200);const d=await response.json();
  const v=d.locales.es.en;assert.ok(v.lyrics.es.cells.some(c=>c.includes('color-part')));assert.ok(v.lyrics.en.cells.some(c=>c.includes('color-part')));
  const h=await worker.fetch(new Request(origin+'/music/song/blue-spirit/',{headers:{Cookie:'kgblaze_lang=ja'}}),environment);assert.match(await h.text(),/<html lang="ja"/);
+});
+
+test('editorial franchise membership, multi-source medley and localized events',()=>{
+ for(const lang of ['es','en','ja']){
+  const h=musicPage('/music/',new URLSearchParams({lang})),cards=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
+  assert.equal(cards.length,50);
+  const ids=key=>cards.filter(c=>c.match(/data-primary-series="([^"]+)"/)[1].split('|').includes(key)).map(c=>c.match(/href="\/music\/song\/([^/]+)\//)[1]);
+  assert.deepEqual(ids('Azur Lane'),['blue-spirit','graphite-diamond','feelin-it-all','signal','yuukyuu-no-catharsis','aint-backing-down','tempestas-claim','what-youre-made-of','melodia-del-oceano']);
+  assert.deepEqual(ids('Kantai Collection'),['miiro','melodia-del-oceano']);
+  assert.deepEqual(ids('High School Fleet'),['high-free-spirits','melodia-del-oceano']);
+  assert.deepEqual(ids('Arpeggio of Blue Steel'),['savior-of-song','melodia-del-oceano']);
+  assert.deepEqual(ids('Pokémon'),['dokimeki-diary']);
+  assert.deepEqual(ids('Love Live!'),['snow-halation','stars-we-chase','pastel']);
+  assert.deepEqual(ids('hololive'),['mumei','caesura-of-despair','shiny-smily-story','sparks-of-joy','sparks']);
+  const opts=h.match(/<select id="series">([\s\S]*?)<\/select>/)[1];
+  assert.doesNotMatch(opts,/value="(?:Azur Lane The Animation|Pokémon Horizons|hololive English|Love Live! School Idol Project|Kantai Collection \/)/);
+  for(const k of ['Oregairu','Oregairu Zoku','Oregairu Kan','SSSS.GRIDMAN','SSSS.DYNAZENON','Madoka Magica: Rebellion'])assert.ok(opts.includes('value="'+k+'"'));
+  const eventLabel={es:'Evento',en:'Event',ja:'イベント'}[lang];
+  const expected={
+   'blue-spirit':['Universe in Unison','Universe in Unison','激唱のユニバース'],
+   'signal':['Operation Siren','Operation Siren','セイレーン作戦'],
+   'feelin-it-all':['Cuarto aniversario global','Fourth Global Anniversary','グローバル版4周年記念'],
+   'aint-backing-down':['Quinto aniversario global','Fifth Global Anniversary','グローバル版5周年記念'],
+   'what-youre-made-of':['Segundo aniversario global','Second Global Anniversary','グローバル版2周年記念'],
+   'tempestas-claim':['Tempesta and the Fountain of Youth','Tempesta and the Fountain of Youth','テンペスタと若返りの泉']
+  };
+  for(const [slug,values] of Object.entries(expected)){
+   const value=values[['es','en','ja'].indexOf(lang)], d=musicStateData('/music/data/song/'+slug+'.json');
+   for(const v of Object.values(d.locales[lang]))assert.ok(v.html.includes('<dt>'+eventLabel+'</dt><dd>'+value+'</dd>'),slug+' '+lang);
+  }
+  for(const slug of ['graphite-diamond','yuukyuu-no-catharsis']){
+   const d=musicStateData('/music/data/song/'+slug+'.json');const v=d.locales[lang][d.defaultVersion];
+   assert.ok(v.html.includes(lang==='ja'?'アズールレーン THE ANIMATION':'Azur Lane The Animation'));
+   assert.ok(!v.html.includes('<dt>'+eventLabel+'</dt>'));
+  }
+ }
 });
