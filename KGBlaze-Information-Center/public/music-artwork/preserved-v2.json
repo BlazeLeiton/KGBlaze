@@ -1483,7 +1483,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/ai-no-uta-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        595
+      ],
+      "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
+      "bytes": 38410,
+      "original_size": [
+        600,
+        595
+      ],
+      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
+      "source_sha256": "e35841a078ff24ba5cc9d705cb1b4f05178cb6db4dfc635f0ef20d5d63729dad"
     },
     "beginners-rock": {
       "release": "Second Sparkle · Original Edition",
@@ -1492,7 +1504,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/beginners-rock-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "6c409eece0f67cdb72b4dcb8c5a0591277ed56486534c84c70116ed3c109115e",
+      "bytes": 83514,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://www.asmart.jp/images/product/10035775/brXk7PTh6LbLWzRtuSvpUPbkN2NhUPm4.jpg",
+      "source_sha256": "fdd791b399d9d58cb6575600749f1cd95402d0a7e5c9777423020344533ff7fe"
     },
     "dakara-boku-wa-boku-wo-tebanasu": {
       "release": "Sagrada Reset · official series artwork",
@@ -1501,7 +1525,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/dakara-boku-wa-boku-wo-tebanasu-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "9bee7d8869c9dcd173378245dd288352a74f0feb2ba13f2e78ac188eaf4ed884",
+      "bytes": 152884,
+      "original_size": [
+        2560,
+        1920
+      ],
+      "retrieved_from": "https://m.media-amazon.com/images/S/pv-target-images/1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028.jpg",
+      "source_sha256": "1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028"
     },
     "end-of-a-life": {
       "release": "end of a life · CVRD-081",
@@ -1510,7 +1546,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/end-of-a-life-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        640,
+        640
+      ],
+      "sha256": "f5c864dd15b595f1a394c123cccc1593aa652f93ddd239651c3c83a0c06142ee",
+      "bytes": 113470,
+      "original_size": [
+        640,
+        640
+      ],
+      "retrieved_from": "https://i.scdn.co/image/ab67616d0000b2739cab3395b67694ffac0f1ef9",
+      "source_sha256": "77828fcaa0157bc6ec68bd86ea29a5f65198e0a7c388f6dc57b017ac41876b38"
     },
     "gg": {
       "release": "GG · VVCL-2618 · anime edition",
@@ -1519,7 +1567,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/gg-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        500,
+        446
+      ],
+      "sha256": "6f9a503609ea5e1c11943e878e94ca8bd6c40ee2f6999946d1e93ddcedafe27f",
+      "bytes": 71670,
+      "original_size": [
+        500,
+        446
+      ],
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/14/39/VVCL-2618.jpg?v=1",
+      "source_sha256": "491b25b6d873c0a17ee4ac957ba9bbfc04a15ccb130075c6b83a12ef90d195b2"
     },
     "gimi-gimi": {
       "release": "ギミギミ／編集点 · digital single",
@@ -1528,7 +1588,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/gimi-gimi-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "87eb5b12c4fdbe0d0e3c381d54ad0a8a849848122e031c193fcddfe8ebc4834c",
+      "bytes": 211712,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://mayopan.jp/assets/img/music/jk.jpg",
+      "source_sha256": "2c338a8add954b9df7576ee9565d0792fbcddee0ffc40b0310e8eaa563573e82"
     },
     "leon-no-sabe-que-existo": {
       "release": "Keasbey Nights · Catch 22 (1998)",
@@ -1537,7 +1609,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/leon-no-sabe-que-existo-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        637,
+        640
+      ],
+      "sha256": "0036427d64f7c64788e91d3c77a7f851c407a8da446870e0338ac919ad9964a0",
+      "bytes": 66554,
+      "original_size": [
+        637,
+        640
+      ],
+      "retrieved_from": "https://i.scdn.co/image/ab67616d0000b27315651aabbaff49ae751bb7c7",
+      "source_sha256": "cca653469b74300bef3b51ec3194fe561c462f7472333d3eb273dd99a9c9ded6"
     },
     "hitoribocchi-tokyo": {
       "release": "結束バンド · Kessoku Band · original album jacket",
@@ -1546,7 +1630,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/hitoribocchi-tokyo-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        900,
+        900
+      ],
+      "sha256": "90c989822cf401923f6f1439ca44552eabd3444a1d2fdffd5eaa24d227000586",
+      "bytes": 152680,
+      "original_size": [
+        900,
+        900
+      ],
+      "retrieved_from": "https://animaru.jp/product_image/scenario/000339/000339444/main_01_VkPK14mq.jpg",
+      "source_sha256": "1267a2fa7b6d57d6795828eb3bf7757d579106c3e28dbcbaa0e027c9405eb637"
     },
     "kaze-no-uta": {
       "release": "風ノ唄／BURN · KSCL-2762/3 · illustrated edition",
@@ -1555,7 +1651,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/kaze-no-uta-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        800,
+        800
+      ],
+      "sha256": "25a39ffd83da21fadefc3618c7849c1ae38babf25c9a833a339d9aaeaca3636c",
+      "bytes": 79184,
+      "original_size": [
+        800,
+        800
+      ],
+      "retrieved_from": "https://img.hmv.co.jp/image/jacket/800/71/5/5/950.jpg",
+      "source_sha256": "ee9db304e430160c6fa5196fb414f9258ff130a13a704d100b943c71991d5845"
     }
   }
 }
