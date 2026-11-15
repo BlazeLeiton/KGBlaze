@@ -24,7 +24,7 @@ function data(slug){
 function parse(h){const t=document.createElement('template');t.innerHTML=h.trim();return t.content.querySelector('#music-content')}
 function readFilters(){const out={};for(const id of ['search','language','year','series','block','affiliation']){const el=document.getElementById(id);if(el)out[id]=el.value}out.list=!!document.getElementById('songs')?.classList.contains('list');return out}
 function rewriteLinks(root){
- for(const a of root.querySelectorAll('a[href]')){const u=new URL(a.href,location.href);if(!isMusic(u))continue;
+ for(const a of root.querySelectorAll('a[href]')){if(a.dataset.musicIntent)continue;const u=new URL(a.href,location.href);if(!isMusic(u))continue;
   const p=u.searchParams, intent={slug:slugOf(u)};
   for(const k of ['version','lyric','compare','series','block','affiliation'])if(p.has(k))intent[k]=p.get(k);
   if(a.closest('.langs,.music-detail-langs')&&valid(p.get('lang')))intent.locale=p.get('lang');
@@ -85,7 +85,7 @@ async function showSong(next,mode='push'){
  const request=++seq,was=active,old=state;
  document.body.classList.add('music-navigation-busy');
  try{const d=await data(next.slug);if(request!==seq)return;
-  if(!was){priorFocus=document.activeElement;catalogScroll=window.scrollY;fromCatalog=mode==='push'&&!!catalog;if(fromCatalog)historyState('replace')}
+  if(!was){priorFocus=document.activeElement;catalogScroll=mode==='push'?window.scrollY:(history.state?.scroll||window.scrollY);if(mode==='push'){fromCatalog=!!catalog;if(fromCatalog)historyState('replace')}}
   state={...next};const n=build(d,state);selections.set(state.slug,{...state});historyState(mode);openNode(n,old.slug===state.slug);
  }catch(e){console.error(e);if(request===seq)location.assign(pathOf(next.slug))}
  finally{if(request===seq)document.body.classList.remove('music-navigation-busy')}
