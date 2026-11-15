@@ -3,11 +3,11 @@ export const musicNavigationScript=String.raw`(function(){
 const main=document.querySelector('main.shell'), initial=main.querySelector('#music-content');
 if(!initial)return;
 const cache=new Map(), inflight=new Map(), maxCache=32;
-const normalize=value=>{const u=new URL(value,location.href);u.searchParams.delete('fragment');return u.pathname+'?'+u.searchParams.toString()};
+const normalize=value=>{const u=new URL(value,location.href);u.searchParams.delete('fragment');if(!u.searchParams.has('lang'))u.searchParams.set('lang',document.documentElement.lang||'es');return u.pathname+'?'+u.searchParams.toString()};
 const isMusic=u=>u.origin===location.origin&&/^\/music\/(?:[a-z0-9-]+\/?)?$/.test(u.pathname);
 const isDetail=u=>u.pathname.split('/').filter(Boolean).length===2;
 let catalog=initial.dataset.view==='catalog'?initial:null, active=null, overlay=null, closeTimer=0, request=0, priorFocus=null, catalogURL=catalog?normalize(location.href):'/music/?lang='+initial.dataset.locale;
-let currentURL=normalize(location.href), busy=false;
+let currentURL=normalize(location.href), busy=false, openedFromCatalog=false;
 const remember=(k,v)=>{cache.delete(k);cache.set(k,v);if(cache.size>maxCache)cache.delete(cache.keys().next().value)};
 remember(currentURL,initial.outerHTML);
 function fetchFragment(value){
@@ -29,13 +29,15 @@ function shell(){
 function openNode(node, u, opts={}){
  const wrap=shell(), panel=wrap.firstElementChild, wasOpen=wrap.classList.contains('is-open');
  clearTimeout(closeTimer);const previous=active, oldTop=panel.scrollTop;
+ if(previous&&previous.dataset.slug===node.dataset.slug&&previous.dataset.version===node.dataset.version&&previous.dataset.locale===node.dataset.locale){const oldLyrics=previous.querySelector('.lyrics'),newLyrics=node.querySelector('.lyrics');if(oldLyrics&&newLyrics){oldLyrics.replaceWith(newLyrics);previous.querySelector('.detail-grid').className=node.querySelector('.detail-grid').className;previous.querySelectorAll('.music-detail-langs a').forEach((a,i)=>{const url=new URL(u,location.origin);url.searchParams.set('lang',['es','en','ja'][i]);a.href=url.pathname+'?'+url.searchParams.toString()});updateLocale(previous,u);panel.scrollTop=oldTop;prefetchChoices(previous);return;}}
+ node.id='music-detail-content';
  if(previous&&previous.dataset.slug===node.dataset.slug&&previous.dataset.version===node.dataset.version){
    const oldStage=previous.querySelector('.video-stage'), newStage=node.querySelector('.video-stage');
    if(oldStage&&newStage&&oldStage.dataset.videoId===newStage.dataset.videoId&&oldStage.classList.contains('is-playing'))newStage.replaceWith(oldStage);
  }
  const heading=node.querySelector('.detail-title h1');if(heading)heading.id='music-detail-title';
  const back=node.querySelector('.back');if(back)back.setAttribute('data-close-detail','true');
- panel.replaceChildren(node);active=node;wrap.hidden=false;document.body.classList.add('music-modal-open');main.inert=true;document.querySelector('.footer').inert=true;
+ panel.replaceChildren(node);active=node;wrap.hidden=false;document.body.classList.add('music-modal-open');main.inert=true;document.querySelector('.footer').inert=true;document.querySelector('.header').inert=true;
  // Site locale links remain reachable inside the overlay without touching the background.
  const nav=document.createElement('nav');nav.className='music-detail-langs';nav.setAttribute('aria-label','Language');for(const lang of ['es','en','ja']){const a=document.createElement('a'),url=new URL(u,location.origin);url.searchParams.set('lang',lang);a.href=url.pathname+'?'+url.searchParams.toString();a.textContent=lang==='ja'?'JP':lang.toUpperCase();if(lang===node.dataset.locale)a.setAttribute('aria-current','true');nav.append(a)}node.prepend(nav);
  if(!wasOpen){panel.scrollTop=0;requestAnimationFrame(()=>wrap.classList.add('is-open'));panel.focus({preventScroll:true})}
@@ -43,7 +45,9 @@ function openNode(node, u, opts={}){
  updateLocale(node,u);
  // Related artwork is just three local images; load them now rather than blank screenshots.
  for(const img of node.querySelectorAll('.related img'))img.loading='eager';
- const links=[...node.querySelectorAll('.version-options a,.lyric-options a')].filter(a=>!a.hasAttribute('aria-current'));
+ prefetchChoices(node);
+}
+function prefetchChoices(node){const links=[...node.querySelectorAll('.version-options a,.lyric-options a')].filter(a=>!a.hasAttribute('aria-current'));
  const prefetch=()=>{if(active===node)for(const a of links.slice(0,6))fetchFragment(a.href).catch(()=>{})};
  if('requestIdleCallback'in window)requestIdleCallback(prefetch,{timeout:700});else setTimeout(prefetch,80);
 }
@@ -66,7 +70,7 @@ async function navigate(value,mode='push'){
  try{
   if(detail){
    const h=await fetchFragment(u);if(seq!==request)return;const node=parse(h);if(!node)throw Error('Invalid detail');
-   if(!active)priorFocus=document.activeElement;
+   if(!active){priorFocus=document.activeElement;openedFromCatalog=mode==='push'&&!!catalog;}
    commitURL(target,mode);openNode(node,u,{preserve:same});
    if(!catalog||catalog.dataset.locale!==node.dataset.locale)ensureCatalog('/music/?lang='+node.dataset.locale,readFilters()).catch(()=>{});
   }else{
@@ -78,11 +82,11 @@ async function navigate(value,mode='push'){
  finally{if(seq===request)status(false)}
 }
 function hideOverlay(){
- if(!overlay)return;overlay.classList.remove('is-open');document.body.classList.remove('music-modal-open');main.inert=false;document.querySelector('.footer').inert=false;active=null;
+ if(!overlay)return;overlay.classList.remove('is-open');document.body.classList.remove('music-modal-open');main.inert=false;document.querySelector('.footer').inert=false;document.querySelector('.header').inert=false;active=null;openedFromCatalog=false;
  clearTimeout(closeTimer);closeTimer=setTimeout(()=>{if(!active){overlay.hidden=true;overlay.firstElementChild.replaceChildren()}},220);
  if(priorFocus?.isConnected)priorFocus.focus({preventScroll:true});priorFocus=null;
 }
-function closeDetail(){if(!active)return;const u=new URL(catalogURL,location.origin);u.searchParams.set('lang',active.dataset.locale);navigate(u,'replace')}
+function closeDetail(){if(!active)return;const u=new URL(catalogURL,location.origin);u.searchParams.set('lang',active.dataset.locale);if(openedFromCatalog&&catalog?.dataset.locale===active.dataset.locale){openedFromCatalog=false;history.back();return}navigate(u,'replace')}
 document.addEventListener('click',e=>{
  const play=e.target.closest('.video-play');if(play){const stage=play.closest('.video-stage[data-video-id]');if(stage){const id=stage.dataset.videoId;if(!/^[A-Za-z0-9_-]{11}$/.test(id))return;const f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&playsinline=1&rel=0&hl='+encodeURIComponent(document.documentElement.lang);f.title=play.dataset.title;f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;stage.classList.add('is-playing');stage.replaceChildren(f);f.focus();return}}
  const a=e.target.closest('a[href]');if(!a||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==='_blank')return;const u=new URL(a.href,location.href);if(!isMusic(u))return;e.preventDefault();
