@@ -1,0 +1,90 @@
+name: Tempesta teaser artwork and production verification
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, closed]
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.event.action != 'closed' && github.head_ref == 'relight/tempesta-teaser' && github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: relight/tempesta-teaser
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preserve square adaptation of actual teaser art
+        working-directory: KGBlaze-Information-Center
+        run: |
+          python -m pip install Pillow
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          from PIL import Image, ImageOps
+          art=Path('public/music-artwork')
+          source=art/'tempestas-claim-teaser-source.webp'
+          target=art/'tempestas-claim-v2.webp'
+          with Image.open(source) as im:
+              assert im.size==(1280,720), im.size
+              # Keep the entire title and red X: only crop peripheral map.
+              crop=im.convert('RGB').crop((80,4,1040,716))
+              canvas=Image.new('RGB',(960,960))
+              # Extend the actual parchment texture with narrow mirrored edge strips.
+              top=crop.crop((0,0,960,31))
+              bottom=crop.crop((0,681,960,712))
+              for i in range(4):
+                  canvas.paste(ImageOps.flip(top) if i%2==0 else top,(0,93-i*31))
+                  canvas.paste(ImageOps.flip(bottom) if i%2==0 else bottom,(0,836+i*31))
+              canvas.paste(crop,(0,124))
+              canvas.save(target,'WEBP',quality=94,method=6)
+          mf=art/'preserved-v2.json'
+          j=json.loads(mf.read_text())
+          a=j['works']['tempestas-claim']
+          raw=target.read_bytes()
+          a.update(status='preserved',size=[960,960],bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),original_size=[1280,720],retrieved_from=a['origin'],source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),editorial_crop=[80,4,1040,716])
+          mf.write_text(json.dumps(j,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Commit derived image and verified manifest
+        run: |
+          git add KGBlaze-Information-Center/public/music-artwork/tempestas-claim-v2.webp KGBlaze-Information-Center/public/music-artwork/preserved-v2.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Preserve square Tempesta teaser B"
+            git push origin HEAD:relight/tempesta-teaser
+          fi
+      - name: Verify all artwork and regressions
+        working-directory: KGBlaze-Information-Center
+        run: |
+          python scripts/preserve-artwork.py --strict
+          npm test
+      - name: Browser audit
+        working-directory: KGBlaze-Information-Center
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+          node scripts/audit-artwork-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tempesta-teaser-audit
+          path: KGBlaze-Information-Center/artwork-audit/
+          if-no-files-found: ignore
+  production:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'relight/tempesta-teaser'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify published catalogue and artwork hashes
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/verify-artwork-production.mjs
