@@ -111,7 +111,7 @@
       "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
       "origin": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
       "version": 1,
-      "fit": "cover",
+      "fit": "contain",
       "path": "/music-artwork/tempestas-claim-v1.webp",
       "status": "preserved",
       "size": [
