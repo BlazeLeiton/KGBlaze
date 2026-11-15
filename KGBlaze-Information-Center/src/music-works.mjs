@@ -106,6 +106,7 @@ const familyNames={
 };
 export function familyForWork(key){
  if(key==='Azur Lane The Animation'||key==='Azur Lane')return 'Azur Lane';
+ if(key==='Kuma Kuma Kuma Bear'||key==='Kuma Kuma Kuma Bear Punch!')return 'Kuma Kuma Kuma Bear';
  if(isPokemonWork(key)||key==='Pokémon'||/^Pokémon\b/u.test(key))return 'Pokémon';
  if(/^Love Live!|^Ikizulive!/i.test(key))return 'Love Live!';
  if(/^hololive\b/i.test(key))return 'hololive';

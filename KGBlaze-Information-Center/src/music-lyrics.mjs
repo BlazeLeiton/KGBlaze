@@ -2808,13 +2808,13 @@ Object.assign(lyricsBySong,{
       "review": null,
       "colorLegend": [
         {
-          "id": "green",
-          "label": "Voz verde",
+          "id": "fina",
+          "label": "Fina",
           "color": "#86C98B"
         },
         {
-          "id": "blue",
-          "label": "Voz azul",
+          "id": "yuna",
+          "label": "Yuna",
           "color": "#A5BEFF"
         }
       ],
@@ -2839,7 +2839,7 @@ Object.assign(lyricsBySong,{
   },
   "rvr": {
     "es": {
-      "text": "Yo! Nosotros somos los voltios ascendentes\nAhora que clase de Pokémon nos vamos a encontrar\nLa aventura va a empezar\n\nYo! Listos, ya!\nPues muchos más Pokémon conoceremos hoy\nVamos con Pokémon que lleven Don\n3, 2, 1, YA!\n\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n¿Sigue ahora Liko con esto?\n¿Estas lista?\n\nHmm, no sé si pueda, pero lo voy a intentar\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n\nBravo en corazón\nPor el cielo montando olas\nQue me llenan de emoción\nEl viaje recién empieza\nToma el timón, por el mundo es la ruta a navegar\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes\n\nMás y más aprendamos hoy\nTocan los Pokémon con forma de región\nAhora escuchemos el ejemplo de Roy\n3, 2, 1, YA!\n\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\nSigue nuestro invitado ¿a quién tendremos hoy?\nVamos\n\nHey, que tal a todos aquí Blaze\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\n\nAve brava va\nCon valor conquistando el cielo\nY volando va\nPues a un lugar más alto apunta\nNo importa que tropiece y caiga, fuerte seguiré\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes",
+      "text": "Yo! Nosotros somos los voltios ascendentes\nAhora que clase de Pokémon nos vamos a encontrar\nLa aventura va a empezar\n\nYo! Listos, ya!\nPues muchos más Pokémon conoceremos hoy\nVamos con Pokémon que lleven Don\n3, 2, 1, YA!\n\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n¿Sigue ahora Liko con esto?\n¿Estas lista?\n\nHmm, no sé si pueda, pero lo voy a intentar\nKoraidon, Rhydon, Duraludon\nMiraidon, Donphan y Gastrodon\n\nBravo en corazón\nPor el cielo montando olas\nQue me llenan de emoción\nEl viaje recién empieza\nToma el timón, por el mundo es la ruta a navegar\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes\n\nMás y más aprendamos hoy\nTocan los Pokémon con forma de región\nAhora escuchemos el ejemplo de Roy\n3, 2, 1, YA!\n\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\nSigue nuestro invitado ¿a quién tendremos hoy?\nVamos\n\n(Inserte su propia versión de letra)\nRattata, Raticate, Marowak\nDarumaka, que Voltorb no se caiga o te explota en la cara\n\nAve brava va\nCon valor conquistando el cielo\nY volando va\nPues a un lugar más alto apunta\nNo importa que tropiece y caiga, fuerte seguiré\nNuestra amistad con esta seña va\nTodos Voltios Ascendentes",
       "language": "ES",
       "kind": "adaptation",
       "review": null
@@ -2864,17 +2864,24 @@ Object.assign(lyricsBySong,{
 });
 
 // Original Word colors retained as separate parts; character assignment awaits editorial confirmation.
+lyricsBySong.rvr.es.review='rvr-template';
 const lovedOnes=lyricsBySong['ano-ne']['loved-ones'];
-stage27Color(lovedOnes,[['green','Voz verde','#86C98B'],['blue','Voz azul','#A5BEFF']],Array.from({length:53},(_,i)=>[1,2,9,10,11,21,22,23].includes(i+1)?'green':[3,6,7,8,12,24,25,26].includes(i+1)?'blue':'shared'),{4:[['green','Para mí… '],['blue','Para mí '],['shared','']]});
+stage27Color(lovedOnes,[['fina','Fina','#86C98B'],['yuna','Yuna','#A5BEFF']],Array.from({length:53},(_,i)=>[1,2,9,10,11,21,22,23].includes(i+1)?'fina':[3,6,7,8,12,24,25,26].includes(i+1)?'yuna':'shared'),{4:[['fina','Para mí… '],['yuna','Para mí '],['shared','']]});
+lovedOnes.sharedLabel={es:'Ambas',en:'Both',ja:'二人'};
+lovedOnes.colorSources=['https://www.uta-net.com/song/296005/','https://www.uta-net.com/song/336105/','https://www.uta-net.com/song/336106/','https://www.animatetimes.com/news/details.php?id=1608693998'];
+lovedOnes.colorVerification='Character mapping corroborated by Fina’s polite Japanese and Yuna’s informal counterpart; source document color boundaries retained. Full line-by-line vocal arrangement not independently verified.';
 
 // LEVEL: preserve Word run divisions and exact revised lyric (15 Nov 2026).
-// Gold/blue role assignment follows the proposed duet legend; olive is a secondary ad-lib, not a third vocalist.
+// Gold/blue duet; creator confirms the ahh is shared, not a separate part.
 const levelLyric=lyricsBySong.level.es;
-stage27Color(levelLyric,[['yanaginagi','yanaginagi','#E9C66B'],['sixth-lie','THE SIXTH LIE','#8AB8FF'],['secondary','Ad-lib','#C8CB78']],Array.from({length:46},(_,i)=>[1,2,3,7,10,13,16,17,18,23,24,26,29,32,33,34,40,43].includes(i+1)?'yanaginagi':[4,5,6,8,12,15,42].includes(i+1)?'sixth-lie':'shared'),{
+stage27Color(levelLyric,[['yanaginagi','yanaginagi','#E9C66B'],['sixth-lie','THE SIXTH LIE','#8AB8FF']],Array.from({length:46},(_,i)=>[1,2,3,7,10,13,16,17,18,23,24,26,29,32,33,34,40,43].includes(i+1)?'yanaginagi':[4,5,6,8,12,15,42].includes(i+1)?'sixth-lie':'shared'),{
  7:[['yanaginagi','En el mismo lugar, '],['sixth-lie','']],
  15:[['sixth-lie','Pues siempre '],['shared','']],
- 31:[['shared','Te diré, '],['sixth-lie','tan solo eso bastará '],['secondary','']]
+ 31:[['shared','Te diré, '],['sixth-lie','tan solo eso bastará '],['shared','']]
 });
+levelLyric.sharedLabel={es:'Ambos',en:'Both',ja:'二人'};
+lyricsBySong['savior-of-song'].es.sharedLabel={es:'Ambos',en:'Both',ja:'二人'};
+lyricsBySong['villain-vibes'].es.sharedLabel={es:'Ambas',en:'Both',ja:'二人'};
 
 // Snow halation: original μ's vocal arrangement, not Blaze's vocal cast.
 const snowLegend=[['honoka','Honoka Kōsaka','#FF9B43'],['eli','Eli Ayase','#73DDF5'],['kotori','Kotori Minami','#C9CDD3'],['umi','Umi Sonoda','#6698FF'],['rin','Rin Hoshizora','#F9D65C'],['maki','Maki Nishikino','#FF747A'],['nozomi','Nozomi Tōjō','#B590F5'],['hanayo','Hanayo Koizumi','#A7D77C'],['nico','Nico Yazawa','#F58DBE']];
@@ -2902,7 +2909,7 @@ stage27Color(oneStepLyric,penguinLegend,[pmKS,pmKS,pmHY,pmHY,'shared','shared',p
 kokoLyric.colorSources=['https://j-lyric.net/artist/a05e0ce/l045124.html','https://kafkafuura.wordpress.com/2018/06/'];
 oneStepLyric.colorSources=['https://j-lyric.net/artist/a05e0ce/l045123.html','https://a-place-further-than-the-universe.fandom.com/wiki/One_Step'];
 for(const lyric of [kokoLyric,oneStepLyric]){
- lyric.colorAttribution={es:'Reparto original de las cuatro protagonistas trasladado a las frases de la adaptación española; no representa el reparto de este cover.',en:'Original character vocal parts mapped to the Spanish adaptation; not the cast of this cover.',ja:'原曲の4人の歌唱パートをスペイン語詞に対応させたもの。カバーの歌唱者とは異なります。'};
+ // Original cast attribution remains in credits; no redundant public lyric note.
  lyric.colorPaletteSource='Character color associations from licensed Yorimoi merchandise; contrast-adjusted editorial hex values.';
 }
 
