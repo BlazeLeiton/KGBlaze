@@ -1,0 +1,85 @@
+name: Approved final jackets
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, closed]
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.event.action != 'closed' && github.head_ref == 'relight/approved-final-jackets' && github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: relight/approved-final-jackets
+      - uses: actions/checkout@v4
+        with:
+          ref: 8522f04a13420dd1574cbf4629dc088bc6311013
+          path: approved-review
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preserve precisely approved images
+        run: |
+          python -m pip install Pillow
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import json, hashlib
+          root=Path('KGBlaze-Information-Center/public/music-artwork')
+          review=Path('approved-review/docs/artwork-options')
+          manifest=root/'preserved-v2.json'
+          m=json.loads(manifest.read_text())
+          for slug,fn in [('tempestas-claim','tempesta-height-1C-refined.png'),('hikari-aru-basho-e','izetta-bluray-vol1-square.jpg')]:
+              src=review/fn
+              out=root/(slug+'-v3.webp')
+              with Image.open(src) as im:
+                  assert im.width==im.height
+                  im.convert('RGB').save(out,'WEBP',lossless=True,method=6)
+                  size=list(im.size)
+              raw=out.read_bytes()
+              m['works'][slug].update(status='preserved',size=size,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),source_sha256=hashlib.sha256(src.read_bytes()).hexdigest(),review_commit='8522f04a13420dd1574cbf4629dc088bc6311013',review_path=str(src))
+          manifest.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Record exact approved assets
+        run: |
+          git add KGBlaze-Information-Center/public/music-artwork/tempestas-claim-v3.webp KGBlaze-Information-Center/public/music-artwork/hikari-aru-basho-e-v3.webp KGBlaze-Information-Center/public/music-artwork/preserved-v2.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Preserve final approved Izetta and Tempesta artwork"
+            git push origin HEAD:relight/approved-final-jackets
+          fi
+      - name: Integrity and regression
+        working-directory: KGBlaze-Information-Center
+        run: |
+          python scripts/preserve-artwork.py --strict
+          npm test
+      - name: Browser audit
+        working-directory: KGBlaze-Information-Center
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+          node scripts/audit-artwork-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: approved-final-jackets-audit
+          path: KGBlaze-Information-Center/artwork-audit/
+          if-no-files-found: ignore
+  production:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'relight/approved-final-jackets'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify published catalogue and artwork hashes
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/verify-artwork-production.mjs

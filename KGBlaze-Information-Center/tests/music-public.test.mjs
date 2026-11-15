@@ -467,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,39);
+ assert.equal(artworkSources.size,38);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -754,6 +754,6 @@ test('Visor refinement: JP display keeps the internal JA filtering and approved 
   const h=musicPage('/music/',new URLSearchParams({lang}));assert.match(h,/<option value="JA">JP<\/option>/);assert.match(h,/JP \/ FR \/ PT \/ ES \/ EN/);assert.match(h,/data-lang="JA FR PT ES EN MULTI"/);assert.doesNotMatch(h,/<p class="meta">[^<]*\bJA\b/);
   for(const slug of ['kenka','bad-candy','hikari-aru-basho-e'])assert.ok(h.includes(artworkURL(slug)));
  }
- for(const slug of ['kenka','bad-candy','hikari-aru-basho-e']){assert.equal(releaseArtwork[slug].version,2);assert.ok(releaseArtwork[slug].originalRelease);}
+ for(const slug of ['kenka','bad-candy','hikari-aru-basho-e']){assert.equal(releaseArtwork[slug].version,slug==='hikari-aru-basho-e'?3:2);assert.ok(releaseArtwork[slug].originalRelease);}
  assert.match(releaseArtwork.kenka.release,/Disc 3 track 13/);
 });
