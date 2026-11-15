@@ -40,7 +40,7 @@ jobs:
           # C is the approved base; preserve the middle panel pixel-for-pixel.
           base=Image.open(p/'tempesta-height-1C.jpg').convert('RGB')
           canvas=base.copy()
-          specs={'petra':(252,27,207),'kotoka':(218,5,234)}
+          specs={'petra':(252,27,207),'kotoka':(218,0,233)}
           for name,(cx,top,h) in specs.items():
               if originals[name] is None: raise RuntimeError('Missing full resolution original '+name)
               frame=originals[name]
