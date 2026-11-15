@@ -296,12 +296,12 @@ test('Japanese lyric script follows locale, including mixed-language segments an
  const page=(slug,lang,query={})=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,...query}));
  for(const lang of ['es','en']){
   const h=page('snow-halation',lang,{version:'hso-orchestra'});
-  assert.match(h,/class="lyric-text" lang="ja-Latn"/);
+  assert.match(h,/class="lyric-text colored-lyrics" lang="ja-Latn"/);
   assert.match(h,/Fushigi da ne/);
   assert.doesNotMatch(h,/不思議だね/);
  }
  const ja=page('snow-halation','ja',{version:'hso-orchestra'});
- assert.match(ja,/class="lyric-text" lang="ja"/);
+ assert.match(ja,/class="lyric-text colored-lyrics" lang="ja"/);
  assert.match(ja,/不思議だね/);
  assert.doesNotMatch(ja,/Fushigi da ne/);
  const compare=page('snow-halation','ja',{lyric:'naked-garden',compare:'hso-orchestra'});
@@ -863,4 +863,17 @@ test('Ensamble Alternativo records only confirmed alternate recordings as a plan
  assert.ok(!albumsForVersion('daisuki','es').some(a=>a.id===album.id));assert.ok(!albumsForVersion('dokimeki-diary','album-studio').some(a=>a.id===album.id));assert.ok(albumsForVersion('starlog','naked-garden').some(a=>a.id===album.id));assert.ok(albumsForVersion('starlog','naked-garden').some(a=>a.id==='cronica-maxica'));assert.ok(!albumsForVersion('starlog','es').some(a=>a.id===album.id));assert.equal(album.tracklistStatus,'confirmed-membership-order-pending');
  assert.match(musicPage('/music/song/snow-halation/',new URLSearchParams({lang:'es',version:'naked-garden'})),/Álbum planeado \(no publicado\)<\/dt><dd>Ensamble Alternativo/);
  assert.equal(lyricsBySong['snow-halation'].hybrid,undefined);
+});
+
+test('Snow halation keeps two bilingual recordings and separate complete lyric languages with original μs vocal divisions',()=>{
+ const song=songs.find(s=>s.slug==='snow-halation');assert.equal(song.versions.length,2);assert.ok(song.versions.every(v=>v.langs.includes('ES')&&v.langs.includes('JA')));
+ const es=lyricsBySong['snow-halation']['naked-garden'],jp=lyricsBySong['snow-halation']['hso-orchestra'];
+ assert.equal(lyricsBySong['snow-halation'].hybrid,undefined);
+ const joined=stanzas=>stanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n');
+ assert.equal(joined(es.colorStanzas),es.text);assert.equal(joined(jp.colorStanzas),jp.text);assert.equal(joined(jp.colorStanzasJa),jp.textJa);
+ assert.equal(es.colorLegend.length,9);assert.equal(jp.colorStanzas.length,7);assert.equal(es.colorStanzas.length,7);
+ assert.deepEqual(jp.colorStanzas.flat()[25].map(p=>p.voice),['honoka','honoka+umi+nozomi','shared']);
+ assert.deepEqual(jp.colorStanzasJa.flat()[25].map(p=>p.voice),['honoka','honoka+umi+nozomi','shared']);
+ assert.deepEqual(es.colorStanzas.flat()[27].map(p=>p.voice),['honoka+umi+nozomi','shared']);
+ for(const lang of ['es','en','ja']){const html=musicPage('/music/song/snow-halation/',new URLSearchParams({lang,version:'hso-orchestra'}));assert.match(html,/class="color-group"/);assert.match(html,/Honoka Kōsaka/);if(lang==='ja'){assert.match(html,/不思議だね/);assert.doesNotMatch(html,/Fushigi da ne/);}else{assert.match(html,/Fushigi da ne/);assert.doesNotMatch(html,/不思議だね/);}}
 });
