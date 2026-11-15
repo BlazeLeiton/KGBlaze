@@ -108,19 +108,19 @@ test('song header keeps selected year without redundant date while catalog keeps
 });
 
 test('catalog has sixty-three songs and seventy-one historical video IDs with valid routes',()=>{
- assert.equal(songs.length,63);
+ assert.equal(songs.length,72);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,74);
+ assert.equal(versions.length,84);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,71);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,71);
+ assert.equal(videos.length,81);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,81);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
  assert.equal(MUSIC_PATHS.size,254);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((html.match(/<article class="song"/g)||[]).length,63);
+ assert.equal((html.match(/<article class="song"/g)||[]).length,72);
  assert.match(html,/data-lang="ES FR MULTI"/);
  assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA MULTI"/);
@@ -223,11 +223,11 @@ test('regional blocks use international season keys and never mix Horizons with 
 });
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
- assert.equal(Object.keys(lyricsBySong).length,63);
+ assert.equal(Object.keys(lyricsBySong).length,72);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
- assert.equal(entries.length,74);
+ assert.equal(entries.length,84);
  assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v?.text).length,74);
+ assert.equal(entries.filter(v=>v?.text).length,84);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
@@ -331,7 +331,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,63);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,72);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0]||visible[0];
@@ -431,8 +431,8 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,63);
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,63);
+ assert.equal(Object.keys(releaseArtwork).length,72);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,72);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
@@ -467,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,46);
+ assert.equal(artworkSources.size,55);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -620,7 +620,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,70);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,80);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
@@ -731,7 +731,7 @@ test('Arcana Integrity: all works have art, individually framed jackets and medl
  for(const slug of adjusted)assert.equal(releaseArtwork[slug].fit,'cover');
  for(const lang of ['es','en','ja']){
   const h=musicPage('/music/',new URLSearchParams({lang}));
-  assert.equal((h.match(/class="square-art"/g)||[]).length,63);
+  assert.equal((h.match(/class="square-art"/g)||[]).length,72);
   for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/song/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
   assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
@@ -769,7 +769,7 @@ test('music fragments omit the document shell and preserve original voice divisi
  assert.match(h,/class="color-part/);
  const catalogue=musicPage('/music/',new URLSearchParams({lang:'es',fragment:'1'}));
  assert.match(catalogue,/^<div id="music-content" data-view="catalog"/);
- assert.equal((catalogue.match(/class="square-art"/g)||[]).length,63);
+ assert.equal((catalogue.match(/class="square-art"/g)||[]).length,72);
 });
 
 test('canonical song paths and one independent state payload per work',async()=>{
@@ -796,7 +796,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  const cards=html.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
  const by=slug=>cards.find(c=>c.includes('/music/song/'+slug+'/'));
  const members=family=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(family));
- assert.equal(cards.length,63);assert.equal(members('Azur Lane').length,9);
+ assert.equal(cards.length,72);assert.equal(members('Azur Lane').length,9);
  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'])assert.ok(members(family).includes(by('melodia-del-oceano')));
  for(const [family,count] of [['Pokémon',3],['Love Live!',3],['hololive',5],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
  assert.match(by('graphite-diamond'),/data-series="Azur Lane The Animation"/);
@@ -933,3 +933,6 @@ test('El mismo sol credits the original lyricist-composer in both direct and per
 
 
 test('El mismo sol preserves the supplied Spanish original and editorial stanza breaks',()=>{const l=lyricsBySong['el-mismo-sol'].es;assert.equal(l.kind,'original');assert.equal(l.language,'ES');assert.deepEqual(l.text.split('\n\n').map(s=>s.split('\n').length),[4,5,4,5,4,5,4,5,4,4,5,3]);assert.equal(l.text.replace(/\s+/g,' ').trim(),"Tengo un pensamiento que me abraza Y en mis pasos las distancias que me quedan por vencer Tengo en cada reto una esperanza de llegar hasta la cima Que la recompensa llega con la fe Somos el futuro de la historia Quedará en nuestra memoria cada día que pasó Somos alas libres en el viento Con un solo sentimiento somos todos Alma fuerza y corazón Sigo caminando y no me rindo Vengo de muy lejos a ganar En mi corazón una bandera colorea La alegría de mi pueblo y mi ciudad Sigo hasta el final y no me rindo Sueño con mi tierra y su calor Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol Soy de la montaña de la costa y de la selva Soy amigo de la libertad Tengo la alegría de saber que yo he nacido Para hacer mi sueño siempre realidad Somos el futuro de la historia Quedará en nuestra memoria cada día que pasó Somos alas libres en el viento Con un solo sentimiento somos todos Alma fuerza y corazón Sigo caminando y no me rindo Vengo de muy lejos a ganar En mi corazón una bandera colorea La alegría de mi pueblo y mi ciudad Sigo hasta el final y no me rindo Sueño con mi tierra y su calor Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol Nadie me puede parar Yo sé que arriba hay una luz que me ilumina Llega hasta la cima Nadie me puede parar, mi corazón solo sabe ganar Sigo caminando y no me rindo Vengo de muy lejos a ganar En mi corazón una bandera colorea La alegría de mi pueblo y mi ciudad Sigo hasta el final y no me rindo Sueño con mi tierra y su calor Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol Somos el amor de un continente Y aunque seamos diferentes Nos alumbra el mismo sol.");for(const lang of ['es','en','ja']){const state=musicStateData('/music/data/song/el-mismo-sol.json').locales[lang].es;assert.equal(state.lyrics.es.hasText,true);assert.equal(state.lyrics.es.cells.length,12);assert.match(state.lyrics.es.full,/class="lyric-text" lang="es"/);assert.match(state.lyrics.es.full,/Gian Marco Zignago/);assert.match(state.lyrics.es.full,/gacetaoctubre11.pdf#page=14/);assert.doesNotMatch(state.lyrics.es.full,/class="empty-lyrics"/);}});
+
+
+test('Individual repertoire block 01 preserves published works, external collaboration, and Word stanzas',()=>{const rows=[["ai-no-uta",["MIeEMPQrOR4"]],["beginners-rock",["dmb31gjkowc"]],["dakara-boku-wa-boku-wo-tebanasu",["MKW4QXI1RjM"]],["end-of-a-life",["a4ixqyb4ZTM"]],["gg",["Xe_bscWmxdE"]],["gimi-gimi",["Ja9Eh61atNI","lfmAQ6r0BSQ"]],["leon-no-sabe-que-existo",["YxgnnIHQBYQ"]],["hitoribocchi-tokyo",["K6Rwz6Kyj6w"]],["kaze-no-uta",["xfbvTgg-ELA"]]];const layouts={"ai-no-uta":[3,3,4,3,3,4,2,1,2,4,1],"beginners-rock":[4,4,5,4,4,5,1],"dakara-boku-wa-boku-wo-tebanasu":[2,3,4,3,4,2,3,3,3,4,4,1,3,4],"end-of-a-life":[5,5,4,4,4,5,5,6,4,4,4,5,5,6,8,1,5,1],"gg":[4,4,6,4,2,4,1,2,2,3,6,4,2,3],"gimi-gimi":[4,8,7,8,4,7,4,5,4,1,8,8,2],"leon-no-sabe-que-existo":[4,4,9,9,8,9,8],"hitoribocchi-tokyo":[6,5,2,5,5,3,5,4,6],"kaze-no-uta":[4,2,3,3,1,4,2,3,3,1,2,3,3,1,1]};for(const [slug,ids] of rows){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.deepEqual(s.versions.map(v=>v.videoId),ids);assert.equal(albumsForVersion(slug,s.versions[0].id).length,0);const l=lyricsBySong[slug][slug==='gimi-gimi'?'full':'es'];assert.deepEqual(l.text.split('\n\n').map(t=>t.split('\n').length),layouts[slug]);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+slug+'.json').locales[lang];for(const v of s.versions){assert.ok(d[v.id].html.includes(v.videoId));assert.ok(d[v.id].lyrics[v.id].hasText);}}}const b=songs.find(s=>s.slug==='beginners-rock');assert.deepEqual(b.performance,['Misao','Blaze Leiton','Lanti','Leonhearth']);assert.equal(b.versions[0].publicationChannel,'Misao Chan');assert.equal(lyricsBySong['gimi-gimi'].tv.text,lyricsBySong['gimi-gimi'].full.text);assert.equal(Object.keys(lyricsBySong['hitoribocchi-tokyo']).length,1);assert.equal(Object.keys(lyricsBySong['kaze-no-uta']).length,1);assert.ok(!songs.some(s=>s.slug==='gura-doesnt-know-i-exist'));});
