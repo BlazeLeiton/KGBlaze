@@ -4,6 +4,10 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Formula 1':names('Formula 1','フォーミュラ1','Fórmula 1',['F1','Aston Martin','Fernando Alonso']),
+ 'No Game No Life: Zero':names('No Game No Life: Zero','ノーゲーム・ノーライフ ゼロ'),
+ 'Stardust Telepath':names('Stardust Telepath','星屑テレパス','Stardust Telepath',['Hoshikuzu Telepath']),
+ 'The Day I Became a God':names('The Day I Became a God','神様になった日','The Day I Became a God',['Kamisama ni Natta Hi']),
  'Kuma Kuma Kuma Bear':names('Kuma Kuma Kuma Bear','くまクマ熊ベアー'),
  'Kuma Kuma Kuma Bear Punch!':names('Kuma Kuma Kuma Bear Punch!','くまクマ熊ベアーぱーんち！'),
  'BOFURI 2':names('BOFURI: I Don’t Want to Get Hurt, so I’ll Max Out My Defense. Season 2','痛いのは嫌なので防御力に極振りしたいと思います。2','BOFURI 2',['BOFURI','Bofuri Season 2']),
