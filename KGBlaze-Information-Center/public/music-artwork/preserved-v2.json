@@ -8,7 +8,7 @@
       "version": 2,
       "fit": "cover",
       "path": "/music-artwork/kenka-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "release": "剣花 · LZC-2445 · Lantis digital single",
         "source": "https://ototoy.jp/_/default/p/1731845",
@@ -29,7 +29,19 @@
         ],
         "retrieved_from": "https://imgs.ototoy.jp/imgs/jacket/1731/00000003.1695784583.746_320.jpg",
         "source_sha256": "e03418b3a40edf312ee7cb2a23496763a7661b982aa6c81170c66a88bd5288b2"
-      }
+      },
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "f0756b5a08159d3f53e84428fe0897f57ecef9e1b3cb0e7ea69af1492afde2d7",
+      "bytes": 255722,
+      "original_size": [
+        2560,
+        2560
+      ],
+      "retrieved_from": "https://catalog.bandainamcomusiclive.co.jp/wp-content/uploads/2026/05/LACA-9994-scaled.jpg",
+      "source_sha256": "7c936ba4c850565904a6e388d7f03d4d392d22f5034898893e3de424db50e5d4"
     },
     "kokuan-glossolalia": {
       "release": "IV KLORE · SKY FULL of MAGIC · track 10",
@@ -59,7 +71,7 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/hikari-aru-basho-e-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "release": "光ある場所へ · VTCL-35246 · May’n",
         "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A021682/VTCL-35246.html",
@@ -80,7 +92,19 @@
         ],
         "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35246.jpg?_c=init",
         "source_sha256": "010480f9cd7030be4b5f01c3a23d42d0571106014000ef4821d92886c9a079d4"
-      }
+      },
+      "size": [
+        600,
+        593
+      ],
+      "sha256": "9e25c81f8f4d88272e8ae8f14f1066015cf88eaf203ed2dafc1e4fe98f4a7b80",
+      "bytes": 88768,
+      "original_size": [
+        600,
+        593
+      ],
+      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-60440.jpg?_c=init",
+      "source_sha256": "17d95a241055f8b77037c528ae9bd3cba1fb30480485021396640cb6727a0a01"
     },
     "starlog": {
       "release": "starlog · LACM-14116 · Prisma☆Illya",
@@ -259,7 +283,7 @@
       "version": 2,
       "fit": "cover",
       "path": "/music-artwork/bad-candy-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "release": "BAD CANDY · digital single · 2021",
         "source": "https://wmg.jp/yukadd/discography/25506",
@@ -280,7 +304,19 @@
         ],
         "retrieved_from": "https://prod-v2-assets.wmg.jp/uploads/BADCANDY_640_5a51d1ee54.jpg",
         "source_sha256": "27c4bfc73a1fd3522c94a9154fedbd63fce71a76ec86a2beac533f8bec02106b"
-      }
+      },
+      "size": [
+        1200,
+        856
+      ],
+      "sha256": "ac2f6daf7d9591cd4635850de2b77593be75da97fe890952797e932e19da9b3f",
+      "bytes": 244788,
+      "original_size": [
+        3200,
+        2283
+      ],
+      "retrieved_from": "https://gf-anime.com/wp/wp-content/themes/dfl-main/_assets/images/top/fv/fv_002_pc.png",
+      "source_sha256": "0e374acab2cc8578a503f0fda5b8bfe06a8eaaf2ba03e28129e5be1670923606"
     },
     "alive": {
       "release": "ALIVE · VVCL-2078/9 · anime edition",
