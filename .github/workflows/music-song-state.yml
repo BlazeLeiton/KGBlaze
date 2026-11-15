@@ -1,0 +1,45 @@
+name: Rebel Mix canonical song state
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, closed]
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    if: github.event.action != 'closed' && github.head_ref == 'relight/music-song-state'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Regression suite
+        working-directory: KGBlaze-Information-Center
+        run: npm test
+      - name: Browser navigation and catalogue audit
+        working-directory: KGBlaze-Information-Center
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+          node scripts/audit-artwork-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: canonical-music-state-audit
+          path: KGBlaze-Information-Center/artwork-audit/
+          if-no-files-found: ignore
+  production:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'relight/music-song-state'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify canonical data and shared locale
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/verify-music-state-production.mjs

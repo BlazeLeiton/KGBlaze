@@ -5,11 +5,12 @@ import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {VIEWER_JS,VIEWER_CSS} from '../src/viewer-enhancements.mjs';
 const root=resolve('public'),out=resolve(process.env.ARTWORK_AUDIT_DIR||'artwork-audit');
 await mkdir(out,{recursive:true});
 const mime={'.html':'text/html','.webp':'image/webp','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.json':'application/json'};
 const assets={fetch:async req=>{try{let p=new URL(req.url).pathname;if(p==='/')p='/index.html';const file=resolve(root,'.'+p);if(!file.startsWith(root+'/'))return new Response(null,{status:404});const data=await readFile(file);return new Response(req.method==='HEAD'?null:data,{headers:{'Content-Type':mime[extname(file)]||'application/octet-stream'}});}catch{return new Response(null,{status:404});}}};
-const server=createServer(async(req,res)=>{try{const result=await worker.fetch(new Request('https://kgblaze.dpdns.org'+req.url,{method:req.method}),{ASSETS:assets});res.writeHead(result.status,Object.fromEntries(result.headers));res.end(Buffer.from(await result.arrayBuffer()));}catch(e){res.writeHead(500);res.end(String(e));}});
+const server=createServer(async(req,res)=>{try{const result=await worker.fetch(new Request('https://kgblaze.dpdns.org'+req.url,{method:req.method,headers:{Cookie:req.headers.cookie||''}}),{ASSETS:assets});if(new URL(req.url,'http://localhost').pathname==='/departures/'&&result.ok){const html=(await result.text()).replace('</head>','<style>'+VIEWER_CSS+'</style></head>').replace('</body>','<script>'+VIEWER_JS+'</script></body>');res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(html);}else{const headers=Object.fromEntries(result.headers);if(headers.location?.startsWith('https://kgblaze.dpdns.org'))headers.location=headers.location.replace('https://kgblaze.dpdns.org','');res.writeHead(result.status,headers);res.end(Buffer.from(await result.arrayBuffer()));}}catch(e){res.writeHead(500);res.end(String(e));}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const origin='http://127.0.0.1:'+server.address().port;
 const browser=await chromium.launch({headless:true});
@@ -29,7 +30,7 @@ try{
    // Test every detail route in all locales and both viewport sizes; external YouTube
    // thumbnails are not revalidated as release artwork.
    for(const s of songs){
-    const response=await page.goto(origin+'/music/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
+    const response=await page.goto(origin+'/music/song/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),s.slug+' horizontal overflow');
     const video=page.locator('.video-stage,.archive-video').first();
     assert.ok(await video.count(),s.slug+' has no video/archive stage');
@@ -39,6 +40,7 @@ try{
   }
   // Real navigation, rather than just independent document renders.
   await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  const calls=[];page.on('request',r=>{if(r.url().includes('/music/data/'))calls.push(r.url())});
   const initial=await page.evaluate(()=>{window.__musicDocument=Math.random();return window.__musicDocument});
   await page.locator('#search').fill('blue spirit');
   await page.locator('#list').click();
@@ -46,6 +48,8 @@ try{
   await page.locator('.music-overlay.is-open #music-detail-content').waitFor();
   const overlay=page.locator('.music-overlay-panel');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial,'opening navigated document');
+  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
   assert.ok(await overlay.evaluate(n=>Math.abs(n.getBoundingClientRect().width-innerWidth)<2));
@@ -58,6 +62,8 @@ try{
   assert.ok(await overlay.locator('.parallel-pairs .color-part').count());
   assert.ok(await page.evaluate(()=>window.__player===document.querySelector('.music-overlay .video-stage')),'player remounted on lyric change');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
+  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   await page.screenshot({path:resolve(out,device+'-overlay-parallel.png'),fullPage:false});
   await overlay.locator('.music-detail-langs a').filter({hasText:'EN'}).click();
   await page.locator('#music-detail-content[data-locale="en"]').waitFor();
@@ -66,7 +72,10 @@ try{
   await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
-  assert.equal(await page.evaluate(()=>document.documentElement.lang),'es');
+  assert.equal(await page.evaluate(()=>document.documentElement.lang),'en');
+  assert.ok(page.url().endsWith('/music/'));
+  assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
+  assert.equal(await page.evaluate(()=>localStorage.getItem('kgblaze.locale.v1')),'en');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   await page.goForward();
   await page.locator('.music-overlay.is-open').waitFor();
@@ -74,6 +83,19 @@ try{
   await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
+  await page.goto(origin+'/departures/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(()=>document.documentElement.lang==='en');
+  await page.locator('[data-lang="ja"]:visible').first().click();
+  await page.waitForFunction(()=>document.documentElement.lang==='ja');
+  assert.ok(page.url().endsWith('/departures/'));
+  assert.equal(await page.evaluate(()=>localStorage.getItem('kgblaze.locale.v1')),'ja');
+  await page.goto(origin+'/music/song/blue-spirit/',{waitUntil:'domcontentloaded'});
+  await page.locator('#music-detail-content[data-locale="ja"]').waitFor();
+  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  await page.goto(origin+'/music/blue-spirit/?lang=es&version=en&lyric=en&compare=es',{waitUntil:'domcontentloaded'});
+  await page.locator('#music-detail-content[data-version="en"] .parallel-pairs').waitFor();
+  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  console.log(device+' shared locale and legacy link migration verified');
   await page.close();
  }
  await import('node:fs/promises').then(fs=>fs.writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2)));

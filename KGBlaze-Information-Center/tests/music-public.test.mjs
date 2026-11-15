@@ -13,7 +13,7 @@ import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affili
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
-import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from '../src/music-page.mjs';
+import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from '../src/music-page.mjs';
 import {VIEWER_CSS} from '../src/viewer-enhancements.mjs';
 const origin='https://kgblaze.dpdns.org';
 const req=(p,method='GET')=>new Request(origin+p,{method});
@@ -22,7 +22,7 @@ const environment={ASSETS:{fetch:async r=>{
  return new Response("<style>@font-face{font-family:'Garnett';src:url(data:font/otf;base64,AA==);font-display:block;}@font-face{font-family:'Noto Sans JP Project';src:url(data:font/woff2;base64,AA==);font-display:block;}</style>",{headers:{'Content-Type':'text/html'}});
 }}};
 test('Music routes are exact, read-only, and do not expose admin aliases',()=>{
- for(const p of [...MUSIC_PATHS,MUSIC_TYPE_PATH]){
+ for(const p of [...MUSIC_PATHS,...MUSIC_DATA_PATHS,MUSIC_TYPE_PATH]){
   assert.equal(routePortalRequest(req(p)).response,undefined);
   assert.equal(routePortalRequest(req(p,'POST')).response.status,405);
  }
@@ -116,7 +116,7 @@ test('catalog has fifty songs and fifty-seven historical video IDs with valid ro
  assert.equal(new Set(videos.map(v=>v.videoId)).size,57);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,102);
+ assert.equal(MUSIC_PATHS.size,202);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
@@ -351,7 +351,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  assert.equal((page('blue-spirit','es','en').match(/data-video-id="v3QAe_f6Eh0"/g)||[]).length,1);
  assert.match(page('dokimeki-diary','es','album-studio'),/data-video-id="8sAotUCAJH8"/);
  assert.match(page('la-vaguelette','es','fr-audio'),/data-video-id="Y7UBoG9twvc"/);
- const res=await worker.fetch(req('/music/blue-spirit/'),environment);
+ const res=await worker.fetch(req('/music/song/blue-spirit/'),environment);
  const csp=res.headers.get('Content-Security-Policy');
  assert.match(csp,/img-src 'self' data: https:\/\/i\.ytimg\.com /);
  assert.match(csp,/frame-src https:\/\/www\.youtube-nocookie\.com;/);
@@ -395,7 +395,7 @@ test('compact cards have one franchise badge while fiches retain complete tags',
   assert.deepEqual(catalogAffiliationBadge(m,lang),{id:'holo-en',label:'hololive EN'});
   assert.deepEqual(catalogAffiliationBadge(snow,lang),{id:'ll-muse',label:"μ's",key:'series',value:'Love Live! School Idol Project'});
   const h=musicPage('/music/',new URLSearchParams({lang}));
-  const card=slug=>h.match(new RegExp('<article class="song"[^>]*>[\\s\\S]*?<\\/article>','g')).find(x=>x.includes('/music/'+slug+'/'));
+  const card=slug=>h.match(new RegExp('<article class="song"[^>]*>[\\s\\S]*?<\\/article>','g')).find(x=>x.includes('/music/song/'+slug+'/'));
   const mc=card('mumei'),sc=card('snow-halation'),pc=card('dokimeki-diary');
   assert.equal((mc.match(/class="pk-tag"/g)||[]).length,1);
   assert.match(mc,/affiliation=holo-en">hololive EN<\/a>/);
@@ -436,7 +436,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
-  const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/'+s.slug+'/'));
+  const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/song/'+s.slug+'/'));
   const first=s.versions.find(v=>v.public!==false);
   const art=releaseArtwork[s.slug];
   if(art?.components){assert.equal((card.match(/class="art-cell"/g)||[]).length,4);assert.match(card,/data-composite="medley"/);for(const slug of art.components)assert.ok(card.includes(artworkURL(slug)));}
@@ -577,7 +577,7 @@ test('original character CVs are localized and never replace the cover cast',()=
 test('Cake Song catalog names only Holy Quintet while full fiche retains Bebe',()=>{
  for(const lang of ['es','en','ja']){
   const catalog=musicPage('/music/',new URLSearchParams({lang}));
-  const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/cake-song/'));
+  const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/song/cake-song/'));
   assert.match(card,/<p class="artist">Holy Quintet · 2026<\/p>/);
   assert.doesNotMatch(card,/<p class="artist">[^<]*(Bebe|Nagisa|ベベ|なぎさ)/);
   const detail=musicPage('/music/cake-song/',new URLSearchParams({lang}));
@@ -680,7 +680,7 @@ test('Rebel Live Idol Project and streamlined song detail',()=>{
 
 
 test('Villain Vibes uses the creator-matched MV illustration, not the album jacket',()=>{
- const a=releaseArtwork['villain-vibes'];assert.equal(a.image,'/music-artwork/villain-vibes-v2.webp');assert.equal(a.credit,'Szainx');assert.equal(a.kind,'selected');assert.ok(a.originalRelease.image.includes('mzstatic.com'));const bytes=readFileSync(new URL('../public'+a.image,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');const card=musicPage('/music/',new URLSearchParams({lang:'es'})).match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/villain-vibes/'));assert.ok(card.includes(a.image));assert.ok(card.includes('data-fallback=""'));assert.ok(!card.includes(a.originalRelease.image));
+ const a=releaseArtwork['villain-vibes'];assert.equal(a.image,'/music-artwork/villain-vibes-v2.webp');assert.equal(a.credit,'Szainx');assert.equal(a.kind,'selected');assert.ok(a.originalRelease.image.includes('mzstatic.com'));const bytes=readFileSync(new URL('../public'+a.image,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');const card=musicPage('/music/',new URLSearchParams({lang:'es'})).match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(h=>h.includes('/music/song/villain-vibes/'));assert.ok(card.includes(a.image));assert.ok(card.includes('data-fallback=""'));assert.ok(!card.includes(a.originalRelease.image));
 });
 
 
@@ -718,7 +718,7 @@ test('Stage 27 albums, lyrics and recovered covers are available in all three lo
  }
  for(const lang of ['es','en','ja']){
   const html=musicPage('/music/',new URLSearchParams({lang}));
-  for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all','melodia-del-oceano']){assert.ok(html.includes('/music/'+slug+'/'));const detail=musicPage('/music/'+slug+'/',new URLSearchParams({lang}));assert.ok(detail.includes('class="lyric-text'));}
+  for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all','melodia-del-oceano']){assert.ok(html.includes('/music/song/'+slug+'/'));const detail=musicPage('/music/'+slug+'/',new URLSearchParams({lang}));assert.ok(detail.includes('class="lyric-text'));}
   const medley=musicPage('/music/melodia-del-oceano/',new URLSearchParams({lang}));assert.match(medley,/color-legend/);assert.match(medley,/será hora de regresar/);assert.match(medley,/DarkHole y Pineapple/);
  }
 });
@@ -731,7 +731,7 @@ test('Arcana Integrity: all fifty works have art, individually framed jackets an
  for(const lang of ['es','en','ja']){
   const h=musicPage('/music/',new URLSearchParams({lang}));
   assert.equal((h.match(/class="square-art"/g)||[]).length,50);
-  for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
+  for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/song/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
   assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  }
@@ -769,4 +769,23 @@ test('music fragments omit the document shell and preserve original voice divisi
  const catalogue=musicPage('/music/',new URLSearchParams({lang:'es',fragment:'1'}));
  assert.match(catalogue,/^<div id="music-content" data-view="catalog"/);
  assert.equal((catalogue.match(/class="square-art"/g)||[]).length,50);
+});
+
+test('canonical song paths and one independent state payload per work',async()=>{
+ assert.ok(MUSIC_PATHS.has('/music/song/blue-spirit/'));
+ const old=await worker.fetch(req('/music/blue-spirit/?lang=es&version=en'),environment);assert.equal(old.status,308);assert.equal(old.headers.get('Location'),origin+'/music/song/blue-spirit/?lang=es&version=en');
+ assert.equal(routePortalRequest(req('/music/album/azur-sin-limites/')).response.status,404);
+ assert.equal(routePortalRequest(req('/music/data/song/unpublished.json')).response.status,404);
+ for(const s of songs){
+  const d=musicStateData('/music/data/song/'+s.slug+'.json');
+  assert.equal(d.slug,s.slug);
+  for(const lang of ['es','en','ja'])for(const v of s.versions.filter(v=>v.public!==false)){
+   const part=d.locales[lang][v.id];assert.ok(part);assert.match(part.html,/data-view="detail"/);
+   assert.ok(part.lyrics[part.defaultLyric]);assert.doesNotMatch(part.html,/<script>|<!doctype/);
+  }
+ }
+ const response=await worker.fetch(req('/music/data/song/blue-spirit.json'),environment);
+ assert.equal(response.status,200);const d=await response.json();
+ const v=d.locales.es.en;assert.ok(v.lyrics.es.cells.some(c=>c.includes('color-part')));assert.ok(v.lyrics.en.cells.some(c=>c.includes('color-part')));
+ const h=await worker.fetch(new Request(origin+'/music/song/blue-spirit/',{headers:{Cookie:'kgblaze_lang=ja'}}),environment);assert.match(await h.text(),/<html lang="ja"/);
 });
