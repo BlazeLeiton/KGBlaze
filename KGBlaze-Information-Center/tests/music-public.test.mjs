@@ -107,20 +107,20 @@ test('song header keeps selected year without redundant date while catalog keeps
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
-test('catalog has twenty-seven songs and thirty-two historical video IDs with valid routes',()=>{
- assert.equal(songs.length,38);
+test('catalog has fifty songs and fifty-seven historical video IDs with valid routes',()=>{
+ assert.equal(songs.length,50);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,47);
+ assert.equal(versions.length,60);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,44);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,44);
+ assert.equal(videos.length,57);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,57);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,78);
+ assert.equal(MUSIC_PATHS.size,102);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((html.match(/<article class="song"/g)||[]).length,38);
+ assert.equal((html.match(/<article class="song"/g)||[]).length,50);
  assert.match(html,/data-lang="ES FR MULTI"/);
  assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA"/);
@@ -223,20 +223,20 @@ test('regional blocks use international season keys and never mix Horizons with 
 });
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
- assert.equal(Object.keys(lyricsBySong).length,38);
+ assert.equal(Object.keys(lyricsBySong).length,50);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
- assert.equal(entries.length,47);
+ assert.equal(entries.length,60);
  assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v.text).length,47);
+ assert.equal(entries.filter(v=>v.text).length,60);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
  assert.equal(lyricsBySong['snow-halation'].hybrid,undefined);
  const page=(slug,version,lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const blue=page('blue-spirit','es');
- assert.match(blue,/class="lyric-text" lang="es"/);
+ assert.match(blue,/class="lyric-text colored-lyrics" lang="es"/);
  assert.match(blue,/Por qué será que quiero ir más allá/);
- assert.match(page('blue-spirit','en'),/class="lyric-text" lang="en"/);
+ assert.match(page('blue-spirit','en'),/class="lyric-text colored-lyrics" lang="en"/);
  assert.match(page('blue-spirit','en'),/It’s starting out/);
  assert.doesNotMatch(page('blue-spirit','en'),/Por qué será que quiero ir más allá/);
  assert.match(page('connect','es'),/No debo olvidar la promesa que nos hicimos/);
@@ -244,9 +244,9 @@ test('pilot lyric fiches use only selected supplied adaptations with review stat
  assert.match(page('mumei','es'),/Texto de trabajo/);
  assert.match(page('la-vaguelette','es-fr'),/La interpretación también incluye francés/);
  assert.doesNotMatch(page('la-vaguelette','es-fr'),/Nous pardonneras/);
- assert.match(page('cake-song','es'),/class="voice-name">Sae/);
+ assert.match(page('cake-song','es'),/title="Bebe"/);
  assert.match(page('cake-song','es'),/V.A.F.M.O./);
- assert.match(page('cake-song','es'),/Todos \(por confirmar\)/);
+ assert.match(page('cake-song','es'),/Todas \/ Todos/);
  assert.match(page('butter-fly','multi'),/pendiente de verificar las atribuciones/);
  assert.match(page('snow-halation','hso-orchestra'),/Japonés \(rōmaji\)/);
  assert.match(page('snow-halation','hso-orchestra'),/Fushigi da ne/);
@@ -331,7 +331,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,38);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,50);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
@@ -431,8 +431,8 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,38);
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,38);
+ assert.equal(Object.keys(releaseArtwork).length,41);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,50);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
@@ -559,10 +559,10 @@ test('original character CVs are localized and never replace the cover cast',()=
   const h=page('cake-song');
   assert.match(h,/Holy Quintet/);
   assert.match(h,lang==='ja'?/鹿目まどか（CV：悠木碧）/:/Madoka Kaname \(CV: Aoi Yūki\)/);
-  assert.match(h,lang==='ja'?/ベベ／百江なぎさ（CV：阿澄佳奈）/:/Bebe \/ Nagisa Momoe \(CV: Kana Asumi\)/);
-  assert.match(h,lang==='ja'?/劇団イヌカレー/:/Gekidan Inu Curry/);
-  assert.match(h,lang==='ja'?/梶浦由記/:/Yuki Kajiura/);
-  assert.match(h,/class="voice-name">Sae/);
+  assert.match(h,lang==='ja'?/ベベ（CV：阿澄佳奈）/:/Bebe \(CV: Kana Asumi\)/);
+  assert.doesNotMatch(h,lang==='ja'?/劇団イヌカレー/:/Gekidan Inu Curry/);
+  assert.doesNotMatch(h,lang==='ja'?/梶浦由記/:/Yuki Kajiura/);
+  assert.match(h,/title="Bebe"/);
   assert.match(h,/class="original-cast"/);
   assert.match(page('blue-spirit'),lang==='ja'?/イラストリアス（CV：雨宮天）/:/Illustrious \(CV: Sora Amamiya\)/);
   assert.match(page('only-one-yell'),lang==='ja'?/淀川逢生（CV：岩橋由佳）/:/Ao Yodogawa \(CV: Yuka Iwahashi\)/);
@@ -579,7 +579,7 @@ test('Cake Song catalog names only Holy Quintet while full fiche retains Bebe',(
   assert.match(card,/<p class="artist">Holy Quintet · 2026<\/p>/);
   assert.doesNotMatch(card,/<p class="artist">[^<]*(Bebe|Nagisa|ベベ|なぎさ)/);
   const detail=musicPage('/music/cake-song/',new URLSearchParams({lang}));
-  assert.match(detail,lang==='ja'?/ベベ／百江なぎさ（CV：阿澄佳奈）/:/Bebe \/ Nagisa Momoe \(CV: Kana Asumi\)/);
+  assert.match(detail,lang==='ja'?/ベベ（CV：阿澄佳奈）/:/Bebe \(CV: Kana Asumi\)/);
  }
 });
 
@@ -617,7 +617,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,43);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,56);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
@@ -647,7 +647,7 @@ test('Oregairu trilogy uses published Spanish covers and distinct season work na
   assert.match(page('harumodoki',lang),/data-video-id="e4_Krpq9JQM"/);
   assert.match(page('megumi-no-ame',lang),/data-video-id="ghOdV3BL3IY"/);
   assert.doesNotMatch(page('harumodoki',lang),/6nWn2lwOYq0|mewsic/);
-  assert.match(page('yukitoki',lang),lang==='ja'?/北川勝利/:/Katsutoshi Kitagawa/);
+  assert.doesNotMatch(page('yukitoki',lang),lang==='ja'?/北川勝利/:/Katsutoshi Kitagawa/);
  }
  assert.equal(lyricsBySong.harumodoki.en,undefined);
 });
@@ -707,4 +707,16 @@ test('ALIVE duet spans preserve exact words, source divisions and selected versi
  const get=(version,lang)=>musicPage('/music/alive/',new URLSearchParams({version,lang}));
  for(const id of ['es','lycoreco']){const l=lyricsBySong.alive[id];assert.equal(l.duetStanzas.map(st=>st.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.ok(l.duetStanzas.flat(2).some(p=>p.voice==='shared'));for(const lang of ['es','en','ja']){const h=get(id,lang);assert.match(h,/class="duet-legend"/);assert.match(h,/class="duet-chisato" title="Chisato">Mi anhelo /);assert.match(h,/class="duet-takina" title="Takina">\(en lo lejos no me sueltes\)/);assert.match(h,/class="duet-shared"[^>]*>Donde nuestro camino vea iluminar/);}}
  const a=get('es','es'),b=get('lycoreco','es');assert.match(a,/class="duet-chisato" title="Chisato">Y en lágrimas me quebranté/);assert.doesNotMatch(b,/Y en lágrimas me quebranté/);assert.match(b,/class="duet-chisato" title="Chisato">Mi anhelo <\/span><span class="duet-shared" title="Ambas">es evidenciar mi existir/);assert.doesNotMatch(musicPage('/music/hana-no-tou/',new URLSearchParams({lang:'es'})),/class="duet-legend"/);
+});
+
+
+test('Stage 27 albums, lyrics and recovered covers are available in all three locales',()=>{
+ for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all']){
+  const art=releaseArtwork[slug];assert.ok(art.image.startsWith('/music-artwork/'));const bytes=readFileSync(new URL('../public'+art.image,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');
+ }
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/',new URLSearchParams({lang}));
+  for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all','melodia-del-oceano']){assert.ok(html.includes('/music/'+slug+'/'));const detail=musicPage('/music/'+slug+'/',new URLSearchParams({lang}));assert.ok(detail.includes('class="lyric-text'));}
+  const medley=musicPage('/music/melodia-del-oceano/',new URLSearchParams({lang}));assert.match(medley,/color-legend/);assert.match(medley,/será hora de regresar/);assert.match(medley,/DarkHole y Pineapple/);
+ }
 });
