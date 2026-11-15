@@ -467,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,55);
+ assert.equal(artworkSources.size,46);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -542,7 +542,7 @@ test('all thirteen selected artwork snapshots exist, with source and integrity m
   const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
   assert.equal(bytes.toString('ascii',8,12),'WEBP');
-  if(newSlugs.includes(slug)){const row=manifestV2[slug];assert.equal(row.origin,art.image);assert.equal(row.status,'preserved');assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);continue;}
+  if(newSlugs.includes(slug)){const row=manifestV2[slug];assert.equal(row.origin,art.sourceImage);assert.equal(row.status,'preserved');assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);continue;}
   if(art.image.startsWith('https://')){
    assert.equal(manifest[slug].source,art.image);
    assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest[slug].sha256);
