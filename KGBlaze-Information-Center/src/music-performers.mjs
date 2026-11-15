@@ -5,6 +5,15 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'ai-no-uta':{kind:'artist',name:name('Haruka Chisuga','千菅春香'),cast:[],source:"https://www.jvcmusic.co.jp/flyingdog/-/Discography/A024282/VTCL-35225.html",writing:name('Toshiaki Yamada','山田稔明'),composition:name('Rasmus Faber'),arrangement:name('Rasmus Faber')},
+ 'beginners-rock':{kind:'character',name:name('Kinako Sakurakoji','桜小路きな子'),cast:[voice('Kinako Sakurakoji','桜小路きな子','Nozomi Suzuhara','鈴原希実')],source:'https://music.apple.com/us/song/1765297125',writing:name('Junko Miyajima','宮嶋淳子'),composition:name('Shinpei Nozaki','野崎心平')},
+ 'dakara-boku-wa-boku-wo-tebanasu':{kind:'artist',name:name('WEAVER'),cast:[],source:'https://www.lisani.jp/0000056592/',writing:name('Yuji Sugimoto','杉本雄治'),composition:name('Yuji Sugimoto','杉本雄治')},
+ 'end-of-a-life':{kind:'artist',name:name('Mori Calliope','森カリオペ'),cast:[],source:"https://hololive.hololivepro.com/en/music/end-of-a-life/",writing:name('Mori Calliope','森カリオペ')},
+ 'gg':{kind:'artist',name:name('ReoNa'),cast:[],source:"https://www.cdjapan.co.jp/product/VVCL-2618"},
+ 'gimi-gimi':group(name('Mayopan','まよぱん'),[voice('Live','りぶ','Fairouz Ai','ファイルーズあい'),voice('Ichiko','苺子','Yuina Ito','伊藤ゆいな'),voice('Fū','譜風','Hina Yomiya','羊宮妃那'),voice('Tokage','十景','Hitomi Ueda','上田瞳'),voice('Yuki','ゆき','Ai Kayano','茅野愛衣')],"https://mayopan.jp/music/",{writing:name('Yohei Matsui','松井洋平'),composition:name('John Kanda','神田ジョン')}),
+ 'leon-no-sabe-que-existo':{kind:'artist',name:name('Catch 22','キャッチ22'),cast:[],source:"https://victoryrecords.bandcamp.com/album/keasbey-nights"},
+ 'hitoribocchi-tokyo':group(name('Kessoku Band','結束バンド'),[voice('Ikuyo Kita','喜多郁代','Ikumi Hasegawa','長谷川育美')],"https://bocchi.rocks/kessokuband/discography/?article_id=kessoku"),
+ 'kaze-no-uta':{kind:'artist',name:name('FLOW'),cast:[],source:"https://www.cdjapan.co.jp/product/KSCL-2762"},
  'el-mismo-sol':{kind:'artist',name:name('Alejandro Fernández','アレハンドロ・フェルナンデス'),cast:[],source:'https://www.qobuz.com/us-en/album/el-mismo-sol-alejandro-fernandez/0060252782814'},
  'el-nano':{kind:'artist',name:name('Melendi'),cast:[],source:'https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750'},
  'there-is-a-reason':{kind:'artist',name:name('Konomi Suzuki','鈴木このみ'),cast:[],source:'https://ngnl.jp/goods/music/'},
