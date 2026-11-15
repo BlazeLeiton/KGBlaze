@@ -2862,3 +2862,7 @@ Object.assign(lyricsBySong,{
     }
   }
 });
+
+// Original Word colors retained as separate parts; character assignment awaits editorial confirmation.
+const lovedOnes=lyricsBySong['ano-ne']['loved-ones'];
+stage27Color(lovedOnes,[['green','Voz verde','#86C98B'],['blue','Voz azul','#A5BEFF']],Array.from({length:53},(_,i)=>[1,2,9,10,11,21,22,23].includes(i+1)?'green':[3,6,7,8,12,24,25,26].includes(i+1)?'blue':'shared'),{4:[['green','Para mí… '],['blue','Para mí '],['shared','']]});
