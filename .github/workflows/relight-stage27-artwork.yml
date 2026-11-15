@@ -53,6 +53,9 @@ jobs:
                   try: return get(url),url
                   except Exception as e: print('failed',url,str(e),flush=True)
               return None,None
+          for slug, urls in [('signal',['https://m.imageimg.net/upload/artist_img/BEVEL/8a31142177ae0fe1ad11a31ad538e1eb6889ed79_5fe3fa718e27a.jpg']),('what-youre-made-of',['https://static.found.ee/user/3830/LindseyStirling_WhatYoureMadeOf_1500.jpg'])]:
+              im,url=first(urls)
+              if im: save(square(im),slug+'-v1.webp')
           tiles=[]
           for vol,month,cat in [(2,'08','10004'),(3,'08','10005'),(4,'09','10006'),(5,'10','10007')]:
               im,url=first([f'https://straycats.co.jp/wp/wp-content/uploads/2019/{month}/XNST_{cat}.jpg',f'https://azurlane-anime.jp/images/music_vol{vol}jk.png'])
