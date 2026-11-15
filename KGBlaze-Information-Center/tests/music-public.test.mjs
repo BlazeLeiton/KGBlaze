@@ -335,7 +335,7 @@ test('video thumbnails and playback are bound to the selected public recording',
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  if(first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
+  if(first.videoStatus!=='blocked'&&!releaseArtwork[s.slug]?.framing&&!releaseArtwork[s.slug]?.components)assert.ok(catalog.includes('https://i.ytimg.com/vi/'+first.videoId+'/hqdefault.jpg'));
   for(const v of visible.filter(v=>v.videoStatus!=='blocked'))for(const lang of ['es','en','ja']){
    const h=page(s.slug,lang,v.id);
    assert.ok(h.includes('data-video-id="'+v.videoId+'"'));
@@ -735,4 +735,16 @@ test('Arcana Integrity: all fifty works have art, individually framed jackets an
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
   assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  }
+});
+
+test('Arcana Integrity preservation manifest covers every work and verifies available files',()=>{
+ const m=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;
+ assert.deepEqual(Object.keys(m).sort(),songs.map(s=>s.slug).sort());
+ for(const [slug,row] of Object.entries(m)){
+  const a=releaseArtwork[slug];assert.equal(row.source,a.source);
+  if(row.status==='preserved'||row.status==='preserved-composite'){
+   const bytes=readFileSync(new URL('../public'+row.path,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);
+  }else assert.ok(['pending-snapshot','composite'].includes(row.status),slug);
+ }
+ assert.deepEqual(m['melodia-del-oceano'].components,['miiro','graphite-diamond','high-free-spirits','savior-of-song']);
 });
