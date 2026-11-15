@@ -116,7 +116,7 @@ test('catalog has fifty songs and fifty-seven historical video IDs with valid ro
  assert.equal(new Set(videos.map(v=>v.videoId)).size,57);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,102);
+ assert.equal(MUSIC_PATHS.size,202);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
