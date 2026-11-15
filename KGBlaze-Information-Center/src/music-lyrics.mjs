@@ -970,8 +970,8 @@ export const lyricsBySong={
       "language": "JA",
       "kind": "original_romanized",
       "review": null,
-      "textJa": "不思議だね いまの気持ち\n空から降ってきたみたい\n特別な季節の色がときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\nとめられない とまらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の鼓動が早くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつの間にか大きくなりすぎた \"True emotion\"\n夢だけみてる様じゃつらいよ\n恋人は君って言いたい\n優しい目がとまどってるイヤだよ\nこのまま一気に愛情あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
-      "scriptSource": "Transcription from supplied romaji; orthography checked against published reference, supplied wording retained"
+      "textJa": "不思議だね いまの気持ち\n空から降ってきたみたい\n特別な季節の色が ときめきを見せるよ\n\n初めて出会った時から\n予感に騒ぐ心のMelody\nとめられないとまらない な・ぜ\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!\n\n音もなく 気配もなく\n静かに運命は変わる\nこれからの未来に胸の 鼓動が早くなる\n\n例えば困った時には\nすぐ駆けつけて抱きしめたくて\nどこにいてもどこでも Fly high\n\n急いで\nいつの間にか大きくなりすぎた \"True emotion\"\n夢だけみてる様じゃつらいよ\n恋人は君って言いたい\n優しい目が とまどってるイヤだよ\nこのまま一気に愛情 あずけて Please!!\n\n届けて\n切なさには名前をつけようか \"Snow halation\"\n想いが重なるまで待てずに\n悔しいけど好きって純情\n微熱の中 ためらってもダメだね\n飛び込む勇気に賛成 まもなくStart!!",
+      "scriptSource": "Japanese text from supplied romaji and existing transcription; checked against UtaTen (https://utaten.com/lyric/xs15022077/) and Lantis release LACM-4774 (credits). Retains the supplied sugu reading."
     }
   },
   "are-ga-koi-datta-no-ka-na": {
@@ -2875,3 +2875,19 @@ stage27Color(levelLyric,[['yanaginagi','yanaginagi','#E9C66B'],['sixth-lie','THE
  15:[['sixth-lie','Pues siempre '],['shared','']],
  31:[['shared','Te diré, '],['sixth-lie','tan solo eso bastará '],['secondary','']]
 });
+
+// Snow halation: original μ's vocal arrangement, not Blaze's vocal cast.
+const snowLegend=[['honoka','Honoka Kōsaka','#FF9B43'],['eli','Eli Ayase','#73DDF5'],['kotori','Kotori Minami','#C9CDD3'],['umi','Umi Sonoda','#6698FF'],['rin','Rin Hoshizora','#F9D65C'],['maki','Maki Nishikino','#FF747A'],['nozomi','Nozomi Tōjō','#B590F5'],['hanayo','Hanayo Koizumi','#A7D77C'],['nico','Nico Yazawa','#F58DBE']];
+const snowA='honoka+umi+nozomi',snowB='eli+hanayo+nico',snowC='kotori+rin+maki',snowBC='eli+kotori+rin+maki+hanayo+nico';
+const snowJP=lyricsBySong['snow-halation']['hso-orchestra'],snowES=lyricsBySong['snow-halation']['naked-garden'];
+const snowJpAssignments=[snowA,snowA,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),snowC,snowC,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),'honoka',snowA,...Array(4).fill('shared')];
+stage27Color(snowJP,snowLegend,snowJpAssignments,{6:[[snowA,'Tomerarenai tomaranai '],['shared','']],18:[[snowA,'Doko ni ite mo dokodemo '],['shared','']],26:[['honoka','Setsunasa ni wa '],[snowA,'namae o tsukeyou ka '],['shared','']]});
+const snowNative={text:snowJP.textJa};
+stage27Color(snowNative,snowLegend,snowJpAssignments,{6:[[snowA,'とめられないとまらない '],['shared','']],18:[[snowA,'どこにいてもどこでも '],['shared','']],26:[['honoka','切なさには'],[snowA,'名前をつけようか '],['shared','']]});
+snowJP.colorStanzasJa=snowNative.colorStanzas;
+const snowEsAssignments=[snowA,snowA,snowB,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),snowC,snowC,snowB,snowB,snowBC,snowBC,snowA,...Array(6).fill('shared'),'honoka',snowA,...Array(4).fill('shared')];
+stage27Color(snowES,snowLegend,snowEsAssignments,{7:[[snowA,'No se detendrá, no parará… '],['shared','']],20:[[snowA,'Donde sea que estés, '],['shared','']],28:[[snowA,'Y nombraré la tristeza aquí '],['shared','']]});
+const snowVoiceSources=['https://lyruca.com/song/37390','https://ameblo.jp/love-live-kasi/entry-11619778740.html'];
+snowJP.colorSources=snowVoiceSources;snowES.colorSources=snowVoiceSources;
+snowJP.colorAttribution={es:'Reparto vocal de μ\'s reconstruido a partir de dos transcripciones coincidentes; no es una hoja oficial de partes vocales.',en:'Original μ\'s vocal parts reconstructed from two matching transcriptions; not an official publisher part sheet.',ja:'μ\'sの歌唱パートは一致する2つの資料をもとに再構成（公式パート譜ではありません）。'};
+snowES.colorAttribution={es:'Reparto vocal original de μ\'s trasladado a la adaptación española según sus frases musicales; no describe las voces de esta grabación.',en:'Original μ\'s vocal parts mapped to the Spanish adaptation by musical phrase; not the cast of this recording.',ja:'μ\'sの歌唱パートをスペイン語詞のフレーズに対応させたもの。カバー音源の歌唱者を示すものではありません。'};
