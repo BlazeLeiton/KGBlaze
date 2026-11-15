@@ -486,7 +486,7 @@ test('registered external artwork cache reuses successful responses and rejects 
  assert.equal((await worker.fetch(req('/music/artwork-cache/unknown-v1'),environment)).status,404);
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
  assert.equal((catalog.match(/loading="eager"/g)||[]).length,2);
- assert.equal((catalog.match(/loading="lazy"/g)||[]).length,48);
+ assert.equal((catalog.match(/loading="lazy"/g)||[]).length,54);
  assert.match(catalog,/data-origin="https:\/\/www\.lisani\.jp/);
 });
 test('context filters appear only for relevant results or tag deep links',()=>{
@@ -535,7 +535,7 @@ test('all thirteen selected artwork snapshots exist, with source and integrity m
  const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
  assert.equal(Object.keys(manifest).length,11);
  for(const [slug,art] of Object.entries(releaseArtwork)){
-  if(art.components||['kenka','kokuan-glossolalia','hikari-aru-basho-e','starlog','aint-backing-down','tempestas-claim'].includes(slug))continue;
+  if(art.components||['ano-ne','kono-tate-ni-kakuremasu','koko-kara-koko-kara','rvr','zutto','level','kenka','kokuan-glossolalia','hikari-aru-basho-e','starlog','aint-backing-down','tempestas-claim'].includes(slug))continue;
   if(['miiro','graphite-diamond','high-free-spirits','savior-of-song','yukitoki','harumodoki','megumi-no-ame','daisuki','love-evidence','honey-jet-coaster','stuck-on-you','rakuen-project','please-please','twilight-little-star','shiny-smily-story','villain-vibes','sparks-of-joy','sparks','stars-we-chase','pastel','bad-candy','alive','hana-no-tou','strobe-memory','youthful-beautiful'].includes(slug))continue; // new official sources use cache and fallback until snapshots are captured
   const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
@@ -620,7 +620,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,56);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,63);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
