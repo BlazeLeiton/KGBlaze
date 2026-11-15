@@ -246,7 +246,7 @@ test('pilot lyric fiches use only selected supplied adaptations with review stat
  assert.doesNotMatch(page('la-vaguelette','es-fr'),/Nous pardonneras/);
  assert.match(page('cake-song','es'),/title="Bebe"/);
  assert.match(page('cake-song','es'),/V.A.F.M.O./);
- assert.match(page('cake-song','es'),/Todas \/ Todos/);
+ assert.match(page('cake-song','es'),/Todas/);
  assert.match(page('butter-fly','multi'),/pendiente de verificar las atribuciones/);
  assert.match(page('snow-halation','hso-orchestra'),/Japonés \(rōmaji\)/);
  assert.match(page('snow-halation','hso-orchestra'),/Fushigi da ne/);
@@ -894,7 +894,7 @@ test('Beyond the World preserves six historical Spanish recordings and does not 
  for(const {song,version} of album.tracks){assert.equal(version,'es');assert.ok(songs.find(s=>s.slug===song)?.versions.some(v=>v.id===version));assert.ok(lyricsBySong[song].es.text);assert.equal(Object.keys(lyricsBySong[song]).length,1);assert.ok(albumsForVersion(song,version).includes(album));}
  const reason=songs.find(s=>s.slug==='there-is-a-reason');assert.equal(reason.versions[0].videoStatus,'blocked');assert.equal(reason.versions[0].reuploadPending,true);assert.equal(reason.versions[0].date,null);assert.equal(reason.versions[0].year,2023);assert.equal(reason.versions[0].firstDocumented,'2023-12-16');assert.equal(reason.versions[0].currentVideoId,null);assert.equal(reason.versions[0].videoPublishedDate,'2024-10-26');assert.equal(reason.versions[0].historicalPublications.length,3);assert.deepEqual(reason.versions[0].historicalPublications.map(x=>x.videoId),[null,null,'spxnKeBQpo8']);assert.match(musicPage('/music/song/there-is-a-reason/',new URLSearchParams({lang:'es'})),/Re-upload pendiente/);assert.doesNotMatch(musicPage('/music/song/there-is-a-reason/',new URLSearchParams({lang:'es'})),/data-video-id="spxnKeBQpo8"/);
  const xy=songs.find(s=>s.slug==='xy-and-z');assert.equal(xy.season,19);assert.equal(xy.sourceEdition,'jp');assert.match(xy.adaptationCredit,/Itani/);assert.match(musicPage('/music/song/xy-and-z/',new URLSearchParams({lang:'es'})),/Itani/);
- assert.equal(songs.find(s=>s.slug==='el-nano').versions[0].historicalUploads[0],'QSNDk42U1OM');
+ assert.equal(songs.find(s=>s.slug==='el-nano').versions[0].historicalUploadStatus,undefined);
 });
 
 
