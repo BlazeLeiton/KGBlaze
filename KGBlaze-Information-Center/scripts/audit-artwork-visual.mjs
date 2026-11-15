@@ -37,6 +37,43 @@ try{
    }
    report.push({device,lang,cards:rows.length,details:songs.length,artwork:rows});
   }
+  // Real navigation, rather than just independent document renders.
+  await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  const initial=await page.evaluate(()=>{window.__musicDocument=Math.random();return window.__musicDocument});
+  await page.locator('#search').fill('blue spirit');
+  await page.locator('#list').click();
+  await page.locator('#songs .song:not([hidden]) > a').first().click();
+  await page.locator('.music-overlay.is-open #music-detail-content').waitFor();
+  const overlay=page.locator('.music-overlay-panel');
+  assert.equal(await page.evaluate(()=>window.__musicDocument),initial,'opening navigated document');
+  assert.equal(await page.locator('#search').inputValue(),'blue spirit');
+  assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
+  assert.ok(await overlay.evaluate(n=>Math.abs(n.getBoundingClientRect().width-innerWidth)<2));
+  await overlay.locator('.version-options a').filter({hasText:'2024'}).click();
+  await page.locator('#music-detail-content[data-version="en"]').waitFor();
+  assert.equal(await page.evaluate(()=>window.__musicDocument),initial,'version navigated document');
+  await page.evaluate(()=>{window.__player=document.querySelector('.music-overlay .video-stage')});
+  await overlay.locator('.lyric-options a').filter({hasText:'En paralelo'}).first().click();
+  await overlay.locator('.parallel-pairs').waitFor();
+  assert.ok(await overlay.locator('.parallel-pairs .color-part').count());
+  assert.ok(await page.evaluate(()=>window.__player===document.querySelector('.music-overlay .video-stage')),'player remounted on lyric change');
+  assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
+  await page.screenshot({path:resolve(out,device+'-overlay-parallel.png'),fullPage:false});
+  await overlay.locator('.music-detail-langs a').filter({hasText:'EN'}).click();
+  await page.locator('#music-detail-content[data-locale="en"]').waitFor();
+  assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
+  await page.keyboard.press('Escape');
+  await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
+  assert.equal(await page.locator('#search').inputValue(),'blue spirit');
+  assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
+  assert.equal(await page.evaluate(()=>document.documentElement.lang),'es');
+  assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
+  await page.goForward();
+  await page.locator('.music-overlay.is-open').waitFor();
+  await page.goBack();
+  await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
+  assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
+  console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
   await page.close();
  }
  await import('node:fs/promises').then(fs=>fs.writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2)));
