@@ -107,7 +107,7 @@ test('song header keeps selected year without redundant date while catalog keeps
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
-test('catalog has sixty-three songs and seventy-one historical video IDs with valid routes',()=>{
+test('catalog has seventy-two songs and eighty-one historical video IDs with valid routes',()=>{
  assert.equal(songs.length,72);
  const versions=songs.flatMap(s=>s.versions);
  assert.equal(versions.length,84);
@@ -116,7 +116,7 @@ test('catalog has sixty-three songs and seventy-one historical video IDs with va
  assert.equal(new Set(videos.map(v=>v.videoId)).size,81);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,254);
+ assert.equal(MUSIC_PATHS.size,290);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
@@ -798,7 +798,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  const members=family=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(family));
  assert.equal(cards.length,72);assert.equal(members('Azur Lane').length,9);
  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'])assert.ok(members(family).includes(by('melodia-del-oceano')));
- for(const [family,count] of [['Pokémon',3],['Love Live!',3],['hololive',5],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
+ for(const [family,count] of [['Pokémon',3],['Love Live!',4],['hololive',7],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
  assert.match(by('graphite-diamond'),/data-series="Azur Lane The Animation"/);
  assert.match(by('shiny-smily-story'),/data-filter-affiliation="holo-en holo-jp holo-id"/);
  assert.doesNotMatch(html,/<option value="holo-(?:hope|myth|promise|council)"/);
