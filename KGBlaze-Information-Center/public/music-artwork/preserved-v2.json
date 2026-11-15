@@ -254,6 +254,15 @@
       ],
       "bytes": 73896
     },
+    "el-nano": {
+      "release": "El Nano · 2008 digital single (2005 recording)",
+      "source": "https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750",
+      "origin": "https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/el-nano-v1.webp",
+      "status": "pending-snapshot"
+    },
     "feelin-it-all": {
       "release": "Feelin’ It All · Azur Lane Soundtrack · Annie Sollange",
       "source": "https://music.apple.com/us/album/feelin-it-all-azur-lane-soundtrack/1636338935",
@@ -476,6 +485,15 @@
       ],
       "retrieved_from": "https://catalog.bandainamcomusiclive.co.jp/wp-content/uploads/2026/05/LACA-9994-scaled.jpg",
       "source_sha256": "7c936ba4c850565904a6e388d7f03d4d392d22f5034898893e3de424db50e5d4"
+    },
+    "kimi-to-iu-shinwa": {
+      "release": "君という神話／Goodbye Seven Seas · 2020 single",
+      "source": "https://www.qobuz.com/jp-ja/album/kimi-to-iu-shinwa-goodbye-seven-seas-tv-animation-kamisama-ni-natta-hi-openingending-song-jun-maeda-yanaginagi-/o9m62vb66xwsa",
+      "origin": "https://static.qobuz.com/images/covers/sa/xw/o9m62vb66xwsa_600.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/kimi-to-iu-shinwa-v1.webp",
+      "status": "pending-snapshot"
     },
     "koko-kara-koko-kara": {
       "release": "ここから、ここから · ZMCZ-11855",
@@ -1118,6 +1136,24 @@
       "review_commit": "8522f04a13420dd1574cbf4629dc088bc6311013",
       "review_path": "approved-review/docs/artwork-options/tempesta-height-1C-refined.png"
     },
+    "ten-to-sen": {
+      "release": "点と線 · COCC-18148",
+      "source": "https://columbia.jp/artist-info/itomiku/discography/COCC-18148.html",
+      "origin": "https://columbia.jp/artist-info/jacket/COCC-18148.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/ten-to-sen-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "there-is-a-reason": {
+      "release": "NO SONG NO LIFE · ZMCZ-11294 · track 10",
+      "source": "https://ngnl.jp/goods/music/",
+      "origin": "https://ngnl.jp/common/images/pc/goods/img_music_complete-songs.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/there-is-a-reason-v1.webp",
+      "status": "pending-snapshot"
+    },
     "twilight-little-star": {
       "release": "twilight little star · LACM-24377",
       "source": "https://choucho-net.com/discography",
@@ -1189,6 +1225,15 @@
       ],
       "bytes": 280492,
       "gitBlob": "69ccfa145ca432683a18b3331a76db62f5a14946"
+    },
+    "xy-and-z": {
+      "release": "Pokémon XY&Z Character Song Project Vol. 1 · SECL-1832",
+      "source": "https://www.cdjapan.co.jp/product/SECL-1832",
+      "origin": "https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/xy-and-z-v1.webp",
+      "status": "pending-snapshot"
     },
     "youthful-beautiful": {
       "release": "youthful beautiful · PCCG-70435",
