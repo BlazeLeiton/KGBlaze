@@ -261,7 +261,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/el-nano-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "2cffc3a785cfc57389ce65e10690590caa7a9a18fe15fb039d5190f918ed8bdc",
+      "bytes": 63380,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://static.qobuz.com/images/covers/50/27/5099920752750_600.jpg",
+      "source_sha256": "7485b7fe574e95fbdefb17bc8db64c09610c589c9be0dbc6427c3a6a11850e46"
     },
     "feelin-it-all": {
       "release": "Feelin’ It All · Azur Lane Soundtrack · Annie Sollange",
@@ -493,7 +505,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/kimi-to-iu-shinwa-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "c02c024b8fafe4d2796707f65270ffdcc77d57f4bdca12cec978b7a8064831cc",
+      "bytes": 56154,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://static.qobuz.com/images/covers/sa/xw/o9m62vb66xwsa_600.jpg",
+      "source_sha256": "c6fffafb15bd29da90fe8a014c9a0751a875ac7efa9c9a4dbbb3b34a028c4cbc"
     },
     "koko-kara-koko-kara": {
       "release": "ここから、ここから · ZMCZ-11855",
@@ -1143,7 +1167,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/ten-to-sen-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        400,
+        400
+      ],
+      "sha256": "ee9c2f212f4e3476c97aadd7b8bf24982fffc0da267b77c8de41fa0100144e46",
+      "bytes": 43570,
+      "original_size": [
+        400,
+        400
+      ],
+      "retrieved_from": "https://columbia.jp/artist-info/jacket/COCC-18148.jpg",
+      "source_sha256": "e9e7a1f7279df33e3a7143f5c99056302a7544c61b3ebeaa34835ee4d382ad07"
     },
     "there-is-a-reason": {
       "release": "NO SONG NO LIFE · ZMCZ-11294 · track 10",
@@ -1152,7 +1188,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/there-is-a-reason-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        250,
+        250
+      ],
+      "sha256": "0580b31eea9f1798b1b705a916ba0822c07aebbce45d72a420d1f4f435958c31",
+      "bytes": 26790,
+      "original_size": [
+        250,
+        250
+      ],
+      "retrieved_from": "https://ngnl.jp/common/images/pc/goods/img_music_complete-songs.jpg",
+      "source_sha256": "1b858c98b90302d5d628922ca2ff7dafe2d156ff256c875fd097b1fd82b1ab1c"
     },
     "twilight-little-star": {
       "release": "twilight little star · LACM-24377",
@@ -1233,7 +1281,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/xy-and-z-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        500,
+        445
+      ],
+      "sha256": "0cf45833379c08affdafa0c1f2b533cd48dcbe57c63af52d95a26630a26d7dc3",
+      "bytes": 101670,
+      "original_size": [
+        500,
+        445
+      ],
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/05/33/SECL-1832.jpg?v=3",
+      "source_sha256": "34a51466856fc8753c5017bf2fe866dc3330a922538d031513eb335a02df74e4"
     },
     "youthful-beautiful": {
       "release": "youthful beautiful · PCCG-70435",
