@@ -5,6 +5,11 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'el-nano':{kind:'artist',name:name('Melendi'),cast:[],source:'https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750'},
+ 'there-is-a-reason':{kind:'artist',name:name('Konomi Suzuki','鈴木このみ'),cast:[],source:'https://ngnl.jp/goods/music/'},
+ 'xy-and-z':{kind:'character',name:name('Satoshi','サトシ'),cast:[voice('Satoshi','サトシ','Rica Matsumoto','松本梨香')],source:'https://www.sonymusic.co.jp/artist/sakotomohisa/info/461735'},
+ 'ten-to-sen':{kind:'artist',name:name('Miku Itō','伊藤美来'),cast:[],source:'https://columbia.jp/artist-info/itomiku/discography/COCC-18148.html'},
+ 'kimi-to-iu-shinwa':{kind:'artist',name:name('Jun Maeda × yanaginagi','麻枝 准×やなぎなぎ'),cast:[],source:'https://kamisama-day.jp/music/'},
  'ano-ne':{kind:'character',name:name('Yuna','ユナ'),cast:[voice('Yuna','ユナ','Maki Kawase','河瀬茉希')],source:'https://columbia.jp/prod-info/COCC-17809/',variants:{'loved-ones':group(name('Yuna & Fina','ユナ＆フィナ'),[voice('Yuna','ユナ','Maki Kawase','河瀬茉希'),voice('Fina','フィナ','Azumi Waki','和氣あず未')],'https://columbia.jp/prod-info/COKM-43033/info.html')}},
  'zutto':{kind:'character',name:name('Yuna','ユナ'),cast:[voice('Yuna','ユナ','Maki Kawase','河瀬茉希')],source:'https://columbia.jp/prod-info/COCC-18117/'},
  'kono-tate-ni-kakuremasu':{kind:'artist',name:name('Junjou no Afilia','純情のアフィリア'),cast:[],source:'https://bofuri.jp/music/'},
