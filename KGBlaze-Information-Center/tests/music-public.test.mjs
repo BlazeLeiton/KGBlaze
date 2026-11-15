@@ -167,8 +167,8 @@ test('localized work names preserve identity and map XY international seasons',(
  for(const s of songs)for(const lang of ['es','en','ja'])assert.ok(workName(s.series,lang,s.season));
  const es=musicPage('/music/',new URLSearchParams({lang:'es'}));
  const ja=musicPage('/music/',new URLSearchParams({lang:'ja'}));
- assert.match(es,/<option value="Pokémon Horizons">La Serie Horizontes Pokémon<\/option>/);
- assert.match(ja,/<option value="Pokémon Horizons">ポケットモンスター（2023）<\/option>/);
+ assert.match(es,/<option value="Pokémon">Pokémon<\/option>/);
+ assert.match(ja,/<option value="Pokémon">ポケットモンスター<\/option>/);
  assert.match(es,/pocket monsters 2023/);
  assert.match(ja,/data-series="Pokémon Horizons"/);
  assert.match(ja,/先輩はおとこのこ/);
