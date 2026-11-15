@@ -4,6 +4,12 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'The Asterisk War':names('The Asterisk War','学戦都市アスタリスク','The Asterisk War',['Gakusen Toshi Asterisk']),
+ 'Sagrada Reset':names('Sagrada Reset','サクラダリセット','Sagrada Reset',['Sakurada Reset']),
+ 'Sword Art Online Alternative: Gun Gale Online II':names('Sword Art Online Alternative: Gun Gale Online II','ソードアート・オンライン オルタナティブ ガンゲイル・オンラインII','Sword Art Online Alternative: Gun Gale Online II',['GGO II','SAO Alternative']),
+ 'Mayonaka Punch':names('Mayonaka Punch','真夜中ぱんチ','Mayonaka Punch',['Mayopan']),
+ 'Bocchi the Rock!':names('Bocchi the Rock!','ぼっち・ざ・ろっく！','Bocchi the Rock!',['Bocchi la Roca','Bocchi the Rock']),
+ 'Tales of Zestiria the X':names('Tales of Zestiria the X','テイルズ オブ ゼスティリア ザ クロス'),
  'Formula 1':names('Formula 1','フォーミュラ1','Fórmula 1',['F1','Aston Martin','Fernando Alonso']),
  'Pan American Games':names('Pan American Games','パンアメリカン競技大会','Juegos Panamericanos',['Guadalajara 2011','Juegos Panamericanos Guadalajara 2011','Panamericanos']),
  'No Game No Life: Zero':names('No Game No Life: Zero','ノーゲーム・ノーライフ ゼロ'),
