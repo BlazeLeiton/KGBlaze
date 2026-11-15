@@ -5,7 +5,7 @@ import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflig
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
-import {MUSIC_PATHS,MUSIC_TYPE_PATH,musicPage} from './music-page.mjs';
+import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {DASHBOARD_HTML} from './dashboard-page.mjs';
 import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
@@ -226,6 +226,7 @@ export default {
     if(!fonts)return err(503,'FONT_SOURCE_UNAVAILABLE');
     return new Response(req.method==='HEAD'?null:fonts,{headers:{'Content-Type':'text/css; charset=utf-8','Cache-Control':'public, max-age=86400','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff'}});
    }
+   if(MUSIC_DATA_PATHS.has(dashboardPath)){if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');const data=musicStateData(dashboardPath);return new Response(req.method==='HEAD'?null:JSON.stringify(data),{headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex, nofollow, noarchive'}});}
    if(MUSIC_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
