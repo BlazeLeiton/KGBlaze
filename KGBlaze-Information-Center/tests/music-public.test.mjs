@@ -803,7 +803,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  assert.match(by('shiny-smily-story'),/data-filter-affiliation="holo-en holo-jp holo-id"/);
  assert.doesNotMatch(html,/<option value="holo-(?:hope|myth|promise|council)"/);
  assert.doesNotMatch(html,/<option value="(?:Azur Lane The Animation|Pokémon Horizons|Oregairu Zoku|SSSS.GRIDMAN|Madoka Magica: Rebellion)"/);
- const events={'blue-spirit':['Universe in Unison','Universe in Unison','激唱のユニバース'],'signal':['Operation Siren','Operation Siren','セイレーン作戦'],'feelin-it-all':['4.º aniversario global','4th Global Anniversary','グローバル版4周年記念'],'aint-backing-down':['5.º aniversario global','5th Global Anniversary','グローバル版5周年記念'],'what-youre-made-of':['2.º aniversario global','2nd Global Anniversary','グローバル版2周年記念'],'tempestas-claim':['Tempesta and the Fountain of Youth','Tempesta and the Fountain of Youth','テンペスタと若返りの泉']};
+ const events={'blue-spirit':['Universe in Unison','Universe in Unison','激唱のユニバース'],'signal':['Launch Time','Launch Time','Launch Time'],'feelin-it-all':['4.º aniversario global','4th Global Anniversary','グローバル版4周年記念'],'aint-backing-down':['5.º aniversario global','5th Global Anniversary','グローバル版5周年記念'],'what-youre-made-of':['2.º aniversario global','2nd Global Anniversary','グローバル版2周年記念'],'tempestas-claim':['Tempesta and the Fountain of Youth','Tempesta and the Fountain of Youth','テンペスタと若返りの泉']};
  for(const [i,lang] of ['es','en','ja'].entries()){
   for(const [slug,values] of Object.entries(events)){const h=musicPage('/music/song/'+slug+'/',new URLSearchParams({lang}));assert.ok(h.includes('<dt>'+['Evento','Event','イベント'][i]+'</dt><dd>'+values[i]+'</dd>'),slug+' '+lang);}
   for(const slug of ['graphite-diamond','yuukyuu-no-catharsis'])assert.ok(!musicPage('/music/song/'+slug+'/',new URLSearchParams({lang})).includes('<dt>'+['Evento','Event','イベント'][i]+'</dt>'));
@@ -831,7 +831,7 @@ test('hololive branch label is localized without changing other franchise filter
 });
 
 test('Horizontes intake retains all source lyric lines and Word stanza divisions',()=>{
- const hashes={"ano-ne:es":"e761555d3ed8bc2619ff7e9058d105a0efca1f12c7877863235edc113563dd8a","ano-ne:loved-ones":"bb57dab73f6654531152f9ea58dbf4a619d95d5b55f7a026a0e916910dedaa5a","kono-tate-ni-kakuremasu:es":"d720ba7525c6b224a7848682a4940f2de68a523ea1ea6158597261a9e95944a8","koko-kara-koko-kara:es":"b50036ced33d2bd6d835cfa5e68b517151bf1efdf3f66050e09f4e7560457aa2","rvr:es":"975ab8d47585739945d904100e5a8f955121049768730103639d64fdfc12aa31","zutto:es":"4776691f695d4cd10de011dc54afd855d583d2796423bae94e1ca816d9cae261","level:es":"b3c90b3fee7a297f81c0750a4c04b562525f9ea82ec318b1d551eb47615fa186"};
+ const hashes={"ano-ne:es":"e761555d3ed8bc2619ff7e9058d105a0efca1f12c7877863235edc113563dd8a","ano-ne:loved-ones":"bb57dab73f6654531152f9ea58dbf4a619d95d5b55f7a026a0e916910dedaa5a","kono-tate-ni-kakuremasu:es":"d720ba7525c6b224a7848682a4940f2de68a523ea1ea6158597261a9e95944a8","koko-kara-koko-kara:es":"b50036ced33d2bd6d835cfa5e68b517151bf1efdf3f66050e09f4e7560457aa2","rvr:es":"975ab8d47585739945d904100e5a8f955121049768730103639d64fdfc12aa31","zutto:es":"4776691f695d4cd10de011dc54afd855d583d2796423bae94e1ca816d9cae261","level:es":"6368a2126e67181687d11da009cde9e9ad126955e7b55113017ea427f5291936"};
  const layouts={"ano-ne:es":[5,3,4,6,3,5,7,6,6,3],"ano-ne:loved-ones":[5,3,5,7,3,5,8,8,7,2],"kono-tate-ni-kakuremasu:es":[4,4,4,8,4,4,4,8,8],"koko-kara-koko-kara:es":[2,1,4,2,1,4,4,4,2],"rvr:es":[3,4,4,3,7,4,4,3,7],"zutto:es":[4,2,4,4,2,4,2,2,2,2,2,1],"level:es":[6,2,4,3,3,3,3,7,3,4,4,3,1]};
  for(const [key,hash] of Object.entries(hashes)){const [slug,id]=key.split(':');const l=lyricsBySong[slug][id];assert.deepEqual(l.text.split(/\n\s*\n/).map(s=>s.split('\n').length),layouts[key],key);const normalized=l.text.split('\n').map(x=>x.trim()).filter(Boolean).join('\n');assert.equal(createHash('sha256').update(normalized).digest('hex'),hash,key);}
  const album=coverAlbums.find(a=>a.historicalNumber===6);assert.equal(album.id,'horizontes-de-aventura');assert.equal(album.tracklistStatus,'pending-confirmation');assert.equal(album.tracks.length,0);assert.equal(album.candidateTracks.length,8);assert.ok(album.candidateTracks.every(t=>songs.find(s=>s.slug===t.song)?.versions.some(v=>v.id===t.version)));
@@ -839,4 +839,18 @@ test('Horizontes intake retains all source lyric lines and Word stanza divisions
  const solo=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'es'}));const duet=musicPage('/music/song/ano-ne/',new URLSearchParams({lang:'es',version:'loved-ones'}));assert.match(solo,/Maki Kawase/);assert.doesNotMatch(solo,/Azumi Waki/);assert.match(duet,/Azumi Waki/);assert.match(duet,/class="color-part/);
  assert.match(musicPage('/music/song/rvr/',new URLSearchParams({lang:'es'})),/class="archive-video"/);
  assert.equal(songs.filter(s=>s.slug==='dokimeki-diary').length,1);
+});
+
+test('LEVEL revised duet preserves exact lyric and all source run boundaries',()=>{
+ const lyric=lyricsBySong.level.es;
+ const lines=lyric.colorStanzas.flat();
+ assert.equal(lines.length,46);
+ assert.equal(lyric.colorStanzas.length,13);
+ assert.equal(lyric.colorStanzas.map(stanza=>stanza.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),lyric.text);
+ assert.deepEqual(lines[6].map(p=>p.voice),['yanaginagi','sixth-lie']);
+ assert.deepEqual(lines[14].map(p=>p.voice),['sixth-lie','shared']);
+ assert.deepEqual(lines[30].map(p=>p.voice),['shared','sixth-lie','secondary']);
+ assert.equal(lines[30][2].text,'(ahh)');
+ const html=musicPage('/music/song/level/',new URLSearchParams({lang:'es'}));
+ assert.match(html,/class="color-part/);assert.match(html,/yanaginagi/);assert.match(html,/THE SIXTH LIE/);
 });
