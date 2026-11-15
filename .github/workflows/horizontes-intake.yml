@@ -1,4 +1,4 @@
-name: Rebel Mix Horizontes intake
+name: Rebel Mix repertoire validation
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   verify:
-    if: github.head_ref == 'relight/horizontes-intake' && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/st30-editorial-hotfix') && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: write
     runs-on: ubuntu-24.04
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: relight/horizontes-intake
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -23,11 +23,13 @@ jobs:
         with:
           python-version: '3.12'
       - name: Preserve all registered artwork
+        if: github.head_ref == 'relight/horizontes-intake'
         working-directory: KGBlaze-Information-Center
         run: |
           python -m pip install Pillow
           python scripts/preserve-artwork.py --strict
       - name: Record six verified new jackets
+        if: github.head_ref == 'relight/horizontes-intake'
         run: |
           git add KGBlaze-Information-Center/public/music-artwork/
           if ! git diff --cached --quiet; then
