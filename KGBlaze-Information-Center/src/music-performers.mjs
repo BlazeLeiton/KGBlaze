@@ -5,6 +5,12 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'ano-ne':{kind:'character',name:name('Yuna','ユナ'),cast:[voice('Yuna','ユナ','Maki Kawase','河瀬茉希')],source:'https://columbia.jp/prod-info/COCC-17809/',variants:{'loved-ones':group(name('Yuna & Fina','ユナ＆フィナ'),[voice('Yuna','ユナ','Maki Kawase','河瀬茉希'),voice('Fina','フィナ','Azumi Waki','和氣あず未')],'https://columbia.jp/prod-info/COKM-43033/info.html')}},
+ 'zutto':{kind:'character',name:name('Yuna','ユナ'),cast:[voice('Yuna','ユナ','Maki Kawase','河瀬茉希')],source:'https://columbia.jp/prod-info/COCC-18117/'},
+ 'kono-tate-ni-kakuremasu':{kind:'artist',name:name('Junjou no Afilia','純情のアフィリア'),cast:[],source:'https://bofuri.jp/music/'},
+ 'koko-kara-koko-kara':group(name('Mari Tamaki, Shirase, Hinata & Yuzuki','玉木マリ・小淵沢報瀬・三宅日向・白石結月'),[voice('Mari Tamaki (Kimari)','玉木マリ','Inori Minase','水瀬いのり'),voice('Shirase Kobuchizawa','小淵沢報瀬','Kana Hanazawa','花澤香菜'),voice('Hinata Miyake','三宅日向','Yuka Iguchi','井口裕香'),voice('Yuzuki Shiraishi','白石結月','Saori Hayami','早見沙織')],'https://yorimoi.com/products/music.html'),
+ 'rvr':group(name('Liko & Roy','リコ＆ロイ'),[voice('Liko','リコ','Minori Suzuki','鈴木みのり'),voice('Roy','ロイ','Yuka Terasaki','寺崎裕香')],'https://www.sonymusic.co.jp/artist/Compilation/discography/BVCL-1357'),
+ 'level':{kind:'artist',name:name('yanaginagi × THE SIXTH LIE','やなぎなぎ×THE SIXTH LIE'),cast:[],source:'https://tensaiouji-anime.com/music/'},
  'bad-candy':{kind:'artist',name:name('yukaDD(;´∀｀)'),cast:[],source:'https://wmg.jp/yukadd/discography/25506'},
  'alive':{kind:'artist',name:name('ClariS'),cast:[],source:'https://www.sonymusic.co.jp/artist/claris/info/543244',writing:name('Ryosuke Shigenaga','重永亮介'),composition:name('Ryosuke Shigenaga','重永亮介')},
  'hana-no-tou':{kind:'artist',name:name('Sayuri','さユり'),cast:[],source:'https://lycoris-recoil.com/music/ed.html',writing:name('Sayuri','さユり'),composition:name('Sayuri','さユり'),musicSource:'https://www.uta-net.com/song/321038/'},
@@ -82,12 +88,13 @@ originalPerformances['kokuan-glossolalia']=group(name('IV KLORE'),[
  voice('Alpha','あるふぁ','Tomomi Mineuchi','嶺内ともみ')
 ],'https://www.crunchyroll.com/es/news/latest/2020/5/11/el-anime-lapis-relights-aspirar-a-alcanzar-las-estrellas-en-julio');
 export function localizedName(n,lang){return n?(lang==='ja'?n.ja||n.latin:n.latin):'';}
-export function originalArtist(song,lang){const p=originalPerformances[song.slug];if(!p)return song.artistLocalized?.[lang]||song.artist||'';if(p.kind==='character')return voiceLabel(p.cast[0],lang);return localizedName(p.name,lang)||p.cast.map(c=>voiceLabel(c,lang)).join(' · ');}
+const performanceFor=(song,version)=>originalPerformances[song.slug]?.variants?.[version]||originalPerformances[song.slug];
+export function originalArtist(song,lang,version){const p=performanceFor(song,version);if(!p)return song.artistLocalized?.[lang]||song.artist||'';if(p.kind==='character')return voiceLabel(p.cast[0],lang);return localizedName(p.name,lang)||p.cast.map(c=>voiceLabel(c,lang)).join(' · ');}
 export function voiceLabel(c,lang){return localizedName(c.character,lang)+(c.cv?(lang==='ja'?'（CV：':' (CV: ')+localizedName(c.cv,lang)+(lang==='ja'?'）':')'):'');}
 export function originalArtistAliases(song){const p=originalPerformances[song.slug];return p?[p.name,...p.cast.flatMap(c=>[c.character,c.cv])].filter(Boolean).flatMap(n=>[n.latin,n.ja]).join(' '):'';}
 
-export function originalCreditRows(song,lang){
- const p=originalPerformances[song.slug];if(!p)return [];
+export function originalCreditRows(song,lang,version){
+ const p=performanceFor(song,version);if(!p)return [];
  const labels=({es:{cast:'Voces originales',writing:'Letra original',composition:'Composición',note:'Identificación editorial de los intérpretes de la escena; no es un crédito discográfico oficial.'},en:{cast:'Original voices',writing:'Original lyrics',composition:'Composition',note:'Editorial identification of the scene performers, not an official release credit.'},ja:{cast:'原曲の声優',writing:'作詞',composition:'作曲',note:'シーンの歌唱者を示す編集上の表記であり、公式の音源クレジットではありません。'}})[lang];
  const rows=p.cast.length?[{label:labels.cast,values:p.cast.map(c=>voiceLabel(c,lang))}]:[];
  return rows;
