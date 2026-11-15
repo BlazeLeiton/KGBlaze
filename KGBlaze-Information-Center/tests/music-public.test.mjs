@@ -431,7 +431,7 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,41);
+ assert.equal(Object.keys(releaseArtwork).length,43);
  assert.equal((catalog.match(/class="square-art"/g)||[]).length,50);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
@@ -711,7 +711,7 @@ test('ALIVE duet spans preserve exact words, source divisions and selected versi
 
 
 test('Stage 27 albums, lyrics and recovered covers are available in all three locales',()=>{
- for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all']){
+ for(const slug of ['yuukyuu-no-catharsis','meant-to-be','feelin-it-all','signal','what-youre-made-of']){
   const art=releaseArtwork[slug];assert.ok(art.image.startsWith('/music-artwork/'));const bytes=readFileSync(new URL('../public'+art.image,import.meta.url));assert.equal(bytes.toString('ascii',8,12),'WEBP');
  }
  for(const lang of ['es','en','ja']){
