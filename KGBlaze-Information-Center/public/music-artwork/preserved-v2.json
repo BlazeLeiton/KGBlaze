@@ -149,25 +149,34 @@
       "source_sha256": "c76633530556de14dc318c8f00e8182c1702ac7e13cbee49882c67c744f997bb"
     },
     "tempestas-claim": {
-      "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane",
-      "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
-      "origin": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
-      "version": 1,
+      "release": "Tempesta’s Claim · official Kotoka Torahime teaser · 29 Oct 2023",
+      "source": "https://archive.ragtag.moe/watch?v=ZLE-wsYXI2o",
+      "origin": "https://content.archive.ragtag.moe/s3%3Aarchive-eye/archive-202311/ZLE-wsYXI2o/ZLE-wsYXI2o.webp",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/tempestas-claim-v1.webp",
-      "status": "preserved",
-      "size": [
-        320,
-        180
-      ],
-      "sha256": "54e4e67dadf43c1920ce9c57575f00a552f4a9772777bf1e0760ae4c8b05da89",
-      "bytes": 29450,
-      "original_size": [
-        320,
-        180
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
-      "source_sha256": "715729c01b8c6d81b6f5fa51765c43a8f7440b61dd89ac9c52d13a2d328bafd1"
+      "path": "/music-artwork/tempestas-claim-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "release": "Tempesta’s Claim · NIJISANJI EN × Azur Lane",
+        "source": "https://www.youtube.com/watch?v=IlsPs9zplOE",
+        "origin": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
+        "version": 1,
+        "fit": "contain",
+        "path": "/music-artwork/tempestas-claim-v1.webp",
+        "status": "preserved",
+        "size": [
+          320,
+          180
+        ],
+        "sha256": "54e4e67dadf43c1920ce9c57575f00a552f4a9772777bf1e0760ae4c8b05da89",
+        "bytes": 29450,
+        "original_size": [
+          320,
+          180
+        ],
+        "retrieved_from": "https://i.ytimg.com/vi/IlsPs9zplOE/mqdefault.jpg",
+        "source_sha256": "715729c01b8c6d81b6f5fa51765c43a8f7440b61dd89ac9c52d13a2d328bafd1"
+      }
     },
     "melodia-del-oceano": {
       "release": "Melodía del Océano · Rebel Mix medley",
