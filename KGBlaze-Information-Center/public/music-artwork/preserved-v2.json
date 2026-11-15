@@ -181,8 +181,8 @@
         960,
         960
       ],
-      "bytes": 245796,
-      "sha256": "af636bc8074be97af8d2efbbb7c5a28555aae21f170f0e47f0bd4c316c535250",
+      "bytes": 260798,
+      "sha256": "76707fce4ef04321489e2b31f5d09be6b8bb43451fd72e5a8adc16014eb6c69f",
       "original_size": [
         1280,
         720
@@ -191,9 +191,9 @@
       "source_sha256": "2261593dc2ea522027542ea1d809c8135e27dcf4b832335901c77b731e05f065",
       "editorial_crop": [
         80,
-        0,
+        4,
         1040,
-        720
+        716
       ]
     },
     "melodia-del-oceano": {
