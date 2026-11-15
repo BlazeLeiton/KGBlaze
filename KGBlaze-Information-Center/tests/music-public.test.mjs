@@ -467,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,40);
+ assert.equal(artworkSources.size,39);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
