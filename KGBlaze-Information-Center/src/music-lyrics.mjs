@@ -2727,3 +2727,67 @@ Object.assign(lyricsBySong,{
 // Stage 27 exact textual fixes.
 lyricsBySong['watashi-no-na-wa-hikari'].es.text=lyricsBySong['watashi-no-na-wa-hikari'].es.text.replace('Siempre (siempre) x2','Siempre (siempre) siempre (siempre)');
 for(const l of Object.values(lyricsBySong['cake-song'])){l.text=l.text.replace('El melon,','El melón,');if(l.voices)for(const x of l.voices){x.voice=({'Sae':'Bebe','Misao':'Sayaka','V.A.F.M.O.':'Kyōko','Leon':'Mami','Blaze':'Homura','Lanti':'Madoka','Todos (por confirmar)':'Todos'})[x.voice]||x.voice;x.text=x.text.replace('El melon,','El melón,');}}
+
+// Stage 27: default vocal distributions. Source text is retained verbatim except approved orthography.
+const stage27Legend=(items)=>items.map(([id,label,color])=>({id,label,color}));
+const stage27Part=(voice,text)=>({voice,text});
+function stage27Color(lyric,legend,assignments,splits={}){
+ lyric.colorLegend=stage27Legend(legend);
+ lyric.colorRole='voice';
+ let i=0;
+ lyric.colorStanzas=lyric.text.trim().split(/\n\s*\n/).map(stanza=>stanza.split('\n').map(line=>{
+  i++; const spec=splits[i];
+  if(spec){
+   let offset=0;const parts=spec.map(([voice,prefix],j)=>{
+    if(j===spec.length-1)return stage27Part(voice,line.slice(offset));
+    const at=line.indexOf(prefix,offset);
+    if(at!==offset)throw new Error('Stage 27 lyric boundary '+i+': '+prefix);
+    offset+=prefix.length;return stage27Part(voice,prefix);
+   });return parts;
+  }
+  return [stage27Part(assignments[i-1]||'shared',line)];
+ }));
+ if(i!==assignments.length)throw new Error('Stage 27 lyric count '+i+' / '+assignments.length);
+}
+const stage27Blue=[
+ ['illustrious','Illustrious','#D7D2FF'],['baltimore','Baltimore','#FFB36B'],['dido','Dido','#F49CAC'],['tashkent','Tashkent','#A5EBFF'],['albacore','Albacore','#FFE36B']
+];
+const ibd='illustrious+baltimore+dido', ta='tashkent+albacore', bia='baltimore+illustrious+albacore', itd='illustrious+tashkent+dido', ita='illustrious+tashkent+albacore';
+const blueAssign=['illustrious','baltimore','dido','tashkent','albacore','shared',ibd,ta,...Array(7).fill('shared'),bia,bia,itd,'dido','tashkent','albacore','baltimore','illustrious',ibd,ta,ta,...Array(10).fill('shared'),'shared',ibd,ta,...Array(10).fill('shared')];
+stage27Color(lyricsBySong['blue-spirit'].es,stage27Blue,blueAssign,{
+ 6:[['shared','Ahora juntas '],[ibd,'']],24:[[ibd,'Lograremos '],[ita,'las olas cruzar '],[ibd,'']],26:[[ta,'Nuestro camino propio hay que trazar…'],[ita,'']],37:[['shared','Ahora juntas '],[ibd,'']]
+});
+stage27Color(lyricsBySong['blue-spirit'].en,stage27Blue,blueAssign,{
+ 6:[['shared','Linked together '],[ibd,'']],24:[[ibd,'We’ll arrive soon '],[ita,'crossing through the waves, '],[ibd,'']],26:[[ta,'Let’s trace down our way ahead and sail…'],[ita,'']],37:[['shared','Linked together '],[ibd,'']]
+});
+const stage27Yell=[['suzune','Suzune','#FF777D'],['rena','Rena','#83A8FF'],['hiromi','Hiromi','#FFE36B'],['nagisa','Nagisa','#79DE96'],['nodoka','Nodoka','#D8A0FF'],['ao','Ao','#70E0F5'],['uta','Uta','#FFB1D6'],['shiori','Shiori','#C9E978'],['mako','Mako','#FFB36B']];
+const yellA='ao+nodoka+shiori+rena',yellB='nagisa+uta+hiromi+mako',yellSeven='ao+nodoka+shiori+nagisa+uta+hiromi+mako';
+stage27Color(lyricsBySong['only-one-yell'].es,stage27Yell,[
+ 'suzune','suzune','ao+mako','nodoka+hiromi','shiori+uta','rena+nagisa','suzune','shared',yellA,'shared',yellB,'shared','shared',
+ 'suzune','rena','nagisa','shiori','hiromi','mako','ao','shared',yellA,'shared',yellB,'shared','shared',yellSeven,yellSeven,'suzune+rena','suzune+rena','suzune','rena','suzune','rena','shared',yellA,'shared',yellB,'shared','shared'
+],{14:[['suzune','Será, que cuando el clima cambie '],['rena','']],17:[['shiori','Se ve distinto, '],['uta','ya no es lo mismo, '],['nodoka','']]});
+const stage27Lights=[['tiara','Tiara','#FF8B8B'],['rosetta','Rosetta','#83C9FF'],['lavie','Lavie','#FFE36B'],['ashley','Ashley','#D8A0FF'],['lynette','Lynette','#79DE96']];
+const hikari=lyricsBySong['watashi-no-na-wa-hikari'].es;
+hikari.text=hikari.text.replace('Se qué (sé qué) x2','Sé que (sé que) sé que (sé que)');
+stage27Color(hikari,stage27Lights,[
+ 'lynette','lynette','lavie','lavie','tiara','tiara','rosetta','rosetta','ashley','ashley','tiara','tiara',...Array(7).fill('shared'),
+ 'rosetta','rosetta','ashley','ashley','tiara','tiara','lynette','lynette','lavie','lavie','tiara','tiara','rosetta','lynette','lavie+ashley','lavie+ashley','tiara+rosetta','shared','shared',...Array(11).fill('shared')
+],{34:[['lavie','Siempre '],['ashley','(siempre) '],['lavie','siempre '],['ashley','']],36:[['tiara','Sé que '],['rosetta','(sé que) '],['tiara','sé que '],['rosetta','']]});
+const stage27Pastel=[['kasumi','Kasumi','#F5D75B'],['kanata','Kanata','#C6A0F6'],['emma','Emma','#87D688'],['rina','Rina','#FFADD6']];
+const kr='kasumi+rina',ke='kanata+emma';
+stage27Color(lyricsBySong.pastel.es,stage27Pastel,[
+ 'shared','shared',kr,'kanata','kanata','rina','kasumi','kasumi','emma','rina','rina','emma','emma','shared','shared',kr,'shared','shared',kr,kr,kr,ke,'kasumi','rina','emma','kanata','shared','shared',kr,'shared','shared',kr,'shared','shared','shared','shared','shared',kr,'shared','shared','shared'
+],{
+ 3:[[kr,'Sobrepuestos están '],[ke,'']],5:[['kanata','Con el sol reflejado hacia el agua mirar, '],['rina','']],8:[['kasumi','Si más de lo que a diario en mi vida pasó, '],['emma','']],11:[['rina','Podrá no ser fácil, '],['shared','']],16:[[kr,'Con un tono arcoíris '],[ke,'']],19:[[kr,'Sobrepuestos están '],[ke,'']],29:[[kr,'Aún si te arrepientes, tú mismo sé, '],[ke,'']],32:[[kr,'Pues aún bajo la lluvia '],[ke,'']],38:[[kr,'Un sinfín de arcoíris '],[ke,'']]
+});
+const stage27Savior=[['nano','nano','#F04F9D'],['hiro','Hiro','#A88DCD']];
+stage27Color(lyricsBySong['savior-of-song'].es,stage27Savior,[
+ ...Array(8).fill('nano'),...Array(8).fill('shared'),'nano','hiro','nano','shared',...Array(4).fill('hiro'),...Array(8).fill('shared'),'hiro','nano','hiro','shared','hiro','hiro','nano','nano',...Array(4).fill('shared'),...Array(4).fill('hiro'),...Array(4).fill('nano'),...Array(8).fill('shared'),'nano','hiro','nano','shared'
+]);
+stage27Color(lyricsBySong['villain-vibes'].es,[['amalee','AmaLee','#A5EBFF'],['calliope','Mori Calliope','#F49CAC']],[...Array(40).fill('amalee'),...Array(12).fill('calliope'),...Array(12).fill('amalee')]);
+const cake=lyricsBySong['cake-song'].es;
+cake.review=null;
+stage27Color(cake,[['bebe','Bebe','#FFE6DC'],['sayaka','Sayaka','#A5EBFF'],['kyoko','Kyōko','#FF9B9B'],['mami','Mami','#FFE36B'],['homura','Homura','#C6A0F6'],['madoka','Madoka','#FFADD6']],cake.voices.map(x=>({'Bebe':'bebe','Sayaka':'sayaka','Kyōko':'kyoko','Mami':'mami','Homura':'homura','Madoka':'madoka','Todos':'shared'})[x.voice]||'shared'));
+// The two Spanish Starlog recordings share the supplied Spanish adaptation.
+delete lyricsBySong.starlog['naked-garden'];
+lyricAliases.starlog={'naked-garden':'es'};
