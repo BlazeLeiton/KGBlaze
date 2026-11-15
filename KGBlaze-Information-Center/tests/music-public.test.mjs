@@ -927,3 +927,6 @@ test('Contextual repertoire: independent catalog labels and full detail headings
  assert.equal(albumsForVersion('el-mismo-sol','es').length,0);
  assert.ok(!songs.some(s=>/all-i-want-for-christmas|^dna$/.test(s.slug)));
 });
+
+
+test('El mismo sol credits the original lyricist-composer in both direct and persistent views',()=>{for(const [lang,label] of [['es','Letra y composición original'],['en','Original lyrics and composition'],['ja','原曲作詞・作曲']]){const params=new URLSearchParams({lang});const html=musicPage('/music/song/el-mismo-sol/',params);const state=musicStateData('/music/data/song/el-mismo-sol.json').locales[lang].es;for(const h of [html,state.html]){assert.ok(h.includes('<dt>'+label+'</dt><dd>Gian Marco Zignago</dd>'));}for(const h of [html,state.lyrics.es.full]){assert.ok(h.includes(label+': Gian Marco Zignago'));assert.ok(h.includes('gacetaoctubre11.pdf#page=14'));}assert.doesNotMatch(html,/<dt>Adaptación/);}});
