@@ -11,7 +11,7 @@ concurrency:
 jobs:
   restore:
     if: github.head_ref == 'relight/arcana-integrity-artwork' && github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -23,13 +23,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install image and browser tooling
-        working-directory: KGBlaze-Information-Center
-        run: |
-          python -m pip install Pillow
-          npm ci
-          npm install --no-save --package-lock=false playwright
-          npx playwright install --with-deps chromium
+      - name: Install image tooling
+        run: python -m pip install Pillow
       - name: Preserve registered originals and composite
         working-directory: KGBlaze-Information-Center
         run: python scripts/preserve-artwork.py
@@ -48,6 +43,11 @@ jobs:
       - name: Regression suite
         working-directory: KGBlaze-Information-Center
         run: npm test
+      - name: Install browser tooling
+        working-directory: KGBlaze-Information-Center
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
       - name: Desktop and mobile visual audit
         working-directory: KGBlaze-Information-Center
         run: node scripts/audit-artwork-visual.mjs
