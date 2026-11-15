@@ -5,6 +5,7 @@
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
  'Formula 1':names('Formula 1','フォーミュラ1','Fórmula 1',['F1','Aston Martin','Fernando Alonso']),
+ 'Pan American Games':names('Pan American Games','パンアメリカン競技大会','Juegos Panamericanos',['Guadalajara 2011','Juegos Panamericanos Guadalajara 2011','Panamericanos']),
  'No Game No Life: Zero':names('No Game No Life: Zero','ノーゲーム・ノーライフ ゼロ'),
  'Stardust Telepath':names('Stardust Telepath','星屑テレパス','Stardust Telepath',['Hoshikuzu Telepath']),
  'The Day I Became a God':names('The Day I Became a God','神様になった日','The Day I Became a God',['Kamisama ni Natta Hi']),
@@ -118,7 +119,7 @@ export function familyForWork(key){
  return key;
 }
 export function workFamilies(song){
- return [...new Set((song.sourceWorks||[song.series]).map(familyForWork))];
+ return [...new Set((song.sourceWorks||[song.series]).filter(Boolean).map(familyForWork))];
 }
 export function familyLabel(key,lang){return familyNames[key]?.[lang]||workName(key,lang);}
 export function filterAffiliations(song){

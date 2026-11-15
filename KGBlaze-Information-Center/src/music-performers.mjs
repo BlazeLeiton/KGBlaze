@@ -5,6 +5,7 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'el-mismo-sol':{kind:'artist',name:name('Alejandro Fernández','アレハンドロ・フェルナンデス'),cast:[],source:'https://www.qobuz.com/us-en/album/el-mismo-sol-alejandro-fernandez/0060252782814'},
  'el-nano':{kind:'artist',name:name('Melendi'),cast:[],source:'https://www.qobuz.com/se-en/album/el-nano-melendi/5099920752750'},
  'there-is-a-reason':{kind:'artist',name:name('Konomi Suzuki','鈴木このみ'),cast:[],source:'https://ngnl.jp/goods/music/'},
  'xy-and-z':{kind:'character',name:name('Satoshi','サトシ'),cast:[voice('Satoshi','サトシ','Rica Matsumoto','松本梨香')],source:'https://www.sonymusic.co.jp/artist/sakotomohisa/info/461735'},

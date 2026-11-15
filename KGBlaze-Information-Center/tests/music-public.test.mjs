@@ -107,20 +107,20 @@ test('song header keeps selected year without redundant date while catalog keeps
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
-test('catalog has sixty-two songs and seventy historical video IDs with valid routes',()=>{
- assert.equal(songs.length,62);
+test('catalog has sixty-three songs and seventy-one historical video IDs with valid routes',()=>{
+ assert.equal(songs.length,63);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,73);
+ assert.equal(versions.length,74);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,70);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,70);
+ assert.equal(videos.length,71);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,71);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,250);
+ assert.equal(MUSIC_PATHS.size,254);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((html.match(/<article class="song"/g)||[]).length,62);
+ assert.equal((html.match(/<article class="song"/g)||[]).length,63);
  assert.match(html,/data-lang="ES FR MULTI"/);
  assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA MULTI"/);
@@ -225,9 +225,9 @@ test('regional blocks use international season keys and never mix Horizons with 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
  assert.equal(Object.keys(lyricsBySong).length,62);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
- assert.equal(entries.length,73);
- assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v.text).length,73);
+ assert.equal(entries.length,74);
+ assert.equal(entries.filter(Boolean).length,73);assert.equal(lyricsBySong['el-mismo-sol'],undefined);
+ assert.equal(entries.filter(v=>v?.text).length,73);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
@@ -331,7 +331,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,62);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,63);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0]||visible[0];
@@ -431,8 +431,8 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,62);
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,62);
+ assert.equal(Object.keys(releaseArtwork).length,63);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,63);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
@@ -486,7 +486,7 @@ test('registered external artwork cache reuses successful responses and rejects 
  assert.equal((await worker.fetch(req('/music/artwork-cache/unknown-v1'),environment)).status,404);
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
  assert.equal((catalog.match(/loading="eager"/g)||[]).length,2);
- assert.equal((catalog.match(/loading="lazy"/g)||[]).length,60);
+ assert.equal((catalog.match(/loading="lazy"/g)||[]).length,songs.length-2);
  assert.match(catalog,/data-origin="https:\/\/www\.lisani\.jp/);
 });
 test('context filters appear only for relevant results or tag deep links',()=>{
@@ -620,7 +620,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,69);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,70);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
@@ -731,7 +731,7 @@ test('Arcana Integrity: all works have art, individually framed jackets and medl
  for(const slug of adjusted)assert.equal(releaseArtwork[slug].fit,'cover');
  for(const lang of ['es','en','ja']){
   const h=musicPage('/music/',new URLSearchParams({lang}));
-  assert.equal((h.match(/class="square-art"/g)||[]).length,62);
+  assert.equal((h.match(/class="square-art"/g)||[]).length,63);
   for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/song/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
   assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
@@ -769,7 +769,7 @@ test('music fragments omit the document shell and preserve original voice divisi
  assert.match(h,/class="color-part/);
  const catalogue=musicPage('/music/',new URLSearchParams({lang:'es',fragment:'1'}));
  assert.match(catalogue,/^<div id="music-content" data-view="catalog"/);
- assert.equal((catalogue.match(/class="square-art"/g)||[]).length,62);
+ assert.equal((catalogue.match(/class="square-art"/g)||[]).length,63);
 });
 
 test('canonical song paths and one independent state payload per work',async()=>{
@@ -796,7 +796,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  const cards=html.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
  const by=slug=>cards.find(c=>c.includes('/music/song/'+slug+'/'));
  const members=family=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(family));
- assert.equal(cards.length,62);assert.equal(members('Azur Lane').length,9);
+ assert.equal(cards.length,63);assert.equal(members('Azur Lane').length,9);
  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'])assert.ok(members(family).includes(by('melodia-del-oceano')));
  for(const [family,count] of [['Pokémon',3],['Love Live!',3],['hololive',5],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
  assert.match(by('graphite-diamond'),/data-series="Azur Lane The Animation"/);
@@ -911,3 +911,19 @@ test('Public editorial scope excludes planned albums and internal notes; preserv
 
 
 test('Recovered source stanza layout preserves line counts and original vocal divisions',()=>{const layouts={'miiro':[2,4,2,3,3,4,4,2,3,3,4,2,2,4,2,2,3,5],'savior-of-song':[4,4,4,4,4,4,4,4,4,8,4,4,4,4,4]};for(const [slug,layout] of Object.entries(layouts)){const l=lyricsBySong[slug].es;assert.deepEqual(l.text.split(/\n\s*\n/).map(s=>s.split('\n').length),layout);if(l.colorStanzas){assert.deepEqual(l.colorStanzas.map(s=>s.length),layout);assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);}}for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/rvr.json').locales[lang].es.lyrics.es;assert.match(d.full,/class="secondary-part guest-part"/);assert.ok(d.cells.some(c=>c.includes('class="secondary-part guest-part"')));const snow=musicPage('/music/song/snow-halation/',new URLSearchParams({lang}));assert.doesNotMatch(snow,/reconstruido a partir de dos transcripciones|reconstructed from two matching transcriptions|一致する2つの資料/);}});
+
+
+test('Contextual repertoire: independent catalog labels and full detail headings; no invented media or albums',()=>{
+ const es=new URLSearchParams({lang:'es'}),catalog=musicPage('/music/',es);
+ const cards=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
+ for(const [slug,group,heading] of [['el-nano','Fórmula 1','Fórmula 1 · Fernando Alonso'],['el-mismo-sol','Juegos Panamericanos','Juegos Panamericanos Guadalajara 2011']]){
+  const card=cards.find(x=>x.includes('/music/song/'+slug+'/'));assert.ok(card);assert.ok(card.includes('<p class="work">'+group+'</p>'));assert.ok(!card.includes('<p class="work">'+heading+'</p>'));
+  const h=musicPage('/music/song/'+slug+'/',es);assert.ok(h.includes('<div class="eyebrow">'+heading+'</div>'));assert.doesNotMatch(h,/<dt>Obra original<\/dt>|<dt>Álbum<\/dt>|<dt>Tema<\/dt>/);
+  const state=musicStateData('/music/data/song/'+slug+'.json').locales.es.es;assert.ok(state.html.includes('<div class="eyebrow">'+heading+'</div>'));
+  for(const lang of ['en','ja']){const data=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(data.html.includes(songs.find(s=>s.slug===slug).context.detail[lang]));}
+ }
+ const nano=musicPage('/music/song/el-nano/',es);assert.match(nano,/<dt>Artista original<\/dt><dd>Melendi<\/dd>/);assert.match(nano,/<dt>Adaptación<\/dt><dd>Blaze Leiton<\/dd>/);assert.doesNotMatch(nano,/Melendi · Blaze Leiton/);
+ const sol=musicPage('/music/song/el-mismo-sol/',es);assert.match(sol,/jbkPi4H-Z8A/);assert.match(sol,/septiembre de 2024/);assert.match(sol,/Consultar letra original/);assert.match(sol,/<dt>Artista original<\/dt><dd>Alejandro Fernández<\/dd>/);assert.doesNotMatch(sol,/<dt>Adaptación/);
+ assert.equal(albumsForVersion('el-mismo-sol','es').length,0);
+ assert.ok(!songs.some(s=>/all-i-want-for-christmas|^dna$/.test(s.slug)));
+});
