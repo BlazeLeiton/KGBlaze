@@ -1112,3 +1112,1618 @@ export const lyricsBySong={
 // Reuse one lyric text for audio editions instead of duplicating it.
 export const lyricAliases={'high-free-spirits':{'alternative-instrumental':'es','original-instrumental':'es'},'dokimeki-diary':{'album-studio':'es'},'la-vaguelette':{'es-audio':'es-fr','fr-audio':'fr'}};
 export const lyricOrder={'blue-spirit':['es','en'],'la-vaguelette':['es-fr','fr'],'snow-halation':['naked-garden','hso-orchestra']};
+
+// Stage 27: approved source texts, preserving the creator's lyric variants.
+Object.assign(lyricsBySong,{
+  "signal": {
+    "es": {
+      "text": "Una emoción me llega a desgarrar\nEl cruel destino nubla mi pensar\nMe hunde más, hasta el fondo tocar\nHasta mi pecho liquidar\n\nMi corazón ya no desistirá\nPues esta luz aún quiero conservar\nQuiero creer que el cambio llegará\nLo haré vivir fuerte\n\nPersigue el viento que no ves\nHasta tu respuesta tener\nNo importa dónde el mundo lleve, debes suceder\nPeleando hasta al fin vencer\nCon esa fuerza en tu ser\nPara el mañana que sostienes proteger\n\nPersigue esa luz brillante\nHasta otra vez hallar en qué creer\n\nContra viento y marea al navegar\nResistiremos, no nos detendrán\nAún si el futuro a la deriva está\nPelearé hasta llegar\n\nSin olvidar, sin desistir\nHasta el deseo conseguir\nNo es final, es el comienzo de un porvenir\nPor cada lágrima que vi\nPor todo el dolor que hay en ti\nQue no se pierdan, llévalos hasta el fin\n\nE incluso si el sueño está\nDistante no nos vencerán\nY sin parar\nIremos\nHasta aquel lugar y aquel paisaje ver\nAquel con el que alguna vez soñé junto a ti\n\nY aunque difícil pueda ser\nConfía en tu ser\nSin mirar atrás vuelve a correr\n\nPersigue el viento que no ves\nHasta tu respuesta tener\nNo importa dónde el mundo lleve, debes suceder\nPeleando hasta al fin vencer\nCon esa fuerza en tu ser\nPara el mañana que sostienes proteger\n\nRompe ya esa pena errante\nHasta otra vez hallarte y renacer\n\nPersigue esa luz brillante\nHasta otra vez hallar en qué creer",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "yuukyuu-no-catharsis": {
+    "es": {
+      "text": "Reflejado en la infinidad del mar\nLa luz del cielo está\nEntre brumosas olas los tiros serán\nLo que guía mi navegar\n\nMás caminos divergen al tiempo pasar\nA un destino que anhelar\nE incluso el contraste de estas lágrimas\nNecesarias para mí son hoy\n\nTu deseo cumplir\nAl mundo volverá color gris\nEl fuego de la batalla arderá\nPor aquel futuro tener\n\nPorque al remar\nY lejos llegar, solíamos ser uno al navegar\nAl la esperanza y amor abrazar\nNo soy sólo un buque sin corazón\nVirando mal, por el alto mar\nBuscando la justicia al fin hallar\nNada detendrá ya mi caminar\nAl esta eterna catarsis andar\n\nEn un efímero sueño llegué a pensar\nAlguna salvación hallar\nY así el sacrificio que me llega a atar\n¿Podré al fin recompensar?\n\nQue la deriva me lleve a mi final\nMe niego a dejarlo pasar\nMi destino con mis manos voy a tomar\nHasta esperanza recuperar\n\nSi el valor portar se traduce en herir al alguien más\nDeja toda duda en ti a la de ya\nPara el mañana que quieres cargar\nPorque al sonar\nCon el más allá traer hasta ti, a tu pensar actual\nTal vez no te volveré a encontrar\nAún si el riel yo sigo hasta el final\nPero fluirá siempre sin parar\nAl parpadear frente a él nuestro ideal\nDesesperación no traerá esa luz, este resplandor nos guía\nLo sé\n\nMira otra vez\nHasta el fin del cielo ver\nPodrás escuchar un latir sonar\nTu vida ha de encender, vibrante y fuerte\nComo el fénix surge otra vez\nNo importa cuántas veces tenga que ser\n\nPorque al remar\nY lejos llegar, solíamos ser uno al navegar\nAl la esperanza y amor abrazar\nNo soy sólo un buque sin corazón\nVirando mal, por el alto mar\nBuscando la justicia al fin hallar\nNada detendrá ya mi caminar\nAl esta eterna catarsis andar\n\nY cuando ya no esté anclada más\nEn este gran mar\nTe veré otra vez",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "feelin-it-all": {
+    "es": {
+      "text": "Hay algo en el aire y puedo sentir\nPues todo hay aquí, no hay más que pedir\nNo hay mejor tiempo para vivir\nLlegamos aquí y vamos a seguir\nA un nuevo porvenir, fuego en mi latir\nLos recuerdos no van a morir\n\nFluye la brisa veranal\nSiento en mi piel la luz solar\nNuestras historias aquí estarán\n\nLa emoción va a llenarme,\nEstando juntos es grande\nAh, Ah amo todo sentir\nAh, Ah amo todo sentir\nMi pasión fuerte arde\nNo hay duelo que el amor no gane\nAh, Ah amo todo sentir\nAh, Ah amo todo sentir\n\nAgradezco todo lo que pasó\nSí, con memorias voy cuando cae el sol\nY no seremos más igual\n\nLa marea nos llevará\nA sueños que alcanzamos ya\nSé que aún queda más por escribir\n\nLa emoción va a llenarme, estando juntos es grande\nAh, Ah amo todo sentir\nAh, Ah amo todo sentir\nMi pasión fuerte arde\nNo hay duelo que el amor no gane\nAh, Ah amo todo sentir\nAh, Ah amo todo sentir",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "starlog": {
+    "es": {
+      "text": "Cierto día me pregunté qué futuro me esperaba\nY pedí un deseo, sin saber lo que podría pasar\nLentamente lo alejé de mí por temor a fracasar\nNo pude encontrarle fin y sin quererlo me perdí en el sueño\n\nNo debemos de desear lo que no se necesita\nQuisiera tener el valor de tomar tu mano\n\nLas estrellas, que iluminan al mundo y apartan la oscuridad, la verdad dicen\nConstelaciones moví porque quería ser diferente\nY me guiarán de aquí hasta el cielo, a mi objetivo he de llegar, lo presiento\nSe parecen sin dudar, a la promesa que hicimos\nI Believe!\n\nCómo puedo asegurar que esta conexión ahora es real\nSi no puedo transmitir las palabras que hay dentro de mí\nTantas dudas tengo ya, sin respuestas me encuentro al final\nAún si no hay más que decir este enlace no quiero que termine\n\nNo pierdas tu caminar si la luz tu vez disipar\nQuisiera tenerte aquí para guiar tu mano\n\nLas estrellas, que iluminan sin cesar y apartan la oscuridad, ten fe me dicen\nMe enseñaron su bondad porque quería mi sueño alcanzar\nY me guiarán hasta donde tú estás, mi nombre no grites más, sólo espera\nTe prometo sin dudar que muy pronto estaré ahí\n\n¿Qué es lo que anhelo en verdad? Yo no lo sé ¿Acaso busca a alguien más mi corazón?\nY una a una esas luces iluminan a este futuro aún por descubrir\n\nWe Stay Night, como una estrella fugaz sobre el firmamento, su luz me guía\nConstelaciones moví porque quiero verte una vez más\nKaleidoscope, que ilumina al mundo y todo ha de cambiar, te aseguro\nCumpliré sin dudar esa promesa que hicimos\nY tu mano al fin voy a tomar bajo el sol del amanecer\nI Believe!",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    },
+    "naked-garden": {
+      "text": "Cierto día me pregunté qué futuro me esperaba\nY pedí un deseo, sin saber lo que podría pasar\nLentamente lo alejé de mí por temor a fracasar\nNo pude encontrarle fin y sin quererlo me perdí en el sueño\n\nNo debemos de desear lo que no se necesita\nQuisiera tener el valor de tomar tu mano\n\nLas estrellas, que iluminan al mundo y apartan la oscuridad, la verdad dicen\nConstelaciones moví porque quería ser diferente\nY me guiarán de aquí hasta el cielo, a mi objetivo he de llegar, lo presiento\nSe parecen sin dudar, a la promesa que hicimos\nI Believe!\n\nCómo puedo asegurar que esta conexión ahora es real\nSi no puedo transmitir las palabras que hay dentro de mí\nTantas dudas tengo ya, sin respuestas me encuentro al final\nAún si no hay más que decir este enlace no quiero que termine\n\nNo pierdas tu caminar si la luz tu vez disipar\nQuisiera tenerte aquí para guiar tu mano\n\nLas estrellas, que iluminan sin cesar y apartan la oscuridad, ten fe me dicen\nMe enseñaron su bondad porque quería mi sueño alcanzar\nY me guiarán hasta donde tú estás, mi nombre no grites más, sólo espera\nTe prometo sin dudar que muy pronto estaré ahí\n\n¿Qué es lo que anhelo en verdad? Yo no lo sé ¿Acaso busca a alguien más mi corazón?\nY una a una esas luces iluminan a este futuro aún por descubrir\n\nWe Stay Night, como una estrella fugaz sobre el firmamento, su luz me guía\nConstelaciones moví porque quiero verte una vez más\nKaleidoscope, que ilumina al mundo y todo ha de cambiar, te aseguro\nCumpliré sin dudar esa promesa que hicimos\nY tu mano al fin voy a tomar bajo el sol del amanecer\nI Believe!",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "kenka": {
+    "es": {
+      "text": "Alzándose sobre las sombras\nEsta amistad hoy florecerá\nMás allá del cielo causará\nQue empuñe en su hoja una flor\n\nTras tus errores superar, ¿a dónde irás?\nDónde el vacío te abrace\nYaciendo en el fondo de tu corazón\nEse monstruo interior, ya va a despertar\n\nContra el mal\nLa venganza traerá\nContra el bien\nLa salvación dará\nSobre cuál de mis manos ensangrentadas\nTu justicia caerá\n\nAlza de una vez\nSin temer, alza de una vez\nTu vida y tu ser, hoy entrégame\nTu asedio empezó, aférrate a él\nHasta lograr vencer\n\nSeguirá ese estigma sin sanar\nUn materno espectro que no está\nEl distorsionado silencio frica hasta verlo borrar\n\nDentro de mi pecho jovial ya no hay verdad, no más\n(El pecado encadena una maldición)\n(Al la magia probar)\nCaigo en un mundo abisal\n\nMás nadie aquí me arrebatará\nNo cederé nada nunca más\nLa justicia alcanzar no me salvará\n(Ahora) Que la maldad nuestra vida ha de gobernar\nRasgadas están las hojas de esta rota flor\nMás su brote aquí está a tu lado ya\n(No hay nadie a mi lado ya)\n\nSobreponiéndose a las sombras\nEsta amistad hoy florecerá\nSu fruto discordia causará\nLa eterna prueba vivirá",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "main",
+          "label": "Principal",
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "secondary",
+          "label": "Intervención secundaria",
+          "color": "#BDB6DE"
+        }
+      ],
+      "colorRole": "overlap",
+      "colorStanzas": [
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Alzándose sobre las sombras"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Esta amistad hoy florecerá"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Más allá del cielo causará"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Que empuñe en su hoja una flor"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Tras tus errores superar, ¿a dónde irás?"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Dónde el vacío te abrace"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Yaciendo en el fondo de tu corazón"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Ese monstruo interior, ya va a despertar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Contra el mal"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "La venganza traerá"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Contra el bien"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "La salvación dará"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sobre cuál de mis manos ensangrentadas"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Tu justicia caerá"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Alza de una vez"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sin temer, alza de una vez"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Tu vida y tu ser, hoy entrégame"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Tu asedio empezó, aférrate a él"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Hasta lograr vencer"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Seguirá ese estigma sin sanar"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Un materno espectro que no está"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "El distorsionado silencio frica hasta verlo borrar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Dentro de mi pecho jovial ya no hay verdad, no más"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(El pecado encadena una maldición)"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(Al la magia probar)"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Caigo en un mundo abisal"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Más nadie aquí me arrebatará"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "No cederé nada nunca más"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "La justicia alcanzar no me salvará"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(Ahora)"
+            },
+            {
+              "voice": "main",
+              "text": " Que la maldad nuestra vida ha de gobernar"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Rasgadas están las hojas de esta rota flor"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Más su brote aquí está a tu lado ya"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(No hay nadie a mi lado ya)"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Sobreponiéndose a las sombras"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Esta amistad hoy florecerá"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Su fruto discordia causará"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "La eterna prueba vivirá"
+            }
+          ]
+        ]
+      ]
+    }
+  },
+  "meant-to-be": {
+    "es": {
+      "text": "Sobre el cielo o bajo el mar\nOculto en el espacio o perdido en nuestro destino\nJunto a mí, cree en mí\nTodo debe ser así\n\nHe visto gente ir y venir sin sueños que vivir\nCuando ya no hay astros, la fría noche es solitaria\nPero si es la ocasión, de atraparte en esta vida\nAún ardiendo el mundo te sostendré\n\nHasta el fin del tiempo, nadie se despedirá\nMi amor vivirá, tú y yo por siempre será\nTú no llores más por mí, aún tienes sueños por vivir\nCuando todo hoy debe ser así\n\nPor el fuego, por el tiempo\nPor eso que llamé amor y te trajo a mí\nDe tu mano creeré en ti\n¿Las historias tienen un fin?\n\nHe visto gente reír y llorar por alguien más\nAlguien dio razón, pero la rima nunca la halló\nTe he llegado a conocer, lo abrazaré y todo daré\nAún demente el mundo, te sostendré\n\nHasta el fin del tiempo, nadie se despedirá\nMi amor vivirá, tú y yo por siempre será\nTú no llores más por mí, aún tienes sueños por vivir\nCuando todo hoy debe ser así\n\nTú y yo debemos ser así",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "what-youre-made-of": {
+    "es": {
+      "text": "Se apagó la luz en ti otra vez\nLos muros crees que caen sobre ti\nPerdido en un reflejo te ves\nTe sientes así, pero sigo aquí\n\nHazme a un lado y yo te acerco\nAún si crees que ya no hay tiempo\nSabes que de amarte nunca dejaré\n\nEres más que este momento\nNo quebrantarán tu aliento\nY sabes que de amarte no dejaré\n\nPues sé de qué estás hecho\nSé de qué estás hecho\n\nSe agotó el fuego en tu mirar\nPero surgirás, pues tú sabes pelear\nY tal vez caigas todavía más\nPero al suelo tocar, tu valor conocerás\n\nHazme a un lado y yo te acerco\nAún si crees que ya no hay tiempo\nSabes que de amarte yo no dejaré\n\nEres más que este momento\nNo quebrantarán tu aliento\nY sabes que de amarte no dejaré\n\nPues sé de qué estás hecho\nSé de qué estás hecho\n\nSé de qué estás hecho, sé de qué estás hecho\nYo sé de qué estás hecho (De amarte nunca yo dejaré)\nSé de qué estás hecho, Sé de qué estás hecho, Sé de qué estás hecho\n\nHazme a un lado y yo te acerco\nAún si crees que ya no hay tiempo\nSabes que de amarte yo no dejaré\n\nHazme a un lado y yo te acerco\nAún si crees que ya no hay tiempo\nSabes que de amarte yo no dejaré\n\nEres más que este momento\nNo quebrantarán tu aliento\nY sabes que de amarte no dejaré\n\nSé de qué estás hecho, Sé de qué estás hecho, Sé de qué estás hecho\nSé de qué estás hecho, Sé de qué estás hecho, Sé de qué estás hecho",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "main",
+          "label": "Principal",
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "secondary",
+          "label": "Intervención secundaria",
+          "color": "#BDB6DE"
+        }
+      ],
+      "colorRole": "overlap",
+      "colorStanzas": [
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Se apagó la luz en ti otra vez"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Los muros crees que caen sobre ti"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Perdido en un reflejo te ves"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Te sientes así, pero sigo aquí"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Hazme a un lado y yo te acerco"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Aún si crees que ya no hay tiempo"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sabes que de amarte nunca dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Eres más que este momento"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "No quebrantarán tu aliento"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Y sabes que de amarte no dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Pues sé de qué estás hecho"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sé de qué estás hecho"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Se agotó el fuego en tu mirar"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Pero surgirás, pues tú sabes pelear"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Y tal vez caigas todavía más"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Pero al suelo tocar, tu valor conocerás"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Hazme a un lado y yo te acerco"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Aún si crees que ya no hay tiempo"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sabes que de amarte yo no dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Eres más que este momento"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "No quebrantarán tu aliento"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Y sabes que de amarte no dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Pues sé de qué estás hecho"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sé de qué estás hecho"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Sé de qué estás hecho, sé de qué estás hecho"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Yo sé de qué estás hecho "
+            },
+            {
+              "voice": "secondary",
+              "text": "(De amarte nunca yo dejaré)"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sé de qué estás hecho, Sé de qué estás hecho, Sé de qué estás hecho"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Hazme a un lado y yo te acerco"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Aún si crees que ya no hay tiempo"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sabes que de amarte yo no dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Hazme a un lado y yo te acerco"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Aún si crees que ya no hay tiempo"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sabes que de amarte yo no dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Eres más que este momento"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "No quebrantarán tu aliento"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Y sabes que de amarte no dejaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Sé de qué estás hecho, Sé de qué estás hecho, Sé de qué estás hecho"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sé de qué estás hecho, Sé de qué estás hecho, Sé de qué estás hecho"
+            }
+          ]
+        ]
+      ]
+    }
+  },
+  "tempestas-claim": {
+    "es": {
+      "text": "Oh vengan ya gente de honor, escuchen este son\nSobre Tempesta, sus marinos y un tesoro contó\nHey hey ho, por la tormenta hoy\nNavega con Tempesta, su leyenda nació\n\nEn los mares de el Azur Lane donde hay barcas sin fin\nIcemos velas en Octublaze, para el mar espectral partir\nHey hey ho, por la tormenta hoy\nNavega con Tempesta, su leyenda nació\n\nPor ochenta días o más, seguimos con valor\nSin temor y con corazón, la aventura se escribió\nHey hey ho, en la tormenta hoy\nNavega con Tempesta, su leyenda nació\n\nAfuera allá en el horizonte la amenaza del mar\nAlza su estandarte de espinas, lo vimos llegar\nHey hey ho, en la tormenta hoy\nNavega con Tempesta, su leyenda nació\n\nCon cañones brillando en el sol y el sable en alto irán\nEnfrentarán la tempestad bajo la oscuridad\nHey hey ho, en la tormenta hoy\nNavega con Tempesta, su leyenda nació\n\nY ahora en la batalla final nuestro nombre dirán\nSu reto fuerte enfrentaremos, clamor de Tempesta es\nHey hey ho, en la tormenta hoy\nNavega con Tempesta, su leyenda nació\n\nHey hey ho, en la tormenta hoy\nNavega con Tempesta, su leyenda nació",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "aint-backing-down": {
+    "es": {
+      "text": "Mira alrededor a todo lo que hicimos, es toda una vida\nY libres somos al fin\nRodeados por rostros de mil amigos\nTodos soñadores, guiados por nuestro latir\n\nNo olvidaremos lo que atrás dejamos y pasamos\nLo que se ganó y se perdió\nPor siempre en nuestras memorias\nNos lleva a contar la historia\n\nDe mi mano, grita ya\n¡Nunca iremos marcha atrás!\nWhoa-oh-oh! ¡Nunca iremos marcha atrás!\nEl destino no espera más\nHoy somos más fuertes\nLado a lado hemos de llegar, una y otra vez\nEl futuro brilla y sé que me cuidarás hasta el final\n\nEsa esperanza se halla tras el horizonte\nAgárrate fuerte, nuestras almas vencerán\nLate mi corazón al llamar el nuevo día\nLo encontraremos, junto a nuestra libertad\n\nNo olvidaremos lo que atrás dejamos y pasamos\n(Un brindis por lo que se ganó)\nLo que se ganó y se perdió\nPor siempre en nuestras memorias\n(Por todos hoy aquí entre nos)\n(Nos lleva a contar historias)\nSólo tienes que de…\n\nMi mano ven, grita ya\n¡Nunca iremos marcha atrás!\nNo te esperes más\nHoy somos más fuertes\n¡Y no iremos marcha atrás!",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "main",
+          "label": "Principal",
+          "color": "#FFFFFF"
+        },
+        {
+          "id": "secondary",
+          "label": "Intervención secundaria",
+          "color": "#BDB6DE"
+        }
+      ],
+      "colorRole": "overlap",
+      "colorStanzas": [
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Mira alrededor a todo lo que hicimos, es toda una vida"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Y libres somos al fin"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Rodeados por rostros de mil amigos"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Todos soñadores, guiados por nuestro latir"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "No olvidaremos lo que atrás dejamos y pasamos"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Lo que se ganó y se perdió"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Por siempre en nuestras memorias"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Nos lleva a contar la historia"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "De mi mano, grita ya"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "¡Nunca iremos marcha atrás!"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Whoa-oh-oh! ¡Nunca iremos marcha atrás!"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "El destino no espera más"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Hoy somos más fuertes"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Lado a lado hemos de llegar, una y otra vez"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "El futuro brilla y sé que me cuidarás hasta el final"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Esa esperanza se halla tras el horizonte"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Agárrate fuerte, nuestras almas vencerán"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Late mi corazón al llamar el nuevo día"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Lo encontraremos, junto a nuestra libertad"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "No olvidaremos lo que atrás dejamos y pasamos"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(Un brindis por lo que se ganó)"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Lo que se ganó y se perdió"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Por siempre en nuestras memorias"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(Por todos hoy aquí entre nos)"
+            }
+          ],
+          [
+            {
+              "voice": "secondary",
+              "text": "(Nos lleva a contar historias)"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Sólo tienes que de…"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "main",
+              "text": "Mi mano ven, grita ya"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "¡Nunca iremos marcha atrás!"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "No te esperes más"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "Hoy somos más fuertes"
+            }
+          ],
+          [
+            {
+              "voice": "main",
+              "text": "¡Y no iremos marcha atrás!"
+            }
+          ]
+        ]
+      ]
+    }
+  },
+  "hikari-aru-basho-e": {
+    "es": {
+      "text": "No hay tal cosa como un sueño que sentido no da\nAunque sus brotes la pena y dolor sólo los pisen sin parar\n\nSi esta vida tiene un final, esta ira no la tendrá\n¿Dónde será, que este retorcido mundo irá?\n\nHasta aquel día que tiempo atrás pasó, parezco volver, al mirar un nuevo amanecer\n\nSi quieres llorar, fuerte puedes gritar\nQue no habrá reto sin ansiedad\nY nadie habrá, sin miedo albergar\n\nPero si tu mano me ha de alcanzar\nBebé, tú no has de temer\nPonte ya de pie\nY el calor que queda en tu cuerpo, una promesa, fuerte has de sostener\nHasta donde la luz tú ves\n\nLa inocencia en mi canción no puedo entonar\nTras el cabello que antes sentí oscilar sobre mi espalda cortar\n\nMi dolor sé que te alcanzará, más mi plegaría no lo hará\n¿A dónde será, que este insomne mundo hoy verá?\n\nComo en medio de un lago azul, remando un bote, más sin avanzar, a la deriva en soledad\n\nSi quieres ve ya, lastímate aún más\nQue mucho más triste sería que no pudieras sentir amor jamás\n\nPero si puedes mis ojos mirar\nBebé, tú no debes temer\nLevanta otra vez\nY ahora nos conecta, una revolución que descalzo hemos de andar\nHasta donde la luz tú ves\n\nSi quieres llorar, fuerte puedes gritar\nQue no habrá reto sin ansiedad\nY nadie habrá, sin miedo albergar\n\nPero si tu mano me ha de alcanzar\nBebé, tú no has de temer\nPonte ya de pie\nY el calor que queda en tu cuerpo, una promesa, fuerte has de sostener\nHasta donde la luz tú ves",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null
+    }
+  },
+  "kokuan-glossolalia": {
+    "es": {
+      "text": "Oye bien lo que te enseñaré, nuestro pequeño secreto te diré\nLejos de este mundo te guiaré, a nuestra oscura fábula ver\nLa tez de tu piel y tus ojos, tan distinta y digna de admirar\n“Nadie nunca antes me ha visto” se recita aquí en glosolalia\n\nVamos, anda conmigo entre luz y obscuridad,\nPermíteme este baile crepuscular\nLas llamas arderán…tan bellas serán\nConsumidas por la eterna obscuridad\nPor ella también déjate arrastrar\n\nOye bien lo que te enseñaré, un secreto que a nadie más contaré\nY sabrás más de lo que hay detrás, inhumana y cruel la verité\nMantén bien abiertos tus ojos, y verás por qué es tan peculiar\n“Nadie nunca antes lo ha visto” se recita aquí en glosolalia\n\nVamos, anda conmigo entre luz y obscuridad,\nPermíteme esta danza crepuscular\nEl humo de un color…bello cubrirá\nTodo en una profunda obscuridad\nPor mí en ella también déjate abrazar\n\nEn esta total, pura obscuridad\nCanto sin cesar, un verso especial\n\nEse pensar en mis brazos está\nUna melodía que no se apagará\n\nE incluso si llegara a perecer\nSeguramente aún resonará\n\nDesde ahora la prueba en mí llevaré\nQue un significado esta vida posee\nY el significado de estar aquí…\n\nA nuestro son de cuatro cantaré\n\nVamos, anda conmigo entre luz y obscuridad,\nPermíteme este baile crepuscular\nLas llamas arderán…tan bellas serán\nConsumidas por la eterna obscuridad\nPor ella también déjate arrastrar\n\nAnda conmigo entre luz y obscuridad…para juntos cantar\nAnda conmigo entre luz y obscuridad…para hermosamente juntos florear",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "emilia",
+          "label": "Emilia",
+          "color": "#C6A0F6"
+        },
+        {
+          "id": "salsa",
+          "label": "Salsa",
+          "color": "#FFB36B"
+        },
+        {
+          "id": "garnet",
+          "label": "Garnet",
+          "color": "#D0D0D0"
+        },
+        {
+          "id": "alpha",
+          "label": "Alpha",
+          "color": "#F49CAC"
+        }
+      ],
+      "colorRole": "voice",
+      "colorStanzas": [
+        [
+          [
+            {
+              "voice": "emilia",
+              "text": "Oye bien lo que te enseñaré, nuestro pequeño secreto te diré"
+            }
+          ],
+          [
+            {
+              "voice": "alpha",
+              "text": "Lejos de este mundo te guiaré, a nuestra oscura fábula ver"
+            }
+          ],
+          [
+            {
+              "voice": "garnet",
+              "text": "La tez de tu piel y tus ojos, tan distinta y digna de admirar"
+            }
+          ],
+          [
+            {
+              "voice": "salsa",
+              "text": "“Nadie nunca antes me ha visto” se recita aquí en glosolalia"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Vamos, anda conmigo entre luz y obscuridad,"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Permíteme este baile crepuscular"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Las llamas arderán…tan bellas serán"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Consumidas por la eterna obscuridad"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Por ella también déjate arrastrar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "emilia",
+              "text": "Oye bien lo que te enseñaré, un secreto que a nadie más contaré"
+            }
+          ],
+          [
+            {
+              "voice": "alpha",
+              "text": "Y sabrás más de lo que hay detrás, inhumana y cruel la verité"
+            }
+          ],
+          [
+            {
+              "voice": "garnet",
+              "text": "Mantén bien abiertos tus ojos, y verás por qué es tan peculiar"
+            }
+          ],
+          [
+            {
+              "voice": "salsa",
+              "text": "“Nadie nunca antes lo ha visto” se recita aquí en glosolalia"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Vamos, anda conmigo entre luz y obscuridad,"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Permíteme esta danza crepuscular"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "El humo de un color…bello cubrirá"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Todo en una profunda obscuridad"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Por mí en ella también déjate abrazar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "salsa",
+              "text": "En esta total, pura obscuridad"
+            }
+          ],
+          [
+            {
+              "voice": "salsa",
+              "text": "Canto sin cesar, un verso especial"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "alpha",
+              "text": "Ese pensar en mis brazos está"
+            }
+          ],
+          [
+            {
+              "voice": "alpha",
+              "text": "Una melodía que no se apagará"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "garnet",
+              "text": "E incluso si llegara a perecer"
+            }
+          ],
+          [
+            {
+              "voice": "garnet",
+              "text": "Seguramente aún resonará"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "emilia",
+              "text": "Desde ahora la prueba en mí llevaré"
+            }
+          ],
+          [
+            {
+              "voice": "emilia",
+              "text": "Que un significado esta vida posee"
+            }
+          ],
+          [
+            {
+              "voice": "emilia",
+              "text": "Y el significado de estar aquí…"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "A nuestro son de cuatro cantaré"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Vamos, anda conmigo entre luz y obscuridad,"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Permíteme este baile crepuscular"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Las llamas arderán…tan bellas serán"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Consumidas por la eterna obscuridad"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Por ella también déjate arrastrar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "shared",
+              "text": "Anda conmigo entre luz y obscuridad…para juntos cantar"
+            }
+          ],
+          [
+            {
+              "voice": "shared",
+              "text": "Anda conmigo entre luz y obscuridad…para hermosamente juntos florear"
+            }
+          ]
+        ]
+      ]
+    }
+  },
+  "melodia-del-oceano": {
+    "es": {
+      "text": "Así la luz del alba nos verá\n¡Embarcar!\n\nLas llamas sobre todo arderán\nDesde aquí este son empezará\nEn el cielo nocturno donde termina\n\nResistiré ante este mundo que se encuentra por perecer\nMientras mi corazón se detiene a esconder este sentir vil y cruel\n\nSe repite, no nos lamentaremos\nSuena en mi mente lo que alguna vez me guio\n\nY no se arrastrará\nPor las olas mi corazón\nTe protegeré sin dudar\n\nEste mundo se mantiene\nPor toda la oscuridad que habita en él\nEs momento de regresar\nNuestros engranajes e ir hacia donde\n\nAún hoy es visible aquel débil resplandor\nEl mundo espera el llamar de un nuevo ilustre amanecer\n\n“Sobre todo lograremos avanzar”\nCual grafito a diamante\n\nEra una espléndida insignia, pero eso quedó atrás\nMantuvo la esperanza aún en los confines del mar\n\nTe llevará a la ira, la ira al odio, el odio a sufrir\nMis brazos una vez abiertos se escudan de ahora sentir\n\nEl destino que hasta aquí nos guio\nEl futuro que enfrente se abrió\nCon firmeza abrazaremos los dos\n\nTus pasos puedo recordar\nEn la arena los vi esfumar\nNostálgico era aquel deambular\n\nUn “resplandor” al “cielo” da “esperanza”\nEl “fracaso” “durmiente” en el “abismo”\nEn nuestro escape del fondo de este mar de lloros\n\nEntonces – si mi ser queda esfumado entero en el ayer\nSiempre – será hora de regresar\nDeshacer lo que quisimos\n\nY no perder aquí, no caer así\nAún si el dolor lo quiero encubrir\nIncluso si estoy cerca de renunciar\nMis sentimientos encuentro aquí\n\n“Sobre todo lograremos avanzar”\nCual grafito a diamante\n\nAlguna vez paraste a pensar\nQue tus palabras un caos podrían causar\nAhora la batalla está frente a ti\nY para muchos la ilusión no volverá\nMuy bien conoces lo que has hecho mal\nAún hay chance para todo cambiar\nTan sólo tienes que dejarte llevar\nY todas las respuestas encontrarás\n\nMi mano nunca te alcanzó\nY dentro de mí hay un gran dolor\nPero este sufrir lo haré mi fuerza\nCon mucho valor blandiré mi espada\n\nEl resplandor del alba irá\nAl mar de esperanza llenar\nEl límite entre el hoy y el ayer\nAhora conectados\nLa turbulencia quedó atrás\nNuestro latir no parará\n\nEste mundo se mantiene\nPor toda la oscuridad que habita en él\nEs momento de regresar\nNuestros engranajes y de nuevo\n\nMi corazón fuerte seguirá\nLleno de bondad irá continuar\nIncluso si estoy cerca de renunciar\nMis sentimientos voy a abrazar\n\n“Sobre todo lograremos avanzar”\nNo miraremos atrás\n\n¡Al embarcar!",
+      "language": "ES",
+      "kind": "adaptation",
+      "review": null,
+      "colorLegend": [
+        {
+          "id": "miiro",
+          "label": "Miiro",
+          "color": "#DCCCC9"
+        },
+        {
+          "id": "azur",
+          "label": "graphite/diamond",
+          "color": "#A5EBFF"
+        },
+        {
+          "id": "haifuri",
+          "label": "High Free Spirits",
+          "color": "#DCFAE6"
+        },
+        {
+          "id": "arpeggio",
+          "label": "SAVIOR OF SONG",
+          "color": "#D7D2FF"
+        }
+      ],
+      "colorStanzas": [
+        [
+          [
+            {
+              "voice": "miiro",
+              "text": "Así la luz del alba nos verá"
+            }
+          ],
+          [
+            {
+              "voice": "miiro",
+              "text": "¡Embarcar!"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "haifuri",
+              "text": "Las llamas sobre todo arderán"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Desde aquí este son empezará"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "En el cielo nocturno donde termina"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "Resistiré ante este mundo que se encuentra por perecer"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Mientras mi corazón se detiene a esconder este sentir vil y cruel"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "miiro",
+              "text": "Se repite, no nos lamentaremos"
+            }
+          ],
+          [
+            {
+              "voice": "miiro",
+              "text": "Suena en mi mente lo que alguna vez me guio"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "haifuri",
+              "text": "Y no se arrastrará"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Por las olas mi corazón"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Te protegeré sin dudar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Este mundo se mantiene"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Por toda la oscuridad que habita en él"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Es momento de regresar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Nuestros engranajes e ir hacia donde"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "haifuri",
+              "text": "Aún hoy es visible aquel débil resplandor"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "El mundo espera el llamar de un nuevo ilustre amanecer"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "“Sobre todo lograremos avanzar”"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Cual grafito a diamante"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "miiro",
+              "text": "Era una espléndida insignia, pero eso quedó atrás"
+            }
+          ],
+          [
+            {
+              "voice": "miiro",
+              "text": "Mantuvo la esperanza aún en los confines del mar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "Te llevará a la ira, la ira al odio, el odio a sufrir"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Mis brazos una vez abiertos se escudan de ahora sentir"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "haifuri",
+              "text": "El destino que hasta aquí nos guio"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "El futuro que enfrente se abrió"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Con firmeza abrazaremos los dos"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "haifuri",
+              "text": "Tus pasos puedo recordar"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "En la arena los vi esfumar"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Nostálgico era aquel deambular"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "miiro",
+              "text": "Un “resplandor” al “cielo” da “esperanza”"
+            }
+          ],
+          [
+            {
+              "voice": "miiro",
+              "text": "El “fracaso” “durmiente” en el “abismo”"
+            }
+          ],
+          [
+            {
+              "voice": "miiro",
+              "text": "En nuestro escape del fondo de este mar de lloros"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "miiro",
+              "text": "Entonces – si mi ser queda esfumado entero en el ayer"
+            }
+          ],
+          [
+            {
+              "voice": "miiro",
+              "text": "Siempre – "
+            },
+            {
+              "voice": "arpeggio",
+              "text": "será hora de regresar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Deshacer lo que quisimos"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "Y no perder aquí, no caer así"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Aún si el dolor lo quiero encubrir"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Incluso si estoy cerca de renunciar"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Mis sentimientos encuentro aquí"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "“Sobre todo lograremos avanzar”"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Cual grafito a diamante"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Alguna vez paraste a pensar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Que tus palabras un caos podrían causar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Ahora la batalla está frente a ti"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Y para muchos la ilusión no volverá"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Muy bien conoces lo que has hecho mal"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Aún hay chance para todo cambiar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Tan sólo tienes que dejarte llevar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Y todas las respuestas encontrarás"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Mi mano nunca te alcanzó"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Y dentro de mí hay un gran dolor"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Pero este sufrir lo haré mi fuerza"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Con mucho valor blandiré mi espada"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "haifuri",
+              "text": "El resplandor del alba irá"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Al mar de esperanza llenar"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "El límite entre el hoy y el ayer"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Ahora conectados"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "La turbulencia quedó atrás"
+            }
+          ],
+          [
+            {
+              "voice": "haifuri",
+              "text": "Nuestro latir no parará"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Este mundo se mantiene"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Por toda la oscuridad que habita en él"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Es momento de regresar"
+            }
+          ],
+          [
+            {
+              "voice": "arpeggio",
+              "text": "Nuestros engranajes y "
+            },
+            {
+              "voice": "azur",
+              "text": "de nuevo"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "Mi corazón fuerte seguirá"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Lleno de bondad irá continuar"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Incluso si estoy cerca de renunciar"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "Mis sentimientos voy a abrazar"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "azur",
+              "text": "“Sobre todo lograremos avanzar”"
+            }
+          ],
+          [
+            {
+              "voice": "azur",
+              "text": "No miraremos atrás"
+            }
+          ]
+        ],
+        [
+          [
+            {
+              "voice": "miiro",
+              "text": "¡Al embarcar!"
+            }
+          ]
+        ]
+      ],
+      "colorRole": "song"
+    }
+  }
+});
+
+// Stage 27 exact textual fixes.
+lyricsBySong['watashi-no-na-wa-hikari'].es.text=lyricsBySong['watashi-no-na-wa-hikari'].es.text.replace('Siempre (siempre) x2','Siempre (siempre) siempre (siempre)');
+for(const l of Object.values(lyricsBySong['cake-song'])){l.text=l.text.replace('El melon,','El melón,');if(l.voices)for(const x of l.voices){x.voice=({'Sae':'Bebe','Misao':'Sayaka','V.A.F.M.O.':'Kyōko','Leon':'Mami','Blaze':'Homura','Lanti':'Madoka','Todos (por confirmar)':'Todos'})[x.voice]||x.voice;x.text=x.text.replace('El melon,','El melón,');}}
