@@ -1,0 +1,59 @@
+name: Arcana Integrity artwork preservation and visual audit
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+permissions:
+  contents: write
+concurrency:
+  group: arcana-integrity-artwork
+  cancel-in-progress: true
+jobs:
+  restore:
+    if: github.head_ref == 'relight/arcana-integrity-artwork' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: relight/arcana-integrity-artwork
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image and browser tooling
+        working-directory: KGBlaze-Information-Center
+        run: |
+          python -m pip install Pillow
+          npm ci
+          npm install --no-save --package-lock=false playwright
+          npx playwright install --with-deps chromium
+      - name: Preserve registered originals and composite
+        working-directory: KGBlaze-Information-Center
+        run: python scripts/preserve-artwork.py
+      - name: Commit verified snapshots to the isolated PR branch
+        run: |
+          git add KGBlaze-Information-Center/public/music-artwork/*.webp KGBlaze-Information-Center/public/music-artwork/preserved-v2.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Arcana Integrity: preserve verified artwork assets"
+            git push origin HEAD:relight/arcana-integrity-artwork
+          fi
+      - name: Verify every artwork has a preserved snapshot
+        working-directory: KGBlaze-Information-Center
+        run: python scripts/preserve-artwork.py --strict
+      - name: Regression suite
+        working-directory: KGBlaze-Information-Center
+        run: npm test
+      - name: Desktop and mobile visual audit
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/audit-artwork-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arcana-integrity-visual-audit
+          path: KGBlaze-Information-Center/artwork-audit/
+          if-no-files-found: ignore
