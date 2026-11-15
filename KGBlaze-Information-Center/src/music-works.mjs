@@ -21,6 +21,7 @@ export const works={
  'SSSS.GRIDMAN':names('SSSS.GRIDMAN','SSSS.GRIDMAN'),
  'SSSS.DYNAZENON':names('SSSS.DYNAZENON','SSSS.DYNAZENON'),
  'Azur Lane':names('Azur Lane','アズールレーン'),
+ 'Azur Lane The Animation':names('Azur Lane The Animation','アズールレーン THE ANIMATION'),
  'Pokémon Horizons':{pokemon:true,romaji:'Pocket Monsters (2023)',...names('Pokémon Horizons: The Series','ポケットモンスター（2023）','La Serie Horizontes Pokémon',['Pokémon Horizons','Pokémon Horizontes','Horizontes Pokémon','Pocket Monsters 2023','Poketto Monsutā 2023']),seasons:{2:names('Pokémon Horizons: Season 2—The Search for Laqua','ポケットモンスター（2023）','La Serie Horizontes Pokémon: En busca de Laqua')}},
  'Pokémon XY':{pokemon:true,romaji:'Pocket Monsters XY',...names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY',['Pocket Monsters XY','Poketto Monsutā XY','Kalos Quest','XY&Z']),seasons:{
   17:names('Pokémon the Series: XY','ポケットモンスター XY','La Serie Pokémon XY'),
@@ -79,4 +80,39 @@ export function pokemonCounterpart(song,lang){
  if(!isPokemonWork(song.series))return '';
  if(lang==='ja')return workName(song.series,'en',song.season)+(song.season?' · Season '+song.season:'');
  return japaneseWork(song,true);
+}
+
+// Filter families are independent of the credited original work.
+const familyNames={
+ 'Pokémon':names('Pokémon','ポケモン'),
+ 'Love Live!':names('Love Live!','ラブライブ！'),
+ 'hololive':names('hololive','ホロライブ'),
+ 'Madoka Magica':names('Madoka Magica','魔法少女まどか☆マギカ'),
+ 'Oregairu':names('Oregairu','俺ガイル'),
+ 'Masamune-kun’s Revenge':names('Masamune-kun’s Revenge','政宗くんのリベンジ'),
+ 'GRIDMAN UNIVERSE':names('GRIDMAN UNIVERSE','グリッドマン ユニバース'),
+ 'Fate/series':names('Fate/series','Fateシリーズ'),
+ 'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel','蒼き鋼のアルペジオ')
+};
+export function familyForWork(key){
+ if(key==='Azur Lane The Animation'||key==='Azur Lane')return 'Azur Lane';
+ if(isPokemonWork(key)||key==='Pokémon'||/^Pokémon\b/u.test(key))return 'Pokémon';
+ if(/^Love Live!|^Ikizulive!/i.test(key))return 'Love Live!';
+ if(/^hololive\b/i.test(key))return 'hololive';
+ if(['Puella Magi Madoka Magica','Madoka Magica: Rebellion'].includes(key))return 'Madoka Magica';
+ if(/^Oregairu\b/.test(key))return 'Oregairu';
+ if(/^Masamune-kun[’']s Revenge/.test(key))return 'Masamune-kun’s Revenge';
+ if(['SSSS.GRIDMAN','SSSS.DYNAZENON','GRIDMAN UNIVERSE'].includes(key))return 'GRIDMAN UNIVERSE';
+ if(/^Fate(?:\/|$)/i.test(key))return 'Fate/series';
+ return key;
+}
+export function workFamilies(song){
+ return [...new Set((song.sourceWorks||[song.series]).map(familyForWork))];
+}
+export function familyLabel(key,lang){return familyNames[key]?.[lang]||workName(key,lang);}
+export function filterAffiliations(song){
+ const a=song.affiliation;if(!a)return [];
+ if(a.franchise==='hololive')return song.hololiveAllBranches?['holo-en','holo-jp','holo-id']:['holo-en','holo-jp','holo-id'].filter(x=>x===a.branch);
+ if(a.franchise==='love-live')return [...new Set([...(a.groups||[]),...(a.participatingGroups||[]),...(a.unit==='ll-aiscream'?['ll-aiscream']:[])])];
+ return [];
 }
