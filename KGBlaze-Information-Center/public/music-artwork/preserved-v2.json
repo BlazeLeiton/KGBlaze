@@ -1853,6 +1853,216 @@
       ],
       "retrieved_from": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg",
       "source_sha256": "c00189423fb5e27ebe6e25db4c8da23575f8094445c6e7798f5a2d04ecc4cce0"
+    },
+    "p3-fes": {
+      "release": "Persona 3 FES OST · SVWC-7464",
+      "source": "https://hifilofi.shop/products/persona-3-fes-soundtrack-cd",
+      "origin": "https://hifilofi.shop/cdn/shop/files/FD077C81-9027-41E6-964A-ADDCF4806E91.jpg?v=1746752938&width=1445",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/p3-fes-v1.webp",
+      "status": "preserved",
+      "size": [
+        1000,
+        993
+      ],
+      "sha256": "7b17cb2a344348b6fcd153b2ccb192de52d2777ecbc770a7f01219081563b887",
+      "bytes": 65194,
+      "original_size": [
+        1000,
+        993
+      ],
+      "retrieved_from": "https://hifilofi.shop/cdn/shop/files/FD077C81-9027-41E6-964A-ADDCF4806E91.jpg?v=1746752938&width=1445",
+      "source_sha256": "dec28223e1f03095eb5eba523e6b2a4833ed2dba0ecef985d441e4d5c90d435d"
+    },
+    "pop-step": {
+      "release": "POP☆STEP · official character song lyric video",
+      "source": "https://www.youtube.com/watch?v=CAHsPGk5z6s",
+      "origin": "https://i.ytimg.com/vi/CAHsPGk5z6s/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/pop-step-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "0cbd256ad08214f679156c3265deaaf9fa1c027e6b11621ca0d42062fdc54835",
+      "bytes": 60576,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/CAHsPGk5z6s/hqdefault.jpg",
+      "source_sha256": "005f0346064527add5ee3d5d379f469326acd88f231d9623dab5cd1c8ff1e4c5"
+    },
+    "spektro": {
+      "release": "spektro · COKM-44707 · official audio",
+      "source": "https://www.youtube.com/watch?v=rgS4MKJfYrA",
+      "origin": "https://i.ytimg.com/vi/rgS4MKJfYrA/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/spektro-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "53b4ca0e36952bf5cbc3e5a09b81699e42d48aa5083ad9e18421dec242e7c617",
+      "bytes": 31786,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/rgS4MKJfYrA/hqdefault.jpg",
+      "source_sha256": "dd826ef914eb2a0cfd433edc2abe92b6bbc55026e9a67f87cb6ff6c366b86c7b"
+    },
+    "the-secret-night": {
+      "release": "THE SECRET NiGHT · LACM-24131",
+      "source": "https://www.asmart.jp/Form/Product/ProductDetail.aspx?pid=10028432&shop=0",
+      "origin": "https://www.asmart.jp/images/product/10028432/6135uiSC9CfB2xzEamyLP6gZVHYvm1v6.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/the-secret-night-v1.webp",
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "f50e5cb87e9ac055de536a3148afd0785e64d9a86c828f76fdd32d4b60ccfca4",
+      "bytes": 103502,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://www.asmart.jp/images/product/10028432/6135uiSC9CfB2xzEamyLP6gZVHYvm1v6.jpg",
+      "source_sha256": "ec6a9fff18d227b22ffc66063237e1865c2e562f420c895846a0719f13f2789d"
+    },
+    "shukufuku": {
+      "release": "祝福 · official music video",
+      "source": "https://www.youtube.com/watch?v=3eytpBOkOFA",
+      "origin": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/shukufuku-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "762722d01a42f536042483aeabdd800c993a9bbf591e0b81f55879467f60e627",
+      "bytes": 23448,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg",
+      "source_sha256": "c8ec5ce7bbab49aa9813bed91a0fe1152eadf5ffd1f6c8587bfb831dbf7b4b48"
+    },
+    "planetarium": {
+      "release": "holo*27 Originals Vol.1 · TFCC-86895",
+      "source": "https://www.hmv.co.jp/artist_holo-27_000000000919415/item_holo-27-Originals-Vol-1_13507433",
+      "origin": "https://img.hmv.co.jp/image/jacket/800/0000135/0/7/433.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/planetarium-v1.webp",
+      "status": "preserved",
+      "size": [
+        800,
+        800
+      ],
+      "sha256": "8c2d36e253591a4b211aca7089ce091f28a0131f376d07b5a7bbc5444317af6f",
+      "bytes": 223452,
+      "original_size": [
+        800,
+        800
+      ],
+      "retrieved_from": "https://img.hmv.co.jp/image/jacket/800/0000135/0/7/433.jpg",
+      "source_sha256": "03b5322d8250b9f4098be1f806a7a107056437137d9a8e0b48b1caaa452418c1"
+    },
+    "ruteshi-kisuki-shiteru": {
+      "release": "Shangri-La Shower · LACM-14260 · official release audio",
+      "source": "https://www.youtube.com/watch?v=0w8avFgPoSE",
+      "origin": "https://i.ytimg.com/vi/0w8avFgPoSE/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/ruteshi-kisuki-shiteru-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "74ed7fabb8941ceda3a113efb812a274471aa75d916d5d5e73487b37d61183a4",
+      "bytes": 35224,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/0w8avFgPoSE/hqdefault.jpg",
+      "source_sha256": "d9dd120d23d52ccf75ddaa68a519bc7e5d2fdee9c3362ae7cc45055b7a9f8c22"
+    },
+    "ryuusei": {
+      "release": "流星／約束 · VVCL-1256 · anime edition",
+      "source": "https://www.sonymusic.co.jp/artist/aoieir/info/494743",
+      "origin": "https://www.sonymusic.co.jp/img/common/artist_image/70006000/70006748/images/eiraoi_ryusei_anime_s_karu.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/ryuusei-v1.webp",
+      "status": "preserved",
+      "size": [
+        880,
+        783
+      ],
+      "sha256": "be010b7eb4ebdd89e91ffb34cbef96b8a1bbb607802629aaa8d2cddd4e125318",
+      "bytes": 141534,
+      "original_size": [
+        880,
+        783
+      ],
+      "retrieved_from": "https://www.sonymusic.co.jp/img/common/artist_image/70006000/70006748/images/eiraoi_ryusei_anime_s_karu.jpg",
+      "source_sha256": "2d8a163a574eb0e52733e3ae5d76aed77123ab36bf36b60b6c5893efc30ff43c"
+    },
+    "senaka-awase": {
+      "release": "セナカアワセ · PCSP-05865 · official audio",
+      "source": "https://www.youtube.com/watch?v=yKQkBQ5su9A",
+      "origin": "https://i.ytimg.com/vi/yKQkBQ5su9A/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/senaka-awase-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "8f1c2f7d5fabc6f328dd4502cc791a10e2f59aef59a2e4137913191063da7d0d",
+      "bytes": 36830,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/yKQkBQ5su9A/hqdefault.jpg",
+      "source_sha256": "73c7022467789aa185e627d4ce4df249398d22506418a8c24e82b33af113ecae"
+    },
+    "shiny-days": {
+      "release": "SHINY DAYS · USSW-0070 · Yuru Camp edition",
+      "source": "https://music.ani-tone.com/release/USSW-0070/",
+      "origin": "https://music.ani-tone.com/wp/wp-content/uploads/2017/11/USSW0070.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/shiny-days-v1.webp",
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "c3d2732bf0b40594940c565177266e04700d1bcec9f442b83794f8c9e05462fd",
+      "bytes": 184684,
+      "original_size": [
+        1700,
+        1700
+      ],
+      "retrieved_from": "https://music.ani-tone.com/wp/wp-content/uploads/2017/11/USSW0070.jpg",
+      "source_sha256": "ac5815a8ca57ed0ab788ff593f0c08c483b7d759046c74a24a0166a5c26fbf26"
     }
   }
 }

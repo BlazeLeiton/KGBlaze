@@ -5,6 +5,16 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'p3-fes':{kind:'artist',name:name('Yumi Kawamura · Lotus Juice','川村ゆみ · Lotus Juice'),cast:[],source:'https://musicbrainz.org/release/6df99608-a0ef-481d-ac48-d614ebf45a75',writing:name('Shigeo Komori · Yoshihiro Komori · Lotus Juice'),composition:name('Shoji Meguro','目黒将司'),arrangement:name('Shoji Meguro','目黒将司')},
+ 'pop-step':{kind:'character',name:name('Pop☆Step','ポップ☆ステップ'),cast:[voice('Pop☆Step','ポップ☆ステップ','Ikumi Hasegawa','長谷川育美')],source:'https://www.youtube.com/watch?v=CAHsPGk5z6s',writing:name('Yuno Sonoda','園田ゆの'),composition:name('Yuki Hayashi','林ゆうき')},
+ 'spektro':{kind:'character',name:name('Yū Akeuchi','明内ユウ'),cast:[voice('Yū Akeuchi','明内ユウ','Seria Fukagawa','深川芹亜')],source:'https://www.youtube.com/watch?v=rgS4MKJfYrA',writing:name('Rasuko Ōkuma · Ayumu Nakazato','大熊らすこ · 中里アユム'),composition:name('sakai asuka')},
+ 'the-secret-night':group(name('DiverDiva'),[voice('Karin Asaka','朝香果林','Miyu Kubota','久保田未夢'),voice('Ai Miyashita','宮下愛','Natsumi Murakami','村上奈津実')],'https://www.lantis.jp/release-item/LACM-24131.html',{writing:name('Dummy Dog'),composition:name('Dummy Dog'),arrangement:name('Dummy Dog')}),
+ 'shukufuku':{kind:'artist',name:name('YOASOBI'),cast:[],source:'https://www.youtube.com/watch?v=3eytpBOkOFA',writing:name('Ayase'),composition:name('Ayase')},
+ 'planetarium':{kind:'artist',name:name('Hoshimachi Suisei','星街すいせい'),cast:[],source:'https://www.youtube.com/watch?v=CfUIwzDo4HE',writing:name('DECO*27'),composition:name('DECO*27'),arrangement:name('kous')},
+ 'ruteshi-kisuki-shiteru':{kind:'group',name:name("μ's"),cast:[],source:'https://www.lantis.jp/release-item/LACM-14260.html',writing:name('Aki Hata','畑亜貴'),composition:name('Takashi Saeki','佐伯高志'),arrangement:name('Takashi Saeki','佐伯高志')},
+ 'ryuusei':{kind:'artist',name:name('Eir Aoi','藍井エイル'),cast:[],source:'https://www.sonymusic.co.jp/artist/aoieir/info/494743'},
+ 'senaka-awase':{kind:'artist',name:name('AliA'),cast:[],source:'https://www.youtube.com/watch?v=yKQkBQ5su9A',writing:name('TKT'),composition:name('EREN'),arrangement:name('EREN')},
+ 'shiny-days':{kind:'artist',name:name('Asaka','亜咲花'),cast:[],source:'https://asaka1007.jp/discography/shinydays/',writing:name('Kento Nagatsuka','永塚健登'),composition:name('Sho Aratame','新田目翔'),arrangement:name('Shinichi Yuki','悠木真一')},
  'heart-no-shuchou':{kind:'artist',name:name('CHiCO with HoneyWorks'),cast:[],source:'https://honeyworks.jp/news/1127/',writing:name('shito, Gom'),composition:name('shito'),arrangement:name('HoneyWorks')},
  'karakuri-pierrot':{kind:'artist',name:name('40mP feat. Hatsune Miku','40mP feat. 初音ミク'),cast:[],source:'https://www.youtube.com/watch?v=xxFkW3PCT5M',writing:name('40mP'),composition:name('40mP')},
  'last-cup-of-coffee':{kind:'artist',name:name('LilyPichu'),cast:[],source:'https://www.youtube.com/watch?v=n64abW0dHNw'},
@@ -106,6 +116,7 @@ export const originalPerformances={
  })
 };
 // Original cast information remains separate from cover participants.
+originalPerformances['ruteshi-kisuki-shiteru'].cast=originalPerformances['snow-halation'].cast.map(x=>({...x}));
 originalPerformances['kokuan-glossolalia']=group(name('IV KLORE'),[
  voice('Emilia','エミリア','Hazuki Hoshino','星乃葉月'),
  voice('Salsa','サルサ','Yū Sasahara','篠原侑'),

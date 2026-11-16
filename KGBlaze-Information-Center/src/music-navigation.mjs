@@ -37,14 +37,14 @@ function chrome(node){
  for(const [i,a] of [...document.querySelectorAll('.langs a')].entries()){const l=locales[i];a.href=pathOf(state.slug);a.dataset.musicIntent=JSON.stringify({locale:l});a.textContent=l==='ja'?'JP':l.toUpperCase();if(l===locale)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')}
 }
 function lyricView(node,v,st){
- const id=v.choices.includes(st.lyric)?st.lyric:v.defaultLyric,a=v.lyrics[id],other=v.choices.includes(st.compare)&&st.compare!==id?st.compare:'',b=v.lyrics[other];
+ const id=v.choices.includes(st.lyric)?st.lyric:v.defaultLyric,a=v.lyrics[id],other=v.allowCompare!==false&&v.choices.includes(st.compare)&&st.compare!==id?st.compare:'',b=v.lyrics[other];
  st.lyric=id;st.compare=a?.hasText&&b?.hasText?other:'';
  const section=node.querySelector('.lyrics'),heading=section.querySelector('h2');section.replaceChildren(heading);
  const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt)x.textContent=txt;return x};
  const markup=(parent,html)=>{const t=document.createElement('template');t.innerHTML=html;parent.append(t.content)};
  if(v.choices.length>1){const ctrl=el('div','lyric-controls'),opts=el('div','lyric-options');ctrl.append(el('span','eyebrow',v.chooseLabel),opts);const link=(l,c,label,selected)=>{const x=el('a','lyric-choice'+(selected?' selected':''),label);x.href=pathOf(st.slug);x.dataset.musicIntent=JSON.stringify({slug:st.slug,lyric:l,compare:c});if(selected)x.setAttribute('aria-current','true');opts.append(x)};
  for(const l of v.choices)link(l,'',v.lyrics[l].label,!st.compare&&l===id);
- for(const l of v.choices.filter(l=>l!==id))link(id,l,v.compareLabel+(v.choices.length>2?' · '+v.lyrics[l].label:''),st.compare===l);
+ if(v.allowCompare!==false)for(const l of v.choices.filter(l=>l!==id))link(id,l,v.compareLabel+(v.choices.length>2?' · '+v.lyrics[l].label:''),st.compare===l);
  section.append(ctrl);}
  node.querySelector('.detail-grid').classList.toggle('compare-view',!!st.compare);
  if(!st.compare){markup(section,a?.full||'');return}
