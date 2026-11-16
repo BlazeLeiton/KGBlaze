@@ -2231,6 +2231,123 @@
       ],
       "retrieved_from": "https://dn721809.ca.archive.org/0/items/mbid-28f857cc-8364-4476-b0fe-8103135c7346/mbid-28f857cc-8364-4476-b0fe-8103135c7346-31612181373_thumb500.jpg",
       "source_sha256": "e4d59e089d805dfa72d4524d48cde7cc18dbd62b77e21b518b39df95417adcef"
+    },
+    "born-to-be-a-winner": {
+      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/born-to-be-a-winner-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "believe-in-me": {
+      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/believe-in-me-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "i-wanna-be-a-hero": {
+      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/i-wanna-be-a-hero-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "this-dream": {
+      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/this-dream-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "unbeatable": {
+      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/unbeatable-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "battle-frontier": {
+      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/battle-frontier-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "pokemon-theme": {
+      "release": "Pokémon 2.B.A. Master · 1999",
+      "source": "https://pokemon.bandcamp.com/album/pok-mon-2-b-a-master-music-from-the-tv-series",
+      "origin": "https://f4.bcbits.com/img/a1351373001_10.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/pokemon-theme-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "pokemon-world": {
+      "release": "Pokémon the Movie 2000 · The Power of One",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_the_Movie_2000_(soundtrack)",
+      "origin": "https://archives.bulbagarden.net/media/upload/thumb/1/14/Pokemon2000Soundtrack.jpg/800px-Pokemon2000Soundtrack.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/pokemon-world-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "pokemon-johto": {
+      "release": "Pokémon 3: The Ultimate Soundtrack · Movie Version",
+      "source": "https://soundcloud.com/pokemonofficial/pokemon-johto-movie-version",
+      "origin": "https://i1.sndcdn.com/artworks-pgn2ew1AzvYn-0-t1080x1080.png",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/pokemon-johto-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "catch-the-moment": {
+      "release": "Catch the Moment · SVWC-70235",
+      "source": "https://www.cdjapan.co.jp/product/SVWC-70235",
+      "origin": "https://st.cdjapan.co.jp/pictures/l/05/34/SVWC-70235.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/catch-the-moment-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "crossing-field": {
+      "release": "crossing field · SAO edition SVWC-7871",
+      "source": "https://www.sonymusicshop.jp/m/item/itemShw.php?cd=SVWC000007871",
+      "origin": "https://www.sonymusicshop.jp/img/1/item/SVW/C00/000/SVWC000007871_SHOP__650_650_102400_jpg.jpg?tf=gray",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/crossing-field-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "halloween-night": {
+      "release": "今宵はHalloween Night! · CVRD-011",
+      "source": "https://prtimes.jp/main/html/rd/p/000000309.000030268.html",
+      "origin": "https://prtimes.jp/i/30268/309/ogp/d30268-309-788286-0.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/halloween-night-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "suki-yuki-maji-magic": {
+      "release": "銀雪のアリア feat. 初音ミク · SNOW MIKU 2014",
+      "source": "https://karent.jp/webnews/452",
+      "origin": "https://img.atwiki.jp/hmiku/attach/31254/175/IMG_0654.png",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/suki-yuki-maji-magic-v1.webp",
+      "status": "pending-snapshot"
     }
   }
 }
