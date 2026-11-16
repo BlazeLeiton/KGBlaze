@@ -988,7 +988,34 @@ test('Kirameki Rider and canonical Padoru artist names preserve independently pu
 
 test('Stage 35 Brave Shine: manual Spanish lyrics, Bury attribution, original Aimer cover',()=>{
  const s=songs.find(s=>s.slug==='brave-shine');assert.ok(s);assert.equal(s.artist,'Aimer');assert.equal(s.originalLyricist,'aimerrhythm');assert.equal(s.originalComposer,'Hisashi Koyama');assert.equal(s.versions.length,1);assert.equal(s.versions[0].videoId,'_z_drk_eeWw');assert.equal(s.versions[0].date,'2025-02-01');assert.equal(s.adaptationCredit,'Call Me Bury (Bury Singer)');assert.match(s.adaptationCreditLabel.es,/atribuida/);assert.match(s.adaptationAttributionStatus,/not-independently-verified/);
- const l=lyricsBySong['brave-shine'].es;assert.equal(l.kind,'adaptation');assert.equal(l.language,'ES');assert.equal(l.text.split('\n\n').length,11);assert.equal((l.text.match(/Brave Shine/g)||[]).length,2);assert.equal((l.text.match(/Tu brillo\./g)||[]).length,2);assert.match(l.text,/Solo debes continuar\./);assert.match(l.text,/olvidó radiar/);assert.match(l.text,/de mi propio amanecer/);assert.doesNotMatch(l.text,/Sólo debes|olvidó brillar/);
+ const l=lyricsBySong['brave-shine'].es;assert.equal(l.kind,'adaptation');assert.equal(l.language,'ES');assert.equal(l.text.split('\n\n').length,11);assert.equal((l.text.match(/Brave Shine/g)||[]).length,2);assert.equal((l.text.match(/Tu brillo\./g)||[]).length,2);assert.match(l.text,/Solo debes continuar\./);assert.match(l.text,/olvidó radiar/);assert.match(l.text,/De mi propio amanecer/);assert.doesNotMatch(l.text,/Sólo debes|olvidó brillar/);
  const a=releaseArtwork['brave-shine'];assert.match(a.source,/sonymusic/);assert.match(a.release,/DFCL-2130/);assert.match(artworkURL('brave-shine'),/brave-shine-v1/);
  for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/brave-shine.json').locales[lang].es;assert.ok(d.html.includes('_z_drk_eeWw'));assert.ok(d.lyrics.es.hasText);assert.match(d.lyrics.es.full,/tu brillo/i);const h=musicPage('/music/song/brave-shine/',new URLSearchParams({lang}));assert.match(h,/Call Me Bury/);assert.match(h,/Brave Shine/);}
+});
+
+test('Stage 35 full-catalogue orthography: line initials, version and colored-stanza parity',()=>{
+ const exempt = new Set(['(la la la)']); // intentional vocalized syllables in Ano ne
+ const firstWord=line=>[...line.matchAll(/[\p{L}\p{N}]/gu)][0];
+ let checked=0,vers=0;
+ assert.equal(songs.length,115);
+ for(const song of songs){
+  assert.ok(song.slug&&song.title&&song.artist,JSON.stringify(song));
+  assert.ok(song.versions?.length>0,song.slug);
+  assert.ok(releaseArtwork[song.slug],song.slug+' has no artwork');
+  const source=lyricsBySong[song.slug];assert.ok(source,song.slug+' has no lyric record');
+  for(const [variant,l] of Object.entries(source)){
+   if(!l?.text)continue;vers++;
+   for(const [index,line] of l.text.split('\n').entries()){
+    const first=firstWord(line);if(!first||!/\p{L}/u.test(first[0]))continue;
+    if(/\p{Ll}/u.test(first[0])&&!exempt.has(line.trim()))assert.fail(song.slug+'/'+variant+' line '+(index+1)+': '+line);
+    checked++;
+   }
+   const colored=l.colorStanzas?.map(st=>st.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n');
+   if(colored!==undefined)assert.equal(colored,l.text,song.slug+'/'+variant+' colored lines diverged');
+  }
+ }
+ assert.ok(vers>=115);
+ assert.ok(checked>2000);
+ assert.equal(lyricsBySong['brave-shine'].es.text.split('Tu brillo.').length-1,2);
+ assert.match(lyricsBySong['brave-shine'].es.text,/Para siempre los recuerdos/);
 });
