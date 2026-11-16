@@ -31,7 +31,7 @@ try{
    // Test every detail route in all locales and both viewport sizes; external YouTube
    // thumbnails are not revalidated as release artwork.
    for(const s of songs){
-    const response=await page.goto(origin+'/music/songs/song/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
+    const response=await page.goto(origin+'/music/songs/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),s.slug+' horizontal overflow');
     const video=page.locator('.video-stage,.archive-video').first();
     assert.ok(await video.count(),s.slug+' has no video/archive stage');
@@ -49,7 +49,7 @@ try{
   await page.locator('.music-overlay.is-open #music-detail-content').waitFor();
   const overlay=page.locator('.music-overlay-panel');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial,'opening navigated document');
-  assert.ok(page.url().endsWith('/music/songs/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
@@ -63,7 +63,7 @@ try{
   assert.ok(await overlay.locator('.parallel-pairs .color-part').count());
   assert.ok(await page.evaluate(()=>window.__player===document.querySelector('.music-overlay .video-stage')),'player remounted on lyric change');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
-  assert.ok(page.url().endsWith('/music/songs/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   await page.screenshot({path:resolve(out,device+'-overlay-parallel.png'),fullPage:false});
   await overlay.locator('.music-detail-langs a').filter({hasText:'EN'}).click();
@@ -92,7 +92,7 @@ try{
    if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(family))assert.equal(await visible.filter({hasText:'Melodía del Océano'}).count(),1);
   }
   for(const [family,slug,caption,heading] of [['Formula 1','el-nano','Fórmula 1','Fórmula 1 · Fernando Alonso'],['Pan American Games','el-mismo-sol','Juegos Panamericanos','Juegos Panamericanos Guadalajara 2011']]){
-   await series.selectOption(family);assert.equal(await visible.count(),1);assert.equal(await visible.locator('.work').textContent(),caption);await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.equal(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),heading);assert.ok(page.url().endsWith('/music/songs/song/'+slug+'/'));await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),family);
+   await series.selectOption(family);assert.equal(await visible.count(),1);assert.equal(await visible.locator('.work').textContent(),caption);await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.equal(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),heading);assert.ok(page.url().endsWith('/music/songs/'+slug+'/'));await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),family);
   }
   await series.selectOption('hololive');for(const [branch,count] of [['holo-en',7],['holo-jp',4],['holo-id',1]]){await aff.selectOption(branch);assert.equal(await visible.count(),count);assert.equal(await visible.filter({hasText:'Shiny Smily Story'}).count(),1);}
   await series.selectOption('Love Live!');await aff.selectOption('ll-nijigasaki');assert.equal(await visible.count(),3);await aff.selectOption('ll-muse');assert.equal(await visible.count(),2);
@@ -113,12 +113,12 @@ try{
   await page.waitForFunction(()=>document.documentElement.lang==='ja');
   assert.ok(page.url().endsWith('/departures/'));
   assert.equal(await page.evaluate(()=>localStorage.getItem('kgblaze.locale.v1')),'ja');
-  await page.goto(origin+'/music/songs/song/blue-spirit/',{waitUntil:'domcontentloaded'});
+  await page.goto(origin+'/music/songs/blue-spirit/',{waitUntil:'domcontentloaded'});
   await page.locator('#music-detail-content[data-locale="ja"]').waitFor();
-  assert.ok(page.url().endsWith('/music/songs/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   await page.goto(origin+'/music/songs/blue-spirit/?lang=es&version=en&lyric=en&compare=es',{waitUntil:'domcontentloaded'});
   await page.locator('#music-detail-content[data-version="en"] .parallel-pairs').waitFor();
-  assert.ok(page.url().endsWith('/music/songs/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   console.log(device+' shared locale and legacy link migration verified');
   await page.close();
  }
