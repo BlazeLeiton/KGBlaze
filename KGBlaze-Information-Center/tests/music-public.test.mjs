@@ -1019,3 +1019,18 @@ test('Stage 35 full-catalogue orthography: line initials, version and colored-st
  assert.equal(lyricsBySong['brave-shine'].es.text.split('Tu brillo.').length-1,2);
  assert.match(lyricsBySong['brave-shine'].es.text,/Para siempre los recuerdos/);
 });
+
+test('Stage 35 trims non-semantic lyric whitespace without changing structured credits',()=>{
+ let count=0;
+ for(const song of songs)for(const l of Object.values(lyricsBySong[song.slug]||{})){
+  if(!l?.text)continue;count++;
+  for(const line of l.text.split('\n')){
+   assert.doesNotMatch(line,/[ \t]+$/u,song.slug+' trailing whitespace');
+   assert.doesNotMatch(line,/(?<=\S) {2,}(?=\S)/u,song.slug+' duplicated internal space');
+  }
+  if(l.colorStanzas)assert.equal(l.colorStanzas.map(st=>st.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text,song.slug+' colored parity');
+ }
+ for(const segment of lyricsBySong['butter-fly'].multi.segments)for(const line of segment.text.split('\n'))assert.doesNotMatch(line,/[ \t]+$/u);
+ for(const voice of lyricsBySong['cake-song'].es.voices)assert.doesNotMatch(voice.text,/[ \t]+$/u);
+ assert.ok(count>=115);
+});
