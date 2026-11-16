@@ -116,6 +116,7 @@ export const originalPerformances={
  })
 };
 // Original cast information remains separate from cover participants.
+originalPerformances['ruteshi-kisuki-shiteru'].cast=originalPerformances['snow-halation'].cast.map(x=>({...x}));
 originalPerformances['kokuan-glossolalia']=group(name('IV KLORE'),[
  voice('Emilia','エミリア','Hazuki Hoshino','星乃葉月'),
  voice('Salsa','サルサ','Yū Sasahara','篠原侑'),
