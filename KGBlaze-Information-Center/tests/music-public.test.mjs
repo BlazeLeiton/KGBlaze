@@ -107,20 +107,20 @@ test('song header keeps selected year without redundant date while catalog keeps
  assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),/Astrum · 2022/);
 });
 
-test('catalog has 114 songs and 123 historical video IDs with valid routes',()=>{
- assert.equal(songs.length,114);
+test('catalog has 115 songs and 124 historical video IDs with valid routes',()=>{
+ assert.equal(songs.length,115);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,126);
+ assert.equal(versions.length,127);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,123);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,123);
+ assert.equal(videos.length,124);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,124);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,458);
+ assert.equal(MUSIC_PATHS.size,462);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((html.match(/<article class="song"/g)||[]).length,114);
+ assert.equal((html.match(/<article class="song"/g)||[]).length,115);
  assert.match(html,/data-lang="ES FR MULTI"/);
  assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA MULTI"/);
@@ -223,11 +223,11 @@ test('regional blocks use international season keys and never mix Horizons with 
 });
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
- assert.equal(Object.keys(lyricsBySong).length,114);
+ assert.equal(Object.keys(lyricsBySong).length,115);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
- assert.equal(entries.length,126);
+ assert.equal(entries.length,127);
  assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v?.text).length,126);
+ assert.equal(entries.filter(v=>v?.text).length,127);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
@@ -331,7 +331,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,114);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,115);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0]||visible[0];
@@ -431,8 +431,8 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,114);
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,114);
+ assert.equal(Object.keys(releaseArtwork).length,115);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,115);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
@@ -467,7 +467,7 @@ test('square catalog artwork prefers sourced anime editions without changing vid
 
 test('registered external artwork cache reuses successful responses and rejects unsafe or failed origins',async()=>{
  const path=artworkURL('connect'),url='https://kgblaze.dpdns.org'+path;
- assert.equal(artworkSources.size,46);
+ assert.equal(artworkSources.size,47);
  assert.equal(artworkSources.get(path),releaseArtwork.connect.image);
  const stored=new Map();let calls=0;
  const cache={match:async r=>stored.get(r.url)?.clone(),put:async(r,v)=>stored.set(r.url,v.clone())};
@@ -734,7 +734,7 @@ test('Arcana Integrity: all works have art, individually framed jackets and medl
  for(const slug of adjusted)assert.equal(releaseArtwork[slug].fit,'cover');
  for(const lang of ['es','en','ja']){
   const h=musicPage('/music/',new URLSearchParams({lang}));
-  assert.equal((h.match(/class="square-art"/g)||[]).length,114);
+  assert.equal((h.match(/class="square-art"/g)||[]).length,115);
   for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/song/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
   assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
@@ -772,7 +772,7 @@ test('music fragments omit the document shell and preserve original voice divisi
  assert.match(h,/class="color-part/);
  const catalogue=musicPage('/music/',new URLSearchParams({lang:'es',fragment:'1'}));
  assert.match(catalogue,/^<div id="music-content" data-view="catalog"/);
- assert.equal((catalogue.match(/class="square-art"/g)||[]).length,114);
+ assert.equal((catalogue.match(/class="square-art"/g)||[]).length,115);
 });
 
 test('canonical song paths and one independent state payload per work',async()=>{
@@ -799,7 +799,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  const cards=html.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
  const by=slug=>cards.find(c=>c.includes('/music/song/'+slug+'/'));
  const members=family=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(family));
- assert.equal(cards.length,114);assert.equal(members('Azur Lane').length,11);
+ assert.equal(cards.length,115);assert.equal(members('Azur Lane').length,11);
  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'])assert.ok(members(family).includes(by('melodia-del-oceano')));
  for(const [family,count] of [['Pokémon',13],['Love Live!',7],['hololive',10],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
  assert.match(by('graphite-diamond'),/data-series="Azur Lane The Animation"/);
@@ -985,3 +985,10 @@ test('Sagrada Reset approved F4 square preserves original jacket and release',()
 test('Final Asterisk jackets preserve approved distinct frames and original single provenance',()=>{const m=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;for(const [slug,v,size] of [['ai-no-uta',2,1080],['lonely-feather',3,865]]){const a=releaseArtwork[slug],r=m[slug];assert.equal(a.version,v);assert.equal(r.previous.version,v-1);assert.equal(a.image,r.path);assert.equal(a.sourceImage,r.origin);assert.equal(r.status,'preserved');assert.deepEqual(r.size,[size,size]);assert.match(a.originalRelease.release,/VTCL-35225/);assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),new RegExp(a.image));assert.equal(createHash('sha256').update(readFileSync(new URL('../public'+r.path,import.meta.url))).digest('hex'),r.sha256);}assert.notEqual(m['ai-no-uta'].sha256,m['lonely-feather'].sha256);assert.equal(releaseArtwork['dakara-boku-wa-boku-wo-tebanasu'].version,2);});
 
 test('Kirameki Rider and canonical Padoru artist names preserve independently published collaboration',()=>{const s=songs.find(x=>x.slug==='kirameki-rider');assert.equal(s.versions[0].videoId,'83EgdxdwhtA');assert.equal(s.versions[0].publicationChannel,'Misao Chan');assert.deepEqual(s.performance,["Misao Chan","Leon Live☆Heart","Lanti Keeki","Blaze Leiton","V.A.F.M.O."]);assert.equal(s.adaptationCredit,'Leon Live☆Heart');assert.equal(s.padoruCover,true);const l=lyricsBySong[s.slug].es;assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.colorLegend.map(x=>[x.id,x.label,x.color]),[['sora','Tokino Sora','#58A6FF'],['roboco','Roboco-san','#F064E8'],['fubuki','Shirakami Fubuki','#77E4F5'],['noel','Shirogane Noel','#F0F3F7'],['aqua','Minato Aqua','#FFB5D9']]);assert.ok(l.colorStanzas.flat(2).some(x=>x.voice==='shared'&&x.secondary));assert.ok(!l.colorStanzas.flat(2).some(x=>x.voice==='shared2'));assert.deepEqual(l.colorStanzas[7][2].map(p=>p.voice),['fubuki+aqua','fubuki+aqua']);assert.equal(l.colorStanzas[7][3][0].voice,'sora+roboco+noel');assert.ok(songs.every(s=>!JSON.stringify(s.performance||[]).includes('Misao-chan')));assert.ok(!JSON.stringify(lyricsBySong).includes('Misao-chan'));for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+s.slug+'.json').locales[lang].es;assert.ok(d.html.includes('83EgdxdwhtA'));assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes('Misao Chan'));assert.doesNotMatch(d.lyrics.es.full,/Misao Chan|Leon Live☆Heart|Lanti Keeki|Blaze Leiton|V\.A\.F\.M\.O\.|Todos · II|All · II|全員 · II/);for(const name of ['Tokino Sora','Roboco-san','Shirakami Fubuki','Shirogane Noel','Minato Aqua'])assert.ok(d.lyrics.es.full.includes(name));assert.match(d.lyrics.es.full,/class="color-part secondary-part" style="color:#AEBACC"/);assert.match(d.lyrics.es.full,/Shirakami Fubuki · Minato Aqua/);}});
+
+test('Stage 35 Brave Shine: manual Spanish lyrics, Bury attribution, original Aimer cover',()=>{
+ const s=songs.find(s=>s.slug==='brave-shine');assert.ok(s);assert.equal(s.artist,'Aimer');assert.equal(s.originalLyricist,'aimerrhythm');assert.equal(s.originalComposer,'Hisashi Koyama');assert.equal(s.versions.length,1);assert.equal(s.versions[0].videoId,'_z_drk_eeWw');assert.equal(s.versions[0].date,'2025-02-01');assert.equal(s.adaptationCredit,'Call Me Bury (Bury Singer)');assert.match(s.adaptationCreditLabel.es,/atribuida/);assert.match(s.adaptationAttributionStatus,/not-independently-verified/);
+ const l=lyricsBySong['brave-shine'].es;assert.equal(l.kind,'adaptation');assert.equal(l.language,'ES');assert.equal(l.text.split('\\n\\n').length,11);assert.equal((l.text.match(/Brave Shine/g)||[]).length,2);assert.equal((l.text.match(/Tu brillo\\./g)||[]).length,2);assert.match(l.text,/Solo debes continuar\\./);assert.match(l.text,/olvidó radiar/);assert.match(l.text,/de mi propio amanecer/);assert.doesNotMatch(l.text,/Sólo debes|olvidó brillar/);
+ const a=releaseArtwork['brave-shine'];assert.match(a.source,/sonymusic/);assert.match(a.release,/DFCL-2130/);assert.match(artworkURL('brave-shine'),/brave-shine-v1/);
+ for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/brave-shine.json').locales[lang].es;assert.ok(d.html.includes('_z_drk_eeWw'));assert.ok(d.lyrics.es.hasText);assert.match(d.lyrics.es.full,/tu brillo/i);const h=musicPage('/music/song/brave-shine/',new URLSearchParams({lang}));assert.match(h,/Call Me Bury/);assert.match(h,/Brave Shine/);}
+});

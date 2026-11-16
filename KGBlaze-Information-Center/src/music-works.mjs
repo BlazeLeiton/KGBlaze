@@ -129,6 +129,7 @@ const familyNames={
  'Oregairu':names('Oregairu','俺ガイル'),
  'Masamune-kun’s Revenge':names('Masamune-kun’s Revenge','政宗くんのリベンジ'),
  'GRIDMAN UNIVERSE':names('GRIDMAN UNIVERSE','グリッドマン ユニバース'),
+ 'Fate/stay night: Unlimited Blade Works':names('Fate/stay night: Unlimited Blade Works','Fate/stay night [Unlimited Blade Works]'),
  'Fate/series':names('Fate/series','Fateシリーズ'),
  'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel','蒼き鋼のアルペジオ')
 };
