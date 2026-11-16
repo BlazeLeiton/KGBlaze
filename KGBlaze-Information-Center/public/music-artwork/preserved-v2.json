@@ -1987,7 +1987,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/ruteshi-kisuki-shiteru-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        500,
+        493
+      ],
+      "sha256": "d54b4c0d47655313a6c550e7e8c0ffa01b5781d3d6502f4c4c753a333ecb2dc6",
+      "bytes": 97432,
+      "original_size": [
+        500,
+        493
+      ],
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/03/18/LACM-14260.jpg?v=1",
+      "source_sha256": "3f1c3ff6fdf7e6f0fc6b359f07b5304125ede5de9fbbaa2585ecad5dfdadd319"
     },
     "ryuusei": {
       "release": "流星／約束 · VVCL-1256 · anime edition",
@@ -2017,7 +2029,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/senaka-awase-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        380,
+        380
+      ],
+      "sha256": "be1399ec008808aa3a4b467f5fb9a6e40d10768b23fec491b2e55ddc014221d4",
+      "bytes": 68690,
+      "original_size": [
+        380,
+        380
+      ],
+      "retrieved_from": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4",
+      "source_sha256": "c3b7add1dd0095972967f5e7e3be2e49bd38a7986dbebac4405714ee58696817"
     },
     "shiny-days": {
       "release": "SHINY DAYS · USSW-0070 · Yuru Camp edition",
@@ -2047,7 +2071,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/under-the-party-lights-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "b3f116fd8a52b22d11258790ba05ae9b17c5c48a5d0822965aef937b48eeade4",
+      "bytes": 88058,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/63/b4/d6/63b4d60e-a150-7108-6992-856866289f58/198009835256.png/600x600bf-60.jpg",
+      "source_sha256": "10fa535f089273f80e903cf6e66e097663679dee8e9aae917fc9d65ee8342c13"
     },
     "caste-room": {
       "release": "カーストルーム · LACM-14647",
@@ -2119,7 +2155,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/toge-toge-sadistic-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "fd9396f2c635870e34845f09176587672de9881664fa201688cddb258912daa0",
+      "bytes": 164164,
+      "original_size": [
+        3000,
+        3000
+      ],
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/a4/b9/b1/a4b9b13e-02f3-650f-369d-958757eddcf1/4540774190317.png/3000x3000bb.jpg",
+      "source_sha256": "f05f3110605761b88b7368f38b7d05c4fbd175d348f223aa640bd0be817ecf86"
     },
     "your-reality": {
       "release": "Your Reality · original game soundtrack",
@@ -2191,7 +2239,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/born-to-be-a-winner-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        900,
+        1200
+      ],
+      "sha256": "743526365142c4f749e0d1f62511e4578943b5ae4c4f00d225d561f8d231620d",
+      "bytes": 199632,
+      "original_size": [
+        1536,
+        2048
+      ],
+      "retrieved_from": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p29963_p_v10_ab.jpg",
+      "source_sha256": "38a43f957653f70022e75e09fb4e5998ccdfcd721ef34b30798b2a6ef0e14b89"
     },
     "believe-in-me": {
       "release": "Pokémon Heroes: Latios & Latias · English-language movie poster",
@@ -2200,7 +2260,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/believe-in-me-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        812,
+        1200
+      ],
+      "sha256": "59253c3fe07cbf3cdab01400e7e2763d0275d9e7f7689e88c96bdd36cb4dc2d2",
+      "bytes": 244030,
+      "original_size": [
+        1000,
+        1477
+      ],
+      "retrieved_from": "https://m.media-amazon.com/images/M/MV5BYWJlMGQxNDYtZTc5NC00MzlhLWI1MTItZmU1NjY1MTRlZjFjXkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg",
+      "source_sha256": "a9b38d1f2031b18cbf5ef8a2f8ed655bf448a61bc575436004f5599968c20604"
     },
     "i-wanna-be-a-hero": {
       "release": "Pokémon Advanced · VIZ Media Complete Collection",
@@ -2209,7 +2281,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/i-wanna-be-a-hero-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        800,
+        1024
+      ],
+      "sha256": "235e8d772b8100012695b1b851bc83adeda75774393e9e3d6a8037642af23d37",
+      "bytes": 139864,
+      "original_size": [
+        800,
+        1024
+      ],
+      "retrieved_from": "https://cdn.shoplightspeed.com/shops/608693/files/4269254/800x1024x2/viz-media-pokemon-advanced-season-6-dvd.jpg",
+      "source_sha256": "9b4e405bdb6b01a81b977542009ee24d508719f13d0740f607864d8c475444b7"
     },
     "this-dream": {
       "release": "Pokémon Advanced Challenge · VIZ Media Complete Collection",
@@ -2218,7 +2302,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/this-dream-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        865,
+        1000
+      ],
+      "sha256": "7cad5de7d2f3a29d21473c1cc17700bbec3fa6502943106f524a7889bc6a1e4c",
+      "bytes": 106290,
+      "original_size": [
+        865,
+        1000
+      ],
+      "retrieved_from": "https://static.shoplightspeed.com/shops/608693/files/004974001/viz-media-pokemon-advanced-challenge-season-7-dvd.jpg",
+      "source_sha256": "a0ebb1bba26fc7ed93dc97b63bbf5fd8f40f5bac27fe940f474bebfcdedbb38d"
     },
     "unbeatable": {
       "release": "Pokémon: Lucario and the Mystery of Mew · English-language movie poster",
@@ -2227,7 +2323,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/unbeatable-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        900,
+        1200
+      ],
+      "sha256": "9dd376f8b9a62b100d275cdb2b045e5438f40f64676127a4cf04e663b4eb07c0",
+      "bytes": 322984,
+      "original_size": [
+        1536,
+        2048
+      ],
+      "retrieved_from": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p15641035_p_v10_aa.jpg",
+      "source_sha256": "4fd01da426dda5c655b22b4d6e5b20922ba0c135ffa430af45fbded7f2d02142"
     },
     "battle-frontier": {
       "release": "Pokémon Battle Frontier · VIZ Media Complete Collection",
@@ -2236,7 +2344,19 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/battle-frontier-v2.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1039,
+        1200
+      ],
+      "sha256": "4092291198971cdcaf8f635d932bd5c256ff494e5a1be23999855b0617bb9146",
+      "bytes": 177416,
+      "original_size": [
+        1299,
+        1500
+      ],
+      "retrieved_from": "https://pokemonblog.com/wp-content/uploads/2018/10/pokemon_battle_frontier_the_complete_collection_featuring_ash_pikachu_may_brock_and_max.jpg",
+      "source_sha256": "c4dfaa91084844e392a18aa7b1f044759af5b48bf92ffd17e99fd21dfd868caf"
     },
     "pokemon-theme": {
       "release": "Pokémon 2.B.A. Master · 1999",
