@@ -24,7 +24,7 @@ const checks=[
  ['el-mismo-sol',['Juegos Panamericanos Guadalajara 2011']]
 ];
 for(const [slug,terms] of checks){
- const h=await load('/music/songs/song/'+slug+'/?lang=es');
+ const h=await load('/music/songs/'+slug+'/?lang=es');
  for(const term of terms)assert.ok(h.includes(term),slug+' lacks '+term+' in deployed page');
 }
 for(const oldPath of ['/music/song/blue-spirit/?lang=en&version=en','/music/blue-spirit/?lang=ja']){
