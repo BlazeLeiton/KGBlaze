@@ -27,3 +27,6 @@ Publish only approved artwork and Paper Bouquet; six Pokémon alternatives remai
 
 ## Final eight approved jackets — 2026-11-16
 Creator confirmed U-A international BELLE soundtrack, Ougon Kouro digital single, Celebi AICT-1318 (associated Japanese ED single), Latias/Latios ZMCP-1457, Lucario ZMCP-2303, and three VIZ season jackets (prefer clean high-resolution archive originals). Publish to production after local snapshot verification. Preserve prior files and metadata; no change to performance credits or recordings. Lonely Feather current approved. No changes to unresolved art.
+
+## Classroom, GG and Gura correction
+Creator chose both Classroom back jackets and Minor Piece's official anime digital jacket. GG actual full-bleed square crop (not merely background); original remains immutable. Leon no sabe que existo subtitle Gura doesn't know I exist; musical base Catch 22, Keasbey Nights (1998), Watson Amelia ukulele parody dated 2020-11-30 (clip 5T8FOaQW3dk, original tweet 1333255371188817921). Clip thumbnail as contextual art, not verified original karaoke VOD. Sagrada and Ai no Uta remain unchanged pending editorial selection.
