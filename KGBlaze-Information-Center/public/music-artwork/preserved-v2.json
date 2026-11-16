@@ -2582,7 +2582,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/paper-bouquet-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "2ee1ee952f0b83fcec8158b35793dc947e0cea4c144e7543e9fd3da2def9df65",
+      "bytes": 400900,
+      "original_size": [
+        1280,
+        1280
+      ],
+      "retrieved_from": "https://resources.tidal.com/images/1026f349/2fe4/424c/a759/4bb301e3650b/1280x1280.jpg",
+      "source_sha256": "473dba6674142d35db72c9486f5f52a2bd8a3e429bf94931e752ff7980a93ad4"
     }
   }
 }
