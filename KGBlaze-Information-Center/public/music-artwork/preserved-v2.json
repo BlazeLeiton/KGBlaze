@@ -1525,14 +1525,26 @@
       "version": 2,
       "fit": "cover",
       "path": "/music-artwork/dakara-boku-wa-boku-wo-tebanasu-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/dakara-boku-wa-boku-wo-tebanasu-v1.webp",
         "sha256": "9bee7d8869c9dcd173378245dd288352a74f0feb2ba13f2e78ac188eaf4ed884",
         "source": "https://www.primevideo.com/detail/Sagrada-Reset/0RID29ZNT72OHKT6MDYIB25NAW",
         "origin": "https://m.media-amazon.com/images/S/pv-target-images/1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028.jpg"
-      }
+      },
+      "size": [
+        1020,
+        1020
+      ],
+      "sha256": "c8094e6cf2c50190743b199c7629a4ee6c227deffa853867faf63d018b9970b4",
+      "bytes": 274316,
+      "original_size": [
+        1020,
+        1020
+      ],
+      "retrieved_from": "https://static.zerochan.net/Sakurada.Reset.full.2106270.jpg",
+      "source_sha256": "60a32ec0ac693aaea50b1d1bd4b509e467e8d6e3645edd7c7b6181e5164cca73"
     },
     "end-of-a-life": {
       "release": "end of a life · CVRD-081",
