@@ -31,7 +31,7 @@ const bilingual=[['pokemon-theme','Pokémon Theme','Tema de Pokémon'],['born-to
 const encode=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(const [slug,english,spanish] of bilingual)for(const lang of ['es','en','ja']){
  const page=await load('/music/songs/'+slug+'/?lang='+lang);
- const heading=page.match(/<div class="detail-title">[\\s\\S]*?<h1>([\\s\\S]*?)<\\/h1>/)?.[1]||'';
+ const heading=page.match(/<div class="detail-title">[\s\S]*?<h1>([\s\S]*?)<\/h1>/)?.[1]||'';
  const main=lang==='es'?spanish:english,secondary=lang==='es'?english:spanish;
  assert.ok(heading.includes('<span class="title-primary">'+encode(main)+'</span>'),slug+' '+lang+' incorrect primary title');
  assert.ok(heading.includes('<span class="title-secondary">'+encode(secondary)+'</span>'),slug+' '+lang+' incorrect subtitle');
