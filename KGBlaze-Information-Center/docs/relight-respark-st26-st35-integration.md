@@ -9,6 +9,7 @@ Actualización técnica 2026-11-16; no reemplaza R8-FINAL/Nuclear v4 ni Stage25 
 
 ## Ajustes del presente lote
 - Homologación ortográfica conservadora, sin cambiar vocablos ni métrica: aun así, tú interrogativo, futuro iluminará, pasado logré y pronombre mí. Segmentos coloreados se actualizan junto a sus fuentes.
+- Se preservó durablemente la portada ilustrada de Brave Shine (DFCL-2130/2131): WebP local y manifest de integridad SHA-256; antes era el único archivo ausente (pending-snapshot).
 - Se reparan verificadores de producción que seguían contando 50 tarjetas y solicitaban un evento antiguo de Signal. Se usan las 115 entradas vigentes o el inventario importado en lugar de cifras históricas.
 - Nueva auditoría CI activada por rutas de música y no por nombres históricos de ramas: suite `npm test`, comprobación estricta de arte preservado y navegador móvil/escritorio ES/EN/JA para todas las fichas. La auditoría nunca reescribe portadas.
 - Reglas adicionales de regresión para inventario, fichas, créditos y contexto sin publicar álbumes planeados.
