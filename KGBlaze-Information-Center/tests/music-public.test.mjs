@@ -992,3 +992,30 @@ test('Stage 35 Brave Shine: manual Spanish lyrics, Bury attribution, original Ai
  const a=releaseArtwork['brave-shine'];assert.match(a.source,/sonymusic/);assert.match(a.release,/DFCL-2130/);assert.match(artworkURL('brave-shine'),/brave-shine-v1/);
  for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/brave-shine.json').locales[lang].es;assert.ok(d.html.includes('_z_drk_eeWw'));assert.ok(d.lyrics.es.hasText);assert.match(d.lyrics.es.full,/tu brillo/i);const h=musicPage('/music/song/brave-shine/',new URLSearchParams({lang}));assert.match(h,/Call Me Bury/);assert.match(h,/Brave Shine/);}
 });
+
+test('Stage 35 full-catalogue orthography: line initials, version and colored-stanza parity',()=>{
+ const exempt = new Set(['(la la la)']); // intentional vocalized syllables in Ano ne
+ const firstWord=line=>[...line.matchAll(/[\\p{L}\\p{N}]/gu)][0];
+ let checked=0,vers=0;
+ assert.equal(songs.length,115);
+ for(const song of songs){
+  assert.ok(song.slug&&song.title&&song.artist,JSON.stringify(song));
+  assert.ok(song.versions?.length>0,song.slug);
+  assert.ok(releaseArtwork[song.slug],song.slug+' has no artwork');
+  const source=lyricsBySong[song.slug];assert.ok(source,song.slug+' has no lyric record');
+  for(const [variant,l] of Object.entries(source)){
+   if(!l?.text)continue;vers++;
+   for(const [index,line] of l.text.split('\\n').entries()){
+    const first=firstWord(line);if(!first||!/[\\p{L}]/u.test(first[0]))continue;
+    if(/[\\p{Ll}]/u.test(first[0])&&!exempt.has(line.trim()))assert.fail(song.slug+'/'+variant+' line '+(index+1)+': '+line);
+    checked++;
+   }
+   const colored=l.colorStanzas?.map(st=>st.map(line=>line.map(p=>p.text).join('')).join('\\n')).join('\\n\\n');
+   if(colored!==undefined)assert.equal(colored,l.text,song.slug+'/'+variant+' colored lines diverged');
+  }
+ }
+ assert.ok(vers>=115);
+ assert.ok(checked>2000);
+ assert.equal(lyricsBySong['brave-shine'].es.text.split('Tu brillo.').length-1,2);
+ assert.match(lyricsBySong['brave-shine'].es.text,/Para siempre los recuerdos/);
+});
