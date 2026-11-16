@@ -5,6 +5,7 @@ import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {songs} from '../src/music-catalog.mjs';
+import {workFamilies} from '../src/music-works.mjs';
 import {VIEWER_JS,VIEWER_CSS} from '../src/viewer-enhancements.mjs';
 const root=resolve('public'),out=resolve(process.env.ARTWORK_AUDIT_DIR||'artwork-audit');
 await mkdir(out,{recursive:true});
@@ -85,7 +86,8 @@ try{
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
   await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
   const series=page.locator('#series'), aff=page.locator('#affiliation'), visible=page.locator('#songs .song:not([hidden])');
-  for(const [family,count] of [['Azur Lane',11],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',13],['Kuma Kuma Kuma Bear',2],['Love Live!',7],['hololive',10],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1],['Formula 1',1],['Pan American Games',1]]){
+  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel','Pokémon','Kuma Kuma Kuma Bear','Love Live!','hololive','Madoka Magica','Oregairu','Masamune-kun’s Revenge','GRIDMAN UNIVERSE','Fate/series','Formula 1','Pan American Games']){
+    const count=songs.filter(s=>workFamilies(s).includes(family)).length;
    await series.selectOption(family);assert.equal(await visible.count(),count,family);
    if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(family))assert.equal(await visible.filter({hasText:'Melodía del Océano'}).count(),1);
   }
@@ -95,7 +97,7 @@ try{
   await series.selectOption('hololive');for(const [branch,count] of [['holo-en',7],['holo-jp',4],['holo-id',1]]){await aff.selectOption(branch);assert.equal(await visible.count(),count);assert.equal(await visible.filter({hasText:'Shiny Smily Story'}).count(),1);}
   await series.selectOption('Love Live!');await aff.selectOption('ll-nijigasaki');assert.equal(await visible.count(),3);await aff.selectOption('ll-muse');assert.equal(await visible.count(),2);
   await series.selectOption('Azur Lane');await visible.filter({hasText:'graphite/diamond'}).locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.match(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),/Azur Lane The Animation/);
-  await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),'Azur Lane');assert.equal(await visible.count(),11);
+  await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),'Azur Lane');assert.equal(await visible.count(),songs.filter(s=>workFamilies(s).includes('Azur Lane')).length);
   await page.locator('#clear').click();
   await page.locator('#songs a[href="/music/"][data-music-intent]').filter({hasText:"μ's"}).first().click();
   await page.waitForFunction(()=>document.getElementById('affiliation').value==='ll-muse');
