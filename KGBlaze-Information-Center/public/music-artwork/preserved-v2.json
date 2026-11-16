@@ -2197,7 +2197,19 @@
       "version": 2,
       "path": "/music-artwork/yakusoku-v2.webp",
       "fit": "contain",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        600
+      ],
+      "sha256": "3ea1dd96097af7dc90a263f6f65e80bfe2be94da024d7ede7aa05c811a173556",
+      "bytes": 145686,
+      "original_size": [
+        600,
+        600
+      ],
+      "retrieved_from": "https://bushiroad-store.com/cdn/shop/products/0e93bed862ab093c71b9dd03ba358333_600x600_crop_center.jpg?v=1636696746",
+      "source_sha256": "4fe1754fc7f156a15f002b1539b1a385cc950ceac15220006d2e711752571e31"
     },
     "u-belle": {
       "release": "U · BVCL-1172",
