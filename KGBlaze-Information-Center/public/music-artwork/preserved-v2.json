@@ -1981,25 +1981,13 @@
       "source_sha256": "03b5322d8250b9f4098be1f806a7a107056437137d9a8e0b48b1caaa452418c1"
     },
     "ruteshi-kisuki-shiteru": {
-      "release": "Shangri-La Shower · LACM-14260 · official release audio",
-      "source": "https://www.youtube.com/watch?v=0w8avFgPoSE",
-      "origin": "https://i.ytimg.com/vi/0w8avFgPoSE/hqdefault.jpg",
-      "version": 1,
+      "release": "Shangri-La Shower · LACM-14260 · track 2",
+      "source": "https://www.cdjapan.co.jp/product/LACM-14260",
+      "origin": "https://st.cdjapan.co.jp/pictures/l/03/18/LACM-14260.jpg?v=1",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/ruteshi-kisuki-shiteru-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "74ed7fabb8941ceda3a113efb812a274471aa75d916d5d5e73487b37d61183a4",
-      "bytes": 35224,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/0w8avFgPoSE/hqdefault.jpg",
-      "source_sha256": "d9dd120d23d52ccf75ddaa68a519bc7e5d2fdee9c3362ae7cc45055b7a9f8c22"
+      "path": "/music-artwork/ruteshi-kisuki-shiteru-v2.webp",
+      "status": "pending-snapshot"
     },
     "ryuusei": {
       "release": "流星／約束 · VVCL-1256 · anime edition",
@@ -2023,25 +2011,13 @@
       "source_sha256": "2d8a163a574eb0e52733e3ae5d76aed77123ab36bf36b60b6c5893efc30ff43c"
     },
     "senaka-awase": {
-      "release": "セナカアワセ · PCSP-05865 · official audio",
-      "source": "https://www.youtube.com/watch?v=yKQkBQ5su9A",
-      "origin": "https://i.ytimg.com/vi/yKQkBQ5su9A/hqdefault.jpg",
-      "version": 1,
+      "release": "セナカアワセ · PCSP-05865 · digital single",
+      "source": "https://www.ponycanyon.co.jp/music/PCSP000005865",
+      "origin": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/senaka-awase-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "8f1c2f7d5fabc6f328dd4502cc791a10e2f59aef59a2e4137913191063da7d0d",
-      "bytes": 36830,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/yKQkBQ5su9A/hqdefault.jpg",
-      "source_sha256": "73c7022467789aa185e627d4ce4df249398d22506418a8c24e82b33af113ecae"
+      "path": "/music-artwork/senaka-awase-v2.webp",
+      "status": "pending-snapshot"
     },
     "shiny-days": {
       "release": "SHINY DAYS · USSW-0070 · Yuru Camp edition",
