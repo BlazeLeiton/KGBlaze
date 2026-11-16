@@ -816,7 +816,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
 test('editorial family members retain exact catalogue ordering and medley is a single card',()=>{
  for(const lang of ['es','en','ja']){
  const h=musicPage('/music/songs/',new URLSearchParams({lang})), cards=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
- const ids=key=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(key)).map(c=>c.match(/href="\/music\/song\/([^/]+)\//)[1]);
+ const ids=key=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(key)).map(c=>c.match(/href="\/music\/songs\/([^/]+)\//)[1]);
  assert.deepEqual(ids('Azur Lane'),['under-the-party-lights','ougon-kouro','blue-spirit','graphite-diamond','feelin-it-all','signal','yuukyuu-no-catharsis','aint-backing-down','tempestas-claim','what-youre-made-of','melodia-del-oceano']);
  assert.deepEqual(ids('Kantai Collection'),['miiro','melodia-del-oceano']);
  assert.deepEqual(ids('High School Fleet'),['high-free-spirits','melodia-del-oceano']);
