@@ -5,7 +5,7 @@ import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflig
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
-import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
+import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {DASHBOARD_HTML} from './dashboard-page.mjs';
 import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
@@ -227,9 +227,14 @@ export default {
     return new Response(req.method==='HEAD'?null:fonts,{headers:{'Content-Type':'text/css; charset=utf-8','Cache-Control':'public, max-age=86400','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff'}});
    }
    if(MUSIC_DATA_PATHS.has(dashboardPath)){if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');const data=musicStateData(dashboardPath);return new Response(req.method==='HEAD'?null:JSON.stringify(data),{headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex, nofollow, noarchive'}});}
+   if(MUSIC_LEGACY_PATHS.has(dashboardPath)){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    const legacySong=/^\/music\/(?:song\/)?([a-z0-9-]+)\/?$/.exec(dashboardPath);
+    requestURL.pathname='/music/songs/'+legacySong[1]+'/';
+    return Response.redirect(requestURL.toString(),308);
+   }
    if(MUSIC_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
-    const legacySong=/^\/music\/([a-z0-9-]+)\/?$/.exec(dashboardPath);if(legacySong){requestURL.pathname='/music/song/'+legacySong[1]+'/';return Response.redirect(requestURL.toString(),308);}
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
     const musicQuery=new URLSearchParams(requestURL.searchParams);const pref=(req.headers.get('Cookie')||'').match(/(?:^|;\s*)kgblaze_lang=(es|en|ja)(?:;|$)/)?.[1];if(!musicQuery.has('lang')&&pref)musicQuery.set('lang',pref);
     return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,musicQuery),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; connect-src 'self'; style-src 'self' 'unsafe-inline'; font-src data:; img-src 'self' data: https://i.ytimg.com https://vocalmagazine.jp https://pjselection.com https://resources.tidal.com https://cdn.tower.jp https://www.feelmee.jp https://hololive.hololivepro.com https://www.lisani.jp https://www.giantrobot.com https://www.jvcmusic.co.jp https://idolypride.jp https://straycats.co.jp https://trysail.jp https://nanonano.me https://m.media-amazon.com https://img.hmv.co.jp https://image.sofmap.com https://www.marv.jp https://www.famitsu.com https://blue.kumparan.com https://www.asmart.jp https://www.sonymusic.co.jp https://shikimori-anime.com https://fuukoi-anime.com https://static.jmusicitalia.com https://masamune-tv.com https://choucho-net.com https://is1-ssl.mzstatic.com https://go-for-launch.net https://prod-v2-assets.wmg.jp https://imgs.ototoy.jp https://uchidamaaya.jp https://gridman.net https://pbs.twimg.com https://ogre.natalie.mu https://catalog.bandainamcomusiclive.co.jp https://gf-anime.com https://columbia.jp https://bofuri.jp https://yorimoi.com https://www.pokemoncenter-online.com https://tensaiouji-anime.com https://static.qobuz.com https://ngnl.jp https://st.cdjapan.co.jp; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
