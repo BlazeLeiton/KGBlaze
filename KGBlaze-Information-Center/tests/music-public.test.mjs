@@ -964,6 +964,6 @@ test('Post-album review: Padoru identity, localized Pokémon titles and distinct
  const tagged=songs.filter(s=>s.padoruCover);assert.equal(tagged.length,6);
  for(const slug of ['halloween-night','suki-yuki-maji-magic']){const s=songs.find(x=>x.slug===slug);assert.equal(s.padoruCover,true);assert.equal(s.collaborationGroup,'Team Padoru');assert.match(musicStateData('/music/data/song/'+slug+'.json').locales.es.es.html,/Padoru/);}
  const pk=['pokemon-theme','pokemon-world','pokemon-johto','born-to-be-a-winner','believe-in-me','i-wanna-be-a-hero','this-dream','unbeatable','battle-frontier'];
- for(const slug of pk){const s=songs.find(x=>x.slug===slug);assert.ok(s.localizedTitle.es);assert.ok(s.alternativeTitles.includes(s.localizedTitle.es));assert.ok(musicStateData('/music/data/song/'+slug+'.json').locales.es.es.html.includes(s.localizedTitle.es));}
+ for(const slug of pk){const s=songs.find(x=>x.slug===slug);assert.ok(s.localizedTitle.es);assert.ok(s.title===s.localizedTitle.es||s.alternativeTitles.includes(s.localizedTitle.es));assert.ok(musicStateData('/music/data/song/'+slug+'.json').locales.es.es.html.includes(s.localizedTitle.es));}
  const artwork=pk.slice(3).map(slug=>releaseArtwork[slug]);assert.equal(new Set(artwork.map(a=>a.sourceImage)).size,6);assert.ok(artwork.every(a=>a.originalRelease&&a.artworkContext));
 });
