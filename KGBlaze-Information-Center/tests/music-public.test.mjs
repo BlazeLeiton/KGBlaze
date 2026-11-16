@@ -164,7 +164,7 @@ test('localized work names preserve identity and map XY international seasons',(
  assert.equal(workName('Pokémon Horizons','ja',2),'ポケットモンスター（2023）');
  assert.ok(workAliases('Pokémon Horizons',1).includes('Pocket Monsters 2023'));
  assert.equal(workName('unknown','ja'),'unknown');
- for(const s of songs)for(const lang of ['es','en','ja'])assert.ok(workName(s.series,lang,s.season));
+ for(const s of songs)for(const lang of ['es','en','ja']){if(s.series)assert.ok(workName(s.series,lang,s.season));else assert.ok(s.context?.catalog&&s.context.catalog[lang]==='');}
  const es=musicPage('/music/',new URLSearchParams({lang:'es'}));
  const ja=musicPage('/music/',new URLSearchParams({lang:'ja'}));
  assert.match(es,/<option value="Pokémon">Pokémon<\/option>/);
@@ -816,7 +816,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
 test('editorial family members retain exact catalogue ordering and medley is a single card',()=>{
  for(const lang of ['es','en','ja']){
  const h=musicPage('/music/',new URLSearchParams({lang})), cards=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
- const ids=key=>cards.filter(c=>c.match(/data-primary-series="([^"]+)"/)[1].split('|').includes(key)).map(c=>c.match(/href="\/music\/song\/([^/]+)\//)[1]);
+ const ids=key=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(key)).map(c=>c.match(/href="\/music\/song\/([^/]+)\//)[1]);
  assert.deepEqual(ids('Azur Lane'),['ougon-kouro','blue-spirit','graphite-diamond','feelin-it-all','signal','yuukyuu-no-catharsis','aint-backing-down','tempestas-claim','what-youre-made-of','melodia-del-oceano']);
  assert.deepEqual(ids('Kantai Collection'),['miiro','melodia-del-oceano']);
  assert.deepEqual(ids('High School Fleet'),['high-free-spirits','melodia-del-oceano']);
