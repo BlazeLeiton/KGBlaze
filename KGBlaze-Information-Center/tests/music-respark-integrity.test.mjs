@@ -35,6 +35,7 @@ test('ReSpark final credits: origin, third-party adaptations, adjustments, and t
  const br=one('brave-shine');
  assert.equal(br.adaptationCredit,'Call Me Bury (Bury Singer)');
  assert.equal(br.adjustmentCredit,'Blaze Leiton');
+ assert.equal(releaseArtwork['brave-shine'].image,'/music-artwork/brave-shine-v1.webp');
  assert.match(br.adaptationAttributionStatus,/not-independently-verified/);
  const c=one('connect');
  assert.equal(c.adaptationCredit,'Sekai025');
