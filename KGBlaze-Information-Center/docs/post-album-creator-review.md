@@ -24,3 +24,6 @@ Creator supplied exact full original English/Milish lyric (11 stanzas, 57 lines)
 
 ## Publication gate
 Publish only approved artwork and Paper Bouquet; six Pokémon alternatives remain on disk as candidates, not active registry selections. Restore existing v1 for those six pending final Japanese OST/clean season art. Keep Classroom, Ai no Uta, Sakurada Reset and Leon no sabe que existo unchanged; Ougon Kouro exact jacket and GG framing still outstanding. Ruteshi approved v2 unchanged. No claim of production visibility until verified.
+
+## Final eight approved jackets — 2026-11-16
+Creator confirmed U-A international BELLE soundtrack, Ougon Kouro digital single, Celebi AICT-1318 (associated Japanese ED single), Latias/Latios ZMCP-1457, Lucario ZMCP-2303, and three VIZ season jackets (prefer clean high-resolution archive originals). Publish to production after local snapshot verification. Preserve prior files and metadata; no change to performance credits or recordings. Lonely Feather current approved. No changes to unresolved art.
