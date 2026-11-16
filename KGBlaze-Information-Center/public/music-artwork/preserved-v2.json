@@ -1666,67 +1666,88 @@
       "source_sha256": "ee9db304e430160c6fa5196fb414f9258ff130a13a704d100b943c71991d5845"
     },
     "heart-no-shuchou": {
-      "release": "ハートの主張 · original music video",
-      "source": "https://www.youtube.com/watch?v=yQdy7wDfcBw",
-      "origin": "https://i.ytimg.com/vi/yQdy7wDfcBw/hqdefault.jpg",
-      "version": 1,
+      "release": "世界はｉに満ちている · SMCL-412 · track 3",
+      "source": "https://honeyworks.jp/release/cwhw_1stal/",
+      "origin": "https://honeyworks.jp/wp/wp-content/uploads/2020/08/sekaihainimichiteiru_2.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/heart-no-shuchou-v1.webp",
+      "path": "/music-artwork/heart-no-shuchou-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/heart-no-shuchou-v1.webp",
+        "sha256": "35b4e857919dd9c60efb6edae2c7add1eb5c2ffc38e628faf687147f2fb59725",
+        "source": "https://www.youtube.com/watch?v=yQdy7wDfcBw",
+        "origin": "https://i.ytimg.com/vi/yQdy7wDfcBw/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        750,
+        650
       ],
-      "sha256": "35b4e857919dd9c60efb6edae2c7add1eb5c2ffc38e628faf687147f2fb59725",
-      "bytes": 20804,
+      "sha256": "961f18131fe0603e58cf0ea3e647a96b8e033f1d91cd90adf640d51257615686",
+      "bytes": 149928,
       "original_size": [
-        480,
-        360
+        750,
+        650
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/yQdy7wDfcBw/hqdefault.jpg",
-      "source_sha256": "5e8d9ab7105d1f455e61c70b99cf0b787c976f0386164f8f4d9395e02484d994"
+      "retrieved_from": "https://honeyworks.jp/wp/wp-content/uploads/2020/08/sekaihainimichiteiru_2.jpg",
+      "source_sha256": "59719ed85bf29863404c5066f34a13829de415781cc20f8b8665a66bd5742739"
     },
     "karakuri-pierrot": {
-      "release": "からくりピエロ · original 40mP music video",
-      "source": "https://www.youtube.com/watch?v=xxFkW3PCT5M",
-      "origin": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg",
-      "version": 1,
+      "release": "小さな自分と大きな世界 · QWCE-10036 · track 7",
+      "source": "https://music.apple.com/jp/album/chiisana-jibun-to-ookina-sekai/555001770",
+      "origin": "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/9b/54/1b/9b541b7e-731f-ff21-3fe4-c83c25355286/KRHS-37246_40mP.jpg/1200x1200bf-60.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/karakuri-pierrot-v1.webp",
+      "path": "/music-artwork/karakuri-pierrot-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/karakuri-pierrot-v1.webp",
+        "sha256": "ee7ff7f9f89786003e18f8054c0f118d27dec4ebef620a6667a7b97afb96a0ca",
+        "source": "https://www.youtube.com/watch?v=xxFkW3PCT5M",
+        "origin": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        1200,
+        1200
       ],
-      "sha256": "ee7ff7f9f89786003e18f8054c0f118d27dec4ebef620a6667a7b97afb96a0ca",
-      "bytes": 28616,
+      "sha256": "f62279c469255950ea5f7023477f90de423e6be99e04a530cf80d94799798ceb",
+      "bytes": 191026,
       "original_size": [
-        480,
-        360
+        1200,
+        1200
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg",
-      "source_sha256": "a2cc14f1f7e3534606f9fdab41290a04e6bc6a6b36a4d8e05255b4640fd0a062"
+      "retrieved_from": "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/9b/54/1b/9b541b7e-731f-ff21-3fe4-c83c25355286/KRHS-37246_40mP.jpg/1200x1200bf-60.jpg",
+      "source_sha256": "4f1cae593c73b51ee40b3bfac4be852f63f3df994506d7fb9b05dfe5d0cab0cc"
     },
     "last-cup-of-coffee": {
-      "release": "last cup of coffee · original digital release",
-      "source": "https://www.youtube.com/watch?v=n64abW0dHNw",
-      "origin": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg",
-      "version": 1,
+      "release": "last cup of coffee · original digital single",
+      "source": "https://open.spotify.com/album/6dLEv4xBfs5SFCtD8QUFp1",
+      "origin": "https://i.scdn.co/image/ab67616d0000b2735f475a92b764261fb40727ba",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/last-cup-of-coffee-v1.webp",
+      "path": "/music-artwork/last-cup-of-coffee-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/last-cup-of-coffee-v1.webp",
+        "sha256": "bc2b239b181a7ccb5d82357255fd146ac3094ae50d0f2855aa274fd9bfe518d7",
+        "source": "https://www.youtube.com/watch?v=n64abW0dHNw",
+        "origin": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        640,
+        640
       ],
-      "sha256": "bc2b239b181a7ccb5d82357255fd146ac3094ae50d0f2855aa274fd9bfe518d7",
-      "bytes": 15600,
+      "sha256": "50856ac9a1fce4648599a3c9ff53fbfd004f5365ad4c1ed9ee9ea79c6710e1ae",
+      "bytes": 52462,
       "original_size": [
-        480,
-        360
+        640,
+        640
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg",
-      "source_sha256": "30cfe218048ebd2e47e6fe830424fded34357eb77ffb6745a37228d810796781"
+      "retrieved_from": "https://i.scdn.co/image/ab67616d0000b2735f475a92b764261fb40727ba",
+      "source_sha256": "4284f7108eef6f6edceb09d69d3b5d211fe30e014c7c4348e7ddca8bbb6d6b91"
     },
     "lets-be-one": {
       "release": "Let's be ONE · LACM-24650",
@@ -1750,32 +1771,39 @@
       "source_sha256": "2260a172b3f70b23489c97fc79fd9f8d045f64240b96ce0ee5e3f4799fe5ee15"
     },
     "lonely-feather": {
-      "release": "愛の詩 -words of love- · VTCL-35225 · Lonely Feather",
-      "source": "https://asterisk-war.com/sp/music/",
-      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/lonely-feather-v1.webp",
+      "release": "The Asterisk War · episode 19 · Sylvia Lyyneheym · scene artwork",
+      "source": "https://www.fandomspot.com/anime-characters-who-love-singing/",
+      "origin": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/lonely-feather-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/lonely-feather-v1.webp",
+        "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
+        "source": "https://asterisk-war.com/sp/music/",
+        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init"
+      },
       "size": [
-        600,
-        595
+        750,
+        422
       ],
-      "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
-      "bytes": 38410,
+      "sha256": "3330c7cb062df70236601235780018d25be2248a6cac63ccaa19e0e6bbecb21a",
+      "bytes": 65828,
       "original_size": [
-        600,
-        595
+        750,
+        422
       ],
-      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
-      "source_sha256": "e35841a078ff24ba5cc9d705cb1b4f05178cb6db4dfc635f0ef20d5d63729dad"
+      "retrieved_from": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
+      "source_sha256": "ec981006d26bb58ae5fb272cbcf5f62452db29b05a63a0969be66f100b8feb8d"
     },
     "minikui-ikimono": {
       "release": "鬼ノ森／醜い生き物 · SMCL-696",
       "source": "https://www.othersidepicnic.com/music/",
       "origin": "https://www.othersidepicnic.com/cms/wp-content/themes/othersidepicnic/images/music/opening_a_jaket.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/minikui-ikimono-v1.webp",
       "status": "preserved",
       "size": [
@@ -1796,7 +1824,7 @@
       "source": "https://www.sonymusic.co.jp/artist/real/info/492917",
       "origin": "https://www.sonymusic.co.jp/img/common/artist_image/70008000/70008086/images/SECL-2287_88_web.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/mirai-connection-v1.webp",
       "status": "preserved",
       "size": [
@@ -1817,7 +1845,7 @@
       "source": "https://honeyworks.jp/news/5185/",
       "origin": "https://honeyworks.jp/wp/wp-content/uploads/2019/06/fd578d49f2b1940bafddca0ad6702b19-300x281.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/otome-domo-yo-v1.webp",
       "status": "preserved",
       "size": [
@@ -1876,46 +1904,60 @@
       "source_sha256": "dec28223e1f03095eb5eba523e6b2a4833ed2dba0ecef985d441e4d5c90d435d"
     },
     "pop-step": {
-      "release": "POP☆STEP · official character song lyric video",
-      "source": "https://www.youtube.com/watch?v=CAHsPGk5z6s",
-      "origin": "https://i.ytimg.com/vi/CAHsPGk5z6s/hqdefault.jpg",
-      "version": 1,
+      "release": "POP☆STEP · original digital character single",
+      "source": "https://vigilante-anime.com/news/20250408_01.html",
+      "origin": "https://vigilante-anime.com/news/img/20250408_01_01.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/pop-step-v1.webp",
+      "path": "/music-artwork/pop-step-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/pop-step-v1.webp",
+        "sha256": "0cbd256ad08214f679156c3265deaaf9fa1c027e6b11621ca0d42062fdc54835",
+        "source": "https://www.youtube.com/watch?v=CAHsPGk5z6s",
+        "origin": "https://i.ytimg.com/vi/CAHsPGk5z6s/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        1000,
+        1000
       ],
-      "sha256": "0cbd256ad08214f679156c3265deaaf9fa1c027e6b11621ca0d42062fdc54835",
-      "bytes": 60576,
+      "sha256": "c15fe134c18899dd2c78a23c984a06214aff423f6743a01e7ca72e9f537f0911",
+      "bytes": 149866,
       "original_size": [
-        480,
-        360
+        1000,
+        1000
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/CAHsPGk5z6s/hqdefault.jpg",
-      "source_sha256": "005f0346064527add5ee3d5d379f469326acd88f231d9623dab5cd1c8ff1e4c5"
+      "retrieved_from": "https://vigilante-anime.com/news/img/20250408_01_01.jpg",
+      "source_sha256": "ce0b3120c02711f37241b7d5da4c0026c9c1df26e8ed330e2dd10b288a5a7a40"
     },
     "spektro": {
-      "release": "spektro · COKM-44707 · official audio",
-      "source": "https://www.youtube.com/watch?v=rgS4MKJfYrA",
-      "origin": "https://i.ytimg.com/vi/rgS4MKJfYrA/hqdefault.jpg",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/spektro-v1.webp",
+      "release": "spektro · official release promotional artwork · episode 9",
+      "source": "https://hoshitele-anime.com/news/detail/?id=32",
+      "origin": "https://hoshitele-anime.com/dist/img/news/32/img01.jpg",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/spektro-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/spektro-v1.webp",
+        "sha256": "53b4ca0e36952bf5cbc3e5a09b81699e42d48aa5083ad9e18421dec242e7c617",
+        "source": "https://www.youtube.com/watch?v=rgS4MKJfYrA",
+        "origin": "https://i.ytimg.com/vi/rgS4MKJfYrA/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        1200,
+        675
       ],
-      "sha256": "53b4ca0e36952bf5cbc3e5a09b81699e42d48aa5083ad9e18421dec242e7c617",
-      "bytes": 31786,
+      "sha256": "343696de6125b7b86dbae32d4e1f4c5c481e63cdfde094acfb54375aa5bbc04f",
+      "bytes": 98998,
       "original_size": [
-        480,
-        360
+        1380,
+        776
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/rgS4MKJfYrA/hqdefault.jpg",
-      "source_sha256": "dd826ef914eb2a0cfd433edc2abe92b6bbc55026e9a67f87cb6ff6c366b86c7b"
+      "retrieved_from": "https://hoshitele-anime.com/dist/img/news/32/img01.jpg",
+      "source_sha256": "2562add3f0d8355436a548d81949b323d997c235eade16cae1cf318af3fa4b3f"
     },
     "the-secret-night": {
       "release": "THE SECRET NiGHT · LACM-24131",
@@ -1939,25 +1981,32 @@
       "source_sha256": "ec6a9fff18d227b22ffc66063237e1865c2e562f420c895846a0719f13f2789d"
     },
     "shukufuku": {
-      "release": "祝福 · official music video",
-      "source": "https://www.youtube.com/watch?v=3eytpBOkOFA",
-      "origin": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg",
-      "version": 1,
+      "release": "祝福 · original Japanese digital single · 2022",
+      "source": "https://www.yoasobi-music.jp/news/545461",
+      "origin": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c5993ff2f059a0a5a7f6270b",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/shukufuku-v1.webp",
+      "path": "/music-artwork/shukufuku-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/shukufuku-v1.webp",
+        "sha256": "762722d01a42f536042483aeabdd800c993a9bbf591e0b81f55879467f60e627",
+        "source": "https://www.youtube.com/watch?v=3eytpBOkOFA",
+        "origin": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        300,
+        300
       ],
-      "sha256": "762722d01a42f536042483aeabdd800c993a9bbf591e0b81f55879467f60e627",
-      "bytes": 23448,
+      "sha256": "b94ef30bcdd53c661cf57ed432dd1c931e76ca707159fcb6880039c9d102b082",
+      "bytes": 35866,
       "original_size": [
-        480,
-        360
+        300,
+        300
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg",
-      "source_sha256": "c8ec5ce7bbab49aa9813bed91a0fe1152eadf5ffd1f6c8587bfb831dbf7b4b48"
+      "retrieved_from": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c5993ff2f059a0a5a7f6270b",
+      "source_sha256": "4a2ed7878c9b76e8ed2c2d328324a888203ca9c9c7e2483717eb7c9883f9a0ee"
     },
     "planetarium": {
       "release": "holo*27 Originals Vol.1 · TFCC-86895",
@@ -1981,25 +2030,25 @@
       "source_sha256": "03b5322d8250b9f4098be1f806a7a107056437137d9a8e0b48b1caaa452418c1"
     },
     "ruteshi-kisuki-shiteru": {
-      "release": "Shangri-La Shower · LACM-14260 · official release audio",
-      "source": "https://www.youtube.com/watch?v=0w8avFgPoSE",
-      "origin": "https://i.ytimg.com/vi/0w8avFgPoSE/hqdefault.jpg",
-      "version": 1,
+      "release": "Shangri-La Shower · LACM-14260 · track 2",
+      "source": "https://www.cdjapan.co.jp/product/LACM-14260",
+      "origin": "https://st.cdjapan.co.jp/pictures/l/03/18/LACM-14260.jpg?v=1",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/ruteshi-kisuki-shiteru-v1.webp",
+      "path": "/music-artwork/ruteshi-kisuki-shiteru-v2.webp",
       "status": "preserved",
       "size": [
-        480,
-        360
+        500,
+        493
       ],
-      "sha256": "74ed7fabb8941ceda3a113efb812a274471aa75d916d5d5e73487b37d61183a4",
-      "bytes": 35224,
+      "sha256": "d54b4c0d47655313a6c550e7e8c0ffa01b5781d3d6502f4c4c753a333ecb2dc6",
+      "bytes": 97432,
       "original_size": [
-        480,
-        360
+        500,
+        493
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/0w8avFgPoSE/hqdefault.jpg",
-      "source_sha256": "d9dd120d23d52ccf75ddaa68a519bc7e5d2fdee9c3362ae7cc45055b7a9f8c22"
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/03/18/LACM-14260.jpg?v=1",
+      "source_sha256": "3f1c3ff6fdf7e6f0fc6b359f07b5304125ede5de9fbbaa2585ecad5dfdadd319"
     },
     "ryuusei": {
       "release": "流星／約束 · VVCL-1256 · anime edition",
@@ -2023,25 +2072,32 @@
       "source_sha256": "2d8a163a574eb0e52733e3ae5d76aed77123ab36bf36b60b6c5893efc30ff43c"
     },
     "senaka-awase": {
-      "release": "セナカアワセ · PCSP-05865 · official audio",
-      "source": "https://www.youtube.com/watch?v=yKQkBQ5su9A",
-      "origin": "https://i.ytimg.com/vi/yKQkBQ5su9A/hqdefault.jpg",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/senaka-awase-v1.webp",
+      "release": "Our Last Crusade or the Rise of a New World · Season II main visual (June 7, 2024)",
+      "source": "https://kimisentv.com/news/index.html",
+      "origin": "https://kimisentv.com/assets/news/s2-kv1.webp",
+      "version": 3,
+      "fit": "cover",
+      "path": "/music-artwork/senaka-awase-v3.webp",
       "status": "preserved",
+      "previous": {
+        "version": 2,
+        "path": "/music-artwork/senaka-awase-v2.webp",
+        "sha256": "be1399ec008808aa3a4b467f5fb9a6e40d10768b23fec491b2e55ddc014221d4",
+        "source": "https://www.ponycanyon.co.jp/music/PCSP000005865",
+        "origin": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4"
+      },
       "size": [
-        480,
-        360
+        848,
+        1200
       ],
-      "sha256": "8f1c2f7d5fabc6f328dd4502cc791a10e2f59aef59a2e4137913191063da7d0d",
-      "bytes": 36830,
+      "sha256": "175baa2f6dd8c9cca059b8aec68bfd6bea8ba1268944e524bc6bfffe751d4f82",
+      "bytes": 307588,
       "original_size": [
-        480,
-        360
+        1599,
+        2263
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/yKQkBQ5su9A/hqdefault.jpg",
-      "source_sha256": "73c7022467789aa185e627d4ce4df249398d22506418a8c24e82b33af113ecae"
+      "retrieved_from": "https://kimisentv.com/assets/news/s2-kv1.webp",
+      "source_sha256": "367c9dc2fe87e394205abc2a4d7eb90364a78e69abc08351c4944e173d68e066"
     },
     "shiny-days": {
       "release": "SHINY DAYS · USSW-0070 · Yuru Camp edition",
@@ -2065,25 +2121,25 @@
       "source_sha256": "ac5815a8ca57ed0ab788ff593f0c08c483b7d759046c74a24a0166a5c26fbf26"
     },
     "under-the-party-lights": {
-      "release": "Under the Party Lights · official 6th EN anniversary MV",
-      "source": "https://www.youtube.com/watch?v=sW02T8Pwq5s",
-      "origin": "https://i.ytimg.com/vi/sW02T8Pwq5s/hqdefault.jpg",
-      "version": 1,
+      "release": "Under the Party Lights (From Azur Lane) · 2024 digital single",
+      "source": "https://music.apple.com/us/album/under-the-party-lights-from-azur-lane-single/1761735742",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/63/b4/d6/63b4d60e-a150-7108-6992-856866289f58/198009835256.png/600x600bf-60.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/under-the-party-lights-v1.webp",
+      "path": "/music-artwork/under-the-party-lights-v2.webp",
       "status": "preserved",
       "size": [
-        480,
-        360
+        600,
+        600
       ],
-      "sha256": "16de6accb4de3884b93650be984cbb2028b887c90ae89f1c9c8157e57e699b48",
-      "bytes": 29374,
+      "sha256": "b3f116fd8a52b22d11258790ba05ae9b17c5c48a5d0822965aef937b48eeade4",
+      "bytes": 88058,
       "original_size": [
-        480,
-        360
+        600,
+        600
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/sW02T8Pwq5s/hqdefault.jpg",
-      "source_sha256": "a83b927d63982259e5e7e4cd552f889968cb574d42c51b4b351ec7c318cc1b97"
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/63/b4/d6/63b4d60e-a150-7108-6992-856866289f58/198009835256.png/600x600bf-60.jpg",
+      "source_sha256": "10fa535f089273f80e903cf6e66e097663679dee8e9aae917fc9d65ee8342c13"
     },
     "caste-room": {
       "release": "カーストルーム · LACM-14647",
@@ -2149,46 +2205,53 @@
       "source_sha256": "92f872131de19dc2bec836fe4d2ad70fdc60784fdfca8360d3aa2c2f32c80143"
     },
     "toge-toge-sadistic": {
-      "release": "とげとげサディスティック · official anime ending",
-      "source": "https://www.youtube.com/watch?v=9QfEJDEjf_Q",
-      "origin": "https://i.ytimg.com/vi/9QfEJDEjf_Q/hqdefault.jpg",
-      "version": 1,
+      "release": "Gushing Over Magical Girls · LACA-19031/2 OST",
+      "source": "https://www.cdjapan.co.jp/product/LACA-19031",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/a4/b9/b1/a4b9b13e-02f3-650f-369d-958757eddcf1/4540774190317.png/3000x3000bb.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/toge-toge-sadistic-v1.webp",
+      "path": "/music-artwork/toge-toge-sadistic-v2.webp",
       "status": "preserved",
       "size": [
-        480,
-        360
+        1200,
+        1200
       ],
-      "sha256": "49e69d5d36479da10713f9a4e2d7ec0c1443395f5e7e42cf2a28acb20e12db75",
-      "bytes": 43998,
+      "sha256": "fd9396f2c635870e34845f09176587672de9881664fa201688cddb258912daa0",
+      "bytes": 164164,
       "original_size": [
-        480,
-        360
+        3000,
+        3000
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/9QfEJDEjf_Q/hqdefault.jpg",
-      "source_sha256": "cb8a9dc2f738f71d62f9b39b1b2379f42d5b320055b1192d3a86301017381c0a"
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/a4/b9/b1/a4b9b13e-02f3-650f-369d-958757eddcf1/4540774190317.png/3000x3000bb.jpg",
+      "source_sha256": "f05f3110605761b88b7368f38b7d05c4fbd175d348f223aa640bd0be817ecf86"
     },
     "your-reality": {
-      "release": "Your Reality · original game soundtrack",
-      "source": "https://www.youtube.com/watch?v=CAL4WMpBNs0",
-      "origin": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg",
-      "version": 1,
+      "release": "Doki Doki Literature Club! · original soundtrack · 2017 · track 13",
+      "source": "https://music.apple.com/us/album/doki-doki-literature-club-original-soundtrack/1299921969",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/12/38/d6/1238d680-01f7-0f0b-19fb-0bd25c90dba1/artwork.jpg/1200x1200bf-60.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/your-reality-v1.webp",
+      "path": "/music-artwork/your-reality-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/your-reality-v1.webp",
+        "sha256": "13414712adc20991117c5cf0f3afbabd7c9e4aa7185eea0d380ff932177eb77b",
+        "source": "https://www.youtube.com/watch?v=CAL4WMpBNs0",
+        "origin": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg"
+      },
       "size": [
-        480,
-        360
+        1200,
+        1200
       ],
-      "sha256": "13414712adc20991117c5cf0f3afbabd7c9e4aa7185eea0d380ff932177eb77b",
-      "bytes": 33400,
+      "sha256": "bd9531d4515fab0a73d4bd951a63a3e500340032f26d3d212b987a43abf52cf8",
+      "bytes": 120136,
       "original_size": [
-        480,
-        360
+        1200,
+        1200
       ],
-      "retrieved_from": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg",
-      "source_sha256": "92aa27e35fb128d2abd77c8b2b116f4644d8976a588f0a355b87ba1396a48558"
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/12/38/d6/1238d680-01f7-0f0b-19fb-0bd25c90dba1/artwork.jpg/1200x1200bf-60.jpg",
+      "source_sha256": "85e1ae87f1e68d78fefd08e85c8d66b95b28e6320dd23a43e52d489ca43e7954"
     },
     "yakusoku": {
       "origin": "https://bushiroad-store.com/cdn/shop/products/0e93bed862ab093c71b9dd03ba358333_600x600_crop_center.jpg?v=1636696746",
@@ -2212,25 +2275,32 @@
       "source_sha256": "4fe1754fc7f156a15f002b1539b1a385cc950ceac15220006d2e711752571e31"
     },
     "u-belle": {
-      "release": "U · BVCL-1172",
-      "source": "https://musicbrainz.org/release/28f857cc-8364-4476-b0fe-8103135c7346",
-      "origin": "https://coverartarchive.org/release/28f857cc-8364-4476-b0fe-8103135c7346/front-500",
-      "version": 1,
+      "release": "BELLE · original Japanese digital soundtrack · track 1 U",
+      "source": "https://popscene.jp/news/050817",
+      "origin": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/u-belle-v1.webp",
+      "path": "/music-artwork/u-belle-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/u-belle-v1.webp",
+        "sha256": "738b9b9cb830f8c6be839399f00899b7837a2bbb62ccfaabfa840250935fd00c",
+        "source": "https://musicbrainz.org/release/28f857cc-8364-4476-b0fe-8103135c7346",
+        "origin": "https://coverartarchive.org/release/28f857cc-8364-4476-b0fe-8103135c7346/front-500"
+      },
       "size": [
-        400,
-        400
+        1000,
+        990
       ],
-      "sha256": "738b9b9cb830f8c6be839399f00899b7837a2bbb62ccfaabfa840250935fd00c",
-      "bytes": 66196,
+      "sha256": "39aa03eea16c12b55168ad7adb4fca7872aaad3c93727bc8e8f7ac7846958fb1",
+      "bytes": 192126,
       "original_size": [
-        400,
-        400
+        1000,
+        990
       ],
-      "retrieved_from": "https://dn721809.ca.archive.org/0/items/mbid-28f857cc-8364-4476-b0fe-8103135c7346/mbid-28f857cc-8364-4476-b0fe-8103135c7346-31612181373_thumb500.jpg",
-      "source_sha256": "e4d59e089d805dfa72d4524d48cde7cc18dbd62b77e21b518b39df95417adcef"
+      "retrieved_from": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg",
+      "source_sha256": "a43f1ccced9db0072b53692354912c39dd5346363e46cc83f292814f1f0f4ef6"
     },
     "born-to-be-a-winner": {
       "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
@@ -2426,7 +2496,7 @@
       "source": "https://www.cdjapan.co.jp/product/SVWC-70235",
       "origin": "https://st.cdjapan.co.jp/pictures/l/05/34/SVWC-70235.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/catch-the-moment-v1.webp",
       "status": "preserved",
       "size": [
@@ -2447,7 +2517,7 @@
       "source": "https://www.sonymusicshop.jp/m/item/itemShw.php?cd=SVWC000007871",
       "origin": "https://www.sonymusicshop.jp/img/1/item/SVW/C00/000/SVWC000007871_SHOP__650_650_102400_jpg.jpg?tf=gray",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/crossing-field-v1.webp",
       "status": "preserved",
       "size": [
@@ -2504,6 +2574,27 @@
       ],
       "retrieved_from": "https://img.atwiki.jp/hmiku/attach/31254/175/IMG_0654.png",
       "source_sha256": "79dda56fe75bd5c77efd4d73d698452fe81d7a9474185b1870222037735dc1c3"
+    },
+    "paper-bouquet": {
+      "release": "Paper Bouquet · original digital single · Saihate Records · 2022",
+      "source": "https://tidal.com/album/301623112",
+      "origin": "https://resources.tidal.com/images/1026f349/2fe4/424c/a759/4bb301e3650b/1280x1280.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/paper-bouquet-v1.webp",
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "2ee1ee952f0b83fcec8158b35793dc947e0cea4c144e7543e9fd3da2def9df65",
+      "bytes": 400900,
+      "original_size": [
+        1280,
+        1280
+      ],
+      "retrieved_from": "https://resources.tidal.com/images/1026f349/2fe4/424c/a759/4bb301e3650b/1280x1280.jpg",
+      "source_sha256": "473dba6674142d35db72c9486f5f52a2bd8a3e429bf94931e752ff7980a93ad4"
     }
   }
 }

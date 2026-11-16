@@ -4,6 +4,7 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'The Executioner and Her Way of Life':names('The Executioner and Her Way of Life','処刑少女の生きる道','The Executioner and Her Way of Life',['Shokei Shoujo no Virgin Road','The Executioner and Her Way of Life']),
  'Sword Art Online':names('Sword Art Online','ソードアート・オンライン'),
  'Sword Art Online: Ordinal Scale':names('Sword Art Online: Ordinal Scale','劇場版 ソードアート・オンライン -オーディナル・スケール-'),
  'Pokémon Original':{pokemon:true,romaji:'Pocket Monsters',...names('Pokémon Original Series','ポケットモンスター','Pokémon: Serie original'),seasons:{1:names('Pokémon: Indigo League','ポケットモンスター','Pokémon: Liga Añil'),2:names('Pokémon: Adventures in the Orange Islands','ポケットモンスター','Pokémon: Aventuras en las Islas Naranja'),3:names('Pokémon: The Johto Journeys','ポケットモンスター','Pokémon: Los viajes Johto'),4:names('Pokémon: Johto League Champions','ポケットモンスター','Pokémon: Campeones de la Liga Johto'),5:names('Pokémon: Master Quest','ポケットモンスター','Pokémon: La búsqueda del maestro')}},
@@ -132,6 +133,7 @@ const familyNames={
  'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel','蒼き鋼のアルペジオ')
 };
 export function familyForWork(key){
+ if(/^Sword Art Online(?:$|:| Alternative\b)/.test(key))return 'Sword Art Online';
  if(key==='Azur Lane The Animation'||key==='Azur Lane')return 'Azur Lane';
  if(key==='Kuma Kuma Kuma Bear'||key==='Kuma Kuma Kuma Bear Punch!')return 'Kuma Kuma Kuma Bear';
  if(isPokemonWork(key)||key==='Pokémon'||/^Pokémon\b/u.test(key))return 'Pokémon';
