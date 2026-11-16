@@ -132,6 +132,7 @@ const familyNames={
  'Arpeggio of Blue Steel':names('Arpeggio of Blue Steel','蒼き鋼のアルペジオ')
 };
 export function familyForWork(key){
+ if(/^Sword Art Online(?:$|:| Alternative\b)/.test(key))return 'Sword Art Online';
  if(key==='Azur Lane The Animation'||key==='Azur Lane')return 'Azur Lane';
  if(key==='Kuma Kuma Kuma Bear'||key==='Kuma Kuma Kuma Bear Punch!')return 'Kuma Kuma Kuma Bear';
  if(isPokemonWork(key)||key==='Pokémon'||/^Pokémon\b/u.test(key))return 'Pokémon';
