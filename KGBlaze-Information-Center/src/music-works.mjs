@@ -4,6 +4,11 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Confession Executive Committee':names('Confession Executive Committee','告白実行委員会','Confession Executive Committee',['Kokuhaku Jikkou Iinkai','HoneyWorks']),
+ 'VOCALOID':names('VOCALOID','VOCALOID',['VOCALOID'].join(''),['Hatsune Miku','Vocaloid']),
+ 'Otherside Picnic':names('Otherside Picnic','裏世界ピクニック','Otherside Picnic',['Urasekai Picnic']),
+ 'O Maidens in Your Savage Season':names('O Maidens in Your Savage Season','荒ぶる季節の乙女どもよ。','O Maidens in Your Savage Season',['Araburu Kisetsu no Otome-domo yo']),
+ 'Pokémon Sun & Moon':{pokemon:true,romaji:'Pocket Monsters Sun & Moon',...names('Pokémon the Series: Sun & Moon','ポケットモンスター サン＆ムーン','La Serie Pokémon: Sol y Luna',['Sun & Moon','Sol y Luna','Pocket Monsters Sun & Moon']),seasons:{20:names('Pokémon the Series: Sun & Moon','ポケットモンスター サン＆ムーン','La Serie Pokémon: Sol y Luna'),21:names('Pokémon the Series: Sun & Moon—Ultra Adventures','ポケットモンスター サン＆ムーン','La Serie Pokémon: Sol y Luna – Ultra Aventuras'),22:names('Pokémon the Series: Sun & Moon—Ultra Legends','ポケットモンスター サン＆ムーン','La Serie Pokémon: Sol y Luna – Ultraleyendas')}},
  'The Asterisk War':names('The Asterisk War','学戦都市アスタリスク','The Asterisk War',['Gakusen Toshi Asterisk']),
  'Sagrada Reset':names('Sagrada Reset','サクラダリセット','Sagrada Reset',['Sakurada Reset']),
  'Sword Art Online Alternative: Gun Gale Online II':names('Sword Art Online Alternative: Gun Gale Online II','ソードアート・オンライン オルタナティブ ガンゲイル・オンラインII','Sword Art Online Alternative: Gun Gale Online II',['GGO II','SAO Alternative']),
