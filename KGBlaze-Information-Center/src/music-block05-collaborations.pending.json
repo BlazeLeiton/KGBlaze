@@ -6,8 +6,8 @@
     "artist": "hololive IDOL PROJECT",
     "publicationChannel": "Misao-chan",
     "channelUrl": "https://www.youtube.com/@MisaoChan",
-    "videoId": null,
-    "date": null,
+    "videoId": "u7kdaofZUw8",
+    "date": "2024-10-31",
     "performers": [
       "Mek",
       "Leon Live☆Heart",
@@ -18,7 +18,7 @@
       "Mairi",
       "Hiyopoyo"
     ],
-    "status": "published-confirmed-by-performer-link-pending",
+    "status": "publication-link-recovered; final-credit-and-date-review",
     "lines": [
       {
         "text": "La hora vi, he notado que las 12 caen",
@@ -895,7 +895,14 @@
           }
         ]
       }
-    ]
+    ],
+    "dateEvidence": "Community publication anthology, Octubre 2024, row 49; YouTube watch-page date not independently retrieved.",
+    "performerAliases": {
+      "Mairi": "Mairi Sagi",
+      "Hiyopoyo": "Hiyoko",
+      "Leonheart Creat": "Leon Live☆Heart"
+    },
+    "creditsEvidence": "Anthology lists eight performers; supplied vocal document identifies eight, with Hiyoko/Hiyopoyo alias to confirm."
   },
   {
     "slug": "suki-yuki-maji-magic",
@@ -904,8 +911,8 @@
     "artist": "Mitchie M feat. Hatsune Miku",
     "publicationChannel": "Misao-chan",
     "channelUrl": "https://www.youtube.com/@MisaoChan",
-    "videoId": null,
-    "date": null,
+    "videoId": "PCjlMpH6vo8",
+    "date": "2025-12-20",
     "performers": [
       "Blaze Leiton",
       "V.A.F.M.O.",
@@ -917,7 +924,7 @@
       "Mairi",
       "Mek"
     ],
-    "status": "published-confirmed-by-performer-link-pending",
+    "status": "publication-link-recovered; final-credit-and-date-review",
     "sections": [
       {
         "voice": "TRIO Muérdago: Mojirou, Leon,Hiyoko.",
@@ -1096,6 +1103,8 @@
           "dream land"
         ]
       }
-    ]
+    ],
+    "dateEvidence": "Community publication anthology, Diciembre 2025, row 27; planned December 23 in production script is not the published date. YouTube watch-page date not independently retrieved.",
+    "creditsEvidence": "Anthology lists eight performers, omitting Mairi, and uses Hikoyoi; supplied vocal script lists nine including Mairi and Hiyoko. Final video credits need reconciliation before publishing cast."
   }
 ]
