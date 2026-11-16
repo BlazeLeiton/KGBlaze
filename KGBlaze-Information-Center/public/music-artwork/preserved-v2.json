@@ -1868,14 +1868,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/ougon-kouro-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/ougon-kouro-v1.webp",
         "sha256": "0e2ada6bf720c48b97d04bf73dbc92b61ae1795549a22101b0c269801bfd88e0",
         "source": "https://www.youtube.com/watch?v=xC8B5bzznUA",
         "origin": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg"
-      }
+      },
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "cc23e72625a74cb0e5aba3f2a93fc74031e1577c8706ca1ae54f2696e9c83326",
+      "bytes": 358020,
+      "original_size": [
+        1200,
+        1200
+      ],
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/d6/2c/3d/d62c3d4f-d78c-af94-8b23-7e012e9b83f3/PCSP_05328_A.jpg/1200x1200bb.jpg",
+      "source_sha256": "5118b1e16139894bb66e47d95924b4fa6fb57f3bee167fb3875ed73acb0a230a"
     },
     "p3-fes": {
       "release": "Persona 3 FES OST · SVWC-7464",
@@ -2276,14 +2288,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/u-belle-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 2,
         "path": "/music-artwork/u-belle-v2.webp",
         "sha256": "39aa03eea16c12b55168ad7adb4fca7872aaad3c93727bc8e8f7ac7846958fb1",
         "source": "https://popscene.jp/news/050817",
         "origin": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg"
-      }
+      },
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "a370af793f25e8a05d5cb0ead9f784e36952961c46d3ba7a941defc9fc842605",
+      "bytes": 261128,
+      "original_size": [
+        1280,
+        1280
+      ],
+      "retrieved_from": "https://baseec-img-mng.akamaized.net/images/item/origin/bdc334fa75af5ba6c9eca10ca474de22.jpg?im=Resize%2Cwidth%3D1280%2Ctype%3Dnormal&imformat=generic&q=90",
+      "source_sha256": "e89a282d1bce695cbc503d01e92c1300e1f97bfb340a023ca14586252ac8a303"
     },
     "born-to-be-a-winner": {
       "release": "明日天気にしておくれ · AICT-1318 · Celebi film single",
@@ -2292,14 +2316,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/born-to-be-a-winner-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/born-to-be-a-winner-v1.webp",
         "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
         "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
         "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
-      }
+      },
+      "size": [
+        527,
+        600
+      ],
+      "sha256": "ce6a0b8aa1d97f7ec38ef4424d9cbada7d25013ce15186e11e7aaf52e9600c54",
+      "bytes": 96204,
+      "original_size": [
+        527,
+        600
+      ],
+      "retrieved_from": "https://www.sonymusic.co.jp/adm_image/common/artist_image/70000000/70000893/jacket_image/31287.jpg",
+      "source_sha256": "8fd0e32c27395c29ca0e9ba3de7ee4fb25484ce9a7108885cb24b7963b383073"
     },
     "believe-in-me": {
       "release": "Pokémon Heroes · Japanese OST · ZMCP-1457",
@@ -2308,14 +2344,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/believe-in-me-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/believe-in-me-v1.webp",
         "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
         "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
         "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
-      }
+      },
+      "size": [
+        500,
+        500
+      ],
+      "sha256": "09d9b4b22922721b50fc83c720a3236789f05dd4b49803718ca106f99f8b2d22",
+      "bytes": 88524,
+      "original_size": [
+        500,
+        500
+      ],
+      "retrieved_from": "https://i1.sndcdn.com/artworks-tiPaXGDylGOVEzeN-0WgyPg-t500x500.jpg",
+      "source_sha256": "5b93b62178192b18d00feaed2101a9e905b3dc62e8b5d6e3bf783d22ae172019"
     },
     "i-wanna-be-a-hero": {
       "release": "Pokémon Advanced · VIZ complete collection",
@@ -2324,14 +2372,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/i-wanna-be-a-hero-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/i-wanna-be-a-hero-v1.webp",
         "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
         "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
         "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
-      }
+      },
+      "size": [
+        800,
+        1075
+      ],
+      "sha256": "355bca4180cd45f48f6b78b1a9e321f2411604234a015715d66946804f28966f",
+      "bytes": 154718,
+      "original_size": [
+        800,
+        1075
+      ],
+      "retrieved_from": "https://archives.bulbagarden.net/media/upload/d/d2/Pok%C3%A9mon_Advanced_Region_1_The_Complete_Collection.png",
+      "source_sha256": "6a409cc4ead7d7637d513e73721eeee17bad25c40d365f63619faf418d969f93"
     },
     "this-dream": {
       "release": "Pokémon Advanced Challenge · VIZ complete collection",
@@ -2340,14 +2400,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/this-dream-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/this-dream-v1.webp",
         "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
         "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
         "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
-      }
+      },
+      "size": [
+        893,
+        1200
+      ],
+      "sha256": "8773aecbf60255da00fb9aa24ca0a6df2aad74751addbe420c4030560d15af94",
+      "bytes": 147872,
+      "original_size": [
+        952,
+        1280
+      ],
+      "retrieved_from": "https://archives.bulbagarden.net/media/upload/2/2c/Pok%C3%A9mon_Advanced_Challenge_Region_1_The_Complete_Collection.png",
+      "source_sha256": "a359eeeb987e5ec15c754af48d379ead316141455981521ef5fb7748c68b7e6d"
     },
     "unbeatable": {
       "release": "Lucario and the Mystery of Mew · Japanese OST · ZMCP-2303",
@@ -2356,14 +2428,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/unbeatable-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/unbeatable-v1.webp",
         "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
         "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
         "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
-      }
+      },
+      "size": [
+        500,
+        500
+      ],
+      "sha256": "79792cb303eafeda8eabedc4b4c7159305230d7304c10a4142da83b30a52b4ab",
+      "bytes": 97334,
+      "original_size": [
+        500,
+        500
+      ],
+      "retrieved_from": "https://i.ebayimg.com/images/g/4GIAAeSwSSVogcoE/s-l960.jpg",
+      "source_sha256": "8020c4d9004a8976a690dfa0be6798582ace3346d69209d4d3709639dc870abd"
     },
     "battle-frontier": {
       "release": "Pokémon Battle Frontier · VIZ complete collection",
@@ -2372,14 +2456,26 @@
       "version": 3,
       "fit": "contain",
       "path": "/music-artwork/battle-frontier-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/battle-frontier-v1.webp",
         "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
         "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
         "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
-      }
+      },
+      "size": [
+        893,
+        1200
+      ],
+      "sha256": "ff980a51712a59f32e305bb6cf6ae0c81df6d10ffe6c6279f028f8aed1010b19",
+      "bytes": 170156,
+      "original_size": [
+        953,
+        1280
+      ],
+      "retrieved_from": "https://archives.bulbagarden.net/media/upload/b/b5/Pok%C3%A9mon_Battle_Frontier_Region_1_The_Complete_Collection.png",
+      "source_sha256": "1585f5a880d1b51a5a6fdf843e44b76b1a8e6c52ae576f7730a2939a396def63"
     },
     "pokemon-theme": {
       "release": "Pokémon 2.B.A. Master · 1999",
