@@ -15,10 +15,10 @@
       "Blaze Leiton",
       "Misao-chan",
       "Lanti Keeki",
-      "Mairi",
-      "Hiyopoyo"
+      "Mairi Sagi",
+      "Hiyokoi"
     ],
-    "status": "publication-link-recovered; final-credit-and-date-review",
+    "status": "publication-link-recovered; cast-confirmed; integration-pending",
     "lines": [
       {
         "text": "La hora vi, he notado que las 12 caen",
@@ -97,7 +97,7 @@
         "parts": [
           {
             "text": "siempre estamos, preparados para deleitarnos\n",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           }
         ]
       },
@@ -213,7 +213,7 @@
           },
           {
             "text": "e",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "m",
@@ -225,7 +225,7 @@
           },
           {
             "text": "c",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "i",
@@ -241,7 +241,7 @@
           },
           {
             "text": ")",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           }
         ]
       },
@@ -266,7 +266,7 @@
           },
           {
             "text": "l",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "l",
@@ -303,7 +303,7 @@
           },
           {
             "text": "r",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "u",
@@ -315,7 +315,7 @@
           },
           {
             "text": "o",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": ")",
@@ -340,7 +340,7 @@
           },
           {
             "text": "l",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "e",
@@ -352,7 +352,7 @@
           },
           {
             "text": "s",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "g",
@@ -364,7 +364,7 @@
           },
           {
             "text": ")",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           }
         ]
       },
@@ -381,7 +381,7 @@
           },
           {
             "text": "p",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "r",
@@ -397,7 +397,7 @@
           },
           {
             "text": "t",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "o",
@@ -422,7 +422,7 @@
           },
           {
             "text": "t",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "a",
@@ -438,7 +438,7 @@
           },
           {
             "text": "r",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "i",
@@ -454,7 +454,7 @@
           },
           {
             "text": "r",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "i",
@@ -470,7 +470,7 @@
           },
           {
             "text": ")",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           }
         ]
       },
@@ -508,7 +508,7 @@
         "parts": [
           {
             "text": "vamos dame dulces, ya todo",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "(",
@@ -619,7 +619,7 @@
         "parts": [
           {
             "text": "los zombis también a bailar",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "(",
@@ -677,7 +677,7 @@
           },
           {
             "text": "n",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "n",
@@ -697,7 +697,7 @@
           },
           {
             "text": "l",
-            "voice": "Hiyopoyo"
+            "voice": "Hiyokoi"
           },
           {
             "text": "l",
@@ -709,7 +709,7 @@
           },
           {
             "text": "w",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "e",
@@ -729,7 +729,7 @@
           },
           {
             "text": "i",
-            "voice": "Hiyopoyo"
+            "voice": "Hiyokoi"
           },
           {
             "text": "g",
@@ -741,7 +741,7 @@
           },
           {
             "text": "t\n",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           }
         ]
       },
@@ -766,7 +766,7 @@
           },
           {
             "text": "z",
-            "voice": "Hiyopoyo"
+            "voice": "Hiyokoi"
           },
           {
             "text": "y",
@@ -778,7 +778,7 @@
           },
           {
             "text": "i",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           },
           {
             "text": "g",
@@ -846,7 +846,7 @@
         "parts": [
           {
             "text": "*Mairi\n",
-            "voice": "Mairi"
+            "voice": "Mairi Sagi"
           }
         ]
       },
@@ -891,7 +891,7 @@
         "parts": [
           {
             "text": "*Hiyopoyo",
-            "voice": "Hiyopoyo"
+            "voice": "Hiyokoi"
           }
         ]
       }
@@ -899,10 +899,12 @@
     "dateEvidence": "Community publication anthology, Octubre 2024, row 49; YouTube watch-page date not independently retrieved.",
     "performerAliases": {
       "Mairi": "Mairi Sagi",
-      "Hiyopoyo": "Hiyoko",
+      "Hiyopoyo": "Hiyokoi",
+      "Hiyoko": "Hiyokoi",
       "Leonheart Creat": "Leon Live☆Heart"
     },
-    "creditsEvidence": "Anthology lists eight performers; supplied vocal document identifies eight, with Hiyoko/Hiyopoyo alias to confirm."
+    "creditsEvidence": "Final performer roster and current Hiyokoi name confirmed by Blaze Leiton; adaptation by Leon Live☆Heart.",
+    "adaptationCredit": "Leon Live☆Heart"
   },
   {
     "slug": "suki-yuki-maji-magic",
@@ -918,16 +920,15 @@
       "V.A.F.M.O.",
       "Lanti Keeki",
       "Leon Live☆Heart",
-      "Hiyoko",
+      "Hiyokoi",
       "Misao-chan",
       "Mojirou",
-      "Mairi",
       "Mek"
     ],
-    "status": "publication-link-recovered; final-credit-and-date-review",
+    "status": "publication-link-recovered; cast-confirmed; integration-pending",
     "sections": [
       {
-        "voice": "TRIO Muérdago: Mojirou, Leon,Hiyoko.",
+        "voice": "TRIO Muérdago: Mojirou, Leon,Hiyokoi.",
         "lines": [
           "Este pueblo será, un pastel concrema",
           "encima",
@@ -996,13 +997,14 @@
         ]
       },
       {
-        "voice": "Individual: Mairi",
+        "voice": "Individual: Misao",
         "lines": [
           "invierno ya está aquí,",
           "estación de amor (em pe zo)",
           "la magia deseo,",
           "no se derrita (no no no)"
-        ]
+        ],
+        "sectionId": "caramelo-7"
       },
       {
         "voice": "Individual: Mek",
@@ -1012,7 +1014,7 @@
         ]
       },
       {
-        "voice": "Individual: Hiyoko",
+        "voice": "Individual: Hiyokoi",
         "lines": [
           "se que ahí, hay un futuro juntos,(yaa) te mostraré (ahora)"
         ]
@@ -1025,7 +1027,7 @@
         ]
       },
       {
-        "voice": "Trio Caramelo:Misao, Lanti, Mairi",
+        "voice": "Trio Caramelo: Misao, Lanti",
         "lines": [
           "como conejo yo, me siento aqui ya, mágico",
           "nieve y amor, magia habrá",
@@ -1035,7 +1037,8 @@
           "quiero darte a ti este gran corazón",
           "solo a ti",
           "nieve y amor, magia habra"
-        ]
+        ],
+        "sectionId": "caramelo-11"
       },
       {
         "voice": "Individual: Lanti",
@@ -1072,11 +1075,12 @@
         ]
       },
       {
-        "voice": "Individual: Mairi",
+        "voice": "Individual: Misao",
         "lines": [
           "iré adelante para ayudarte,",
           "y congelar tus, problemas con magia hoy (lo haras?)"
-        ]
+        ],
+        "sectionId": "caramelo-17"
       },
       {
         "voice": "Individual: Mojirou",
@@ -1105,6 +1109,7 @@
       }
     ],
     "dateEvidence": "Community publication anthology, Diciembre 2025, row 27; planned December 23 in production script is not the published date. YouTube watch-page date not independently retrieved.",
-    "creditsEvidence": "Anthology lists eight performers, omitting Mairi, and uses Hikoyoi; supplied vocal script lists nine including Mairi and Hiyoko. Final video credits need reconciliation before publishing cast."
+    "creditsEvidence": "Final roster: eight performers. Blaze confirms Misao sang Mairi's assigned passages, preserve distinct sections without crediting Mairi as performer. Hiyokoi is current name. Adaptation by Leon Live☆Heart.",
+    "adaptationCredit": "Leon Live☆Heart"
   }
 ]
