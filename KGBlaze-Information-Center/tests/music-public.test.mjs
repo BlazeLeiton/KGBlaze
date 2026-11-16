@@ -1034,3 +1034,61 @@ test('Stage 35 trims non-semantic lyric whitespace without changing structured c
  for(const voice of lyricsBySong['cake-song'].es.voices)assert.doesNotMatch(voice.text,/[ \t]+$/u);
  assert.ok(count>=115);
 });
+
+
+test('Stage 35 particular credits: Kirameki original cast independent of Team Padoru and colorful verses',()=>{
+ const song=songs.find(x=>x.slug==='kirameki-rider'), p=originalPerformances[song.slug];
+ assert.deepEqual(song.performance,['Misao Chan','Leon Live☆Heart','Lanti Keeki','Blaze Leiton','V.A.F.M.O.']);
+ assert.equal(p.kind,'group');assert.equal(p.cast.length,5);
+ assert.deepEqual(p.cast.map(x=>x.character.latin),['Tokino Sora','Roboco-san','Shirakami Fubuki','Minato Aqua','Shirogane Noel']);
+ assert.ok(p.cast.every(x=>!x.cv));
+ assert.equal(originalCreditRows(song,'es','es')[0].label,'Voces originales');
+ const l=lyricsBySong[song.slug].es;
+ assert.equal(l.colorStanzas.map(st=>st.map(line=>line.map(x=>x.text).join('')).join('\n')).join('\n\n'),l.text);
+ assert.match(l.text,/Muy feliz, terminé tanto que no puedo hablar ya más/);
+ assert.doesNotMatch(l.text,/termine, tanto,/);
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/song/kirameki-rider/',new URLSearchParams({lang}));
+  for(const x of song.performance)assert.ok(html.includes(x),lang+' cover '+x);
+  for(const x of ['Tokino Sora','Roboco-san','Shirakami Fubuki','Minato Aqua','Shirogane Noel'])if(lang!=='ja')assert.ok(html.includes(x),lang+' original '+x);
+  assert.match(html,lang==='es'?/Voces originales/:lang==='en'?/Original voices/:/原曲の声優/);
+ }
+});
+
+test('Stage 35 original adapters, later modifications and performed adjustments remain separate',()=>{
+ const cases=[
+ ['connect','Sekai025','Blaze Leiton'],
+ ['harumodoki','beck y matcha allen','Blaze Leiton'],
+ ['starlog','SMGirlFanduber','Blaze Leiton']
+ ];
+ for(const [slug,credit,adjust] of cases){
+  const song=songs.find(x=>x.slug===slug);assert.equal(song.adaptationCredit,credit);assert.equal(song.adjustmentCredit,adjust);
+  for(const lang of ['es','en','ja']){
+   const html=musicPage('/music/song/'+slug+'/',new URLSearchParams({lang}));
+   assert.ok(html.includes(credit),slug+' original adapter '+lang);
+   assert.ok(html.includes(adjust),slug+' adjustment '+lang);
+   assert.match(html,lang==='es'?/Adecuaciones/:lang==='en'?/Adaptation adjustments/:/歌詞の調整/);
+  }
+ }
+ assert.equal(songs.find(x=>x.slug==='connect').modificationCredit,'Glorylé Solis');
+ assert.match(musicPage('/music/song/connect/',new URLSearchParams({lang:'es'})),/<dt>Modificaciones<\/dt><dd>Glorylé Solis<\/dd>/);
+});
+
+test('Stage 35 user-approved spellings, unverified literary influences, and original-composer privacy',()=>{
+ assert.match(lyricsBySong['suki-yuki-maji-magic'].es.text,/un pastel con crema/);
+ assert.doesNotMatch(lyricsBySong['suki-yuki-maji-magic'].es.text,/concrema/);
+ assert.match(lyricsBySong['otome-domo-yo'].es.text,/Pero hoy, de nuevo me abruman/);
+ assert.equal(songs.find(x=>x.slug==='otome-domo-yo').adaptationCredit,undefined);
+ const ry=songs.find(x=>x.slug==='ryuusei');
+ assert.equal(ry.lyricInspiration,'Sinaí Paola');
+ assert.match(lyricsBySong['ryuusei'].es.text,/Y al lo que carezco recontar/);
+ assert.match(musicPage('/music/song/ryuusei/',new URLSearchParams({lang:'es'})),/Inspiración lírica parcial/);
+ for(const slug of ['brave-shine','paper-bouquet']){
+  const song=songs.find(x=>x.slug===slug);
+  assert.ok(song.originalComposer);
+  const html=musicPage('/music/song/'+slug+'/',new URLSearchParams({lang:'es'}));
+  if(slug==='brave-shine')assert.doesNotMatch(html,/<dt>Letra y composición original<\/dt>/);
+  else assert.match(html,/<dt>Letra y composición original<\/dt>/);
+ }
+ assert.equal((lyricsBySong['brave-shine'].es.text.match(/Tu brillo\./g)||[]).length,2);
+});
