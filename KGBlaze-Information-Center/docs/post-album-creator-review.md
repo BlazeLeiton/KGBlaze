@@ -33,3 +33,6 @@ Creator chose both Classroom back jackets and Minor Piece's official anime digit
 
 ### 2026-11-16 — Sagrada Reset F4-B
 Creator-approved square second-cour key visual, Zerochan #2106270 (Tomoyuki Shitaya; four characters, Japanese vertical phrases retained), associated with the announcement of WEAVER's second opening. New local WebP v2 verified at 1020 × 1020; v1 and A/W AZCS-2067 provenance retained. Ai no Uta remains pending; Lonely Feather unchanged.
+
+### 2026-11-16 — Final Asterisk jackets
+Creator-approved Ai no Uta F (creditless ending, ~1:13.74, 1080×1080 exact selected square); Lonely Feather violet/pink front-facing episode 19 still, centered square 865×865. Both local WebP snapshots from creator-supplied files, no generated artwork. Preserve prior Ai no Uta v1 and Lonely Feather v1/v2, original VTCL-35225 provenance and Sagrada F4-B unchanged. No catalog, lyrics, release dates, or audio edits.

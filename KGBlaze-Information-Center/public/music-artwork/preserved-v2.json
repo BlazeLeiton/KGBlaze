@@ -1477,25 +1477,32 @@
       "source_sha256": "9d53ed330244187fe7a14a54c99ba36ffef6b064ca3529314a498833aee3508c"
     },
     "ai-no-uta": {
-      "release": "愛の詩 -words of love- · VTCL-35225",
-      "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A024282/VTCL-35225.html",
-      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/ai-no-uta-v1.webp",
+      "release": "The Asterisk War · Ai no Uta -words of love- · creditless ending · Sylvia Lyyneheym",
+      "source": "https://asterisk-war.com/sp/music/",
+      "origin": "/music-artwork/ai-no-uta-v2.webp",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/ai-no-uta-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/ai-no-uta-v1.webp",
+        "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
+        "source": "https://www.jvcmusic.co.jp/flyingdog/-/Discography/A024282/VTCL-35225.html",
+        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init"
+      },
       "size": [
-        600,
-        595
+        1080,
+        1080
       ],
-      "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
-      "bytes": 38410,
+      "sha256": "ca1117043bc3d5c8cd890ab617e736be1eb1ed2f72737c4b4c0c78e9b868d39e",
+      "bytes": 140856,
       "original_size": [
-        600,
-        595
+        1080,
+        1080
       ],
-      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
-      "source_sha256": "e35841a078ff24ba5cc9d705cb1b4f05178cb6db4dfc635f0ef20d5d63729dad"
+      "retrieved_from": "User-provided WebM 1000099077.webm; approved F_square.png",
+      "source_sha256": "d44293704fcf55e864d3363ed5f7d21317e621df0ce511d4e649a1dea766d135"
     },
     "beginners-rock": {
       "release": "Second Sparkle · Original Edition",
@@ -1785,32 +1792,39 @@
       "source_sha256": "2260a172b3f70b23489c97fc79fd9f8d045f64240b96ce0ee5e3f4799fe5ee15"
     },
     "lonely-feather": {
-      "release": "The Asterisk War · episode 19 · Sylvia Lyyneheym · scene artwork",
-      "source": "https://www.fandomspot.com/anime-characters-who-love-singing/",
-      "origin": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
-      "version": 2,
+      "release": "The Asterisk War · episode 19 · Lonely Feather · Sylvia Lyyneheym",
+      "source": "https://asterisk-war.com/sp/story/st19.html",
+      "origin": "/music-artwork/lonely-feather-v3.webp",
+      "version": 3,
       "fit": "cover",
-      "path": "/music-artwork/lonely-feather-v2.webp",
+      "path": "/music-artwork/lonely-feather-v3.webp",
       "status": "preserved",
       "previous": {
-        "version": 1,
-        "path": "/music-artwork/lonely-feather-v1.webp",
-        "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
-        "source": "https://asterisk-war.com/sp/music/",
-        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init"
+        "version": 2,
+        "path": "/music-artwork/lonely-feather-v2.webp",
+        "sha256": "3330c7cb062df70236601235780018d25be2248a6cac63ccaa19e0e6bbecb21a",
+        "source": "https://www.fandomspot.com/anime-characters-who-love-singing/",
+        "origin": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
+        "previous": {
+          "version": 1,
+          "path": "/music-artwork/lonely-feather-v1.webp",
+          "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
+          "source": "https://asterisk-war.com/sp/music/",
+          "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init"
+        }
       },
       "size": [
-        750,
-        422
+        865,
+        865
       ],
-      "sha256": "3330c7cb062df70236601235780018d25be2248a6cac63ccaa19e0e6bbecb21a",
-      "bytes": 65828,
+      "sha256": "e15b083a105e53e585409ecd9ac6bdf74d159f26a3ec65ef3ccbf6383bdd0c1d",
+      "bytes": 58848,
       "original_size": [
-        750,
-        422
+        1536,
+        865
       ],
-      "retrieved_from": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
-      "source_sha256": "ec981006d26bb58ae5fb272cbcf5f62452db29b05a63a0969be66f100b8feb8d"
+      "retrieved_from": "User-provided still 1794843492370.jpg",
+      "source_sha256": "b6738f754cc12ab9392d907b69221193f39fece08f44efca9ec18274b614bbad"
     },
     "minikui-ikimono": {
       "release": "鬼ノ森／醜い生き物 · SMCL-696",
