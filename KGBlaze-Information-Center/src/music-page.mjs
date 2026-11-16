@@ -42,7 +42,7 @@ export function musicPage(path,query,mode='html'){
  const languageText=s=>languages(s).map(displayLanguageCode).join(' / ')||t.multilingual;
  const langOptions=[...new Set(songs.flatMap(languageKeys))].sort();
  const fullTitle=s=>s.title+(s.romanized?' ('+s.romanized+')':'');
- const titleMarkup=s=>e(s.title)+(s.romanized?' <span class="romanized">('+e(s.romanized)+')</span>':'');
+ const titleMarkup=s=>e(s.title)+(s.romanized?' <span class="romanized">('+e(s.romanized)+')</span>':'')+(s.localizedTitle?.[lang]&&s.localizedTitle[lang]!==s.title?' <span class="romanized">('+e(s.localizedTitle[lang])+')</span>':'');
  const icon='<svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M5 6v20l11-5 11 5V6l-11 5zM16 11v10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 1v5M13.5 3.5h5" stroke="#FA0073" stroke-width="1.5"/></svg>';
  const placeholderArt=s=>'<div class="cover '+(s.slug==='blue-spirit'?'blue':'pink')+'" aria-hidden="true"><svg viewBox="0 0 320 180"><circle cx="160" cy="90" r="53" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="160" cy="90" r="35" fill="none" stroke="currentColor" stroke-width="1"/><path d="M160 32v116M102 90h116M119 49l82 82M201 49l-82 82" stroke="currentColor" stroke-width="1"/><path d="M160 52l9 28 28 10-28 10-9 28-9-28-28-10 28-10z" fill="currentColor"/></svg><span>'+e(s.romanized||s.title)+'</span></div>';
  const tagLink=(key,value,label)=>'<a class="pk-tag" href="/music/?lang='+lang+'&amp;'+key+'='+encodeURIComponent(value)+'">'+e(label)+'</a>';
