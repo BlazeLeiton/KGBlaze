@@ -1775,7 +1775,7 @@
       "source": "https://www.othersidepicnic.com/music/",
       "origin": "https://www.othersidepicnic.com/cms/wp-content/themes/othersidepicnic/images/music/opening_a_jaket.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/minikui-ikimono-v1.webp",
       "status": "preserved",
       "size": [
@@ -1796,7 +1796,7 @@
       "source": "https://www.sonymusic.co.jp/artist/real/info/492917",
       "origin": "https://www.sonymusic.co.jp/img/common/artist_image/70008000/70008086/images/SECL-2287_88_web.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/mirai-connection-v1.webp",
       "status": "preserved",
       "size": [
@@ -1817,7 +1817,7 @@
       "source": "https://honeyworks.jp/news/5185/",
       "origin": "https://honeyworks.jp/wp/wp-content/uploads/2019/06/fd578d49f2b1940bafddca0ad6702b19-300x281.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/otome-domo-yo-v1.webp",
       "status": "preserved",
       "size": [
@@ -2426,7 +2426,7 @@
       "source": "https://www.cdjapan.co.jp/product/SVWC-70235",
       "origin": "https://st.cdjapan.co.jp/pictures/l/05/34/SVWC-70235.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/catch-the-moment-v1.webp",
       "status": "preserved",
       "size": [
@@ -2447,7 +2447,7 @@
       "source": "https://www.sonymusicshop.jp/m/item/itemShw.php?cd=SVWC000007871",
       "origin": "https://www.sonymusicshop.jp/img/1/item/SVW/C00/000/SVWC000007871_SHOP__650_650_102400_jpg.jpg?tf=gray",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/crossing-field-v1.webp",
       "status": "preserved",
       "size": [
