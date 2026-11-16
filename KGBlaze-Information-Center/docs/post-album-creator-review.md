@@ -21,3 +21,6 @@ Creator correction: display original idol names in the lyric legend and colored 
 
 ## Paper Bouquet intake
 Creator supplied exact full original English/Milish lyric (11 stanzas, 57 lines), preserve all punctuation and repeats. Added Paper Bouquet EN Male Cover, original Mili, Cassie Wei lyric, Cassie Wei/Yamato Kasai music, 2024-08-01, video 4yMlOQdEm4A. Original release jacket source TIDAL (Saihate Records 2022), pending snapshot. Brave Shine not in description: no alternate or reconstructed lyrics; retain pending. Catalogue 113 works / 125 versions / 122 video IDs / 121 enabled video records. Kirameki Rider still pending final original vocal split.
+
+## Publication gate
+Publish only approved artwork and Paper Bouquet; six Pokémon alternatives remain on disk as candidates, not active registry selections. Restore existing v1 for those six pending final Japanese OST/clean season art. Keep Classroom, Ai no Uta, Sakurada Reset and Leon no sabe que existo unchanged; Ougon Kouro exact jacket and GG framing still outstanding. Ruteshi approved v2 unchanged. No claim of production visibility until verified.
