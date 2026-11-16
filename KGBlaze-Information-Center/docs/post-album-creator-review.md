@@ -30,3 +30,6 @@ Creator confirmed U-A international BELLE soundtrack, Ougon Kouro digital single
 
 ## Classroom, GG and Gura correction
 Creator chose both Classroom back jackets and Minor Piece's official anime digital jacket. GG actual full-bleed square crop (not merely background); original remains immutable. Leon no sabe que existo subtitle Gura doesn't know I exist; musical base Catch 22, Keasbey Nights (1998), Watson Amelia ukulele parody dated 2020-11-30 (clip 5T8FOaQW3dk, original tweet 1333255371188817921). Clip thumbnail as contextual art, not verified original karaoke VOD. Sagrada and Ai no Uta remain unchanged pending editorial selection.
+
+### 2026-11-16 — Sagrada Reset F4-B
+Creator-approved square second-cour key visual, Zerochan #2106270 (Tomoyuki Shitaya; four characters, Japanese vertical phrases retained), associated with the announcement of WEAVER's second opening. New local WebP v2 verified at 1020 × 1020; v1 and A/W AZCS-2067 provenance retained. Ai no Uta remains pending; Lonely Feather unchanged.
