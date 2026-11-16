@@ -1045,8 +1045,8 @@ test('Stage 35 particular credits: Kirameki original cast independent of Team Pa
  assert.equal(originalCreditRows(song,'es','es')[0].label,'Voces originales');
  const l=lyricsBySong[song.slug].es;
  assert.equal(l.colorStanzas.map(st=>st.map(line=>line.map(x=>x.text).join('')).join('\n')).join('\n\n'),l.text);
- assert.match(l.text,/Muy feliz, terminé tanto que no puedo hablar ya más/);
- assert.doesNotMatch(l.text,/termine, tanto,/);
+ assert.match(l.text,/Muy feliz terminé, tanto que no puedo hablar ya más/);
+ assert.doesNotMatch(l.text,/Muy feliz, terminé tanto/);
  for(const lang of ['es','en','ja']){
   const html=musicPage('/music/song/kirameki-rider/',new URLSearchParams({lang}));
   for(const x of song.performance)assert.ok(html.includes(x),lang+' cover '+x);
@@ -1059,7 +1059,8 @@ test('Stage 35 original adapters, later modifications and performed adjustments 
  const cases=[
  ['connect','Sekai025','Blaze Leiton'],
  ['harumodoki','beck y matcha allen','Blaze Leiton'],
- ['starlog','SMGirlFanduber','Blaze Leiton']
+ ['starlog','SMGirlFanduber','Blaze Leiton'],
+  ['brave-shine','Call Me Bury (Bury Singer)','Blaze Leiton']
  ];
  for(const [slug,credit,adjust] of cases){
   const song=songs.find(x=>x.slug===slug);assert.equal(song.adaptationCredit,credit);assert.equal(song.adjustmentCredit,adjust);
@@ -1078,9 +1079,17 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
  assert.match(lyricsBySong['suki-yuki-maji-magic'].es.text,/un pastel con crema/);
  assert.doesNotMatch(lyricsBySong['suki-yuki-maji-magic'].es.text,/concrema/);
  assert.match(lyricsBySong['otome-domo-yo'].es.text,/Pero hoy, de nuevo me abruman/);
- assert.equal(songs.find(x=>x.slug==='otome-domo-yo').adaptationCredit,undefined);
+ const ot=songs.find(x=>x.slug==='otome-domo-yo');
+  assert.match(ot.adaptationCredit,/Autora original del cover de referencia/);
+  assert.equal(ot.adjustmentCredit,undefined);
+  assert.equal(ot.creatorReferenceCover.url,'https://www.youtube.com/watch?v=Kf6DCF3Cud0');
+  for(const lang of ['es','en','ja'])assert.ok(musicPage('/music/song/otome-domo-yo/',new URLSearchParams({lang})).includes(ot.adaptationCreditLocalized[lang]));
  const ry=songs.find(x=>x.slug==='ryuusei');
  assert.equal(ry.lyricInspiration,'Sinaí Paola');
+  assert.equal(ry.adjustmentCredit,'Blaze Leiton');
+  assert.match(ry.lyricExtension,/full-length/);
+  assert.equal(ry.creatorReferenceCover.url,'https://www.youtube.com/watch?v=r1HNNy4a5z8');
+  for(const lang of ['es','en','ja'])assert.ok(musicPage('/music/song/ryuusei/',new URLSearchParams({lang})).includes(ry.adjustmentCreditLabel[lang]));
  assert.match(lyricsBySong['ryuusei'].es.text,/Y al lo que carezco recontar/);
  assert.match(musicPage('/music/song/ryuusei/',new URLSearchParams({lang:'es'})),/Inspiración lírica parcial/);
  for(const slug of ['brave-shine','paper-bouquet']){
