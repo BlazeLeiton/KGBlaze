@@ -1,0 +1,59 @@
+name: Relight — complete music catalog audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/relight-music-catalog-audit.yml'
+      - 'KGBlaze-Information-Center/src/music-*.mjs'
+      - 'KGBlaze-Information-Center/src/music-*.js'
+      - 'KGBlaze-Information-Center/tests/music-*.test.mjs'
+      - 'KGBlaze-Information-Center/public/music-artwork/**'
+      - 'KGBlaze-Information-Center/scripts/audit-artwork-visual.mjs'
+      - 'KGBlaze-Information-Center/scripts/preserve-artwork.py'
+      - 'KGBlaze-Information-Center/scripts/verify-*-production.mjs'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/relight-music-catalog-audit.yml'
+      - 'KGBlaze-Information-Center/src/music-*.mjs'
+      - 'KGBlaze-Information-Center/src/music-*.js'
+      - 'KGBlaze-Information-Center/tests/music-*.test.mjs'
+      - 'KGBlaze-Information-Center/public/music-artwork/**'
+      - 'KGBlaze-Information-Center/scripts/audit-artwork-visual.mjs'
+      - 'KGBlaze-Information-Center/scripts/preserve-artwork.py'
+      - 'KGBlaze-Information-Center/scripts/verify-*-production.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  catalog:
+    name: Metadata, lyrics, preserved artwork and visual catalog
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Complete Node regression suite
+        working-directory: KGBlaze-Information-Center
+        run: npm test
+      - name: Install image verification tools
+        run: python -m pip install Pillow
+      - name: Check all approved local artwork without rewriting the repository
+        working-directory: KGBlaze-Information-Center
+        run: python scripts/preserve-artwork.py --strict
+      - name: Install headless browser tools
+        working-directory: KGBlaze-Information-Center
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Audit every song in ES, EN and JA across desktop and mobile
+        working-directory: KGBlaze-Information-Center
+        run: node scripts/audit-artwork-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: music-catalog-full-audit
+          path: KGBlaze-Information-Center/artwork-audit/
+          if-no-files-found: ignore
