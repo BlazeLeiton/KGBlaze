@@ -2063,6 +2063,78 @@
       ],
       "retrieved_from": "https://music.ani-tone.com/wp/wp-content/uploads/2017/11/USSW0070.jpg",
       "source_sha256": "ac5815a8ca57ed0ab788ff593f0c08c483b7d759046c74a24a0166a5c26fbf26"
+    },
+    "under-the-party-lights": {
+      "release": "Under the Party Lights · official 6th EN anniversary MV",
+      "source": "https://www.youtube.com/watch?v=sW02T8Pwq5s",
+      "origin": "https://i.ytimg.com/vi/sW02T8Pwq5s/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/under-the-party-lights-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "caste-room": {
+      "release": "カーストルーム · LACM-14647",
+      "source": "https://zaqzaqzaq.jp/discography/%E3%82%AB%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%A0/",
+      "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-14647.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/caste-room-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "dance-in-the-game": {
+      "release": "Dance In The Game · LACM-24278",
+      "source": "https://zaqzaqzaq.jp/discography/dance-in-the-game/",
+      "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24278.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/dance-in-the-game-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "minor-piece": {
+      "release": "マイナーピース · LACM-24513",
+      "source": "https://zaqzaqzaq.jp/discography/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%BC%E3%83%94%E3%83%BC%E3%82%B9/",
+      "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24513.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/minor-piece-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "toge-toge-sadistic": {
+      "release": "とげとげサディスティック · official anime ending",
+      "source": "https://www.youtube.com/watch?v=9QfEJDEjf_Q",
+      "origin": "https://i.ytimg.com/vi/9QfEJDEjf_Q/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/toge-toge-sadistic-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "your-reality": {
+      "release": "Your Reality · original game soundtrack",
+      "source": "https://www.youtube.com/watch?v=CAL4WMpBNs0",
+      "origin": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/your-reality-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "yakusoku": {
+      "release": "約束 · BRMM-10227",
+      "source": "https://bushiroad-music.com/musics/brmm-10226/",
+      "origin": "https://st.cdjapan.co.jp/pictures/l/06/36/BRMM-10227.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/yakusoku-v1.webp",
+      "status": "pending-snapshot"
+    },
+    "u-belle": {
+      "release": "U · BVCL-1172",
+      "source": "https://musicbrainz.org/release/28f857cc-8364-4476-b0fe-8103135c7346",
+      "origin": "https://coverartarchive.org/release/28f857cc-8364-4476-b0fe-8103135c7346/front-500",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/u-belle-v1.webp",
+      "status": "pending-snapshot"
     }
   }
 }
