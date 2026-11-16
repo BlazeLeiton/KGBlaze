@@ -2574,6 +2574,15 @@
       ],
       "retrieved_from": "https://img.atwiki.jp/hmiku/attach/31254/175/IMG_0654.png",
       "source_sha256": "79dda56fe75bd5c77efd4d73d698452fe81d7a9474185b1870222037735dc1c3"
+    },
+    "paper-bouquet": {
+      "release": "Paper Bouquet · original digital single · Saihate Records · 2022",
+      "source": "https://tidal.com/album/301623112",
+      "origin": "https://resources.tidal.com/images/1026f349/2fe4/424c/a759/4bb301e3650b/1280x1280.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/paper-bouquet-v1.webp",
+      "status": "pending-snapshot"
     }
   }
 }
