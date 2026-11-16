@@ -44,7 +44,7 @@ const bouquet=await load('/music/songs/paper-bouquet/?lang=es');
 assert.doesNotMatch(bouquet,/Letra y composición original/);
 for(const slug of ['kirameki-rider','halloween-night','suki-yuki-maji-magic']){
  const details=await load('/music/songs/'+slug+'/?lang=es');
- const credits=details.match(/<section class="credits">[\\s\\S]*?<\\/section>/)?.[0]||'';
+ const credits=details.match(/<section class="credits">[\s\S]*?<\/section>/)?.[0]||'';
  assert.doesNotMatch(credits,/<dt>Contexto<\\/dt>/);
  assert.match(details,/class="color-group"/);
 }
