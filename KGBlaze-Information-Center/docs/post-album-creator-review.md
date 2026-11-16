@@ -36,3 +36,6 @@ Creator-approved square second-cour key visual, Zerochan #2106270 (Tomoyuki Shit
 
 ### 2026-11-16 — Final Asterisk jackets
 Creator-approved Ai no Uta F (creditless ending, ~1:13.74, 1080×1080 exact selected square); Lonely Feather violet/pink front-facing episode 19 still, centered square 865×865. Both local WebP snapshots from creator-supplied files, no generated artwork. Preserve prior Ai no Uta v1 and Lonely Feather v1/v2, original VTCL-35225 provenance and Sagrada F4-B unchanged. No catalog, lyrics, release dates, or audio edits.
+
+### 2026-11-16 — Kirameki Rider and Padoru name homologation
+Add independent external Team Padoru cover, 83EgdxdwhtA, credited to Misao Chan, Leon Live☆Heart, Lanti Keeki, Blaze Leiton and V.A.F.M.O.; adaptation Leon Live☆Heart. Video ID and cast corroborated in shared Antología Covers (local date 2026-01-31; UTC 2026-02-01), colored lyrics recovered from creator's Kirameki Rider Letra Google Doc. Keep historic alias search, normalize visible Misao Chan and Misao Chan · II without changing vocal divisions; all other canonical stage names retained. Official hololive CVRD-003 jacket, preserved via snapshot. 114 works, 126 version records, 123 video IDs, 3 hidden audio versions. Brave Shine reserved; Proto Bubble Rise and Country Roads excluded. No edits to existing artwork or audio.
