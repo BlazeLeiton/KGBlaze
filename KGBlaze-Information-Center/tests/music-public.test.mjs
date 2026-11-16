@@ -967,3 +967,5 @@ test('Post-album review: Padoru identity, localized Pokémon titles and distinct
  for(const slug of pk){const s=songs.find(x=>x.slug===slug);assert.ok(s.localizedTitle.es);assert.ok(s.title===s.localizedTitle.es||s.alternativeTitles.includes(s.localizedTitle.es));assert.ok(musicStateData('/music/data/song/'+slug+'.json').locales.es.es.html.includes(s.localizedTitle.es));}
  const artwork=pk.slice(3).map(slug=>releaseArtwork[slug]);assert.equal(new Set(artwork.map(a=>a.sourceImage)).size,6);assert.ok(artwork.every(a=>a.originalRelease&&a.artworkContext));
 });
+
+test('Post-album cover framing preserves original assets and individual square presentation',()=>{const slugs=["catch-the-moment","crossing-field","minikui-ikimono","mirai-connection","otome-domo-yo"];const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;for(const slug of slugs){assert.equal(releaseArtwork[slug].fit,'cover');assert.equal(manifest[slug].fit,'cover');assert.equal(manifest[slug].version,1);assert.match(musicPage('/music/',new URLSearchParams({lang:'es'})),new RegExp('data-art-slug="'+slug+'" data-fit="cover"'));}});
