@@ -1700,14 +1700,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/karakuri-pierrot-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/karakuri-pierrot-v1.webp",
         "sha256": "ee7ff7f9f89786003e18f8054c0f118d27dec4ebef620a6667a7b97afb96a0ca",
         "source": "https://www.youtube.com/watch?v=xxFkW3PCT5M",
         "origin": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg"
-      }
+      },
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "f62279c469255950ea5f7023477f90de423e6be99e04a530cf80d94799798ceb",
+      "bytes": 191026,
+      "original_size": [
+        1200,
+        1200
+      ],
+      "retrieved_from": "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/9b/54/1b/9b541b7e-731f-ff21-3fe4-c83c25355286/KRHS-37246_40mP.jpg/1200x1200bf-60.jpg",
+      "source_sha256": "4f1cae593c73b51ee40b3bfac4be852f63f3df994506d7fb9b05dfe5d0cab0cc"
     },
     "last-cup-of-coffee": {
       "release": "last cup of coffee · original digital single",
@@ -1716,14 +1728,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/last-cup-of-coffee-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/last-cup-of-coffee-v1.webp",
         "sha256": "bc2b239b181a7ccb5d82357255fd146ac3094ae50d0f2855aa274fd9bfe518d7",
         "source": "https://www.youtube.com/watch?v=n64abW0dHNw",
         "origin": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg"
-      }
+      },
+      "size": [
+        640,
+        640
+      ],
+      "sha256": "50856ac9a1fce4648599a3c9ff53fbfd004f5365ad4c1ed9ee9ea79c6710e1ae",
+      "bytes": 52462,
+      "original_size": [
+        640,
+        640
+      ],
+      "retrieved_from": "https://i.scdn.co/image/ab67616d0000b2735f475a92b764261fb40727ba",
+      "source_sha256": "4284f7108eef6f6edceb09d69d3b5d211fe30e014c7c4348e7ddca8bbb6d6b91"
     },
     "lets-be-one": {
       "release": "Let's be ONE · LACM-24650",
@@ -1753,14 +1777,26 @@
       "version": 2,
       "fit": "cover",
       "path": "/music-artwork/lonely-feather-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/lonely-feather-v1.webp",
         "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
         "source": "https://asterisk-war.com/sp/music/",
         "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init"
-      }
+      },
+      "size": [
+        750,
+        422
+      ],
+      "sha256": "3330c7cb062df70236601235780018d25be2248a6cac63ccaa19e0e6bbecb21a",
+      "bytes": 65828,
+      "original_size": [
+        750,
+        422
+      ],
+      "retrieved_from": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
+      "source_sha256": "ec981006d26bb58ae5fb272cbcf5f62452db29b05a63a0969be66f100b8feb8d"
     },
     "minikui-ikimono": {
       "release": "鬼ノ森／醜い生き物 · SMCL-696",
@@ -1951,14 +1987,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/shukufuku-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/shukufuku-v1.webp",
         "sha256": "762722d01a42f536042483aeabdd800c993a9bbf591e0b81f55879467f60e627",
         "source": "https://www.youtube.com/watch?v=3eytpBOkOFA",
         "origin": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg"
-      }
+      },
+      "size": [
+        300,
+        300
+      ],
+      "sha256": "b94ef30bcdd53c661cf57ed432dd1c931e76ca707159fcb6880039c9d102b082",
+      "bytes": 35866,
+      "original_size": [
+        300,
+        300
+      ],
+      "retrieved_from": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c5993ff2f059a0a5a7f6270b",
+      "source_sha256": "4a2ed7878c9b76e8ed2c2d328324a888203ca9c9c7e2483717eb7c9883f9a0ee"
     },
     "planetarium": {
       "release": "holo*27 Originals Vol.1 · TFCC-86895",
@@ -2030,14 +2078,26 @@
       "version": 3,
       "fit": "cover",
       "path": "/music-artwork/senaka-awase-v3.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 2,
         "path": "/music-artwork/senaka-awase-v2.webp",
         "sha256": "be1399ec008808aa3a4b467f5fb9a6e40d10768b23fec491b2e55ddc014221d4",
         "source": "https://www.ponycanyon.co.jp/music/PCSP000005865",
         "origin": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4"
-      }
+      },
+      "size": [
+        848,
+        1200
+      ],
+      "sha256": "175baa2f6dd8c9cca059b8aec68bfd6bea8ba1268944e524bc6bfffe751d4f82",
+      "bytes": 307588,
+      "original_size": [
+        1599,
+        2263
+      ],
+      "retrieved_from": "https://kimisentv.com/assets/news/s2-kv1.webp",
+      "source_sha256": "367c9dc2fe87e394205abc2a4d7eb90364a78e69abc08351c4944e173d68e066"
     },
     "shiny-days": {
       "release": "SHINY DAYS · USSW-0070 · Yuru Camp edition",
@@ -2172,14 +2232,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/your-reality-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/your-reality-v1.webp",
         "sha256": "13414712adc20991117c5cf0f3afbabd7c9e4aa7185eea0d380ff932177eb77b",
         "source": "https://www.youtube.com/watch?v=CAL4WMpBNs0",
         "origin": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg"
-      }
+      },
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "bd9531d4515fab0a73d4bd951a63a3e500340032f26d3d212b987a43abf52cf8",
+      "bytes": 120136,
+      "original_size": [
+        1200,
+        1200
+      ],
+      "retrieved_from": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/12/38/d6/1238d680-01f7-0f0b-19fb-0bd25c90dba1/artwork.jpg/1200x1200bf-60.jpg",
+      "source_sha256": "85e1ae87f1e68d78fefd08e85c8d66b95b28e6320dd23a43e52d489ca43e7954"
     },
     "yakusoku": {
       "origin": "https://bushiroad-store.com/cdn/shop/products/0e93bed862ab093c71b9dd03ba358333_600x600_crop_center.jpg?v=1636696746",
