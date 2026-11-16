@@ -108,19 +108,19 @@ test('song header keeps selected year without redundant date while catalog keeps
 });
 
 test('catalog has eighty-one songs and ninety historical video IDs with valid routes',()=>{
- assert.equal(songs.length,91);
+ assert.equal(songs.length,99);
  const versions=songs.flatMap(s=>s.versions);
- assert.equal(versions.length,103);
+ assert.equal(versions.length,111);
  const videos=versions.filter(v=>v.videoId);
- assert.equal(videos.length,100);
- assert.equal(new Set(videos.map(v=>v.videoId)).size,100);
+ assert.equal(videos.length,108);
+ assert.equal(new Set(videos.map(v=>v.videoId)).size,108);
  assert.equal(versions.filter(v=>v.medium==='audio'&&v.availability==='pending'&&!v.date&&!v.videoId).length,3);
  assert.ok(videos.every(v=>/^[A-Za-z0-9_-]{11}$/.test(v.videoId)));
- assert.equal(MUSIC_PATHS.size,366);
+ assert.equal(MUSIC_PATHS.size,398);
  assert.equal(songs.filter(s=>s.firstCover).length,1);
  assert.equal(songs.find(s=>s.firstCover).slug,'only-one-yell');
  const html=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((html.match(/<article class="song"/g)||[]).length,91);
+ assert.equal((html.match(/<article class="song"/g)||[]).length,99);
  assert.match(html,/data-lang="ES FR MULTI"/);
  assert.match(html,/data-lang="JA FR PT ES EN MULTI"/);
  assert.match(html,/data-lang="ES JA MULTI"/);
@@ -223,11 +223,11 @@ test('regional blocks use international season keys and never mix Horizons with 
 });
 
 test('pilot lyric fiches use only selected supplied adaptations with review states',()=>{
- assert.equal(Object.keys(lyricsBySong).length,91);
+ assert.equal(Object.keys(lyricsBySong).length,99);
  const entries=songs.flatMap(s=>s.versions.map(v=>lyricsBySong[s.slug]?.[lyricAliases[s.slug]?.[v.id]||v.id]));
- assert.equal(entries.length,103);
+ assert.equal(entries.length,111);
  assert.ok(entries.every(Boolean));
- assert.equal(entries.filter(v=>v?.text).length,103);
+ assert.equal(entries.filter(v=>v?.text).length,111);
  assert.equal(lyricsBySong['dokimeki-diary'].es.text,lyricsBySong['dokimeki-diary'].ensemble.text);
  assert.equal(lyricsBySong['butter-fly'].multi.kind,'mixed');
  assert.equal(lyricsBySong['snow-halation']['hso-orchestra'].kind,'original_romanized');
@@ -331,7 +331,7 @@ test('Japanese lyric script follows locale, including mixed-language segments an
 test('video thumbnails and playback are bound to the selected public recording',async()=>{
  const page=(slug,lang,version)=>musicPage('/music/'+slug+'/',new URLSearchParams({lang,version}));
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,91);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,99);
  for(const s of songs){
   const visible=s.versions.filter(v=>v.public!==false);
   const first=visible.filter(v=>v.date).sort((a,b)=>a.date.localeCompare(b.date))[0]||visible[0];
@@ -431,8 +431,8 @@ test('Love Live series badge stays independent from story-era performing unit',(
 
 test('square catalog artwork prefers sourced anime editions without changing video player',async()=>{
  const catalog=musicPage('/music/',new URLSearchParams({lang:'es'}));
- assert.equal(Object.keys(releaseArtwork).length,91);
- assert.equal((catalog.match(/class="square-art"/g)||[]).length,91);
+ assert.equal(Object.keys(releaseArtwork).length,99);
+ assert.equal((catalog.match(/class="square-art"/g)||[]).length,99);
  assert.match(catalog,/\.square-art\{position:relative;aspect-ratio:1\/1/);
  assert.match(catalog,/object-fit:contain/);
  for(const s of songs){
@@ -534,12 +534,12 @@ test('durable artwork takes priority even when origin and edge cache disappear',
 test('all thirteen selected artwork snapshots exist, with source and integrity manifest',()=>{
  const manifest=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v1.json',import.meta.url),'utf8'));
  const manifestV2=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;
- const newSlugs=['p3-fes','pop-step','spektro','the-secret-night','shukufuku','planetarium','ruteshi-kisuki-shiteru','ryuusei','senaka-awase','shiny-days','heart-no-shuchou','karakuri-pierrot','last-cup-of-coffee','lets-be-one','lonely-feather','minikui-ikimono','mirai-connection','otome-domo-yo','ougon-kouro','ai-no-uta','beginners-rock','dakara-boku-wa-boku-wo-tebanasu','end-of-a-life','gg','gimi-gimi','leon-no-sabe-que-existo','hitoribocchi-tokyo','kaze-no-uta'];
+ const newSlugs=["under-the-party-lights","caste-room","dance-in-the-game","minor-piece","toge-toge-sadistic","your-reality","yakusoku","u-belle",'p3-fes','pop-step','spektro','the-secret-night','shukufuku','planetarium','ruteshi-kisuki-shiteru','ryuusei','senaka-awase','shiny-days','heart-no-shuchou','karakuri-pierrot','last-cup-of-coffee','lets-be-one','lonely-feather','minikui-ikimono','mirai-connection','otome-domo-yo','ougon-kouro','ai-no-uta','beginners-rock','dakara-boku-wa-boku-wo-tebanasu','end-of-a-life','gg','gimi-gimi','leon-no-sabe-que-existo','hitoribocchi-tokyo','kaze-no-uta'];
  assert.equal(Object.keys(manifest).length,11);
  for(const [slug,art] of Object.entries(releaseArtwork)){
   if(art.components||['ano-ne','kono-tate-ni-kakuremasu','koko-kara-koko-kara','one-step','el-nano','there-is-a-reason','xy-and-z','ten-to-sen','kimi-to-iu-shinwa','rvr','zutto','level','kenka','kokuan-glossolalia','hikari-aru-basho-e','starlog','aint-backing-down','tempestas-claim'].includes(slug))continue;
   if(['miiro','graphite-diamond','high-free-spirits','savior-of-song','yukitoki','harumodoki','megumi-no-ame','daisuki','love-evidence','honey-jet-coaster','stuck-on-you','rakuen-project','please-please','twilight-little-star','shiny-smily-story','villain-vibes','sparks-of-joy','sparks','stars-we-chase','pastel','bad-candy','alive','hana-no-tou','strobe-memory','youthful-beautiful'].includes(slug))continue; // new official sources use cache and fallback until snapshots are captured
-  const bytes=readFileSync(new URL('../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
+  const bytes=readFileSync(new URL(newSlugs.includes(slug)?'../public'+manifestV2[slug].path:'../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
   assert.equal(bytes.toString('ascii',8,12),'WEBP');
   if(newSlugs.includes(slug)){const row=manifestV2[slug];assert.equal(row.origin,art.sourceImage);assert.equal(row.status,'preserved');assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);continue;}
@@ -623,7 +623,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,99);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,107);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
@@ -734,7 +734,7 @@ test('Arcana Integrity: all works have art, individually framed jackets and medl
  for(const slug of adjusted)assert.equal(releaseArtwork[slug].fit,'cover');
  for(const lang of ['es','en','ja']){
   const h=musicPage('/music/',new URLSearchParams({lang}));
-  assert.equal((h.match(/class="square-art"/g)||[]).length,91);
+  assert.equal((h.match(/class="square-art"/g)||[]).length,99);
   for(const s of songs){const card=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(x=>x.includes('/music/song/'+s.slug+'/'));assert.ok(card);assert.doesNotMatch(card,/data-art-kind="video"/);if(adjusted.includes(s.slug))assert.match(card,/data-fit="cover"/);}
   assert.match(h,/data-composite="medley"/);assert.equal((h.match(/class="art-cell"/g)||[]).length,4);
   assert.match(h,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
@@ -772,7 +772,7 @@ test('music fragments omit the document shell and preserve original voice divisi
  assert.match(h,/class="color-part/);
  const catalogue=musicPage('/music/',new URLSearchParams({lang:'es',fragment:'1'}));
  assert.match(catalogue,/^<div id="music-content" data-view="catalog"/);
- assert.equal((catalogue.match(/class="square-art"/g)||[]).length,91);
+ assert.equal((catalogue.match(/class="square-art"/g)||[]).length,99);
 });
 
 test('canonical song paths and one independent state payload per work',async()=>{
@@ -799,7 +799,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  const cards=html.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
  const by=slug=>cards.find(c=>c.includes('/music/song/'+slug+'/'));
  const members=family=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(family));
- assert.equal(cards.length,91);assert.equal(members('Azur Lane').length,10);
+ assert.equal(cards.length,99);assert.equal(members('Azur Lane').length,11);
  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'])assert.ok(members(family).includes(by('melodia-del-oceano')));
  for(const [family,count] of [['Pokémon',4],['Love Live!',7],['hololive',8],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
  assert.match(by('graphite-diamond'),/data-series="Azur Lane The Animation"/);
@@ -817,7 +817,7 @@ test('editorial family members retain exact catalogue ordering and medley is a s
  for(const lang of ['es','en','ja']){
  const h=musicPage('/music/',new URLSearchParams({lang})), cards=h.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g);
  const ids=key=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(key)).map(c=>c.match(/href="\/music\/song\/([^/]+)\//)[1]);
- assert.deepEqual(ids('Azur Lane'),['ougon-kouro','blue-spirit','graphite-diamond','feelin-it-all','signal','yuukyuu-no-catharsis','aint-backing-down','tempestas-claim','what-youre-made-of','melodia-del-oceano']);
+ assert.deepEqual(ids('Azur Lane'),['under-the-party-lights','ougon-kouro','blue-spirit','graphite-diamond','feelin-it-all','signal','yuukyuu-no-catharsis','aint-backing-down','tempestas-claim','what-youre-made-of','melodia-del-oceano']);
  assert.deepEqual(ids('Kantai Collection'),['miiro','melodia-del-oceano']);
  assert.deepEqual(ids('High School Fleet'),['high-free-spirits','melodia-del-oceano']);
  assert.deepEqual(ids('Arpeggio of Blue Steel'),['savior-of-song','melodia-del-oceano']);
@@ -947,10 +947,13 @@ test('Beginners Rock shared vocal document preserves source color runs and ensem
 test('Padoru vocal identities, Mexico live parody and FLOW narrative remain correctly scoped',()=>{const b=lyricsBySong['beginners-rock'].es;assert.deepEqual(b.colorLegend.map(v=>v.label),['Misao-chan','Lanti Keeki','Leon Live☆Heart','Blaze Leiton']);assert.deepEqual(b.colorStanzas[0].map(l=>l[0].voice),['misao','misao','leon','leon']);const h=songs.find(s=>s.slug==='hitoribocchi-tokyo');assert.equal(h.versions.length,1);assert.ok(!h.versions[0].reuploaded);const state=musicStateData('/music/data/song/hitoribocchi-tokyo.json');assert.deepEqual(state.locales.es.es.choices,['es','mexico']);assert.match(state.locales.es.es.lyrics.mexico.full,/A solas en México/);assert.match(state.locales.es.es.lyrics.mexico.full,/sin grabación publicada/);assert.match(state.locales.es.es.lyrics.mexico.full,/Metrobús/);const f=songs.find(s=>s.slug==='kaze-no-uta');assert.equal(f.versions.length,1);assert.equal(f.sourceTracks.length,2);assert.match(musicPage('/music/song/kaze-no-uta/',new URLSearchParams({lang:'es'})),/adaptación narrativa continua/);assert.equal(musicStateData('/music/data/song/gimi-gimi.json').defaultVersion,'full');});
 
 
-test('Individual block 02 preserves nine independent recordings and the two FLOW sections',()=>{const ids=["heart-no-shuchou","karakuri-pierrot","last-cup-of-coffee","lets-be-one","lonely-feather","minikui-ikimono","mirai-connection","otome-domo-yo","ougon-kouro"];for(const slug of ids){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.equal(albumsForVersion(slug,'es').length,0);assert.ok(lyricsBySong[slug].es.text);for(const lang of ['es','en','ja']){const state=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(state.lyrics.es.hasText);assert.ok(state.html.includes(s.versions[0].videoId));}}const k=lyricsBySong['kaze-no-uta'].es;assert.deepEqual(k.sectionStarts,[{index:0,title:'Kaze no Uta'},{index:15,title:'INNOSENSE'}]);assert.equal(k.text.split('\n\n').length,22);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/kaze-no-uta.json').locales[lang].es.lyrics.es;assert.match(d.full,/<h3 class="lyric-track-heading">Kaze no Uta<\/h3>/);assert.match(d.full,/<h3 class="lyric-track-heading">INNOSENSE<\/h3>/);assert.equal(d.cells.length,22);assert.match(d.cells[15],/El rumbo seguirá sin poderlo evitar/);}assert.equal(pokemonTags(songs.find(s=>s.slug==='mirai-connection')).block,'alola');assert.equal(originalPerformances['lets-be-one'].cast.length,11);assert.equal(songs.find(s=>s.slug==='karakuri-pierrot').padoruCover,undefined);assert.match(musicPage('/music/song/karakuri-pierrot/',new URLSearchParams({lang:'es'})),/Cumpleaños de Lanti Keeki/);assert.deepEqual(songs.filter(s=>s.padoruCover).map(s=>s.slug).sort(),['beginners-rock','cake-song','kokuan-glossolalia','ruteshi-kisuki-shiteru']);const h=musicPage('/music/',new URLSearchParams({lang:'es'}));assert.equal((h.match(/search=Padoru">Padoru<\/a>/g)||[]).length,4);assert.match(musicPage('/music/song/beginners-rock/',new URLSearchParams({lang:'es'})),/search=Padoru">Padoru<\/a>/);});
+test('Individual block 02 preserves nine independent recordings and the two FLOW sections',()=>{const ids=["heart-no-shuchou","karakuri-pierrot","last-cup-of-coffee","lets-be-one","lonely-feather","minikui-ikimono","mirai-connection","otome-domo-yo","ougon-kouro"];for(const slug of ids){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.equal(albumsForVersion(slug,'es').length,0);assert.ok(lyricsBySong[slug].es.text);for(const lang of ['es','en','ja']){const state=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(state.lyrics.es.hasText);assert.ok(state.html.includes(s.versions[0].videoId));}}const k=lyricsBySong['kaze-no-uta'].es;assert.deepEqual(k.sectionStarts,[{index:0,title:'Kaze no Uta'},{index:15,title:'INNOSENSE'}]);assert.equal(k.text.split('\n\n').length,22);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/kaze-no-uta.json').locales[lang].es.lyrics.es;assert.match(d.full,/<h3 class="lyric-track-heading">Kaze no Uta<\/h3>/);assert.match(d.full,/<h3 class="lyric-track-heading">INNOSENSE<\/h3>/);assert.equal(d.cells.length,22);assert.match(d.cells[15],/El rumbo seguirá sin poderlo evitar/);}assert.equal(pokemonTags(songs.find(s=>s.slug==='mirai-connection')).block,'alola');assert.equal(originalPerformances['lets-be-one'].cast.length,11);assert.equal(songs.find(s=>s.slug==='karakuri-pierrot').padoruCover,undefined);assert.doesNotMatch(musicPage('/music/song/karakuri-pierrot/',new URLSearchParams({lang:'es'})),/Cumpleaños de Lanti Keeki/);assert.deepEqual(songs.filter(s=>s.padoruCover).map(s=>s.slug).sort(),['beginners-rock','cake-song','kokuan-glossolalia','ruteshi-kisuki-shiteru']);const h=musicPage('/music/',new URLSearchParams({lang:'es'}));assert.equal((h.match(/search=Padoru">Padoru<\/a>/g)||[]).length,4);assert.match(musicPage('/music/song/beginners-rock/',new URLSearchParams({lang:'es'})),/search=Padoru">Padoru<\/a>/);});
 
 
-test('Block 03 preserves ten Spanish releases, Esperanto references, dialogue credits and sequential FLOW selector',()=>{for(const slug of ["p3-fes","pop-step","spektro","the-secret-night","shukufuku","planetarium","ruteshi-kisuki-shiteru","ryuusei","senaka-awase","shiny-days"]){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.deepEqual(s.versions[0].langs,['ES']);assert.equal(albumsForVersion(slug,'es').length,0);assert.ok(lyricsBySong[slug].es.text);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes(s.versions[0].videoId));}}const f=lyricsBySong['kaze-no-uta'];assert.equal(f.kaze.text+'\n\n'+f.innosense.text,f.es.text);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/kaze-no-uta.json').locales[lang].es;assert.deepEqual(d.choices,['kaze','innosense','es']);assert.equal(d.defaultLyric,'es');assert.equal(d.allowCompare,false);assert.equal(d.lyrics.es.label,'Kaze no Uta + INNOSENSE');assert.equal(d.lyrics.kaze.cells.length,15);assert.equal(d.lyrics.innosense.cells.length,7);assert.equal(d.lyrics.es.cells.length,22);assert.doesNotMatch(d.lyrics.kaze.full,/El rumbo seguirá/);assert.doesNotMatch(d.lyrics.innosense.full,/Un camino más/);const h=musicPage('/music/song/kaze-no-uta/',new URLSearchParams({lang,lyric:'kaze',compare:'innosense'}));assert.doesNotMatch(h,/<div class="parallel-pairs">|<div class="parallel-columns">/);}const s=musicStateData('/music/data/song/spektro.json');assert.equal(s.defaultVersion,'es');assert.deepEqual(s.locales.es.es.choices,['es','eo','pronunciation']);assert.equal(lyricsBySong.spektro.eo.kind,'original');assert.equal(lyricsBySong.spektro.pronunciation.kind,'pronunciation');const r=lyricsBySong['ruteshi-kisuki-shiteru'].es;assert.equal(r.dialogues.length,9);assert.equal(r.dialogues[0].voice,'Leon Live☆Heart');assert.equal(r.dialogues[8].voice,'V.A.F.M.O.');assert.match(musicStateData('/music/data/song/ruteshi-kisuki-shiteru.json').locales.es.es.lyrics.es.full,/class="lyric-dialogues"/);});
+test('Block 03 preserves ten Spanish releases, Esperanto references, dialogue credits and sequential FLOW selector',()=>{for(const slug of ["p3-fes","pop-step","spektro","the-secret-night","shukufuku","planetarium","ruteshi-kisuki-shiteru","ryuusei","senaka-awase","shiny-days"]){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.deepEqual(s.versions[0].langs,['ES']);assert.equal(albumsForVersion(slug,'es').length,0);assert.ok(lyricsBySong[slug].es.text);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes(s.versions[0].videoId));}}const f=lyricsBySong['kaze-no-uta'];assert.equal(f.kaze.text+'\n\n'+f.innosense.text,f.es.text);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/kaze-no-uta.json').locales[lang].es;assert.deepEqual(d.choices,['kaze','innosense','es']);assert.equal(d.defaultLyric,'es');assert.equal(d.allowCompare,false);assert.equal(d.lyrics.es.label,'Kaze no Uta + INNOSENSE');assert.equal(d.lyrics.kaze.cells.length,15);assert.equal(d.lyrics.innosense.cells.length,7);assert.equal(d.lyrics.es.cells.length,22);assert.doesNotMatch(d.lyrics.kaze.full,/El rumbo seguirá/);assert.doesNotMatch(d.lyrics.innosense.full,/Un camino más/);const h=musicPage('/music/song/kaze-no-uta/',new URLSearchParams({lang,lyric:'kaze',compare:'innosense'}));assert.doesNotMatch(h,/<div class="parallel-pairs">|<div class="parallel-columns">/);}const s=musicStateData('/music/data/song/spektro.json');assert.equal(s.defaultVersion,'es');assert.deepEqual(s.locales.es.es.choices,['es','eo','pronunciation']);assert.equal(lyricsBySong.spektro.eo.kind,'original');assert.equal(lyricsBySong.spektro.pronunciation.kind,'pronunciation');const r=lyricsBySong['ruteshi-kisuki-shiteru'].es;assert.equal(r.dialogues,undefined);assert.doesNotMatch(musicStateData('/music/data/song/ruteshi-kisuki-shiteru.json').locales.es.es.lyrics.es.full,/class="lyric-dialogues"/);});
 
 
 test('THE SECRET NiGHT keeps character voice divisions distinct from cover credits',()=>{const l=lyricsBySong['the-secret-night'].es;assert.deepEqual(l.colorLegend.map(v=>[v.label,v.color]),[['Karin Asaka','#8196FF'],['Ai Miyashita','#FF9854']]);assert.deepEqual(l.characterColors,{karin:'#485EC6',ai:'#FF5800'});assert.deepEqual(l.colorStanzas.flat()[53].map(v=>v.voice),['karin','ai','karin','ai']);assert.deepEqual(l.colorStanzas.flat()[55].filter(v=>v.text.trim()!==',').map(v=>v.voice),['ai','karin','ai','karin']);assert.equal(l.colorStanzas.flat().length,65);assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.sharedLabel,{es:'Ambas',en:'Both',ja:'二人'});assert.ok(!songs.find(s=>s.slug==='the-secret-night').performance);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/the-secret-night.json').locales[lang].es.lyrics.es;assert.match(d.full,/Karin Asaka/);assert.match(d.full,/Ai Miyashita/);assert.match(d.full,/class="color-part"/);}});
+
+
+test('Block 04 and participation-only credits',()=>{for(const slug of ["under-the-party-lights","caste-room","dance-in-the-game","minor-piece","toge-toge-sadistic","your-reality","yakusoku","u-belle"]){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.ok(lyricsBySong[slug].es.text);assert.equal(albumsForVersion(slug,'es').length,0);for(const lang of ['es','en','ja']){const state=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(state.lyrics.es.hasText);assert.ok(state.html.includes(s.versions[0].videoId));}}assert.ok(songs.every(s=>!s.dedication));const r=songs.find(s=>s.slug==='ruteshi-kisuki-shiteru');assert.deepEqual(r.performance,['Blaze Leiton']);assert.deepEqual(r.participation,['V.A.F.M.O.']);const h=musicPage('/music/song/ruteshi-kisuki-shiteru/',new URLSearchParams({lang:'es'}));assert.match(h,/Con participación de<\/dt><dd>V\.A\.F\.M\.O\./);assert.doesNotMatch(h,/Dedicado a|Cumpleaños de Misao/);assert.equal(lyricsBySong['your-reality'].es.text.includes('¿Pueden escucharme?'),false);});

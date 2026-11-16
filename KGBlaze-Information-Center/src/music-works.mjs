@@ -4,6 +4,11 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Classroom of the Elite':{...names('Classroom of the Elite','ようこそ実力至上主義の教室へ'),seasons:{1:names('Classroom of the Elite','ようこそ実力至上主義の教室へ'),2:names('Classroom of the Elite II','ようこそ実力至上主義の教室へ 2nd Season'),3:names('Classroom of the Elite III','ようこそ実力至上主義の教室へ 3rd Season')}},
+ 'Gushing Over Magical Girls':names('Gushing Over Magical Girls','魔法少女にあこがれて','Gushing Over Magical Girls',['Mahou Shoujo ni Akogarete']),
+ 'Doki Doki Literature Club!':names('Doki Doki Literature Club!','ドキドキ文芸部！'),
+ 'BanG Dream!':names('BanG Dream!','バンドリ！'),
+ 'BELLE':names('BELLE','竜とそばかすの姫','BELLE',['Ryū to Sobakasu no Hime']),
  'Persona 3 FES':names('Persona 3 FES','ペルソナ3フェス'),
  'My Hero Academia: Vigilantes':names('My Hero Academia: Vigilantes','ヴィジランテ -僕のヒーローアカデミア ILLEGALS-'),
  'Mobile Suit Gundam: The Witch from Mercury':names('Mobile Suit Gundam: The Witch from Mercury','機動戦士ガンダム 水星の魔女','Mobile Suit Gundam: La Bruja de Mercurio'),
