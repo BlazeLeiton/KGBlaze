@@ -2722,8 +2722,20 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/brave-shine-v1.webp",
-      "status": "pending-snapshot",
-      "note": "Official illustrated edition identified; local WebP snapshot not yet captured. Remote original artwork cache with fallback, no fictional asset."
+      "status": "preserved",
+      "note": "Official illustrated edition identified; local WebP snapshot not yet captured. Remote original artwork cache with fallback, no fictional asset.",
+      "size": [
+        400,
+        400
+      ],
+      "sha256": "6dc7d341dd2458b56e29200d58be3aff6b8a4d56942e22d5810b06d8060c3d39",
+      "bytes": 39664,
+      "original_size": [
+        400,
+        400
+      ],
+      "retrieved_from": "https://img.hmv.co.jp/image/jacket/400/62/7/5/546.jpg",
+      "source_sha256": "df83a706905ae298fae7aa561d5d3de99ad3cc1e7ad09af6ab6a231039625065"
     }
   }
 }
