@@ -2191,25 +2191,13 @@
       "source_sha256": "92aa27e35fb128d2abd77c8b2b116f4644d8976a588f0a355b87ba1396a48558"
     },
     "yakusoku": {
-      "release": "約束 · BRMM-10227",
-      "source": "https://bushiroad-music.com/musics/brmm-10226/",
-      "origin": "https://st.cdjapan.co.jp/pictures/l/06/36/BRMM-10227.jpg",
-      "version": 1,
+      "origin": "https://s3-ap-northeast-1.amazonaws.com/bang-dream-portal/4652457d-2426-4686-84cc-94c74167a5df.jpg",
+      "source": "https://bang-dream.com/discographies/1388/",
+      "release": "約束 · Roselia 10th Single · official jacket",
+      "version": 2,
+      "path": "/music-artwork/yakusoku-v2.webp",
       "fit": "contain",
-      "path": "/music-artwork/yakusoku-v1.webp",
-      "status": "preserved",
-      "size": [
-        128,
-        128
-      ],
-      "sha256": "0f2686516d50be5df93cf0c0b1fe493d5c321fa02ac4d6f89f021a956012a32d",
-      "bytes": 1422,
-      "original_size": [
-        128,
-        128
-      ],
-      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/06/36/BRMM-10227.jpg",
-      "source_sha256": "8470220bc561cbe762dd82fce863ac9680213ac62a267111de7a23bdf73d4d45"
+      "status": "pending-snapshot"
     },
     "u-belle": {
       "release": "U · BVCL-1172",
