@@ -77,13 +77,33 @@ test('Latin/romanized primary titles in ES/EN and Japanese source-first hierarch
   assert.ok(japanese.startsWith(escape(song.title)),song.slug+' Japanese original stays first');
   assert.ok(japanese.includes('('+escape(song.romanized)+')'),song.slug+' Japanese romanization stays below/inline');
  }
- for(const [slug,primary,secondary] of [['pokemon-theme','Pokémon Theme','Tema de Pokémon'],['pokemon-world','Pokémon World','Mundo Pokémon']]){
-  for(const lang of ['es','en']){
-   const h=displayTitle(musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang})));
-   assert.ok(h.includes('<span class="title-primary">'+primary+'</span>'),slug+' '+lang);
-   assert.ok(h.includes('<span class="title-secondary">'+secondary+'</span>'),slug+' '+lang);
+ // Unlike Japanese romanization, the original-English titles switch order by locale.
+ const bilingual=songs.filter(s=>!s.romanized&&(s.localizedTitle?.es||s.localizedTitle?.en));
+ assert.equal(bilingual.length,10,'Nine Pokémon originals and the Gura/Leon parody');
+ for(const song of bilingual){
+  const english=song.localizedTitle?.en||song.title,spanish=song.localizedTitle?.es||song.title;
+  for(const lang of ['es','en','ja']){
+   const h=displayTitle(musicPage('/music/songs/'+song.slug+'/',new URLSearchParams({lang})));
+   const catalog=musicPage('/music/songs/',new URLSearchParams({lang}));
+   const card=catalog.match(/<article class="song"[^>]*>[\\s\\S]*?<\\/article>/g).find(c=>c.includes('/music/songs/'+song.slug+'/'));
+   assert.ok(card,song.slug+' '+lang+' catalog card');
+   const main=lang==='es'?spanish:english,sub=lang==='es'?english:spanish;
+   assert.ok(h.includes('<span class="title-primary">'+escape(main)+'</span>'),song.slug+' '+lang+' primary title');
+   assert.ok(card.includes('<span class="title-primary">'+escape(main)+'</span>'),song.slug+' '+lang+' catalog primary');
+   if(main!==sub){
+    assert.ok(h.includes('<span class="title-secondary">'+escape(sub)+'</span>'),song.slug+' '+lang+' subtitle');
+    assert.ok(card.includes('<span class="title-secondary">'+escape(sub)+'</span>'),song.slug+' '+lang+' catalog subtitle');
+   }else{
+    assert.doesNotMatch(h,/class="title-secondary"/,song.slug+' same title twice');
+   }
+   const state=musicStateData('/music/data/song/'+song.slug+'.json');
+   assert.ok(state.locales[lang][state.defaultVersion].html.includes('<span class="title-primary">'+escape(main)+'</span>'),song.slug+' '+lang+' overlay payload');
   }
  }
+ const gura=songs.find(s=>s.slug==='leon-no-sabe-que-existo');
+ assert.equal(gura.title,'Leon no sabe que existo','keep creator original Spanish parody title');
+ assert.equal(gura.localizedTitle.en,"Gura Doesn't Know I Exist");
+ assert.equal(gura.romanized,undefined,'English lettering must not be tagged as Japanese romaji');
  assert.match(musicPage('/music/songs/',new URLSearchParams({lang:'es'})),/<h3><span class="title-primary">Kirameki Rider☆<\/span><span class="title-secondary">キラメキライダー☆<\/span><\/h3>/);
  assert.match(musicPage('/music/songs/',new URLSearchParams({lang:'ja'})),/<h3>キラメキライダー☆ <span class="romanized">\(Kirameki Rider☆\)<\/span><\/h3>/);
 });
