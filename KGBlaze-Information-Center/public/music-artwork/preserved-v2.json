@@ -2239,7 +2239,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/born-to-be-a-winner-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1198
+      ],
+      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+      "bytes": 309730,
+      "original_size": [
+        1200,
+        1198
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
     },
     "believe-in-me": {
       "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
@@ -2248,7 +2260,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/believe-in-me-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1198
+      ],
+      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+      "bytes": 309730,
+      "original_size": [
+        1200,
+        1198
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
     },
     "i-wanna-be-a-hero": {
       "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
@@ -2257,7 +2281,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/i-wanna-be-a-hero-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1198
+      ],
+      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+      "bytes": 309730,
+      "original_size": [
+        1200,
+        1198
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
     },
     "this-dream": {
       "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
@@ -2266,7 +2302,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/this-dream-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1198
+      ],
+      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+      "bytes": 309730,
+      "original_size": [
+        1200,
+        1198
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
     },
     "unbeatable": {
       "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
@@ -2275,7 +2323,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/unbeatable-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1198
+      ],
+      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+      "bytes": 309730,
+      "original_size": [
+        1200,
+        1198
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
     },
     "battle-frontier": {
       "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
@@ -2284,7 +2344,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/battle-frontier-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1198
+      ],
+      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+      "bytes": 309730,
+      "original_size": [
+        1200,
+        1198
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
+      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
     },
     "pokemon-theme": {
       "release": "Pokémon 2.B.A. Master · 1999",
@@ -2293,7 +2365,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/pokemon-theme-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "dee30775084dc52282729611cdf215a964d60b78451834abb8e2937136e8f661",
+      "bytes": 231916,
+      "original_size": [
+        1200,
+        1200
+      ],
+      "retrieved_from": "https://f4.bcbits.com/img/a1351373001_10.jpg",
+      "source_sha256": "a1bd490aeb25f4758afadb766a5c40b24606bb78ca0e2910e99a15328a161f7f"
     },
     "pokemon-world": {
       "release": "Pokémon the Movie 2000 · The Power of One",
@@ -2302,7 +2386,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/pokemon-world-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        800,
+        803
+      ],
+      "sha256": "8a4bff0ceda7a7e097f9424da1659607a3812cf263a2fe7958d55ff474124f87",
+      "bytes": 300974,
+      "original_size": [
+        800,
+        803
+      ],
+      "retrieved_from": "https://archives.bulbagarden.net/media/upload/thumb/1/14/Pokemon2000Soundtrack.jpg/800px-Pokemon2000Soundtrack.jpg",
+      "source_sha256": "7ae92b6f0317008555d236650fa54918a231f9c9d810165dd72c1d5524be7fd1"
     },
     "pokemon-johto": {
       "release": "Pokémon 3: The Ultimate Soundtrack · Movie Version",
@@ -2311,7 +2407,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/pokemon-johto-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1080,
+        1080
+      ],
+      "sha256": "483ac6f6e8dc0619d138bc029d80038df2c2e115e78dc25151427342da64ef35",
+      "bytes": 270310,
+      "original_size": [
+        1080,
+        1080
+      ],
+      "retrieved_from": "https://i1.sndcdn.com/artworks-pgn2ew1AzvYn-0-t1080x1080.png",
+      "source_sha256": "0870790ac79713a294b2ea4cdd241ab12a1df2fa0e9a26edbae460fd91d9b6b6"
     },
     "catch-the-moment": {
       "release": "Catch the Moment · SVWC-70235",
@@ -2320,7 +2428,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/catch-the-moment-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        500,
+        444
+      ],
+      "sha256": "7f7bb56c4122a00e15481b6517f5305f2fa054263800e339dfaba52561470bbb",
+      "bytes": 78622,
+      "original_size": [
+        500,
+        444
+      ],
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/05/34/SVWC-70235.jpg",
+      "source_sha256": "1627c246444f0364bbbebc2d3120a73c02a1be9695399612b0a09b3b383ab862"
     },
     "crossing-field": {
       "release": "crossing field · SAO edition SVWC-7871",
@@ -2329,7 +2449,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/crossing-field-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        600,
+        533
+      ],
+      "sha256": "23f68956fefcc74cacbfebac3f2d9a93ffaac04e7680d756b7cad24ede8e984b",
+      "bytes": 112638,
+      "original_size": [
+        600,
+        533
+      ],
+      "retrieved_from": "https://www.sonymusicshop.jp/img/1/item/SVW/C00/000/SVWC000007871_SHOP__650_650_102400_jpg.jpg?tf=gray",
+      "source_sha256": "74da85c823bb795e10ef7d45a1141bf7edbce6b61b05d9940881334533e1508c"
     },
     "halloween-night": {
       "release": "今宵はHalloween Night! · CVRD-011",
@@ -2338,7 +2470,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/halloween-night-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "9ebd96b47fa220bbe3db653ab8644af62784a52be05ce2531dfd5b08f231c042",
+      "bytes": 365794,
+      "original_size": [
+        1750,
+        1750
+      ],
+      "retrieved_from": "https://prtimes.jp/i/30268/309/ogp/d30268-309-788286-0.jpg",
+      "source_sha256": "f32815a25e99155725141ad50821c84c67701c454547b53f9ffb2694e2765941"
     },
     "suki-yuki-maji-magic": {
       "release": "銀雪のアリア feat. 初音ミク · SNOW MIKU 2014",
@@ -2347,7 +2491,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/suki-yuki-maji-magic-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        400,
+        400
+      ],
+      "sha256": "82b9bf1a55769728cfa4b19b96f01e70a67ecb663e778fc604fefbcd0acaac48",
+      "bytes": 66774,
+      "original_size": [
+        400,
+        400
+      ],
+      "retrieved_from": "https://img.atwiki.jp/hmiku/attach/31254/175/IMG_0654.png",
+      "source_sha256": "79dda56fe75bd5c77efd4d73d698452fe81d7a9474185b1870222037735dc1c3"
     }
   }
 }
