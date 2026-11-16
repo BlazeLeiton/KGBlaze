@@ -1670,7 +1670,7 @@
       "source": "https://honeyworks.jp/release/cwhw_1stal/",
       "origin": "https://honeyworks.jp/wp/wp-content/uploads/2020/08/sekaihainimichiteiru_2.jpg",
       "version": 2,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/heart-no-shuchou-v2.webp",
       "status": "preserved",
       "previous": {
@@ -2062,7 +2062,7 @@
       "source": "https://www.sonymusic.co.jp/artist/aoieir/info/494743",
       "origin": "https://www.sonymusic.co.jp/img/common/artist_image/70006000/70006748/images/eiraoi_ryusei_anime_s_karu.jpg",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/ryuusei-v1.webp",
       "status": "preserved",
       "size": [
@@ -2314,7 +2314,7 @@
       "source": "https://www.sonymusic.co.jp/artist/FumiyaFujii/discography/AICT-1318",
       "origin": "https://www.sonymusic.co.jp/adm_image/common/artist_image/70000000/70000893/jacket_image/31287.jpg",
       "version": 3,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/born-to-be-a-winner-v3.webp",
       "status": "preserved",
       "previous": {
@@ -2370,7 +2370,7 @@
       "source": "https://bulbapedia.bulbagarden.net/wiki/File:Pok%C3%A9mon_Advanced_Region_1_The_Complete_Collection.png",
       "origin": "https://archives.bulbagarden.net/media/upload/d/d2/Pok%C3%A9mon_Advanced_Region_1_The_Complete_Collection.png",
       "version": 3,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/i-wanna-be-a-hero-v3.webp",
       "status": "preserved",
       "previous": {
@@ -2398,7 +2398,7 @@
       "source": "https://bulbapedia.bulbagarden.net/wiki/File:Pok%C3%A9mon_Advanced_Challenge_Region_1_The_Complete_Collection.png",
       "origin": "https://archives.bulbagarden.net/media/upload/2/2c/Pok%C3%A9mon_Advanced_Challenge_Region_1_The_Complete_Collection.png",
       "version": 3,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/this-dream-v3.webp",
       "status": "preserved",
       "previous": {
@@ -2454,7 +2454,7 @@
       "source": "https://archives.bulbagarden.net/wiki/File:Pok%C3%A9mon_Battle_Frontier_Region_1_The_Complete_Collection.png",
       "origin": "https://archives.bulbagarden.net/media/upload/b/b5/Pok%C3%A9mon_Battle_Frontier_Region_1_The_Complete_Collection.png",
       "version": 3,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/battle-frontier-v3.webp",
       "status": "preserved",
       "previous": {
