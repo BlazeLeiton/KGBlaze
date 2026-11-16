@@ -1058,7 +1058,7 @@ test('Stage 35 particular credits: Kirameki original cast independent of Team Pa
 test('Stage 35 original adapters, later modifications and performed adjustments remain separate',()=>{
  const cases=[
  ['connect','Sekai025','Blaze Leiton'],
- ['harumodoki','beck · matcha allen','Blaze Leiton'],
+ ['harumodoki','beck y matcha allen','Blaze Leiton'],
  ['starlog','SMGirlFanduber','Blaze Leiton']
  ];
  for(const [slug,credit,adjust] of cases){
