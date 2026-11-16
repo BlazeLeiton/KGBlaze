@@ -2065,25 +2065,13 @@
       "source_sha256": "ac5815a8ca57ed0ab788ff593f0c08c483b7d759046c74a24a0166a5c26fbf26"
     },
     "under-the-party-lights": {
-      "release": "Under the Party Lights · official 6th EN anniversary MV",
-      "source": "https://www.youtube.com/watch?v=sW02T8Pwq5s",
-      "origin": "https://i.ytimg.com/vi/sW02T8Pwq5s/hqdefault.jpg",
-      "version": 1,
+      "release": "Under the Party Lights (From Azur Lane) · 2024 digital single",
+      "source": "https://music.apple.com/us/album/under-the-party-lights-from-azur-lane-single/1761735742",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/63/b4/d6/63b4d60e-a150-7108-6992-856866289f58/198009835256.png/600x600bf-60.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/under-the-party-lights-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "16de6accb4de3884b93650be984cbb2028b887c90ae89f1c9c8157e57e699b48",
-      "bytes": 29374,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/sW02T8Pwq5s/hqdefault.jpg",
-      "source_sha256": "a83b927d63982259e5e7e4cd552f889968cb574d42c51b4b351ec7c318cc1b97"
+      "path": "/music-artwork/under-the-party-lights-v2.webp",
+      "status": "pending-snapshot"
     },
     "caste-room": {
       "release": "カーストルーム · LACM-14647",
@@ -2149,25 +2137,13 @@
       "source_sha256": "92f872131de19dc2bec836fe4d2ad70fdc60784fdfca8360d3aa2c2f32c80143"
     },
     "toge-toge-sadistic": {
-      "release": "とげとげサディスティック · official anime ending",
-      "source": "https://www.youtube.com/watch?v=9QfEJDEjf_Q",
-      "origin": "https://i.ytimg.com/vi/9QfEJDEjf_Q/hqdefault.jpg",
-      "version": 1,
+      "release": "Gushing Over Magical Girls · LACA-19031/2 OST",
+      "source": "https://www.cdjapan.co.jp/product/LACA-19031",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/a4/b9/b1/a4b9b13e-02f3-650f-369d-958757eddcf1/4540774190317.png/3000x3000bb.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/toge-toge-sadistic-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "49e69d5d36479da10713f9a4e2d7ec0c1443395f5e7e42cf2a28acb20e12db75",
-      "bytes": 43998,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/9QfEJDEjf_Q/hqdefault.jpg",
-      "source_sha256": "cb8a9dc2f738f71d62f9b39b1b2379f42d5b320055b1192d3a86301017381c0a"
+      "path": "/music-artwork/toge-toge-sadistic-v2.webp",
+      "status": "pending-snapshot"
     },
     "your-reality": {
       "release": "Your Reality · original game soundtrack",
@@ -2233,130 +2209,58 @@
       "source_sha256": "e4d59e089d805dfa72d4524d48cde7cc18dbd62b77e21b518b39df95417adcef"
     },
     "born-to-be-a-winner": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon 4Ever · English-language movie poster",
+      "source": "https://www.rottentomatoes.com/m/pokemon_4ever",
+      "origin": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p29963_p_v10_ab.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/born-to-be-a-winner-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/born-to-be-a-winner-v2.webp",
+      "status": "pending-snapshot"
     },
     "believe-in-me": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Heroes: Latios & Latias · English-language movie poster",
+      "source": "https://www.imdb.com/title/tt0347791/",
+      "origin": "https://m.media-amazon.com/images/M/MV5BYWJlMGQxNDYtZTc5NC00MzlhLWI1MTItZmU1NjY1MTRlZjFjXkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/believe-in-me-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/believe-in-me-v2.webp",
+      "status": "pending-snapshot"
     },
     "i-wanna-be-a-hero": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Advanced · VIZ Media Complete Collection",
+      "source": "https://www.collectorsanime.com/viz-media-pokemon-advanced-season-6-dvd.html",
+      "origin": "https://cdn.shoplightspeed.com/shops/608693/files/4269254/800x1024x2/viz-media-pokemon-advanced-season-6-dvd.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/i-wanna-be-a-hero-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/i-wanna-be-a-hero-v2.webp",
+      "status": "pending-snapshot"
     },
     "this-dream": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Advanced Challenge · VIZ Media Complete Collection",
+      "source": "https://www.collectorsanime.com/viz-media-pokemon-advanced-challenge-season-7-dvd.html",
+      "origin": "https://static.shoplightspeed.com/shops/608693/files/004974001/viz-media-pokemon-advanced-challenge-season-7-dvd.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/this-dream-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/this-dream-v2.webp",
+      "status": "pending-snapshot"
     },
     "unbeatable": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon: Lucario and the Mystery of Mew · English-language movie poster",
+      "source": "https://www.rottentomatoes.com/m/pokemon_lucario_and_the_mystery_of_mew_2006",
+      "origin": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak%3D/v3/t/assets/p15641035_p_v10_aa.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/unbeatable-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/unbeatable-v2.webp",
+      "status": "pending-snapshot"
     },
     "battle-frontier": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Battle Frontier · VIZ Media Complete Collection",
+      "source": "https://pokemonblog.com/tag/pokemon-battle-frontier-the-complete-collection/",
+      "origin": "https://poketouch.files.wordpress.com/2018/10/pokemon_battle_frontier_the_complete_collection_featuring_ash_pikachu_may_brock_and_max.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/battle-frontier-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/battle-frontier-v2.webp",
+      "status": "pending-snapshot"
     },
     "pokemon-theme": {
       "release": "Pokémon 2.B.A. Master · 1999",
