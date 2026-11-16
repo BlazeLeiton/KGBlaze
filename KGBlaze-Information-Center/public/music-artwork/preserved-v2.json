@@ -1862,25 +1862,20 @@
       "source_sha256": "061b65da2de7c3e25987d6ba12dc395933bd3fe76bbf46e2d18ed973d93bcc87"
     },
     "ougon-kouro": {
-      "release": "黄金航路 · Azur Lane 6th anniversary official PV",
-      "source": "https://www.youtube.com/watch?v=xC8B5bzznUA",
-      "origin": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg",
-      "version": 1,
+      "release": "黄金航路 · PCSP-05328 · original digital single",
+      "source": "https://www.014014.jp/discography/5579",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/d6/2c/3d/d62c3d4f-d78c-af94-8b23-7e012e9b83f3/PCSP_05328_A.jpg/1200x1200bb.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/ougon-kouro-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "0e2ada6bf720c48b97d04bf73dbc92b61ae1795549a22101b0c269801bfd88e0",
-      "bytes": 26188,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg",
-      "source_sha256": "c00189423fb5e27ebe6e25db4c8da23575f8094445c6e7798f5a2d04ecc4cce0"
+      "path": "/music-artwork/ougon-kouro-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/ougon-kouro-v1.webp",
+        "sha256": "0e2ada6bf720c48b97d04bf73dbc92b61ae1795549a22101b0c269801bfd88e0",
+        "source": "https://www.youtube.com/watch?v=xC8B5bzznUA",
+        "origin": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg"
+      }
     },
     "p3-fes": {
       "release": "Persona 3 FES OST · SVWC-7464",
@@ -2275,158 +2270,116 @@
       "source_sha256": "4fe1754fc7f156a15f002b1539b1a385cc950ceac15220006d2e711752571e31"
     },
     "u-belle": {
-      "release": "BELLE · original Japanese digital soundtrack · track 1 U",
-      "source": "https://popscene.jp/news/050817",
-      "origin": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg",
-      "version": 2,
+      "release": "BELLE · international original motion picture soundtrack · Milan Records",
+      "source": "https://milanrecords.com/release/belle-original-motion-picture-soundtrack-english-edition/",
+      "origin": "https://baseec-img-mng.akamaized.net/images/item/origin/bdc334fa75af5ba6c9eca10ca474de22.jpg?im=Resize%2Cwidth%3D1280%2Ctype%3Dnormal&imformat=generic&q=90",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/u-belle-v2.webp",
-      "status": "preserved",
+      "path": "/music-artwork/u-belle-v3.webp",
+      "status": "pending-snapshot",
       "previous": {
-        "version": 1,
-        "path": "/music-artwork/u-belle-v1.webp",
-        "sha256": "738b9b9cb830f8c6be839399f00899b7837a2bbb62ccfaabfa840250935fd00c",
-        "source": "https://musicbrainz.org/release/28f857cc-8364-4476-b0fe-8103135c7346",
-        "origin": "https://coverartarchive.org/release/28f857cc-8364-4476-b0fe-8103135c7346/front-500"
-      },
-      "size": [
-        1000,
-        990
-      ],
-      "sha256": "39aa03eea16c12b55168ad7adb4fca7872aaad3c93727bc8e8f7ac7846958fb1",
-      "bytes": 192126,
-      "original_size": [
-        1000,
-        990
-      ],
-      "retrieved_from": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg",
-      "source_sha256": "a43f1ccced9db0072b53692354912c39dd5346363e46cc83f292814f1f0f4ef6"
+        "version": 2,
+        "path": "/music-artwork/u-belle-v2.webp",
+        "sha256": "39aa03eea16c12b55168ad7adb4fca7872aaad3c93727bc8e8f7ac7846958fb1",
+        "source": "https://popscene.jp/news/050817",
+        "origin": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg"
+      }
     },
     "born-to-be-a-winner": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "明日天気にしておくれ · AICT-1318 · Celebi film single",
+      "source": "https://www.sonymusic.co.jp/artist/FumiyaFujii/discography/AICT-1318",
+      "origin": "https://www.sonymusic.co.jp/adm_image/common/artist_image/70000000/70000893/jacket_image/31287.jpg",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/born-to-be-a-winner-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/born-to-be-a-winner-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/born-to-be-a-winner-v1.webp",
+        "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+        "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+        "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
+      }
     },
     "believe-in-me": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Heroes · Japanese OST · ZMCP-1457",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Guardian_Gods_of_the_City_of_Water:_Latias_and_Latios_Music_Collection",
+      "origin": "https://i1.sndcdn.com/artworks-tiPaXGDylGOVEzeN-0WgyPg-t500x500.jpg",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/believe-in-me-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/believe-in-me-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/believe-in-me-v1.webp",
+        "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+        "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+        "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
+      }
     },
     "i-wanna-be-a-hero": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Advanced · VIZ complete collection",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/File:Pok%C3%A9mon_Advanced_Region_1_The_Complete_Collection.png",
+      "origin": "https://archives.bulbagarden.net/media/upload/d/d2/Pok%C3%A9mon_Advanced_Region_1_The_Complete_Collection.png",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/i-wanna-be-a-hero-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/i-wanna-be-a-hero-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/i-wanna-be-a-hero-v1.webp",
+        "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+        "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+        "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
+      }
     },
     "this-dream": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Advanced Challenge · VIZ complete collection",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/File:Pok%C3%A9mon_Advanced_Challenge_Region_1_The_Complete_Collection.png",
+      "origin": "https://archives.bulbagarden.net/media/upload/2/2c/Pok%C3%A9mon_Advanced_Challenge_Region_1_The_Complete_Collection.png",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/this-dream-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/this-dream-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/this-dream-v1.webp",
+        "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+        "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+        "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
+      }
     },
     "unbeatable": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Lucario and the Mystery of Mew · Japanese OST · ZMCP-2303",
+      "source": "https://bulbapedia.bulbagarden.net/wiki/Mew_and_the_Wave-Guiding_Hero:_Lucario_Music_Collection",
+      "origin": "https://i.ebayimg.com/images/g/4GIAAeSwSSVogcoE/s-l960.jpg",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/unbeatable-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/unbeatable-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/unbeatable-v1.webp",
+        "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+        "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+        "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
+      }
     },
     "battle-frontier": {
-      "release": "Pokémon X: 10 Years of Pokémon · original TV themes",
-      "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
-      "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "version": 1,
+      "release": "Pokémon Battle Frontier · VIZ complete collection",
+      "source": "https://archives.bulbagarden.net/wiki/File:Pok%C3%A9mon_Battle_Frontier_Region_1_The_Complete_Collection.png",
+      "origin": "https://archives.bulbagarden.net/media/upload/b/b5/Pok%C3%A9mon_Battle_Frontier_Region_1_The_Complete_Collection.png",
+      "version": 3,
       "fit": "contain",
-      "path": "/music-artwork/battle-frontier-v1.webp",
-      "status": "preserved",
-      "size": [
-        1200,
-        1198
-      ],
-      "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
-      "bytes": 309730,
-      "original_size": [
-        1200,
-        1198
-      ],
-      "retrieved_from": "https://f4.bcbits.com/img/a4294266613_10.jpg",
-      "source_sha256": "2dea88e60177452d4aa1a876f80624302f043fb2bd98d806fef66fa8dad483a9"
+      "path": "/music-artwork/battle-frontier-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/battle-frontier-v1.webp",
+        "sha256": "8e0a1b78b70a0d6bc1c70fb298111c960766ba05ea1b470c355844712e79a767",
+        "source": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_X_(CD)",
+        "origin": "https://f4.bcbits.com/img/a4294266613_10.jpg"
+      }
     },
     "pokemon-theme": {
       "release": "Pokémon 2.B.A. Master · 1999",

@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   verify:
-    if: (github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/st30-editorial-hotfix' || github.head_ref == 'relight/st30-artwork-ano-ne' || github.head_ref == 'relight/st30-public-lyric-cleanup' || github.head_ref == 'relight/st30-stanza-recovery' || github.head_ref == 'relight/contextual-repertoire' || github.head_ref == 'relight/el-mismo-sol-authorship' || github.head_ref == 'relight/el-mismo-sol-lyrics' || github.head_ref == 'relight/individual-repertoire-block01' || github.head_ref == 'relight/padoru-and-live-variants' || github.head_ref == 'relight/individual-repertoire-block02' || github.head_ref == 'relight/individual-repertoire-block03' || github.head_ref == 'relight/individual-repertoire-block04' || github.head_ref == 'relight/individual-repertoire-block05' || github.head_ref == 'relight/post-album-editorial-review' || github.head_ref == 'relight/padoru-identifiers-final') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/st30-editorial-hotfix' || github.head_ref == 'relight/st30-artwork-ano-ne' || github.head_ref == 'relight/st30-public-lyric-cleanup' || github.head_ref == 'relight/st30-stanza-recovery' || github.head_ref == 'relight/contextual-repertoire' || github.head_ref == 'relight/el-mismo-sol-authorship' || github.head_ref == 'relight/el-mismo-sol-lyrics' || github.head_ref == 'relight/individual-repertoire-block01' || github.head_ref == 'relight/padoru-and-live-variants' || github.head_ref == 'relight/individual-repertoire-block02' || github.head_ref == 'relight/individual-repertoire-block03' || github.head_ref == 'relight/individual-repertoire-block04' || github.head_ref == 'relight/individual-repertoire-block05' || (github.head_ref == 'relight/post-album-editorial-review' || github.head_ref == 'relight/approved-final-eight-jackets') || github.head_ref == 'relight/padoru-identifiers-final') && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: write
     runs-on: ubuntu-24.04
@@ -23,13 +23,13 @@ jobs:
         with:
           python-version: '3.12'
       - name: Preserve all registered artwork
-        if: github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/contextual-repertoire' || github.head_ref == 'relight/individual-repertoire-block01' || github.head_ref == 'relight/individual-repertoire-block02' || github.head_ref == 'relight/individual-repertoire-block03' || github.head_ref == 'relight/individual-repertoire-block04' || github.head_ref == 'relight/individual-repertoire-block05' || github.head_ref == 'relight/post-album-editorial-review'
+        if: github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/contextual-repertoire' || github.head_ref == 'relight/individual-repertoire-block01' || github.head_ref == 'relight/individual-repertoire-block02' || github.head_ref == 'relight/individual-repertoire-block03' || github.head_ref == 'relight/individual-repertoire-block04' || github.head_ref == 'relight/individual-repertoire-block05' || (github.head_ref == 'relight/post-album-editorial-review' || github.head_ref == 'relight/approved-final-eight-jackets')
         working-directory: KGBlaze-Information-Center
         run: |
           python -m pip install Pillow
           python scripts/preserve-artwork.py --strict
       - name: Record verified new jackets
-        if: github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/contextual-repertoire' || github.head_ref == 'relight/individual-repertoire-block01' || github.head_ref == 'relight/individual-repertoire-block02' || github.head_ref == 'relight/individual-repertoire-block03' || github.head_ref == 'relight/individual-repertoire-block04' || github.head_ref == 'relight/individual-repertoire-block05' || github.head_ref == 'relight/post-album-editorial-review'
+        if: github.head_ref == 'relight/horizontes-intake' || github.head_ref == 'relight/contextual-repertoire' || github.head_ref == 'relight/individual-repertoire-block01' || github.head_ref == 'relight/individual-repertoire-block02' || github.head_ref == 'relight/individual-repertoire-block03' || github.head_ref == 'relight/individual-repertoire-block04' || github.head_ref == 'relight/individual-repertoire-block05' || (github.head_ref == 'relight/post-album-editorial-review' || github.head_ref == 'relight/approved-final-eight-jackets')
         run: |
           git add KGBlaze-Information-Center/public/music-artwork/
           if ! git diff --cached --quiet; then
