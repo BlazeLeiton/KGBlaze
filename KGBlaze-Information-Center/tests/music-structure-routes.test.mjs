@@ -85,7 +85,7 @@ test('Latin/romanized primary titles in ES/EN and Japanese source-first hierarch
   for(const lang of ['es','en','ja']){
    const h=displayTitle(musicPage('/music/songs/'+song.slug+'/',new URLSearchParams({lang})));
    const catalog=musicPage('/music/songs/',new URLSearchParams({lang}));
-   const card=catalog.match(/<article class="song"[^>]*>[\\s\\S]*?<\\/article>/g).find(c=>c.includes('/music/songs/'+song.slug+'/'));
+   const card=catalog.match(/<article class="song"[^>]*>[\s\S]*?<\/article>/g).find(c=>c.includes('/music/songs/'+song.slug+'/'));
    assert.ok(card,song.slug+' '+lang+' catalog card');
    const main=lang==='es'?spanish:english,sub=lang==='es'?english:spanish;
    assert.ok(h.includes('<span class="title-primary">'+escape(main)+'</span>'),song.slug+' '+lang+' primary title');
