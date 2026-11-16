@@ -1086,16 +1086,22 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
   assert.equal(ot.creatorReferenceCover.url,'https://www.youtube.com/watch?v=Kf6DCF3Cud0');
   for(const lang of ['es','en','ja'])assert.match(musicPage('/music/song/otome-domo-yo/',new URLSearchParams({lang})),/<dt>[^<]*<\/dt><dd>Marutah<\/dd>/);
  const ry=songs.find(x=>x.slug==='ryuusei');
- assert.equal(ry.lyricInspiration,'SINAY PAOHLA');
-  assert.equal(ry.lyricInspirationSource,'https://www.youtube.com/channel/UCs5knpjw12MTr7diL56ayDw');
-  assert.match(ry.lyricInspirationStatus,/specific video metadata.*not independently verified/);
+ assert.equal(ry.adaptationCredit,'SINAY PAOHLA');
+  assert.equal(ry.adaptationCreditSource,'https://www.youtube.com/watch?v=r1HNNy4a5z8');
+  assert.equal(ry.adaptationCreditChannel,'https://www.youtube.com/channel/UCs5knpjw12MTr7diL56ayDw');
+  assert.match(ry.adaptationAttributionStatus,/creator-confirmed/);
+  assert.equal(ry.lyricInspiration,undefined);
   assert.equal(ry.adjustmentCredit,'Blaze Leiton');
   assert.match(ry.lyricExtension,/full-length/);
   assert.equal(ry.creatorReferenceCover.url,'https://www.youtube.com/watch?v=r1HNNy4a5z8');
   for(const lang of ['es','en','ja'])assert.ok(musicPage('/music/song/ryuusei/',new URLSearchParams({lang})).includes(ry.adjustmentCreditLabel[lang]));
  assert.match(lyricsBySong['ryuusei'].es.text,/Y al lo que carezco recontar/);
- assert.match(musicPage('/music/song/ryuusei/',new URLSearchParams({lang:'es'})),/Inspiración lírica parcial/);
-  assert.match(musicPage('/music/song/ryuusei/',new URLSearchParams({lang:'es'})),/<dt>Inspiración lírica parcial<\/dt><dd>SINAY PAOHLA<\/dd>/);
+ for(const [lang,creditLabel] of [['es','Adaptación al español'],['en','Spanish adaptation'],['ja','スペイン語歌詞の翻案']]){
+   const html=musicPage('/music/song/ryuusei/',new URLSearchParams({lang}));
+   assert.ok(html.includes('<dt>'+creditLabel+'</dt><dd>SINAY PAOHLA</dd>'),lang+' adaptation credit');
+   assert.ok(html.includes(ry.adjustmentCreditLabel[lang]+'</dt><dd>Blaze Leiton</dd>'),lang+' extension credit');
+ }
+ assert.doesNotMatch(musicPage('/music/song/ryuusei/',new URLSearchParams({lang:'es'})),/Inspiración lírica parcial/);
  for(const slug of ['brave-shine','paper-bouquet']){
   const song=songs.find(x=>x.slug===slug);
   assert.ok(song.originalComposer);
