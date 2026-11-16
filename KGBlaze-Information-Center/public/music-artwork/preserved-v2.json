@@ -1672,14 +1672,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/heart-no-shuchou-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/heart-no-shuchou-v1.webp",
         "sha256": "35b4e857919dd9c60efb6edae2c7add1eb5c2ffc38e628faf687147f2fb59725",
         "source": "https://www.youtube.com/watch?v=yQdy7wDfcBw",
         "origin": "https://i.ytimg.com/vi/yQdy7wDfcBw/hqdefault.jpg"
-      }
+      },
+      "size": [
+        750,
+        650
+      ],
+      "sha256": "961f18131fe0603e58cf0ea3e647a96b8e033f1d91cd90adf640d51257615686",
+      "bytes": 149928,
+      "original_size": [
+        750,
+        650
+      ],
+      "retrieved_from": "https://honeyworks.jp/wp/wp-content/uploads/2020/08/sekaihainimichiteiru_2.jpg",
+      "source_sha256": "59719ed85bf29863404c5066f34a13829de415781cc20f8b8665a66bd5742739"
     },
     "karakuri-pierrot": {
       "release": "からくりピエロ · original 40mP music video",
@@ -1877,14 +1889,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/pop-step-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/pop-step-v1.webp",
         "sha256": "0cbd256ad08214f679156c3265deaaf9fa1c027e6b11621ca0d42062fdc54835",
         "source": "https://www.youtube.com/watch?v=CAHsPGk5z6s",
         "origin": "https://i.ytimg.com/vi/CAHsPGk5z6s/hqdefault.jpg"
-      }
+      },
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "c15fe134c18899dd2c78a23c984a06214aff423f6743a01e7ca72e9f537f0911",
+      "bytes": 149866,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://vigilante-anime.com/news/img/20250408_01_01.jpg",
+      "source_sha256": "ce0b3120c02711f37241b7d5da4c0026c9c1df26e8ed330e2dd10b288a5a7a40"
     },
     "spektro": {
       "release": "spektro · official release promotional artwork · episode 9",
@@ -1893,14 +1917,26 @@
       "version": 2,
       "fit": "cover",
       "path": "/music-artwork/spektro-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/spektro-v1.webp",
         "sha256": "53b4ca0e36952bf5cbc3e5a09b81699e42d48aa5083ad9e18421dec242e7c617",
         "source": "https://www.youtube.com/watch?v=rgS4MKJfYrA",
         "origin": "https://i.ytimg.com/vi/rgS4MKJfYrA/hqdefault.jpg"
-      }
+      },
+      "size": [
+        1200,
+        675
+      ],
+      "sha256": "343696de6125b7b86dbae32d4e1f4c5c481e63cdfde094acfb54375aa5bbc04f",
+      "bytes": 98998,
+      "original_size": [
+        1380,
+        776
+      ],
+      "retrieved_from": "https://hoshitele-anime.com/dist/img/news/32/img01.jpg",
+      "source_sha256": "2562add3f0d8355436a548d81949b323d997c235eade16cae1cf318af3fa4b3f"
     },
     "the-secret-night": {
       "release": "THE SECRET NiGHT · LACM-24131",
@@ -2203,14 +2239,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/u-belle-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/u-belle-v1.webp",
         "sha256": "738b9b9cb830f8c6be839399f00899b7837a2bbb62ccfaabfa840250935fd00c",
         "source": "https://musicbrainz.org/release/28f857cc-8364-4476-b0fe-8103135c7346",
         "origin": "https://coverartarchive.org/release/28f857cc-8364-4476-b0fe-8103135c7346/front-500"
-      }
+      },
+      "size": [
+        1000,
+        990
+      ],
+      "sha256": "39aa03eea16c12b55168ad7adb4fca7872aaad3c93727bc8e8f7ac7846958fb1",
+      "bytes": 192126,
+      "original_size": [
+        1000,
+        990
+      ],
+      "retrieved_from": "https://popscene.jp/img/VA_RyuutoSobakasunoHime_OST_JKT20210730.jpg",
+      "source_sha256": "a43f1ccced9db0072b53692354912c39dd5346363e46cc83f292814f1f0f4ef6"
     },
     "born-to-be-a-winner": {
       "release": "Pokémon 4Ever · English-language movie poster",
