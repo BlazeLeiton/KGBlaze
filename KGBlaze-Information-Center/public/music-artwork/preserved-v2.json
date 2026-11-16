@@ -1609,14 +1609,26 @@
       "version": 2,
       "fit": "cover",
       "path": "/music-artwork/leon-no-sabe-que-existo-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/leon-no-sabe-que-existo-v1.webp",
         "sha256": "0036427d64f7c64788e91d3c77a7f851c407a8da446870e0338ac919ad9964a0",
         "source": "https://victoryrecords.bandcamp.com/album/keasbey-nights",
         "origin": "https://i.scdn.co/image/ab67616d0000b27315651aabbaff49ae751bb7c7"
-      }
+      },
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "8001b9c73a45b8b0f5a19eb99e856d70384a26cbd4311cbdafaeb2bbafe528c1",
+      "bytes": 36604,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/5T8FOaQW3dk/hqdefault.jpg",
+      "source_sha256": "b4770b5d769ef80653f4722248b122b5ea228ee2746bc968e44a8a9d32620158"
     },
     "hitoribocchi-tokyo": {
       "release": "結束バンド · Kessoku Band · original album jacket",
@@ -2150,14 +2162,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/caste-room-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/caste-room-v1.webp",
         "sha256": "f7d5144bc8a9c8cb61c4b5ae532310aae70941cd59572ef0cbb8cc2c7b139303",
         "source": "https://zaqzaqzaq.jp/discography/%E3%82%AB%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%A0/",
         "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-14647.jpg"
-      }
+      },
+      "size": [
+        1080,
+        1080
+      ],
+      "sha256": "b3bad5cec48988839576c7c2841fef1f38e436d6852baed1ccc445d5acbe7d45",
+      "bytes": 122492,
+      "original_size": [
+        1080,
+        1080
+      ],
+      "retrieved_from": "https://i1.sndcdn.com/artworks-000257528966-zcxeij-t1080x1080.jpg",
+      "source_sha256": "ead28005be40b1a57184fca2d3fa30732ea2efdef3c4ffcf51323824d9e92acf"
     },
     "dance-in-the-game": {
       "release": "Dance In The Game · LACM-24278 · illustrated reverse jacket",
@@ -2166,14 +2190,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/dance-in-the-game-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/dance-in-the-game-v1.webp",
         "sha256": "44820ba2800df96ed2466b8e08f505176a7a80000c2fcb747703c7d2e8059d53",
         "source": "https://zaqzaqzaq.jp/discography/dance-in-the-game/",
         "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24278.jpg"
-      }
+      },
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "162cb43da271130d85cc103ced71c35804e27054845690fe2e24536c1bcec01c",
+      "bytes": 173846,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://you-zitsu.com/2nd/assets/music/op-b.jpg",
+      "source_sha256": "dc78f72276a36cd4a6fe28446e403c035c98cf31c94d121ea379a58f48b54990"
     },
     "minor-piece": {
       "release": "マイナーピース · digital single · LZC-2651",
@@ -2182,14 +2218,26 @@
       "version": 2,
       "fit": "contain",
       "path": "/music-artwork/minor-piece-v2.webp",
-      "status": "pending-snapshot",
+      "status": "preserved",
       "previous": {
         "version": 1,
         "path": "/music-artwork/minor-piece-v1.webp",
         "sha256": "3925c32ba7dfc7a318b3637a53f4dc9485da5e8f03620fbfdaabcdf9ea7ede93",
         "source": "https://zaqzaqzaq.jp/discography/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%BC%E3%83%94%E3%83%BC%E3%82%B9/",
         "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24513.jpg"
-      }
+      },
+      "size": [
+        1200,
+        1200
+      ],
+      "sha256": "bee4b5d1faa936afb238d186712e6f9fbb9bc624217ecd98a124123a582b23e4",
+      "bytes": 256624,
+      "original_size": [
+        1680,
+        1680
+      ],
+      "retrieved_from": "https://you-zitsu.com/3rd/assets/music/op-jacket-st.webp",
+      "source_sha256": "c9c5bbef8a95325354feed370949607790dc5c7021667dafc5289257ab7ffcf2"
     },
     "toge-toge-sadistic": {
       "release": "Gushing Over Magical Girls · LACA-19031/2 OST",
