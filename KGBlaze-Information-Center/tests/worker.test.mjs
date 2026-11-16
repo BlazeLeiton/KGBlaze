@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {EMPTY_AGENDA,currentMonday} from '../src/core.mjs';
+import {socialPreviewMonday} from '../src/social-preview.mjs';
 class FakeDB{
  constructor(){this.row=null;this.preview=null;this.audits=[];}
  prepare(q){return {bind:(...args)=>({run:async()=>this.run(q,args)}),first:async()=>this.first(q)};}
@@ -36,7 +37,7 @@ test('POST publica revisiones; datos falsos de YT no son confiables; evita borra
 });
 test('OG preview acepta PNG cuadrado, rechaza fecha de semana anterior',async()=>{
  const {env,db}=setup(),buf=new Uint8Array(24);buf.set([137,80,78,71,13,10,26,10]);buf[16]=0;buf[17]=0;buf[18]=4;buf[19]=56;buf[20]=0;buf[21]=0;buf[22]=4;buf[23]=56;
- const r=await call(env,'/api/admin/preview',{method:'POST',headers:{Authorization:'Bearer test-long-private-admin-key','Content-Type':'image/png','X-Terminal-Week':currentMonday()},body:buf});assert.equal(r.status,200);assert.equal(db.preview.week,currentMonday());
+ const r=await call(env,'/api/admin/preview',{method:'POST',headers:{Authorization:'Bearer test-long-private-admin-key','Content-Type':'image/png','X-Terminal-Week':socialPreviewMonday()},body:buf});assert.equal(r.status,200);assert.equal(db.preview.week,socialPreviewMonday());
  const png=await call(env,'/og-semana.png');assert.equal(png.status,200);assert.equal(png.headers.get('Content-Type'),'image/png');
  db.preview.week='2000-01-03';const stale=await call(env,'/og-semana.png');assert.equal(stale.status,404);
 });
