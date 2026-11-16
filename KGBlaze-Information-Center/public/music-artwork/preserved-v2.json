@@ -2701,7 +2701,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/kirameki-rider-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "cf751d8c21d960d1a348cbe8fa5df7d920001570837e25ad1fdde440154059f2",
+      "bytes": 256646,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://hololive.hololivepro.com/wp-content/uploads/2020/07/kirameki_art_%E3%82%A2%E3%83%BC%E3%83%88%E3%83%9B%E3%82%99%E3%83%BC%E3%83%88%E3%82%99-1-1000x1000.png",
+      "source_sha256": "eeab2b10bb122815f0aeca78d8aedefff7a6bada64286c6f493f671278878bdb"
     }
   }
 }
