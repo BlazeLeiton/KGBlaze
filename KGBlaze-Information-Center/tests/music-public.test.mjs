@@ -538,7 +538,7 @@ test('all thirteen selected artwork snapshots exist, with source and integrity m
  assert.equal(Object.keys(manifest).length,11);
  for(const [slug,art] of Object.entries(releaseArtwork)){
   if(art.components||['ano-ne','kono-tate-ni-kakuremasu','koko-kara-koko-kara','one-step','el-nano','there-is-a-reason','xy-and-z','ten-to-sen','kimi-to-iu-shinwa','rvr','zutto','level','kenka','kokuan-glossolalia','hikari-aru-basho-e','starlog','aint-backing-down','tempestas-claim'].includes(slug))continue;
-  if(['miiro','graphite-diamond','high-free-spirits','savior-of-song','yukitoki','harumodoki','megumi-no-ame','daisuki','love-evidence','honey-jet-coaster','stuck-on-you','rakuen-project','please-please','twilight-little-star','shiny-smily-story','villain-vibes','sparks-of-joy','sparks','stars-we-chase','pastel','bad-candy','alive','hana-no-tou','strobe-memory','youthful-beautiful'].includes(slug))continue; // new official sources use cache and fallback until snapshots are captured
+  if(['miiro','graphite-diamond','high-free-spirits','savior-of-song','yukitoki','harumodoki','megumi-no-ame','daisuki','love-evidence','honey-jet-coaster','stuck-on-you','rakuen-project','please-please','twilight-little-star','shiny-smily-story','villain-vibes','sparks-of-joy','sparks','stars-we-chase','pastel','bad-candy','alive','hana-no-tou','strobe-memory','youthful-beautiful','brave-shine'].includes(slug))continue; // new official sources use cache and fallback until snapshots are captured
   const bytes=readFileSync(new URL(newSlugs.includes(slug)?'../public'+manifestV2[slug].path:'../public/music-artwork/'+slug+'-v1.webp',import.meta.url));
   assert.equal(bytes.toString('ascii',0,4),'RIFF');
   assert.equal(bytes.toString('ascii',8,12),'WEBP');
@@ -623,7 +623,7 @@ test('first EP is recording-specific, not a new audio release or duplicate song'
 test('Ocean’s Medley preserves versions, credit, and private drafts',()=>{
  const ep=coverAlbums.find(a=>a.id==='oceans-medley');
  assert.equal(ep.tracks.length,4);assert.equal(ep.releaseDate,null);assert.equal(ep.ordered,false);
- assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,122);
+ assert.equal(songs.flatMap(s=>s.versions).filter(v=>v.public!==false&&v.videoId).length,123);
  const high=songs.find(s=>s.slug==='high-free-spirits');
  assert.equal(high.versions.find(v=>v.id==='original-instrumental').public,false);
  const page=(slug,version='es',lang='es')=>musicPage('/music/'+slug+'/',new URLSearchParams({version,lang}));
@@ -801,7 +801,7 @@ test('editorial families and localized Azur Lane events preserve catalog identit
  const members=family=>cards.filter(c=>c.match(/data-primary-series="([^"]*)"/)[1].split('|').includes(family));
  assert.equal(cards.length,115);assert.equal(members('Azur Lane').length,11);
  for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'])assert.ok(members(family).includes(by('melodia-del-oceano')));
- for(const [family,count] of [['Pokémon',13],['Love Live!',7],['hololive',10],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1]])assert.equal(members(family).length,count,family);
+ for(const [family,count] of [['Pokémon',13],['Love Live!',7],['hololive',10],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',2]])assert.equal(members(family).length,count,family);
  assert.match(by('graphite-diamond'),/data-series="Azur Lane The Animation"/);
  assert.match(by('shiny-smily-story'),/data-filter-affiliation="holo-en holo-jp holo-id"/);
  assert.doesNotMatch(html,/<option value="holo-(?:hope|myth|promise|council)"/);
@@ -988,7 +988,7 @@ test('Kirameki Rider and canonical Padoru artist names preserve independently pu
 
 test('Stage 35 Brave Shine: manual Spanish lyrics, Bury attribution, original Aimer cover',()=>{
  const s=songs.find(s=>s.slug==='brave-shine');assert.ok(s);assert.equal(s.artist,'Aimer');assert.equal(s.originalLyricist,'aimerrhythm');assert.equal(s.originalComposer,'Hisashi Koyama');assert.equal(s.versions.length,1);assert.equal(s.versions[0].videoId,'_z_drk_eeWw');assert.equal(s.versions[0].date,'2025-02-01');assert.equal(s.adaptationCredit,'Call Me Bury (Bury Singer)');assert.match(s.adaptationCreditLabel.es,/atribuida/);assert.match(s.adaptationAttributionStatus,/not-independently-verified/);
- const l=lyricsBySong['brave-shine'].es;assert.equal(l.kind,'adaptation');assert.equal(l.language,'ES');assert.equal(l.text.split('\\n\\n').length,11);assert.equal((l.text.match(/Brave Shine/g)||[]).length,2);assert.equal((l.text.match(/Tu brillo\\./g)||[]).length,2);assert.match(l.text,/Solo debes continuar\\./);assert.match(l.text,/olvidó radiar/);assert.match(l.text,/de mi propio amanecer/);assert.doesNotMatch(l.text,/Sólo debes|olvidó brillar/);
+ const l=lyricsBySong['brave-shine'].es;assert.equal(l.kind,'adaptation');assert.equal(l.language,'ES');assert.equal(l.text.split('\n\n').length,11);assert.equal((l.text.match(/Brave Shine/g)||[]).length,2);assert.equal((l.text.match(/Tu brillo\./g)||[]).length,2);assert.match(l.text,/Solo debes continuar\./);assert.match(l.text,/olvidó radiar/);assert.match(l.text,/de mi propio amanecer/);assert.doesNotMatch(l.text,/Sólo debes|olvidó brillar/);
  const a=releaseArtwork['brave-shine'];assert.match(a.source,/sonymusic/);assert.match(a.release,/DFCL-2130/);assert.match(artworkURL('brave-shine'),/brave-shine-v1/);
  for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/brave-shine.json').locales[lang].es;assert.ok(d.html.includes('_z_drk_eeWw'));assert.ok(d.lyrics.es.hasText);assert.match(d.lyrics.es.full,/tu brillo/i);const h=musicPage('/music/song/brave-shine/',new URLSearchParams({lang}));assert.match(h,/Call Me Bury/);assert.match(h,/Brave Shine/);}
 });
