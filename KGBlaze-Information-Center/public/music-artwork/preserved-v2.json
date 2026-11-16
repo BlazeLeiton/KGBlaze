@@ -2071,7 +2071,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/under-the-party-lights-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "16de6accb4de3884b93650be984cbb2028b887c90ae89f1c9c8157e57e699b48",
+      "bytes": 29374,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/sW02T8Pwq5s/hqdefault.jpg",
+      "source_sha256": "a83b927d63982259e5e7e4cd552f889968cb574d42c51b4b351ec7c318cc1b97"
     },
     "caste-room": {
       "release": "カーストルーム · LACM-14647",
@@ -2080,7 +2092,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/caste-room-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "f7d5144bc8a9c8cb61c4b5ae532310aae70941cd59572ef0cbb8cc2c7b139303",
+      "bytes": 74464,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-14647.jpg",
+      "source_sha256": "e5e8724c60334fc6b601327f188620f13366ccf22490d0d99015264dbe5224f5"
     },
     "dance-in-the-game": {
       "release": "Dance In The Game · LACM-24278",
@@ -2089,7 +2113,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/dance-in-the-game-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "44820ba2800df96ed2466b8e08f505176a7a80000c2fcb747703c7d2e8059d53",
+      "bytes": 409328,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24278.jpg",
+      "source_sha256": "4bb3f4726365a287265b58b7d3a69ebbc2b18b6675abfc1ad6c4fcba4912c263"
     },
     "minor-piece": {
       "release": "マイナーピース · LACM-24513",
@@ -2098,7 +2134,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/minor-piece-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        1000,
+        1000
+      ],
+      "sha256": "3925c32ba7dfc7a318b3637a53f4dc9485da5e8f03620fbfdaabcdf9ea7ede93",
+      "bytes": 90776,
+      "original_size": [
+        1000,
+        1000
+      ],
+      "retrieved_from": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24513.jpg",
+      "source_sha256": "92f872131de19dc2bec836fe4d2ad70fdc60784fdfca8360d3aa2c2f32c80143"
     },
     "toge-toge-sadistic": {
       "release": "とげとげサディスティック · official anime ending",
@@ -2107,7 +2155,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/toge-toge-sadistic-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "49e69d5d36479da10713f9a4e2d7ec0c1443395f5e7e42cf2a28acb20e12db75",
+      "bytes": 43998,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/9QfEJDEjf_Q/hqdefault.jpg",
+      "source_sha256": "cb8a9dc2f738f71d62f9b39b1b2379f42d5b320055b1192d3a86301017381c0a"
     },
     "your-reality": {
       "release": "Your Reality · original game soundtrack",
@@ -2116,7 +2176,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/your-reality-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "13414712adc20991117c5cf0f3afbabd7c9e4aa7185eea0d380ff932177eb77b",
+      "bytes": 33400,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg",
+      "source_sha256": "92aa27e35fb128d2abd77c8b2b116f4644d8976a588f0a355b87ba1396a48558"
     },
     "yakusoku": {
       "release": "約束 · BRMM-10227",
@@ -2125,7 +2197,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/yakusoku-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "0f2686516d50be5df93cf0c0b1fe493d5c321fa02ac4d6f89f021a956012a32d",
+      "bytes": 1422,
+      "original_size": [
+        128,
+        128
+      ],
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/06/36/BRMM-10227.jpg",
+      "source_sha256": "8470220bc561cbe762dd82fce863ac9680213ac62a267111de7a23bdf73d4d45"
     },
     "u-belle": {
       "release": "U · BVCL-1172",
@@ -2134,7 +2218,19 @@
       "version": 1,
       "fit": "contain",
       "path": "/music-artwork/u-belle-v1.webp",
-      "status": "pending-snapshot"
+      "status": "preserved",
+      "size": [
+        400,
+        400
+      ],
+      "sha256": "738b9b9cb830f8c6be839399f00899b7837a2bbb62ccfaabfa840250935fd00c",
+      "bytes": 66196,
+      "original_size": [
+        400,
+        400
+      ],
+      "retrieved_from": "https://dn721809.ca.archive.org/0/items/mbid-28f857cc-8364-4476-b0fe-8103135c7346/mbid-28f857cc-8364-4476-b0fe-8103135c7346-31612181373_thumb500.jpg",
+      "source_sha256": "e4d59e089d805dfa72d4524d48cde7cc18dbd62b77e21b518b39df95417adcef"
     }
   }
 }
