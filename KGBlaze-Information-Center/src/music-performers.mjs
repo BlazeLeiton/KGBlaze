@@ -5,6 +5,7 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'kirameki-rider':{kind:'group',name:name('hololive IDOL PROJECT'),cast:[{character:name('Tokino Sora','ときのそら')},{character:name('Roboco-san','ロボ子さん')},{character:name('Shirakami Fubuki','白上フブキ')},{character:name('Minato Aqua','湊あくあ')},{character:name('Shirogane Noel','白銀ノエル')}],source:'https://hololive.hololivepro.com/en/music/%E3%82%AD%E3%83%A9%E3%83%A1%E3%82%AD%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E2%98%86-2/'},
  'halloween-night':{kind:'group',name:name('hololive IDOL PROJECT'),cast:[voice('Yozora Mel','夜空メル','Yozora Mel','夜空メル'),voice('Murasaki Shion','紫咲シオン','Murasaki Shion','紫咲シオン'),voice('Yuzuki Choco','癒月ちょこ','Yuzuki Choco','癒月ちょこ'),voice('Uruha Rushia','潤羽るしあ','Uruha Rushia','潤羽るしあ')].map(x=>({character:x.character})),source:'https://hololive.hololivepro.com/en/music/%E4%BB%8A%E5%AE%B5%E3%81%AFhalloween-night-2/'},
  'suki-yuki-maji-magic':{kind:'artist',name:name('Mitchie M feat. Hatsune Miku','Mitchie M feat. 初音ミク'),cast:[],source:'https://karent.jp/webnews/452'},
  'crossing-field':{kind:'artist',name:name('LiSA'),cast:[],source:'https://www.uta-net.com/song/133622/'},
