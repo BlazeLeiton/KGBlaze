@@ -47,10 +47,15 @@ export function musicPage(path,query,mode='html'){
  const displayLanguageCode=k=>k==='JA'?'JP':k;
  const languageText=s=>languages(s).map(displayLanguageCode).join(' / ')||t.multilingual;
  const langOptions=[...new Set(songs.flatMap(languageKeys))].sort();
- const primaryTitle=s=>lang==='ja'?s.title:(s.romanized&&s.romanized!==s.title?s.romanized:s.title);
- const secondaryTitle=s=>lang==='ja'?s.romanized||null:(s.romanized&&s.romanized!==s.title?s.title:(s.localizedTitle?.[lang]||s.localizedTitle?.es||null));
+ // English-source songs with documented Spanish titles use a separate bilingual
+ // hierarchy. Japanese-source romanization retains its existing ES/EN and JA rules.
+ const hasBilingualTitle=s=>!s.romanized&&!!(s.localizedTitle?.es||s.localizedTitle?.en);
+ const titleEs=s=>s.localizedTitle?.es||s.title;
+ const titleEn=s=>s.localizedTitle?.en||s.title;
+ const primaryTitle=s=>hasBilingualTitle(s)?(lang==='es'?titleEs(s):titleEn(s)):lang==='ja'?s.title:(s.romanized&&s.romanized!==s.title?s.romanized:s.title);
+ const secondaryTitle=s=>hasBilingualTitle(s)?(lang==='es'?titleEn(s):titleEs(s)):lang==='ja'?s.romanized||null:(s.romanized&&s.romanized!==s.title?s.title:null);
  const fullTitle=s=>primaryTitle(s)+(secondaryTitle(s)&&secondaryTitle(s)!==primaryTitle(s)?' ('+secondaryTitle(s)+')':'');
- const titleMarkup=s=>lang==='ja'
+ const titleMarkup=s=>lang==='ja'&&!hasBilingualTitle(s)
   ? e(s.title)+(s.romanized?' <span class="romanized">('+e(s.romanized)+')</span>':'')+(s.localizedTitle?.ja&&s.localizedTitle.ja!==s.title?' <span class="romanized">('+e(s.localizedTitle.ja)+')</span>':'')
   : '<span class="title-primary">'+e(primaryTitle(s))+'</span>'+(secondaryTitle(s)&&secondaryTitle(s)!==primaryTitle(s)?'<span class="title-secondary">'+e(secondaryTitle(s))+'</span>':'');
  const icon='<svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M5 6v20l11-5 11 5V6l-11 5zM16 11v10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 1v5M13.5 3.5h5" stroke="#FA0073" stroke-width="1.5"/></svg>';
