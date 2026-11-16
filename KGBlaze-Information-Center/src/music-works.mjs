@@ -4,6 +4,12 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Persona 3 FES':names('Persona 3 FES','ペルソナ3フェス'),
+ 'My Hero Academia: Vigilantes':names('My Hero Academia: Vigilantes','ヴィジランテ -僕のヒーローアカデミア ILLEGALS-'),
+ 'Mobile Suit Gundam: The Witch from Mercury':names('Mobile Suit Gundam: The Witch from Mercury','機動戦士ガンダム 水星の魔女','Mobile Suit Gundam: La Bruja de Mercurio'),
+ 'Sword Art Online Alternative: Gun Gale Online':names('Sword Art Online Alternative: Gun Gale Online','ソードアート・オンライン オルタナティブ ガンゲイル・オンライン'),
+ 'Our Last Crusade or the Rise of a New World':names('Our Last Crusade or the Rise of a New World','キミと僕の最後の戦場、あるいは世界が始まる聖戦'),
+ 'Laid-Back Camp':names('Laid-Back Camp','ゆるキャン△','Laid-Back Camp',['Yuru Camp']),
  'Confession Executive Committee':names('Confession Executive Committee','告白実行委員会','Confession Executive Committee',['Kokuhaku Jikkou Iinkai','HoneyWorks']),
  'VOCALOID':names('VOCALOID','VOCALOID',['VOCALOID'].join(''),['Hatsune Miku','Vocaloid']),
  'Otherside Picnic':names('Otherside Picnic','裏世界ピクニック','Otherside Picnic',['Urasekai Picnic']),
