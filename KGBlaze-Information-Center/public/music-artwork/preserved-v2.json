@@ -1664,6 +1664,195 @@
       ],
       "retrieved_from": "https://img.hmv.co.jp/image/jacket/800/71/5/5/950.jpg",
       "source_sha256": "ee9db304e430160c6fa5196fb414f9258ff130a13a704d100b943c71991d5845"
+    },
+    "heart-no-shuchou": {
+      "release": "ハートの主張 · original music video",
+      "source": "https://www.youtube.com/watch?v=yQdy7wDfcBw",
+      "origin": "https://i.ytimg.com/vi/yQdy7wDfcBw/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/heart-no-shuchou-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "35b4e857919dd9c60efb6edae2c7add1eb5c2ffc38e628faf687147f2fb59725",
+      "bytes": 20804,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/yQdy7wDfcBw/hqdefault.jpg",
+      "source_sha256": "5e8d9ab7105d1f455e61c70b99cf0b787c976f0386164f8f4d9395e02484d994"
+    },
+    "karakuri-pierrot": {
+      "release": "からくりピエロ · original 40mP music video",
+      "source": "https://www.youtube.com/watch?v=xxFkW3PCT5M",
+      "origin": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/karakuri-pierrot-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "ee7ff7f9f89786003e18f8054c0f118d27dec4ebef620a6667a7b97afb96a0ca",
+      "bytes": 28616,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg",
+      "source_sha256": "a2cc14f1f7e3534606f9fdab41290a04e6bc6a6b36a4d8e05255b4640fd0a062"
+    },
+    "last-cup-of-coffee": {
+      "release": "last cup of coffee · original digital release",
+      "source": "https://www.youtube.com/watch?v=n64abW0dHNw",
+      "origin": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/last-cup-of-coffee-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "bc2b239b181a7ccb5d82357255fd146ac3094ae50d0f2855aa274fd9bfe518d7",
+      "bytes": 15600,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg",
+      "source_sha256": "30cfe218048ebd2e47e6fe830424fded34357eb77ffb6745a37228d810796781"
+    },
+    "lets-be-one": {
+      "release": "Let's be ONE · LACM-24650",
+      "source": "https://www.cdjapan.co.jp/product/LACM-24650",
+      "origin": "https://st.cdjapan.co.jp/pictures/l/03/48/LACM-24650.jpg?v=2",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/lets-be-one-v1.webp",
+      "status": "preserved",
+      "size": [
+        500,
+        496
+      ],
+      "sha256": "2c2f6563dd7a822e903a3f2b4853196f7ea1efbb74dc991676e118aead413201",
+      "bytes": 100002,
+      "original_size": [
+        500,
+        496
+      ],
+      "retrieved_from": "https://st.cdjapan.co.jp/pictures/l/03/48/LACM-24650.jpg?v=2",
+      "source_sha256": "2260a172b3f70b23489c97fc79fd9f8d045f64240b96ce0ee5e3f4799fe5ee15"
+    },
+    "lonely-feather": {
+      "release": "愛の詩 -words of love- · VTCL-35225 · Lonely Feather",
+      "source": "https://asterisk-war.com/sp/music/",
+      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/lonely-feather-v1.webp",
+      "status": "preserved",
+      "size": [
+        600,
+        595
+      ],
+      "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
+      "bytes": 38410,
+      "original_size": [
+        600,
+        595
+      ],
+      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
+      "source_sha256": "e35841a078ff24ba5cc9d705cb1b4f05178cb6db4dfc635f0ef20d5d63729dad"
+    },
+    "minikui-ikimono": {
+      "release": "鬼ノ森／醜い生き物 · SMCL-696",
+      "source": "https://www.othersidepicnic.com/music/",
+      "origin": "https://www.othersidepicnic.com/cms/wp-content/themes/othersidepicnic/images/music/opening_a_jaket.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/minikui-ikimono-v1.webp",
+      "status": "preserved",
+      "size": [
+        1000,
+        880
+      ],
+      "sha256": "18a45a206dc9a37fa4eaa5d83302ccfe27a8caa3a75041375ef85c785d34c7a3",
+      "bytes": 215104,
+      "original_size": [
+        1000,
+        880
+      ],
+      "retrieved_from": "https://www.othersidepicnic.com/cms/wp-content/themes/othersidepicnic/images/music/opening_a_jaket.jpg",
+      "source_sha256": "11edad510179225475044d436b9c3a747e252cf7aa922982dc5d70d7414d2e13"
+    },
+    "mirai-connection": {
+      "release": "未来コネクション · SECL-2287/8 · anime edition",
+      "source": "https://www.sonymusic.co.jp/artist/real/info/492917",
+      "origin": "https://www.sonymusic.co.jp/img/common/artist_image/70008000/70008086/images/SECL-2287_88_web.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/mirai-connection-v1.webp",
+      "status": "preserved",
+      "size": [
+        300,
+        270
+      ],
+      "sha256": "bfc91c269e3adbfa41470a299ab6844d17cb8735bbeee4f78b95e52c9c7f1bec",
+      "bytes": 26552,
+      "original_size": [
+        300,
+        270
+      ],
+      "retrieved_from": "https://www.sonymusic.co.jp/img/common/artist_image/70008000/70008086/images/SECL-2287_88_web.jpg",
+      "source_sha256": "e3995f056a0b1718d07c71c21d86f28682ad87d0bdc0c736f92b87c712c2bb67"
+    },
+    "otome-domo-yo": {
+      "release": "乙女どもよ。 · SMCL-608 · anime edition",
+      "source": "https://honeyworks.jp/news/5185/",
+      "origin": "https://honeyworks.jp/wp/wp-content/uploads/2019/06/fd578d49f2b1940bafddca0ad6702b19-300x281.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/otome-domo-yo-v1.webp",
+      "status": "preserved",
+      "size": [
+        300,
+        281
+      ],
+      "sha256": "1a104c0e4e09dc5f4662458eac449aa360ef2d6e419d3f53353a51e60a34098f",
+      "bytes": 22874,
+      "original_size": [
+        300,
+        281
+      ],
+      "retrieved_from": "https://honeyworks.jp/wp/wp-content/uploads/2019/06/fd578d49f2b1940bafddca0ad6702b19-300x281.jpg",
+      "source_sha256": "061b65da2de7c3e25987d6ba12dc395933bd3fe76bbf46e2d18ed973d93bcc87"
+    },
+    "ougon-kouro": {
+      "release": "黄金航路 · Azur Lane 6th anniversary official PV",
+      "source": "https://www.youtube.com/watch?v=xC8B5bzznUA",
+      "origin": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg",
+      "version": 1,
+      "fit": "contain",
+      "path": "/music-artwork/ougon-kouro-v1.webp",
+      "status": "preserved",
+      "size": [
+        480,
+        360
+      ],
+      "sha256": "0e2ada6bf720c48b97d04bf73dbc92b61ae1795549a22101b0c269801bfd88e0",
+      "bytes": 26188,
+      "original_size": [
+        480,
+        360
+      ],
+      "retrieved_from": "https://i.ytimg.com/vi/xC8B5bzznUA/hqdefault.jpg",
+      "source_sha256": "c00189423fb5e27ebe6e25db4c8da23575f8094445c6e7798f5a2d04ecc4cce0"
     }
   }
 }
