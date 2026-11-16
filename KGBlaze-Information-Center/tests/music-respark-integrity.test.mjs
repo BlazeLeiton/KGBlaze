@@ -6,7 +6,7 @@ import {lyricsBySong} from '../src/music-lyrics.mjs';
 import {releaseArtwork} from '../src/music-artwork.mjs';
 
 const one=slug=>{const s=songs.find(x=>x.slug===slug);assert.ok(s,'missing '+slug);return s;};
-const html=(slug,lang='es')=>musicPage('/music/song/'+slug+'/',new URLSearchParams({lang}));
+const html=(slug,lang='es')=>musicPage('/music/songs/song/'+slug+'/',new URLSearchParams({lang}));
 
 test('ReSpark Stages 26–35: full inventory, one fiche per work, preserved approved artwork and tri-locale routes',()=>{
  assert.equal(songs.length,115);
