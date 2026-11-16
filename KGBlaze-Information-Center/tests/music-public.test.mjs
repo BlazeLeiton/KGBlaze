@@ -1080,10 +1080,11 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
  assert.doesNotMatch(lyricsBySong['suki-yuki-maji-magic'].es.text,/concrema/);
  assert.match(lyricsBySong['otome-domo-yo'].es.text,/Pero hoy, de nuevo me abruman/);
  const ot=songs.find(x=>x.slug==='otome-domo-yo');
-  assert.match(ot.adaptationCredit,/Autora original del cover de referencia/);
+  assert.equal(ot.adaptationCredit,'Marutah');
+  assert.match(ot.adaptationAttributionEvidence,/Adaptación: Marutah/);
   assert.equal(ot.adjustmentCredit,undefined);
   assert.equal(ot.creatorReferenceCover.url,'https://www.youtube.com/watch?v=Kf6DCF3Cud0');
-  for(const lang of ['es','en','ja'])assert.ok(musicPage('/music/song/otome-domo-yo/',new URLSearchParams({lang})).includes(ot.adaptationCreditLocalized[lang]));
+  for(const lang of ['es','en','ja'])assert.match(musicPage('/music/song/otome-domo-yo/',new URLSearchParams({lang})),/<dt>[^<]*<\/dt><dd>Marutah<\/dd>/);
  const ry=songs.find(x=>x.slug==='ryuusei');
  assert.equal(ry.lyricInspiration,'Sinaí Paola');
   assert.equal(ry.adjustmentCredit,'Blaze Leiton');
