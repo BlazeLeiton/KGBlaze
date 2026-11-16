@@ -4,6 +4,10 @@
 // Japanese titles/subdivisions are independent: per-song sourceJapanese overrides the series fallback.
 const names=(en,ja,es=en,aliases=[])=>({es,en,ja,aliases});
 export const works={
+ 'Sword Art Online':names('Sword Art Online','ソードアート・オンライン'),
+ 'Sword Art Online: Ordinal Scale':names('Sword Art Online: Ordinal Scale','劇場版 ソードアート・オンライン -オーディナル・スケール-'),
+ 'Pokémon Original':{pokemon:true,romaji:'Pocket Monsters',...names('Pokémon Original Series','ポケットモンスター','Pokémon: Serie original'),seasons:{1:names('Pokémon: Indigo League','ポケットモンスター','Pokémon: Liga Añil'),2:names('Pokémon: Adventures in the Orange Islands','ポケットモンスター','Pokémon: Aventuras en las Islas Naranja'),3:names('Pokémon: The Johto Journeys','ポケットモンスター','Pokémon: Los viajes Johto'),4:names('Pokémon: Johto League Champions','ポケットモンスター','Pokémon: Campeones de la Liga Johto'),5:names('Pokémon: Master Quest','ポケットモンスター','Pokémon: La búsqueda del maestro')}},
+ 'Pokémon Ruby & Sapphire':{pokemon:true,romaji:'Pocket Monsters Advanced Generation',...names('Pokémon the Series: Ruby and Sapphire','ポケットモンスター アドバンスジェネレーション','Pokémon: Rubí y Zafiro'),seasons:{6:names('Pokémon: Advanced','ポケットモンスター アドバンスジェネレーション','Pokémon: Fuerza Máxima'),7:names('Pokémon: Advanced Challenge','ポケットモンスター アドバンスジェネレーション','Pokémon: Reto Máximo'),8:names('Pokémon: Advanced Battle','ポケットモンスター アドバンスジェネレーション','Pokémon: Batalla Avanzada'),9:names('Pokémon: Battle Frontier','ポケットモンスター アドバンスジェネレーション','Pokémon: Batalla de la Frontera')}},
  'Classroom of the Elite':{...names('Classroom of the Elite','ようこそ実力至上主義の教室へ'),seasons:{1:names('Classroom of the Elite','ようこそ実力至上主義の教室へ'),2:names('Classroom of the Elite II','ようこそ実力至上主義の教室へ 2nd Season'),3:names('Classroom of the Elite III','ようこそ実力至上主義の教室へ 3rd Season')}},
  'Gushing Over Magical Girls':names('Gushing Over Magical Girls','魔法少女にあこがれて','Gushing Over Magical Girls',['Mahou Shoujo ni Akogarete']),
  'Doki Doki Literature Club!':names('Doki Doki Literature Club!','ドキドキ文芸部！'),
