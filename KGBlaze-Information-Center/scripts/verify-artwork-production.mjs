@@ -9,7 +9,7 @@ let last;
 for(let attempt=0;attempt<24;attempt++){
  try{
   const suffix='?lang=es&arcana-check='+Date.now();
-  const response=await fetch(origin+'/music/'+suffix,{signal:AbortSignal.timeout(15000),cache:'no-store'});
+  const response=await fetch(origin+'/music/songs/'+suffix,{signal:AbortSignal.timeout(15000),cache:'no-store'});
   assert.equal(response.status,200);
   const html=await response.text();
   assert.equal((html.match(/<article class="song"/g)||[]).length,songs.length);

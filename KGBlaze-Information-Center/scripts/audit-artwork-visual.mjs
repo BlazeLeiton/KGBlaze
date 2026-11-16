@@ -20,7 +20,7 @@ try{
  for(const [device,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const page=await browser.newPage({viewport:{width,height}});
   for(const lang of ['es','en','ja']){
-   await page.goto(origin+'/music/?lang='+lang,{waitUntil:'domcontentloaded'});
+   await page.goto(origin+'/music/songs/?lang='+lang,{waitUntil:'domcontentloaded'});
    await page.locator('.square-art img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
    await page.waitForFunction(()=>[...document.querySelectorAll('.square-art img')].every(i=>i.complete),{},{timeout:30000});
    const rows=await page.locator('.song').evaluateAll(cards=>cards.map(c=>{const a=c.querySelector('.square-art'),r=a.getBoundingClientRect();return {href:c.querySelector('a').getAttribute('href'),square:Math.abs(r.width-r.height)<1.5,kind:a.dataset.artKind,images:[...a.querySelectorAll('img')].map(i=>({src:i.currentSrc,width:i.naturalWidth,height:i.naturalHeight,hidden:i.hidden}))}}));
@@ -31,7 +31,7 @@ try{
    // Test every detail route in all locales and both viewport sizes; external YouTube
    // thumbnails are not revalidated as release artwork.
    for(const s of songs){
-    const response=await page.goto(origin+'/music/song/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
+    const response=await page.goto(origin+'/music/songs/'+s.slug+'/?lang='+lang,{waitUntil:'domcontentloaded'});assert.equal(response.status(),200);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),s.slug+' horizontal overflow');
     const video=page.locator('.video-stage,.archive-video').first();
     assert.ok(await video.count(),s.slug+' has no video/archive stage');
@@ -40,7 +40,7 @@ try{
    report.push({device,lang,cards:rows.length,details:songs.length,artwork:rows});
   }
   // Real navigation, rather than just independent document renders.
-  await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  await page.goto(origin+'/music/songs/?lang=es',{waitUntil:'domcontentloaded'});
   const calls=[];page.on('request',r=>{if(r.url().includes('/music/data/'))calls.push(r.url())});
   const initial=await page.evaluate(()=>{window.__musicDocument=Math.random();return window.__musicDocument});
   await page.locator('#search').fill('blue spirit');
@@ -49,7 +49,7 @@ try{
   await page.locator('.music-overlay.is-open #music-detail-content').waitFor();
   const overlay=page.locator('.music-overlay-panel');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial,'opening navigated document');
-  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
@@ -63,7 +63,7 @@ try{
   assert.ok(await overlay.locator('.parallel-pairs .color-part').count());
   assert.ok(await page.evaluate(()=>window.__player===document.querySelector('.music-overlay .video-stage')),'player remounted on lyric change');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
-  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   await page.screenshot({path:resolve(out,device+'-overlay-parallel.png'),fullPage:false});
   await overlay.locator('.music-detail-langs a').filter({hasText:'EN'}).click();
@@ -74,7 +74,7 @@ try{
   assert.equal(await page.locator('#search').inputValue(),'blue spirit');
   assert.ok(await page.locator('#songs').evaluate(n=>n.classList.contains('list')));
   assert.equal(await page.evaluate(()=>document.documentElement.lang),'en');
-  assert.ok(page.url().endsWith('/music/'));
+  assert.ok(page.url().endsWith('/music/songs/'));
   assert.equal(calls.filter(u=>u.includes('/song/blue-spirit.json')).length,1);
   assert.equal(await page.evaluate(()=>localStorage.getItem('kgblaze.locale.v1')),'en');
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
@@ -84,7 +84,7 @@ try{
   await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   assert.equal(await page.evaluate(()=>window.__musicDocument),initial);
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
-  await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
+  await page.goto(origin+'/music/songs/?lang=es',{waitUntil:'domcontentloaded'});
   const series=page.locator('#series'), aff=page.locator('#affiliation'), visible=page.locator('#songs .song:not([hidden])');
   for(const family of ['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel','Pokémon','Kuma Kuma Kuma Bear','Love Live!','hololive','Madoka Magica','Oregairu','Masamune-kun’s Revenge','GRIDMAN UNIVERSE','Fate/series','Formula 1','Pan American Games']){
     const count=songs.filter(s=>workFamilies(s).includes(family)).length;
@@ -92,19 +92,19 @@ try{
    if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(family))assert.equal(await visible.filter({hasText:'Melodía del Océano'}).count(),1);
   }
   for(const [family,slug,caption,heading] of [['Formula 1','el-nano','Fórmula 1','Fórmula 1 · Fernando Alonso'],['Pan American Games','el-mismo-sol','Juegos Panamericanos','Juegos Panamericanos Guadalajara 2011']]){
-   await series.selectOption(family);assert.equal(await visible.count(),1);assert.equal(await visible.locator('.work').textContent(),caption);await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.equal(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),heading);assert.ok(page.url().endsWith('/music/song/'+slug+'/'));await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),family);
+   await series.selectOption(family);assert.equal(await visible.count(),1);assert.equal(await visible.locator('.work').textContent(),caption);await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.equal(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),heading);assert.ok(page.url().endsWith('/music/songs/'+slug+'/'));await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),family);
   }
   await series.selectOption('hololive');for(const [branch,count] of [['holo-en',7],['holo-jp',4],['holo-id',1]]){await aff.selectOption(branch);assert.equal(await visible.count(),count);assert.equal(await visible.filter({hasText:'Shiny Smily Story'}).count(),1);}
   await series.selectOption('Love Live!');await aff.selectOption('ll-nijigasaki');assert.equal(await visible.count(),3);await aff.selectOption('ll-muse');assert.equal(await visible.count(),2);
   await series.selectOption('Azur Lane');await visible.filter({hasText:'graphite/diamond'}).locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.match(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),/Azur Lane The Animation/);
   await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),'Azur Lane');assert.equal(await visible.count(),songs.filter(s=>workFamilies(s).includes('Azur Lane')).length);
   await page.locator('#clear').click();
-  await page.locator('#songs a[href="/music/"][data-music-intent]').filter({hasText:"μ's"}).first().click();
+  await page.locator('#songs a[href="/music/songs/"][data-music-intent]').filter({hasText:"μ's"}).first().click();
   await page.waitForFunction(()=>document.getElementById('affiliation').value==='ll-muse');
   assert.equal(await visible.count(),2);
   await page.locator('#clear').click();
-  await page.goto(origin+'/music/?search=Padoru',{waitUntil:'domcontentloaded'});assert.equal(await visible.count(),7);assert.equal(await page.locator('#search').inputValue(),'Padoru');await visible.filter({hasText:'Beginners Rock'}).locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();await page.locator('.music-overlay .pk-tag').filter({hasText:'Padoru'}).first().click();await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await visible.count(),7);await page.locator('#clear').click();
-  await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});await page.locator('#search').fill('Kaze no Uta');await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();const flow=page.locator('.music-overlay');assert.equal(await flow.locator('.lyric-choice').count(),3);await flow.locator('.lyric-choice').filter({hasText:/^INNOSENSE$/}).click();await flow.locator('.lyric-choice.selected').filter({hasText:/^INNOSENSE$/}).waitFor();assert.match(await flow.locator('.lyrics').innerText(),/El rumbo seguirá/);assert.doesNotMatch(await flow.locator('.lyrics').innerText(),/Un camino más/);await flow.locator('.lyric-choice').filter({hasText:/^Kaze no Uta \+ INNOSENSE$/}).click();await flow.locator('.lyric-track-heading').filter({hasText:'INNOSENSE'}).waitFor();assert.equal(await flow.locator('.lyric-track-heading').count(),2);assert.equal(await flow.locator('.parallel-columns,.parallel-pairs').count(),0);await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
+  await page.goto(origin+'/music/songs/?search=Padoru',{waitUntil:'domcontentloaded'});assert.equal(await visible.count(),7);assert.equal(await page.locator('#search').inputValue(),'Padoru');await visible.filter({hasText:'Beginners Rock'}).locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();await page.locator('.music-overlay .pk-tag').filter({hasText:'Padoru'}).first().click();await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await visible.count(),7);await page.locator('#clear').click();
+  await page.goto(origin+'/music/songs/?lang=es',{waitUntil:'domcontentloaded'});await page.locator('#search').fill('Kaze no Uta');await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();const flow=page.locator('.music-overlay');assert.equal(await flow.locator('.lyric-choice').count(),3);await flow.locator('.lyric-choice').filter({hasText:/^INNOSENSE$/}).click();await flow.locator('.lyric-choice.selected').filter({hasText:/^INNOSENSE$/}).waitFor();assert.match(await flow.locator('.lyrics').innerText(),/El rumbo seguirá/);assert.doesNotMatch(await flow.locator('.lyrics').innerText(),/Un camino más/);await flow.locator('.lyric-choice').filter({hasText:/^Kaze no Uta \+ INNOSENSE$/}).click();await flow.locator('.lyric-track-heading').filter({hasText:'INNOSENSE'}).waitFor();assert.equal(await flow.locator('.lyric-track-heading').count(),2);assert.equal(await flow.locator('.parallel-columns,.parallel-pairs').count(),0);await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});
   console.log(device+' editorial franchise filters, multi-membership, Padoru tag and FLOW selector verified');
   await page.locator('.langs a').filter({hasText:'EN'}).click();await page.waitForFunction(()=>document.documentElement.lang==='en');
   await page.goto(origin+'/departures/',{waitUntil:'domcontentloaded'});
@@ -113,12 +113,12 @@ try{
   await page.waitForFunction(()=>document.documentElement.lang==='ja');
   assert.ok(page.url().endsWith('/departures/'));
   assert.equal(await page.evaluate(()=>localStorage.getItem('kgblaze.locale.v1')),'ja');
-  await page.goto(origin+'/music/song/blue-spirit/',{waitUntil:'domcontentloaded'});
+  await page.goto(origin+'/music/songs/blue-spirit/',{waitUntil:'domcontentloaded'});
   await page.locator('#music-detail-content[data-locale="ja"]').waitFor();
-  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
-  await page.goto(origin+'/music/blue-spirit/?lang=es&version=en&lyric=en&compare=es',{waitUntil:'domcontentloaded'});
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
+  await page.goto(origin+'/music/songs/blue-spirit/?lang=es&version=en&lyric=en&compare=es',{waitUntil:'domcontentloaded'});
   await page.locator('#music-detail-content[data-version="en"] .parallel-pairs').waitFor();
-  assert.ok(page.url().endsWith('/music/song/blue-spirit/'));
+  assert.ok(page.url().endsWith('/music/songs/blue-spirit/'));
   console.log(device+' shared locale and legacy link migration verified');
   await page.close();
  }

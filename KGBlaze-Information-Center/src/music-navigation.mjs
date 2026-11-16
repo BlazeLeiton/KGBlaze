@@ -6,9 +6,9 @@ const locales=['es','en','ja'], key='kgblaze.locale.v1';
 const valid=l=>locales.includes(l);
 function saved(){try{return localStorage.getItem(key)}catch{return null}}
 function save(l){try{localStorage.setItem(key,l)}catch{}try{document.cookie='kgblaze_lang='+l+'; Path=/; Max-Age=31536000; SameSite=Lax'}catch{}}
-const slugOf=u=>{const p=new URL(u,location.href).pathname.split('/').filter(Boolean);return p[0]==='music'?(p.length===3&&p[1]==='song'?p[2]:p.length===2?p[1]:''):''};
-const pathOf=slug=>slug?'/music/song/'+slug+'/':'/music/';
-const isMusic=u=>u.origin===location.origin&&/^\/music(?:\/(?:song\/)?[a-z0-9-]+)?\/?$/.test(u.pathname)&&!['album','song','data','assets'].includes(slugOf(u));
+const slugOf=u=>{const p=new URL(u,location.href).pathname.split('/').filter(Boolean);return p[0]==='music'&&p[1]==='songs'&&p.length===3?p[2]:''};
+const pathOf=slug=>slug?'/music/songs/'+slug+'/':'/music/songs/';
+const isMusic=u=>u.origin===location.origin&&/^\/music\/songs(?:\/[a-z0-9-]+)?\/?$/.test(u.pathname);
 const initialURL=new URL(location.href),legacy=initialURL.searchParams;
 let locale=valid(legacy.get('lang'))?legacy.get('lang'):valid(saved())?saved():initial.dataset.locale;
 save(locale);
