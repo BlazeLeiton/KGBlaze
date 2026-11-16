@@ -1565,7 +1565,7 @@
       "source": "https://www.cdjapan.co.jp/product/VVCL-2618",
       "origin": "https://st.cdjapan.co.jp/pictures/l/14/39/VVCL-2618.jpg?v=1",
       "version": 1,
-      "fit": "contain",
+      "fit": "cover",
       "path": "/music-artwork/gg-v1.webp",
       "status": "preserved",
       "size": [
@@ -1603,25 +1603,20 @@
       "source_sha256": "2c338a8add954b9df7576ee9565d0792fbcddee0ffc40b0310e8eaa563573e82"
     },
     "leon-no-sabe-que-existo": {
-      "release": "Keasbey Nights · Catch 22 (1998)",
-      "source": "https://victoryrecords.bandcamp.com/album/keasbey-nights",
-      "origin": "https://i.scdn.co/image/ab67616d0000b27315651aabbaff49ae751bb7c7",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/leon-no-sabe-que-existo-v1.webp",
-      "status": "preserved",
-      "size": [
-        637,
-        640
-      ],
-      "sha256": "0036427d64f7c64788e91d3c77a7f851c407a8da446870e0338ac919ad9964a0",
-      "bytes": 66554,
-      "original_size": [
-        637,
-        640
-      ],
-      "retrieved_from": "https://i.scdn.co/image/ab67616d0000b27315651aabbaff49ae751bb7c7",
-      "source_sha256": "cca653469b74300bef3b51ec3194fe561c462f7472333d3eb273dd99a9c9ded6"
+      "release": "Gura Doesn't Know I Exist · Amelia Watson ukulele parody · 2020-11-30 clip",
+      "source": "https://www.youtube.com/watch?v=5T8FOaQW3dk",
+      "origin": "https://i.ytimg.com/vi/5T8FOaQW3dk/hqdefault.jpg",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/leon-no-sabe-que-existo-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/leon-no-sabe-que-existo-v1.webp",
+        "sha256": "0036427d64f7c64788e91d3c77a7f851c407a8da446870e0338ac919ad9964a0",
+        "source": "https://victoryrecords.bandcamp.com/album/keasbey-nights",
+        "origin": "https://i.scdn.co/image/ab67616d0000b27315651aabbaff49ae751bb7c7"
+      }
     },
     "hitoribocchi-tokyo": {
       "release": "結束バンド · Kessoku Band · original album jacket",
@@ -2149,67 +2144,52 @@
       "source_sha256": "10fa535f089273f80e903cf6e66e097663679dee8e9aae917fc9d65ee8342c13"
     },
     "caste-room": {
-      "release": "カーストルーム · LACM-14647",
-      "source": "https://zaqzaqzaq.jp/discography/%E3%82%AB%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%A0/",
-      "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-14647.jpg",
-      "version": 1,
+      "release": "カーストルーム · LACM-14647 · illustrated reverse jacket",
+      "source": "https://you-zitsu.com/1st/product/music.html",
+      "origin": "https://i1.sndcdn.com/artworks-000257528966-zcxeij-t1080x1080.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/caste-room-v1.webp",
-      "status": "preserved",
-      "size": [
-        1000,
-        1000
-      ],
-      "sha256": "f7d5144bc8a9c8cb61c4b5ae532310aae70941cd59572ef0cbb8cc2c7b139303",
-      "bytes": 74464,
-      "original_size": [
-        1000,
-        1000
-      ],
-      "retrieved_from": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-14647.jpg",
-      "source_sha256": "e5e8724c60334fc6b601327f188620f13366ccf22490d0d99015264dbe5224f5"
+      "path": "/music-artwork/caste-room-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/caste-room-v1.webp",
+        "sha256": "f7d5144bc8a9c8cb61c4b5ae532310aae70941cd59572ef0cbb8cc2c7b139303",
+        "source": "https://zaqzaqzaq.jp/discography/%E3%82%AB%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%A0/",
+        "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-14647.jpg"
+      }
     },
     "dance-in-the-game": {
-      "release": "Dance In The Game · LACM-24278",
-      "source": "https://zaqzaqzaq.jp/discography/dance-in-the-game/",
-      "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24278.jpg",
-      "version": 1,
+      "release": "Dance In The Game · LACM-24278 · illustrated reverse jacket",
+      "source": "https://you-zitsu.com/2nd/music.html",
+      "origin": "https://you-zitsu.com/2nd/assets/music/op-b.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/dance-in-the-game-v1.webp",
-      "status": "preserved",
-      "size": [
-        1000,
-        1000
-      ],
-      "sha256": "44820ba2800df96ed2466b8e08f505176a7a80000c2fcb747703c7d2e8059d53",
-      "bytes": 409328,
-      "original_size": [
-        1000,
-        1000
-      ],
-      "retrieved_from": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24278.jpg",
-      "source_sha256": "4bb3f4726365a287265b58b7d3a69ebbc2b18b6675abfc1ad6c4fcba4912c263"
+      "path": "/music-artwork/dance-in-the-game-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/dance-in-the-game-v1.webp",
+        "sha256": "44820ba2800df96ed2466b8e08f505176a7a80000c2fcb747703c7d2e8059d53",
+        "source": "https://zaqzaqzaq.jp/discography/dance-in-the-game/",
+        "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24278.jpg"
+      }
     },
     "minor-piece": {
-      "release": "マイナーピース · LACM-24513",
-      "source": "https://zaqzaqzaq.jp/discography/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%BC%E3%83%94%E3%83%BC%E3%82%B9/",
-      "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24513.jpg",
-      "version": 1,
+      "release": "マイナーピース · digital single · LZC-2651",
+      "source": "https://you-zitsu.com/3rd/music.html",
+      "origin": "https://you-zitsu.com/3rd/assets/music/op-jacket-st.webp",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/minor-piece-v1.webp",
-      "status": "preserved",
-      "size": [
-        1000,
-        1000
-      ],
-      "sha256": "3925c32ba7dfc7a318b3637a53f4dc9485da5e8f03620fbfdaabcdf9ea7ede93",
-      "bytes": 90776,
-      "original_size": [
-        1000,
-        1000
-      ],
-      "retrieved_from": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24513.jpg",
-      "source_sha256": "92f872131de19dc2bec836fe4d2ad70fdc60784fdfca8360d3aa2c2f32c80143"
+      "path": "/music-artwork/minor-piece-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/minor-piece-v1.webp",
+        "sha256": "3925c32ba7dfc7a318b3637a53f4dc9485da5e8f03620fbfdaabcdf9ea7ede93",
+        "source": "https://zaqzaqzaq.jp/discography/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%BC%E3%83%94%E3%83%BC%E3%82%B9/",
+        "origin": "https://zaqzaqzaq.jp/_K6lFupVQ/wp-content/uploads/discography/LACM-24513.jpg"
+      }
     },
     "toge-toge-sadistic": {
       "release": "Gushing Over Magical Girls · LACA-19031/2 OST",
