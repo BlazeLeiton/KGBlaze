@@ -5,6 +5,10 @@ const name=(latin,ja=latin)=>({latin,ja});
 const voice=(character,ja,cv,cvJa,extra={})=>({character:name(character,ja),cv:name(cv,cvJa),...extra});
 const group=(name,cast,source,extra={})=>({kind:'group',name,cast,source,...extra});
 export const originalPerformances={
+ 'halloween-night':{kind:'group',name:name('hololive IDOL PROJECT'),cast:[voice('Yozora Mel','夜空メル','Yozora Mel','夜空メル'),voice('Murasaki Shion','紫咲シオン','Murasaki Shion','紫咲シオン'),voice('Yuzuki Choco','癒月ちょこ','Yuzuki Choco','癒月ちょこ'),voice('Uruha Rushia','潤羽るしあ','Uruha Rushia','潤羽るしあ')].map(x=>({character:x.character})),source:'https://hololive.hololivepro.com/en/music/%E4%BB%8A%E5%AE%B5%E3%81%AFhalloween-night-2/'},
+ 'suki-yuki-maji-magic':{kind:'artist',name:name('Mitchie M feat. Hatsune Miku','Mitchie M feat. 初音ミク'),cast:[],source:'https://karent.jp/webnews/452'},
+ 'crossing-field':{kind:'artist',name:name('LiSA'),cast:[],source:'https://www.uta-net.com/song/133622/'},
+ 'catch-the-moment':{kind:'artist',name:name('LiSA'),cast:[],source:'https://www.cdjapan.co.jp/product/SVWC-70235'},
  'under-the-party-lights':{kind:'artist',name:name('AmaLee'),cast:[],source:'https://www.youtube.com/watch?v=sW02T8Pwq5s',writing:name('Victor Hime'),composition:name('Victor Hime')},
   'caste-room':{kind:'artist',name:name('ZAQ'),cast:[],source:"https://zaqzaqzaq.jp/discography/%E3%82%AB%E3%83%BC%E3%82%B9%E3%83%88%E3%83%AB%E3%83%BC%E3%83%A0/",writing:name('ZAQ'),composition:name('ZAQ'),arrangement:name('ZAQ')},
   'dance-in-the-game':{kind:'artist',name:name('ZAQ'),cast:[],source:"https://zaqzaqzaq.jp/discography/dance-in-the-game/",writing:name('ZAQ'),composition:name('ZAQ'),arrangement:name('ZAQ')},

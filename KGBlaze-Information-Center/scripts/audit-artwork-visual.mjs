@@ -85,14 +85,14 @@ try{
   console.log(device+' overlay: document, filter, layout, lyric colors, player and history preserved');
   await page.goto(origin+'/music/?lang=es',{waitUntil:'domcontentloaded'});
   const series=page.locator('#series'), aff=page.locator('#affiliation'), visible=page.locator('#songs .song:not([hidden])');
-  for(const [family,count] of [['Azur Lane',11],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',4],['Kuma Kuma Kuma Bear',2],['Love Live!',7],['hololive',8],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1],['Formula 1',1],['Pan American Games',1]]){
+  for(const [family,count] of [['Azur Lane',11],['Kantai Collection',2],['High School Fleet',2],['Arpeggio of Blue Steel',2],['Pokémon',13],['Kuma Kuma Kuma Bear',2],['Love Live!',7],['hololive',9],['Madoka Magica',2],['Oregairu',3],['Masamune-kun’s Revenge',2],['GRIDMAN UNIVERSE',2],['Fate/series',1],['Formula 1',1],['Pan American Games',1]]){
    await series.selectOption(family);assert.equal(await visible.count(),count,family);
    if(['Azur Lane','Kantai Collection','High School Fleet','Arpeggio of Blue Steel'].includes(family))assert.equal(await visible.filter({hasText:'Melodía del Océano'}).count(),1);
   }
   for(const [family,slug,caption,heading] of [['Formula 1','el-nano','Fórmula 1','Fórmula 1 · Fernando Alonso'],['Pan American Games','el-mismo-sol','Juegos Panamericanos','Juegos Panamericanos Guadalajara 2011']]){
    await series.selectOption(family);assert.equal(await visible.count(),1);assert.equal(await visible.locator('.work').textContent(),caption);await visible.locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.equal(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),heading);assert.ok(page.url().endsWith('/music/song/'+slug+'/'));await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),family);
   }
-  await series.selectOption('hololive');for(const [branch,count] of [['holo-en',7],['holo-jp',2],['holo-id',1]]){await aff.selectOption(branch);assert.equal(await visible.count(),count);assert.equal(await visible.filter({hasText:'Shiny Smily Story'}).count(),1);}
+  await series.selectOption('hololive');for(const [branch,count] of [['holo-en',7],['holo-jp',3],['holo-id',1]]){await aff.selectOption(branch);assert.equal(await visible.count(),count);assert.equal(await visible.filter({hasText:'Shiny Smily Story'}).count(),1);}
   await series.selectOption('Love Live!');await aff.selectOption('ll-nijigasaki');assert.equal(await visible.count(),3);await aff.selectOption('ll-muse');assert.equal(await visible.count(),2);
   await series.selectOption('Azur Lane');await visible.filter({hasText:'graphite/diamond'}).locator('a').first().click();await page.locator('.music-overlay.is-open').waitFor();assert.match(await page.locator('.music-overlay .detail-title .eyebrow').textContent(),/Azur Lane The Animation/);
   await page.keyboard.press('Escape');await page.locator('.music-overlay.is-open').waitFor({state:'hidden'});assert.equal(await series.inputValue(),'Azur Lane');assert.equal(await visible.count(),11);
