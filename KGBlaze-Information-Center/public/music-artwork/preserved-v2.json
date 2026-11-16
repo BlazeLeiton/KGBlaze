@@ -1694,46 +1694,36 @@
       "source_sha256": "59719ed85bf29863404c5066f34a13829de415781cc20f8b8665a66bd5742739"
     },
     "karakuri-pierrot": {
-      "release": "からくりピエロ · original 40mP music video",
-      "source": "https://www.youtube.com/watch?v=xxFkW3PCT5M",
-      "origin": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg",
-      "version": 1,
+      "release": "小さな自分と大きな世界 · QWCE-10036 · track 7",
+      "source": "https://music.apple.com/jp/album/chiisana-jibun-to-ookina-sekai/555001770",
+      "origin": "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/9b/54/1b/9b541b7e-731f-ff21-3fe4-c83c25355286/KRHS-37246_40mP.jpg/1200x1200bf-60.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/karakuri-pierrot-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "ee7ff7f9f89786003e18f8054c0f118d27dec4ebef620a6667a7b97afb96a0ca",
-      "bytes": 28616,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg",
-      "source_sha256": "a2cc14f1f7e3534606f9fdab41290a04e6bc6a6b36a4d8e05255b4640fd0a062"
+      "path": "/music-artwork/karakuri-pierrot-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/karakuri-pierrot-v1.webp",
+        "sha256": "ee7ff7f9f89786003e18f8054c0f118d27dec4ebef620a6667a7b97afb96a0ca",
+        "source": "https://www.youtube.com/watch?v=xxFkW3PCT5M",
+        "origin": "https://i.ytimg.com/vi/xxFkW3PCT5M/hqdefault.jpg"
+      }
     },
     "last-cup-of-coffee": {
-      "release": "last cup of coffee · original digital release",
-      "source": "https://www.youtube.com/watch?v=n64abW0dHNw",
-      "origin": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg",
-      "version": 1,
+      "release": "last cup of coffee · original digital single",
+      "source": "https://open.spotify.com/album/6dLEv4xBfs5SFCtD8QUFp1",
+      "origin": "https://i.scdn.co/image/ab67616d0000b2735f475a92b764261fb40727ba",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/last-cup-of-coffee-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "bc2b239b181a7ccb5d82357255fd146ac3094ae50d0f2855aa274fd9bfe518d7",
-      "bytes": 15600,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg",
-      "source_sha256": "30cfe218048ebd2e47e6fe830424fded34357eb77ffb6745a37228d810796781"
+      "path": "/music-artwork/last-cup-of-coffee-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/last-cup-of-coffee-v1.webp",
+        "sha256": "bc2b239b181a7ccb5d82357255fd146ac3094ae50d0f2855aa274fd9bfe518d7",
+        "source": "https://www.youtube.com/watch?v=n64abW0dHNw",
+        "origin": "https://i.ytimg.com/vi/n64abW0dHNw/hqdefault.jpg"
+      }
     },
     "lets-be-one": {
       "release": "Let's be ONE · LACM-24650",
@@ -1757,25 +1747,20 @@
       "source_sha256": "2260a172b3f70b23489c97fc79fd9f8d045f64240b96ce0ee5e3f4799fe5ee15"
     },
     "lonely-feather": {
-      "release": "愛の詩 -words of love- · VTCL-35225 · Lonely Feather",
-      "source": "https://asterisk-war.com/sp/music/",
-      "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/lonely-feather-v1.webp",
-      "status": "preserved",
-      "size": [
-        600,
-        595
-      ],
-      "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
-      "bytes": 38410,
-      "original_size": [
-        600,
-        595
-      ],
-      "retrieved_from": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init",
-      "source_sha256": "e35841a078ff24ba5cc9d705cb1b4f05178cb6db4dfc635f0ef20d5d63729dad"
+      "release": "The Asterisk War · episode 19 · Sylvia Lyyneheym · scene artwork",
+      "source": "https://www.fandomspot.com/anime-characters-who-love-singing/",
+      "origin": "https://static.fandomspot.com/images/07/43771/14-sylvia-lynneheym-the-asterisk-war-screenshot.jpg",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/lonely-feather-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/lonely-feather-v1.webp",
+        "sha256": "0030663de3ef46c22108afaabc66d68749c3ea004a385b9c6604403c05439723",
+        "source": "https://asterisk-war.com/sp/music/",
+        "origin": "https://www.jvcmusic.co.jp/img/jackets/VTCL-35225.jpg?_c=init"
+      }
     },
     "minikui-ikimono": {
       "release": "鬼ノ森／醜い生き物 · SMCL-696",
@@ -1960,25 +1945,20 @@
       "source_sha256": "ec6a9fff18d227b22ffc66063237e1865c2e562f420c895846a0719f13f2789d"
     },
     "shukufuku": {
-      "release": "祝福 · official music video",
-      "source": "https://www.youtube.com/watch?v=3eytpBOkOFA",
-      "origin": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg",
-      "version": 1,
+      "release": "祝福 · original Japanese digital single · 2022",
+      "source": "https://www.yoasobi-music.jp/news/545461",
+      "origin": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c5993ff2f059a0a5a7f6270b",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/shukufuku-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "762722d01a42f536042483aeabdd800c993a9bbf591e0b81f55879467f60e627",
-      "bytes": 23448,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg",
-      "source_sha256": "c8ec5ce7bbab49aa9813bed91a0fe1152eadf5ffd1f6c8587bfb831dbf7b4b48"
+      "path": "/music-artwork/shukufuku-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/shukufuku-v1.webp",
+        "sha256": "762722d01a42f536042483aeabdd800c993a9bbf591e0b81f55879467f60e627",
+        "source": "https://www.youtube.com/watch?v=3eytpBOkOFA",
+        "origin": "https://i.ytimg.com/vi/3eytpBOkOFA/hqdefault.jpg"
+      }
     },
     "planetarium": {
       "release": "holo*27 Originals Vol.1 · TFCC-86895",
@@ -2044,25 +2024,20 @@
       "source_sha256": "2d8a163a574eb0e52733e3ae5d76aed77123ab36bf36b60b6c5893efc30ff43c"
     },
     "senaka-awase": {
-      "release": "セナカアワセ · PCSP-05865 · digital single",
-      "source": "https://www.ponycanyon.co.jp/music/PCSP000005865",
-      "origin": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4",
-      "version": 2,
-      "fit": "contain",
-      "path": "/music-artwork/senaka-awase-v2.webp",
-      "status": "preserved",
-      "size": [
-        380,
-        380
-      ],
-      "sha256": "be1399ec008808aa3a4b467f5fb9a6e40d10768b23fec491b2e55ddc014221d4",
-      "bytes": 68690,
-      "original_size": [
-        380,
-        380
-      ],
-      "retrieved_from": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4",
-      "source_sha256": "c3b7add1dd0095972967f5e7e3be2e49bd38a7986dbebac4405714ee58696817"
+      "release": "Our Last Crusade or the Rise of a New World · Season II main visual (June 7, 2024)",
+      "source": "https://kimisentv.com/news/index.html",
+      "origin": "https://kimisentv.com/assets/news/s2-kv1.webp",
+      "version": 3,
+      "fit": "cover",
+      "path": "/music-artwork/senaka-awase-v3.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 2,
+        "path": "/music-artwork/senaka-awase-v2.webp",
+        "sha256": "be1399ec008808aa3a4b467f5fb9a6e40d10768b23fec491b2e55ddc014221d4",
+        "source": "https://www.ponycanyon.co.jp/music/PCSP000005865",
+        "origin": "https://www.ponycanyon.co.jp/images/wcms/accessor/bin/jacket/PCSP000005865.jpg?order=1&size=4"
+      }
     },
     "shiny-days": {
       "release": "SHINY DAYS · USSW-0070 · Yuru Camp edition",
@@ -2191,25 +2166,20 @@
       "source_sha256": "f05f3110605761b88b7368f38b7d05c4fbd175d348f223aa640bd0be817ecf86"
     },
     "your-reality": {
-      "release": "Your Reality · original game soundtrack",
-      "source": "https://www.youtube.com/watch?v=CAL4WMpBNs0",
-      "origin": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg",
-      "version": 1,
+      "release": "Doki Doki Literature Club! · original soundtrack · 2017 · track 13",
+      "source": "https://music.apple.com/us/album/doki-doki-literature-club-original-soundtrack/1299921969",
+      "origin": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/12/38/d6/1238d680-01f7-0f0b-19fb-0bd25c90dba1/artwork.jpg/1200x1200bf-60.jpg",
+      "version": 2,
       "fit": "contain",
-      "path": "/music-artwork/your-reality-v1.webp",
-      "status": "preserved",
-      "size": [
-        480,
-        360
-      ],
-      "sha256": "13414712adc20991117c5cf0f3afbabd7c9e4aa7185eea0d380ff932177eb77b",
-      "bytes": 33400,
-      "original_size": [
-        480,
-        360
-      ],
-      "retrieved_from": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg",
-      "source_sha256": "92aa27e35fb128d2abd77c8b2b116f4644d8976a588f0a355b87ba1396a48558"
+      "path": "/music-artwork/your-reality-v2.webp",
+      "status": "pending-snapshot",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/your-reality-v1.webp",
+        "sha256": "13414712adc20991117c5cf0f3afbabd7c9e4aa7185eea0d380ff932177eb77b",
+        "source": "https://www.youtube.com/watch?v=CAL4WMpBNs0",
+        "origin": "https://i.ytimg.com/vi/CAL4WMpBNs0/hqdefault.jpg"
+      }
     },
     "yakusoku": {
       "origin": "https://bushiroad-store.com/cdn/shop/products/0e93bed862ab093c71b9dd03ba358333_600x600_crop_center.jpg?v=1636696746",
