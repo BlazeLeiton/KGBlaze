@@ -36,6 +36,18 @@ for(const [slug,english,spanish] of bilingual)for(const lang of ['es','en','ja']
  assert.ok(heading.includes('<span class="title-primary">'+encode(main)+'</span>'),slug+' '+lang+' incorrect primary title');
  assert.ok(heading.includes('<span class="title-secondary">'+encode(secondary)+'</span>'),slug+' '+lang+' incorrect subtitle');
 }
+const pokemon=await load('/music/songs/pokemon-theme/?lang=es');
+assert.match(pokemon,/Jason Paige \(español: Óscar Roa\)/);
+assert.match(pokemon,/Adolfo Aguirre Gamboa · Adecuaciones: Blaze Leiton/);
+assert.doesNotMatch(pokemon,/<dt>(?:Localización|Versión de referencia|Adaptación del doblaje latino)<\/dt>/);
+const bouquet=await load('/music/songs/paper-bouquet/?lang=es');
+assert.doesNotMatch(bouquet,/Letra y composición original/);
+for(const slug of ['kirameki-rider','halloween-night','suki-yuki-maji-magic']){
+ const details=await load('/music/songs/'+slug+'/?lang=es');
+ const credits=details.match(/<section class="credits">[\\s\\S]*?<\\/section>/)?.[0]||'';
+ assert.doesNotMatch(credits,/<dt>Contexto<\\/dt>/);
+ assert.match(details,/class="color-group"/);
+}
 for(const oldPath of ['/music/song/blue-spirit/?lang=en&version=en','/music/blue-spirit/?lang=ja']){
  const r=await fetch(base+oldPath,{cache:'no-store',redirect:'manual',signal:AbortSignal.timeout(15000)});
  assert.equal(r.status,308,'legacy 308 redirect');
