@@ -1106,8 +1106,7 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
   const song=songs.find(x=>x.slug===slug);
   assert.ok(song.originalComposer);
   const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang:'es'}));
-  if(slug==='brave-shine')assert.doesNotMatch(html,/<dt>Letra y composición original<\/dt>/);
-  else assert.match(html,/<dt>Letra y composición original<\/dt>/);
+  assert.doesNotMatch(html,/<dt>Letra y composición original<\/dt>/,'composer provenance remains in registry, not displayed as a technical credit on this cover');
  }
  assert.equal((lyricsBySong['brave-shine'].es.text.match(/Tu brillo\./g)||[]).length,2);
 });
