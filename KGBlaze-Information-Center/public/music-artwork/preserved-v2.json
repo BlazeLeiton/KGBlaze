@@ -1519,25 +1519,32 @@
       "source_sha256": "fdd791b399d9d58cb6575600749f1cd95402d0a7e5c9777423020344533ff7fe"
     },
     "dakara-boku-wa-boku-wo-tebanasu": {
-      "release": "Sagrada Reset · official series artwork",
-      "source": "https://www.primevideo.com/detail/Sagrada-Reset/0RID29ZNT72OHKT6MDYIB25NAW",
-      "origin": "https://m.media-amazon.com/images/S/pv-target-images/1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028.jpg",
-      "version": 1,
-      "fit": "contain",
-      "path": "/music-artwork/dakara-boku-wa-boku-wo-tebanasu-v1.webp",
+      "release": "Sagrada Reset · second cour official key visual · Tomoyuki Shitaya",
+      "source": "https://www.zerochan.net/2106270",
+      "origin": "https://static.zerochan.net/Sakurada.Reset.full.2106270.jpg",
+      "version": 2,
+      "fit": "cover",
+      "path": "/music-artwork/dakara-boku-wa-boku-wo-tebanasu-v2.webp",
       "status": "preserved",
+      "previous": {
+        "version": 1,
+        "path": "/music-artwork/dakara-boku-wa-boku-wo-tebanasu-v1.webp",
+        "sha256": "9bee7d8869c9dcd173378245dd288352a74f0feb2ba13f2e78ac188eaf4ed884",
+        "source": "https://www.primevideo.com/detail/Sagrada-Reset/0RID29ZNT72OHKT6MDYIB25NAW",
+        "origin": "https://m.media-amazon.com/images/S/pv-target-images/1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028.jpg"
+      },
       "size": [
-        1200,
-        900
+        1020,
+        1020
       ],
-      "sha256": "9bee7d8869c9dcd173378245dd288352a74f0feb2ba13f2e78ac188eaf4ed884",
-      "bytes": 152884,
+      "sha256": "c8094e6cf2c50190743b199c7629a4ee6c227deffa853867faf63d018b9970b4",
+      "bytes": 274316,
       "original_size": [
-        2560,
-        1920
+        1020,
+        1020
       ],
-      "retrieved_from": "https://m.media-amazon.com/images/S/pv-target-images/1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028.jpg",
-      "source_sha256": "1b839df5bcbb8fc6e1a7b04652692e81e539078e98a47a0b6d504374fb2a6028"
+      "retrieved_from": "https://static.zerochan.net/Sakurada.Reset.full.2106270.jpg",
+      "source_sha256": "60a32ec0ac693aaea50b1d1bd4b509e467e8d6e3645edd7c7b6181e5164cca73"
     },
     "end-of-a-life": {
       "release": "end of a life · CVRD-081",
