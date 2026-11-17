@@ -29,14 +29,14 @@ export const lineAttributions={
  },
  'lets-be-one':{
   source:'https://ameblo.jp/lilla-part/entry-12870249699.html',
-  status:'fan-transcription-condensed-spanish',
+  status:'fan-transcription-creator-approved-spanish-cuts',
   originalCast:['Kanon','Keke','Chisato','Sumire','Ren','Kinako','Mei','Shiki','Natsumi','Margarete','Tomari'],
   lines:[
    ['Kanon','Kanon · Kinako · Margarete','Todas'],
    ['Kinako · Sumire','Margarete','Tomari · Sumire · Kinako · Margarete'],
    ['Chisato','Keke · Shiki'],
    ['Mei · Natsumi','Ren'],
-   ['Todas','Keke · Shiki · Sumire · Kinako','Todas · Ren · Mei','Margarete · Tomari','Chisato · Natsumi · Kanon','Todas'],
+   ['Todas','Keke · Shiki · Sumire · Kinako','Todas · Ren · Mei','Margarete · Tomari','Chisato · Natsumi','Todas'],
    ['Tomari','Tomari','Margarete','Margarete'],
    ['Kinako','Shiki','Natsumi','Mei'],
    ['Todas','Mei · Tomari · Ren · Natsumi','Todas · Kanon · Chisato'],
@@ -45,18 +45,20 @@ export const lineAttributions={
    ['Kanon','Todas','Todas','Todas','Todas','Todas']
   ],
   // Single Spanish lines sometimes contain sequential Japanese parts.
-  // Boundaries are preliminary and preserve every original Spanish character.
+  // Creator-approved cuts use the site's existing colorStanzas renderer.
+  // Non-official fan transcription remains the Japanese division reference.
   cuts:{
    '1:0':[{through:'andando, ',voice:'kinako'},{voice:'sumire'}],
-   '1:2':[{through:'amor ',voice:'tomari'},{voice:'sumire+kinako+margarete+tomari'}],
-   '2:1':[{through:'que ',voice:'keke'},{through:'inquebrantable ',voice:'shiki'},{voice:'keke+shiki'}],
+   '1:2':[{through:'amor por ',voice:'tomari'},{voice:'sumire+kinako+margarete+tomari'}],
+   '2:1':[{through:'que ',voice:'keke'},{through:'algo inquebrantable en mi ',voice:'shiki'},{voice:'keke+shiki'}],
    '3:0':[{through:'haber, ',voice:'mei'},{voice:'natsumi'}],
    '4:1':[{through:'seguramente ',voice:'keke+shiki'},{through:'conocido ',voice:'sumire+kinako'},{voice:'keke+shiki+sumire+kinako'}],
    '4:2':[{through:'seguir, ',voice:'shared'},{voice:'ren+mei'}],
-   '4:4':[{through:'promesa ',voice:'chisato+natsumi'},{voice:'kanon'}],
+   '4:5':[{through:'Será por siempre, ',voice:'kanon'},{voice:'shared'}],
    '7:1':[{through:'sueño ',voice:'mei+tomari'},{through:'compartimos ',voice:'ren+natsumi'},{voice:'mei+tomari+ren+natsumi'}],
    '7:2':[{through:'seguir, ',voice:'shared'},{voice:'kanon+chisato'}],
-   '9:2':[{through:'significa ',voice:'kanon+kinako'},{through:'verdad ',voice:'kanon+kinako+margarete'},{voice:'shared'}],
+   '9:1':[{through:'Y fue al conocerte, ',voice:'kanon+margarete'},{voice:'kanon+kinako'}],
+   '9:2':[{through:'la palabra “unidad” ',voice:'kanon+kinako+margarete'},{voice:'shared'}],
    '10:1':[{through:'seguramente, ',voice:'margarete+tomari'},{through:'conocido, ',voice:'kinako+mei+shiki+natsumi'},{voice:'kanon+keke+chisato+sumire+ren'}]
   }
  },
