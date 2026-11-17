@@ -70,9 +70,30 @@ try{
   await page.goto(origin+'/music/songs/halloween-night/?lang=es',{waitUntil:'domcontentloaded'});
   const padoruPane=page.locator('.halloween-padoru-view'),originalPane=page.locator('.halloween-original-view');
   assert.ok(await padoruPane.isVisible(),'Padoru default division should be visible');
+
+  const padoruChorus=await padoruPane.locator('.colored-lyrics p').nth(1).innerText();
+  for(const [first,second] of [
+   ['Cariño no te ves muy bien','Dulce o truco, dulces me das'],
+   ['Dulce o truco, dulces me das','Si te descuidas, no hay vuelta ya'],
+   ['Si te descuidas, no hay vuelta ya','Aaaa-'],
+   ['Aaaa-','Si te descuidas no te salvas'],
+   ['Si te descuidas no te salvas','¡Halloween night!']
+  ])assert.ok(padoruChorus.indexOf(first)<padoruChorus.indexOf(second),
+    'Padoru sung/overlap timeline must follow the same music, '+first+' before '+second);
+  assert.equal(await padoruPane.locator('.overlap-response-line').count(),5,'exact five full-line Padoru interleaved replies');
+  assert.equal(await padoruPane.locator('.lyric-track-heading').count(),0,'no obsolete Voces superpuestas heading');
+  const padoruOverlap=await padoruPane.locator('.colored-lyrics p').nth(1).screenshot({path:resolve(out,device+'-halloween-padoru-interleaved.png')});
+
   assert.ok(!await originalPane.isVisible(),'Original division should be hidden initially');
   await page.locator('#halloween-original').check();
   assert.ok(await originalPane.isVisible(),'Original distribution must become visible');
+
+  assert.equal(await originalPane.locator('.overlap-response-line').count(),5,'original also shows five callouts in time');
+  const allTone=await originalPane.locator('.colored-lyrics .color-part[title="Todas"]').first().evaluate(el=>getComputedStyle(el).color);
+  assert.equal(allTone,'rgb(240, 243, 255)','all four voices use neutral color, not reference-video orange');
+  assert.equal(await originalPane.locator('.colored-lyrics p').last().locator('.color-part').last().getAttribute('title'),'Todas','Ah ah is sung by all four');
+  await originalPane.locator('.colored-lyrics p').nth(1).screenshot({path:resolve(out,device+'-halloween-original-interleaved.png')});
+
   assert.ok(!await padoruPane.isVisible(),'Padoru must hide when original is selected');
   assert.ok((await originalPane.innerText()).includes('Yozora Mel'),'Original cast must be identified');
   await page.locator('#halloween-padoru').check();
