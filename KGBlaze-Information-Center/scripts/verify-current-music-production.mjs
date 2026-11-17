@@ -16,7 +16,7 @@ const catalog=await load('/music/songs/?lang=es');
 assert.equal((catalog.match(/<article class="song"/g)||[]).length,songs.length,'deployed music cards vs current registry');
 const checks=[
  ['kirameki-rider',['Muy feliz terminé, tanto que no puedo hablar ya más']],
- ['ryuusei',['SINAY PAOHLA','Adecuaciones y extensión a versión completa','Blaze Leiton']],
+ ['ryuusei',['SINAY PAOHLA','Adecuaciones: Blaze Leiton']],
  ['otome-domo-yo',['Marutah','Adaptación al español']],
  ['brave-shine',['Call Me Bury','Adecuaciones','Blaze Leiton']],
  ['signal',['Operation Siren — Tema de lanzamiento']],
