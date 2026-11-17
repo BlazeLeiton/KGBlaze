@@ -58,7 +58,7 @@ export const lineAttributions={
    '7:1':[{through:'sueño ',voice:'mei+tomari'},{through:'compartimos ',voice:'ren+natsumi'},{voice:'mei+tomari+ren+natsumi'}],
    '7:2':[{through:'seguir, ',voice:'shared'},{voice:'kanon+chisato'}],
    '9:1':[{through:'Y fue al conocerte, ',voice:'kanon+margarete'},{voice:'kanon+kinako'}],
-   '9:2':[{through:'la palabra “unidad” ',voice:'kanon+kinako+margarete'},{voice:'shared'}],
+   '9:2':[{through:'La palabra “unidad” ',voice:'kanon+kinako+margarete'},{voice:'shared'}],
    '10:1':[{through:'seguramente, ',voice:'margarete+tomari'},{through:'conocido, ',voice:'kinako+mei+shiki+natsumi'},{voice:'kanon+keke+chisato+sumire+ren'}]
   }
  },
