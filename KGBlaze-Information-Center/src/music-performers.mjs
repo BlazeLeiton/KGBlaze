@@ -146,7 +146,10 @@ export function originalArtistAliases(song){const p=originalPerformances[song.sl
 export function originalCreditRows(song,lang,version){
  const p=performanceFor(song,version);if(!p)return [];
  const labels=({es:{cast:'Voces originales',writing:'Letra original',composition:'Composición',note:'Identificación editorial de los intérpretes de la escena; no es un crédito discográfico oficial.'},en:{cast:'Original voices',writing:'Original lyrics',composition:'Composition',note:'Editorial identification of the scene performers, not an official release credit.'},ja:{cast:'原曲の声優',writing:'作詞',composition:'作曲',note:'シーンの歌唱者を示す編集上の表記であり、公式の音源クレジットではありません。'}})[lang];
- const rows=p.cast.length?[{label:labels.cast,values:p.cast.map(c=>voiceLabel(c,lang))}]:[];
+ // A named solo character with exactly one voice credit repeats the artist
+ // already displayed immediately above. Keep multi-singer casts (e.g. Yakusoku).
+ const duplicateSolo=p.cast.length===1&&(p.kind==='character'||originalArtist(song,lang,version)===voiceLabel(p.cast[0],lang));
+ const rows=p.cast.length&&!duplicateSolo?[{label:labels.cast,values:p.cast.map(c=>voiceLabel(c,lang))}]:[];
 
  return rows;
 }
