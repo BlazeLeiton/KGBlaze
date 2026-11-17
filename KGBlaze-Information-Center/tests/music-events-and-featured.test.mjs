@@ -7,7 +7,7 @@ const langs=['es','en','ja'];
 const get=(slug,lang)=>musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
 const creditSection=page=>page.match(/<section class="credits">([\s\S]*?)<\/section>/)?.[1]||'';
 
-test('Only eight reviewed event fields remain, with Let's be ONE event removed',()=>{
+test("Only eight reviewed event fields remain, with Let's be ONE event removed",()=>{
  const actual=songs.filter(s=>s.event).map(s=>s.slug).sort();
  const expected=['under-the-party-lights','ougon-kouro','blue-spirit','feelin-it-all','signal','aint-backing-down','tempestas-claim','what-youre-made-of'].sort();
  assert.deepEqual(actual,expected);
