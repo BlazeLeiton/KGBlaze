@@ -98,8 +98,8 @@ test('Solo original cast duplicated from artist is hidden across all applicable 
  assert.equal(originalPerformances[yak.slug].cast.length,2);
  for(const lang of available){
   assert.equal(originalCreditRows(yak,lang,'es').length,1);
-  assert.match(credits(page('yakusoku',lang)),/Aina Aiba/);
-  assert.match(credits(page('yakusoku',lang)),/Yuki Nakashima/);
+  assert.match(credits(page('yakusoku',lang)),lang==='ja'?/相羽あいな/:/Aina Aiba/);
+  assert.match(credits(page('yakusoku',lang)),lang==='ja'?/中島由貴/:/Yuki Nakashima/);
  }
 });
 
