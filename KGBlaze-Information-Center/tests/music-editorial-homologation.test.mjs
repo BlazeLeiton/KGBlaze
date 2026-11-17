@@ -78,8 +78,8 @@ test('Bury, SINAY PAOHLA, Itani and other original adapters have consolidated cr
  assert.equal(songs.find(s=>s.slug==='xy-and-z').adaptationCredit,'Itani');
  assert.equal(songs.find(s=>s.slug==='brave-shine').adaptationCreditLabel.es,'Adaptación al español');
  assert.doesNotMatch(credits(page('brave-shine')), /atribuida|Contexto/);
- assert.match(credits(page('ryuusei')), /SINAY PAOHLA · Adecuaciones y extensión a versión completa: Blaze Leiton/);
- assert.match(credits(page('xy-and-z')), /Itani · Adecuaciones y extensión: Blaze Leiton/);
+ assert.match(credits(page('ryuusei')), /SINAY PAOHLA · Adecuaciones: Blaze Leiton/);
+ assert.match(credits(page('xy-and-z')), /Itani · Adecuaciones: Blaze Leiton/);
 });
 
 test('Solo original cast duplicated from artist is hidden across all applicable works; Yakusoku remains a verified two-voice song',()=>{
@@ -107,5 +107,5 @@ test('Ruteshi remains frozen until approval of the complete participant list',()
  const r=songs.find(s=>s.slug==='ruteshi-kisuki-shiteru');
  assert.deepEqual(r.performance,['Blaze Leiton']);
  assert.deepEqual(r.participation,['V.A.F.M.O.']);
- assert.match(page(r.slug),/Con participación de<\/dt><dd>V\.A\.F\.M\.O\./);
+ assert.match(page(r.slug),/<dt>Interpretación<\/dt><dd>Blaze Leiton feat\. V\.A\.F\.M\.O\.<\/dd>/);assert.doesNotMatch(page(r.slug),/<dt>Con participación de<\/dt>/);
 });
