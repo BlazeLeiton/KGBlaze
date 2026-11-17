@@ -62,7 +62,6 @@ export const lineAttributions={
  },
  'gimi-gimi':{
   source:'https://mayopan.jp/music/',
-  status:'official-cast-only',
   originalCast:['Live','Ichiko','Fu','Tokage','Yuki'],
   originalCastJa:['りぶ','苺子','譜風','十景','ゆき'],
   status:'fan-color-coded-video-preliminary',
@@ -93,7 +92,6 @@ export const lineAttributions={
  },
  'halloween-night':{
   source:'https://hololive.hololivepro.com/music/%E4%BB%8A%E5%AE%B5%E3%81%AFhalloween-night/',
-  status:'official-cast-only',
   originalCast:['Yozora Mel','Murasaki Shion','Yuzuki Choco','Uruha Rushia'],
   status:'official-short-mv-visual-preliminary',
   lines:[
