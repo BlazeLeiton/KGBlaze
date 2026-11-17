@@ -48,6 +48,31 @@ for(const slug of ['kirameki-rider','halloween-night','suki-yuki-maji-magic']){
  assert.doesNotMatch(credits,/<dt>Contexto<\/dt>/);
  assert.match(details,/class="color-group"/);
 }
+// Editorial homologation checks against the actual deployed HTML.
+for(const slug of ['pokemon-theme','pokemon-world','pokemon-johto','born-to-be-a-winner','believe-in-me','i-wanna-be-a-hero','this-dream','unbeatable','battle-frontier']){
+ const html=await load('/music/songs/'+slug+'/?lang=es');
+ assert.ok(!html.includes('<div class="lyric-heading"><span>Multilingüe</span>'),slug+' erroneously claims multiple languages');
+}
+const suki=await load('/music/songs/suki-yuki-maji-magic/?lang=es');
+for(const term of ['Muérdago','Galletita','Caramelo','Trío '])assert.ok(!suki.includes(term),'Suki displayed unapproved placeholder '+term);
+assert.ok(suki.includes('class="color-group"'));
+const globalEvent=await load('/music/songs/under-the-party-lights/?lang=es');
+assert.ok(globalEvent.includes('6.º aniversario global'));
+const brave=await load('/music/songs/brave-shine/?lang=es');
+assert.ok(brave.includes('Call Me Bury (Bury Singer)'));
+assert.ok(!brave.includes('atribuida'));
+assert.ok(!brave.includes('<dt>Contexto</dt>'));
+const ry=await load('/music/songs/ryuusei/?lang=es');
+assert.ok(ry.includes('SINAY PAOHLA · Adecuaciones y extensión a versión completa: Blaze Leiton'));
+const xy=await load('/music/songs/xy-and-z/?lang=es');
+assert.ok(xy.includes('Itani · Adecuaciones y extensión: Blaze Leiton'));
+assert.ok(!xy.includes('<dt>Voces originales</dt>'));
+const reality=await load('/music/songs/your-reality/?lang=es');
+assert.ok(!reality.includes('<dt>Voces originales</dt>'));
+const leon=await load('/music/songs/leon-no-sabe-que-existo/?lang=es');
+assert.ok(leon.includes('<dt>Obra original</dt>'));
+const dokimeki=await load('/music/songs/dokimeki-diary/?lang=es');
+assert.ok(!dokimeki.includes('<dt>Arco</dt>'));
 for(const oldPath of ['/music/song/blue-spirit/?lang=en&version=en','/music/blue-spirit/?lang=ja']){
  const r=await fetch(base+oldPath,{cache:'no-store',redirect:'manual',signal:AbortSignal.timeout(15000)});
  assert.equal(r.status,308,'legacy 308 redirect');
