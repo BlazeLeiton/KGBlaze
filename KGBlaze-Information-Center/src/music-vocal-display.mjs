@@ -30,7 +30,7 @@ export function normalizeEnsembleLine(line,lyric){
     // characters (rich-text color artifacts). Dots show all documented
     // voices; they do not assert that every voice was simultaneous.
     if(voices.length>1){
-     append(phrase.map(x=>x.ch).join(''),voices.join('+'),phrase.some(x=>x.secondary));
+     append(phrase.map(x=>x.ch).join(''),voices.join('+'),phrase.some(x=>x.secondary)||lyric?.colorRole==='overlap');
      i=end+1;
      continue;
     }
@@ -69,8 +69,8 @@ export function overlapDisplayStanzas(colorStanzas,lyric){
   throw new Error('Invalid overlap timeline stanza indexes');
  const positions=spec.responseAfter;
  if(!Array.isArray(positions)||positions.length!==responses.lines.length||
-    positions.some(i=>!Number.isInteger(i)||i<0||i>=main.lines.length||
-      (positions.indexOf(i)>0&&i<positions[positions.indexOf(i)-1])))
+    positions.some((i,j)=>!Number.isInteger(i)||i<0||i>=main.lines.length||
+      (j>0&&i<positions[j-1])))
   throw new Error('Invalid overlap reply positions');
  const merged=[];
  main.lines.forEach((line,i)=>{
