@@ -96,16 +96,16 @@ export const lineAttributions={
   status:'official-short-mv-visual-preliminary',
   lines:[
    ['Rushia','Rushia','Choco','Choco','Mel','Shion','Mel','Rushia','Shion','Shion'],
-   ['unattributed','unattributed','unattributed','unattributed','unattributed','unattributed','unattributed','unattributed','unattributed'],
-   ['Choco','unattributed','Mel','Rushia','Shion'],
-   ['Todos','Todos','Choco','Mel','Todos','Todos','Shion'],
-   ['Rushia','Todos','Todos','Shion','Rushia','unattributed','Todos','Choco','Todos']
+   ['Todos','Todos','Todos','Todos','Todos','Todos','Todos','Todos','Todos'],
+   ['Choco','Rushia','Mel','Rushia','Shion'],
+   ['Todos','Todos','Choco','Todos','Todos','Todos','Shion'],
+   ['Todos','Todos','Todos','Shion','Rushia','Todos','Todos','Todos','Todos']
   ],
   cuts:{
+   '3:2':[{through:'hallow!',voice:'choco'},{voice:'shared'}],
    '3:6':[{through:'bailar ',voice:'shared'},{voice:'shion'}],
-   '4:3':[{through:'volar',voice:'shion'},{voice:'unattributed'}],
-   '4:4':[{through:'bailar',voice:'rushia'},{voice:'unattributed'}],
-   '4:5':[{through:'Está, ',voice:'mel'},{voice:'rushia'}]
+   '4:3':[{through:'volar',voice:'shion'},{voice:'shared'}],
+   '4:4':[{through:'bailar',voice:'rushia'},{voice:'shared'}]
   }
  }
 };
