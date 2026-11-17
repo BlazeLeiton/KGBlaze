@@ -22,11 +22,15 @@ test('portal host is exact and old Worker URLs remain untouched',()=>{
  assert.equal(routePortalRequest(old).request,old);
  assert.equal(routePortalRequest(old).isPortal,false);
 });
-test('base domain and /departures redirect to the board with query params',async()=>{
- const {env}=setup();
+test('portal root serves KGBlaze home, while /departures retains the permanent board alias',async()=>{
+ const {env,assetPaths}=setup();
  const home=await worker.fetch(new Request(base+'/?flight=sample'),env);
- assert.equal(home.status,302);
- assert.equal(home.headers.get('location'),base+'/departures/?flight=sample');
+ assert.equal(home.status,200);
+ assert.equal(home.headers.get('Content-Type'),'text/html; charset=utf-8');
+ assert.equal(await home.text(),'VIEWER');
+ const homeAlias=await worker.fetch(new Request(base+'/index.html'),env);
+ assert.equal(homeAlias.status,200);
+ assert.deepEqual(assetPaths,['/home.html','/home.html']);
  const alias=await worker.fetch(new Request(base+'/departures?embed=1'),env);
  assert.equal(alias.status,308);
  assert.equal(alias.headers.get('location'),base+'/departures/?embed=1');

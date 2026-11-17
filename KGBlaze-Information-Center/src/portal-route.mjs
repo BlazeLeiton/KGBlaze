@@ -36,10 +36,11 @@ export function routePortalRequest(request){
   url.pathname='/departures/dashboard/library/';
   return {response:Response.redirect(url.toString(),308)};
  }
- if(url.pathname==='/'||url.pathname==='/departures'){
-  const permanent=url.pathname==='/departures';
+ // The portal root is the new KGBlaze home; the existing Terminal stays at /departures/.
+ if(url.pathname==='/'||url.pathname==='/index.html')return {request,isPortal:true};
+ if(url.pathname==='/departures'){
   url.pathname='/departures/';
-  return {response:Response.redirect(url.toString(),permanent?308:302)};
+  return {response:Response.redirect(url.toString(),308)};
  }
  // Temporary public-only compatibility for the viewer's absolute API fetch.
  // Deny all unlisted root API paths, particularly /api/admin/*.
