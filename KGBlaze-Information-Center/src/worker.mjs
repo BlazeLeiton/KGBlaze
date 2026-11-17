@@ -210,7 +210,7 @@ export default {
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
    // KGBlaze portal homepage is isolated from the legacy workers.dev Terminal.
-   if(routed.isPortal&&(dashboardPath==='/'||dashboardPath==='/index.html')){
+   if(routed.isPortal&&(new URL(req.url).pathname==='/'||new URL(req.url).pathname==='/index.html')){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
     const htmlReq=new Request(new URL('/home.html',requestURL),{method:'GET'});
