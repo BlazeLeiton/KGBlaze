@@ -7,6 +7,7 @@ import {releaseArtwork,artworkURL} from './music-artwork.mjs';
 import {franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,franchiseSearchAliases,catalogAffiliationBadge} from './music-franchises.mjs';
 import {lyricsBySong,lyricAliases,lyricOrder} from './music-lyrics.mjs';
 import {lineAttributions,ruteshiDialogueCast,colorDivisionFromReference} from './music-line-attributions.mjs';
+import {localizedVocalName} from './music-vocal-locales.mjs';
 import {ensembleVoiceIds,isEnsembleLyric,normalizeEnsembleLine} from './music-vocal-display.mjs';
 import {workName,workAliases,isPokemonWork,pokemonWorkLabel,pokemonCounterpart,workFamilies,familyLabel,familyForWork,filterAffiliations} from './music-works.mjs';
 import {pokemonTags,blockLabel,blockSeriesLabel,blockSearchAliases} from './music-pokemon-tags.mjs';
@@ -112,22 +113,22 @@ export function musicPage(path,query,mode='html'){
  const lyricUrl=(id,otherId)=>url(song,selected.id)+'&amp;lyric='+encodeURIComponent(id)+(otherId?'&amp;compare='+encodeURIComponent(otherId):'');
  const lyricLink=(id,otherId,label,current)=>'<a class="lyric-choice'+(current?' selected':'')+'" href="'+lyricUrl(id,otherId)+'"'+(current?' aria-current="true"':'')+'>'+e(label)+'</a>';
  const lyricControls=choiceIds.length>1?'<div class="lyric-controls"><span class="eyebrow">'+extraLabels.chooseLyrics+'</span><div class="lyric-options">'+choiceIds.map(id=>lyricLink(id,null,languageLabel(entries[id]),!parallel&&id===activeId)).join('')+(song.lyricSelection==='tracks'?'':choiceIds.filter(id=>id!==activeId).map(id=>lyricLink(activeId,id,extraLabels.compare+(choiceIds.length>2?' · '+languageLabel(entries[id]):''),parallel&&otherId===id)).join(''))+'</div></div>':'';
- const duetNames={chisato:'Chisato',takina:'Takina',shared:({es:'Ambas',en:'Both',ja:'二人'})[lang]};
+ const duetNames={chisato:localizedVocalName({label:'Chisato Nishikigi'},lang),takina:localizedVocalName({label:'Takina Inoue'},lang),shared:({es:'Ambas',en:'Both',ja:'二人'})[lang]};
  const renderDuet=(l,index=null)=>(index===null||index===0?'<div class="duet-legend" aria-label="'+e(({es:'Voces',en:'Voices',ja:'歌唱パート'})[lang])+'">'+['chisato','takina','shared'].map(v=>'<span class="duet-'+v+'">'+e(duetNames[v])+'</span>').join('')+'</div>':'')+'<div class="lyric-text duet-lyrics" lang="'+e(lyricLang(l))+'">'+(index===null?l.duetStanzas:l.duetStanzas.slice(index,index+1)).map(stanza=>'<p>'+stanza.map(line=>line.map(part=>'<span class="duet-'+e(part.voice)+'" title="'+e(duetNames[part.voice])+'">'+e(part.text)+'</span>').join('')).join('\n')+'</p>').join('')+'</div>';
  const renderColored=(l,index=null)=>{
  const palette=Object.fromEntries(l.colorLegend.map(x=>[x.id,x]));
  const colorStanzas=lang==='ja'&&l.colorStanzasJa?l.colorStanzasJa:l.colorStanzas;
- const localRole=x=>({main:({es:'Principal',en:'Lead',ja:'主旋律'})[lang],secondary:({es:'Intervención secundaria',en:'Secondary part',ja:'重唱'})[lang]})[x.id]||x.label;
+ const localRole=x=>({main:({es:'Principal',en:'Lead',ja:'主旋律'})[lang],secondary:({es:'Intervención secundaria',en:'Secondary part',ja:'重唱'})[lang]})[x.id]||localizedVocalName(x,lang);
  const color=x=>/^#[0-9a-f]{6}$/i.test(x||'')?x:'#FFFFFF';
  const sharedLabel=l.sharedLabel?.[lang]||({es:'Todos',en:'All',ja:'全員'})[lang];
  const sharedColor=color(l.sharedColor);
  const hiddenVoice=v=>l.hiddenVoiceIds?.includes(v);
- const labelFor=v=>hiddenVoice(v)?'':v==='shared'?sharedLabel:v.split('+').map(id=>palette[id]?.label||id).join(' · ');
+ const labelFor=v=>hiddenVoice(v)?'':v==='shared'?sharedLabel:v.split('+').map(id=>(palette[id]?localizedVocalName(palette[id],lang):id)).join(' · ');
  const dots=v=>{
   const ensemble=isEnsembleLyric(l);
   const ids=ensemble?ensembleVoiceIds(v,l):(v.includes('+')?v.split('+'):[]);
   if(ids.length<2)return '';
-  const description=v==='shared'?sharedLabel:ids.map(id=>palette[id]?.label||id).join(' · ');
+  const description=v==='shared'?sharedLabel:ids.map(id=>(palette[id]?localizedVocalName(palette[id],lang):id)).join(' · ');
   return '<span class="color-group" aria-label="'+e(description)+'" title="'+e(description)+'">'+ids.map(id=>'<span class="color-dot" style="background:'+color(palette[id]?.color)+'"></span>').join('')+'</span>';
  };
  const legendLabel=l.colorRole==='song'?({es:'Canciones',en:'Songs',ja:'楽曲'})[lang]:l.colorRole==='overlap'?({es:'Intervenciones',en:'Parts',ja:'歌唱パート'})[lang]:({es:'Voces',en:'Voices',ja:'歌唱パート'})[lang];
@@ -162,24 +163,21 @@ export function musicPage(path,query,mode='html'){
  const performanceValue=s=>(s.performance||['Blaze Leiton']).join(' · ')+(s.featuredArtist?' feat. '+s.featuredArtist:'');
  const remainingParticipation=s=>(s.participation||[]).filter(name=>name!==s.featuredArtist);
  const originalComposerRow=s=>s.slug!=='paper-bouquet'&&s.originalComposer&&Object.values(lyricsBySong[s.slug]||{}).some(l=>l?.kind==='original'||l?.kind==='original_romanized')?'<dt>'+composerLabel+'</dt><dd>'+e(s.originalComposer)+'</dd>':'';
- const renderDialogues=l=>l.dialogues?.length?'<section class="lyric-dialogues"><h3>'+e(({es:'Diálogos',en:'Spoken dialogue',ja:'台詞'})[lang])+'</h3><div class="voice-lines">'+l.dialogues.map(d=>'<div class="voice-line"><div><span class="line-attribution">('+e(d.voice)+')</span> '+e(d.text)+'</div></div>').join('')+'</div></section>':'';
-
- const attributionNote=spec=>spec.status==='corroborated-fan-transcription'
-  ?({es:'Distribución vocal original según dos transcripciones independientes de aficionados; no consta un desglose oficial por verso.',en:'Original parts according to two independently matching fan transcriptions; no official line-by-line allocation located.',ja:'原曲の歌唱パートは独立したファン採譜２件に基づきます。公式歌割り資料ではありません。'})[lang]
-  :spec.status==='fan-transcription-condensed-spanish'
-  ?({es:'Distribución de referencia de aficionados. Algunas líneas en español reúnen intervenciones originales distintas.',en:'Fan-transcribed allocation. Some Spanish adaptation lines combine multiple original parts.',ja:'非公式の歌割り参考資料。スペイン語版では複数の原曲パートが一行に統合されています。'})[lang]
-  :({es:'Reparto original confirmado; no se encontró una división individual de cada verso publicada oficialmente. Las líneas se atribuyen al conjunto, sin inventar solos.',en:'Official original cast confirmed, but no official line-by-line allocation was found. Group attribution is used instead of invented solos.',ja:'原曲の歌唱メンバーは公式確認済みですが、歌割りの公式資料は未確認です。推測によるソロ割りはしていません。'})[lang];
- const renderAttribution=(l,spec,withNote=true)=>
-  (withNote?'<p class="lyric-note vocal-source-note">'+e(attributionNote(spec))+'</p>':'')+
-  renderColored(colorDivisionFromReference(l,song.slug));
+ const renderDialogues=l=>l.dialogues?.length?
+ '<div class="lyric-dialogues">'+l.dialogues.map(d=>{
+  const character=l.colorLegend?.find(x=>x.label.split(' ')[0]===d.originalRole);
+  const ink=character?.textColor||character?.color||'#F0F3FF';
+  return '<div class="voice-line" style="color:'+e(ink)+'"><span class="line-attribution">('+e(d.voice)+')</span> '+e(d.text)+'</div>';
+ }).join('')+'</div>':'';
+ const renderAttribution=l=>renderColored(colorDivisionFromReference(l,song.slug));
  const renderHalloween=(l)=>{
   const spec=lineAttributions['halloween-night'];
   const lbl=({es:{padoru:'División Padoru',original:'División original',cast:'Voces originales'},en:{padoru:'Padoru distribution',original:'Original distribution',cast:'Original voices'},ja:{padoru:'Padoru版',original:'原曲版',cast:'原曲歌唱者'}})[lang];
   return '<fieldset class="division-mode"><legend>'+e(({es:'Distribución de voces',en:'Vocal distribution',ja:'歌唱パート表示'})[lang])+'</legend>'+
    '<input type="radio" id="halloween-padoru" name="halloween-division" checked><label for="halloween-padoru">'+lbl.padoru+'</label>'+
    '<input type="radio" id="halloween-original" name="halloween-division"><label for="halloween-original">'+lbl.original+'</label>'+
-   '<div class="halloween-padoru-view"><p class="lyric-note">'+e(({es:'Intervenciones del cover Padoru, con sus colores y voces superpuestas documentadas.',en:'Documented Padoru cover voices with preserved overlaps and colors.',ja:'Padoru版の配役と重唱・色分けを保持しています。'})[lang])+'</p>'+renderColored(l)+'</div>'+
-   '<div class="halloween-original-view"><p class="lyric-note">'+e(attributionNote(spec))+' '+e(lbl.cast)+': '+spec.originalCast.map(e).join(' · ')+'</p>'+renderAttribution(l,spec,false)+'</div></fieldset>';
+   '<div class="halloween-padoru-view">'+renderColored(l)+'</div>'+
+   '<div class="halloween-original-view">'+renderAttribution(l)+'</div></fieldset>';
  };
  const dialogueCredits=song?.slug==='ruteshi-kisuki-shiteru'
   ?'<dt>'+e(({es:'Invitados en diálogos',en:'Spoken dialogue guests',ja:'台詞ゲスト'})[lang])+'</dt><dd>'+ruteshiDialogueCast.filter(x=>x.credit).map(x=>x.url?'<a href="'+e(x.url)+'" target="_blank" rel="noopener noreferrer">'+e(x.voice)+'</a>':e(x.voice)).join(' · ')+'</dd>'
@@ -191,7 +189,7 @@ export function musicPage(path,query,mode='html'){
  const detail=song?'<a class="back" href="'+url(null)+'">← '+t.back+'</a><div class="detail-title">'+((detailWork(song)||themeLine(song))?'<div class="eyebrow">'+e(detailWork(song))+(themeLine(song)?(detailWork(song)?' · ':'')+e(themeLine(song)):'')+'</div>':'')+'<h1>'+titleMarkup(song)+'</h1><p>'+e(artist(song))+(selected.year?' · '+selected.year:'')+'</p>'+(song.firstCover?'<p class="history-note">'+t.firstCover+'</p>':'')+'</div>'+tags(song)+(visibleVersions(song).length>1?'<section class="version-bar"><span class="eyebrow">'+t.version+'</span><div class="version-options">'+visibleVersions(song).map(v=>'<a '+(v.id===selected.id?'aria-current="true" class="selected"':'')+' href="'+url(song,v.id)+'">'+e(v.label[li])+(v.year?' · '+v.year:'')+'</a>').join('')+'</div></section>':'')+'<div class="detail-grid'+(parallel?' compare-view':'')+'"><section class="media"><h2>'+(selected.medium==='audio'?extraLabels.audio:t.media)+'</h2>'+(selected.medium==='audio'?art(song,selected)+'<p class="meta">'+extraLabels.audioPending+'</p>':videoMedia(song,selected)) +(song.performanceNote?'<p class="meta">'+e(song.performanceNote[lang])+'</p>':'')+'</section><section class="lyrics"><h2>'+t.lyrics+'</h2>'+lyricMarkup+'</section></div><section class="credits"><h2>'+t.credits+'</h2><dl><dt>'+t.original+'</dt><dd>'+e(artist(song))+'</dd>'+originalComposerRow(song)+albumsForVersion(song.slug,selected.id).filter(a=>a.releaseStatus!=='planned-unreleased').map(a=>'<dt>'+e(({es:'Álbum',en:'Album',ja:'アルバム'}[lang]))+'</dt><dd>'+e(a.titles[lang])+'</dd>').join('')+originalCreditRows(song,lang,selected.id).map(r=>'<dt>'+e(r.label)+'</dt><dd class="original-cast">'+r.values.map(v=>'<span>'+e(v)+'</span>').join('')+'</dd>').join('')+(!song.context||song.originalWork?'<dt>'+t.series+'</dt><dd>'+e(song.originalWork||work(song))+'</dd>':'')+affiliationDetails(song,lang).map(([label,value])=>'<dt>'+e(label)+'</dt><dd>'+e(value)+'</dd>').join('')+dialogueCredits+(isPokemonWork(song.series)&&pokemonCounterpart(song,lang)?'<dt>'+({es:'Nombre japonés (rōmaji)',en:'Japanese title (romaji)',ja:'海外版の対応作品（英語）'}[lang])+'</dt><dd>'+e(pokemonCounterpart(song,lang))+'</dd>':'')+(!song.localizationCredits&&song.sourceLocalization?'<dt>'+t.localization+'</dt><dd>'+e(song.sourceLocalization)+'</dd>':'')+(!isPokemonWork(song.series)&&song.localizationCredits?Object.entries({latinArtist:{es:'Intérpretes del doblaje latino',en:'Latin American dub performers',ja:'中南米スペイン語版歌唱'},latinAdapter:{es:'Adaptación del doblaje latino',en:'Latin American dub adaptation',ja:'中南米スペイン語版歌詞'},europeanDub:{es:'Doblaje español europeo',en:'European Spanish dub',ja:'欧州スペイン語版'},referenceArtist:{es:'Versión extendida de referencia',en:'Extended reference version',ja:'参考のフルバージョン'}}).map(([k,l])=>song.localizationCredits[k]?'<dt>'+e(l[lang])+'</dt><dd>'+(k==='referenceArtist'&&song.localizationCredits.referenceURL?'<a href="'+e(song.localizationCredits.referenceURL)+'" target="_blank" rel="noopener noreferrer">'+e(song.localizationCredits[k])+'</a>':e(song.localizationCredits[k]))+'</dd>':'').join(''):'')+(themeLine(song)?'<dt>'+t.theme+'</dt><dd>'+e(themeLine(song))+'</dd>':'')+(!isPokemonWork(song.series)&&song.sourceArc?'<dt>'+t.arc+'</dt><dd>'+e(song.sourceArc)+'</dd>':'')+(song.event?'<dt>'+({es:'Evento',en:'Event',ja:'イベント'}[lang])+'</dt><dd>'+e(song.event[lang])+'</dd>':'')+(!song.localizationCredits&&selected.arrangement?'<dt>'+t.arrangement+'</dt><dd>'+e(selected.arrangement)+'</dd>':'')+''+adaptationRow(song)+(song.modificationCredit?'<dt>'+e(({es:'Modificaciones',en:'Modifications',ja:'修正'})[lang])+'</dt><dd>'+e(song.modificationCredit)+'</dd>':'')+(!song.adaptationCredit&&song.adjustmentCredit?'<dt>'+e(({es:'Adecuaciones',en:'Adjustments',ja:'歌詞の調整'})[lang])+'</dt><dd>'+e(song.adjustmentCredit)+'</dd>':'')+(song.lyricInspiration?'<dt>'+e(({es:'Inspiración lírica parcial',en:'Partial lyrical inspiration',ja:'歌詞の一部参考'})[lang])+'</dt><dd>'+e(song.lyricInspiration)+'</dd>':'')+(song.medley?'<dt>'+({es:'Base musical',en:'Musical backing',ja:'伴奏の原曲'}[lang])+'</dt><dd>'+e(song.medley.base)+'</dd><dt>'+({es:'Inspiración del medley',en:'Medley inspiration',ja:'メドレーの構成参考'}[lang])+'</dt><dd>'+e(song.medley.inspiration)+'</dd><dt>'+({es:'Canciones del medley',en:'Medley songs',ja:'メドレー収録曲'}[lang])+'</dt><dd class="medley-links">'+song.medley.related.map(slug=>songs.find(s=>s.slug===slug)).filter(Boolean).map(s=>'<a href="'+url(s)+'">'+titleMarkup(s)+'</a>').join(' · ')+'</dd>':'')+''+'<dt>'+t.performance+'</dt><dd>'+e(performanceValue(song))+'</dd>'+(remainingParticipation(song).length?'<dt>'+e(({es:'Con participación de',en:'With participation by',ja:'参加'})[lang])+'</dt><dd>'+e(remainingParticipation(song).join(' · '))+'</dd>':'')+(visibleVersions(song).length>1?'<dt>'+t.debut+'</dt><dd>'+e(releaseDate(firstRelease(song)))+'</dd>':'')+'<dt>'+(visibleVersions(song).length>1?t.versionDate:t.date)+'</dt><dd>'+e(selected.date?releaseDate(selected):extraLabels.undated)+'</dd>'+(selected.videoPublishedDate?'<dt>'+({es:'Publicación del video resubido',en:'Re-uploaded video publication',ja:'再投稿動画の公開日'}[lang])+'</dt><dd>'+e(releaseDate({date:selected.videoPublishedDate}))+'</dd>':'')+'</dl></section><section class="related"><h2>'+t.related+'</h2><div class="songs">'+songs.filter(s=>s!==song).sort((a,b)=>Number(b.series===song.series)-Number(a.series===song.series)).slice(0,3).map(s=>card(s,0)).join('')+'</div></section>':'';
  const css=`
 
- .lyric-dialogues .line-attribution{font-weight:650;color:var(--ice);font-size:.9em}
+ .lyric-dialogues{margin:0 0 18px;display:grid;gap:3px}.lyric-dialogues .voice-line{line-height:1.8}.lyric-dialogues .line-attribution{font-weight:650}
  .division-mode{border:1px solid rgba(165,190,255,.45);border-radius:12px;padding:12px;min-width:0;margin:12px 0}
  .division-mode legend{color:var(--ice);font-weight:600;padding:0 8px}
  .division-mode>input{accent-color:var(--ice);margin:0 5px 0 12px;vertical-align:middle}
