@@ -12,6 +12,7 @@ import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {lineAttributions,ruteshiDialogueCast,originalColorPalettes,colorSources,colorDivisionFromReference} from '../src/music-line-attributions.mjs';
+import {localizedVocalName} from '../src/music-vocal-locales.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from '../src/music-page.mjs';
@@ -1180,8 +1181,8 @@ test("Let's be ONE voice reference is line-complete without a fabricated officia
  assert.match(spec.status,/fan-transcription/);
  for(const lang of ['es','en','ja']){
   const page=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
-  assert.ok(page.includes('Kanon Shibuya'),lang);
-  assert.ok(page.includes('aria-label="Keke Tang · Shiki Wakana"'),lang);
+  assert.ok(page.includes(lang==='ja'?'澁谷かのん':'Kanon Shibuya'),lang);
+  assert.ok(page.includes(lang==='ja'?'aria-label="唐可可 · 若菜四季"':'aria-label="Keke Tang · Shiki Wakana"'),lang);
   assert.ok(!page.includes('<dt>Evento</dt>'));
  }
 });
@@ -1206,8 +1207,8 @@ test('Halloween Night exposes two independent divisions, retaining Padoru origin
   assert.match(page,/class="halloween-padoru-view"/);
   assert.match(page,/class="halloween-original-view"/);
   assert.match(page,/color-legend/);
-  assert.match(page,/Yozora Mel/);
-  assert.ok(page.includes('Yozora Mel')&&page.includes('Murasaki Shion')&&page.includes('Yuzuki Choco')&&page.includes('Uruha Rushia'));
+  assert.ok(page.includes(lang==='ja'?'夜空メル':'Yozora Mel'));
+  assert.ok((lang==='ja'?['夜空メル','紫咲シオン','癒月ちょこ','潤羽るしあ']:['Yozora Mel','Murasaki Shion','Yuzuki Choco','Uruha Rushia']).every(n=>page.includes(n)));
   assert.ok(page.includes('Mek')&&page.includes('Leon Live☆Heart'));
  }
 });
@@ -1240,8 +1241,9 @@ test('Ruteshi colored musical roles retain character colors and correct Umi/Rin 
  assert.equal(lyric.colorLegend.find(v=>v.id==='nozomi').color,'#C455F6');
  for(const lang of ['es','en','ja']){
   const html=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
-  assert.match(html,/aria-label="Umi Sonoda · Rin Hoshizora"/);
-  assert.match(html,/aria-label="Kotori Minami · Nico Yazawa"/);
+  assert.ok(html.includes(lang==='ja'?'aria-label="園田海未 · 星空凛"':'aria-label="Umi Sonoda · Rin Hoshizora"'));
+  assert.doesNotMatch(html,/<h3>Diálogos<\/h3>|<h3>Spoken dialogue<\/h3>|<h3>台詞<\/h3>/);
+  assert.ok(html.includes(lang==='ja'?'aria-label="南ことり · 矢澤にこ"':'aria-label="Kotori Minami · Nico Yazawa"'));
   assert.match(html,/class="color-group"/);
  }
 });
@@ -1255,7 +1257,7 @@ test('Liella! 11 verified swatches, shared colored dots, accessible Ren text',()
   const html=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
   assert.match(html,/style="background:#0000A0"/);
   assert.match(html,/style="color:#9CA9FF"/);
-  assert.match(html,/aria-label="Kanon Shibuya · Kinako Sakurakoji · Wien Margarete"/);
+  assert.ok(html.includes(lang==='ja'?'aria-label="澁谷かのん · 桜小路きな子 · ウィーン・マルガレーテ"':'aria-label="Kanon Shibuya · Kinako Sakurakoji · Wien Margarete"'));
   assert.doesNotMatch(html,/class="line-attribution"/);
  }
 });
@@ -1274,4 +1276,61 @@ test('Gimi and Halloween use provenance-labelled swatches, not invented solos',(
  assert.ok(html.includes('style="background:#19E8C9"'));
  assert.ok(html.includes('style="background:#D9944B"'),'Padoru palette must not be replaced');
  assert.doesNotMatch(html,/class="line-attribution"/);
+});
+
+
+test('Music vocal localization: bilingual member names never mixed in ES/EN legends',()=>{
+ assert.equal(localizedVocalName({label:'Live (りぶ)'},'es'),'Live');
+ assert.equal(localizedVocalName({label:'Live (りぶ)'},'ja'),'りぶ');
+ assert.equal(localizedVocalName({label:'Ichiko'},'ja'),'苺子');
+ assert.equal(localizedVocalName({label:'Fu'},'ja'),'譜風');
+ assert.equal(localizedVocalName({label:'Chisato Nishikigi'},'ja'),'錦木千束');
+ for(const slug of ['ruteshi-kisuki-shiteru','lets-be-one','gimi-gimi','halloween-night','the-secret-night']){
+  for(const lang of ['es','en','ja']){
+   const page=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
+   const legends=page.match(/<div class="color-legend"[^>]*>[\s\S]*?<\/div>/g)||[];
+   assert.ok(legends.length,slug+' color legends');
+   const legendsOnly=legends.join('');
+   if(slug==='gimi-gimi'){
+    for(const name of ['Live','Ichiko','Fu','Tokage','Yuki']){
+     assert.ok(lang==='ja'||legendsOnly.includes(name),lang+' missing romanized '+name);
+    }
+    if(lang==='ja')for(const name of ['りぶ','苺子','譜風','十景','ゆき'])assert.ok(legendsOnly.includes(name),name);
+    if(lang!=='ja')assert.doesNotMatch(legendsOnly,/[(（][\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u,'mixed-script roster');
+    if(lang==='ja')assert.ok(!legendsOnly.includes('Live (りぶ)'));
+   }
+  }
+ }
+});
+test('Ruteshi colored dialogue is inline and keeps nine parenthesized performer names only',()=>{
+ const source=lyricsBySong['ruteshi-kisuki-shiteru'].es;
+ const expected=source.dialogues.map(d=>{
+  const color=originalColorPalettes['ruteshi-kisuki-shiteru'].find(x=>x.label.split(' ')[0]===d.originalRole);
+  assert.ok(color,'missing original character color for '+d.originalRole);
+  return color.textColor||color.color;
+ });
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
+  const match=html.match(/<div class="lyric-dialogues">([\s\S]*?)<\/div><\/div>/);
+  assert.ok(match,'dialogue integrated in colored lyric flow');
+  const snippet=match[1];
+  assert.equal((snippet.match(/class="line-attribution"/g)||[]).length,9);
+  assert.doesNotMatch(snippet,/<h3|Spoken dialogue|Diálogos|台詞/);
+  source.dialogues.forEach((d,i)=>{
+   assert.ok(snippet.includes('style="color:'+expected[i]+'"'),'missing correct line color for '+d.voice);
+   assert.ok(snippet.includes('('+d.voice+')'),'missing literal parentheses '+d.voice);
+   assert.ok(snippet.includes(d.text),'missing original spoken line');
+  });
+  assert.ok(html.indexOf('En 10 segundos lo sabré')<html.indexOf('class="lyric-dialogues"'));
+  assert.ok(html.indexOf('class="lyric-dialogues"')<html.lastIndexOf('Dale vuelta una y otra vez antes de mirar'));
+ }
+});
+test('Four vocal pages contain no visible explanatory notes or selection tutorials',()=>{
+ for(const slug of ['ruteshi-kisuki-shiteru','lets-be-one','gimi-gimi','halloween-night']){
+  for(const lang of ['es','en','ja']){
+   const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
+   assert.doesNotMatch(html,/class="lyric-note vocal-source-note"/);
+   assert.doesNotMatch(html,/Original parts according to|Distribución vocal original según|Reparto original confirmado|Documented Padoru cover voices|Intervenciones del cover Padoru/);
+  }
+ }
 });
