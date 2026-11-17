@@ -1364,7 +1364,7 @@ test('Gimi Full and TV preserve every character with panel-documented roles',()=
   assert.deepEqual(c.colorStanzas[1][1].map(p=>p.voice),['fu','tokage']);
   assert.deepEqual(c.colorStanzas[4].map(li=>li[0].voice),['ichiko','live','fu','tokage']);
   assert.deepEqual(c.colorStanzas[7].map(li=>li[0].voice),['yuki','tokage','fu','ichiko','live']);
-  assert.equal(c.colorStanzas[3][6][0].voice,'unattributed');
+  assert.deepEqual(c.colorStanzas[3][6].map(p=>p.voice),['ichiko','tokage']);
   assert.equal(c.colorLegend.length,5);
  }
  for(const lang of ['es','en','ja']){
