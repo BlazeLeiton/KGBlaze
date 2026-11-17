@@ -131,7 +131,7 @@ const labelIds={
  'Kanon':'kanon','Keke':'keke','Chisato':'chisato','Sumire':'sumire','Ren':'ren','Kinako':'kinako','Mei':'mei','Shiki':'shiki','Natsumi':'natsumi','Margarete':'margarete','Tomari':'tomari'
 };
 const groupVoice=(label,slug)=>{
- if(!label||label==='Todos'||label==='Todas'||label.includes('Todos ·')||label.includes('Todas ·')||label.includes('generación'))return 'shared';
+ if(!label||label==='Todos'||label==='Todas'||label.includes('Todos')||label.includes('Todas')||label.includes('generación'))return 'shared';
  const ids=label.split(' · ').map(n=>labelIds[n]);
  if(ids.some(id=>!id||!lookup[slug][id]))throw new Error('Unverified line-role tag: '+slug+' '+label);
  return ids.join('+');
