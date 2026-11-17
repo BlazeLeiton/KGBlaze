@@ -30,7 +30,7 @@ export function normalizeEnsembleLine(line,lyric){
     // characters (rich-text color artifacts). Dots show all documented
     // voices; they do not assert that every voice was simultaneous.
     if(voices.length>1){
-     append(phrase.map(x=>x.ch).join(''),voices.join('+'),phrase.some(x=>x.secondary));
+     append(phrase.map(x=>x.ch).join(''),voices.join('+'),phrase.some(x=>x.secondary)||lyric?.colorRole==='overlap');
      i=end+1;
      continue;
     }
@@ -48,4 +48,40 @@ export function ensembleVoiceIds(voice,lyric){
  const known=new Set(lyric.colorLegend.filter(part=>!lyric.hiddenVoiceIds?.includes(part.id)).map(part=>part.id));
  if(voice==='shared')return lyric.colorLegend.filter(part=>!lyric.hiddenVoiceIds?.includes(part.id)).map(part=>part.id);
  return [...new Set(String(voice).split('+').filter(id=>known.has(id)))];
+}
+
+
+/**
+ * Re-sequence overlapping response lines for display without rewriting the
+ * supplied lyrics, speaker colors or the original colorStanzas structure.
+ * Other songs keep their existing order. Both original and secondary lines
+ * remain addressable by their immutable source stanza/line indexes.
+ */
+export function overlapDisplayStanzas(colorStanzas,lyric){
+ const base=colorStanzas.map((stanza,sourceIndex)=>({
+  sourceIndex,
+  lines:stanza.map((parts,sourceLine)=>({parts,sourceIndex,sourceLine,isResponse:false}))
+ }));
+ const spec=lyric?.overlapTimeline;
+ if(!spec)return base;
+ const main=base[spec.mainStanza],responses=base[spec.responseStanza];
+ if(!main||!responses||spec.mainStanza===spec.responseStanza)
+  throw new Error('Invalid overlap timeline stanza indexes');
+ const positions=spec.responseAfter;
+ if(!Array.isArray(positions)||positions.length!==responses.lines.length||
+    positions.some((i,j)=>!Number.isInteger(i)||i<0||i>=main.lines.length||
+      (j>0&&i<positions[j-1])))
+  throw new Error('Invalid overlap reply positions');
+ const merged=[];
+ main.lines.forEach((line,i)=>{
+  merged.push(line);
+  responses.lines.forEach((response,j)=>{
+   if(positions[j]!==i)return;
+   merged.push({...response,
+    parts:response.parts.map(part=>({...part,secondary:true})),
+    isResponse:true});
+  });
+ });
+ return base.filter(group=>group.sourceIndex!==spec.responseStanza)
+  .map(group=>group.sourceIndex===spec.mainStanza?{...group,lines:merged}:group);
 }
