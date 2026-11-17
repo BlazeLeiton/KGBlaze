@@ -1331,6 +1331,7 @@ test('Four vocal pages contain no visible explanatory notes or selection tutoria
    const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
    assert.doesNotMatch(html,/class="lyric-note vocal-source-note"/);
    assert.doesNotMatch(html,/Original parts according to|Distribución vocal original según|Reparto original confirmado|Documented Padoru cover voices|Intervenciones del cover Padoru/);
+   if(slug==='gimi-gimi')assert.doesNotMatch(musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version:'tv'})),/Letra completa de la adaptación|Complete adaptation lyrics|翻案歌詞の全文/);
   }
  }
 });
