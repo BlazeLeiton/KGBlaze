@@ -11,6 +11,7 @@ import {serveArtwork} from '../src/music-artwork-cache.mjs';
 import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs';
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
+import {lineAttributions,ruteshiDialogueCast} from '../src/music-line-attributions.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from '../src/music-page.mjs';
@@ -1112,7 +1113,7 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
 
 
 test('Stage 36 Ruteshi dialogue source and preserved public metadata',()=>{
- const names=['Leon','Sayu','Myco','Lanti','Blaze','Dorita','Caminina','Misao','VAFMO'];
+ const names=['Leon Live☆Heart','Valeria Osorio','Blaze Leiton','Lanti Keeki','Glaze Reyna','Doraimonuwu','CamininaVT','Misao Chan','V.A.F.M.O.'];
  const source=lyricsBySong['ruteshi-kisuki-shiteru'].es;
  assert.deepEqual(source.dialogues.map(d=>d.voice),names);
  assert.equal(source.dialogues.length,9);
@@ -1141,11 +1142,72 @@ test('Stage 36 Ruteshi dialogue source and preserved public metadata',()=>{
   assert.match(page,/Blaze Leiton feat\. V\.A\.F\.M\.O\./);
   assert.doesNotMatch(page,/<dt>Con participación de<\/dt>/);
   assert.match(page,/class="lyric-dialogues"/);
-  for(const n of names)assert.ok(page.includes('<div class="voice-name">'+n+'</div>'),lang+' lacks Ruteshi dialogue attribution '+n);
+  for(const n of names)assert.ok(page.includes('<span class="line-attribution">('+n+')</span>'),lang+' lacks Ruteshi dialogue attribution '+n);
   for(const line of source.dialogues)assert.ok(page.includes(line.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')),lang+' lacks dialogue content');
   const visiblePlanetarium=musicPage('/music/songs/planetarium/',new URLSearchParams({lang}));
   assert.ok(visiblePlanetarium.includes('holo*27 Originals Vol.1'),'Planetarium project must remain publicly visible');
   const one=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
   assert.ok(!one.includes('<dt>Evento</dt>'),'Let’s be ONE must not regain the removed event');
+ }
+});
+
+
+test('vocal attributions preserve song texts and place Ruteshi dialogue between choruses',()=>{
+ const ruteshi=lyricsBySong['ruteshi-kisuki-shiteru'].es;
+ const spec=lineAttributions['ruteshi-kisuki-shiteru'];
+ const lines=ruteshi.text.trim().split(/\n\s*\n/).map(s=>s.split('\n'));
+ assert.deepEqual(spec.lines.map(s=>s.length),lines.map(s=>s.length),'all Ruteshi lines attributed');
+ assert.equal(spec.dialogueAfterStanza,9);
+ assert.deepEqual(ruteshi.dialogues.map(d=>d.originalRole),['Maki','Honoka','Eli','Umi','Rin','Hanayo','Nico','Kotori','Nozomi']);
+ assert.deepEqual(ruteshi.dialogues.map(d=>d.voice),ruteshiDialogueCast.map(d=>d.voice));
+ assert.equal(ruteshiDialogueCast.find(d=>d.voice==='Blaze Leiton').credit,false,'do not add creator again as guest credit');
+ assert.equal(ruteshiDialogueCast.find(d=>d.voice==='Doraimonuwu').url,'https://www.twitch.tv/doraimonuwu');
+ assert.equal(ruteshiDialogueCast.find(d=>d.voice==='CamininaVT').url,'https://www.twitch.tv/camininavt');
+ for(const lang of ['es','en','ja']){
+  const page=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
+  assert.equal((page.match(/class="lyric-dialogues"/g)||[]).length,1);
+  assert.ok(page.indexOf('En 10 segundos lo sabré')<page.indexOf('class="lyric-dialogues"'));
+  assert.ok(page.indexOf('class="lyric-dialogues"')<page.lastIndexOf('Dale vuelta una y otra vez antes de mirar'));
+  assert.match(page,/<span class="line-attribution">\(Umi · Rin · Hanayo\)<\/span>/);
+  assert.match(page,/<dt>[^<]*(Invitados en diálogos|Spoken dialogue guests|台詞ゲスト)<\/dt>/);
+  for(const name of ruteshiDialogueCast.filter(d=>d.credit).map(d=>d.voice))assert.ok(page.includes(name),name+' missing '+lang);
+ }
+});
+test("Let's be ONE voice reference is line-complete without a fabricated official status",()=>{
+ const spec=lineAttributions['lets-be-one'];
+ const text=lyricsBySong['lets-be-one'].es.text;
+ assert.deepEqual(spec.lines.map(x=>x.length),text.trim().split(/\n\s*\n/).map(x=>x.split('\n').length));
+ assert.match(spec.status,/fan-transcription/);
+ for(const lang of ['es','en','ja']){
+  const page=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
+  assert.ok(page.includes('(Kanon)'),lang);
+  assert.ok(page.includes('(Keke · Shiki)'),lang);
+  assert.ok(!page.includes('<dt>Evento</dt>'));
+ }
+});
+test('Gimi Gimi Full and TV show verified original cast but do not invent solo lines',()=>{
+ const spec=lineAttributions['gimi-gimi'];
+ assert.equal(spec.status,'official-cast-only');
+ assert.equal(spec.originalCast.length,5);
+ for(const version of ['full','tv'])for(const lang of ['es','en','ja']){
+  const page=musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version}));
+  assert.match(page,/<span class="line-attribution">\(Mayopan\)<\/span>/);
+  assert.ok(!page.includes('por verso confirmada oficialmente'));
+ }
+});
+test('Halloween Night exposes two independent divisions, retaining Padoru original color annotations',()=>{
+ const source=lyricsBySong['halloween-night'].es;
+ const cBefore=source.colorStanzas.map(stanza=>stanza.map(line=>line.map(part=>part.text).join('')).join('\n')).join('\n\n');
+ assert.equal(cBefore,source.text,'Padoru segments must still equal the original user-supplied words');
+ for(const lang of ['es','en','ja']){
+  const page=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang}));
+  assert.match(page,/id="halloween-padoru"/);
+  assert.match(page,/id="halloween-original"/);
+  assert.match(page,/class="halloween-padoru-view"/);
+  assert.match(page,/class="halloween-original-view"/);
+  assert.match(page,/color-legend/);
+  assert.match(page,/<span class="line-attribution">\(hololive IDOL PROJECT\)<\/span>/);
+  assert.ok(page.includes('Yozora Mel')&&page.includes('Murasaki Shion')&&page.includes('Yuzuki Choco')&&page.includes('Uruha Rushia'));
+  assert.ok(page.includes('Elenco Padoru')||page.includes('Leon Live☆Heart'));
  }
 });

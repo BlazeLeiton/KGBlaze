@@ -39,6 +39,20 @@ try{
    }
    report.push({device,lang,cards:rows.length,details:songs.length,artwork:rows});
   }
+  // The Halloween switch must change visible vocal attribution without a reload.
+  await page.goto(origin+'/music/songs/halloween-night/?lang=es',{waitUntil:'domcontentloaded'});
+  const padoruPane=page.locator('.halloween-padoru-view'),originalPane=page.locator('.halloween-original-view');
+  assert.ok(await padoruPane.isVisible(),'Padoru default division should be visible');
+  assert.ok(!await originalPane.isVisible(),'Original division should be hidden initially');
+  await page.locator('#halloween-original').check();
+  assert.ok(await originalPane.isVisible(),'Original distribution must become visible');
+  assert.ok(!await padoruPane.isVisible(),'Padoru must hide when original is selected');
+  assert.ok((await originalPane.innerText()).includes('Yozora Mel'),'Original cast must be identified');
+  await page.locator('#halloween-padoru').check();
+  assert.ok(await padoruPane.isVisible(),'Padoru distribution must be restored');
+  assert.ok(!await originalPane.isVisible(),'Original must hide again');
+  assert.ok((await padoruPane.innerText()).includes('Mek'),'Padoru singer legend must be preserved');
+  console.log(device+' Halloween original/Padoru toggle verified');
   // Real navigation, rather than just independent document renders.
   await page.goto(origin+'/music/songs/?lang=es',{waitUntil:'domcontentloaded'});
   const calls=[];page.on('request',r=>{if(r.url().includes('/music/data/'))calls.push(r.url())});
