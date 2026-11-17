@@ -1285,6 +1285,8 @@ test('Music vocal localization: bilingual member names never mixed in ES/EN lege
  assert.equal(localizedVocalName({label:'Ichiko'},'ja'),'苺子');
  assert.equal(localizedVocalName({label:'Fu'},'ja'),'譜風');
  assert.equal(localizedVocalName({label:'Chisato Nishikigi'},'ja'),'錦木千束');
+ assert.equal(localizedVocalName({label:'Tokino Sora'},'ja'),'ときのそら');
+ assert.equal(localizedVocalName({label:'Minato Aqua'},'ja'),'湊あくあ');
  for(const slug of ['ruteshi-kisuki-shiteru','lets-be-one','gimi-gimi','halloween-night','the-secret-night']){
   for(const lang of ['es','en','ja']){
    const page=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
