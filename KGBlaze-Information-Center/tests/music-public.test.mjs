@@ -13,6 +13,7 @@ import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affili
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {lineAttributions,ruteshiDialogueCast,originalColorPalettes,colorSources,colorDivisionFromReference} from '../src/music-line-attributions.mjs';
 import {localizedVocalName} from '../src/music-vocal-locales.mjs';
+import {normalizeEnsembleLine,overlapDisplayStanzas} from '../src/music-vocal-display.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from '../src/music-page.mjs';
@@ -1271,7 +1272,7 @@ test('Gimi and Halloween retain color provenance and do not invent unverified so
  assert.ok(gimi.colorStanzas.flat().some(line=>line.some(p=>p.voice==='yuki')));
  assert.ok(gimi.colorStanzas.flat().some(line=>line.some(p=>p.voice==='unattributed')),'uncertain Gimi lines stay neutral');
  assert.ok(original.colorStanzas.flat().some(line=>line.some(p=>p.voice==='rushia')));
- assert.ok(original.colorStanzas.flat().some(line=>line.some(p=>p.voice==='unattributed')),'uncertain Halloween lines stay neutral');
+ assert.ok(original.colorStanzas.flat().every(line=>line.every(p=>p.voice!=='unattributed')),'orange-caption ensemble is now identified without guessed solo voices');
  assert.deepEqual(gimi.colorLegend.map(x=>x.color),['#ED788B','#FFDC6A','#96D1B5','#8378B5','#B14262']);
  const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang:'es'}));
  assert.ok(html.includes('class="halloween-original-view"'));
@@ -1381,8 +1382,8 @@ test('Halloween original preliminary color split does not mutate or replace eigh
  assert.equal(source.colorLegend.length,8);
  assert.equal(original.colorLegend.length,4);
  assert.deepEqual(original.colorStanzas[0].map(li=>li[0].voice),['rushia','rushia','choco','choco','mel','shion','mel','rushia','shion','shion']);
- assert.deepEqual(original.colorStanzas[2].map(li=>li[0].voice),['choco','unattributed','mel','rushia','shion']);
- assert.equal(original.colorStanzas[1][0][0].voice,'unattributed','do not guess verse from montage cuts');
+ assert.deepEqual(original.colorStanzas[2].map(li=>li[0].voice),['choco','rushia','mel','rushia','shion']);
+ assert.equal(original.colorStanzas[1][0][0].voice,'shared','the orange caption shows the full ensemble, without treating a camera cut as a solo');
  for(const lang of ['es','en','ja']){
   const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang}));
   assert.ok(html.includes('class="halloween-original-view"'));
@@ -1390,5 +1391,83 @@ test('Halloween original preliminary color split does not mutate or replace eigh
   assert.ok(html.includes('style="background:#19E8C9"'));
   assert.ok(html.includes('Mek'),'eight-voice Padoru roster preserved');
   assert.doesNotMatch(html,/class="line-attribution"/);
+ }
+});
+
+
+test('Halloween original: orange captions use neutral All, not orange or camera-based solo assignments',()=>{
+ const source=lyricsBySong['halloween-night'].es;
+ const original=colorDivisionFromReference(source,'halloween-night');
+ assert.equal(original.sharedColor,'#F0F3FF');
+ assert.deepEqual(original.colorStanzas[1].map(line=>line[0].voice),Array(9).fill('shared'));
+ assert.deepEqual(original.colorStanzas[2].map(line=>line[0].voice),['choco','rushia','mel','rushia','shion']);
+ assert.deepEqual(original.colorStanzas[3].map(line=>line[0].voice),['shared','shared','choco','shared','shared','shared','shared']);
+ assert.deepEqual(original.colorStanzas[4].map(line=>line[0].voice),['shared','shared','shared','shion','rushia','shared','shared','shared','shared']);
+ assert.deepEqual(original.colorStanzas[3][2].map(part=>[part.voice,!!part.secondary]),[['choco',false],['shared',true]]);
+ assert.deepEqual(original.colorStanzas[4][3].map(part=>[part.voice,!!part.secondary]),[['shion',false],['shared',true]]);
+ assert.deepEqual(original.colorStanzas[4][4].map(part=>[part.voice,!!part.secondary]),[['rushia',false],['shared',true]]);
+ assert.equal(original.colorStanzas[4][8][0].voice,'shared','Ah ah = All, rendered neutrally');
+ assert.deepEqual(original.colorLegend.map(x=>x.id),['mel','shion','choco','rushia']);
+ const text=original.colorStanzas.map(st=>st.map(line=>line.map(x=>x.text).join('')).join('\n')).join('\n\n');
+ assert.equal(text,source.text);
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang}));
+  const originalPane=html.slice(html.indexOf('class="halloween-original-view"'));
+  assert.ok(originalPane.includes('style="color:#F0F3FF"'));
+  assert.ok(!originalPane.includes('style="color:#E98A36"'));
+  assert.ok(originalPane.includes('style="background:#19E8C9"'));
+ }
+});
+
+test('Padoru interludes display chronologically beside the chorus, preserving all source fragments',()=>{
+ const lyric=lyricsBySong['halloween-night'].es;
+ assert.equal(lyric.colorRole,'overlap');
+ assert.deepEqual(lyric.colorStanzas.map(s=>s.length),[10,9,5,7,9]);
+ assert.equal(lyric.colorLegend.length,8);
+ assert.equal(lyric.sectionStarts,undefined,'remove obsolete visible Voces superpuestas heading');
+ assert.deepEqual(lyric.overlapTimeline,{mainStanza:1,responseStanza:2,responseAfter:[0,1,2,3,4]});
+ const display=overlapDisplayStanzas(lyric.colorStanzas,lyric);
+ assert.deepEqual(display.map(s=>s.sourceIndex),[0,1,3,4]);
+ assert.deepEqual(display.map(s=>s.lines.length),[10,14,7,9]);
+ assert.deepEqual(display[1].lines.map(x=>x.sourceIndex+'/'+x.sourceLine),[
+  '1/0','2/0','1/1','2/1','1/2','2/2','1/3','2/3','1/4','2/4',
+  '1/5','1/6','1/7','1/8'
+ ]);
+ const order=display.flatMap(x=>x.lines.map(l=>l.sourceIndex+'/'+l.sourceLine)).sort();
+ const original=lyric.colorStanzas.flatMap((s,i)=>s.map((_,j)=>i+'/'+j)).sort();
+ assert.deepEqual(order,original,'all 40 Padoru lyric lines appear exactly once');
+ assert.equal(display[1].lines.filter(l=>l.isResponse).length,5);
+ assert.ok(display[1].lines.filter(l=>l.isResponse).every(l=>l.parts.every(p=>p.secondary)));
+ assert.ok(lyric.colorStanzas[2].flat().every(p=>p.secondary===undefined),'original Padoru voice data untouched');
+ assert.equal(lyric.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),lyric.text);
+ const group=normalizeEnsembleLine(lyric.colorStanzas[3][1],lyric);
+ assert.equal(group.length,2,'multicolor parenthetical shown as a grouped response');
+ assert.equal(group[1].secondary,true,'secondary group uses the same style as Kenka');
+ assert.ok(group[1].voice.includes('+'),'response keeps its documented colored voice dots');
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang}));
+  const padoru=html.split('class="halloween-padoru-view">')[1].split('class="halloween-original-view">')[0];
+  assert.ok(padoru.indexOf('Cariño no te ves muy bien')<padoru.indexOf('Dulce o truco, dulces me das'));
+  assert.ok(padoru.indexOf('Dulce o truco, dulces me das')<padoru.indexOf('Si te descuidas, no hay vuelta ya'));
+  assert.ok(padoru.indexOf('Si te descuidas, no hay vuelta ya')<padoru.indexOf('Aaaa-'));
+  assert.ok(padoru.indexOf('Aaaa-')<padoru.indexOf('Si te descuidas no te salvas'));
+  assert.ok(!padoru.includes('Voces superpuestas'));
+  assert.ok(padoru.includes('overlap-response-line'));
+  assert.ok(padoru.includes('color-group'));
+  assert.ok(padoru.includes('style="background:#D9944B"'));
+  assert.ok(padoru.includes('style="background:#4CDCCB"'));
+ }
+});
+
+test('Kenka and Ain\'t Backing Down retain approved main/secondary words and unified overlap presentation',()=>{
+ for(const slug of ['kenka','aint-backing-down']){
+  const lyric=lyricsBySong[slug].es;
+  assert.equal(lyric.colorRole,'overlap');
+  const display=overlapDisplayStanzas(lyric.colorStanzas,lyric);
+  assert.deepEqual(display.map(s=>s.sourceIndex),lyric.colorStanzas.map((_,i)=>i));
+  assert.equal(display.map(s=>s.lines.map(l=>l.parts.map(p=>p.text).join('')).join('\n')).join('\n\n'),lyric.text);
+  const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang:'es'}));
+  assert.match(html,/class="overlap-response-line"/);
+  assert.match(html,/secondary-part/);
  }
 });
