@@ -54,6 +54,14 @@ try{
    assert.equal(await root.locator('.colored-lyrics .line-attribution').evaluateAll(nodes=>nodes.filter(n=>!n.closest('.lyric-dialogues')).length),0,slug+' sung-line prefixes are forbidden');
    assert.ok(await root.locator('.color-legend .color-dot').count()>=expectedColors,slug+' palette legend');
    assert.ok(await root.locator('.colored-lyrics .color-part').count()>0,slug+' visible colored parts');
+   assert.equal(await root.locator('.vocal-source-note').count(),0,slug+' must not show editorial explanations');
+   if(slug==='ruteshi-kisuki-shiteru'){
+    assert.equal(await root.locator('.lyric-dialogues h3').count(),0,'no standalone dialogue subtitle');
+    const dialogueColors=await root.locator('.lyric-dialogues .voice-line').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).color));
+    assert.equal(dialogueColors.length,9,'all spoken parts integrated in lyric');
+    assert.equal(new Set(dialogueColors).size,9,'nine distinct original-character dialogue colors');
+   }
+
    const actualSwatches=await root.locator('.color-legend .color-dot').evaluateAll(nodes=>nodes.map(el=>getComputedStyle(el).backgroundColor));
    assert.ok(actualSwatches.some(v=>v!=='rgba(0, 0, 0, 0)'&&v!=='rgb(0, 0, 0)'),slug+' rendered swatch colors');
    await root.screenshot({path:resolve(out,device+'-'+slug+'-vocal-display.png')});
