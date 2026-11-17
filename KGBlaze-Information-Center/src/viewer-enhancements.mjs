@@ -242,7 +242,7 @@ export const VIEWER_JS = `(function(){
  // Stage 38: build a separate, public-only portal shell around the real board.
  // No mock schedule, no iframe replacement and no changes to viewer state.
  function mountPortalChrome(){
-  if(document.body.classList.contains('embedded')||location.hostname!=='kgblaze.dpdns.org')return;
+  if(typeof location==='undefined'||location.hostname!=='kgblaze.dpdns.org'||!document.body?.classList||document.body.classList.contains('embedded'))return;
   const main=document.querySelector('#viewerShell'),stage=main?.querySelector('.stage');
   const waiting=document.querySelector('#waitingPanel'),board=document.querySelector('#boardWrap');
   if(!main||!stage||!waiting||!board||document.querySelector('.kg-site-header'))return;
