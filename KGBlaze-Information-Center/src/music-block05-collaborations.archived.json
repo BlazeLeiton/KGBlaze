@@ -18,7 +18,7 @@
       "Mairi Sagi",
       "Hiyokoi"
     ],
-    "status": "publication-link-recovered; cast-confirmed; integration-pending",
+    "status": "publication-link-recovered; cast-confirmed; integrated-in-public-catalog; archive-reference-only",
     "lines": [
       {
         "text": "La hora vi, he notado que las 12 caen",
@@ -925,7 +925,7 @@
       "Mojirou",
       "Mek"
     ],
-    "status": "publication-link-recovered; cast-confirmed; integration-pending",
+    "status": "publication-link-recovered; cast-confirmed; integrated-in-public-catalog; archive-reference-only",
     "sections": [
       {
         "voice": "TRIO Muérdago: Mojirou, Leon,Hiyokoi.",

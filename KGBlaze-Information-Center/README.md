@@ -1,5 +1,7 @@
 # KGBlaze - Centro de Información · Cloudflare (borrador de despliegue)
 
+> **Norma editorial vigente — 17-nov-2026:** [Scripta Lyrica: homologación y cierre de recuperación histórica](docs/RELIGHT_SCRIPTA_LYRICA_HISTORICAL_CLOSURE_CP01_2026-11-17.md). Repertorio auditado: **115 obras / 127 versiones / 124 ID de video / 3 audios reservados**. Cualquier nueva canción o variante requiere seguir ese contrato, actualizar las pruebas y verificar la publicación. Los párrafos antiguos de este README recogen etapas históricas de despliegue y **no deben usarse como certificación del estado actual del Worker**; la revisión técnica se tratará por separado.
+
 **Estado:** fuentes de despliegue en GitHub; la base D1 `kgblaze-terminal` ya está creada y vinculada en `wrangler.toml`. API básica de publicación y conciliación. **NO desplegado en Cloudflare.** El proyecto se denomina **Terminal**, sin letras adicionales. Sin lectura real de YouTube/Twitch aún: no hay credenciales ni tareas periódicas habilitadas. El código del editor privado queda **fuera** de la carpeta `public/` y debe mantenerse fuera de repositorios públicos.
 
 ## Arquitectura actual
