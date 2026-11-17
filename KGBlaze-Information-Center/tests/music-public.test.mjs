@@ -1223,7 +1223,7 @@ test('Stage 36 correction: only Ruteshi spoken dialogues have parenthetical spea
   assert.equal(colored.colorLegend.length,originalColorPalettes[slug].length,slug+' palette preserved');
   assert.ok(colored.colorLegend.every(v=>/^#[0-9A-F]{6}$/i.test(v.color)));
   const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang:'es'}));
-  assert.match(html,/class="colored-lyrics"/);
+  assert.match(html,/class="lyric-text colored-lyrics"/);
   assert.match(html,/class="color-legend"/);
   if(slug!=='ruteshi-kisuki-shiteru')assert.doesNotMatch(html,/class="line-attribution"/,slug+' must not prepend parenthetical singers');
   else{
