@@ -36,7 +36,7 @@ test('ReSpark final credits: origin, third-party adaptations, adjustments, and t
  assert.equal(br.adaptationCredit,'Call Me Bury (Bury Singer)');
  assert.equal(br.adjustmentCredit,'Blaze Leiton');
  assert.equal(releaseArtwork['brave-shine'].image,'/music-artwork/brave-shine-v1.webp');
- assert.match(br.adaptationAttributionStatus,/not-independently-verified/);
+ assert.match(br.adaptationAttributionStatus,/creator-confirmed/);
  const c=one('connect');
  assert.equal(c.adaptationCredit,'Sekai025');
  assert.equal(c.modificationCredit,'Glorylé Solis');
@@ -46,7 +46,7 @@ test('ReSpark final credits: origin, third-party adaptations, adjustments, and t
  for(const lang of ['es','en','ja']){
   const h=html('ryuusei',lang);
   assert.ok(h.includes('SINAY PAOHLA'));
-  assert.ok(h.includes(ry.adjustmentCreditLabel[lang]+'</dt><dd>Blaze Leiton</dd>'));
+  assert.ok(h.includes('SINAY PAOHLA · '+ry.adjustmentCreditLabel[lang]+': Blaze Leiton'));
   assert.ok(html('otome-domo-yo',lang).includes('Marutah'));
  }
  assert.equal(one('el-nano').context.catalog.es,'Fórmula 1');

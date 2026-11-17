@@ -987,7 +987,7 @@ test('Final Asterisk jackets preserve approved distinct frames and original sing
 test('Kirameki Rider and canonical Padoru artist names preserve independently published collaboration',()=>{const s=songs.find(x=>x.slug==='kirameki-rider');assert.equal(s.versions[0].videoId,'83EgdxdwhtA');assert.equal(s.versions[0].publicationChannel,'Misao Chan');assert.deepEqual(s.performance,["Misao Chan","Leon Live☆Heart","Lanti Keeki","Blaze Leiton","V.A.F.M.O."]);assert.equal(s.adaptationCredit,'Leon Live☆Heart');assert.equal(s.padoruCover,true);const l=lyricsBySong[s.slug].es;assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.colorLegend.map(x=>[x.id,x.label,x.color]),[['sora','Tokino Sora','#58A6FF'],['roboco','Roboco-san','#F064E8'],['fubuki','Shirakami Fubuki','#77E4F5'],['noel','Shirogane Noel','#F0F3F7'],['aqua','Minato Aqua','#FFB5D9']]);assert.ok(l.colorStanzas.flat(2).some(x=>x.voice==='shared'&&x.secondary));assert.ok(!l.colorStanzas.flat(2).some(x=>x.voice==='shared2'));assert.deepEqual(l.colorStanzas[7][2].map(p=>p.voice),['fubuki+aqua','fubuki+aqua']);assert.equal(l.colorStanzas[7][3][0].voice,'sora+roboco+noel');assert.ok(songs.every(s=>!JSON.stringify(s.performance||[]).includes('Misao-chan')));assert.ok(!JSON.stringify(lyricsBySong).includes('Misao-chan'));for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+s.slug+'.json').locales[lang].es;assert.ok(d.html.includes('83EgdxdwhtA'));assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes('Misao Chan'));assert.doesNotMatch(d.lyrics.es.full,/Misao Chan|Leon Live☆Heart|Lanti Keeki|Blaze Leiton|V\.A\.F\.M\.O\.|Todos · II|All · II|全員 · II/);for(const name of ['Tokino Sora','Roboco-san','Shirakami Fubuki','Shirogane Noel','Minato Aqua'])assert.ok(d.lyrics.es.full.includes(name));assert.match(d.lyrics.es.full,/class="color-part secondary-part" style="color:#AEBACC"/);assert.match(d.lyrics.es.full,/Shirakami Fubuki · Minato Aqua/);}});
 
 test('Stage 35 Brave Shine: manual Spanish lyrics, Bury attribution, original Aimer cover',()=>{
- const s=songs.find(s=>s.slug==='brave-shine');assert.ok(s);assert.equal(s.artist,'Aimer');assert.equal(s.originalLyricist,'aimerrhythm');assert.equal(s.originalComposer,'Hisashi Koyama');assert.equal(s.versions.length,1);assert.equal(s.versions[0].videoId,'_z_drk_eeWw');assert.equal(s.versions[0].date,'2025-02-01');assert.equal(s.adaptationCredit,'Call Me Bury (Bury Singer)');assert.match(s.adaptationCreditLabel.es,/atribuida/);assert.match(s.adaptationAttributionStatus,/not-independently-verified/);
+ const s=songs.find(s=>s.slug==='brave-shine');assert.ok(s);assert.equal(s.artist,'Aimer');assert.equal(s.originalLyricist,'aimerrhythm');assert.equal(s.originalComposer,'Hisashi Koyama');assert.equal(s.versions.length,1);assert.equal(s.versions[0].videoId,'_z_drk_eeWw');assert.equal(s.versions[0].date,'2025-02-01');assert.equal(s.adaptationCredit,'Call Me Bury (Bury Singer)');assert.equal(s.adaptationCreditLabel.es,'Adaptación al español');assert.match(s.adaptationAttributionStatus,/creator-confirmed/);
  const l=lyricsBySong['brave-shine'].es;assert.equal(l.kind,'adaptation');assert.equal(l.language,'ES');assert.equal(l.text.split('\n\n').length,11);assert.equal((l.text.match(/Brave Shine/g)||[]).length,2);assert.equal((l.text.match(/Tu brillo\./g)||[]).length,2);assert.match(l.text,/Solo debes continuar\./);assert.match(l.text,/olvidó radiar/);assert.match(l.text,/De mi propio amanecer/);assert.doesNotMatch(l.text,/Sólo debes|olvidó brillar/);
  const a=releaseArtwork['brave-shine'];assert.match(a.source,/sonymusic/);assert.match(a.release,/DFCL-2130/);assert.match(artworkURL('brave-shine'),/brave-shine-v1/);
  for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/brave-shine.json').locales[lang].es;assert.ok(d.html.includes('_z_drk_eeWw'));assert.ok(d.lyrics.es.hasText);assert.match(d.lyrics.es.full,/tu brillo/i);const h=musicPage('/music/songs/brave-shine/',new URLSearchParams({lang}));assert.match(h,/Call Me Bury/);assert.match(h,/Brave Shine/);}
@@ -1055,7 +1055,7 @@ test('Stage 35 particular credits: Kirameki original cast independent of Team Pa
  }
 });
 
-test('Stage 35 original adapters, later modifications and performed adjustments remain separate',()=>{
+test('Stage 35 original adapters, later modifications and performed adjustments remain separately attributed in one row',()=>{
  const cases=[
  ['connect','Sekai025','Blaze Leiton'],
  ['harumodoki','beck y matcha allen','Blaze Leiton'],
@@ -1068,7 +1068,7 @@ test('Stage 35 original adapters, later modifications and performed adjustments 
    const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
    assert.ok(html.includes(credit),slug+' original adapter '+lang);
    assert.ok(html.includes(adjust),slug+' adjustment '+lang);
-   assert.match(html,lang==='es'?/Adecuaciones/:lang==='en'?/Adaptation adjustments/:/歌詞の調整/);
+   assert.match(html,lang==='es'?/Adecuaciones/:lang==='en'?/Adjustments/:/歌詞の調整/);
   }
  }
  assert.equal(songs.find(x=>x.slug==='connect').modificationCredit,'Glorylé Solis');
@@ -1096,10 +1096,9 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
   assert.equal(ry.creatorReferenceCover.url,'https://www.youtube.com/watch?v=r1HNNy4a5z8');
   for(const lang of ['es','en','ja'])assert.ok(musicPage('/music/songs/ryuusei/',new URLSearchParams({lang})).includes(ry.adjustmentCreditLabel[lang]));
  assert.match(lyricsBySong['ryuusei'].es.text,/Y al lo que carezco recontar/);
- for(const [lang,creditLabel] of [['es','Adaptación al español'],['en','Spanish adaptation'],['ja','スペイン語歌詞の翻案']]){
+ for(const [lang,creditLabel] of [['es','Adaptación'],['en','Adaptation'],['ja','翻案']]){
    const html=musicPage('/music/songs/ryuusei/',new URLSearchParams({lang}));
-   assert.ok(html.includes('<dt>'+creditLabel+'</dt><dd>SINAY PAOHLA</dd>'),lang+' adaptation credit');
-   assert.ok(html.includes(ry.adjustmentCreditLabel[lang]+'</dt><dd>Blaze Leiton</dd>'),lang+' extension credit');
+   assert.ok(html.includes('<dt>'+creditLabel+'</dt><dd>SINAY PAOHLA · '+ry.adjustmentCreditLabel[lang]+': Blaze Leiton</dd>'),lang+' merged attribution and extension');
  }
  assert.doesNotMatch(musicPage('/music/songs/ryuusei/',new URLSearchParams({lang:'es'})),/Inspiración lírica parcial/);
  for(const slug of ['brave-shine','paper-bouquet']){
