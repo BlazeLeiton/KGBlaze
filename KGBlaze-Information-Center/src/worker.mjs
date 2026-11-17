@@ -209,6 +209,15 @@ export default {
    if(routed.response)return routed.response;
    const requestURL=new URL(routed.request.url);
    const dashboardPath=requestURL.pathname;
+   // KGBlaze portal homepage is isolated from the legacy workers.dev Terminal.
+   if(routed.isPortal&&(dashboardPath==='/'||dashboardPath==='/index.html')){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    if(!env.ASSETS)return err(503,'ASSETS_NOT_CONFIGURED');
+    const htmlReq=new Request(new URL('/home.html',requestURL),{method:'GET'});
+    const home=await env.ASSETS.fetch(htmlReq);
+    if(!home.ok)return err(503,'HOME_ASSET_UNAVAILABLE');
+    return new Response(req.method==='HEAD'?null:home.body,{status:200,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=300','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
+   }
    if(artworkSources.has(dashboardPath))return serveArtwork(routed.request,{assets:env.ASSETS,ctx});
    if(Object.values(releaseArtwork).some(a=>(a.image===dashboardPath&&a.image.startsWith('/music-artwork/'))||a.compositePath===dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
