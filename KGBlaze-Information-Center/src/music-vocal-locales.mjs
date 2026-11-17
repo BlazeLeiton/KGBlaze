@@ -13,6 +13,7 @@ const japaneseNames=new Map(Object.entries({
  'Live':'りぶ','Ichiko':'苺子','Fu':'譜風','Fū':'譜風','Tokage':'十景','Yuki':'ゆき',
  'Yozora Mel':'夜空メル','Murasaki Shion':'紫咲シオン','Yuzuki Choco':'癒月ちょこ','Uruha Rushia':'潤羽るしあ',
  'Karin Asaka':'朝香果林','Ai Miyashita':'宮下愛',
+ 'Tokino Sora':'ときのそら','Roboco-san':'ロボ子さん','Shirakami Fubuki':'白上フブキ','Shirogane Noel':'白銀ノエル','Minato Aqua':'湊あくあ',
  'Chisato Nishikigi':'錦木千束','Takina Inoue':'井ノ上たきな'
 }));
 const splitDualScript=label=>{
