@@ -79,7 +79,7 @@ test('All source-documented group line divisions use the same dots; duets unchan
     assert.ok(ids.every(id=>l.colorLegend.some(v=>v.id===id))||part.voice==='shared',slug+' voice identification');
    }
   }
-  assert.equal(ensembleVoiceIds('shared',l).length,l.colorLegend.length,slug+' all singers represented by dots');
+  assert.equal(ensembleVoiceIds('shared',l).length,l.colorLegend.filter(p=>!l.hiddenVoiceIds?.includes(p.id)).length,slug+' only documented performer voices represented by dots');
   for(const lang of ['es','en','ja']){
    const doc=page(slug,lang),data=musicStateData('/music/data/song/'+slug+'.json');
    assert.ok(doc.includes('class="color-group"'),slug+' '+lang+' multi-color group dots');
