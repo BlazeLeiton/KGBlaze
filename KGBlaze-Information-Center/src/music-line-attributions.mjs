@@ -69,10 +69,10 @@ export const lineAttributions={
    full:[
     Array(4).fill('Todos'),
     ['unattributed','unattributed','Todos','Todos','Live · Ichiko','Fu · Tokage','Yuki','Yuki'],
-    ['Todos','Todos','Todos','Todos','Todos','Ichiko','Live'],
-    ['Todos','Live','Ichiko','Todos','Todos','Todos','unattributed','unattributed'],
+    ['Todos','Tokage','Todos','Fu','Todos','Ichiko','Live'],
+    ['Todos','Todos','Todos','Todos','Todos','Todos','unattributed','unattributed'],
     ['Ichiko','Live','Fu','Tokage'],
-    ['Todos','Todos','Todos','Todos','Todos','Yuki','unattributed'],
+    ['Todos','Fu · Tokage','Todos','Live · Ichiko','Todos','Yuki','unattributed'],
     ['Todos','Yuki','Todos','Todos'],
     ['Yuki','Tokage','Fu','Ichiko','Live'],
     Array(4).fill('Todos'),
@@ -85,9 +85,15 @@ export const lineAttributions={
   // Confirmed visual switches in the full video; applies to both same-text releases.
   cuts:{
    '1:0':[{through:'despierte ',voice:'live'},{voice:'ichiko'}],
-   '1:1':[{through:'menos cero ',voice:'fu'},{voice:'tokage'}],
-   '3:7':[{through:'tu tengas ',voice:'ichiko'},{through:'tu mente ',voice:'tokage'},{voice:'fu+ichiko+tokage'}],
-   '10:4':[{through:'millón ',voice:'tokage'},{through:'atestiguan ',voice:'fu'},{voice:'ichiko'}]
+   '1:1':[{through:'El ruido, más menos cero en la ciudad ',voice:'fu'},{voice:'tokage'}],
+   '3:7':[{through:'Bien, lo que tu tengas',voice:'live'},{voice:'shared'}],
+   '10:4':[{through:'millón ',voice:'tokage'},{through:'atestiguan ',voice:'fu'},{voice:'ichiko'}],
+   '3:2':[{through:'Jugarás en libertad ',voice:'live'},{voice:'ichiko'}],
+   '3:6':[{through:'Hasta amanecer no acaba ',voice:'ichiko'},{voice:'tokage'}],
+   '9:0':[{through:'¡Despiértame! ',voice:'live'},{voice:'shared'}],
+   '10:6':[{through:'Esta diver',voice:'tokage'},{through:'sión no acaba',voice:'fu'},{voice:'ichiko'}],
+   // Live starts the invitation; the remaining turn is not yet confirmed.
+   '11:6':[{through:'¡Vamos, ven aquí!',voice:'live'},{voice:'unattributed'}]
   }
  },
  'halloween-night':{
