@@ -63,9 +63,9 @@ assert.ok(brave.includes('Call Me Bury (Bury Singer)'));
 assert.ok(!brave.includes('atribuida'));
 assert.ok(!brave.includes('<dt>Contexto</dt>'));
 const ry=await load('/music/songs/ryuusei/?lang=es');
-assert.ok(ry.includes('SINAY PAOHLA · Adecuaciones y extensión a versión completa: Blaze Leiton'));
+assert.ok(ry.includes('SINAY PAOHLA · Adecuaciones: Blaze Leiton'));
 const xy=await load('/music/songs/xy-and-z/?lang=es');
-assert.ok(xy.includes('Itani · Adecuaciones y extensión: Blaze Leiton'));
+assert.ok(xy.includes('Itani · Adecuaciones: Blaze Leiton'));
 assert.ok(!xy.includes('<dt>Voces originales</dt>'));
 const reality=await load('/music/songs/your-reality/?lang=es');
 assert.ok(!reality.includes('<dt>Voces originales</dt>'));
@@ -73,6 +73,18 @@ const leon=await load('/music/songs/leon-no-sabe-que-existo/?lang=es');
 assert.ok(leon.includes('<dt>Obra original</dt>'));
 const dokimeki=await load('/music/songs/dokimeki-diary/?lang=es');
 assert.ok(!dokimeki.includes('<dt>Arco</dt>'));
+const one=await load('/music/songs/lets-be-one/?lang=es');
+assert.ok(!one.includes('<dt>Evento</dt>'));
+assert.ok(!one.includes('Especial 1,000 suscriptores'));
+const ruteshi=await load('/music/songs/ruteshi-kisuki-shiteru/?lang=es');
+assert.ok(ruteshi.includes('<dt>Interpretación</dt><dd>Blaze Leiton feat. V.A.F.M.O.</dd>'));
+assert.ok(!ruteshi.includes('<dt>Con participación de</dt>'));
+for(const slug of ['brave-shine','ryuusei','connect','harumodoki','starlog','xy-and-z']){
+ const h=await load('/music/songs/'+slug+'/?lang=es');
+ const credits=h.match(/<section class="credits">[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(credits.includes('Adecuaciones: Blaze Leiton'),slug+' concise adjustments');
+ assert.ok(!/Adecuaciones y extensión|versión completa/.test(credits),slug+' verbose adjustments');
+}
 for(const oldPath of ['/music/song/blue-spirit/?lang=en&version=en','/music/blue-spirit/?lang=ja']){
  const r=await fetch(base+oldPath,{cache:'no-store',redirect:'manual',signal:AbortSignal.timeout(15000)});
  assert.equal(r.status,308,'legacy 308 redirect');
