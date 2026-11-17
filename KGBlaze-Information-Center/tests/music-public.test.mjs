@@ -1186,9 +1186,9 @@ test("Let's be ONE voice reference is line-complete without a fabricated officia
   assert.ok(!page.includes('<dt>Evento</dt>'));
  }
 });
-test('Gimi Gimi Full and TV show verified original cast but do not invent solo lines',()=>{
+test('Gimi Gimi Full and TV show preliminary fan-video parts with unchanged text',()=>{
  const spec=lineAttributions['gimi-gimi'];
- assert.equal(spec.status,'official-cast-only');
+ assert.equal(spec.status,'fan-color-coded-video-preliminary');
  assert.equal(spec.originalCast.length,5);
  for(const version of ['full','tv'])for(const lang of ['es','en','ja']){
   const page=musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version}));
@@ -1261,15 +1261,18 @@ test('Liella! 11 verified swatches, shared colored dots, accessible Ren text',()
   assert.doesNotMatch(html,/class="line-attribution"/);
  }
 });
-test('Gimi and Halloween use provenance-labelled swatches, not invented solos',()=>{
+test('Gimi and Halloween retain color provenance and do not invent unverified solo lines',()=>{
  const gimi=colorDivisionFromReference(lyricsBySong['gimi-gimi'].full,'gimi-gimi');
  const original=colorDivisionFromReference(lyricsBySong['halloween-night'].es,'halloween-night');
  assert.equal(colorSources['gimi-gimi'].status,'editorial-approximation-from-official-character-art');
  assert.equal(colorSources['halloween-night'].status,'fan-maintained-talent-color-catalog');
  assert.deepEqual(original.colorLegend.map(x=>x.color),['#FED62A','#8466FE','#FE739E','#19E8C9']);
  assert.equal(gimi.colorLegend.length,5);
- assert.ok(gimi.colorStanzas.flat().every(line=>line.every(p=>p.voice==='unattributed')));
- assert.ok(original.colorStanzas.flat().every(line=>line.every(p=>p.voice==='unattributed')));
+ assert.ok(gimi.colorStanzas.flat().some(line=>line.some(p=>p.voice==='yuki')));
+ assert.ok(gimi.colorStanzas.flat().some(line=>line.some(p=>p.voice==='unattributed')),'uncertain Gimi lines stay neutral');
+ assert.ok(original.colorStanzas.flat().some(line=>line.some(p=>p.voice==='rushia')));
+ assert.ok(original.colorStanzas.flat().some(line=>line.some(p=>p.voice==='unattributed')),'uncertain Halloween lines stay neutral');
+ assert.deepEqual(gimi.colorLegend.map(x=>x.color),['#ED788B','#FFDC6A','#96D1B5','#8378B5','#B14262']);
  const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang:'es'}));
  assert.ok(html.includes('class="halloween-original-view"'));
  assert.ok(html.includes('class="halloween-padoru-view"'));
@@ -1335,5 +1338,57 @@ test('Four vocal pages contain no visible explanatory notes or selection tutoria
    assert.doesNotMatch(html,/Original parts according to|Distribución vocal original según|Reparto original confirmado|Documented Padoru cover voices|Intervenciones del cover Padoru/);
    if(slug==='gimi-gimi')assert.doesNotMatch(musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version:'tv'})),/Letra completa de la adaptación|Complete adaptation lyrics|翻案歌詞の全文/);
   }
+ }
+});
+
+
+test('Preliminary Let's be ONE divides successive Spanish phrases rather than stacking all singers',()=>{
+ const c=colorDivisionFromReference(lyricsBySong['lets-be-one'].es,'lets-be-one');
+ const parts=(s,l)=>c.colorStanzas[s][l];
+ assert.deepEqual(parts(1,0).map(p=>p.voice),['kinako','sumire']);
+ assert.deepEqual(parts(2,1).map(p=>p.voice),['keke','shiki','keke+shiki']);
+ assert.deepEqual(parts(4,1).map(p=>p.voice),['keke+shiki','sumire+kinako','keke+shiki+sumire+kinako']);
+ assert.deepEqual(parts(10,0).map(p=>p.voice),['kanon']);
+ assert.deepEqual(parts(10,1).map(p=>p.voice),['margarete+tomari','kinako+mei+shiki+natsumi','kanon+keke+chisato+sumire+ren']);
+ assert.ok(parts(10,1).every(p=>p.voice!=='shared'),'three generations have separate colors, not eleven simultaneous singers');
+ assert.ok(c.colorStanzas.flat().some(line=>line.some(p=>p.voice==='shared')));
+});
+test('Gimi Full and TV preserve every character with panel-documented roles',()=>{
+ const spec=lineAttributions['gimi-gimi'];
+ for(const version of ['full','tv']){
+  const l=lyricsBySong['gimi-gimi'][version];
+  const c=colorDivisionFromReference(l,'gimi-gimi');
+  assert.equal(c.colorStanzas.map(st=>st.map(li=>li.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);
+  assert.deepEqual(c.colorStanzas[1][0].map(p=>p.voice),['live','ichiko']);
+  assert.deepEqual(c.colorStanzas[1][1].map(p=>p.voice),['fu','tokage']);
+  assert.deepEqual(c.colorStanzas[4].map(li=>li[0].voice),['ichiko','live','fu','tokage']);
+  assert.deepEqual(c.colorStanzas[7].map(li=>li[0].voice),['yuki','tokage','fu','ichiko','live']);
+  assert.equal(c.colorStanzas[3][6][0].voice,'unattributed');
+  assert.equal(c.colorLegend.length,5);
+ }
+ for(const lang of ['es','en','ja']){
+  const page=musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version:'full'}));
+  assert.match(page,/style="background:#ED788B"/);
+  assert.match(page,/style="background:#8378B5"/);
+  assert.ok(page.includes(lang==='ja'?'りぶ':'Live'));
+  assert.doesNotMatch(page,/class="line-attribution"/);
+ }
+});
+test('Halloween original preliminary color split does not mutate or replace eight-voice Padoru variant',()=>{
+ const source=lyricsBySong['halloween-night'].es;
+ const original=colorDivisionFromReference(source,'halloween-night');
+ assert.equal(original.colorStanzas.map(st=>st.map(li=>li.map(p=>p.text).join('')).join('\n')).join('\n\n'),source.text);
+ assert.equal(source.colorLegend.length,8);
+ assert.equal(original.colorLegend.length,4);
+ assert.deepEqual(original.colorStanzas[0].map(li=>li[0].voice),['rushia','rushia','choco','choco','mel','shion','mel','rushia','shion','shion']);
+ assert.deepEqual(original.colorStanzas[2].map(li=>li[0].voice),['choco','unattributed','mel','rushia','shion']);
+ assert.equal(original.colorStanzas[1][0][0].voice,'unattributed','do not guess verse from montage cuts');
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang}));
+  assert.ok(html.includes('class="halloween-original-view"'));
+  assert.ok(html.includes('class="halloween-padoru-view"'));
+  assert.ok(html.includes('style="background:#19E8C9"'));
+  assert.ok(html.includes('Mek'),'eight-voice Padoru roster preserved');
+  assert.doesNotMatch(html,/class="line-attribution"/);
  }
 });
