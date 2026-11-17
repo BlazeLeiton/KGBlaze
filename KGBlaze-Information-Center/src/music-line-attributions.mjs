@@ -102,10 +102,10 @@ export const lineAttributions={
    ['Todos','Todos','Todos','Shion','Rushia','Todos','Todos','Todos','Todos']
   ],
   cuts:{
-   '3:2':[{through:'hallow!',voice:'choco'},{voice:'shared'}],
-   '3:6':[{through:'bailar ',voice:'shared'},{voice:'shion'}],
-   '4:3':[{through:'volar',voice:'shion'},{voice:'shared'}],
-   '4:4':[{through:'bailar',voice:'rushia'},{voice:'shared'}]
+   '3:2':[{through:'hallow!',voice:'choco'},{voice:'shared',secondary:true}],
+   '3:6':[{through:'bailar ',voice:'shared'},{voice:'shion',secondary:true}],
+   '4:3':[{through:'volar',voice:'shion'},{voice:'shared',secondary:true}],
+   '4:4':[{through:'bailar',voice:'rushia'},{voice:'shared',secondary:true}]
   }
  }
 };
@@ -222,13 +222,13 @@ export function colorDivisionFromReference(lyric,slug){
    if(part.through===undefined){
     if(index!==cuts.length-1)throw new Error('Non-final segment with no boundary: '+slug+' '+key);
     const end=rest;rest='';
-    return {text:end,voice:part.voice};
+    return {text:end,voice:part.voice,...(part.secondary?{secondary:true}:{})};
    }
    const where=rest.indexOf(part.through);
    if(where<0)throw new Error('Missing preliminary boundary '+part.through+' in '+slug+' '+key);
    const end=rest.slice(0,where+part.through.length);
    rest=rest.slice(where+part.through.length);
-   return {text:end,voice:part.voice};
+   return {text:end,voice:part.voice,...(part.secondary?{secondary:true}:{})};
   });
   if(rest||out.map(x=>x.text).join('')!==line)throw new Error('Text mismatch in '+slug+' '+key);
   return out;
