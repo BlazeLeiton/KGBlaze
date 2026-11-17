@@ -1264,7 +1264,7 @@ test('Liella! 11 verified swatches, shared colored dots, accessible Ren text',()
 test('Gimi and Halloween retain color provenance and do not invent unverified solo lines',()=>{
  const gimi=colorDivisionFromReference(lyricsBySong['gimi-gimi'].full,'gimi-gimi');
  const original=colorDivisionFromReference(lyricsBySong['halloween-night'].es,'halloween-night');
- assert.equal(colorSources['gimi-gimi'].status,'editorial-approximation-from-official-character-art');
+ assert.equal(colorSources['gimi-gimi'].status,'approximate-stripe-colors-from-official-character-screenshots');
  assert.equal(colorSources['halloween-night'].status,'fan-maintained-talent-color-catalog');
  assert.deepEqual(original.colorLegend.map(x=>x.color),['#FED62A','#8466FE','#FE739E','#19E8C9']);
  assert.equal(gimi.colorLegend.length,5);
