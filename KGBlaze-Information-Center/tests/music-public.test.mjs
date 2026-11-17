@@ -1173,7 +1173,7 @@ test('vocal attributions preserve song texts and place Ruteshi dialogue between 
   for(const name of ruteshiDialogueCast.filter(d=>d.credit).map(d=>d.voice))assert.ok(page.includes(name),name+' missing '+lang);
  }
 });
-test('Let's be ONE voice reference is line-complete without a fabricated official status',()=>{
+test("Let's be ONE voice reference is line-complete without a fabricated official status",()=>{
  const spec=lineAttributions['lets-be-one'];
  const text=lyricsBySong['lets-be-one'].es.text;
  assert.deepEqual(spec.lines.map(x=>x.length),text.trim().split(/\n\s*\n/).map(x=>x.split('\n').length));
