@@ -1342,7 +1342,7 @@ test('Four vocal pages contain no visible explanatory notes or selection tutoria
 });
 
 
-test('Preliminary Let's be ONE divides successive Spanish phrases rather than stacking all singers',()=>{
+test("Preliminary Let's be ONE divides successive Spanish phrases rather than stacking all singers",()=>{
  const c=colorDivisionFromReference(lyricsBySong['lets-be-one'].es,'lets-be-one');
  const parts=(s,l)=>c.colorStanzas[s][l];
  assert.deepEqual(parts(1,0).map(p=>p.voice),['kinako','sumire']);
