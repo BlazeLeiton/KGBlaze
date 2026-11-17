@@ -1109,3 +1109,43 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
  }
  assert.equal((lyricsBySong['brave-shine'].es.text.match(/Tu brillo\./g)||[]).length,2);
 });
+
+
+test('Stage 36 Ruteshi dialogue source and preserved public metadata',()=>{
+ const names=['Leon','Sayu','Myco','Lanti','Blaze','Dorita','Caminina','Misao','VAFMO'];
+ const source=lyricsBySong['ruteshi-kisuki-shiteru'].es;
+ assert.deepEqual(source.dialogues.map(d=>d.voice),names);
+ assert.equal(source.dialogues.length,9);
+ assert.deepEqual(source.dialogues.map(d=>d.text),[
+  'Claro que sí, tus esfuerzos van a resultar',
+  'Cualquier cosa puedes hacer',
+  'Espero que todo te resulte bien',
+  'La suerte, espero que esté contigo',
+  'Ikkunya',
+  'Da-dalo todo por favor',
+  'No te vayas a arrepentir después',
+  'También yo, estoy deseándote lo mejor ¿sí?',
+  'Déjame a mí el apoyarte'
+ ]);
+ const ruteshi=songs.find(s=>s.slug==='ruteshi-kisuki-shiteru');
+ assert.deepEqual(ruteshi.performance,['Blaze Leiton']);
+ assert.deepEqual(ruteshi.participation,['V.A.F.M.O.']);
+ assert.equal(ruteshi.featuredArtist,'V.A.F.M.O.');
+ const planetarium=songs.find(s=>s.slug==='planetarium');
+ assert.equal(planetarium.affiliation.event,'holo*27 Originals Vol.1');
+ assert.ok(affiliationDetails(planetarium,'es').some(([label,value])=>label==='Evento / proyecto'&&value==='holo*27 Originals Vol.1'));
+ assert.equal(songs.filter(s=>s.event).length,8,'approved remaining public events');
+ assert.equal(songs.find(s=>s.slug==='lets-be-one').event,undefined);
+ for(const lang of ['es','en','ja']){
+  const page=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
+  assert.match(page,/Blaze Leiton feat\. V\.A\.F\.M\.O\./);
+  assert.doesNotMatch(page,/<dt>Con participación de<\/dt>/);
+  assert.match(page,/class="lyric-dialogues"/);
+  for(const n of names)assert.ok(page.includes('<div class="voice-name">'+n+'</div>'),lang+' lacks Ruteshi dialogue attribution '+n);
+  for(const line of source.dialogues)assert.ok(page.includes(line.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')),lang+' lacks dialogue content');
+  const visiblePlanetarium=musicPage('/music/songs/planetarium/',new URLSearchParams({lang}));
+  assert.ok(visiblePlanetarium.includes('holo*27 Originals Vol.1'),'Planetarium project must remain publicly visible');
+  const one=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
+  assert.ok(!one.includes('<dt>Evento</dt>'),'Let’s be ONE must not regain the removed event');
+ }
+});
