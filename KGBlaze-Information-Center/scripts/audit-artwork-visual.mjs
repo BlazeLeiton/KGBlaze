@@ -39,6 +39,25 @@ try{
    }
    report.push({device,lang,cards:rows.length,details:songs.length,artwork:rows});
   }
+
+  // Assert real visual color coding: not just text extraction or presence of
+  // roster names in source. The rendered CSS and colored swatches matter.
+  for(const [slug,expectedColors] of [
+   ['ruteshi-kisuki-shiteru',9],
+   ['lets-be-one',11],
+   ['gimi-gimi',5],
+   ['halloween-night',8]
+  ]){
+   await page.goto(origin+'/music/songs/'+slug+'/?lang=es',{waitUntil:'domcontentloaded'});
+   const root=page.locator('section.lyrics');
+   assert.equal(await root.locator('.lyric-dialogues .line-attribution').count(),slug==='ruteshi-kisuki-shiteru'?9:0,slug+' dialogue prefixes only');
+   assert.equal(await root.locator('.colored-lyrics .line-attribution').count(),0,slug+' sung-line prefixes are forbidden');
+   assert.ok(await root.locator('.color-legend .color-dot').count()>=expectedColors,slug+' palette legend');
+   assert.ok(await root.locator('.colored-lyrics .color-part').count()>0,slug+' visible colored parts');
+   const actualSwatches=await root.locator('.color-legend .color-dot').evaluateAll(nodes=>nodes.map(el=>getComputedStyle(el).backgroundColor));
+   assert.ok(actualSwatches.some(v=>v!=='rgba(0, 0, 0, 0)'&&v!=='rgb(0, 0, 0)'),slug+' rendered swatch colors');
+   await root.screenshot({path:resolve(out,device+'-'+slug+'-vocal-display.png')});
+  }
   // The Halloween switch must change visible vocal attribution without a reload.
   await page.goto(origin+'/music/songs/halloween-night/?lang=es',{waitUntil:'domcontentloaded'});
   const padoruPane=page.locator('.halloween-padoru-view'),originalPane=page.locator('.halloween-original-view');
