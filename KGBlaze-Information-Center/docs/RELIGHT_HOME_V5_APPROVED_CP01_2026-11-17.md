@@ -24,3 +24,9 @@
 3. Layout responsive y superposición reales; protección de accesibilidad, reduced motion, carga diferida y respeto de assets.
 4. Pruebas de rutas, contenido, paletas, ES/EN/JA, estados de transmisión y regresión Terminal + Música.
 5. Rediseños posteriores: aplicar encabezado compartido a Scripta Lyrica y preservar tipografía, voces y letras; preservar Terminal especializada pero armonizar exterior y vínculo de Salidas; desarrollar páginas Sobre Blaze/Comunidad sin inventar datos.
+
+## Actualización de implementación — 17-nov-2026
+- PR #161 **fusionada en `main`**, commit `9631cfd2224ff0611a6d8df3275f36934f708b2e`, por autorización expresa posterior del creador para probar en el sitio activo.
+- Revisión de CI posterior al merge: [run 44182784505](https://github.com/BlazeLeiton/KGBlaze/actions/runs/44182784505), exitosa.
+- El merge aplica la portada en `/` y conserva `/departures/`, rutas privadas y `/music/`. **No confundir merge/CI con verificación de despliegue Cloudflare**: esta última no pudo confirmarse desde el entorno disponible.
+- Siguientes cambios de Rebel Mix y Terminal: sólo propuestas de rediseño, no implementados ni aprobados hasta su revisión.
