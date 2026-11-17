@@ -1055,7 +1055,7 @@ test('Stage 35 particular credits: Kirameki original cast independent of Team Pa
  }
 });
 
-test('Stage 35 original adapters, later modifications and performed adjustments remain separate',()=>{
+test('Stage 35 original adapters, later modifications and performed adjustments remain separately attributed in one row',()=>{
  const cases=[
  ['connect','Sekai025','Blaze Leiton'],
  ['harumodoki','beck y matcha allen','Blaze Leiton'],
@@ -1068,7 +1068,7 @@ test('Stage 35 original adapters, later modifications and performed adjustments 
    const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
    assert.ok(html.includes(credit),slug+' original adapter '+lang);
    assert.ok(html.includes(adjust),slug+' adjustment '+lang);
-   assert.match(html,lang==='es'?/Adecuaciones/:lang==='en'?/Adaptation adjustments/:/歌詞の調整/);
+   assert.match(html,lang==='es'?/Adecuaciones/:lang==='en'?/Adjustments/:/歌詞の調整/);
   }
  }
  assert.equal(songs.find(x=>x.slug==='connect').modificationCredit,'Glorylé Solis');
@@ -1096,10 +1096,9 @@ test('Stage 35 user-approved spellings, unverified literary influences, and orig
   assert.equal(ry.creatorReferenceCover.url,'https://www.youtube.com/watch?v=r1HNNy4a5z8');
   for(const lang of ['es','en','ja'])assert.ok(musicPage('/music/songs/ryuusei/',new URLSearchParams({lang})).includes(ry.adjustmentCreditLabel[lang]));
  assert.match(lyricsBySong['ryuusei'].es.text,/Y al lo que carezco recontar/);
- for(const [lang,creditLabel] of [['es','Adaptación al español'],['en','Spanish adaptation'],['ja','スペイン語歌詞の翻案']]){
+ for(const [lang,creditLabel] of [['es','Adaptación'],['en','Adaptation'],['ja','翻案']]){
    const html=musicPage('/music/songs/ryuusei/',new URLSearchParams({lang}));
-   assert.ok(html.includes('<dt>'+creditLabel+'</dt><dd>SINAY PAOHLA</dd>'),lang+' adaptation credit');
-   assert.ok(html.includes(ry.adjustmentCreditLabel[lang]+'</dt><dd>Blaze Leiton</dd>'),lang+' extension credit');
+   assert.ok(html.includes('<dt>'+creditLabel+'</dt><dd>SINAY PAOHLA · '+ry.adjustmentCreditLabel[lang]+': Blaze Leiton</dd>'),lang+' merged attribution and extension');
  }
  assert.doesNotMatch(musicPage('/music/songs/ryuusei/',new URLSearchParams({lang:'es'})),/Inspiración lírica parcial/);
  for(const slug of ['brave-shine','paper-bouquet']){
