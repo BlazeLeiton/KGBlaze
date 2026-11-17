@@ -48,7 +48,8 @@ export const lineAttributions={
  'gimi-gimi':{
   source:'https://mayopan.jp/music/',
   status:'official-cast-only',
-  originalCast:['Live (りぶ)','Ichiko (苺子)','Fū (譜風)','Tokage (十景)','Yuki (ゆき)'],
+  originalCast:['Live','Ichiko','Fu','Tokage','Yuki'],
+  originalCastJa:['りぶ','苺子','譜風','十景','ゆき'],
   defaultLabel:'Mayopan'
  },
  'halloween-night':{
@@ -103,11 +104,11 @@ export const originalColorPalettes={
   {id:'tomari',label:'Tomari Onitsuka',color:'#4CD2E2'}
  ],
  'gimi-gimi':[
-  {id:'live',label:'Live (りぶ)',color:'#EF96C8'},
-  {id:'ichiko',label:'Ichiko (苺子)',color:'#F5D45D'},
-  {id:'fu',label:'Fū (譜風)',color:'#88D7B5'},
-  {id:'tokage',label:'Tokage (十景)',color:'#A894E5'},
-  {id:'yuki',label:'Yuki (ゆき)',color:'#B96582'}
+  {id:'live',label:'Live',color:'#EF96C8'},
+  {id:'ichiko',label:'Ichiko',color:'#F5D45D'},
+  {id:'fu',label:'Fu',color:'#88D7B5'},
+  {id:'tokage',label:'Tokage',color:'#A894E5'},
+  {id:'yuki',label:'Yuki',color:'#B96582'}
  ],
  'halloween-night':[
   {id:'mel',label:'Yozora Mel',color:'#FED62A'},

@@ -12,6 +12,7 @@ import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
 import {lineAttributions,ruteshiDialogueCast,originalColorPalettes,colorSources,colorDivisionFromReference} from '../src/music-line-attributions.mjs';
+import {localizedVocalName} from '../src/music-vocal-locales.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from '../src/music-page.mjs';
@@ -712,7 +713,7 @@ test('ALIVE LycoReco uses its exact shorter adaptation and follows the video ver
 
 test('ALIVE duet spans preserve exact words, source divisions and selected version',()=>{
  const get=(version,lang)=>musicPage('/music/songs/alive/',new URLSearchParams({version,lang}));
- for(const id of ['es','lycoreco']){const l=lyricsBySong.alive[id];assert.equal(l.duetStanzas.map(st=>st.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.ok(l.duetStanzas.flat(2).some(p=>p.voice==='shared'));for(const lang of ['es','en','ja']){const h=get(id,lang);assert.match(h,/class="duet-legend"/);assert.match(h,/class="duet-chisato" title="Chisato">Mi anhelo /);assert.match(h,/class="duet-takina" title="Takina">\(en lo lejos no me sueltes\)/);assert.match(h,/class="duet-shared"[^>]*>Donde nuestro camino vea iluminar/);}}
+ for(const id of ['es','lycoreco']){const l=lyricsBySong.alive[id];assert.equal(l.duetStanzas.map(st=>st.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.ok(l.duetStanzas.flat(2).some(p=>p.voice==='shared'));for(const lang of ['es','en','ja']){const h=get(id,lang);assert.match(h,/class="duet-legend"/);assert.match(h,new RegExp('class="duet-chisato" title="'+(lang==='ja'?'錦木千束':'Chisato')+'">Mi anhelo '));assert.ok(h.includes('class="duet-takina" title="'+(lang==='ja'?'井ノ上たきな':'Takina')+'">(en lo lejos no me sueltes)'));assert.match(h,/class="duet-shared"[^>]*>Donde nuestro camino vea iluminar/);}}
  const a=get('es','es'),b=get('lycoreco','es');assert.match(a,/class="duet-chisato" title="Chisato">Y en lágrimas me quebranté/);assert.doesNotMatch(b,/Y en lágrimas me quebranté/);assert.match(b,/class="duet-chisato" title="Chisato">Mi anhelo <\/span><span class="duet-shared" title="Ambas">es evidenciar mi existir/);assert.doesNotMatch(musicPage('/music/songs/hana-no-tou/',new URLSearchParams({lang:'es'})),/class="duet-legend"/);
 });
 
@@ -879,7 +880,7 @@ test('Snow halation keeps two bilingual recordings and separate complete lyric l
  assert.deepEqual(jp.colorStanzas.flat()[25].map(p=>p.voice),['honoka','honoka+umi+nozomi','shared']);
  assert.deepEqual(jp.colorStanzasJa.flat()[25].map(p=>p.voice),['honoka','honoka+umi+nozomi','shared']);
  assert.deepEqual(es.colorStanzas.flat()[27].map(p=>p.voice),['honoka+umi+nozomi','shared']);
- for(const lang of ['es','en','ja']){const html=musicPage('/music/songs/snow-halation/',new URLSearchParams({lang,version:'hso-orchestra'}));assert.match(html,/class="color-group"/);assert.match(html,/Honoka Kōsaka/);if(lang==='ja'){assert.match(html,/不思議だね/);assert.doesNotMatch(html,/Fushigi da ne/);}else{assert.match(html,/Fushigi da ne/);assert.doesNotMatch(html,/不思議だね/);}}
+ for(const lang of ['es','en','ja']){const html=musicPage('/music/songs/snow-halation/',new URLSearchParams({lang,version:'hso-orchestra'}));assert.match(html,/class="color-group"/);assert.match(html,lang==='ja'?/高坂穂乃果/:/Honoka Kōsaka/);if(lang==='ja'){assert.match(html,/不思議だね/);assert.doesNotMatch(html,/Fushigi da ne/);}else{assert.match(html,/Fushigi da ne/);assert.doesNotMatch(html,/不思議だね/);}}
 });
 
 test('Yorimoi songs retain shared cast, editorial alias and original vocal division',()=>{
@@ -954,7 +955,7 @@ test('Individual block 02 preserves nine independent recordings and the two FLOW
 test('Block 03 preserves ten Spanish releases, Esperanto references, dialogue credits and sequential FLOW selector',()=>{for(const slug of ["p3-fes","pop-step","spektro","the-secret-night","shukufuku","planetarium","ruteshi-kisuki-shiteru","ryuusei","senaka-awase","shiny-days"]){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.deepEqual(s.versions[0].langs,['ES']);assert.equal(albumsForVersion(slug,'es').length,0);assert.ok(lyricsBySong[slug].es.text);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes(s.versions[0].videoId));}}const f=lyricsBySong['kaze-no-uta'];assert.equal(f.kaze.text+'\n\n'+f.innosense.text,f.es.text);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/kaze-no-uta.json').locales[lang].es;assert.deepEqual(d.choices,['kaze','innosense','es']);assert.equal(d.defaultLyric,'es');assert.equal(d.allowCompare,false);assert.equal(d.lyrics.es.label,'Kaze no Uta + INNOSENSE');assert.equal(d.lyrics.kaze.cells.length,15);assert.equal(d.lyrics.innosense.cells.length,7);assert.equal(d.lyrics.es.cells.length,22);assert.doesNotMatch(d.lyrics.kaze.full,/El rumbo seguirá/);assert.doesNotMatch(d.lyrics.innosense.full,/Un camino más/);const h=musicPage('/music/songs/kaze-no-uta/',new URLSearchParams({lang,lyric:'kaze',compare:'innosense'}));assert.doesNotMatch(h,/<div class="parallel-pairs">|<div class="parallel-columns">/);}const s=musicStateData('/music/data/song/spektro.json');assert.equal(s.defaultVersion,'es');assert.deepEqual(s.locales.es.es.choices,['es','eo','pronunciation']);assert.equal(lyricsBySong.spektro.eo.kind,'original');assert.equal(lyricsBySong.spektro.pronunciation.kind,'pronunciation');const r=lyricsBySong['ruteshi-kisuki-shiteru'].es;assert.equal(r.dialogues.length,9);assert.match(musicStateData('/music/data/song/ruteshi-kisuki-shiteru.json').locales.es.es.lyrics.es.full,/class="lyric-dialogues"/);});
 
 
-test('THE SECRET NiGHT keeps character voice divisions distinct from cover credits',()=>{const l=lyricsBySong['the-secret-night'].es;assert.deepEqual(l.colorLegend.map(v=>[v.label,v.color]),[['Karin Asaka','#8196FF'],['Ai Miyashita','#FF9854']]);assert.deepEqual(l.characterColors,{karin:'#485EC6',ai:'#FF5800'});assert.deepEqual(l.colorStanzas.flat()[53].map(v=>v.voice),['karin','ai','karin','ai']);assert.deepEqual(l.colorStanzas.flat()[55].filter(v=>v.text.trim()!==',').map(v=>v.voice),['ai','karin','ai','karin']);assert.equal(l.colorStanzas.flat().length,65);assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.sharedLabel,{es:'Ambas',en:'Both',ja:'二人'});assert.ok(!songs.find(s=>s.slug==='the-secret-night').performance);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/the-secret-night.json').locales[lang].es.lyrics.es;assert.match(d.full,/Karin Asaka/);assert.match(d.full,/Ai Miyashita/);assert.match(d.full,/class="color-part"/);}});
+test('THE SECRET NiGHT keeps character voice divisions distinct from cover credits',()=>{const l=lyricsBySong['the-secret-night'].es;assert.deepEqual(l.colorLegend.map(v=>[v.label,v.color]),[['Karin Asaka','#8196FF'],['Ai Miyashita','#FF9854']]);assert.deepEqual(l.characterColors,{karin:'#485EC6',ai:'#FF5800'});assert.deepEqual(l.colorStanzas.flat()[53].map(v=>v.voice),['karin','ai','karin','ai']);assert.deepEqual(l.colorStanzas.flat()[55].filter(v=>v.text.trim()!==',').map(v=>v.voice),['ai','karin','ai','karin']);assert.equal(l.colorStanzas.flat().length,65);assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.sharedLabel,{es:'Ambas',en:'Both',ja:'二人'});assert.ok(!songs.find(s=>s.slug==='the-secret-night').performance);for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/the-secret-night.json').locales[lang].es.lyrics.es;assert.match(d.full,lang==='ja'?/朝香果林/:/Karin Asaka/);assert.match(d.full,lang==='ja'?/宮下愛/:/Ai Miyashita/);assert.match(d.full,/class="color-part"/);}});
 
 
 test('Block 04 and participation-only credits',()=>{for(const slug of ["under-the-party-lights","caste-room","dance-in-the-game","minor-piece","toge-toge-sadistic","your-reality","yakusoku","u-belle"]){const s=songs.find(x=>x.slug===slug);assert.ok(s);assert.equal(s.versions.length,1);assert.ok(lyricsBySong[slug].es.text);assert.equal(albumsForVersion(slug,'es').length,0);for(const lang of ['es','en','ja']){const state=musicStateData('/music/data/song/'+slug+'.json').locales[lang].es;assert.ok(state.lyrics.es.hasText);assert.ok(state.html.includes(s.versions[0].videoId));}}assert.ok(songs.every(s=>!s.dedication));const r=songs.find(s=>s.slug==='ruteshi-kisuki-shiteru');assert.deepEqual(r.performance,['Blaze Leiton']);assert.deepEqual(r.participation,['V.A.F.M.O.']);const h=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang:'es'}));assert.match(h,/<dt>Interpretación<\/dt><dd>Blaze Leiton feat\. V\.A\.F\.M\.O\.<\/dd>/);assert.doesNotMatch(h,/<dt>Con participación de<\/dt>/);assert.doesNotMatch(h,/Dedicado a|Cumpleaños de Misao/);assert.equal(lyricsBySong['your-reality'].es.text.includes('¿Pueden escucharme?'),false);});
@@ -985,7 +986,7 @@ test('Sagrada Reset approved F4 square preserves original jacket and release',()
 
 test('Final Asterisk jackets preserve approved distinct frames and original single provenance',()=>{const m=JSON.parse(readFileSync(new URL('../public/music-artwork/preserved-v2.json',import.meta.url),'utf8')).works;for(const [slug,v,size] of [['ai-no-uta',2,1080],['lonely-feather',3,865]]){const a=releaseArtwork[slug],r=m[slug];assert.equal(a.version,v);assert.equal(r.previous.version,v-1);assert.equal(a.image,r.path);assert.equal(a.sourceImage,r.origin);assert.equal(r.status,'preserved');assert.deepEqual(r.size,[size,size]);assert.match(a.originalRelease.release,/VTCL-35225/);assert.match(musicPage('/music/songs/',new URLSearchParams({lang:'es'})),new RegExp(a.image));assert.equal(createHash('sha256').update(readFileSync(new URL('../public'+r.path,import.meta.url))).digest('hex'),r.sha256);}assert.notEqual(m['ai-no-uta'].sha256,m['lonely-feather'].sha256);assert.equal(releaseArtwork['dakara-boku-wa-boku-wo-tebanasu'].version,2);});
 
-test('Kirameki Rider and canonical Padoru artist names preserve independently published collaboration',()=>{const s=songs.find(x=>x.slug==='kirameki-rider');assert.equal(s.versions[0].videoId,'83EgdxdwhtA');assert.equal(s.versions[0].publicationChannel,'Misao Chan');assert.deepEqual(s.performance,["Misao Chan","Leon Live☆Heart","Lanti Keeki","Blaze Leiton","V.A.F.M.O."]);assert.equal(s.adaptationCredit,'Leon Live☆Heart');assert.equal(s.padoruCover,true);const l=lyricsBySong[s.slug].es;assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.colorLegend.map(x=>[x.id,x.label,x.color]),[['sora','Tokino Sora','#58A6FF'],['roboco','Roboco-san','#F064E8'],['fubuki','Shirakami Fubuki','#77E4F5'],['noel','Shirogane Noel','#F0F3F7'],['aqua','Minato Aqua','#FFB5D9']]);assert.ok(l.colorStanzas.flat(2).some(x=>x.voice==='shared'&&x.secondary));assert.ok(!l.colorStanzas.flat(2).some(x=>x.voice==='shared2'));assert.deepEqual(l.colorStanzas[7][2].map(p=>p.voice),['fubuki+aqua','fubuki+aqua']);assert.equal(l.colorStanzas[7][3][0].voice,'sora+roboco+noel');assert.ok(songs.every(s=>!JSON.stringify(s.performance||[]).includes('Misao-chan')));assert.ok(!JSON.stringify(lyricsBySong).includes('Misao-chan'));for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+s.slug+'.json').locales[lang].es;assert.ok(d.html.includes('83EgdxdwhtA'));assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes('Misao Chan'));assert.doesNotMatch(d.lyrics.es.full,/Misao Chan|Leon Live☆Heart|Lanti Keeki|Blaze Leiton|V\.A\.F\.M\.O\.|Todos · II|All · II|全員 · II/);for(const name of ['Tokino Sora','Roboco-san','Shirakami Fubuki','Shirogane Noel','Minato Aqua'])assert.ok(d.lyrics.es.full.includes(name));assert.match(d.lyrics.es.full,/class="color-part secondary-part" style="color:#AEBACC"/);assert.match(d.lyrics.es.full,/Shirakami Fubuki · Minato Aqua/);}});
+test('Kirameki Rider and canonical Padoru artist names preserve independently published collaboration',()=>{const s=songs.find(x=>x.slug==='kirameki-rider');assert.equal(s.versions[0].videoId,'83EgdxdwhtA');assert.equal(s.versions[0].publicationChannel,'Misao Chan');assert.deepEqual(s.performance,["Misao Chan","Leon Live☆Heart","Lanti Keeki","Blaze Leiton","V.A.F.M.O."]);assert.equal(s.adaptationCredit,'Leon Live☆Heart');assert.equal(s.padoruCover,true);const l=lyricsBySong[s.slug].es;assert.equal(l.colorStanzas.map(s=>s.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),l.text);assert.deepEqual(l.colorLegend.map(x=>[x.id,x.label,x.color]),[['sora','Tokino Sora','#58A6FF'],['roboco','Roboco-san','#F064E8'],['fubuki','Shirakami Fubuki','#77E4F5'],['noel','Shirogane Noel','#F0F3F7'],['aqua','Minato Aqua','#FFB5D9']]);assert.ok(l.colorStanzas.flat(2).some(x=>x.voice==='shared'&&x.secondary));assert.ok(!l.colorStanzas.flat(2).some(x=>x.voice==='shared2'));assert.deepEqual(l.colorStanzas[7][2].map(p=>p.voice),['fubuki+aqua','fubuki+aqua']);assert.equal(l.colorStanzas[7][3][0].voice,'sora+roboco+noel');assert.ok(songs.every(s=>!JSON.stringify(s.performance||[]).includes('Misao-chan')));assert.ok(!JSON.stringify(lyricsBySong).includes('Misao-chan'));for(const lang of ['es','en','ja']){const d=musicStateData('/music/data/song/'+s.slug+'.json').locales[lang].es;assert.ok(d.html.includes('83EgdxdwhtA'));assert.ok(d.lyrics.es.hasText);assert.ok(d.html.includes('Misao Chan'));assert.doesNotMatch(d.lyrics.es.full,/Misao Chan|Leon Live☆Heart|Lanti Keeki|Blaze Leiton|V\.A\.F\.M\.O\.|Todos · II|All · II|全員 · II/);for(const name of (lang==='ja'?['ときのそら','ロボ子さん','白上フブキ','白銀ノエル','湊あくあ']:['Tokino Sora','Roboco-san','Shirakami Fubuki','Shirogane Noel','Minato Aqua']))assert.ok(d.lyrics.es.full.includes(name));assert.match(d.lyrics.es.full,/class="color-part secondary-part" style="color:#AEBACC"/);assert.match(d.lyrics.es.full,lang==='ja'?/白上フブキ · 湊あくあ/:/Shirakami Fubuki · Minato Aqua/);}});
 
 test('Stage 35 Brave Shine: manual Spanish lyrics, Bury attribution, original Aimer cover',()=>{
  const s=songs.find(s=>s.slug==='brave-shine');assert.ok(s);assert.equal(s.artist,'Aimer');assert.equal(s.originalLyricist,'aimerrhythm');assert.equal(s.originalComposer,'Hisashi Koyama');assert.equal(s.versions.length,1);assert.equal(s.versions[0].videoId,'_z_drk_eeWw');assert.equal(s.versions[0].date,'2025-02-01');assert.equal(s.adaptationCredit,'Call Me Bury (Bury Singer)');assert.equal(s.adaptationCreditLabel.es,'Adaptación al español');assert.match(s.adaptationAttributionStatus,/creator-confirmed/);
@@ -1168,7 +1169,7 @@ test('vocal attributions preserve song texts and place Ruteshi dialogue between 
   assert.equal((page.match(/class="lyric-dialogues"/g)||[]).length,1);
   assert.ok(page.indexOf('En 10 segundos lo sabré')<page.indexOf('class="lyric-dialogues"'));
   assert.ok(page.indexOf('class="lyric-dialogues"')<page.lastIndexOf('Dale vuelta una y otra vez antes de mirar'));
-  assert.match(page,/aria-label="Umi Sonoda · Rin Hoshizora · Hanayo Koizumi"/);
+  assert.match(page,lang==='ja'?/aria-label="園田海未 · 星空凛 · 小泉花陽"/:/aria-label="Umi Sonoda · Rin Hoshizora · Hanayo Koizumi"/);
   assert.match(page,/<dt>[^<]*(Invitados en diálogos|Spoken dialogue guests|台詞ゲスト)<\/dt>/);
   for(const name of ruteshiDialogueCast.filter(d=>d.credit).map(d=>d.voice))assert.ok(page.includes(name),name+' missing '+lang);
  }
@@ -1180,8 +1181,8 @@ test("Let's be ONE voice reference is line-complete without a fabricated officia
  assert.match(spec.status,/fan-transcription/);
  for(const lang of ['es','en','ja']){
   const page=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
-  assert.ok(page.includes('Kanon Shibuya'),lang);
-  assert.ok(page.includes('aria-label="Keke Tang · Shiki Wakana"'),lang);
+  assert.ok(page.includes(lang==='ja'?'澁谷かのん':'Kanon Shibuya'),lang);
+  assert.ok(page.includes(lang==='ja'?'aria-label="唐可可 · 若菜四季"':'aria-label="Keke Tang · Shiki Wakana"'),lang);
   assert.ok(!page.includes('<dt>Evento</dt>'));
  }
 });
@@ -1206,8 +1207,8 @@ test('Halloween Night exposes two independent divisions, retaining Padoru origin
   assert.match(page,/class="halloween-padoru-view"/);
   assert.match(page,/class="halloween-original-view"/);
   assert.match(page,/color-legend/);
-  assert.match(page,/Yozora Mel/);
-  assert.ok(page.includes('Yozora Mel')&&page.includes('Murasaki Shion')&&page.includes('Yuzuki Choco')&&page.includes('Uruha Rushia'));
+  assert.ok(page.includes(lang==='ja'?'夜空メル':'Yozora Mel'));
+  assert.ok((lang==='ja'?['夜空メル','紫咲シオン','癒月ちょこ','潤羽るしあ']:['Yozora Mel','Murasaki Shion','Yuzuki Choco','Uruha Rushia']).every(n=>page.includes(n)));
   assert.ok(page.includes('Mek')&&page.includes('Leon Live☆Heart'));
  }
 });
@@ -1240,8 +1241,9 @@ test('Ruteshi colored musical roles retain character colors and correct Umi/Rin 
  assert.equal(lyric.colorLegend.find(v=>v.id==='nozomi').color,'#C455F6');
  for(const lang of ['es','en','ja']){
   const html=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
-  assert.match(html,/aria-label="Umi Sonoda · Rin Hoshizora"/);
-  assert.match(html,/aria-label="Kotori Minami · Nico Yazawa"/);
+  assert.ok(html.includes(lang==='ja'?'aria-label="園田海未 · 星空凛"':'aria-label="Umi Sonoda · Rin Hoshizora"'));
+  assert.doesNotMatch(html,/<h3>Diálogos<\/h3>|<h3>Spoken dialogue<\/h3>|<h3>台詞<\/h3>/);
+  assert.ok(html.includes(lang==='ja'?'aria-label="南ことり · 矢澤にこ"':'aria-label="Kotori Minami · Nico Yazawa"'));
   assert.match(html,/class="color-group"/);
  }
 });
@@ -1255,7 +1257,7 @@ test('Liella! 11 verified swatches, shared colored dots, accessible Ren text',()
   const html=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
   assert.match(html,/style="background:#0000A0"/);
   assert.match(html,/style="color:#9CA9FF"/);
-  assert.match(html,/aria-label="Kanon Shibuya · Kinako Sakurakoji · Wien Margarete"/);
+  assert.ok(html.includes(lang==='ja'?'aria-label="澁谷かのん · 桜小路きな子 · ウィーン・マルガレーテ"':'aria-label="Kanon Shibuya · Kinako Sakurakoji · Wien Margarete"'));
   assert.doesNotMatch(html,/class="line-attribution"/);
  }
 });
@@ -1274,4 +1276,64 @@ test('Gimi and Halloween use provenance-labelled swatches, not invented solos',(
  assert.ok(html.includes('style="background:#19E8C9"'));
  assert.ok(html.includes('style="background:#D9944B"'),'Padoru palette must not be replaced');
  assert.doesNotMatch(html,/class="line-attribution"/);
+});
+
+
+test('Music vocal localization: bilingual member names never mixed in ES/EN legends',()=>{
+ assert.equal(localizedVocalName({label:'Live (りぶ)'},'es'),'Live');
+ assert.equal(localizedVocalName({label:'Live (りぶ)'},'ja'),'りぶ');
+ assert.equal(localizedVocalName({label:'Ichiko'},'ja'),'苺子');
+ assert.equal(localizedVocalName({label:'Fu'},'ja'),'譜風');
+ assert.equal(localizedVocalName({label:'Chisato Nishikigi'},'ja'),'錦木千束');
+ assert.equal(localizedVocalName({label:'Tokino Sora'},'ja'),'ときのそら');
+ assert.equal(localizedVocalName({label:'Minato Aqua'},'ja'),'湊あくあ');
+ for(const slug of ['ruteshi-kisuki-shiteru','lets-be-one','gimi-gimi','halloween-night','the-secret-night']){
+  for(const lang of ['es','en','ja']){
+   const page=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
+   const legends=page.match(/<div class="color-legend"[^>]*>[\s\S]*?<\/div>/g)||[];
+   assert.ok(legends.length,slug+' color legends');
+   const legendsOnly=legends.join('');
+   if(slug==='gimi-gimi'){
+    for(const name of ['Live','Ichiko','Fu','Tokage','Yuki']){
+     assert.ok(lang==='ja'||legendsOnly.includes(name),lang+' missing romanized '+name);
+    }
+    if(lang==='ja')for(const name of ['りぶ','苺子','譜風','十景','ゆき'])assert.ok(legendsOnly.includes(name),name);
+    if(lang!=='ja')assert.doesNotMatch(legendsOnly,/[(（][\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u,'mixed-script roster');
+    if(lang==='ja')assert.ok(!legendsOnly.includes('Live (りぶ)'));
+   }
+  }
+ }
+});
+test('Ruteshi colored dialogue is inline and keeps nine parenthesized performer names only',()=>{
+ const source=lyricsBySong['ruteshi-kisuki-shiteru'].es;
+ const expected=source.dialogues.map(d=>{
+  const color=originalColorPalettes['ruteshi-kisuki-shiteru'].find(x=>x.label.split(' ')[0]===d.originalRole);
+  assert.ok(color,'missing original character color for '+d.originalRole);
+  return color.textColor||color.color;
+ });
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
+  const match=html.match(/<div class="lyric-dialogues">([\s\S]*?)<\/div><\/div>/);
+  assert.ok(match,'dialogue integrated in colored lyric flow');
+  const snippet=match[1];
+  assert.equal((snippet.match(/class="line-attribution"/g)||[]).length,9);
+  assert.doesNotMatch(snippet,/<h3|Spoken dialogue|Diálogos|台詞/);
+  source.dialogues.forEach((d,i)=>{
+   assert.ok(snippet.includes('style="color:'+expected[i]+'"'),'missing correct line color for '+d.voice);
+   assert.ok(snippet.includes('('+d.voice+')'),'missing literal parentheses '+d.voice);
+   assert.ok(snippet.includes(d.text),'missing original spoken line');
+  });
+  assert.ok(html.indexOf('En 10 segundos lo sabré')<html.indexOf('class="lyric-dialogues"'));
+  assert.ok(html.indexOf('class="lyric-dialogues"')<html.lastIndexOf('Dale vuelta una y otra vez antes de mirar'));
+ }
+});
+test('Four vocal pages contain no visible explanatory notes or selection tutorials',()=>{
+ for(const slug of ['ruteshi-kisuki-shiteru','lets-be-one','gimi-gimi','halloween-night']){
+  for(const lang of ['es','en','ja']){
+   const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang}));
+   assert.doesNotMatch(html,/class="lyric-note vocal-source-note"/);
+   assert.doesNotMatch(html,/Original parts according to|Distribución vocal original según|Reparto original confirmado|Documented Padoru cover voices|Intervenciones del cover Padoru/);
+   if(slug==='gimi-gimi')assert.doesNotMatch(musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version:'tv'})),/Letra completa de la adaptación|Complete adaptation lyrics|翻案歌詞の全文/);
+  }
+ }
 });
