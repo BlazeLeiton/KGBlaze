@@ -34,7 +34,7 @@ test('Relight Stage 37: creator-approved precise Spanish cuts',()=>{
  expect(4,4,[['Esta promesa entre tú y yo','chisato+natsumi']]);
  expect(4,5,[['Será por siempre, ','kanon'],['pues somos un sólo mismo sueño','shared']]);
  expect(9,1,[['Y fue al conocerte, ','kanon+margarete'],['cuenta pude darme','kanon+kinako']]);
- expect(9,2,[['la palabra “unidad” ','kanon+kinako+margarete'],['que significa en verdad','shared']]);
+ expect(9,2,[['La palabra “unidad” ','kanon+kinako+margarete'],['que significa en verdad','shared']]);
  expect(10,1,[['Pues seguramente, ','margarete+tomari'],['ya te he conocido, ','kinako+mei+shiki+natsumi'],['y unidos vamos a estar','kanon+keke+chisato+sumire+ren']]);
 });
 
