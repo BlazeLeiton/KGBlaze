@@ -51,7 +51,7 @@ try{
    await page.goto(origin+'/music/songs/'+slug+'/?lang=es',{waitUntil:'domcontentloaded'});
    const root=page.locator('section.lyrics');
    assert.equal(await root.locator('.lyric-dialogues .line-attribution').count(),slug==='ruteshi-kisuki-shiteru'?9:0,slug+' dialogue prefixes only');
-   assert.equal(await root.locator('.colored-lyrics .line-attribution').count(),0,slug+' sung-line prefixes are forbidden');
+   assert.equal(await root.locator('.colored-lyrics .line-attribution').evaluateAll(nodes=>nodes.filter(n=>!n.closest('.lyric-dialogues')).length),0,slug+' sung-line prefixes are forbidden');
    assert.ok(await root.locator('.color-legend .color-dot').count()>=expectedColors,slug+' palette legend');
    assert.ok(await root.locator('.colored-lyrics .color-part').count()>0,slug+' visible colored parts');
    const actualSwatches=await root.locator('.color-legend .color-dot').evaluateAll(nodes=>nodes.map(el=>getComputedStyle(el).backgroundColor));
