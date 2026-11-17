@@ -7,7 +7,7 @@ export const isEnsembleLyric=lyric=>lyric?.colorRole!=='song'&&(lyric?.colorLege
 
 export function normalizeEnsembleLine(line,lyric){
  if(!isEnsembleLyric(lyric)||!Array.isArray(line))return line;
- const known=new Set(lyric.colorLegend.map(part=>part.id));
+ const known=new Set(lyric.colorLegend.filter(part=>!lyric.hiddenVoiceIds?.includes(part.id)).map(part=>part.id));
  const characters=line.flatMap(part=>[...part.text].map(ch=>({ch,voice:part.voice,secondary:!!part.secondary})));
  const out=[];
  const append=(text,voice,secondary=false)=>{
@@ -45,7 +45,7 @@ export function normalizeEnsembleLine(line,lyric){
 
 export function ensembleVoiceIds(voice,lyric){
  if(!isEnsembleLyric(lyric))return [];
- const known=new Set(lyric.colorLegend.map(part=>part.id));
- if(voice==='shared')return lyric.colorLegend.map(part=>part.id);
+ const known=new Set(lyric.colorLegend.filter(part=>!lyric.hiddenVoiceIds?.includes(part.id)).map(part=>part.id));
+ if(voice==='shared')return lyric.colorLegend.filter(part=>!lyric.hiddenVoiceIds?.includes(part.id)).map(part=>part.id);
  return [...new Set(String(voice).split('+').filter(id=>known.has(id)))];
 }
