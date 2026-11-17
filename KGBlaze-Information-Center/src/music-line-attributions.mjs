@@ -125,8 +125,9 @@ export const ruteshiDialogueCast=[
 // Color legends follow the established Scripta Lyrica colorStanzas/colorLegend
 // format. The numbers below are swatches sampled from franchise-site materials
 // and catalogued by fan color-code references, NOT necessarily official brand HEX
-// specifications. The Mayonaka Punch set is an editorial approximation sampled
-// from official character illustrations: no canonical character HEX was found.
+// specifications. The Mayonaka Punch set is an approximate sample from
+// the official character-page color stripes provided in the creator's screenshots;
+// no canonical publisher-provided character HEX specification was found.
 // textColor only brightens very dark official-associated marks for dark-mode reading.
 export const originalColorPalettes={
  'ruteshi-kisuki-shiteru':[
@@ -170,7 +171,7 @@ export const originalColorPalettes={
 export const colorSources={
  'ruteshi-kisuki-shiteru':{source:'https://ratius.github.io/LLS/color.html',status:'fan-compilation-of-franchise-profile-swatches'},
  'lets-be-one':{source:'https://moegirl.uk/Template:LoveLive!角色颜色/doc',status:'fan-extraction-from-franchise-official-site'},
- 'gimi-gimi':{source:'https://mayopan.jp/character/',status:'editorial-approximation-from-official-character-art'},
+ 'gimi-gimi':{source:'https://mayopan.jp/character/',status:'approximate-stripe-colors-from-official-character-screenshots'},
  'halloween-night':{source:'https://vtubernews.com/datalist-0009/',status:'fan-maintained-talent-color-catalog'}
 };
 const lookup={};
