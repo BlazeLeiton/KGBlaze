@@ -11,7 +11,7 @@ import {serveArtwork} from '../src/music-artwork-cache.mjs';
 import {releaseArtwork,artworkURL,artworkSources} from '../src/music-artwork.mjs';
 import {franchiseRegistry,franchiseTags,franchiseTagLabel,affiliationWork,affiliationDetails,catalogAffiliationBadge,franchiseSearchAliases} from '../src/music-franchises.mjs';
 import {lyricsBySong,lyricAliases} from '../src/music-lyrics.mjs';
-import {lineAttributions,ruteshiDialogueCast} from '../src/music-line-attributions.mjs';
+import {lineAttributions,ruteshiDialogueCast,originalColorPalettes,colorSources,colorDivisionFromReference} from '../src/music-line-attributions.mjs';
 import {tagsForSeason,pokemonTags,seasonTagLabel,blockSeriesLabel,blockSearchAliases} from '../src/music-pokemon-tags.mjs';
 import {workName,workAliases,pokemonWorkLabel,pokemonCounterpart} from '../src/music-works.mjs';
 import {MUSIC_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from '../src/music-page.mjs';
@@ -1168,7 +1168,7 @@ test('vocal attributions preserve song texts and place Ruteshi dialogue between 
   assert.equal((page.match(/class="lyric-dialogues"/g)||[]).length,1);
   assert.ok(page.indexOf('En 10 segundos lo sabré')<page.indexOf('class="lyric-dialogues"'));
   assert.ok(page.indexOf('class="lyric-dialogues"')<page.lastIndexOf('Dale vuelta una y otra vez antes de mirar'));
-  assert.match(page,/<span class="line-attribution">\(Umi · Rin · Hanayo\)<\/span>/);
+  assert.match(page,/aria-label="Umi Sonoda · Rin Hoshizora · Hanayo Koizumi"/);
   assert.match(page,/<dt>[^<]*(Invitados en diálogos|Spoken dialogue guests|台詞ゲスト)<\/dt>/);
   for(const name of ruteshiDialogueCast.filter(d=>d.credit).map(d=>d.voice))assert.ok(page.includes(name),name+' missing '+lang);
  }
@@ -1180,8 +1180,8 @@ test("Let's be ONE voice reference is line-complete without a fabricated officia
  assert.match(spec.status,/fan-transcription/);
  for(const lang of ['es','en','ja']){
   const page=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
-  assert.ok(page.includes('(Kanon)'),lang);
-  assert.ok(page.includes('(Keke · Shiki)'),lang);
+  assert.ok(page.includes('Kanon Shibuya'),lang);
+  assert.ok(page.includes('aria-label="Keke Tang · Shiki Wakana"'),lang);
   assert.ok(!page.includes('<dt>Evento</dt>'));
  }
 });
@@ -1191,7 +1191,7 @@ test('Gimi Gimi Full and TV show verified original cast but do not invent solo l
  assert.equal(spec.originalCast.length,5);
  for(const version of ['full','tv'])for(const lang of ['es','en','ja']){
   const page=musicPage('/music/songs/gimi-gimi/',new URLSearchParams({lang,version}));
-  assert.match(page,/<span class="line-attribution">\(Mayopan\)<\/span>/);
+  assert.match(page,/class="color-legend"/);
   assert.ok(!page.includes('por verso confirmada oficialmente'));
  }
 });
@@ -1206,8 +1206,72 @@ test('Halloween Night exposes two independent divisions, retaining Padoru origin
   assert.match(page,/class="halloween-padoru-view"/);
   assert.match(page,/class="halloween-original-view"/);
   assert.match(page,/color-legend/);
-  assert.match(page,/<span class="line-attribution">\(hololive IDOL PROJECT\)<\/span>/);
+  assert.match(page,/Yozora Mel/);
   assert.ok(page.includes('Yozora Mel')&&page.includes('Murasaki Shion')&&page.includes('Yuzuki Choco')&&page.includes('Uruha Rushia'));
-  assert.ok(page.includes('Elenco Padoru')||page.includes('Leon Live☆Heart'));
+  assert.ok(page.includes('Mek')&&page.includes('Leon Live☆Heart'));
  }
+});
+
+
+test('Stage 36 correction: only Ruteshi spoken dialogues have parenthetical speaker prefixes',()=>{
+ const map=['ruteshi-kisuki-shiteru','lets-be-one','gimi-gimi','halloween-night'];
+ for(const slug of map){
+  const lyric=lyricsBySong[slug][slug==='gimi-gimi'?'full':'es'];
+  const colored=colorDivisionFromReference(lyric,slug);
+  assert.ok(colored.colorStanzas&&colored.colorLegend&&colored.colorLegend.length>=4);
+  assert.equal(colored.colorStanzas.map(stanza=>stanza.map(line=>line.map(p=>p.text).join('')).join('\n')).join('\n\n'),lyric.text,'Spanish adaptation unchanged: '+slug);
+  assert.equal(colored.colorLegend.length,originalColorPalettes[slug].length,slug+' palette preserved');
+  assert.ok(colored.colorLegend.every(v=>/^#[0-9A-F]{6}$/i.test(v.color)));
+  const html=musicPage('/music/songs/'+slug+'/',new URLSearchParams({lang:'es'}));
+  assert.match(html,/class="colored-lyrics"/);
+  assert.match(html,/class="color-legend"/);
+  if(slug!=='ruteshi-kisuki-shiteru')assert.doesNotMatch(html,/class="line-attribution"/,slug+' must not prepend parenthetical singers');
+  else{
+   assert.equal((html.match(/class="line-attribution"/g)||[]).length,9,'9 dialogue labels and no sung-line prefix');
+   assert.ok(html.indexOf('class="lyric-dialogues"')<html.lastIndexOf('Dale vuelta una y otra vez antes de mirar'));
+  }
+ }
+});
+test('Ruteshi colored musical roles retain character colors and correct Umi/Rin response',()=>{
+ const lyric=colorDivisionFromReference(lyricsBySong['ruteshi-kisuki-shiteru'].es,'ruteshi-kisuki-shiteru');
+ assert.deepEqual(lyric.colorStanzas[0][2].map(p=>p.voice),['shared','nozomi']);
+ assert.deepEqual(lyric.colorStanzas[5][2].map(p=>p.voice),['shared','umi+rin']);
+ assert.deepEqual(lyric.colorStanzas[8][0].map(p=>p.voice),['kotori','nico']);
+ assert.equal(lyric.colorLegend.find(v=>v.id==='nozomi').color,'#C455F6');
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/ruteshi-kisuki-shiteru/',new URLSearchParams({lang}));
+  assert.match(html,/aria-label="Umi Sonoda · Rin Hoshizora"/);
+  assert.match(html,/aria-label="Kotori Minami · Nico Yazawa"/);
+  assert.match(html,/class="color-group"/);
+ }
+});
+test('Liella! 11 verified swatches, shared colored dots, accessible Ren text',()=>{
+ const lyric=colorDivisionFromReference(lyricsBySong['lets-be-one'].es,'lets-be-one');
+ assert.equal(lyric.colorLegend.length,11);
+ assert.equal(lyric.colorLegend.find(v=>v.id==='ren').color,'#0000A0');
+ assert.equal(lyric.colorLegend.find(v=>v.id==='ren').textColor,'#9CA9FF');
+ assert.ok(lyric.colorStanzas.flat().some(line=>line.some(p=>p.voice==='shared')));
+ for(const lang of ['es','en','ja']){
+  const html=musicPage('/music/songs/lets-be-one/',new URLSearchParams({lang}));
+  assert.match(html,/style="background:#0000A0"/);
+  assert.match(html,/style="color:#9CA9FF"/);
+  assert.match(html,/aria-label="Kanon Shibuya · Kinako Sakurakoji · Wien Margarete"/);
+  assert.doesNotMatch(html,/class="line-attribution"/);
+ }
+});
+test('Gimi and Halloween use provenance-labelled swatches, not invented solos',()=>{
+ const gimi=colorDivisionFromReference(lyricsBySong['gimi-gimi'].full,'gimi-gimi');
+ const original=colorDivisionFromReference(lyricsBySong['halloween-night'].es,'halloween-night');
+ assert.equal(colorSources['gimi-gimi'].status,'editorial-approximation-from-official-character-art');
+ assert.equal(colorSources['halloween-night'].status,'fan-maintained-talent-color-catalog');
+ assert.deepEqual(original.colorLegend.map(x=>x.color),['#FED62A','#8466FE','#FE739E','#19E8C9']);
+ assert.equal(gimi.colorLegend.length,5);
+ assert.ok(gimi.colorStanzas.flat().every(line=>line.every(p=>p.voice==='unattributed')));
+ assert.ok(original.colorStanzas.flat().every(line=>line.every(p=>p.voice==='unattributed')));
+ const html=musicPage('/music/songs/halloween-night/',new URLSearchParams({lang:'es'}));
+ assert.ok(html.includes('class="halloween-original-view"'));
+ assert.ok(html.includes('class="halloween-padoru-view"'));
+ assert.ok(html.includes('style="background:#19E8C9"'));
+ assert.ok(html.includes('style="background:#D9944B"'),'Padoru palette must not be replaced');
+ assert.doesNotMatch(html,/class="line-attribution"/);
 });
