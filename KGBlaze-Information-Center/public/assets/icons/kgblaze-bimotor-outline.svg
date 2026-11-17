@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" stroke-linejoin="round" stroke-linecap="round">
+  <!-- Stage 38 approved: two engines, x moved 1px toward fuselage; view rotated 90 degrees, nose right. -->
+  <g transform="rotate(90 50 50)">
+    <rect x="26" y="37.5" width="9" height="17.5" rx="4.5" fill="#276EF1" stroke="#FFFFFF" stroke-width="2"/>
+    <rect x="65" y="37.5" width="9" height="17.5" rx="4.5" fill="#276EF1" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M50 7 C54 7 56 17 56 27 L56 39 L90 57 Q92 59 92 62 L92 65 L56 55 L56 77 L66 86 L66 89 L50 84 L34 89 L34 86 L44 77 L44 55 L8 65 L8 62 Q8 59 10 57 L44 39 L44 27 C44 17 46 7 50 7 Z" fill="#276EF1" stroke="#FFFFFF" stroke-width="2.2"/>
+  </g>
+</svg>
