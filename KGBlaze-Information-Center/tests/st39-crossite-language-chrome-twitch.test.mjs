@@ -20,6 +20,16 @@ test('All three share ES/EN/JA via the Music storage and cookie without replacin
  assert.match(VIEWER_PORTAL_SSR_JS,/querySelectorAll\('button\[data-lang\]'\)/);
  assert.match(terminal,/function setLang\(lang\)\{if\(!\['es','en','ja'\]\.includes\(lang\)\)return;state\.lang=lang;render\(\);\}/);
 });
+test('Language highlight and right-side header metrics match across the three sites',()=>{
+ assert.match(music,/\.header \.langs a\[aria-current\]\{color:#FFFFFF!important/);
+ assert.match(music,/\.header \.langs a\{color:#A5EBFF!important/);
+ assert.match(home,/data-i18n="musicNav">Música ▾/);
+ assert.match(home,/data-i18n="communityNav">Comunidad ▾/);
+ for(const css of [home,music,VIEWER_PORTAL_CSS]){
+  assert.match(css,/width:96px;flex:0 0 96px;height:35px/);
+  assert.match(css,/flex:0 0 76px/);
+ }
+});
 test('Home, Rebel Mix and Terminal share exact navigation/rail sizes while preserving their interiors',()=>{
  assert.match(home,/header nav\{gap:clamp\(11px,1\.5vw,21px\)!important/);
  assert.match(music,/\.site-global-nav\{gap:clamp\(11px,1\.5vw,21px\);font-size:12px/);
@@ -44,10 +54,10 @@ test('Twitch is in its video-only card directly, at a valid size, no demand moda
  assert.match(home,/\.media \.screen\{width:100%;height:auto;min-height:300px;aspect-ratio:16\/9\}/);
 });
 test('White headset stays filled, no microphone; asset cache is refreshed',()=>{
- assert.equal((icon.match(/<path fill="#FFFFFF"/g)||[]).length,3);
+ assert.equal((icon.match(/<path fill="#FFFFFF"/g)||[]).length,1);
  assert.match(icon,/viewBox="0 0 100 100"/);
  assert.doesNotMatch(icon,/<circle|microphone|stroke=/i);
- assert.match(home,/kgblaze-headphones-white\.svg\?v=st39-20261118/);
+ assert.match(home,/kgblaze-headphones-white\.svg\?v=st39-reference-20261118/);
 });
 test('Chrome actually selects Japanese and mounts Twitch without a click',{timeout:90000},async t=>{
  const bins=[process.env.CHROME_BIN,'google-chrome','google-chrome-stable','chromium','chromium-browser'].filter(Boolean);
