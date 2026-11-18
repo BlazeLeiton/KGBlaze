@@ -13,7 +13,7 @@ test('Stage 39 Home retains original content, icons and inline streaming — no 
  assert.match(home,/\.hero-inner\{max-width:1660px;grid-template-columns:clamp\(245px,20vw,350px\)/);
  assert.match(home,/\.media \.screen\{width:100%;height:auto;min-height:300px;aspect-ratio:16\/9\}/);
  assert.match(home,/\.media-grid\{grid-template-columns:minmax\(0,1fr\);max-width:700px\}/);
- assert.match(home,/class="nav-caret"/);
+ assert.match(home,/data-i18n="musicNav">Música ▾/);
  assert.match(home,/class="media-brand-icon"[^>]*>YouTube/);
  assert.match(home,/class="media-brand-icon"[^>]*>Twitch/);
  assert.match(home,/replaceChildren\(makeEmbed\('twitch'\)\)/);
