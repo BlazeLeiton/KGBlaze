@@ -241,10 +241,11 @@ export default {
    if(dashboardPath==='/music'||dashboardPath==='/music/'){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     requestURL.pathname='/music/songs/';
-    const response=Response.redirect(requestURL.toString(),307);
-    response.headers.set('Cache-Control','no-store');
-    response.headers.set('X-Robots-Tag','noindex, nofollow');
-    return response;
+    return new Response(null,{status:307,headers:{
+     Location:requestURL.toString(),
+     'Cache-Control':'no-store',
+     'X-Robots-Tag':'noindex, nofollow'
+    }});
    }
    if(MUSIC_LEGACY_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
