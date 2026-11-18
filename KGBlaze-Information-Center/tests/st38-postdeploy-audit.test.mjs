@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import worker from '../src/worker.mjs';
-import {VIEWER_PORTAL_CSS,VIEWER_PORTAL_JS} from '../src/viewer-portal-chrome.mjs';
+import {VIEWER_PORTAL_CSS} from '../src/viewer-portal-chrome.mjs';
+import {VIEWER_PORTAL_SSR_JS,VIEWER_PORTAL_PREFIX,VIEWER_PORTAL_SUFFIX} from '../src/viewer-portal-ssr.mjs';
 
 test('approved Home corrections are actually in the published HTML source',()=>{
  const home=readFileSync(fileURLToPath(new URL('../public/home.html',import.meta.url)),'utf8');
@@ -30,8 +31,10 @@ test('the Cloudflare Worker injects V6 only for public non-embedded Terminal',as
    let output=await response.text();
    for(const [selector,listener] of this.handlers){
     if(!['head','body'].includes(selector))continue;
-    const extras=[];
-    listener.element({append(value){extras.push(value)},setAttribute(){},setInnerContent(){}});
+    const extras=[],prefix=[],attrs={};
+    listener.element({append(value){extras.push(value)},prepend(value){prefix.push(value)},setAttribute(key,value){attrs[key]=value},setInnerContent(){}});
+    if(selector==='body'&&attrs.class)output=output.replace('<body>','<body class="'+attrs.class+'">');
+    output=output.replace('<'+selector+(selector==='body'&&attrs.class?' class="'+attrs.class+'"':'')+'>',match=>match+prefix.join(''));
     output=output.replace('</'+selector+'>',extras.join('')+'</'+selector+'>');
    }
    return new Response(output,{status:response.status,headers:response.headers});
@@ -43,12 +46,15 @@ test('the Cloudflare Worker injects V6 only for public non-embedded Terminal',as
   const site=await worker.fetch(new Request('https://kgblaze.dpdns.org/departures/'),env);
   assert.equal(site.status,200);
   const body=await site.text();
-  assert.ok(body.includes(VIEWER_PORTAL_JS),'V6 executable must be sent to the real Worker route');
+  assert.ok(body.includes(VIEWER_PORTAL_SSR_JS),'V6 executable must be sent to the real Worker route');
+  assert.ok(body.includes(VIEWER_PORTAL_PREFIX),'V6 HTML header must arrive before JS');
+  assert.ok(body.includes(VIEWER_PORTAL_SUFFIX),'V6 HTML social/footer must arrive before JS');
+  assert.ok(body.includes('body class="kg-portal-viewer"'),'V6 CSS must be enabled by HTML, not merely script');
   assert.ok(body.includes(VIEWER_PORTAL_CSS),'V6 styling must be sent to the real Worker route');
   const embedded=await worker.fetch(new Request('https://kgblaze.dpdns.org/departures/?embed=1'),env);
   assert.equal(embedded.status,200);
   const embed=await embedded.text();
-  assert.ok(!embed.includes(VIEWER_PORTAL_JS),'Embedded viewer must remain without external chrome');
+  assert.ok(!embed.includes(VIEWER_PORTAL_SSR_JS),'Embedded viewer must remain without external chrome');
   assert.ok(!embed.includes(VIEWER_PORTAL_CSS),'Embedded viewer must remain without external chrome styles');
  }finally{
   if(old===undefined)delete globalThis.HTMLRewriter;else globalThis.HTMLRewriter=old;
