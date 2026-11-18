@@ -45,7 +45,7 @@
 
 **C1 — Navegación global en mayúsculas.** El manual (p.89) exige mayúsculas para menús; el diseño aprobado Chrome V1 presenta «Sobre Blaze», «Música ▾», «Comunidad ▾», «Salidas» y drawer móvil «← Volver». Convertir todos visualmente a MAYÚSCULAS puede ampliar las palabras y romper la geometría de 96×35 del botón y el patrón del drawer. **No aplicar hasta que el usuario elija** entre conservar la excepción KGBlaze o adaptar sólo ciertos menús con revalidación visual.
 
-**C2 — Pesos Garnett.** El manual referencia Regular y Semibold (p.87), mientras la navegación/botones del Chrome V1 usan pesos CSS 700/750 y algunos títulos 600. Forzar 600 en toda la navegación cambiaría la apariencia previamente aprobada y podría modificar anchos. **Pendiente decisión** sobre tratar KGBlaze como marca con excepción de peso o migrar visualmente encabezados. No alterar fuente ni inventar licencias.
+**C2 — Uso real de fuentes (hallazgo RESUELTO sin cambios).** Las cinco declaraciones `@font-face` del visor fuente (`public/index.html`) contienen Garnett Regular `400`, otra cara de Garnett mapeada a `600 900`, MuseoModerno y Noto Sans JP Project `400/600`. El Worker obtiene las caras Garnett y Noto desde esa fuente y cambia `font-display:block` a `swap`. Por lo tanto CSS `700/750` se resuelve a la cara **Semibold** del rango declarado, sin implicar una tercera variante Garnett. El canvas usa `weight>=600 ? 600 : 400` y conserva **MuseoModerno Medium intencionalmente para el nombre de marca**; esto es una excepción KGBlaze, no un error de peso de Garnett. Se preserva. No redistribuir archivos de fuente ni inferir derechos de licencia.
 
 **C3 — Colores y plataformas.** El manual prescribe parejas corporativas; Rebel Mix usa deliberadamente violeta y Home los colores nativos YouTube/Twitch. Sustituirlos eliminaría decisiones de identidad y diferenciaría peor los servicios. **Recomendada excepción** de KGBlaze para superficies musicales y marcas ajenas. No sustituir sin autorización.
 
@@ -64,6 +64,6 @@
 - Ejecutar la suite de continuidad/Terminal, auditoría musical (revisiones visuales incluidas) y pruebas CSS de Brand Book.
 - Verificar en Chrome los tres sitios en escritorio y móvil sin desbordamiento de labels ni pérdida de pie/visor.
 - La producción Cloudflare requiere comprobación visual posterior: acceso HTTP directo no disponible en estas herramientas.
-- **No afirmar cumplimiento formal total del Brand Book** mientras los conflictos C1–C4 dependan de una decisión editorial.
+- **No afirmar cumplimiento formal total del Brand Book** mientras C1, C3 y C4 dependan de una decisión editorial. C2 se resolvió documentalmente comprobando las caras tipográficas realmente cargadas; no requiere modificación de peso.
 
 **Estado:** Stage 40, auditoría de adaptación en curso. El punto de respaldo CP07 permanece intacto. La corrección segura puede fusionarse si CI confirma y el resto queda pendiente por decisión del usuario, sin crear automáticamente Stage 41 (se avanzará sólo cuando Stage 40 se agote).
