@@ -85,7 +85,7 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
   child.on('error',reject);child.on('close',code=>resolve({code,html:output,error:err}));
  });
  try{
-  for(const [path,size] of [['/departures/','1440,900'],['/departures/?mode=mobile','375,780'],['/departures/?embed=1','1440,900']]){
+  for(const [path,size] of [['/departures/','1440,900'],['/departures/','1024,768'],['/departures/','800,600'],['/departures/?mode=mobile','375,780'],['/departures/?embed=1','1440,900']]){
    const out=await run('http://127.0.0.1:'+port+path,size);
    assert.equal(out.code,0,'Chrome failed '+path+': '+out.error);
    assert.match(out.html,/data-kg-ssr="PASS"/,'V6 browser check failed '+path+': '+(out.html.match(/data-kg-ssr-why="[^"]*"/)||[])[0]);
