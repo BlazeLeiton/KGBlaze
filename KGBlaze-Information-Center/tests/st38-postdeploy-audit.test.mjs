@@ -14,10 +14,10 @@ test('approved Home corrections are actually in the published HTML source',()=>{
  assert.match(home,/\/assets\/icons\/kgblaze-headphones-white\.svg/,'Home renders SVG file via real asset URL');
  const headphones=readFileSync(fileURLToPath(new URL('../public/assets/icons/kgblaze-headphones-white.svg',import.meta.url)),'utf8');
  assert.match(headphones,/<svg/);
- assert.equal((headphones.match(/<path fill="#(?:FFFFFF|fff)"/gi)||[]).length,3,'approved headphones: solid arch and two solid earcups');
- assert.match(headphones,/M14\.5 64\.5V52\.5/,'continuous filled headband');
- assert.match(headphones,/M25\.1 59\.1/,'filled left earcup');
- assert.match(headphones,/M74\.9 59\.1/,'filled right earcup');
+ assert.equal((headphones.match(/<path fill="#FFFFFF"/g)||[]).length,1,'approved headphones are a continuous white silhouette');
+ assert.match(headphones,/M50 14\.5 C30 14\.5/,'continuous rounded headband');
+ assert.match(headphones,/L36\.5 60\.8/,'left earcup joins the arch');
+ assert.match(headphones,/L58\.4 76\.4/,'right earcup joins the arch');
  assert.doesNotMatch(headphones,/microphone|mic[-_ ]|<circle/i,'approved icon has no microphone');
  assert.match(home,/background:var\(--pink\);margin-top:18px/);
  assert.doesNotMatch(home,/\.section h2:before\{/);
