@@ -72,6 +72,8 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  '   const control=buttons.find(x=>x.dataset.lang===lang);if(!control){good=false;continue}',
  '   control.click();await new Promise(r=>setTimeout(r,60));',
  '   good=good&&document.documentElement.lang===lang&&document.getElementById("heading")?.textContent.includes(heading)&&document.getElementById("sideTitle")?.textContent===title&&control.classList.contains("active");',
+ '   const hero=document.querySelector(".kg-exterior-hero h1 [data-kg-lang="+lang+"]"),legend=document.querySelector(".kg-legend h3 [data-kg-lang="+lang+"]");',
+ '   good=good&&!!hero&&!!legend&&getComputedStyle(hero).display==="inline"&&getComputedStyle(legend).display==="inline";',
  '  }',
  '  document.documentElement.dataset.kgSsr=good?"PASS":"FAIL";if(!good)document.documentElement.dataset.kgSsrWhy=JSON.stringify({buttons:buttons.length,language:document.documentElement.lang,heading:document.getElementById("heading")?.textContent,title:document.getElementById("sideTitle")?.textContent});',
  '  return;',
