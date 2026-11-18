@@ -236,6 +236,16 @@ export default {
     return new Response(req.method==='HEAD'?null:fonts,{headers:{'Content-Type':'text/css; charset=utf-8','Cache-Control':'public, max-age=86400','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff'}});
    }
    if(MUSIC_DATA_PATHS.has(dashboardPath)){if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');const data=musicStateData(dashboardPath);return new Response(req.method==='HEAD'?null:JSON.stringify(data),{headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex, nofollow, noarchive'}});}
+   // Stage 38: keep the future albums/list landing in source but skip it in production.
+   // 307 is deliberately temporary; preserve ?lang= and other incoming query parameters.
+   if(dashboardPath==='/music'||dashboardPath==='/music/'){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    requestURL.pathname='/music/songs/';
+    const response=Response.redirect(requestURL.toString(),307);
+    response.headers.set('Cache-Control','no-store');
+    response.headers.set('X-Robots-Tag','noindex, nofollow');
+    return response;
+   }
    if(MUSIC_LEGACY_PATHS.has(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
     const legacySong=/^\/music\/(?:song\/)?([a-z0-9-]+)\/?$/.exec(dashboardPath);
