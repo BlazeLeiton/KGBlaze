@@ -9,7 +9,7 @@
 **Rama de documentación CP07 original:** `relight/st39-cp07-checkpoint-20261118`. El respaldo se documentó en la etapa actual **Stage 40**, aunque mantiene el nombre histórico Stage 39 / CP07 para enlazar con las decisiones previas. El documento es posterior a la captura del respaldo y **no modifica sus archivos visuales**.
 
 
-> **Rectificación de continuidad (18-nov-2026, confirmada por el usuario):** El Stage vigente es **40**. **Todos los Stages 1 a 39 están agotados por límite de conversación**, sin implicar cierre funcional de sus proyectos. El nombre Stage 39 / CP07 se conserva como identificador del respaldo heredado; **no designa la conversación actual**. La indicación «No crear automáticamente Stage 40» de CP03 es una instrucción histórica anterior, **superada por la confirmación explícita de Stage 40**. Tampoco debe confundirse la numeración ReSpark con la de los Stages.
+> **Regla de continuidad automática (corrección expresa del usuario, 18-nov-2026):** Cuando el usuario indique que un Stage se ha **agotado por capacidad de conversación**, se asignará **automáticamente el siguiente Stage consecutivo**, sin pedir una segunda autorización ni mantener la numeración anterior. El agotamiento cierra la capacidad de ese hilo, **no concluye las tareas ni Project Relight**: se conservan checkpoints, decisiones, pendientes y trazabilidad. Si se agotan varios Stages, la siguiente conversación toma el primer número libre. Actualmente **todos los Stages 1–39 están agotados y esta conversación es Stage 40**. Cuando se indique que Stage 40 también se agotó, la continuidad será **Stage 41 automáticamente**, y así sucesivamente. La antigua indicación de CP03 «No crear automáticamente Stage 40» queda **revocada**, no sólo superada en este caso. Las numeraciones ReSpark, Reburst y checkpoints no sustituyen las de Stages.
 
 ### 1. Estado editorial y aprobación del usuario
 
@@ -95,7 +95,7 @@ Los audífonos ya están **aprobados**. No volver a generar el SVG. El archivo o
 4. Mantener Rebel Mix (catálogo real Scripta Lyrica, filtros/letras/portadas/versiones) y Terminal (visor cuadrado, exportable, `?embed=1`, JSON/ICS, cron, D1, editor V25). No introducir segundo controlador de idiomas ni alterar el canvas.
 5. El antiguo [PR #164](https://github.com/BlazeLeiton/KGBlaze/pull/164) con la rama V7 equivocada permanece **draft y sin fusionar** conforme a decisiones anteriores. No confundirlo con la implementación V6 legítima.
 6. Para sitios futuros, usar **Chrome V1** como base de encabezado/barra y el **menú móvil Home** como patrón. Adaptar sólo el interior según necesidades. Las diferencias técnicas entre renderizadores son intencionales.
-7. **Stage 40 ya está iniciado y es la etapa actual. Todos los Stages 1–39 están agotados exclusivamente por capacidad conversacional; esto no significa que sus líneas de trabajo hayan finalizado.** No retroceder a Stage 39 ni iniciar automáticamente Stage 41. Las numeraciones de ReSpark, Reburst y checkpoints no reemplazan la numeración de Stages.
+7. **Numeración automática obligatoria al agotarse un Stage.** Stage 40 es la conversación actual porque los Stages 1–39 se agotaron por capacidad. **Si el usuario avisa que Stage 40 está agotado, asignar inmediatamente Stage 41**, sin solicitar confirmación adicional. Repetir la regla para los agotamientos sucesivos y llevar todas las decisiones y pendientes al nuevo Stage. No confundir agotamiento del hilo con finalización del proyecto. ReSpark, Reburst y checkpoints mantienen numeraciones independientes.
 
 ### 8. Alcance del checkpoint
 
