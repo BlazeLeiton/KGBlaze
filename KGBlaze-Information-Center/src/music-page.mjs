@@ -245,7 +245,7 @@ export function musicPage(path,query,mode='html'){
  @media(prefers-reduced-motion:reduce){.music-overlay,.music-overlay-panel{transition:none;transform:none}}
  
  /* Stage38 CP14: matching low-glare icon-only bars, without labels. */
- .site-social-sidebar,.site-social-bottom{background:#010627;border-color:#213363}
+ .site-social-sidebar,.site-social-bottom{background:#010627!important;border-color:#213363!important}
  .site-social-sidebar{border-right:1px solid #213363}
  .site-social-sidebar a,.site-social-bottom a{justify-content:center;min-height:30px}
  .site-social-sidebar img{width:28px;height:28px}
