@@ -7,7 +7,8 @@ import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
-import {VIEWER_PORTAL_CSS,VIEWER_PORTAL_JS} from './viewer-portal-chrome.mjs';
+import {VIEWER_PORTAL_CSS} from './viewer-portal-chrome.mjs';
+import {VIEWER_PORTAL_PREFIX,VIEWER_PORTAL_SUFFIX,VIEWER_PORTAL_DESC,VIEWER_PORTAL_LEGEND,VIEWER_PORTAL_SSR_JS} from './viewer-portal-ssr.mjs';
 import {DASHBOARD_HTML} from './dashboard-page.mjs';
 import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
 import {SOCIAL_PREVIEW_CRON,socialPreviewMonday,generateDailySocialPreview} from './social-preview.mjs';
@@ -344,7 +345,17 @@ export default {
      .on('head',{element(el){
       el.append('<meta property="og:site_name" content="KGBlaze"><meta property="og:url" content="'+url+'"><link rel="canonical" href="'+url+'"><style>'+VIEWER_CSS+'</style>'+(siteChrome?'<style>'+VIEWER_PORTAL_CSS+'</style>':''),{html:true});
      }})
-     .on('body',{element(el){if(!socialCapture)el.append('<script>'+VIEWER_JS+'</script>'+(siteChrome?'<script>'+VIEWER_PORTAL_JS+'</script>':''),{html:true});}})
+     .on('body',{element(el){
+       if(siteChrome){
+        el.setAttribute('class','kg-portal-viewer');
+        el.prepend(VIEWER_PORTAL_PREFIX,{html:true});
+       }
+       if(!socialCapture)el.append('<script>'+VIEWER_JS+'</script>'+(siteChrome?VIEWER_PORTAL_SUFFIX+'<script>'+VIEWER_PORTAL_SSR_JS+'</script>':''),{html:true});
+     }})
+     .on('#waitingPanel .panel-intro',{element(el){if(siteChrome)el.after(VIEWER_PORTAL_DESC,{html:true});}})
+     .on('#waitingPanel .embed-tools',{element(el){if(siteChrome)el.before(VIEWER_PORTAL_LEGEND,{html:true});}})
+     .on('#sideKicker',{element(el){if(siteChrome)el.setInnerContent('Información de vuelo');}})
+     .on('#flightKicker',{element(el){if(siteChrome)el.setInnerContent('Información de vuelo');}})
      .transform(asset);
    }
    return asset;
