@@ -20,7 +20,7 @@
 ## Pruebas y límites
 - CI **Project Relight — continuity and Terminal regression checks**, run #44231521503, commit de rama `51469638f0a79f46bef3bd08ce41d8a8de4e5339`: **388 pruebas aprobadas, 0 fallidas, 0 omitidas**.
 - Chrome prueba `tests/viewer-portal-ssr-browser.test.mjs` desde HTML devuelto por `worker.fetch` y HTMLRewriter equivalente: escritorio 1440×900, 1024×768, 800×600; móvil 375×780; `?embed=1` sin chrome. No equivale a inspección del entorno Cloudflare público.
-- Auditoría musical completa en este commit sigue en ejecución en el momento del primer cierre, run #44231521515. Las auditorías sobre el mismo código musical de commits previos `79efcee0` / `99361093` fueron exitosas; los cambios posteriores no afectan código musical.
+- Auditoría musical completa de la misma rama, run **#44231521515**: **COMPLETED / SUCCESS**. Las auditorías previas (`79efcee0` y `99361093`) también fueron exitosas; se conserva el catálogo original.
 - Verificación postmerge en main confirmó los nuevos marcadores `headphones-mark`, `VIEWER_PORTAL_PREFIX` y `VIEWER_PORTAL_SSR_JS`, `VIEWER_PORTAL_LEGEND`, las imágenes de redes y el SHA idéntico del viewer original.
 - Desde el entorno de ChatGPT el host `kgblaze.dpdns.org` falla resolución DNS / no es accesible (curl HTTP 000). **No afirmar Cloudflare desplegado**, ni afirmar que sigue viejo si no hay nueva captura. Debe cotejarse en el navegador del usuario después de la sincronización.
 
