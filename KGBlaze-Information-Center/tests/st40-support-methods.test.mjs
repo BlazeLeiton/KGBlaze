@@ -19,6 +19,18 @@ test('Stage 40 support panel has four actual platform marks and accessible discl
  assert.doesNotMatch(home,/href="https:\/\/throne\.com\/blazeleiton"/);
  assert.doesNotMatch(home,/id="support"[^>]*>[\s\S]*?Ver todas las opciones/);
 });
+test('Expanded support section reuses all four platform logos, without extra labels or external requests',()=>{
+ const detail=home.match(/<div class="kg-support-info" id="kg-support-info-panel" hidden>[\s\S]*?<\/section>/)?.[0];
+ assert.ok(detail,'detail section exists');
+ assert.equal((detail.match(/class="kg-support-info-item"/g)||[]).length,4);
+ assert.equal((detail.match(/class="kg-support-info-logo"/g)||[]).length,4);
+ for(const name of ['kofi.svg','youtube.png','twitch.png','throne.svg']){
+  assert.ok(detail.includes('kgblaze-support-'+name),'matching brand asset '+name);
+ }
+ assert.match(home,/\.kg-support-info-item\{min-width:0;display:flex;align-items:flex-start;gap:11px\}/);
+ assert.match(home,/\.kg-support-info-logo\{display:block;width:28px;height:28px/);
+ assert.match(home,/\.kg-support-info-copy\{min-width:0;flex:1\}/);
+});
 test('Support method descriptions are present and translated to ES EN JA',()=>{
  const keys=['support','supportShow','supportHide','supportHow','supportPlatforms','supportKofi','supportYouTube','supportTwitch','supportThrone','supportDetailKofi','supportDetailYouTube','supportDetailTwitch','supportDetailThrone'];
  for(const locale of ['es','en','ja'])for(const key of keys)assert.equal(typeof languages[locale][key],'string',locale+' '+key);
@@ -51,6 +63,8 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
   const section=document.getElementById('support');
   const captions=[...section.querySelectorAll('.kg-support-caption')];
   const logos=[...section.querySelectorAll('.kg-support-logo')];
+  const detailLogos=[...section.querySelectorAll('.kg-support-info-logo')];
+  const detailRows=[...section.querySelectorAll('.kg-support-info-item')];
   const button=document.getElementById('kg-support-toggle');
   const panel=document.getElementById('kg-support-info-panel');
   button.click();
@@ -66,6 +80,9 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
    const data={opened,en,ja,
     count:captions.length,
     logos:logos.every(img=>img.complete&&img.naturalWidth>0),
+    detailLogoCount:detailLogos.length,
+    detailLogos:detailLogos.every(img=>img.complete&&img.naturalWidth>0),
+    detailLogoLeft:detailRows.every(row=>row.querySelector('.kg-support-info-logo').getBoundingClientRect().right<=row.querySelector('.kg-support-info-copy').getBoundingClientRect().left),
     sizes:captions.map(el=>parseFloat(getComputedStyle(el).fontSize)),
     lines:captions.map(el=>parseFloat(getComputedStyle(el).lineHeight)),
     captionOverflow:captions.some(el=>el.scrollHeight>el.clientHeight+2||el.scrollWidth>el.clientWidth+2),
@@ -104,6 +121,9 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
    assert.equal(q.en,'How to support Blaze');
    assert.equal(q.ja,'Blazeを応援する方法');
    assert.equal(q.logos,true,'logos loaded '+width);
+   assert.equal(q.detailLogoCount,4,'four detail logos '+width);
+   assert.equal(q.detailLogos,true,'detail logos loaded '+width);
+   assert.equal(q.detailLogoLeft,true,'icons appear at left of descriptive copy '+width);
    assert.equal(q.captionOverflow,false,'caption overflow '+width+': '+JSON.stringify(q));
    assert.equal(q.sectionOverflow,false,'section overflow '+width);
    assert.ok(q.sizes.every(v=>v>=14),'descriptions stay legible '+width);
