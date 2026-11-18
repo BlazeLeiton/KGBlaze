@@ -43,11 +43,11 @@ test('Home, Rebel Mix and Terminal share exact navigation/rail sizes while prese
 });
 test('Twitch is in its video-only card directly, at a valid size, no demand modal',()=>{
  assert.match(home,/synchronizeTwitchPlayer\(\)/);
- assert.match(home,/twitchScreen\.replaceChildren\(makeEmbed\('twitch'\)\)/);
+ assert.match(home,/twitchScreen\.replaceChildren\(frame\)/);
  assert.match(home,/channel=blazeleiton&parent='/);
  assert.match(home,/encodeURIComponent\(location\.hostname\)/);
  assert.match(home,/&autoplay=false/);
- assert.match(home,/window\.matchMedia\('\(min-width:480px\)'\)/);
+ assert.match(home,/window\.matchMedia\('\(max-width:479px\)'\)/);
  assert.match(home,/id="twitch-screen"/);
  assert.match(home,/twLive\?'● LIVE':''/);
  assert.doesNotMatch(home,/twitch-player-layer|openTwitchPlayer/);
