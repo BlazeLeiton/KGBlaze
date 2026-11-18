@@ -248,12 +248,12 @@ export function musicPage(path,query,mode='html'){
     and today's catalogue and song pages, without touching song content. */
  body{padding-left:50px;padding-bottom:0}
  .header{position:relative;z-index:30;background:var(--bg);border-bottom:0}
- .header .shell{min-height:58px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:15px}
+ .header .shell{max-width:none;width:100%;min-height:58px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:15px;padding-left:17px;padding-right:26px}
  .brand{font-size:24px;font-weight:750;letter-spacing:-.04em;white-space:nowrap}
- .site-global-nav{display:flex;align-items:center;justify-content:center;gap:clamp(12px,1.8vw,24px);min-width:0;font-size:12px;font-weight:700;white-space:nowrap}
+ .site-global-nav{display:flex;align-items:center;justify-content:flex-start;gap:clamp(12px,1.8vw,24px);min-width:0;font-size:12px;font-weight:700;white-space:nowrap}
  .site-global-nav a{color:white;padding:7px 2px}
  .site-global-nav a:hover,.site-global-nav a:focus-visible{color:var(--ice)}
- .site-global-nav .site-departures{display:flex;align-items:center;gap:5px;background:#276EF1;padding:6px 10px;border-radius:6px}
+ .site-global-nav .site-departures{display:flex;align-items:center;gap:5px;background:#276EF1;padding:6px 10px;border-radius:6px;margin-left:auto}
  .site-departures svg{width:21px;height:21px;flex:none}
  .langs{margin-left:auto}.langs a{padding:6px 5px;font-size:11px}
  .hero{padding:32px 0 21px;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
