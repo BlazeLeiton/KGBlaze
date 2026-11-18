@@ -30,7 +30,7 @@ test('Terminal header inherits original live language-button listeners',()=>{
  assert.match(html,/class="lang-options top-langs"/);
  assert.match(html,/for\(const btn of document.querySelectorAll\('\[data-lang\]'\)\)btn.addEventListener\('click',\(\)=>setLang/);
  assert.match(VIEWER_PORTAL_SSR_JS,/targetLangs.replaceChildren\(\.\.\.originalButtons\)/);
- assert.match(VIEWER_PORTAL_SSR_JS,/sourceLangs.querySelectorAll\('button\[data-lang\]'\)/);
+ assert.ok(VIEWER_PORTAL_SSR_JS.includes("oldLangNav.querySelectorAll('button[data-lang]')"));
  assert.match(VIEWER_PORTAL_SSR_JS,/element.textContent!==t.info/);
  for(const language of ['es','en','ja'])assert.ok(VIEWER_PORTAL_SSR_JS.includes(language+':{'));
  assert.match(VIEWER_PORTAL_CSS,/#sideKicker::before/,'fallback heading survives asynchronous original board re-renders');
