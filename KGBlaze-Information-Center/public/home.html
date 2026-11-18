@@ -193,6 +193,14 @@ header nav .nav-caret{font-size:10px;font-weight:700;line-height:1;opacity:.9}
  .media.twitch .placeholder strong{font-size:15px;color:white}
  .media.twitch .placeholder .twitch-mobile-hint{display:block;max-width:28ch;font-size:12px;line-height:1.45}
 }
+
+/* Stage 39 CP05: narrow-screen visual scaling of official Twitch player.
+   CSS iframe viewport remains 400x300, so Twitch receives its minimum surface;
+   the rendered result fits the user's mobile card without horizontal scroll. */
+@media(max-width:479px){
+ .media.twitch .screen{display:block;position:relative;aspect-ratio:4/3;min-height:0!important;overflow:hidden}
+ .media.twitch .screen iframe{position:absolute;top:0;left:0;display:block;width:400px!important;min-width:400px!important;max-width:none!important;height:300px!important;min-height:300px!important;border:0;transform-origin:0 0;transform:scale(var(--kg-twitch-scale,0.8))}
+}
 </style></head><body>
 <header><a class="brand" href="/" aria-label="KGBlaze — Inicio">KGBlaze</a><nav aria-label="Navegación principal"><a href="#travel" data-i18n="about">Sobre Blaze</a><a href="/music/songs/" data-i18n="musicNav">Música ▾</a><a href="#community" data-i18n="communityNav">Comunidad ▾</a></nav><div class="right"><a class="salidas" href="/departures/"><svg class="departures-top-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.36 17.4 4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span data-i18n="departures">Salidas</span></a><div class="langs" role="group" aria-label="Idiomas"><button data-lang="es" aria-pressed="true">ES</button><button data-lang="en" aria-pressed="false">EN</button><button data-lang="ja" aria-pressed="false">JP</button></div></div></header>
 <aside class="social" aria-label="Redes sociales">
@@ -250,16 +258,16 @@ openBtn.addEventListener('click',()=>toggleMenu(true));backBtn.addEventListener(
 const videoId=/^[\w-]{11}$/;
 function makeEmbed(host,video){const iframe=document.createElement('iframe');iframe.title=host==='youtube'?'Blaze Leiton — YouTube':'Blaze Leiton — Twitch';iframe.loading='lazy';iframe.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';iframe.allowFullscreen=true;iframe.src=host==='youtube'?'https://www.youtube-nocookie.com/embed/'+video+'?rel=0':'https://player.twitch.tv/?channel=blazeleiton&parent='+encodeURIComponent(location.hostname)+'&autoplay=false';return iframe}
 const defaultVideo='9r3JGeNhxls';document.getElementById('youtube-screen').replaceChildren(makeEmbed('youtube',defaultVideo));
-/* Twitch video-only embeds use the official channel iframe at its valid size.
-   At narrow mobile widths preserve the native card/link rather than creating
-   an undersized iframe. No pop-up and no click-to-load experience. */
+/* Keep the actual official Twitch player visible on phones. It retains a
+   400x300 internal viewport and is scaled VISUALLY to fit narrow mobile cards.
+   No on-demand action, no modal, no autoplay. Desktop remains unchanged. */
 const twitchScreen=document.getElementById('twitch-screen');
-const twitchFallback=twitchScreen.firstElementChild.cloneNode(true);
 function synchronizeTwitchPlayer(){
- const wideEnough=window.matchMedia('(min-width:480px)').matches;
- const current=twitchScreen.querySelector('iframe');
- if(wideEnough&&!current)twitchScreen.replaceChildren(makeEmbed('twitch'));
- if(!wideEnough&&current)twitchScreen.replaceChildren(twitchFallback.cloneNode(true));
+ let frame=twitchScreen.querySelector('iframe');
+ if(!frame){frame=makeEmbed('twitch');frame.loading='eager';twitchScreen.replaceChildren(frame)}
+ const scale=window.matchMedia('(max-width:479px)').matches
+   ?Math.min(1,twitchScreen.clientWidth/400):1;
+ twitchScreen.style.setProperty('--kg-twitch-scale',String(scale));
 }
 synchronizeTwitchPlayer();
 window.addEventListener('resize',synchronizeTwitchPlayer);
