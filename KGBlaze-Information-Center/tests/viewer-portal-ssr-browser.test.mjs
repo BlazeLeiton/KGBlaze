@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {createServer} from 'node:http';
 import {spawn,spawnSync} from 'node:child_process';
 import worker from '../src/worker.mjs';
+import {VIEWER_PORTAL_SSR_JS,VIEWER_PORTAL_PREFIX} from '../src/viewer-portal-ssr.mjs';
 
 class LocalRewriter{
  handlers=[];
@@ -51,16 +52,30 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  }finally{if(old===undefined)delete globalThis.HTMLRewriter;else globalThis.HTMLRewriter=old}
  assert.match(normal,/<body class="kg-portal-viewer">/);
  assert.match(normal,/<header class="kg-site-header">/);
+ assert.match(VIEWER_PORTAL_PREFIX,/<button type="button" class="active" data-lang="es">ES<\/button>/,'Header must use native original-language binding');
+ assert.doesNotMatch(VIEWER_PORTAL_PREFIX,/data-site-lang=/,'Never use proxy-only inert selectors');
  assert.match(normal,/<section class="kg-legend"/);
  assert.match(normal,/<p class="kg-wait-description"/);
  assert.doesNotMatch(embed,/class="kg-site-header"/);
  assert.match(embed,/id="board"/);
  const probe=[
  '<script>(function(){',
- 'const isEmbed=location.search.includes("embed=1"),isMobile=location.search.includes("mode=mobile");',
+ 'const isEmbed=location.search.includes("embed=1"),isMobile=location.search.includes("mode=mobile"),nativeOnly=location.search.includes("nativeOnly=1");',
  'const check=async()=>{',
  ' const board=document.getElementById("board");if(!board)return;',
  ' if(isEmbed){document.documentElement.dataset.kgSsr=!document.querySelector(".kg-site-header")&&!document.querySelector(".kg-legend")?"PASS":"FAIL";return}',
+ ' if(nativeOnly){',
+ '  const buttons=[...document.querySelectorAll(".kg-site-langs button[data-lang]")];',
+ '  let good=buttons.length===3&&!document.querySelector(".kg-site-langs [data-site-lang]");',
+ '  const cycle=[["en","KGBLAZE INTERNATIONAL AIRPORT","Departure Lounge"],["ja","KGBLAZE国際空港","搭乗待合室"],["es","AEROPUERTO INTERNACIONAL DE LA KGBLAZE","Sala de espera"]];',
+ '  for(const [lang,heading,title] of cycle){',
+ '   const control=buttons.find(x=>x.dataset.lang===lang);if(!control){good=false;continue}',
+ '   control.click();await new Promise(r=>setTimeout(r,60));',
+ '   good=good&&document.documentElement.lang===lang&&document.getElementById("heading")?.textContent.includes(heading)&&document.getElementById("sideTitle")?.textContent===title&&control.classList.contains("active");',
+ '  }',
+ '  document.documentElement.dataset.kgSsr=good?"PASS":"FAIL";if(!good)document.documentElement.dataset.kgSsrWhy=JSON.stringify({buttons:buttons.length,language:document.documentElement.lang,heading:document.getElementById("heading")?.textContent,title:document.getElementById("sideTitle")?.textContent});',
+ '  return;',
+ ' }',
  ' const h=document.querySelector(".kg-site-header"),legend=document.querySelector(".kg-legend"),square=document.querySelector(".board-wrap"),kicker=document.getElementById("sideKicker");',
  ' let good=!!h&&!!legend&&!!square&&!!kicker&&kicker.textContent==="Información de vuelo"&&document.querySelectorAll(".kg-site-social-desktop img").length===5&&getComputedStyle(document.querySelector(".viewer-header")).display==="none"&&square.getBoundingClientRect().width>100;',
  ' if(isMobile){good=good&&getComputedStyle(document.querySelector(".kg-site-social-mobile")).display!=="none"&&getComputedStyle(legend).display==="none"&&getComputedStyle(document.querySelector(".embed-tools")).display==="none"}',
@@ -78,7 +93,8 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  ].join('\n');
  const server=createServer((req,res)=>{
   if(req.url.startsWith('/api/public')){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({schema:'relight-public-v1',events:[],revision:0}));return}
-  const html=(req.url.includes('embed=1')?embed:normal).replace('</body>',probe+'</body>');
+  const markup=req.url.includes('embed=1')?embed:(req.url.includes('nativeOnly=1')?normal.replace('<script>'+VIEWER_PORTAL_SSR_JS+'</script>',''):normal);
+  const html=markup.replace('</body>',probe+'</body>');
   res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(html);
  });
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -91,7 +107,7 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
   child.on('error',reject);child.on('close',code=>resolve({code,html:output,error:err}));
  });
  try{
-  for(const [path,size] of [['/departures/','1440,900'],['/departures/','1024,768'],['/departures/','800,600'],['/departures/?mode=mobile','375,780'],['/departures/?embed=1','1440,900']]){
+  for(const [path,size] of [['/departures/','1440,900'],['/departures/','1024,768'],['/departures/','800,600'],['/departures/?mode=mobile','375,780'],['/departures/?nativeOnly=1','1440,900'],['/departures/?nativeOnly=1&mode=mobile','375,780'],['/departures/?embed=1','1440,900']]){
    const out=await run('http://127.0.0.1:'+port+path,size);
    assert.equal(out.code,0,'Chrome failed '+path+': '+out.error);
    assert.match(out.html,/data-kg-ssr="PASS"/,'V6 browser check failed '+path+': '+(out.html.match(/data-kg-ssr-why="[^"]*"/)||[])[0]);
