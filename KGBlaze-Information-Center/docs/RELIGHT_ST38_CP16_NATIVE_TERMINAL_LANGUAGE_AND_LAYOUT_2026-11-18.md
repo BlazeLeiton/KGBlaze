@@ -5,7 +5,7 @@ Autoridad: capturas públicas posteriores a PR168 enviadas por usuario: Home/Reb
 ## Fusión y prueba
 - **PR #169** https://github.com/BlazeLeiton/KGBlaze/pull/169, **merged** squash commit `716eeb7b7a5c34327ed744721724f59c86c6ed58`.
 - CI de continuidad/Terminal **run 44243454267: COMPLETED SUCCESS, 395/395 pruebas, 0 fallos/omisiones**. Incluye Chrome en escritorio y móvil, embed sin chrome externo y variante **sin ejecución del JavaScript exterior** que verifica idioma ES→EN→JA→ES desde botones superiores y `#heading`/`#sideTitle` re-renderizados por controlador original. Prueba también visibilidad de traducción externa en hero y leyenda por html[lang].
-- Auditoría musical de esa revisión **run 44243454265** seguía en progreso en la última consulta; cambios en `src/music-page.mjs` se limitaron a geometría del header y barra lateral, sin cambios en canciones, metadatos, letras, filtros, portadas o JavaScript de navegación.
+- Auditoría musical completa **run 44243454265: COMPLETED SUCCESS**. Los cambios en `src/music-page.mjs` se limitaron a geometría del header y barra lateral, sin cambios en canciones, metadatos, letras, filtros, portadas o JavaScript de navegación.
 
 ## Raíz del defecto de idiomas y cambio robusto
 - Captura revelaba header del portal con ES EN JP inertes. El HTML de `VIEWER_PORTAL_PREFIX` anterior creaba `button[data-site-lang]`, mientras el visor real `public/index.html` conecta exclusivamente `document.querySelectorAll('[data-lang]')` a `setLang(btn.dataset.lang)` dentro de `bind()`, y `setLang` llama `render()` para repintar canvas exportable e información. El traslado extra mediante `VIEWER_PORTAL_SSR_JS` no se había ejecutado en navegador público, aunque la simulación de test sí.
