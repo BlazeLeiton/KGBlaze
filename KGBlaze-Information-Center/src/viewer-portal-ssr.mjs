@@ -14,6 +14,8 @@ export const VIEWER_PORTAL_DESC='<p class="kg-wait-description" data-global="sel
 export const VIEWER_PORTAL_LEGEND='<hr class="kg-panel-divider"><section class="kg-legend"><h3 data-global="legend">Cómo leer el tablero</h3><div class="kg-legend-items"><span><i></i><span data-global="on">A tiempo</span></span><span><i></i><span data-global="pending">Por confirmar</span></span><span><i></i><span data-global="live">En vivo</span></span><span><i></i><span data-global="departed">Despegó</span></span></div></section><hr class="kg-panel-divider"><h3 class="kg-share-heading" data-global="share">Compartir el visor</h3>';
 
 function initializeViewerPortal(){
+ // Preserve compatibility with Wrangler/esbuild naming emitted inside serialized callbacks.
+ const __name=(fn,name)=>Object.defineProperty(fn,'name',{value:name,configurable:true});
  try{
   if(document.body?.classList.contains('embedded')||!document.body?.classList.contains('kg-portal-viewer'))return;
   const header=document.querySelector('.kg-site-header');
