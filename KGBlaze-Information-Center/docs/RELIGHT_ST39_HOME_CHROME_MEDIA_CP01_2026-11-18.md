@@ -21,9 +21,13 @@
 - Corregir CSS literal y margen 50px; unificar header 58px desktop, 56px móvil, tipografía Garnett, proporciones, carets preservados durante traducción ES/EN/JA y rail fijo de 50px; barra social móvil 60px.
 - Regenerar **manualmente en SVG** la silueta de audífonos a partir del PNG como referencia, sin usar imagen generada, micrófono, archivos de fuente o logotipos inventados. La semejanza exacta de curvas requiere **revisión del usuario** y no se declarará identidad de píxeles sin cotejo.
 - Sustituir glifos en los encabezados YT/TW por los PNG originales ya utilizados por los enlaces sociales.
-- Mantener YouTube como embed en caja y su selección de directo confirmado. Twitch: botón de reproducción local abre diálogo accesible con iframe oficial (p.ej. 640×360), parent=hostname y autoplay=false; crear iframe sólo tras acción humana y destruirlo al cerrar; no crear iframe de Twitch debajo del tamaño mínimo. En móvil angosto, conservar acceso externo a Twitch.
+- Mantener YouTube como embed en caja y su selección de directo confirmado. **Twitch no se rediseña en este PR**: ante la rectificación expresa del usuario, se descarta el reproductor bajo demanda, el modal y cualquier interacción adicional. Conservar el comportamiento original del reproductor automático únicamente cuando se verifique LIVE en /api/public. Revisar aparte el problema de mínimo 400×300 px, `parent` y proporciones de la ficha Twitch antes de un futuro ajuste autorizado.
 - Preservar enlaces, video YouTube verificado, integraciones `/api/public` de sólo lectura, colores editoriales, títulos, composición, ruta 307, 115 obras, visor y D1/cron/editor.
 
 ## Pruebas de aceptación
-- Comprobaciones de cadenas: sin backslash-n en CSS; Home `main/footer` margen50 desktop; encabezado 58/56; carets persisten tras traducciones; PNG logotipos del mismo origen; icono SVG válido y sin micrófono; iframe de Twitch sólo bajo clic, parent correcto, autoplay false y tamaño >=400×300; dialog foco/ESC/cierre.
+- Comprobaciones de cadenas: sin backslash-n en CSS; Home `main/footer` margen50 desktop; encabezado 58/56; carets persisten tras traducciones; PNG logotipos del mismo origen; icono SVG válido y sin micrófono; ningún modal ni botón bajo demanda de Twitch; el comportamiento original LIVE se preserva y queda señalado como limitación de tamaño para una futura decisión.
 - CI y pruebas de navegador desktop/móvil; visual contra las 4 capturas; inspección pública por usuario para certificar Cloudflare. No fusionar automáticamente si faltan evidencias.
+
+## Corrección expresa tras interrupción del usuario
+- El usuario interrumpió el trabajo y aclaró: **«Alto, la apertura bajo demanda no te la pedí, todo lo demás sí»**.
+- Por tanto se revirtió inmediatamente la nueva experiencia Twitch bajo demanda, conservando iconos auténticos y las demás correcciones del Home. No se afirma ni se ejecuta una solución distinta para la reproducción Twitch; sólo queda investigación de viabilidad y dimensiones.
