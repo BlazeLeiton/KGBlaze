@@ -20,16 +20,16 @@ test('Stage 40 support panel has four actual platform marks and accessible discl
  assert.doesNotMatch(home,/id="support"[^>]*>[\s\S]*?Ver todas las opciones/);
 });
 test('Expanded support section reuses all four platform logos, without extra labels or external requests',()=>{
- const detail=home.match(/<div class="kg-support-info" id="kg-support-info-panel" hidden>[\\s\\S]*?<\\/section>/)?.[0];
+ const detail=home.match(/<div class="kg-support-info" id="kg-support-info-panel" hidden>[\s\S]*?<\/section>/)?.[0];
  assert.ok(detail,'detail section exists');
  assert.equal((detail.match(/class="kg-support-info-item"/g)||[]).length,4);
  assert.equal((detail.match(/class="kg-support-info-logo"/g)||[]).length,4);
  for(const name of ['kofi.svg','youtube.png','twitch.png','throne.svg']){
   assert.ok(detail.includes('kgblaze-support-'+name),'matching brand asset '+name);
  }
- assert.match(home,/\\.kg-support-info-item\\{min-width:0;display:flex;align-items:flex-start;gap:11px\\}/);
- assert.match(home,/\\.kg-support-info-logo\\{display:block;width:28px;height:28px/);
- assert.match(home,/\\.kg-support-info-copy\\{min-width:0;flex:1\\}/);
+ assert.match(home,/\.kg-support-info-item\{min-width:0;display:flex;align-items:flex-start;gap:11px\}/);
+ assert.match(home,/\.kg-support-info-logo\{display:block;width:28px;height:28px/);
+ assert.match(home,/\.kg-support-info-copy\{min-width:0;flex:1\}/);
 });
 test('Support method descriptions are present and translated to ES EN JA',()=>{
  const keys=['support','supportShow','supportHide','supportHow','supportPlatforms','supportKofi','supportYouTube','supportTwitch','supportThrone','supportDetailKofi','supportDetailYouTube','supportDetailTwitch','supportDetailThrone'];
