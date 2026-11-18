@@ -14,14 +14,14 @@ test('Stage 39 Home retains original content, icons and inline streaming — no 
  assert.match(home,/\.media \.screen\{width:100%;height:auto;min-height:300px;aspect-ratio:16\/9\}/);
  assert.match(home,/\.media-grid\{grid-template-columns:minmax\(0,1fr\);max-width:700px\}/);
  assert.match(home,/class="nav-caret"/);
- assert.match(home,/class="media-brand-icon"[^>]+YouTube/);
- assert.match(home,/class="media-brand-icon"[^>]+Twitch/);
+ assert.match(home,/class="media-brand-icon"[^>]*>YouTube/);
+ assert.match(home,/class="media-brand-icon"[^>]*>Twitch/);
  assert.match(home,/replaceChildren\(makeEmbed\('twitch'\)\)/);
  assert.doesNotMatch(home,/twitch-player-layer|id="twitch-preview"|openTwitchPlayer/);
  assert.match(home,/Explora nuestros destinos/);
  assert.match(home,/Métodos de apoyo disponibles/);
  assert.match(home,/main,footer\{margin-left:50px!important\}/);
- assert.doesNotMatch(home.slice(home.indexOf('<style>'),home.indexOf('</style>')), /\\\\n/);
+ assert.doesNotMatch(home.slice(home.indexOf('<style>'),home.indexOf('</style>')), /\\n/);
  assert.match(headphones,/fill="#fff"/);
  assert.doesNotMatch(headphones,/microphone|micrófono/i);
 });
