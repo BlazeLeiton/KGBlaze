@@ -59,7 +59,10 @@ test('Chrome computes brand-book-derived line height and tracking without overfl
    const match=result.html.match(/data-brand-qa="([^"]+)"/);
    assert.ok(match,'missing browser probe '+site+' '+size);
    const data=JSON.parse(match[1].replaceAll('&quot;','"').replaceAll('&amp;','&'));
-   assert.equal(data.visibility,true,site+' '+size);
+   // Terminal intentionally hides the legend/share panel on narrow mobile screens.
+   // A hidden native section is not a layout defect and must stay hidden.
+   if(site==='terminal'&&size<=760)assert.equal(data.visibility,false,site+' mobile legend remains hidden');
+   else assert.equal(data.visibility,true,site+' '+size);
    assert.equal(data.overflow,false,site+' '+size+' overflow: '+JSON.stringify(data));
    if(site==='home')assert.equal(data.lineHeight,'18.2px');
    if(site==='music'){assert.equal(data.fontWeight,'400');assert.equal(data.transform,'uppercase');}
