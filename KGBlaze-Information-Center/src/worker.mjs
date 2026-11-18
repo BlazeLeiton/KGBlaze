@@ -7,6 +7,7 @@ import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
+import {VIEWER_PORTAL_CSS,VIEWER_PORTAL_JS} from './viewer-portal-chrome.mjs';
 import {DASHBOARD_HTML} from './dashboard-page.mjs';
 import {validTwitchCategoryName,getTwitchBoxArt,getEventTwitchArt} from './twitch-box-art.mjs';
 import {SOCIAL_PREVIEW_CRON,socialPreviewMonday,generateDailySocialPreview} from './social-preview.mjs';
@@ -320,6 +321,7 @@ export default {
    const pageURL=new URL(routed.request.url);
    const path=pageURL.pathname;
    const socialCapture=pageURL.searchParams.has('relight-og-week');
+   const siteChrome=!!routed.isPortal&&!socialCapture&&pageURL.searchParams.get('embed')!=='1';
    if((path==='/'||path==='/index.html')&&typeof HTMLRewriter!=='undefined'&&asset.ok){
     // Share cards are server-rendered: social crawlers do not execute canvas JS.
     // No image is claimed until the current week's 1080px PNG has been uploaded.
@@ -340,9 +342,9 @@ export default {
      .on('meta[property="og:image"],meta[property="og:image:secure_url"],meta[name="twitter:image"]',{element(el){el.setAttribute('content',image);}})
      .on('meta[property="og:url"]',{element(el){el.setAttribute('content',url);}})
      .on('head',{element(el){
-      el.append('<meta property="og:site_name" content="KGBlaze"><meta property="og:url" content="'+url+'"><link rel="canonical" href="'+url+'"><style>'+VIEWER_CSS+'</style>',{html:true});
+      el.append('<meta property="og:site_name" content="KGBlaze"><meta property="og:url" content="'+url+'"><link rel="canonical" href="'+url+'"><style>'+VIEWER_CSS+'</style>'+(siteChrome?'<style>'+VIEWER_PORTAL_CSS+'</style>':''),{html:true});
      }})
-     .on('body',{element(el){if(!socialCapture)el.append('<script>'+VIEWER_JS+'</script>',{html:true});}})
+     .on('body',{element(el){if(!socialCapture)el.append('<script>'+VIEWER_JS+'</script>'+(siteChrome?'<script>'+VIEWER_PORTAL_JS+'</script>':''),{html:true});}})
      .transform(asset);
    }
    return asset;
