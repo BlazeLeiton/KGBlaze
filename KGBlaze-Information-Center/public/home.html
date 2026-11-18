@@ -77,6 +77,34 @@ footer{background:var(--navy);color:#fff;padding:36px 30px 21px}.footer-grid{dis
 }
 
 /* Stage 39 Home geometry and genuine platform icons. */
+
+/* Stage 39 — media-first desktop hero. Both screen rectangles satisfy Twitch
+   400×300 minimum above the mobile breakpoint. Screens may grow naturally at 16:9.
+   At narrower desktops we move the text above media instead of squeezing iframes. */
+@media (min-width:761px) {
+  .hero{padding:34px 26px 46px}
+  .hero-inner{max-width:1660px;grid-template-columns:clamp(245px,20vw,350px) minmax(0,1fr);gap:24px;align-items:center}
+  .hero .intro h1{font-size:clamp(32px,2.75vw,46px);line-height:1.08;letter-spacing:-.04em;margin:14px 0 10px}
+  .hero .intro .sub{font-size:clamp(21px,1.6vw,28px)}
+  .media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;min-width:0;max-width:none}
+  .media{min-width:0}
+  .media .screen{width:100%;height:auto;min-height:300px;aspect-ratio:16/9}
+  .media .screen iframe{display:block;width:100%;height:100%;min-height:300px}
+}
+/* From 1000 to 1279 CSS pixels: keep both players in one media row but move
+   the headline above it; this preserves the real 400px minimum of each pane. */
+@media (min-width:1000px) and (max-width:1279px) {
+  .hero-inner{grid-template-columns:minmax(0,1fr);gap:24px}
+  .intro{max-width:720px}
+}
+/* Compact desktops still have a full-size player, one per row. */
+@media (min-width:761px) and (max-width:999px) {
+  .hero-inner{grid-template-columns:minmax(0,1fr);gap:24px}
+  .media-grid{grid-template-columns:minmax(0,1fr);max-width:700px}
+  .intro{max-width:720px}
+}
+/* Mobile retains its previously approved naturally stacked video cards. */
+
 @media(min-width:761px){
 header{height:58px;padding:0 24px;gap:15px}
 header .brand{font-size:24px;font-weight:750;letter-spacing:-.045em}
