@@ -11,10 +11,16 @@ test('approved Home corrections are actually in the published HTML source',()=>{
  for(const name of ['Información de viaje','Vuela con nosotros','Métodos de apoyo disponibles'])assert.ok(home.includes(name));
  assert.doesNotMatch(home,/class="symbol">♫/);
  assert.match(home,/headphones-mark/);
- assert.match(home,/M8 30v-6a16 16/,'continuous symmetrical headband');
+ assert.match(home,/\/assets\/icons\/kgblaze-headphones-white\.svg/,'Home renders SVG file via real asset URL');
+ const headphones=readFileSync(fileURLToPath(new URL('../public/assets/icons/kgblaze-headphones-white.svg',import.meta.url)),'utf8');
+ assert.match(headphones,/<svg/);
+ assert.match(headphones,/<rect x="5"/);
+ assert.match(headphones,/<rect x="34"/);
+ assert.doesNotMatch(headphones,/microphone|mic[-_ ]|<circle/i,'approved icon has no microphone');
  assert.match(home,/background:var\(--pink\);margin-top:18px/);
  assert.doesNotMatch(home,/\.section h2:before\{/);
  assert.ok((home.match(/class="kg-social-icon"/g)||[]).length>=10);
+ assert.doesNotMatch(home,/<small>(?:YouTube|Twitch|Instagram|X|Discord)<\/small>/,'icon-only social links');
  assert.match(home,/Terminals A & B/);
  assert.match(home,/class="kg-clean-footer"/);
  assert.match(home,/id="youtube-screen"/,'preserve original audiovisual module');

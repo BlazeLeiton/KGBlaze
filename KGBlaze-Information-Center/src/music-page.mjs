@@ -244,6 +244,12 @@ export function musicPage(path,query,mode='html'){
  @media(max-width:600px){.music-overlay-panel{padding:16px 14px}.music-overlay-panel .compare-view .media{max-width:none}}
  @media(prefers-reduced-motion:reduce){.music-overlay,.music-overlay-panel{transition:none;transform:none}}
  
+ /* Stage38 CP14: matching low-glare icon-only bars, without labels. */
+ .site-social-sidebar,.site-social-bottom{background:#010627!important;border-color:#213363!important}
+ .site-social-sidebar{border-right:1px solid #213363}
+ .site-social-sidebar a,.site-social-bottom a{justify-content:center;min-height:30px}
+ .site-social-sidebar img{width:28px;height:28px}
+ .site-social-sidebar small,.site-social-bottom small{display:none!important}
  /* KGBlaze V6 shared navigation shell: applies to future album/list selector
     and today's catalogue and song pages, without touching song content. */
  body{padding-left:50px;padding-bottom:0}

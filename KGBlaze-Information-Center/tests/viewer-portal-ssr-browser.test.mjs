@@ -51,14 +51,14 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  }finally{if(old===undefined)delete globalThis.HTMLRewriter;else globalThis.HTMLRewriter=old}
  assert.match(normal,/<body class="kg-portal-viewer">/);
  assert.match(normal,/<header class="kg-site-header">/);
- assert.match(normal,/<section class="kg-legend">/);
+ assert.match(normal,/<section class="kg-legend"/);
  assert.match(normal,/<p class="kg-wait-description"/);
  assert.doesNotMatch(embed,/class="kg-site-header"/);
  assert.match(embed,/id="board"/);
  const probe=[
  '<script>(function(){',
  'const isEmbed=location.search.includes("embed=1"),isMobile=location.search.includes("mode=mobile");',
- 'const check=()=>{',
+ 'const check=async()=>{',
  ' const board=document.getElementById("board");if(!board)return;',
  ' if(isEmbed){document.documentElement.dataset.kgSsr=!document.querySelector(".kg-site-header")&&!document.querySelector(".kg-legend")?"PASS":"FAIL";return}',
  ' const h=document.querySelector(".kg-site-header"),legend=document.querySelector(".kg-legend"),square=document.querySelector(".board-wrap"),kicker=document.getElementById("sideKicker");',
@@ -66,6 +66,12 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  ' if(isMobile){good=good&&getComputedStyle(document.querySelector(".kg-site-social-mobile")).display!=="none"&&getComputedStyle(legend).display==="none"&&getComputedStyle(document.querySelector(".embed-tools")).display==="none"}',
  ' else{const box=square.getBoundingClientRect();good=good&&box.bottom<=innerHeight-15&&document.documentElement.scrollHeight<=innerHeight+12&&getComputedStyle(legend).display!=="none"}',
  ' const trigger=document.querySelector(".kg-menu-lines");if(isMobile&&trigger){trigger.click();good=good&&!document.querySelector(".kg-site-drawer").hidden;document.querySelector(".kg-site-drawer-close")?.click();good=good&&document.querySelector(".kg-site-drawer").hidden}',
+ ' const originalButtons=[...document.querySelectorAll(".kg-site-langs button[data-lang]")];',
+ ' good=good&&originalButtons.length===3&&document.querySelector(".kg-site-langs")?.dataset.source==="original-terminal-buttons"&&!document.querySelector(".viewer-header .top-langs button[data-lang]");',
+ ' const rows=[...document.querySelectorAll(".kg-legend-row")],expected=["#67D9F7","#F5BF47","#36D978","#ED006F","#62739D"];',
+ ' good=good&&rows.length===5&&rows.every((r,i)=>r.querySelector("i")?.getAttribute("style")?.includes(expected[i]))&&document.querySelectorAll(".kg-site-social-desktop small").length===0;',
+ ' const cycle=[["en","Departure Lounge","Flight Information"],["ja","搭乗待合室","配信情報"],["es","Sala de espera","Información de vuelo"]];',
+ ' for(const [locale,title,kickerLabel] of cycle){const b=document.querySelector(".kg-site-langs [data-lang="+locale+"]");if(!b){good=false;continue}b.click();await new Promise(r=>setTimeout(r,30));good=good&&document.documentElement.lang===locale&&document.getElementById("sideTitle")?.textContent===title&&document.getElementById("sideKicker")?.textContent===kickerLabel&&b.classList.contains("active")}',
  ' document.documentElement.dataset.kgSsr=good?"PASS":"FAIL";if(!good)document.documentElement.dataset.kgSsrWhy=JSON.stringify({head:!!h,legend:!!legend,scroll:document.documentElement.scrollHeight,height:innerHeight,bottom:square?.getBoundingClientRect().bottom,kicker:kicker?.textContent})',
  '};setTimeout(check,600)',
  '})();</script>'
