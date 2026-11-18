@@ -16,5 +16,5 @@ export const KG_SOCIAL_URLS = Object.freeze({
 });
 const socialLabels={yt:'YouTube',tw:'Twitch',ig:'Instagram',x:'X',dc:'Discord'};
 export function musicSocialLinks(){
- return Object.keys(socialLabels).map(key=>'<a href="'+KG_SOCIAL_URLS[key]+'" target="_blank" rel="noopener noreferrer" aria-label="'+socialLabels[key]+'"><img src="'+KG_SOCIAL_ORIGINALS[key]+'" width="28" height="28" alt="" loading="eager"><small>'+socialLabels[key]+'</small></a>').join('');
+ return Object.keys(socialLabels).map(key=>'<a href="'+KG_SOCIAL_URLS[key]+'" target="_blank" rel="noopener noreferrer" aria-label="'+socialLabels[key]+'"><img src="'+KG_SOCIAL_ORIGINALS[key]+'" width="28" height="28" alt="" loading="eager"></a>').join('');
 }
