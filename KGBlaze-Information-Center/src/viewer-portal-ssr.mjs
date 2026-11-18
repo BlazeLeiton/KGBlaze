@@ -37,8 +37,28 @@ function initializeViewerPortal(){
     ja:{kicker:'KGBlaze · インフォメーションセンター',airport:'KGBlaze国際空港',sub:'出発案内板 · 週間予定',about:'Blazeについて',music:'音楽 ▾',community:'コミュニティ ▾',departures:'出発',info:'配信情報',select:'出発便を選択すると詳細を確認できます。',legend:'凡例',share:'ビューアーを共有',on:'定刻',pending:'未確定 · 日時変更',live:'配信中',cancelled:'中止',inactive:'出発済 · 休み · 旅行中 · 休止中',home:'ホーム',close:'メニューを閉じる',open:'メニューを開く'}
   };
   let active='es',painting=false;
+  // Restore the original, already-bound language controls to the global header.
+  // Moving a node retains its original listeners, unlike cloning or new proxy buttons.
+  const targetLangs=header.querySelector('.kg-site-langs');
+  const oldLangNav=document.querySelector('.viewer-header .top-langs');
+  const originalButtons=oldLangNav?Array.from(oldLangNav.querySelectorAll('button[data-lang]')):[];
+  if(targetLangs&&originalButtons.length===3){
+    targetLangs.replaceChildren(...originalButtons);
+    targetLangs.dataset.source='original-terminal-buttons';
+  }else if(targetLangs){
+    // Fallback: pass through to the surviving on-board language controls.
+    targetLangs.querySelectorAll('[data-site-lang]').forEach(button=>button.addEventListener('click',()=>{
+      document.querySelector('.compact-actions [data-lang="'+button.dataset.siteLang+'"]')?.click();
+    }));
+  }
   const getLanguage=()=>{
-    try{return typeof state!=='undefined'&&state?.lang&&locales[state.lang]?state.lang:active}catch{return active}
+    try{
+      if(typeof state!=='undefined'&&locales[state?.lang])return state.lang;
+      const selected=targetLangs?.querySelector('[data-lang].active')?.dataset.lang;
+      if(locales[selected])return selected;
+      if(locales[document.documentElement.lang])return document.documentElement.lang;
+    }catch{}
+    return active;
   };
   const paint=()=>{
     if(painting)return;
@@ -46,25 +66,29 @@ function initializeViewerPortal(){
     try{
       active=getLanguage();const t=locales[active];
       for(const element of document.querySelectorAll('[data-global]')){
-       const value=t[element.dataset.global];if(value!==undefined&&element.textContent!==value)element.textContent=value;
+       const value=t[element.dataset.global];
+       if(value!==undefined&&element.textContent!==value)element.textContent=value;
       }
-      for(const b of header.querySelectorAll('[data-site-lang]')){
-       b.classList.toggle('active',b.dataset.siteLang===active);
-       b.setAttribute('aria-pressed',String(b.dataset.siteLang===active));
+      // The exact original buttons are reused; syncChrome() still controls the board.
+      for(const b of header.querySelectorAll('.kg-site-langs button[data-lang]')){
+       const current=b.dataset.lang===active;
+       b.classList.toggle('active',current);
+       b.setAttribute('aria-pressed',String(current));
       }
+      // Original syncChrome resets sideKicker; keep the exterior interpretation consistent.
       for(const id of ['sideKicker','flightKicker']){
-       const element=document.getElementById(id);if(element&&element.textContent!==t.info)element.textContent=t.info;
+       const element=document.getElementById(id);
+       if(element&&element.textContent!==t.info)element.textContent=t.info;
       }
       hero.querySelector('.kg-menu-lines')?.setAttribute('aria-label',t.open);
     }finally{painting=false}
   };
-  // Proxy the viewer's *original* public language buttons. No event/board code replaced.
-  header.querySelectorAll('[data-site-lang]').forEach(button=>button.addEventListener('click',()=>{
-    const language=button.dataset.siteLang;
-    if(typeof setLang==='function')setLang(language);
-    else document.querySelector('.top-langs [data-lang="'+language+'"]')?.click();
-    active=language;paint();
-  }));
+  if(originalButtons.length===3){
+    for(const button of originalButtons)button.addEventListener('click',()=>{
+      active=button.dataset.lang;
+      queueMicrotask(paint);
+    });
+  }
   const trigger=hero.querySelector('.kg-menu-lines'),close=drawer.querySelector('.kg-site-drawer-close');
   const toggle=(open,refocus=true)=>{
     drawer.hidden=!open;trigger.setAttribute('aria-expanded',String(open));
