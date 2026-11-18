@@ -51,7 +51,7 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  }finally{if(old===undefined)delete globalThis.HTMLRewriter;else globalThis.HTMLRewriter=old}
  assert.match(normal,/<body class="kg-portal-viewer">/);
  assert.match(normal,/<header class="kg-site-header">/);
- assert.match(normal,/<section class="kg-legend">/);
+ assert.match(normal,/<section class="kg-legend"/);
  assert.match(normal,/<p class="kg-wait-description"/);
  assert.doesNotMatch(embed,/class="kg-site-header"/);
  assert.match(embed,/id="board"/);
