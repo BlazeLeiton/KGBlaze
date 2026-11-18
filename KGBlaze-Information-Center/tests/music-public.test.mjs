@@ -57,8 +57,12 @@ test('Worker serves preview with noindex, canonical slash, HEAD and cached typog
  assert.equal(head.status,200);
  assert.equal(await head.text(),'');
  const redirect=await worker.fetch(req('/music?lang=ja'),environment);
- assert.equal(redirect.status,308);
- assert.equal(redirect.headers.get('Location'),origin+'/music/?lang=ja');
+ assert.equal(redirect.status,307,'music landing is temporarily skipped');
+ assert.equal(redirect.headers.get('Location'),origin+'/music/songs/?lang=ja');
+ assert.equal(redirect.headers.get('Cache-Control'),'no-store');
+ const headRedirect=await worker.fetch(req('/music/','HEAD'),environment);
+ assert.equal(headRedirect.status,307);
+ assert.equal(headRedirect.headers.get('Location'),origin+'/music/songs/');
  const font=await worker.fetch(req(MUSIC_TYPE_PATH),environment);
  assert.equal(font.status,200);
  assert.match(font.headers.get('Content-Type'),/text\/css/);
@@ -488,8 +492,9 @@ test('registered external artwork cache reuses successful responses and rejects 
  assert.equal((await serveArtwork(new Request(url),{cache:null,fetcher:async()=>{throw Error('offline')}})).status,502);
  assert.equal((await worker.fetch(req('/music/artwork-cache/unknown-v1'),environment)).status,404);
  const catalog=musicPage('/music/songs/',new URLSearchParams({lang:'es'}));
- assert.equal((catalog.match(/loading="eager"/g)||[]).length,2);
- assert.equal((catalog.match(/loading="lazy"/g)||[]).length,songs.length-2);
+ const cardMarkup=(catalog.match(/<article class="song"[\s\S]*?<\/article>/g)||[]).join('');
+ assert.equal((cardMarkup.match(/loading="eager"/g)||[]).length,2);
+ assert.equal((cardMarkup.match(/loading="lazy"/g)||[]).length,songs.length-2);
  assert.match(catalog,/data-origin="https:\/\/www\.lisani\.jp/);
 });
 test('context filters appear only for relevant results or tag deep links',()=>{
