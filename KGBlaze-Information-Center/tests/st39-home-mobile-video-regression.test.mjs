@@ -5,12 +5,12 @@ import {createServer} from 'node:http';
 import {spawn,spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const source=readFileSync(fileURLToPath(new URL('../public/home.html',import.meta.url)),'utf8');
-test('CP04 mobile layout, social bar and Twitch fallback retain the desktop baseline',()=>{
+test('CP05 mobile layout, social bar and scaled Twitch preserve desktop baseline',()=>{
  assert.match(source,/\.twotiles\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  assert.match(source,/\.social-bottom\{display:flex!important;position:fixed!important/);
  assert.match(source,/footer\.kg-clean-footer\{margin:0!important/);
  assert.match(source,/twitchMobileHint:"En este tamaño, mira la transmisión directamente en Twitch\."/);
- assert.match(source,/if\(wideEnough&&!current\)twitchScreen\.replaceChildren\(makeEmbed\('twitch'\)\)/);
+ assert.match(source,/twitchScreen\.clientWidth\/400/);
  assert.doesNotMatch(source,/twitch-player-layer|openTwitchPlayer/);
 });
 test('Chrome reproduces mobile constraints without horizontal page scrolling',{timeout:180000},async t=>{
@@ -54,8 +54,7 @@ test('Chrome reproduces mobile constraints without horizontal page scrolling',{t
     assert.equal(a.navPosition,'fixed','bottom social not fixed '+width);
     assert.ok(Math.abs(a.nav-a.w)<=2&&Math.abs(a.navX)<=2,'social bar not full width '+width+' '+JSON.stringify(a));
     assert.ok(a.footerTextY<a.navY-3,'footer text obscured '+width+' '+JSON.stringify(a));
-    if(width<480){assert.equal(a.twitchFrame,false);assert.equal(a.fallback,true)}
-    else assert.equal(a.twitchFrame,true);
+    assert.equal(a.twitchFrame,true,'Twitch remains embedded even on narrow phones');
    }else assert.equal(a.twitchFrame,true);
   }
  }finally{await new Promise(resolve=>server.close(resolve))}
