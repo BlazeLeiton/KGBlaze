@@ -17,7 +17,7 @@ test('approved Home corrections are actually in the published HTML source',()=>{
  assert.match(home,/Terminals A & B/);
  assert.match(home,/class="kg-clean-footer"/);
  assert.match(home,/id="youtube-screen"/,'preserve original audiovisual module');
- assert.match(home,/class="departure-mark"/,'preserve approved bimotor');
+ assert.match(home,/class="symbol departure-mark"/,'preserve approved bimotor');
 });
 
 test('the Cloudflare Worker injects V6 only for public non-embedded Terminal',async()=>{
