@@ -32,6 +32,13 @@ function rewriteLinks(root){
  }
 }
 function chrome(node){
+ const navText={
+  es:{home:'Inicio',about:'Sobre Blaze',music:'Música ▾',musicPlain:'Música',community:'Comunidad ▾',communityPlain:'Comunidad',departures:'Salidas',close:'Cerrar menú',open:'Abrir menú lateral'},
+  en:{home:'Home',about:'About Blaze',music:'Music ▾',musicPlain:'Music',community:'Community ▾',communityPlain:'Community',departures:'Departures',close:'Close menu',open:'Open side menu'},
+  ja:{home:'ホーム',about:'Blazeについて',music:'音楽 ▾',musicPlain:'音楽',community:'コミュニティ ▾',communityPlain:'コミュニティ',departures:'出発',close:'メニューを閉じる',open:'メニューを開く'}
+ }[locale];
+ for(const node of document.querySelectorAll('[data-global-label]')){const value=navText[node.dataset.globalLabel];if(value)node.textContent=value}
+ const menu=document.querySelector('.site-menu-trigger');if(menu)menu.setAttribute('aria-label',navText.open);
  document.documentElement.lang=locale;document.title=node.dataset.title;const hero=main.querySelector('.hero p:last-child');if(hero)hero.textContent=node.dataset.descriptor;
  const footer=document.querySelector('.footer .preview');if(footer)footer.textContent=node.dataset.preview;
  for(const [i,a] of [...document.querySelectorAll('.langs a')].entries()){const l=locales[i];a.href=pathOf(state.slug);a.dataset.musicIntent=JSON.stringify({locale:l});a.textContent=l==='ja'?'JP':l.toUpperCase();if(l===locale)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')}

@@ -11,19 +11,22 @@ const env={ASSETS:{fetch:async()=>new Response("@font-face{font-family:'Garnett'
 const displayTitle=(html)=>html.match(/<div class="detail-title">[\s\S]*?<h1>([\s\S]*?)<\/h1>/)?.[1]||'';
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-test('Music home is distinct from catalog; albums remain reserved and unpublished',async()=>{
+test('Future music selector remains preserved while public entry redirects to the catalogue',async()=>{
  assert.equal(MUSIC_HOME_PATH,'/music/');
  assert.equal(MUSIC_SONGS_PATH,'/music/songs/');
  assert.equal(MUSIC_ALBUMS_PATH,'/music/albums/');
  for(const lang of ['es','en','ja']){
   const landing=await worker.fetch(request('/music/?lang='+lang),env);
-  assert.equal(landing.status,200);
-  const home=await landing.text();
+  assert.equal(landing.status,307,'public entry is temporarily redirected');
+  assert.equal(landing.headers.get('Location'),base+'/music/songs/?lang='+lang);
+  assert.equal(landing.headers.get('Cache-Control'),'no-store');
+  const home=musicPage('/music/',new URLSearchParams({lang}));
   assert.match(home,new RegExp('<html lang="'+lang+'"'));
   assert.match(home,/data-view="home"/);
   assert.match(home,/rel="canonical" href="https:\/\/kgblaze.dpdns.org\/music\/"/);
   assert.ok(home.includes('/music/songs/?lang='+lang));
   assert.doesNotMatch(home,/<article class="song"/);
+  assert.match(home,/site-global-nav|site-menu-trigger/);
   assert.doesNotMatch(home,/\/music\/albums\/(?:album\d+)?\/?"[^>]*>/);
   const listing=await worker.fetch(request('/music/songs/?lang='+lang),env);
   assert.equal(listing.status,200);
@@ -32,6 +35,9 @@ test('Music home is distinct from catalog; albums remain reserved and unpublishe
   assert.equal((catalog.match(/<article class="song"/g)||[]).length,115);
   assert.match(catalog,/rel="canonical" href="https:\/\/kgblaze.dpdns.org\/music\/songs\/"/);
  }
+ const withQuery=await worker.fetch(request('/music?lang=en&search=mumei'),env);
+ assert.equal(withQuery.status,307);
+ assert.equal(withQuery.headers.get('Location'),base+'/music/songs/?lang=en&search=mumei');
  for(const bad of ['/music/albums','/music/albums/','/music/albums/album01','/music/albums/album01/','/music/songs/missing-song/','/music/api/admin']){
   assert.equal(routePortalRequest(request(bad)).response?.status,404,bad);
  }
