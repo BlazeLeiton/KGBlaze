@@ -22,7 +22,7 @@ test('Stage 39 Home retains original content, icons and inline streaming — no 
  assert.match(home,/Métodos de apoyo disponibles/);
  assert.match(home,/main,footer\{margin-left:50px!important\}/);
  assert.doesNotMatch(home.slice(home.indexOf('<style>'),home.indexOf('</style>')), /\\n/);
- assert.match(headphones,/fill="#fff"/);
+ assert.match(headphones,/fill="#(?:fff|FFFFFF)"/i);
  assert.doesNotMatch(headphones,/microphone|micrófono/i);
 });
 
