@@ -52,6 +52,20 @@ footer{background:var(--navy);color:#fff;padding:36px 30px 21px}.footer-grid{dis
  .tile .symbol.headphones-mark{flex:0 0 52px;min-width:52px;height:40px;padding-right:8px}
  .tile .headphones-mark .headphones-svg{width:37px;height:37px;min-width:37px}
 }
+
+/* Stage38 V6 proportional chrome: shared across /, /music/songs and /departures. */
+@media(min-width:761px){
+ header{height:58px!important;padding:0 24px!important;gap:15px!important}
+ header .brand{font-size:24px!important}
+ .social{top:58px!important;width:50px!important;padding:34px 2px 16px!important;gap:14px!important;border-radius:0!important}
+ .social .kg-social-icon{width:28px!important;height:28px!important}
+}
+@media(max-width:760px){
+ header{height:56px!important;padding:0 12px!important}
+ .social-bottom{height:60px!important;padding:4px 6px max(4px,env(safe-area-inset-bottom))!important}
+ .social-bottom .kg-social-icon{width:25px!important;height:25px!important}
+ .kg-clean-footer{padding-bottom:74px!important}
+}
 </style></head><body>
 <header><a class="brand" href="/" aria-label="KGBlaze — Inicio">KGBlaze</a><nav aria-label="Navegación principal"><a href="#travel" data-i18n="about">Sobre Blaze</a><a href="/music/songs/" data-i18n="music">Música</a><a href="#community" data-i18n="community">Comunidad</a></nav><div class="right"><a class="salidas" href="/departures/"><svg class="departures-top-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.36 17.4 4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span data-i18n="departures">Salidas</span></a><div class="langs" role="group" aria-label="Idiomas"><button data-lang="es" aria-pressed="true">ES</button><button data-lang="en" aria-pressed="false">EN</button><button data-lang="ja" aria-pressed="false">JP</button></div></div></header>
 <aside class="social" aria-label="Redes sociales">
