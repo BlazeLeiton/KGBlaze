@@ -111,6 +111,42 @@ function initializeViewerPortal(){
    if(kicker)observer.observe(kicker,{childList:true,characterData:true,subtree:true});
    if(flight)observer.observe(flight,{childList:true,characterData:true,subtree:true});
   }
+  /* Shared three-site language choice. The original viewer owns rendering:
+     never clone its controller, and never touch public/index.html or the canvas. */
+  const sharedKey='kgblaze.locale.v1';
+  const valid=l=>Object.hasOwn(locales,l);
+  const sharedPreference=()=>{
+    const requested=new URLSearchParams(location.search).get('lang');
+    if(valid(requested))return requested;
+    try{const saved=localStorage.getItem(sharedKey);if(valid(saved))return saved}catch{}
+    const cookie=document.cookie.split(';').map(v=>v.trim()).find(v=>v.startsWith('kgblaze_lang='))?.split('=')[1];
+    return valid(cookie)?cookie:null;
+  };
+  const persistShared=l=>{
+    if(!valid(l))return;
+    try{localStorage.setItem(sharedKey,l)}catch{}
+    try{document.cookie='kgblaze_lang='+l+'; Path=/; Max-Age=31536000; SameSite=Lax'}catch{}
+  };
+  const selectOriginal=l=>{
+    if(!valid(l))return;
+    // This native function calls render(), including the exportable 1080×1080 board.
+    try{if(typeof setLang==='function')setLang(l)}catch(err){console.warn('Viewer original language sync unavailable',err)}
+  };
+  const firstLanguage=sharedPreference();
+  if(firstLanguage&&firstLanguage!==getLanguage())selectOriginal(firstLanguage);
+  // Native listeners were already bound in public/index.html before this wrapper.
+  // We only persist their final state; no duplicate language control is introduced.
+  for(const button of document.querySelectorAll('button[data-lang]')){
+    button.addEventListener('click',()=>queueMicrotask(()=>persistShared(button.dataset.lang)));
+  }
+  window.addEventListener('storage',event=>{
+    if(event.key!==sharedKey||!valid(event.newValue))return;
+    if(event.newValue!==getLanguage())selectOriginal(event.newValue);
+  });
+  window.addEventListener('pageshow',()=>{
+    const saved=sharedPreference();
+    if(saved&&saved!==getLanguage())selectOriginal(saved);
+  });
   paint();
  }catch(err){console.error('KGBlaze V6 public chrome init failed',err)}
 }
