@@ -16,7 +16,8 @@ test('Stage 40 support panel has four actual platform marks and accessible discl
  assert.match(home,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
  assert.match(home,/font-size:14\.5px;line-height:1\.4/);
  assert.match(home,/supportDots\.forEach/);
- assert.doesNotMatch(home,/href="https:\/\/throne\.com\/blazeleiton"/);
+ assert.match(home,/href="https:\/\/throne\.com\/blazeleiton"/);
+ assert.equal((home.match(/class="kg-support-method"/g)||[]).length,4);
  assert.doesNotMatch(home,/id="support"[^>]*>[\s\S]*?Ver todas las opciones/);
 });
 test('Expanded support section reuses all four platform logos, without extra labels or external requests',()=>{
