@@ -20,6 +20,7 @@ test('Chrome reproduces mobile constraints without horizontal page scrolling',{t
  const probe='<script>setTimeout(function(){window.scrollTo(0,document.documentElement.scrollHeight);setTimeout(function(){var nav=document.querySelector(".social-bottom"),f=document.querySelector("footer span"),tiles=document.querySelector(".twotiles"),tw=document.querySelector("#twitch-screen");var n=nav.getBoundingClientRect(),v=document.documentElement.clientWidth;var p={w:v,scroll:document.documentElement.scrollWidth,body:document.body.scrollWidth,nav:n.width,navX:n.x,navY:n.y,navBottom:n.bottom,navPosition:getComputedStyle(nav).position,footerTextY:f.getBoundingClientRect().y,tilesRight:tiles.getBoundingClientRect().right,cardMax:Math.max(...Array.from(tiles.children).map(x=>x.getBoundingClientRect().right)),twitchFrame:!!tw.querySelector("iframe"),fallback:!!tw.querySelector(".twitch-mobile-hint")};document.documentElement.setAttribute("data-mobile-audit",JSON.stringify(p));},110);},450)</script>';
  const server=createServer((req,res)=>{
   const u=new URL(req.url,'http://localhost');
+  if(u.pathname==='/outer'){const width=Number(u.searchParams.get('width'));res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end('<!doctype html><html><body style="margin:0"><iframe id="mobile" title="Home mobile test" src="/home?lang=es" style="width:'+width+'px;height:900px;border:0;display:block"></iframe><script>document.querySelector("#mobile").addEventListener("load",function(){setTimeout(function(){var inner=document.querySelector("#mobile").contentDocument;document.documentElement.setAttribute("data-mobile-audit",inner.documentElement.getAttribute("data-mobile-audit")||"{}");},750);});</script></body></html>');return}
   if(u.pathname==='/music/assets/typography-v1.css'){res.writeHead(200,{'Content-Type':'text/css'});res.end('');return}
   if(u.pathname==='/api/public'){res.writeHead(200,{'Content-Type':'application/json'});res.end('{"events":[],"sync":{}}');return}
   if(u.pathname.startsWith('/fixture-')){res.writeHead(200,{'Content-Type':'text/html'});res.end('<html><body>fixture</body></html>');return}
@@ -33,7 +34,7 @@ test('Chrome reproduces mobile constraints without horizontal page scrolling',{t
   for(const width of [320,360,375,390,412,430,479,480,520,760,1280]){
    const port=server.address().port;
    const result=await new Promise((resolve,reject)=>{
-    const cmd=['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--window-size='+width+',900','--virtual-time-budget=1600','--dump-dom','http://127.0.0.1:'+port+'/?lang=es'];
+    const cmd=['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--window-size=1500,1000','--virtual-time-budget=2500','--dump-dom','http://127.0.0.1:'+port+'/outer?width='+width];
     const child=spawn(chrome,cmd,{stdio:['ignore','pipe','pipe']});
     let html='',err='';
     child.stdout.on('data',buf=>{html+=buf.toString();if(html.length>4000000)child.kill()});
@@ -45,6 +46,7 @@ test('Chrome reproduces mobile constraints without horizontal page scrolling',{t
    const found=result.html.match(/data-mobile-audit="([^"]+)"/);
    assert.ok(found,'Missing browser measurement '+width);
    const a=JSON.parse(found[1].replaceAll('&quot;','"').replaceAll('&amp;','&'));
+   assert.equal(a.w,width,'iframe must retain the requested CSS viewport');
    if(width<=760){
     assert.ok(a.scroll<=a.w+1,'page overflow '+width+' '+JSON.stringify(a));
     assert.ok(a.body<=a.w+1,'body overflow '+width+' '+JSON.stringify(a));
