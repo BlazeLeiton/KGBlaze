@@ -14,6 +14,7 @@ const home=read('../public/home.html');
 const music=read('../src/music-page.mjs');
 const terminal=read('../src/viewer-portal-chrome.mjs');
 const native=read('../public/index.html');
+const worker=read('../src/worker.mjs');
 
 test('AM Brand Book 2024 safe typographic adaptation is applied only to intended content',()=>{
  assert.match(home,/\.card p\{color:#493D3A;font-size:13px;line-height:1\.4;margin:5px 0 0\}/);
@@ -27,6 +28,18 @@ test('AM Brand Book 2024 safe typographic adaptation is applied only to intended
  assert.equal(KG_CHROME_V1.desktop.headerHeight,58);
  assert.equal(KG_CHROME_V1.desktop.socialWidth,50);
  assert.match(VIEWER_PORTAL_LEGEND,/kg-legend/);
+});
+
+test('Font audit confirms Garnett Regular/Semibold mapping and the original Japanese/wordmark exceptions',()=>{
+ const declarations=[...native.matchAll(/@font-face\\{([^}]*)\\}/g)].map(m=>m[1].replace(/src:url\\([^)]*\\)/g,'src:[embedded]'));
+ assert.equal(declarations.filter(x=>x.includes("font-family:'Garnett'")).length,2);
+ assert.ok(declarations.some(x=>x.includes("font-family:'Garnett'")&&x.includes('font-weight:400')));
+ assert.ok(declarations.some(x=>x.includes("font-family:'Garnett'")&&x.includes('font-weight:600 900')));
+ assert.ok(declarations.some(x=>x.includes("font-family:'MuseoModerno'")));
+ assert.equal(declarations.filter(x=>x.includes("font-family:'Noto Sans JP Project'")).length,2);
+ assert.match(native,/weight>=600\\?600:400/);
+ assert.match(native,/EXCEPCIÓN INTENCIONAL: nombre de marca, MuseoModerno Medium sin cambios/);
+ assert.match(worker,/font-display:swap/);
 });
 
 test('Chrome computes brand-book-derived line height and tracking without overflow in representative cards',{timeout:90000},async t=>{
