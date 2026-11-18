@@ -70,7 +70,7 @@ test('Desktop browser preserves the exact computed header, language and rail dim
  const chrome=bins.find(c=>spawnSync(c,['--version'],{encoding:'utf8',timeout:3000}).status===0);
  if(!chrome){t.skip('Chrome is unavailable');return}
  const musicHtml=musicPage('/music/songs/',new URLSearchParams({lang:'es'}));
- const terminalHtml='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0}</style><style>'+VIEWER_PORTAL_CSS+'</style></head><body class="kg-portal-viewer">'+VIEWER_PORTAL_PREFIX+VIEWER_PORTAL_SUFFIX+'</body></html>';
+ const terminalHtml='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*,*:before,*:after{box-sizing:border-box}html,body{margin:0}</style><style>'+VIEWER_PORTAL_CSS+'</style></head><body class="kg-portal-viewer">'+VIEWER_PORTAL_PREFIX+VIEWER_PORTAL_SUFFIX+'</body></html>';
  const selectors={
   home:{header:'header',logo:'header .brand',nav:'header nav',departures:'header .salidas',langs:'header .langs',active:'header .langs [data-lang="es"]',inactive:'header .langs [data-lang="en"]',rail:'.social',icon:'.social .kg-social-icon'},
   music:{header:'.header .shell',logo:'.header .brand',nav:'.site-global-nav',departures:'.site-departures',langs:'.header .langs',active:'.header .langs [aria-current]',inactive:'.header .langs a:not([aria-current])',rail:'.site-social-sidebar',icon:'.site-social-sidebar img'},
