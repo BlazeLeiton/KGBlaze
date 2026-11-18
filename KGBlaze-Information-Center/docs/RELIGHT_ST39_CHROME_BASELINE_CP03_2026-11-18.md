@@ -3,7 +3,8 @@
 
 **Estado:** congelación del diseño de escritorio aprobado por el usuario. **No es cierre de Project Relight ni reapertura de Stage 38/39** (ambas conversaciones quedaron agotadas por capacidad). Este checkpoint conserva y protege la homologación ya publicada de Home, Rebel Mix y Terminal.
 
-**Commit de origen:** `56b07befd09e2cbcc91ef3ec82e80b520c8b4357` (PR #172 merged).  
+**Commit de origen:** `56b07befd09e2cbcc91ef3ec82e80b520c8b4357` (PR #172 merged).
+**Rama de respaldo inmutable por acuerdo:** `backup/relight-chrome-v1-approved-20261118` apuntando exactamente al commit aprobado (no desarrollar ni fusionar desde esa rama).  
 **Validación original:** continuidad y Terminal `44336104047` = SUCCESS; auditoría completa de Rebel Mix `44336104205` = SUCCESS.  
 **Estado visual:** usuario confirma explícitamente que los tres encabezados y barras sociales de **escritorio** ya están correctos; también la **silueta de audífonos** de Home. No volver a redibujar el icono.  
 **URLs:** Home `/`; Rebel Mix `/music/songs/`; Terminal `/departures/`.
