@@ -31,13 +31,13 @@ test('AM Brand Book 2024 safe typographic adaptation is applied only to intended
 });
 
 test('Font audit confirms Garnett Regular/Semibold mapping and the original Japanese/wordmark exceptions',()=>{
- const declarations=[...native.matchAll(/@font-face\\{([^}]*)\\}/g)].map(m=>m[1].replace(/src:url\\([^)]*\\)/g,'src:[embedded]'));
+ const declarations=[...native.matchAll(/@font-face\{([^}]*)\}/g)].map(m=>m[1].replace(/src:url\([^)]*\)/g,'src:[embedded]'));
  assert.equal(declarations.filter(x=>x.includes("font-family:'Garnett'")).length,2);
  assert.ok(declarations.some(x=>x.includes("font-family:'Garnett'")&&x.includes('font-weight:400')));
  assert.ok(declarations.some(x=>x.includes("font-family:'Garnett'")&&x.includes('font-weight:600 900')));
  assert.ok(declarations.some(x=>x.includes("font-family:'MuseoModerno'")));
  assert.equal(declarations.filter(x=>x.includes("font-family:'Noto Sans JP Project'")).length,2);
- assert.match(native,/weight>=600\\?600:400/);
+ assert.match(native,/weight>=600\?600:400/);
  assert.match(native,/EXCEPCIÓN INTENCIONAL: nombre de marca, MuseoModerno Medium sin cambios/);
  assert.match(worker,/font-display:swap/);
 });
