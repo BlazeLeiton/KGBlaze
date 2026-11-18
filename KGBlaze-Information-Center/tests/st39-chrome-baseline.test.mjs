@@ -21,7 +21,7 @@ const headphones=read('../public/assets/icons/kgblaze-headphones-white.svg');
 test('CP03 pins the approved Stage 39 metric contract for future KGBlaze sites',()=>{
  const d=KG_CHROME_V1.desktop,m=KG_CHROME_V1.mobile,c=KG_CHROME_V1.colors;
  assert.equal(KG_CHROME_V1.sourceCommit,'56b07befd09e2cbcc91ef3ec82e80b520c8b4357');
- assert.deepEqual([d.minWidth,d.headerHeight,d.headerPaddingX,d.logoFontSize,d.departuresWidth,d.departuresHeight,d.languagesWidth,d.railWidth,d.railIconSize],[761,58,24,24,96,35,76,50,28]);
+ assert.deepEqual([d.minWidth,d.headerHeight,d.headerPaddingX,d.logoFontSize,d.departuresWidth,d.departuresHeight,d.languagesWidth,d.socialWidth,d.socialIconSize],[761,58,24,24,96,35,76,50,28]);
  assert.deepEqual([m.maxWidth,m.headerHeight,m.logoFontSize,m.socialHeight,m.socialIconSize],[760,56,23,60,25]);
  assert.equal(d.navGap,'clamp(11px,1.5vw,21px)');
  assert.equal(d.socialPadding,'34px 2px 16px');
@@ -70,7 +70,7 @@ test('Desktop browser preserves the exact computed header, language and rail dim
  const chrome=bins.find(c=>spawnSync(c,['--version'],{encoding:'utf8',timeout:3000}).status===0);
  if(!chrome){t.skip('Chrome is unavailable');return}
  const musicHtml=musicPage('/music/songs/',new URLSearchParams({lang:'es'}));
- const terminalHtml='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+VIEWER_PORTAL_CSS+'</style></head><body class="kg-portal-viewer">'+VIEWER_PORTAL_PREFIX+VIEWER_PORTAL_SUFFIX+'</body></html>';
+ const terminalHtml='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0}</style><style>'+VIEWER_PORTAL_CSS+'</style></head><body class="kg-portal-viewer">'+VIEWER_PORTAL_PREFIX+VIEWER_PORTAL_SUFFIX+'</body></html>';
  const selectors={
   home:{header:'header',logo:'header .brand',nav:'header nav',departures:'header .salidas',langs:'header .langs',active:'header .langs [data-lang="es"]',inactive:'header .langs [data-lang="en"]',rail:'.social',icon:'.social .kg-social-icon'},
   music:{header:'.header .shell',logo:'.header .brand',nav:'.site-global-nav',departures:'.site-departures',langs:'.header .langs',active:'.header .langs [aria-current]',inactive:'.header .langs a:not([aria-current])',rail:'.site-social-sidebar',icon:'.site-social-sidebar img'},
