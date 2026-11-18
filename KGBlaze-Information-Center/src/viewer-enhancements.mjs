@@ -41,6 +41,53 @@ body:not(.embedded) .top-langs button:focus-visible,body:not(.embedded) .bottom-
 #plainLabel,.embed-code-row:has(#plainCode){display:none!important}
 /* Stage 12 follow-up: the public viewer is already HTTPS. Remove only its obsolete publishing reminder in ES/EN/JA; keep iframe controls. */
 #embedHint{display:none!important}
+
+/* Stage 38: portal chrome around the existing 1080-square public board.
+   The canvas, board hit targets, state LEDs and publishing engine are untouched. */
+body:not(.embedded) .kg-site-header{background:#020C41;color:#fff;min-height:64px;padding:12px clamp(14px,3vw,40px);display:flex;gap:26px;align-items:center;justify-content:space-between;border-bottom:1px solid #276EF1}
+body:not(.embedded) .kg-site-header .kg-brand{font-size:24px;font-weight:750;letter-spacing:-.03em;text-decoration:none;color:#fff}
+body:not(.embedded) .kg-site-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap;font-size:14px;font-weight:650}
+body:not(.embedded) .kg-site-links a{color:#D7D2FF;text-decoration:none}
+body:not(.embedded) .kg-site-links a[aria-current="page"]{color:#A5EBFF;border-bottom:2px solid #276EF1;padding-bottom:5px}
+body:not(.embedded) .kg-site-header a:focus-visible,body:not(.embedded) .kg-terminal-footer a:focus-visible{outline:2px solid #A5EBFF;outline-offset:3px}
+body:not(.embedded) .viewer-shell{max-width:1510px;grid-template-columns:minmax(0,1fr) minmax(270px,320px);gap:clamp(12px,1.6vw,24px);align-items:start}
+body:not(.embedded) .kg-terminal-intro{grid-column:1/-1;min-width:0;padding:14px 0 2px}
+body:not(.embedded) .kg-terminal-intro .kg-kicker{font-size:12px;letter-spacing:.11em;font-weight:700;color:#A5EBFF;margin:0 0 5px}
+body:not(.embedded) .kg-terminal-intro h1{font-size:clamp(32px,4vw,56px);line-height:1.1;margin:0;font-weight:700}
+body:not(.embedded) .kg-terminal-intro p:last-child{font-size:13px;color:#D7D2FF;margin:8px 0 0}
+body:not(.embedded) .stage{grid-column:1;min-width:0}
+body:not(.embedded) .panel-side{grid-column:2;min-width:0}
+body:not(.embedded) .kg-board-label{box-sizing:border-box;width:100%;background:#276EF1;color:#fff;font-size:clamp(13px,1.3vw,17px);font-weight:700;padding:12px 16px;border-radius:7px 7px 0 0;letter-spacing:.01em}
+body:not(.embedded) .kg-waiting-copy{color:#D7D2FF;font-size:14px;line-height:1.55;margin:0 0 3px}
+body:not(.embedded) .kg-share-link{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+body:not(.embedded) .kg-share-link button{color:#fff;background:#276EF1;border:1px solid #A5EBFF;border-radius:6px;padding:9px 12px;cursor:pointer}
+body:not(.embedded) .kg-share-result{color:#A5EBFF;font-size:12px}
+body:not(.embedded) .kg-status-legend{border-top:1px solid #276EF1;padding-top:12px;display:flex;flex-wrap:wrap;gap:7px 12px;font-size:11px;color:#D7D2FF}
+body:not(.embedded) .kg-status-legend span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;background:#A5EBFF}
+body:not(.embedded) .kg-status-legend span:nth-child(1)::before{background:#5AD28C}
+body:not(.embedded) .kg-status-legend span:nth-child(2)::before{background:#FFDC8C}
+body:not(.embedded) .kg-status-legend span:nth-child(3)::before{background:#A5EBFF}
+body:not(.embedded) .kg-status-legend span:nth-child(4)::before{background:#D7D2FF}
+body:not(.embedded) .kg-terminal-footer{max-width:1510px;margin:0 auto;padding:22px clamp(12px,2vw,28px) 36px;border-top:1px solid #276EF1;color:#D7D2FF}
+body:not(.embedded) .kg-terminal-footer nav{display:flex;align-items:center;flex-wrap:wrap;gap:16px}
+body:not(.embedded) .kg-terminal-footer nav>a{color:#A5EBFF;font-size:13px;text-decoration:none}
+body:not(.embedded) .kg-terminal-footer .discord-btn{width:auto;margin-left:auto;text-decoration:none;font-size:12px;padding:9px 12px}
+@media(max-width:860px){
+ body:not(.embedded) .viewer-shell{display:flex;flex-direction:column;gap:14px;padding:12px}
+ body:not(.embedded) .viewer-shell>.stage,body:not(.embedded) .viewer-shell>.panel-side{width:100%;max-width:none}
+ body:not(.embedded) .panel-side{position:static;top:auto}
+ body:not(.embedded) .kg-terminal-intro{padding:10px 2px 0;width:100%}
+ body:not(.embedded) .kg-site-header{padding:12px 14px;flex-wrap:wrap;gap:8px 18px}
+ body:not(.embedded) .kg-site-links{gap:15px;font-size:12px}
+ body:not(.embedded) .kg-board-label{padding:9px 12px}
+}
+@media(max-width:650px){
+ body:not(.embedded) .panel-side{border-radius:8px;margin:0;padding:14px}
+ body:not(.embedded) #informationPanel .embed-tools,body:not(.embedded) #informationPanel .kg-status-legend{display:none!important}
+ body:not(.embedded) .kg-terminal-footer{padding:15px 12px 30px}
+ body:not(.embedded) .kg-terminal-footer nav{gap:12px}
+ body:not(.embedded) .kg-terminal-footer .discord-btn{margin-left:0}
+}
 `;
 
 // Classic script runs after the viewer's original inline script, preserving its
@@ -177,6 +224,7 @@ export const VIEWER_JS = `(function(){
   const ret=baseChrome();
   if(document.documentElement)document.documentElement.lang=state.lang;
   document.title=({es:'Salidas | KGBlaze',en:'Departures | KGBlaze',ja:'出発 | KGBlaze'})[state.lang]||'Salidas | KGBlaze';
+  portalChromeSync();
   return ret;
  };
  // Share the chosen locale with Rebel Mix, without changing the viewer URL.
@@ -190,6 +238,59 @@ export const VIEWER_JS = `(function(){
  if(validLocale(preferred)&&preferred!==state.lang)originalSetLang(preferred);
  window.addEventListener('storage',e=>{if(e.key===localeKey&&validLocale(e.newValue)&&e.newValue!==state.lang)originalSetLang(e.newValue)});
  }
+
+ // Stage 38: build a separate, public-only portal shell around the real board.
+ // No mock schedule, no iframe replacement and no changes to viewer state.
+ function mountPortalChrome(){
+  if(typeof location==='undefined'||location.hostname!=='kgblaze.dpdns.org'||!document.body?.classList||document.body.classList.contains('embedded'))return;
+  const main=document.querySelector('#viewerShell'),stage=main?.querySelector('.stage');
+  const waiting=document.querySelector('#waitingPanel'),board=document.querySelector('#boardWrap');
+  if(!main||!stage||!waiting||!board||document.querySelector('.kg-site-header'))return;
+  const nav=document.createElement('nav');nav.className='kg-site-header';nav.setAttribute('aria-label','Navegación KGBlaze');
+  nav.innerHTML='<a class="kg-brand" href="/">KGBlaze</a><div class="kg-site-links"><a href="/" id="kg-nav-home">Inicio</a><a href="/music/">Rebel Mix</a><a href="/departures/" id="kg-nav-departures" aria-current="page">Salidas</a></div>';
+  document.body.insertBefore(nav,main);
+  const intro=document.createElement('section');intro.className='kg-terminal-intro';
+  intro.innerHTML='<p class="kg-kicker" id="kg-terminal-kicker">KGBlaze · Centro de información</p><h1 id="kg-terminal-title">Salidas</h1><p id="kg-terminal-subtitle">Terminales A y B</p>';
+  main.insertBefore(intro,main.firstChild);
+  const cap=document.createElement('div');cap.className='kg-board-label';cap.id='kg-board-label';cap.textContent='Información de vuelo · Flight status';
+  stage.insertBefore(cap,board);
+  const description=document.createElement('p');description.className='kg-waiting-copy';description.id='kg-waiting-copy';description.textContent='Selecciona una salida para consultar sus detalles.';
+  waiting.querySelector('.panel-intro')?.insertAdjacentElement('afterend',description);
+  const row=document.createElement('div');row.className='kg-share-link';
+  row.innerHTML='<button type="button" id="kg-copy-link">Copiar enlace</button><span class="kg-share-result" id="kg-copy-result" role="status" aria-live="polite"></span>';
+  waiting.querySelector('.embed-tools')?.insertAdjacentElement('beforebegin',row);
+  const legend=document.createElement('div');legend.className='kg-status-legend';legend.id='kg-status-legend';legend.setAttribute('aria-label','Leyenda de estados');
+  legend.innerHTML='<span>A tiempo</span><span>Por confirmar</span><span>En vivo</span><span>Despegó</span>';
+  waiting.append(legend);
+  const footer=document.createElement('footer');footer.className='kg-terminal-footer';
+  footer.innerHTML='<nav aria-label="Enlaces institucionales"><a href="/">KGBlaze</a><a href="/music/">Rebel Mix</a></nav>';
+  const discord=document.querySelector('#discordLink');if(discord)footer.querySelector('nav').append(discord);
+  document.body.append(footer);
+  const copy=document.querySelector('#kg-copy-link');
+  copy?.addEventListener('click',async()=>{
+   const feedback=document.querySelector('#kg-copy-result');
+   try{await navigator.clipboard.writeText('https://kgblaze.dpdns.org/departures/');if(feedback)feedback.textContent=({es:'Enlace copiado',en:'Link copied',ja:'リンクをコピーしました'})[state.lang];}
+   catch{if(feedback)feedback.textContent=({es:'No se pudo copiar',en:'Unable to copy',ja:'コピーできませんでした'})[state.lang];}
+  });
+ }
+ function portalChromeSync(){
+  if(!document.querySelector('.kg-site-header'))return;
+  const loc=state.lang;
+  const copy={
+   es:{home:'Inicio',departures:'Salidas',sub:'Terminales A y B',kicker:'KGBlaze · Centro de información',flight:'Información de vuelo · Flight status',waiting:'Selecciona una salida para consultar sus detalles.',copy:'Copiar enlace',legend:['A tiempo','Por confirmar','En vivo','Despegó']},
+   en:{home:'Home',departures:'Departures',sub:'Terminals A and B',kicker:'KGBlaze · Information Center',flight:'Flight information · Flight status',waiting:'Select a departure to see its details.',copy:'Copy link',legend:['On time','To be confirmed','Live','Departed']},
+   ja:{home:'ホーム',departures:'出発',sub:'ターミナルA・B',kicker:'KGBlaze · インフォメーションセンター',flight:'フライト情報 · Flight status',waiting:'出発便を選択すると詳細を確認できます。',copy:'リンクをコピー',legend:['定刻','確認待ち','配信中','出発済み']}
+  }[loc]||null;if(!copy)return;
+  const set=(sel,txt)=>{const el=document.querySelector(sel);if(el)el.textContent=txt};
+  set('#kg-nav-home',copy.home);set('#kg-nav-departures',copy.departures);
+  set('#kg-terminal-title',copy.departures);set('#kg-terminal-subtitle',copy.sub);
+  set('#kg-terminal-kicker',copy.kicker);set('#kg-board-label',copy.flight);
+  set('#kg-waiting-copy',copy.waiting);set('#kg-copy-link',copy.copy);
+  set('#sideKicker',copy.kicker);set('#flightKicker',copy.kicker);
+  document.querySelectorAll('#kg-status-legend span').forEach((el,i)=>{if(copy.legend[i])el.textContent=copy.legend[i]});
+ }
+ mountPortalChrome();
+
  if(document.documentElement)document.documentElement.lang=state.lang;
  syncChrome();
 })();`;
