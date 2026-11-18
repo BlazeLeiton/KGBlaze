@@ -46,7 +46,7 @@ test('Chrome reproduces mobile constraints without horizontal page scrolling',{t
    const found=result.html.match(/data-mobile-audit="([^"]+)"/);
    assert.ok(found,'Missing browser measurement '+width);
    const a=JSON.parse(found[1].replaceAll('&quot;','"').replaceAll('&amp;','&'));
-   assert.equal(a.w,width,'iframe must retain the requested CSS viewport');
+   assert.ok(a.w<=width&&a.w>=width-17,'iframe CSS viewport with possible desktop scrollbar '+width+' '+JSON.stringify(a));
    if(width<=760){
     assert.ok(a.scroll<=a.w+1,'page overflow '+width+' '+JSON.stringify(a));
     assert.ok(a.body<=a.w+1,'body overflow '+width+' '+JSON.stringify(a));
