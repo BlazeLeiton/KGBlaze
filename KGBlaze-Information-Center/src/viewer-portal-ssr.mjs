@@ -8,7 +8,7 @@ const takeoff='<svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-widt
 const lines='<svg viewBox="0 0 64 50" fill="none" aria-hidden="true"><path d="M2 5H32 M2 13H32 M2 21H32 M2 29H32 M2 37H32 M2 45H32" stroke="#FA0073" stroke-width="1"/><path d="M32 5H62 M32 13H62 M32 21H62 M32 29H62 M32 37H62 M32 45H62" stroke="#FA0073" stroke-width="2"/></svg>';
 const labels={yt:'YouTube',tw:'Twitch',ig:'Instagram',x:'X',dc:'Discord'};
 const socials=Object.keys(labels).map(k=>'<a href="'+KG_SOCIAL_URLS[k]+'" target="_blank" rel="noopener noreferrer" aria-label="'+labels[k]+'"><img src="'+KG_SOCIAL_ORIGINALS[k]+'" width="26" height="26" alt=""></a>').join('');
-export const VIEWER_PORTAL_PREFIX='<header class="kg-site-header"><a class="kg-site-logo" href="/">KGBlaze</a><nav class="kg-site-nav" aria-label="KGBlaze"><a data-global="about" href="/#travel">Sobre Blaze</a><a data-global="music" href="/music/songs/">Música ▾</a><a data-global="community" href="/#community">Comunidad ▾</a><a class="kg-go-departures" href="/departures/">'+takeoff+'<span data-global="departures">Salidas</span></a></nav><nav class="kg-site-langs" aria-label="Idioma"><button type="button" class="active" data-site-lang="es">ES</button><button type="button" data-site-lang="en">EN</button><button type="button" data-site-lang="ja">JP</button></nav></header><section class="kg-exterior-hero"><div class="kg-titles"><div class="kg-kicker" data-global="kicker">KGBlaze · Centro de información</div><h1 data-global="airport">Aeropuerto Internacional de la KGBlaze</h1><p class="kg-hero-sub" data-global="sub">Tablero de salidas · Calendario semanal</p></div><button class="kg-menu-lines" type="button" aria-label="Abrir menú lateral" aria-expanded="false" aria-controls="kg-site-drawer">'+lines+'</button></section>';
+export const VIEWER_PORTAL_PREFIX='<header class="kg-site-header"><a class="kg-site-logo" href="/">KGBlaze</a><nav class="kg-site-nav" aria-label="KGBlaze"><a data-global="about" href="/#travel">Sobre Blaze</a><a data-global="music" href="/music/songs/">Música ▾</a><a data-global="community" href="/#community">Comunidad ▾</a><a class="kg-go-departures" href="/departures/">'+takeoff+'<span data-global="departures">Salidas</span></a></nav><nav class="kg-site-langs" aria-label="Idioma"><button type="button" class="active" data-lang="es">ES</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="ja">JP</button></nav></header><section class="kg-exterior-hero"><div class="kg-titles"><div class="kg-kicker" data-global="kicker">KGBlaze · Centro de información</div><h1 data-global="airport">Aeropuerto Internacional de la KGBlaze</h1><p class="kg-hero-sub" data-global="sub">Tablero de salidas · Calendario semanal</p></div><button class="kg-menu-lines" type="button" aria-label="Abrir menú lateral" aria-expanded="false" aria-controls="kg-site-drawer">'+lines+'</button></section>';
 export const VIEWER_PORTAL_SUFFIX='<footer class="kg-site-footer">KGBlaze · Project Relight</footer><nav class="kg-site-social-desktop" aria-label="Redes sociales">'+socials+'</nav><nav class="kg-site-social-mobile" aria-label="Redes sociales">'+socials+'</nav><div class="kg-site-drawer" id="kg-site-drawer" hidden><div class="kg-site-drawer-panel"><button type="button" class="kg-site-drawer-close" data-global="close">Cerrar menú</button><nav aria-label="KGBlaze"><a href="/" data-global="home">Inicio</a><a href="/#travel" data-global="about">Sobre Blaze</a><a href="/music/songs/" data-global="music">Música ▾</a><a href="/#community" data-global="community">Comunidad ▾</a><a href="/departures/" data-global="departures">Salidas</a></nav></div></div>';
 export const VIEWER_PORTAL_DESC='<p class="kg-wait-description" data-global="select">Selecciona una salida para consultar sus detalles.</p>';
 /** Canonical board light signals from statusColor()/leftSignal in public/index.html.
@@ -44,12 +44,13 @@ function initializeViewerPortal(){
   const originalButtons=oldLangNav?Array.from(oldLangNav.querySelectorAll('button[data-lang]')):[];
   if(targetLangs&&originalButtons.length===3){
     targetLangs.replaceChildren(...originalButtons);
+    // Keep the shared 3-site visual language labels while preserving native events.
+    for(const b of originalButtons)b.textContent=({es:'ES',en:'EN',ja:'JP'})[b.dataset.lang]||b.textContent;
     targetLangs.dataset.source='original-terminal-buttons';
   }else if(targetLangs){
-    // Fallback: pass through to the surviving on-board language controls.
-    targetLangs.querySelectorAll('[data-site-lang]').forEach(button=>button.addEventListener('click',()=>{
-      document.querySelector('.compact-actions [data-lang="'+button.dataset.siteLang+'"]')?.click();
-    }));
+    // Header buttons already carry data-lang and were bound by original boot().
+    // Do not add duplicate listeners or require this extra initializer to run.
+    targetLangs.dataset.source='original-viewer-bind';
   }
   const getLanguage=()=>{
     try{
