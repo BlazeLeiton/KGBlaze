@@ -21,10 +21,10 @@ test('global header 58px and 50px desktop side rail align across three surfaces'
 
 test('headphones glyph is a solid white vector with uninterrupted arch and two cups',()=>{
  const svg=read('../public/assets/icons/kgblaze-headphones-white.svg');
- assert.match(svg,/<svg[^>]+viewBox="0 0 120 120"/);
+ assert.match(svg,/<svg[^>]+viewBox="0 0 100 100"/);
  assert.equal((svg.match(/<path fill="#(?:FFFFFF|fff)"/gi)||[]).length,3,'arc and two ear cups must be solid-filled');
  assert.doesNotMatch(svg,/stroke=|microphone|<rect[^>]+fill="none"/,'avoid thin-only headphones or microphone');
- assert.match(svg,/M26 73\.5V60/,'arch extends continuously toward both ear cups');
+ assert.match(svg,/M14\.5 64\.5V52\.5/,'arch extends continuously toward both ear cups');
 });
 
 test('Terminal V6 header is natively handled by the original exported board controller',()=>{
