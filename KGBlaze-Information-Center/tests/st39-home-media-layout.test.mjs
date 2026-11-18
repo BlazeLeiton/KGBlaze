@@ -14,8 +14,8 @@ test('Stage 39 Home retains original content, icons and inline streaming — no 
  assert.match(home,/\.media \.screen\{width:100%;height:auto;min-height:300px;aspect-ratio:16\/9\}/);
  assert.match(home,/\.media-grid\{grid-template-columns:minmax\(0,1fr\);max-width:700px\}/);
  assert.match(home,/data-i18n="musicNav">Música ▾/);
- assert.match(home,/class="media-brand-icon"[^>]*>YouTube/);
- assert.match(home,/class="media-brand-icon"[^>]*>Twitch/);
+ assert.match(home,/class="media-brand-icon"[^>]*>Terminal A — YouTube/);
+ assert.match(home,/class="media-brand-icon"[^>]*>Terminal B — Twitch/);
  assert.match(home,/twitchScreen\.replaceChildren\(frame\)/);
  assert.doesNotMatch(home,/twitch-player-layer|id="twitch-preview"|openTwitchPlayer/);
  assert.match(home,/Explora nuestros destinos/);
