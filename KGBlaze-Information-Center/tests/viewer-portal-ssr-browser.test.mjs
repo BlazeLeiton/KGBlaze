@@ -60,10 +60,18 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  assert.match(embed,/id="board"/);
  const probe=[
  '<script>(function(){',
- 'const isEmbed=location.search.includes("embed=1"),isMobile=location.search.includes("mode=mobile"),nativeOnly=location.search.includes("nativeOnly=1");',
+ 'const isEmbed=location.search.includes("embed=1"),isMobile=location.search.includes("mode=mobile"),nativeOnly=location.search.includes("nativeOnly=1"),menuFallback=location.search.includes("menuFallback=1");',
  'const check=async()=>{',
  ' const board=document.getElementById("board");if(!board)return;',
  ' if(isEmbed){document.documentElement.dataset.kgSsr=!document.querySelector(".kg-site-header")&&!document.querySelector(".kg-legend")?"PASS":"FAIL";return}',
+ ' if(menuFallback){',
+ '  const trigger=document.querySelector(".kg-menu-lines"),drawer=document.querySelector(".kg-site-drawer"),close=document.querySelector(".kg-site-drawer-close");',
+ '  let good=!!trigger&&!!drawer&&drawer.dataset.kgMenuBound==="fallback"&&drawer.hidden;',
+ '  trigger?.click();await new Promise(r=>setTimeout(r,25));good=good&&!drawer.hidden&&trigger.getAttribute("aria-expanded")==="true";',
+ '  good=good&&drawer.querySelectorAll("nav a").length===4&&!!drawer.querySelector(".kg-drawer-departures")&&close?.textContent.includes("Volver");',
+ '  close?.click();good=good&&drawer.hidden&&trigger.getAttribute("aria-expanded")==="false";',
+ '  document.documentElement.dataset.kgSsr=good?"PASS":"FAIL";if(!good)document.documentElement.dataset.kgSsrWhy=JSON.stringify({bound:drawer.dataset.kgMenuBound,hidden:drawer.hidden,close:close?.textContent});return;',
+ ' }',
  ' if(nativeOnly){',
  '  const buttons=[...document.querySelectorAll(".kg-site-langs button[data-lang]")];',
  '  let good=buttons.length===3&&!document.querySelector(".kg-site-langs [data-site-lang]");',
@@ -95,7 +103,7 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
  ].join('\n');
  const server=createServer((req,res)=>{
   if(req.url.startsWith('/api/public')){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({schema:'relight-public-v1',events:[],revision:0}));return}
-  const markup=req.url.includes('embed=1')?embed:(req.url.includes('nativeOnly=1')?normal.replace('<script>'+VIEWER_PORTAL_SSR_JS+'</script>',''):normal);
+  const markup=req.url.includes('embed=1')?embed:((req.url.includes('nativeOnly=1')||req.url.includes('menuFallback=1'))?normal.replace('<script>'+VIEWER_PORTAL_SSR_JS+'</script>',''):normal);
   const html=markup.replace('</body>',probe+'</body>');
   res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(html);
  });
@@ -109,7 +117,7 @@ test('actual Worker to Chrome: V6 desktop/mobile and untouched embed',{timeout:1
   child.on('error',reject);child.on('close',code=>resolve({code,html:output,error:err}));
  });
  try{
-  for(const [path,size] of [['/departures/','1440,900'],['/departures/','1024,768'],['/departures/','800,600'],['/departures/?mode=mobile','375,780'],['/departures/?nativeOnly=1','1440,900'],['/departures/?nativeOnly=1&mode=mobile','375,780'],['/departures/?embed=1','1440,900']]){
+  for(const [path,size] of [['/departures/','1440,900'],['/departures/','1024,768'],['/departures/','800,600'],['/departures/?mode=mobile','375,780'],['/departures/?nativeOnly=1','1440,900'],['/departures/?nativeOnly=1&mode=mobile','375,780'],['/departures/?menuFallback=1&mode=mobile','375,780'],['/departures/?embed=1','1440,900']]){
    const out=await run('http://127.0.0.1:'+port+path,size);
    assert.equal(out.code,0,'Chrome failed '+path+': '+out.error);
    assert.match(out.html,/data-kg-ssr="PASS"/,'V6 browser check failed '+path+': '+(out.html.match(/data-kg-ssr-why="[^"]*"/)||[])[0]);

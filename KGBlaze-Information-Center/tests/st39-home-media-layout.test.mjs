@@ -16,7 +16,7 @@ test('Stage 39 Home retains original content, icons and inline streaming — no 
  assert.match(home,/data-i18n="musicNav">Música ▾/);
  assert.match(home,/class="media-brand-icon"[^>]*>YouTube/);
  assert.match(home,/class="media-brand-icon"[^>]*>Twitch/);
- assert.match(home,/replaceChildren\(makeEmbed\('twitch'\)\)/);
+ assert.match(home,/twitchScreen\.replaceChildren\(frame\)/);
  assert.doesNotMatch(home,/twitch-player-layer|id="twitch-preview"|openTwitchPlayer/);
  assert.match(home,/Explora nuestros destinos/);
  assert.match(home,/Métodos de apoyo disponibles/);
