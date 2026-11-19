@@ -1,0 +1,99 @@
+/**
+ * Project Relight Stage 42 CP04 — OFFLINE deployment readiness checks.
+ *
+ * Inspects source, migration and Wrangler config ONLY; does not contact
+ * Cloudflare, Twitch or YouTube, read secrets, or mutate local/remote D1.
+ * Not a substitute for remote D1 schema, deployed Worker and admin review.
+ *
+ * Usage: node scripts/recognition-deploy-preflight.mjs
+ */
+import {readFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {resolve,dirname} from 'node:path';
+
+const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const read=name=>readFileSync(resolve(ROOT,name),'utf8');
+const fail=[];
+function verify(ok,message){
+ if(!ok)fail.push(message);
+}
+const wrangler=read('wrangler.toml');
+const sql=read('migrations/recognition_twitch_oauth.sql');
+const router=read('src/portal-route.mjs');
+const oauth=read('src/recognition-twitch-oauth.mjs');
+const worker=read('src/worker.mjs');
+const controller=read('src/recognition-twitch-connection.mjs');
+const currentVars=wrangler.split(/^\s*\[vars\]\s*$/m)[1]?.split(/^\s*\[/m)[0]||'';
+
+verify(/^\s*name\s*=\s*"kgblaze-terminal"\s*$/m.test(wrangler),
+ 'unexpected Worker name');
+verify(/^\s*binding\s*=\s*"DB"\s*$/m.test(wrangler),
+ 'D1 DB binding missing');
+verify(/^\s*database_name\s*=\s*"kgblaze-terminal"\s*$/m.test(wrangler),
+ 'unexpected D1 database name');
+verify(/^\s*database_id\s*=\s*"d48b2cf2-cb29-48f1-bb50-1d0a4f66ba37"\s*$/m.test(wrangler),
+ 'D1 database UUID was changed');
+verify(/^\s*crons\s*=\s*\["\*\/5 \* \* \* \*", "0 9 \* \* \*"\]\s*$/m.test(wrangler),
+ 'original Terminal Cron triggers altered');
+verify(/^\s*keep_vars\s*=\s*true\s*$/m.test(wrangler),
+ 'keep_vars lost — dashboard variables may be overwritten');
+
+verify(oauth.includes("export const TWITCH_OWNER_CALLBACK_PATH='/twitch/oauth/callback'"),
+ 'historical callback path changed');
+verify(oauth.includes("https://kgblaze.dpdns.org'+TWITCH_OWNER_CALLBACK_PATH"),
+ 'historical callback host changed');
+verify(wrangler.includes('"/twitch/oauth/callback"'),
+ 'callback missing from run_worker_first');
+verify(router.includes("'/twitch/oauth/callback':['GET']"),
+ 'router callback changed or missing');
+for(const action of ['start','status','refresh','disconnect']){
+ const route='/departures/api/admin/recognition/twitch/'+action;
+ verify(router.includes("'"+route+"':["),'protected '+action+' route missing');
+ verify(router.includes("'/api/admin/recognition/twitch/"+action+"'"),
+  'internal '+action+' route missing from allowlist');
+}
+verify(!router.includes("'/api/admin/recognition/twitch/disconnect':['POST']"),
+ 'root admin alias accidentally exposed on custom domain');
+verify(worker.includes("if(!await authorized(req,env))"),
+ 'Worker lost bearer authorization');
+verify(worker.includes("X-Relight-Recognition-Confirm"),
+ 'disconnect lost explicit confirmation gate');
+verify(worker.includes("env.RECOGNITION_TWITCH_OAUTH_ENABLED!=='true'"),
+ 'callback fail-closed gate missing');
+verify(controller.includes("RECOGNITION_TWITCH_TOKEN_KEY_B64"),
+ 'recognition encryption secret lookup missing');
+verify(controller.includes("'AES-GCM'"),
+ 'token encryption unexpectedly removed');
+verify(controller.includes('DELETE FROM recognition_twitch_oauth_states'),
+ 'disconnect no longer invalidates outstanding states');
+verify(controller.includes('DELETE FROM recognition_twitch_oauth_credentials'),
+ 'disconnect no longer removes encrypted credentials');
+verify(!currentVars.includes('RECOGNITION_TWITCH_OAUTH_ENABLED = "true"'),
+ 'dangerous: OAuth flag is activated in tracked Wrangler vars');
+verify(!/^\s*(TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64|ADMIN_TOKEN)\s*=/m.test(wrangler),
+ 'a secret variable was committed to wrangler.toml');
+
+const tables=[...sql.matchAll(/\bCREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+(\w+)/gi)].map(x=>x[1]);
+verify(tables.length===2 && tables.includes('recognition_twitch_oauth_states') &&
+ tables.includes('recognition_twitch_oauth_credentials'),
+ 'migration must contain exactly the two dedicated OAuth tables');
+verify(!/\b(ALTER|DROP)\s+TABLE\b/i.test(sql),
+ 'migration attempts to alter/drop existing tables');
+verify(!/\b(INSERT|UPDATE|DELETE)\s+(?:INTO|FROM)?\s*(terminal_state|terminal_audit|recognition_optins)\b/i.test(sql),
+ 'migration references production editorial/consent rows');
+verify(/consumed_at_ms/.test(sql) && /refresh_lock_until_ms/.test(sql),
+ 'missing single-use-state or refresh lock columns');
+
+const result={
+ step:'Stage42 CP04 static preparation',
+ passed:fail.length===0,
+ checked:'source, router, wrangler and scoped migration ONLY',
+ remoteCloudflareChecked:false,
+ remoteSchemaModified:false,
+ deployed:false,
+ credentialsUsed:false,
+ items:24,
+ failures:fail
+};
+process.stdout.write(JSON.stringify(result,null,2)+'\n');
+if(fail.length)process.exitCode=1;
