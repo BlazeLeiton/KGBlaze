@@ -20,6 +20,10 @@ binding = "BROWSER"
 # Identificador público del canal ya guardado en Cloudflare Dashboard.
 # Mantener en sincronía los deployments de GitHub; NO incluir secretos aquí.
 [vars]
+# Public numeric broadcaster ID confirmed in Cloudflare production settings.
+# Does NOT enable OAuth: recognition stays fail-closed until its separate flag,
+# AES-GCM secret and owner authorization are explicitly configured.
+TWITCH_RECOGNITION_BROADCASTER_ID = "70386764"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
