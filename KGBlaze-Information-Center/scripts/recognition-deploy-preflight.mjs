@@ -70,6 +70,8 @@ verify(controller.includes('DELETE FROM recognition_twitch_oauth_states'),
  'disconnect no longer invalidates outstanding states');
 verify(controller.includes('DELETE FROM recognition_twitch_oauth_credentials'),
  'disconnect no longer removes encrypted credentials');
+verify(/^\s*TWITCH_RECOGNITION_BROADCASTER_ID\s*=\s*"70386764"\s*$/m.test(currentVars),
+ 'expected public Twitch broadcaster ID missing or changed in [vars]');
 verify(!/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*(?:["']true["']|true)\s*(?:#.*)?$/m.test(currentVars),
  'dangerous: OAuth flag is activated in tracked Wrangler vars');
 verify(!/^\s*(TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64|ADMIN_TOKEN)\s*=/m.test(wrangler),
