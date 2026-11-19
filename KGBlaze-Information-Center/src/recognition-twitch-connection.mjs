@@ -10,7 +10,7 @@
  * Tokens are AES-256-GCM encrypted for D1; never returned in HTTP responses.
  */
 import {beginTwitchOwnerOAuth,completeTwitchOwnerOAuth,
- hashTwitchOwnerOAuthState} from './recognition-twitch-oauth.mjs';
+ hashTwitchOwnerOAuthState,refreshTwitchOwnerOAuth} from './recognition-twitch-oauth.mjs';
 
 const fail=reason=>({ok:false,reason});
 const ENC_SECRET='RECOGNITION_TWITCH_TOKEN_KEY_B64';
@@ -24,7 +24,7 @@ async function encryptionKey(env){
  try{
   const raw=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
   if(raw.length!==32)return null;
-  return await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['encrypt']);
+  return await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['encrypt','decrypt']);
  }catch{return null;}
 }
 const toB64=data=>btoa(String.fromCharCode(...new Uint8Array(data)));
@@ -34,6 +34,19 @@ async function encryptToken(key,token,ownerId,kind){
  const data=await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:aad},
   key,encoder.encode(token));
  return {ciphertext:toB64(data),nonce:toB64(iv)};
+}
+async function decryptToken(key,ciphertext,nonce,ownerId,kind){
+ if(typeof ciphertext!=='string'||typeof nonce!=='string'||nonce.length!==16)
+  throw Error('corrupt encrypted token');
+ const iv=Uint8Array.from(atob(nonce),c=>c.charCodeAt(0));
+ const bytes=Uint8Array.from(atob(ciphertext),c=>c.charCodeAt(0));
+ if(iv.length!==12||bytes.length<17||bytes.length>8192)
+  throw Error('invalid encrypted token');
+ const aad=encoder.encode('KGBlaze:recognition:twitch:'+ownerId+':'+kind+':v1');
+ const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv,additionalData:aad},key,bytes);
+ const token=new TextDecoder().decode(plain);
+ if(!token||token.length>4096)throw Error('invalid token');
+ return token;
 }
 function ready(env){
  return !!env?.DB&&env.RECOGNITION_TWITCH_OAUTH_ENABLED==='true'&&
@@ -106,7 +119,8 @@ export async function finishTwitchOwnerConnection(env,
    'ON CONFLICT(slot) DO UPDATE SET owner_id=excluded.owner_id,'+
    'access_ciphertext=excluded.access_ciphertext,access_nonce=excluded.access_nonce,'+
    'refresh_ciphertext=excluded.refresh_ciphertext,refresh_nonce=excluded.refresh_nonce,'+
-   'expires_at_ms=excluded.expires_at_ms,updated_at_ms=excluded.updated_at_ms'
+   'expires_at_ms=excluded.expires_at_ms,updated_at_ms=excluded.updated_at_ms,'+
+   'refresh_lock_until_ms=NULL'
   ).bind(owner,access.ciphertext,access.nonce,refresh.ciphertext,
    refresh.nonce,expiresAt,current).run();
   if(write?.meta?.changes!==1)return fail('private_storage_unavailable');
@@ -133,4 +147,62 @@ export async function statusTwitchOwnerConnection(env,{now=Date.now}={}){
    Number.isFinite(row.expires_at_ms)&&row.expires_at_ms>current+60_000,
    updatedAt:new Date(row.updated_at_ms).toISOString()};
  }catch{return fail('private_storage_unavailable');}
+}
+
+/**
+ * Admin-only, explicit refresh. No scheduled or public subscription requests.
+ * D1 CAS lock prevents simultaneous refresh token rotation. Failed provider
+ * calls release the lock; unexpected failures expire the lock after 2 minutes.
+ */
+export async function refreshStoredTwitchOwnerConnection(env,{
+ now=Date.now,fetchImpl=fetch}={}){
+ if(!ready(env))return fail('disabled_or_not_configured');
+ const key=await encryptionKey(env);
+ if(!key)return fail('missing_encryption_key');
+ const current=now(),owner=env.TWITCH_RECOGNITION_BROADCASTER_ID;
+ if(!Number.isSafeInteger(current)||current<0||
+    typeof owner!=='string'||!/^[0-9]{1,24}$/.test(owner))return fail('not_configured');
+ const lockUntil=current+120_000;
+ if(!Number.isSafeInteger(lockUntil))return fail('invalid_time');
+ let claimed=false;
+ try{
+  const row=await env.DB.prepare(
+   'UPDATE recognition_twitch_oauth_credentials SET refresh_lock_until_ms=? '+
+   'WHERE slot=1 AND owner_id=? AND '+
+   '(refresh_lock_until_ms IS NULL OR refresh_lock_until_ms<?) '+
+   'RETURNING owner_id,refresh_ciphertext,refresh_nonce'
+  ).bind(lockUntil,owner,current).first();
+  if(!row)return fail('connection_missing_or_busy');
+  claimed=true;
+  const previous=await decryptToken(key,row.refresh_ciphertext,row.refresh_nonce,owner,'refresh');
+  const result=await refreshTwitchOwnerOAuth(env,previous,{fetchImpl});
+  if(!result.ok)return fail('provider_or_owner_validation_failed');
+  const creds=result.credentials;
+  const [access,refresh]=await Promise.all([
+   encryptToken(key,creds.accessToken,owner,'access'),
+   encryptToken(key,creds.refreshToken,owner,'refresh')
+  ]);
+  const expires=current+creds.expiresIn*1000;
+  if(!Number.isSafeInteger(expires)||expires<=current)return fail('invalid_provider_expiry');
+  const written=await env.DB.prepare(
+   'UPDATE recognition_twitch_oauth_credentials SET '+
+   'access_ciphertext=?,access_nonce=?,refresh_ciphertext=?,refresh_nonce=?,'+
+   'expires_at_ms=?,updated_at_ms=?,refresh_lock_until_ms=NULL '+
+   'WHERE slot=1 AND owner_id=? AND refresh_lock_until_ms=?'
+  ).bind(access.ciphertext,access.nonce,refresh.ciphertext,refresh.nonce,
+   expires,current,owner,lockUntil).run();
+  if(written?.meta?.changes!==1)return fail('private_storage_unavailable');
+  claimed=false;
+  return {ok:true,tokenCurrent:true};
+ }catch{return fail('authorization_unavailable');}
+ finally{
+  if(claimed){
+   try{
+    await env.DB.prepare(
+     'UPDATE recognition_twitch_oauth_credentials SET refresh_lock_until_ms=NULL '+
+     'WHERE slot=1 AND owner_id=? AND refresh_lock_until_ms=?'
+    ).bind(owner,lockUntil).run();
+   }catch{/* Time-bounded lock fails closed until expiry. */}
+  }
+ }
 }
