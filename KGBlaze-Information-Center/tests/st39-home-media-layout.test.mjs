@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 
 const home=readFileSync(fileURLToPath(new URL('../public/home.html',import.meta.url)),'utf8');
 const headphones=readFileSync(fileURLToPath(new URL('../public/assets/icons/kgblaze-headphones-white.svg',import.meta.url)),'utf8');
+const departureHelper=readFileSync(fileURLToPath(new URL('../public/assets/home-departure-state.js',import.meta.url)),'utf8');
 
 test('Stage 39 Home retains original content, icons and inline streaming — no on-demand modal',()=>{
  assert.match(home,/href="\/music\/assets\/typography-v1\.css"/);
@@ -45,6 +46,7 @@ test('Home real Chrome geometry respects Twitch 400×300 for desktop; mobile rem
   </script>`;
  const srv=createServer((req,res)=>{
   const u=new URL(req.url,'http://localhost');
+  if(u.pathname==='/assets/home-departure-state.js'){res.writeHead(200,{'Content-Type':'application/javascript'});res.end(departureHelper);return}
   if(u.pathname==='/assets/icons/kgblaze-headphones-white.svg'){res.writeHead(200,{'Content-Type':'image/svg+xml'});res.end(headphones);return}
   if(u.pathname==='/music/assets/typography-v1.css'){res.writeHead(200,{'Content-Type':'text/css'});res.end('/* Font lives on the real Worker; layout sizes still tested */');return}
   if(u.pathname==='/api/public'){res.writeHead(200,{'Content-Type':'application/json'});res.end('{"events":[],"sync":{}}');return}
