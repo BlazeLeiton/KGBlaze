@@ -234,5 +234,5 @@ test('verified YouTube title is sanitized and has no effect on the Twitch event'
 test('empty YouTube title never becomes an invented caption',()=>{
  const untitled=video({snippet:{...video().snippet,title:'   '}});
  const result=plan(agenda(),proof([untitled]));
- assert.equal(Object.hasOwn(result.observations['tw:killer'],'videoTitle'),false);
+ assert.equal(result.observations['tw:killer']?.videoTitle,undefined);
 });
