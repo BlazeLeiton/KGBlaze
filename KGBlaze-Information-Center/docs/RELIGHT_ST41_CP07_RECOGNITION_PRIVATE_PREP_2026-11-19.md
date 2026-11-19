@@ -5,6 +5,28 @@ Fecha: 2026-11-19, America/Mexico_City.
 ## Texto editorial
 **Español aprobado:** «Gracias a quienes hacen posible este viaje». Cambia la copia por defecto y el valor ES de \`recognitionTitle\` en la franja ya publicada. **Las traducciones EN/JA y el subtítulo se revisarán posteriormente**, y por tanto se mantienen en sus variantes anteriores sin afirmar que sean definitivas.
 
+## Auditoría de puentes YA existentes en Terminal — precisión de Stage 41 CP08
+
+Esta revisión comprueba los fuentes de \`main\` al 19-nov-2026 y la continuidad de Stage 7/octubre. No se ha inspeccionado el almacén privado de secretos o la consola real de Twitch Developer: no convertir una configuración documentada en una validación actual de acceso.
+
+| Puente ya disponible | Archivo/función | Qué ofrece hoy | Límite para reconocimientos |
+|---|---|---|---|
+| Twitch App «KGBlaze Integrated Services» | \`src/twitch-box-art.mjs\`, bindings \`TWITCH_CLIENT_ID\`/\`TWITCH_CLIENT_SECRET\` del Worker | Credenciales **de la aplicación** y Helix Get Games, con \`client_credentials\` y token de aplicación en caché | No autoriza \`channel:read:subscriptions\`. Reutilizar \`client_id\` y configuración de app, pero obtener **User Access Token OAuth del broadcaster** |
+| Twitch iCalendar | Importador \`parseICS()\` en \`public/index.html\`; origen editorial Twitch | Agenda, fechas, \`SUMMARY\`, \`CATEGORIES\`, \`DESCRIPTION\`, importación a Terminal | No contiene listas de suscriptores ni autentica usuarios |
+| Twitch Player Home | \`public/home.html\`, \`player.twitch.tv\` y vínculo del canal | Reproducción embebida pública | No ofrece datos privados de suscriptores |
+| YouTube Data API v3 | \`src/youtube-sync.mjs\`, \`experiments/youtube-matching/*\` | API key y canal propio verificado, detección \`upcoming/live/completed\`, \`snippet.title\`, observaciones al \`sync_json\`, Cron cinco minutos | **API Key no equivale a OAuth** ni concede acceso a \`members.list\` |
+| Worker, D1, Cron, administración | \`src/worker.mjs\`, \`src/core.mjs\`, \`wrangler.toml\` | Una sola infraestructura Cloudflare; \`terminal_state\`, \`/api/public\`, \`/api/admin/snapshot\`/\`sync\`/\`publish\`, \`ADMIN_TOKEN\`, protecciones existentes | Reutilizar infraestructura, no añadir identidades a \`/api/public\`; datos privados en tabla/rutas separadas con controles y permisos específicos |
+| Home ↔ Terminal | \`public/home.html\` y \`/api/public\` | Consumo público ya operativo de agenda, estados, enlaces y títulos verificados | El feed **no contiene** la identidad de miembros ni suscriptores; no debe incluirla por accidente |
+
+**Implicaciones de diseño:**
+- En Twitch **no comenzar registrando otra aplicación**. Verificar la app de octubre, que su \`client_id\` sea el usado en Cloudflare y la posibilidad de configurar una redirect URI; realizar OAuth Authorization Code del broadcaster con \`channel:read:subscriptions\`, renovar tokens y conservarlos sólo en almacenamiento protegido. El app token existente para portadas debe continuar independiente del user token.
+- Un permiso de subs no habilita por sí mismo publicación: la nueva \`migrations/recognition_optins.sql\` queda sin aplicar, y se requieren consentimiento de verificación, consentimiento de mostrar alias, aprobación editorial y retirada.
+- En YouTube **reutilizar el canal identificado, la lógica de coincidencia y el Worker**, sin crear otra infraestructura de metadatos. La API de miembros requiere acceso especial por canal, además del OAuth \`youtube.channel-memberships.creator\`; no intentar descubrir miembros desde \`sync_json\` o del sistema XP.
+- Los cron existentes (**\`*/5 * * * *\` YouTube**, **\`0 9 * * *\` preview social**) cumplen propósitos distintos. Una verificación de suscriptores deberá tener cadencia y guardas propias; no colgarla silenciosamente del cron de vuelos.
+- El \`ADMIN_TOKEN\` del dashboard V25 sirve de **precedente de autenticación interna**, no de autorización para que cualquier navegador de fans vea las suscripciones. Un futuro administrador de reconocimientos debe tener protección revisada y no exponer tokens OAuth, respuestas completas ni IDs privados en HTML/API pública.
+
+**Fuentes oficiales:** https://dev.twitch.tv/docs/api/reference/subscriptions ; https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/ ; https://dev.twitch.tv/docs/authentication/refresh-tokens/ ; https://developers.google.com/youtube/data/reference/rest/v3/members/list .
+
 ## Integración técnica: límites explícitos
 Esta etapa añade un adaptador privado y verificable por pruebas: \`src/recognition-private.mjs\`. **NO está importado por el Worker**, no añade rutas, no ejecuta cron, no conecta con Twitch ni YouTube, no escribe en D1, no exige nuevas credenciales y NO publica nombres. El módulo se montará en la próxima etapa sólo después de revisar seguridad, OAuth y consentimiento.
 
@@ -29,7 +51,7 @@ Esta etapa añade un adaptador privado y verificable por pruebas: \`src/recognit
 
 ## Pasos siguientes
 1. Elegir mecanismo de consentimiento y alias público, y revisar/autorizar la migración D1.
-2. Registrar aplicación Twitch con redirect URI HTTPS y realizar OAuth Authorization Code, con refresh y protección CSRF \`state\` y validación de identidad. **No pedir tokens en chat**.
+2. **Reutilizar primero la aplicación Twitch existente «KGBlaze Integrated Services»** (identificada en las revisiones de octubre; validar su configuración vigente en Twitch Developer Console), añadir/verificar una redirect URI HTTPS permitida y realizar OAuth Authorization Code para el **usuario propietario**, con refresh y protección CSRF \`state\` y validación de identidad. No registrar otra app salvo impedimento confirmado. **No pedir tokens en chat**.
 3. Conectar sólo entonces el adaptador a un endpoint privado del Centro de Control con login y a un job programado rate-limited; auditarlos. No mover la data al cron editorial de Terminal sin especificación previa.
 4. Integrar a Home una lista pública mínima de alias consentidos, con fecha de estado y fallback sin nombres, sin recargar los embeds.
 5. Reevaluar si YouTube concede permiso especial, de lo contrario usar verificación manual con caducidad.
