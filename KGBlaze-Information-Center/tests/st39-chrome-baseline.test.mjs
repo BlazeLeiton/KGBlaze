@@ -21,7 +21,7 @@ const headphones=read('../public/assets/icons/kgblaze-headphones-white.svg');
 test('CP03 pins the approved Stage 39 metric contract for future KGBlaze sites',()=>{
  const d=KG_CHROME_V1.desktop,m=KG_CHROME_V1.mobile,c=KG_CHROME_V1.colors;
  assert.equal(KG_CHROME_V1.sourceCommit,'56b07befd09e2cbcc91ef3ec82e80b520c8b4357');
- assert.deepEqual([d.minWidth,d.headerHeight,d.headerPaddingX,d.logoFontSize,d.departuresWidth,d.departuresHeight,d.languagesWidth,d.socialWidth,d.socialIconSize],[761,58,24,24,96,35,76,50,28]);
+ assert.deepEqual([d.minWidth,d.headerHeight,d.headerPaddingX,d.logoFontSize,d.departuresWidth,d.departuresHeight,d.languagesWidth,d.socialWidth,d.socialIconSize],[761,58,24,24,124,35,76,50,28]);
  assert.deepEqual([m.maxWidth,m.headerHeight,m.logoFontSize,m.socialHeight,m.socialIconSize],[760,56,23,60,25]);
  assert.equal(d.navGap,'clamp(11px,1.5vw,21px)');
  assert.equal(d.socialPadding,'34px 2px 16px');
@@ -81,7 +81,7 @@ test('Desktop browser preserves the exact computed header, language and rail dim
  'var key=new URLSearchParams(location.search).get("surface");var s=selectors[key];'+
  'var num=(q,dim)=>{var e=document.querySelector(q);return e?Math.round(e.getBoundingClientRect()[dim]):-1};'+
  'var style=(q,k)=>{var e=document.querySelector(q);return e?getComputedStyle(e)[k]:"missing"};'+
- 'var m={headerHeight:num(s.header,"height"),logoLeft:num(s.logo,"left"),logoSize:style(s.logo,"fontSize"),navSize:style(s.nav,"fontSize"),navGap:style(s.nav,"columnGap"),departuresWidth:num(s.departures,"width"),departuresHeight:num(s.departures,"height"),langsWidth:num(s.langs,"width"),activeColor:style(s.active,"color"),inactiveColor:style(s.inactive,"color"),activeUnderline:style(s.active,"borderBottomColor"),railWidth:num(s.rail,"width"),railTop:num(s.rail,"top"),railGap:style(s.rail,"rowGap"),iconWidth:num(s.icon,"width"),iconHeight:num(s.icon,"height")};'+
+ 'var dep=document.querySelector(s.departures),plane=dep&&dep.querySelector("svg"),label=dep&&dep.querySelector("span");if(label)label.textContent="Departures";var db=dep&&dep.getBoundingClientRect(),ib=plane&&plane.getBoundingClientRect(),lb=label&&label.getBoundingClientRect();var inside=!!(db&&ib&&lb&&ib.width>=19&&ib.height>=19&&ib.left>=db.left+2&&ib.right<=lb.left-2&&lb.right<=db.right-2);var m={departureIconInside:inside,headerHeight:num(s.header,"height"),logoLeft:num(s.logo,"left"),logoSize:style(s.logo,"fontSize"),navSize:style(s.nav,"fontSize"),navGap:style(s.nav,"columnGap"),departuresWidth:num(s.departures,"width"),departuresHeight:num(s.departures,"height"),langsWidth:num(s.langs,"width"),activeColor:style(s.active,"color"),inactiveColor:style(s.inactive,"color"),activeUnderline:style(s.active,"borderBottomColor"),railWidth:num(s.rail,"width"),railTop:num(s.rail,"top"),railGap:style(s.rail,"rowGap"),iconWidth:num(s.icon,"width"),iconHeight:num(s.icon,"height")};'+
  'document.documentElement.setAttribute("data-kg-chrome-qa",JSON.stringify(m));'+
  '},350);})();</script>';
  const srv=createServer((req,res)=>{
@@ -118,6 +118,7 @@ test('Desktop browser preserves the exact computed header, language and rail dim
    assert.equal(data.logoSize,d.logoFontSize+'px',site+' logo size');
    assert.equal(data.navSize,d.navFontSize+'px',site+' nav size');
    assert.equal(data.departuresWidth,d.departuresWidth,site+' departures width');
+   assert.equal(data.departureIconInside,true,site+' plane SVG and full English Departures must fit inside the blue button');
    assert.equal(data.departuresHeight,d.departuresHeight,site+' departures height');
    assert.equal(data.langsWidth,d.languagesWidth,site+' languages width');
    assert.equal(data.activeColor,'rgb(255, 255, 255)',site+' selected language');

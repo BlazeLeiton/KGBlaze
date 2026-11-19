@@ -2,6 +2,9 @@
  * Project Relight · KGBlaze Chrome V1 — 18 Nov 2026.
  *
  * Frozen canonical values for the APPROVED common exterior after PR #172.
+ * Stage 41 (2026-11-18) corrective override: original 96px Departures slot
+ * could not fit the plane SVG and full English label. Correct to 124px on all
+ * three sites without changing header height, language slots or board canvas.
  * New site surfaces should import these values instead of inventing metrics.
  * The three existing renderers differ technically and are guarded by CI:
  *  - Home: static public/home.html (CSS/DOM).
@@ -18,7 +21,7 @@ export const KG_CHROME_V1=Object.freeze({
     minWidth:761,headerHeight:58,headerPaddingX:24,headerGap:15,
     logoFontSize:24,logoFontWeight:750,logoLetterSpacing:'-.045em',
     navFontSize:12,navFontWeight:700,navGap:'clamp(11px,1.5vw,21px)',
-    rightGap:15,departuresWidth:96,departuresHeight:35,departuresRadius:7,departuresIcon:21,
+    rightGap:15,departuresWidth:124,departuresHeight:35,departuresRadius:7,departuresIcon:21,
     languagesWidth:76,languageSlotWidth:20,languageFontSize:11,languageFontWeight:750,languageSlotHeight:30,
     socialWidth:50,socialTop:58,socialPadding:'34px 2px 16px',socialGap:14,
     socialHitWidth:44,socialHitHeight:30,socialIconSize:28
