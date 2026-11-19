@@ -14,7 +14,9 @@ import {resolve,dirname} from 'node:path';
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const read=name=>readFileSync(resolve(ROOT,name),'utf8');
 const fail=[];
+let checkCount=0;
 function verify(ok,message){
+ checkCount++;
  if(!ok)fail.push(message);
 }
 const wrangler=read('wrangler.toml');
@@ -68,7 +70,7 @@ verify(controller.includes('DELETE FROM recognition_twitch_oauth_states'),
  'disconnect no longer invalidates outstanding states');
 verify(controller.includes('DELETE FROM recognition_twitch_oauth_credentials'),
  'disconnect no longer removes encrypted credentials');
-verify(!currentVars.includes('RECOGNITION_TWITCH_OAUTH_ENABLED = "true"'),
+verify(!/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*(?:["']true["']|true)\s*(?:#.*)?$/m.test(currentVars),
  'dangerous: OAuth flag is activated in tracked Wrangler vars');
 verify(!/^\s*(TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64|ADMIN_TOKEN)\s*=/m.test(wrangler),
  'a secret variable was committed to wrangler.toml');
@@ -92,7 +94,7 @@ const result={
  remoteSchemaModified:false,
  deployed:false,
  credentialsUsed:false,
- items:24,
+ items:checkCount,
  failures:fail
 };
 process.stdout.write(JSON.stringify(result,null,2)+'\n');
