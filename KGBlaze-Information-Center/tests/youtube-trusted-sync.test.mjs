@@ -64,6 +64,7 @@ test('trusted planner converts original Killer Chat creative title to verified u
  assert.equal(o.verified,true);assert.equal(o.matchConfirmed,true);
  assert.equal(o.source,'youtube_data_api_v3');assert.equal(o.status,'upcoming');
  assert.equal(o.videoId,id);assert.equal(o.checkedAt,NOW.toISOString());
+ assert.equal(o.videoTitle,'💌 Encuentra el Amor | Killer Chat!');
  assert.equal(o.scheduledAt,NOW.toISOString());
  for(const k of ['lifeCycleStatus','actualEndTime','endedAt'])assert.equal(Object.hasOwn(o,k),false);
 });
@@ -148,6 +149,7 @@ test('scheduled hourly discovery writes verified upcoming with CAS and no editor
  const sync=JSON.parse(db.row.sync_json);
  assert.equal(sync['tw:killer'].youtube.status,'upcoming');
  assert.equal(sync['tw:killer'].youtube.verified,true);
+ assert.equal(sync['tw:killer'].youtube.videoTitle,'💌 Encuentra el Amor | Killer Chat!');
  assert.equal(JSON.stringify(result).includes('FAKE-PRIVATE-KEY'),false);
 });
 test('five-minute detail refresh uses videos.list only after editorial or stored match',async()=>{
@@ -217,4 +219,20 @@ test('72-hour preflight window sees tomorrow and day-after rooms, not week-away 
 test('expanded 72-hour window does not remove the 8-hour past-broadcast cutoff',()=>{
  const old=fixture({day:'2026-10-13',time:'13:59'});
  assert.equal(activeYouTubeEvents(agenda([old]),NOW).length,0);
+});
+
+test('verified YouTube title is sanitized and has no effect on the Twitch event',()=>{
+ const editorial=agenda(),before=structuredClone(editorial);
+ const unusual=video({snippet:{...video().snippet,title:'💌 Encuentra el Amor \u0000 | Killer Chat!'}});
+ const result=plan(editorial,proof([unusual]));
+ const title=result.observations['tw:killer'].videoTitle;
+ assert.ok(title.length<=160);
+ assert.ok(title.includes('Killer Chat!'));
+ assert.ok(!/[\u0000-\u001f\u007f]/.test(title));
+ assert.deepEqual(editorial,before);
+});
+test('empty YouTube title never becomes an invented caption',()=>{
+ const untitled=video({snippet:{...video().snippet,title:'   '}});
+ const result=plan(agenda(),proof([untitled]));
+ assert.equal(result.observations['tw:killer']?.videoTitle,undefined);
 });

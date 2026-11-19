@@ -100,6 +100,10 @@ export function buildTrustedYouTubeObservations(agenda,evidence,{
    checkedAt:evidence.fetchedAt,status,videoId:match.videoId,
    videoUrl:'https://youtu.be/'+match.videoId,
    editorialIdentity:editorialIdentity(event),
+   // Title is taken only from this server-verified, owned YouTube room.
+   // Never overwrite the Twitch-derived editorial title/category.
+   ...(typeof s.title==='string'&&s.title.trim()
+      ?{videoTitle:s.title.replace(/[\u0000-\u001F\u007F]/g,' ').trim().slice(0,160)}:{}),
    ...(completion||{})
   };
   if(checked(scheduledAt))observation.scheduledAt=scheduledAt;
