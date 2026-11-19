@@ -206,26 +206,27 @@ test('Worker start/callback/status integrate on historical hostname without leak
  assert.equal(start.status,200,await start.clone().text());
  const body=await start.json();
  assert.equal(body.ok,true);
- assert.equal(new URL(body.authorizeUrl).searchParams.get('state')?.length,64);
+ const issuedState=new URL(body.authorizeUrl).searchParams.get('state');
+ assert.equal(issuedState?.length,64);
  assert.equal(start.headers.get('Cache-Control'),'no-store');
  assert.equal(start.headers.get('Referrer-Policy'),'no-referrer');
  const oldFetch=globalThis.fetch;
  const p=provider();
  try{
   globalThis.fetch=p.fetchImpl;
-  const callback=await worker.fetch(new Request(REDIRECT+'?state='+STATE+'&code=abcDEF123'),env);
+  const callback=await worker.fetch(new Request(REDIRECT+'?state='+issuedState+'&code=abcDEF123'),env);
   assert.equal(callback.status,200);
   assert.equal(callback.headers.get('Referrer-Policy'),'no-referrer');
   const text=await callback.text();
   assert.ok(!text.includes('ACCESS_SENSITIVE'));
-  assert.ok(!text.includes(STATE));
+  assert.ok(!text.includes(issuedState));
   assert.equal(DB.tokens?.owner_id,'123');
   const status=await worker.fetch(new Request(statusPath,{headers}),env);
   assert.equal(status.status,200);
   const data=await status.json();
   assert.equal(data.connected,true);
   assert.ok(!JSON.stringify(data).includes('ciphertext'));
-  const replay=await worker.fetch(new Request(REDIRECT+'?state='+STATE+'&code=abcDEF123'),env);
+  const replay=await worker.fetch(new Request(REDIRECT+'?state='+issuedState+'&code=abcDEF123'),env);
   assert.equal(replay.status,400);
   assert.equal(p.calls.length,2);
  }finally{globalThis.fetch=oldFetch;}
