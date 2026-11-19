@@ -5,8 +5,10 @@ import {createServer} from 'node:http';
 import {spawn,spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 const source=readFileSync(fileURLToPath(new URL('../public/home.html',import.meta.url)),'utf8');
+const departureHelper=readFileSync(fileURLToPath(new URL('../public/assets/home-departure-state.js',import.meta.url)),'utf8');
 test('CP05 mobile layout, social bar and scaled Twitch preserve desktop baseline',()=>{
- assert.match(source,/\.twotiles\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(source,/\.twotiles\{grid-template-columns:minmax\(0,2fr\) minmax\(0,1fr\);align-items:stretch\}/);
+ assert.match(source,/\.twotiles\{grid-template-columns:minmax\(0,1fr\);gap:10px\}/);
  assert.match(source,/\.social-bottom\{display:flex!important;position:fixed!important/);
  assert.match(source,/footer\.kg-clean-footer\{margin:0!important/);
  assert.match(source,/twitchMobileHint:"En este tamaño, mira la transmisión directamente en Twitch\."/);
@@ -21,6 +23,7 @@ test('Chrome reproduces mobile constraints without horizontal page scrolling',{t
  const server=createServer((req,res)=>{
   const u=new URL(req.url,'http://localhost');
   if(u.pathname==='/outer'){const width=Number(u.searchParams.get('width'));res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end('<!doctype html><html><body style="margin:0"><iframe id="mobile" title="Home mobile test" src="/home?lang=es" style="width:'+width+'px;height:900px;border:0;display:block"></iframe><script>document.querySelector("#mobile").addEventListener("load",function(){setTimeout(function(){var inner=document.querySelector("#mobile").contentDocument;document.documentElement.setAttribute("data-mobile-audit",inner.documentElement.getAttribute("data-mobile-audit")||"{}");},750);});</script></body></html>');return}
+  if(u.pathname==='/assets/home-departure-state.js'){res.writeHead(200,{'Content-Type':'application/javascript'});res.end(departureHelper);return}
   if(u.pathname==='/music/assets/typography-v1.css'){res.writeHead(200,{'Content-Type':'text/css'});res.end('');return}
   if(u.pathname==='/api/public'){res.writeHead(200,{'Content-Type':'application/json'});res.end('{"events":[],"sync":{}}');return}
   if(u.pathname.startsWith('/fixture-')){res.writeHead(200,{'Content-Type':'text/html'});res.end('<html><body>fixture</body></html>');return}
