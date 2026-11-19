@@ -29,7 +29,7 @@ test('ES/EN/JA recognition content uses existing Home locale mechanism',()=>{
   assert.match(home,new RegExp('data-i18n="'+key+'"'));
   assert.equal((home.match(new RegExp(key+':','g'))||[]).length,3);
  }
- assert.match(home,/recognitionTitle:"Gracias por acompañar el viaje"/);
+ assert.match(home,/recognitionTitle:"Gracias a quienes hacen posible este viaje"/);
  assert.match(home,/recognitionTitle:"Thank you for being part of the journey"/);
  assert.match(home,/recognitionTitle:"一緒に旅してくれてありがとう"/);
  const inline=[...home.matchAll(/<script>([\s\S]*?)<\/script>/g)];
