@@ -36,11 +36,13 @@ test('Home real Chrome geometry respects Twitch 400×300 for desktop; mobile rem
    const y=document.getElementById('youtube-screen').getBoundingClientRect();
    const tw=document.getElementById('twitch-screen').getBoundingClientRect();
    const hero=document.querySelector('.hero-inner').getBoundingClientRect();
+   const players=document.querySelector('.media-grid').getBoundingClientRect();
+   const recognition=document.getElementById('kg-recognition-strip').getBoundingClientRect();
    const root=document.documentElement;
    root.setAttribute('data-relight-geometry',[
     Math.round(window.innerWidth),Math.round(root.clientWidth),
     Math.round(y.width),Math.round(y.height),Math.round(tw.width),Math.round(tw.height),
-    Math.round(y.top),Math.round(tw.top),Math.round(hero.width)
+    Math.round(y.top),Math.round(tw.top),Math.round(hero.width),Math.round(players.bottom),Math.round(recognition.top),Math.round(recognition.left),Math.round(recognition.right),Math.round(recognition.height)
    ].join(','));
   },400);
   </script>`;
@@ -71,7 +73,10 @@ test('Home real Chrome geometry respects Twitch 400×300 for desktop; mobile rem
    assert.equal(out.code,0,'Chrome failed width='+width+': '+out.errors);
    const m=out.result.match(/data-relight-geometry="([\d,]+)"/);
    assert.ok(m,'Missing actual layout metrics width='+width);
-   const [vw,clientWidth,yw,yh,tw,th,yt,tt,hw]=m[1].split(',').map(Number);
+   const [vw,clientWidth,yw,yh,tw,th,yt,tt,hw,playersBottom,stripTop,stripLeft,stripRight,stripHeight]=m[1].split(',').map(Number);
+   assert.ok(stripTop>=playersBottom-1,'Recognition must follow both players: '+JSON.stringify({width,playersBottom,stripTop}));
+   assert.ok(stripHeight>=35 && stripHeight<=95,'Recognition must stay compact: '+JSON.stringify({width,stripHeight}));
+   assert.ok(stripLeft>=-1&&stripRight<=vw+1,'Recognition must not overflow viewport: '+JSON.stringify({width,vw,stripLeft,stripRight}));
    assert.ok(hw>0 && tw>0 && yw>0,JSON.stringify({width,vw,clientWidth,hw,yw,tw}));
    if(width>760){
     assert.ok(yw>=400 && tw>=400,'Player narrower than Twitch minimum: '+JSON.stringify({width,vw,clientWidth,yw,tw}));
