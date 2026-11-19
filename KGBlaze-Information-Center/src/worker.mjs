@@ -7,7 +7,8 @@ import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
- statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection} from './recognition-twitch-connection.mjs';
+ statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
+ disconnectStoredTwitchOwnerConnection} from './recognition-twitch-connection.mjs';
 import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {VIEWER_PORTAL_CSS} from './viewer-portal-chrome.mjs';
@@ -165,6 +166,14 @@ async function handler(req,env){
   }
   if(path==='/api/admin/recognition/twitch/refresh'&&method==='POST'){
    const result=await refreshStoredTwitchOwnerConnection(env);
+   return json(result,result.ok?200:503,privateHeaders);
+  }
+  // Deliberately independent of the OAuth enabled flag: this must remain
+  // available for emergency disconnection after a flag has been disabled.
+  if(path==='/api/admin/recognition/twitch/disconnect'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='disconnect-twitch-owner')
+    return json({ok:false,error:'EXPLICIT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await disconnectStoredTwitchOwnerConnection(env);
    return json(result,result.ok?200:503,privateHeaders);
   }
   return json({ok:false,error:'NOT_FOUND'},404,privateHeaders);
