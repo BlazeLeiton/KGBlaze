@@ -103,7 +103,7 @@ export function buildTrustedYouTubeObservations(agenda,evidence,{
    // Title is taken only from this server-verified, owned YouTube room.
    // Never overwrite the Twitch-derived editorial title/category.
    ...(typeof s.title==='string'&&s.title.trim()
-      ?{videoTitle:s.title.replace(/[\\u0000-\\u001F\\u007F]/g,' ').trim().slice(0,160)}:{}),
+      ?{videoTitle:s.title.replace(/[\u0000-\u001F\u007F]/g,' ').trim().slice(0,160)}:{}),
    ...(completion||{})
   };
   if(checked(scheduledAt))observation.scheduledAt=scheduledAt;
