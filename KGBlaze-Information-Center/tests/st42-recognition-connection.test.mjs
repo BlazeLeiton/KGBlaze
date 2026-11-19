@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
- statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection} from '../src/recognition-twitch-connection.mjs';
+ statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
+ disconnectStoredTwitchOwnerConnection} from '../src/recognition-twitch-connection.mjs';
 
 const NOW=1795090000000;
 const REDIRECT='https://kgblaze.dpdns.org/twitch/oauth/callback';
@@ -13,7 +14,7 @@ const random=()=>new Uint8Array(32).fill(0x2a);
 const STATE='2a'.repeat(32);
 
 class FakeOAuthD1{
- constructor(){this.state=null;this.tokens=null;this.writes=0;this.consumptions=0;}
+ constructor(){this.state=null;this.tokens=null;this.writes=0;this.consumptions=0;this.batchFail=false;}
  prepare(sql){
   const db=this;
   const make=(args)=>({
@@ -22,13 +23,31 @@ class FakeOAuthD1{
   });
   return {bind:(...args)=>make(args),...make([])};
  }
+ async batch(statements){
+  if(this.batchFail)throw Error('simulated D1 batch unavailable');
+  const before={state:this.state,tokens:this.tokens,writes:this.writes};
+  try{return await Promise.all(statements.map(stmt=>stmt.run()));}
+  catch(e){Object.assign(this,before);throw e}
+ }
  async run(sql,args){
+  if(sql.startsWith('DELETE FROM recognition_twitch_oauth_states')){
+   const found=!!this.state;this.state=null;this.writes++;
+   return {meta:{changes:Number(found)}};
+  }
+  if(sql.startsWith('DELETE FROM recognition_twitch_oauth_credentials')){
+   const found=!!this.tokens;this.tokens=null;this.writes++;
+   return {meta:{changes:Number(found)}};
+  }
   if(sql.startsWith('INSERT INTO recognition_twitch_oauth_states')){
    this.state={hash:args[0],issued:args[1],expiry:args[2],used:null};
    this.writes++;
    return {meta:{changes:1}};
   }
   if(sql.startsWith('INSERT INTO recognition_twitch_oauth_credentials')){
+   const [,,,,,,,stateHash,consumed,checkedAt]=args;
+   if(!this.state||this.state.hash!==stateHash||
+      this.state.used!==consumed||this.state.expiry<checkedAt)
+    return {meta:{changes:0}};
    this.tokens={owner_id:args[0],access_ciphertext:args[1],
     access_nonce:args[2],refresh_ciphertext:args[3],refresh_nonce:args[4],
     expires_at_ms:args[5],updated_at_ms:args[6],
@@ -323,4 +342,167 @@ test('A live refresh lock prevents simultaneous token rotation',async()=>{
  release();
  assert.equal((await first).ok,true);
  assert.equal(DB.tokens.refresh_lock_until_ms,null);
+});
+
+
+test('CP03 disconnect deletes pending state and encrypted credentials, revokes access token only',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ const remote=[];
+ const fetchImpl=async(url,init)=>{
+  remote.push({url,init});
+  return {ok:true,status:200};
+ };
+ const result=await disconnectStoredTwitchOwnerConnection(env,{fetchImpl});
+ assert.deepEqual(result,{ok:true,locallyDisconnected:true,
+  providerRevocation:'access_token_revoked'});
+ assert.equal(DB.tokens,null);
+ assert.equal(DB.state,null);
+ assert.equal(remote.length,1);
+ assert.equal(remote[0].url,'https://id.twitch.tv/oauth2/revoke');
+ assert.equal(remote[0].init.method,'POST');
+ const form=new URLSearchParams(remote[0].init.body);
+ assert.equal(form.get('token'),'ACCESS_SENSITIVE');
+ assert.equal(form.get('client_id'),'registered-client');
+ assert.equal(form.get('client_secret'),null);
+ const status=await statusTwitchOwnerConnection(env);
+ assert.deepEqual(status,{ok:true,connected:false,tokenCurrent:false});
+ const second=await disconnectStoredTwitchOwnerConnection(env,{fetchImpl});
+ assert.equal(second.providerRevocation,'not_applicable');
+ assert.equal(remote.length,1);
+});
+test('CP03 emergency local deletion works with OAuth flag disabled and no encryption key',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ let called=0;
+ const result=await disconnectStoredTwitchOwnerConnection({
+  ...env,RECOGNITION_TWITCH_OAUTH_ENABLED:'false',
+  RECOGNITION_TWITCH_TOKEN_KEY_B64:''
+ },{fetchImpl:async()=>{called++;throw Error('must not call')}});
+ assert.equal(result.ok,true);
+ assert.equal(result.locallyDisconnected,true);
+ assert.equal(result.providerRevocation,'unconfirmed');
+ assert.equal(DB.state,null);
+ assert.equal(DB.tokens,null);
+ assert.equal(called,0);
+});
+test('CP03 provider failure never restores local tokens or claims remote revocation',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ const result=await disconnectStoredTwitchOwnerConnection(env,{
+  fetchImpl:async()=>{throw Error('outage')}});
+ assert.equal(result.ok,true);
+ assert.equal(result.providerRevocation,'unconfirmed');
+ assert.equal(DB.tokens,null);
+ assert.equal(DB.state,null);
+});
+test('CP03 D1 failure never attempts revocation or asserts local deletion',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ DB.batchFail=true;
+ let called=0;
+ const r=await disconnectStoredTwitchOwnerConnection(env,{
+  fetchImpl:async()=>{called++;return {status:200}}});
+ assert.equal(r.ok,false);
+ assert.equal(r.reason,'private_storage_unavailable');
+ assert.equal(DB.tokens?.owner_id,'123');
+ assert.ok(DB.state);
+ assert.equal(called,0);
+});
+test('CP03 in-flight OAuth callback can never resurrect credentials after disconnect',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ let released;
+ const blocked=new Promise(resolve=>{released=resolve});
+ let entered=0;
+ const p=provider();
+ const delayed=async(url,init)=>{
+  if(url.endsWith('/oauth2/token')){
+   entered++;
+   await blocked;
+  }
+  return p.fetchImpl(url,init);
+ };
+ const callback=finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:delayed});
+ for(let i=0;i<60&&entered===0;i++)
+  await new Promise(resolve=>setTimeout(resolve,5));
+ assert.equal(entered,1);
+ const disconnect=await disconnectStoredTwitchOwnerConnection(env,{
+  fetchImpl:async()=>{throw Error('no credentials to revoke')}});
+ assert.equal(disconnect.ok,true);
+ assert.equal(DB.tokens,null);
+ released();
+ const late=await callback;
+ assert.equal(late.ok,false);
+ assert.equal(DB.tokens,null);
+ assert.equal(DB.state,null);
+});
+test('CP03 disconnect racing with refresh keeps credentials absent',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ let released,entered=0;
+ const blocked=new Promise(resolve=>{released=resolve});
+ const p=provider();
+ const delayed=async(url,init)=>{
+  if(url.endsWith('/oauth2/token')){entered++;await blocked;}
+  return p.fetchImpl(url,init);
+ };
+ const refresh=refreshStoredTwitchOwnerConnection(env,{now:()=>NOW+200,fetchImpl:delayed});
+ for(let i=0;i<60&&entered===0;i++)
+  await new Promise(resolve=>setTimeout(resolve,5));
+ assert.equal(entered,1);
+ const disconnect=await disconnectStoredTwitchOwnerConnection(env,{
+  fetchImpl:async()=>({status:200})});
+ assert.equal(disconnect.locallyDisconnected,true);
+ released();
+ assert.equal((await refresh).ok,false);
+ assert.equal(DB.tokens,null);
+});
+test('CP03 Worker blocks unconfirmed, wrong-method and unauthenticated disconnect',async()=>{
+ const {env,DB}=setup();
+ const u='https://kgblaze.dpdns.org/departures/api/admin/recognition/twitch/disconnect';
+ const h={Authorization:'Bearer admin-secret-for-tests'};
+ assert.equal((await worker.fetch(new Request(u,{method:'POST'}),env)).status,401);
+ assert.equal((await worker.fetch(new Request(u,{method:'GET',headers:h}),env)).status,405);
+ assert.equal((await worker.fetch(new Request(u,{method:'POST',headers:h}),env)).status,400);
+ assert.equal((await worker.fetch(new Request(u,{method:'POST',headers:{
+  ...h,'X-Relight-Recognition-Confirm':'disconnect-twitch-owner',
+  Origin:'https://attacker.invalid'
+ }}),env)).status,403);
+ assert.equal(DB.writes,0);
+});
+test('CP03 Worker confirmed disconnect never exposes tokens, refresh or private member data',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ const u='https://kgblaze.dpdns.org/departures/api/admin/recognition/twitch/disconnect';
+ const headers={Authorization:'Bearer admin-secret-for-tests',
+  'X-Relight-Recognition-Confirm':'disconnect-twitch-owner'};
+ const originalFetch=globalThis.fetch;
+ let remote=0;
+ try{
+  globalThis.fetch=async()=>{remote++;return {status:200}};
+  const res=await worker.fetch(new Request(u,{method:'POST',headers}),env);
+  assert.equal(res.status,200);
+  const body=await res.text();
+  assert.equal(JSON.parse(body).providerRevocation,'access_token_revoked');
+  for(const sensitive of ['ACCESS_SENSITIVE','REFRESH_SENSITIVE','ciphertext','123']){
+   assert.equal(body.includes(sensitive),false);
+  }
+  assert.equal(DB.tokens,null);
+  assert.equal(DB.state,null);
+  assert.equal(remote,1);
+ }finally{globalThis.fetch=originalFetch;}
 });
