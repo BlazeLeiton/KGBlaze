@@ -5,6 +5,9 @@ import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflig
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
+import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
+import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
+ statusTwitchOwnerConnection} from './recognition-twitch-connection.mjs';
 import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {VIEWER_PORTAL_CSS} from './viewer-portal-chrome.mjs';
@@ -61,6 +64,27 @@ async function savePreview(req,env,revision){
 async function handler(req,env){
  const url=new URL(req.url),path=url.pathname,method=req.method;
  if(path==='/api/health'&&method==='GET')return json({ok:true,service:'kgblaze-terminal',database:!!env.DB,version:'preview-0.1'});
+ // Historical Twitch OAuth callback is deliberately the only root-level
+ // unauthenticated OAuth route. A random, hashed D1 state acts as CSRF proof.
+ // Never echo the provider code, tokens, state or error description.
+ if(path===TWITCH_OWNER_CALLBACK_PATH){
+  if(method!=='GET')return err(405,'METHOD_NOT_ALLOWED');
+  if(url.origin!=='https://kgblaze.dpdns.org')return err(404,'NOT_FOUND');
+  const result=await finishTwitchOwnerConnection(env,{
+   state:url.searchParams.get('state'),code:url.searchParams.get('code'),
+   error:url.searchParams.get('error')
+  });
+  const safe={
+   'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store',
+   'Referrer-Policy':'no-referrer','X-Robots-Tag':'noindex, nofollow, noarchive',
+   'X-Content-Type-Options':'nosniff',
+   'Content-Security-Policy':"default-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+  };
+  return new Response(result.ok?
+   'Autorización de Twitch guardada de forma privada. Puedes cerrar esta pestaña.':
+   'No se completó la autorización privada de Twitch. Vuelve al panel de administración.',
+   {status:result.ok?200:400,headers:safe});
+ }
  if(!env.DB&&['/api/public','/agenda_publica.json'].includes(path))return err(503,'DATABASE_NOT_CONFIGURED');
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
@@ -118,6 +142,22 @@ async function handler(req,env){
  if(method==='OPTIONS')return Object.keys(cors).length?new Response(null,{status:204,headers:cors}):err(403,'ORIGIN_NOT_ALLOWED');
  if(req.headers.has('Origin')&&!Object.keys(cors).length)return err(403,'ORIGIN_NOT_ALLOWED');
  if(!await authorized(req,env))return json({ok:false,error:'UNAUTHORIZED'},401,cors);
+ // Independent from Terminal editorial state and its YouTube sync. Never
+ // start high-privilege OAuth from a file:// or third-party Origin.
+ if(path.startsWith('/api/admin/recognition/twitch/')){
+  if(req.headers.has('Origin')&&req.headers.get('Origin')!==url.origin)
+   return err(403,'ORIGIN_NOT_ALLOWED');
+  const privateHeaders={...cors,'Referrer-Policy':'no-referrer'};
+  if(path==='/api/admin/recognition/twitch/start'&&method==='POST'){
+   const started=await startTwitchOwnerConnection(env);
+   return json(started,started.ok?200:503,privateHeaders);
+  }
+  if(path==='/api/admin/recognition/twitch/status'&&method==='GET'){
+   const status=await statusTwitchOwnerConnection(env);
+   return json(status,status.ok?200:503,privateHeaders);
+  }
+  return json({ok:false,error:'NOT_FOUND'},404,privateHeaders);
+ }
  const d=await getState(env);
  if(path==='/api/admin/snapshot'&&method==='GET')return json({schema:'terminal-admin-v1',revision:d.revision,editorial:d.editorial,sync:toSyncEnvelope(d.sync,d.revision),updatedAt:d.updatedAt},200,cors);
  if(path==='/api/admin/sync'&&method==='GET')return json(toSyncEnvelope(d.sync,d.revision),200,cors);
