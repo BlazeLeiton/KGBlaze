@@ -223,11 +223,12 @@ test('expanded 72-hour window does not remove the 8-hour past-broadcast cutoff',
 
 test('verified YouTube title is sanitized and has no effect on the Twitch event',()=>{
  const editorial=agenda(),before=structuredClone(editorial);
- const unusual=video({snippet:{...video().snippet,title:'  Video\\u0000 title\\u000b | episodio ' + 'x'.repeat(300)}});
+ const unusual=video({snippet:{...video().snippet,title:'💌 Encuentra el Amor \u0000 | Killer Chat!'}});
  const result=plan(editorial,proof([unusual]));
  const title=result.observations['tw:killer'].videoTitle;
  assert.ok(title.length<=160);
- assert.ok(!/[\\u0000-\\u001f\\u007f]/.test(title));
+ assert.ok(title.includes('Killer Chat!'));
+ assert.ok(!/[\u0000-\u001f\u007f]/.test(title));
  assert.deepEqual(editorial,before);
 });
 test('empty YouTube title never becomes an invented caption',()=>{
