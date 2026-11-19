@@ -4,6 +4,12 @@
 **Repositorio:** BlazeLeiton/KGBlaze. **PR:** #197, mantener DRAFT hasta completar controles de Cloudflare.  
 **Estado al generar este checkpoint:** CI y preflight offline disponibles en la rama, sin fusión ni despliegue. D1 remota, dashboard Workers Builds, valores de secrets y autorización real NO inspeccionados; no afirmar que están hechos.
 
+## Actualización verificada de producción — 19-nov-2026
+
+**Gate D1 cumplido:** en Cloudflare, la consola de la base `kgblaze-terminal` (binding `DB`, UUID `d48b2cf2-cb29-48f1-bb50-1d0a4f66ba37`) confirmó ejecución correcta de ambas sentencias `CREATE TABLE IF NOT EXISTS` del archivo `migrations/recognition_twitch_oauth.sql`. La consulta a `sqlite_master` devolvió exactamente `recognition_twitch_oauth_credentials` y `recognition_twitch_oauth_states`. El usuario había generado un Bookmark ID con Time Travel antes de la migración. **No se copia aquí el valor del bookmark**; su retención está limitada por Cloudflare. La consulta confirmó nombres de tablas y el SQL ejecutado coincide con el archivo; no hubo ninguna prueba de lectura/escritura de tokens reales.
+
+**Gates todavía pendientes:** comprobación humana de estrategia Workers Builds, identificación numérica real de broadcaster, clave AES-GCM privada, revisión de riesgos/seguridad, fusión/despliegue controlados de PR #197 y autenticación OAuth. **No ejecutar de nuevo la migración de modo rutinario**; comprobar el esquema antes de cualquier futura operación. El flag de OAuth permanece sin activar conforme a la configuración observada antes de la migración.
+
 ## Continuidad que NO se reconfigura
 
 Aplicación existente **KGBlaze Integrated Services** — Website Integration, Confidential; callback histórico **https://kgblaze.dpdns.org/twitch/oauth/callback**. Worker **kgblaze-terminal**; D1 binding **DB**, database_name **kgblaze-terminal**, database_id **d48b2cf2-cb29-48f1-bb50-1d0a4f66ba37**. Mantener TWITCH_CLIENT_ID y TWITCH_CLIENT_SECRET vigentes para Get Games / Twitch box-art; OAuth User Token es distinto del App Token.
