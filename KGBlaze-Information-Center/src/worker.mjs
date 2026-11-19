@@ -69,7 +69,14 @@ async function handler(req,env){
  // Never echo the provider code, tokens, state or error description.
  if(path===TWITCH_OWNER_CALLBACK_PATH){
   if(method!=='GET')return err(405,'METHOD_NOT_ALLOWED');
-  if(url.origin!=='https://kgblaze.dpdns.org')return err(404,'NOT_FOUND');
+  if(url.origin!=='https://kgblaze.dpdns.org'||
+     env.RECOGNITION_TWITCH_OAUTH_ENABLED!=='true')
+   return err(404,'NOT_FOUND');
+  // Reject parameter pollution before touching D1 or calling Twitch.
+  if(url.searchParams.getAll('state').length!==1||
+     url.searchParams.getAll('code').length>1||
+     url.searchParams.getAll('error').length>1)
+   return err(400,'INVALID_OAUTH_CALLBACK');
   const result=await finishTwitchOwnerConnection(env,{
    state:url.searchParams.get('state'),code:url.searchParams.get('code'),
    error:url.searchParams.get('error')
