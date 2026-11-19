@@ -91,6 +91,11 @@ class FakeOAuthD1{
    return {owner_id:owner,refresh_ciphertext:this.tokens.refresh_ciphertext,
     refresh_nonce:this.tokens.refresh_nonce};
   }
+  if(sql.startsWith('SELECT owner_id,access_ciphertext,access_nonce FROM recognition_twitch_oauth_credentials')){
+   return this.tokens?{owner_id:this.tokens.owner_id,
+    access_ciphertext:this.tokens.access_ciphertext,
+    access_nonce:this.tokens.access_nonce}:null;
+  }
   if(sql.startsWith('SELECT owner_id,expires_at_ms,updated_at_ms FROM recognition_twitch_oauth_credentials')){
    return this.tokens?{owner_id:this.tokens.owner_id,
     expires_at_ms:this.tokens.expires_at_ms,
