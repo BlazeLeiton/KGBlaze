@@ -223,7 +223,7 @@ test('Existing Worker blocks unauthorized start, other methods, cross-origin and
  assert.equal((await worker.fetch(new Request(startPath,{
   method:'POST',headers:{...header,Origin:'https://attacker.invalid'}}),env)).status,403);
  assert.equal((await worker.fetch(new Request(REDIRECT,{method:'POST'}),env)).status,405);
- assert.equal((await worker.fetch(new Request(REDIRECT.replace('kgblaze.dpdns.org','other.example'),env),env)).status,404);
+ assert.equal((await worker.fetch(new Request(REDIRECT.replace('kgblaze.dpdns.org','other.example')),env)).status,404);
  assert.equal(DB.writes,0);
 });
 test('Worker start/callback/status integrate on historical hostname without leaking secrets',async()=>{
@@ -308,7 +308,8 @@ test('A live refresh lock prevents simultaneous token rotation',async()=>{
  };
  const first=refreshStoredTwitchOwnerConnection(env,{now:()=>NOW+5000,fetchImpl:slowFetch});
  // Wait for the D1 lock claim to occur before starting second request.
- for(let i=0;i<100&&!DB.tokens.refresh_lock_until_ms;i++)await Promise.resolve();
+ for(let i=0;i<60&&!DB.tokens.refresh_lock_until_ms;i++)
+  await new Promise(resolve=>setTimeout(resolve,5));
  assert.ok(DB.tokens.refresh_lock_until_ms);
  const second=await refreshStoredTwitchOwnerConnection(env,{
   now:()=>NOW+5001,fetchImpl:slowFetch});
