@@ -18,5 +18,6 @@ CREATE TABLE IF NOT EXISTS recognition_twitch_oauth_credentials (
  refresh_ciphertext TEXT NOT NULL CHECK(length(refresh_ciphertext) > 20),
  refresh_nonce TEXT NOT NULL CHECK(length(refresh_nonce) = 16),
  expires_at_ms INTEGER NOT NULL CHECK(expires_at_ms > 0),
- updated_at_ms INTEGER NOT NULL CHECK(updated_at_ms > 0)
+ updated_at_ms INTEGER NOT NULL CHECK(updated_at_ms > 0),
+ refresh_lock_until_ms INTEGER CHECK(refresh_lock_until_ms IS NULL OR refresh_lock_until_ms > 0)
 );
