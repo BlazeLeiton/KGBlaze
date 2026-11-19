@@ -1,0 +1,9 @@
+# Project Relight — Stage 41 · CP03 · Epic Games Support-A-Creator
+
+19-nov-2026 (America/Mexico_City). Quinto método de apoyo, aprobación explícita: **Epic Games**, subtítulo **Apoya a un creador · Código: PADORU**. Punto medio «·» igual que los otros métodos. No abrir sitio externo: pulsar toda la tarjeta (botón accesible) copia `PADORU`.
+
+El mini panel de feedback **aparece dentro de la propia tarjeta** sólo tras una respuesta de copia. Mensaje ES «Código copiado: PADORU», EN «Code copied: PADORU», JP «コードをコピーしました：PADORU» (*Kōdo o kopī shimashita: PADORU*). Ante fallo se muestra un error real, no éxito falso; Clipboard API con respaldo execCommand. Temporizador 5 segundos, segunda pulsación reinicia. Cambios de idioma actualizan el texto visible con data-i18n. Pulsación por teclado nativa.
+
+Detalle «Ver información»: «Usa el código en Fortnite, Rocket League y compras elegibles de Epic Games Store.»; traducción EN «Use the code in Fortnite, Rocket League, and eligible Epic Games Store purchases.»; JP «Fortnite、Rocket League、Epic Games Storeでの対象となる購入にコードをご利用ください。» (*Fortnite, Rocket League, Epic Games Store de no taishō to naru kōnyū ni kōdo o go-riyō kudasai*). Ficha JP «クリエイターサポート · コード：PADORU» (*Kurieitā sapōto · Kōdo: PADORU*).
+
+Escudo local exacto procedente del vector Epic Games de [Simple Icons](https://github.com/simple-icons/simple-icons/blob/develop/icons/epicgames.svg), sin redibujarlo. No es respaldo/afiliación oficial de Epic. Descripción de usos elegibles comprobada en [ayuda Epic](https://www.epicgames.com/help/c-34254770/c-33726977/a15831176); estado real de la cuenta no inspeccionado. Las otras cuatro fichas conservan sus enlaces y la expansión existente. Carrusel de cinco puntos en móvil; cinco fichas en desktop. No cambios en Terminal, Rebel Mix, perfiles ni la barra lateral.
