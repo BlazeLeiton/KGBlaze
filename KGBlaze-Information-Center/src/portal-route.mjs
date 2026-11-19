@@ -25,7 +25,8 @@ export function routePortalRequest(request){
   '/twitch/oauth/callback':['GET'],
   '/departures/api/admin/recognition/twitch/start':['POST'],
   '/departures/api/admin/recognition/twitch/status':['GET'],
-  '/departures/api/admin/recognition/twitch/refresh':['POST']
+  '/departures/api/admin/recognition/twitch/refresh':['POST'],
+  '/departures/api/admin/recognition/twitch/disconnect':['POST']
  };
  const allowed=methods[url.pathname];
  if(allowed?!allowed.includes(request.method):request.method!=='GET'&&request.method!=='HEAD')
@@ -66,7 +67,8 @@ export function routePortalRequest(request){
  const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art'];
  const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview',
   '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status',
-  '/api/admin/recognition/twitch/refresh'];
+  '/api/admin/recognition/twitch/refresh',
+  '/api/admin/recognition/twitch/disconnect'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};
