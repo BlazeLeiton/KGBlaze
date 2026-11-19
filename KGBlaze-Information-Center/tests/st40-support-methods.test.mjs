@@ -98,6 +98,7 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
  const server=createServer((req,res)=>{
   const u=new URL(req.url,'http://localhost');
   if(servedAssets.has(u.pathname)){res.writeHead(200,{'Content-Type':u.pathname.endsWith('.svg')?'image/svg+xml':'image/png'});res.end(servedAssets.get(u.pathname));return;}
+  if(u.pathname==='/assets/home-departure-state.js'){res.writeHead(200,{'Content-Type':'application/javascript'});res.end(read('../public/assets/home-departure-state.js'));return;}
   if(u.pathname==='/api/public'){res.writeHead(200,{'Content-Type':'application/json'});res.end('{"events":[],"sync":{}}');return;}
   if(u.pathname==='/music/assets/typography-v1.css'){res.writeHead(200,{'Content-Type':'text/css'});res.end('');return;}
   res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(home.replace('</body>',probe+'</body>'));
