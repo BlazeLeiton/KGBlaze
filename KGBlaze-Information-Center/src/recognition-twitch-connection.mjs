@@ -113,16 +113,21 @@ export async function finishTwitchOwnerConnection(env,
   if(!Number.isSafeInteger(expiresAt)||expiresAt<=current)
    return fail('invalid_provider_expiry');
   const write=await env.DB.prepare(
+   // A concurrent disconnect removes the state. This conditional INSERT
+   // prevents an in-flight callback from recreating credentials afterward.
    'INSERT INTO recognition_twitch_oauth_credentials '+
    '(slot,owner_id,access_ciphertext,access_nonce,refresh_ciphertext,'+
-   'refresh_nonce,expires_at_ms,updated_at_ms) VALUES (1,?,?,?,?,?,?,?) '+
+   'refresh_nonce,expires_at_ms,updated_at_ms) '+
+   'SELECT 1,?,?,?,?,?,?,? FROM recognition_twitch_oauth_states '+
+   'WHERE slot=1 AND state_hash=? AND consumed_at_ms=? '+
+   'AND expires_at_ms>=? '+
    'ON CONFLICT(slot) DO UPDATE SET owner_id=excluded.owner_id,'+
    'access_ciphertext=excluded.access_ciphertext,access_nonce=excluded.access_nonce,'+
    'refresh_ciphertext=excluded.refresh_ciphertext,refresh_nonce=excluded.refresh_nonce,'+
    'expires_at_ms=excluded.expires_at_ms,updated_at_ms=excluded.updated_at_ms,'+
    'refresh_lock_until_ms=NULL'
   ).bind(owner,access.ciphertext,access.nonce,refresh.ciphertext,
-   refresh.nonce,expiresAt,current).run();
+   refresh.nonce,expiresAt,current,stateHash,current,current).run();
   if(write?.meta?.changes!==1)return fail('private_storage_unavailable');
   return {ok:true};
  }catch{return fail('authorization_unavailable');}
@@ -204,5 +209,67 @@ export async function refreshStoredTwitchOwnerConnection(env,{
     ).bind(owner,lockUntil).run();
    }catch{/* Time-bounded lock fails closed until expiry. */}
   }
+ }
+}
+
+
+/**
+ * CP03: emergency local disconnect works even with OAuth feature OFF.
+ * Must only be called from an authenticated, explicitly confirmed admin POST.
+ *
+ * D1 batch is a single atomic transaction. Invalidate pending callback state
+ * FIRST, then delete the encrypted tokens. The callback's INSERT is gated
+ * on that state still existing, so a delayed Twitch response cannot reconnect.
+ *
+ * Remote revocation is best-effort and explicitly NOT equivalent to local
+ * deletion. Twitch documents /oauth2/revoke for ACCESS tokens; we never claim
+ * that it definitively revokes every related refresh grant.
+ */
+export async function disconnectStoredTwitchOwnerConnection(env,{
+ fetchImpl=fetch}={}){
+ if(!env?.DB||typeof env.DB.batch!=='function')return fail('private_storage_unavailable');
+ let token=null,hadCredentials=false;
+ const key=await encryptionKey(env); // Optional: local deletion MUST work without it.
+ try{
+  const row=await env.DB.prepare(
+   'SELECT owner_id,access_ciphertext,access_nonce '+
+   'FROM recognition_twitch_oauth_credentials WHERE slot=1'
+  ).first();
+  if(row){
+   hadCredentials=true;
+   if(key&&row.owner_id===env.TWITCH_RECOGNITION_BROADCASTER_ID){
+    try{token=await decryptToken(key,row.access_ciphertext,row.access_nonce,
+     row.owner_id,'access');}
+    catch{/* Keep ability to delete corrupted/undecryptable credentials. */}
+   }
+  }
+ }catch{return fail('private_storage_unavailable');}
+
+ try{
+  // Atomic: invalidate outstanding state and remove the credentials together.
+  await env.DB.batch([
+   env.DB.prepare('DELETE FROM recognition_twitch_oauth_states WHERE slot=1'),
+   env.DB.prepare('DELETE FROM recognition_twitch_oauth_credentials WHERE slot=1')
+  ]);
+ }catch{return fail('private_storage_unavailable');}
+
+ // Never send credentials to Twitch if local storage deletion failed.
+ // No raw tokens or remote error bodies are returned or logged.
+ if(!hadCredentials)return {ok:true,locallyDisconnected:true,
+  providerRevocation:'not_applicable'};
+ if(!token||typeof env.TWITCH_CLIENT_ID!=='string'||!env.TWITCH_CLIENT_ID)
+  return {ok:true,locallyDisconnected:true,providerRevocation:'unconfirmed'};
+ try{
+  const response=await fetchImpl('https://id.twitch.tv/oauth2/revoke',{
+   method:'POST',redirect:'error',
+   headers:{'Content-Type':'application/x-www-form-urlencoded'},
+   body:new URLSearchParams({
+    client_id:env.TWITCH_CLIENT_ID,token
+   }).toString()
+  });
+  return {ok:true,locallyDisconnected:true,
+   providerRevocation:response?.status===200?'access_token_revoked':'unconfirmed'};
+ }catch{
+  return {ok:true,locallyDisconnected:true,providerRevocation:'unconfirmed'};
  }
 }
