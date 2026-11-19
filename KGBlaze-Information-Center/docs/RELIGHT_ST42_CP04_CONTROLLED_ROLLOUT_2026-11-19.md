@@ -56,9 +56,9 @@ El archivo únicamente crea tablas privadas `recognition_twitch_oauth_states` y 
 ## ID de broadcaster proporcionado durante CP04
 
 - Cuenta pública esperada: `blazeleiton`.
-- **ID numérico propuesto por el propietario: `70386764`.** Cumple la forma numérica requerida para `TWITCH_RECOGNITION_BROADCASTER_ID`, pero **aún falta confirmación cruzada con Twitch Helix Get Users** (no se han usado credenciales de app o de usuario para consultar la API).
+- **ID numérico facilitado por el propietario: `70386764`.** Confirmado guardado como variable de producción `TWITCH_RECOGNITION_BROADCASTER_ID` en Cloudflare Settings y sincronizado en la rama de la PR #197 (`wrangler.toml`), sin activar OAuth. Cumple la forma numérica requerida, pero **aún falta confirmación cruzada con Twitch Helix Get Users** (no se han usado credenciales de app o de usuario para consultar la API).
 - La autorización OAuth implementada verificará que `/oauth2/validate` devuelva exactamente este `user_id`, el Client ID original y el scope `channel:read:subscriptions`. Si Twitch devuelve otra cuenta, la autorización se rechaza sin guardar tokens.
-- El ID no es secreto; **no añadirlo a `wrangler.toml` con OAuth habilitado ni modificar bindings todavía**. Mantener `RECOGNITION_TWITCH_OAUTH_ENABLED` ausente/false hasta revisar las versiones y decidir cuándo desplegar.
+- El ID no es secreto; **ya incluido en `wrangler.toml` con OAuth DESACTIVADO**; no cambiar otros bindings. Mantener `RECOGNITION_TWITCH_OAUTH_ENABLED` ausente/false hasta revisar las versiones y decidir cuándo desplegar.
 
 ## Gate C — Secrets y versiones, sin activar reconocimiento
 
