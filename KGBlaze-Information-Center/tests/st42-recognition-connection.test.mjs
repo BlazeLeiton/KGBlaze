@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
- statusTwitchOwnerConnection} from '../src/recognition-twitch-connection.mjs';
+ statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection} from '../src/recognition-twitch-connection.mjs';
 
 const NOW=1795090000000;
 const REDIRECT='https://kgblaze.dpdns.org/twitch/oauth/callback';
@@ -31,8 +31,26 @@ class FakeOAuthD1{
   if(sql.startsWith('INSERT INTO recognition_twitch_oauth_credentials')){
    this.tokens={owner_id:args[0],access_ciphertext:args[1],
     access_nonce:args[2],refresh_ciphertext:args[3],refresh_nonce:args[4],
-    expires_at_ms:args[5],updated_at_ms:args[6]};
+    expires_at_ms:args[5],updated_at_ms:args[6],
+    refresh_lock_until_ms:null};
    this.writes++;
+   return {meta:{changes:1}};
+  }
+  if(sql.startsWith('UPDATE recognition_twitch_oauth_credentials SET access_ciphertext=')){
+   const [access,nonce,refresh,refreshNonce,expiry,updated,owner,lock]=args;
+   if(!this.tokens||this.tokens.owner_id!==owner||
+      this.tokens.refresh_lock_until_ms!==lock)return {meta:{changes:0}};
+   Object.assign(this.tokens,{access_ciphertext:access,access_nonce:nonce,
+    refresh_ciphertext:refresh,refresh_nonce:refreshNonce,
+    expires_at_ms:expiry,updated_at_ms:updated,refresh_lock_until_ms:null});
+   this.writes++;
+   return {meta:{changes:1}};
+  }
+  if(sql.startsWith('UPDATE recognition_twitch_oauth_credentials SET refresh_lock_until_ms=NULL')){
+   const [owner,lock]=args;
+   if(this.tokens?.owner_id!==owner||this.tokens.refresh_lock_until_ms!==lock)
+    return {meta:{changes:0}};
+   this.tokens.refresh_lock_until_ms=null;
    return {meta:{changes:1}};
   }
   throw Error('Unexpected statement: '+sql);
@@ -44,6 +62,15 @@ class FakeOAuthD1{
    if(!r||r.hash!==hash||r.used!==null||r.issued>now1||r.expiry<now2)return null;
    r.used=consumed;this.consumptions++;
    return {issued_at_ms:r.issued};
+  }
+  if(sql.startsWith('UPDATE recognition_twitch_oauth_credentials SET refresh_lock_until_ms=?')){
+   const [until,owner,now]=args;
+   if(!this.tokens||this.tokens.owner_id!==owner||
+    (this.tokens.refresh_lock_until_ms!==null&&this.tokens.refresh_lock_until_ms>=now))
+    return null;
+   this.tokens.refresh_lock_until_ms=until;
+   return {owner_id:owner,refresh_ciphertext:this.tokens.refresh_ciphertext,
+    refresh_nonce:this.tokens.refresh_nonce};
   }
   if(sql.startsWith('SELECT owner_id,expires_at_ms,updated_at_ms FROM recognition_twitch_oauth_credentials')){
    return this.tokens?{owner_id:this.tokens.owner_id,
@@ -230,4 +257,64 @@ test('Worker start/callback/status integrate on historical hostname without leak
   assert.equal(replay.status,400);
   assert.equal(p.calls.length,2);
  }finally{globalThis.fetch=oldFetch;}
+});
+
+
+test('Private manual refresh decrypts token server-side and atomically rotates ciphertext',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+1000,fetchImpl:provider().fetchImpl});
+ const firstCipher=DB.tokens.refresh_ciphertext;
+ const p=provider();
+ const done=await refreshStoredTwitchOwnerConnection(env,{
+  now:()=>NOW+3000,fetchImpl:p.fetchImpl});
+ assert.deepEqual(done,{ok:true,tokenCurrent:true});
+ assert.equal(DB.tokens.refresh_lock_until_ms,null);
+ assert.notEqual(DB.tokens.refresh_ciphertext,firstCipher);
+ assert.equal(await decryptTest(DB.tokens.refresh_ciphertext,DB.tokens.refresh_nonce,'refresh'),'REFRESH_SENSITIVE');
+ const form=new URLSearchParams(p.calls[0].init.body);
+ assert.equal(form.get('grant_type'),'refresh_token');
+ assert.equal(form.get('refresh_token'),'REFRESH_SENSITIVE');
+ const status=await statusTwitchOwnerConnection(env,{now:()=>NOW+3001});
+ assert.equal(status.tokenCurrent,true);
+ assert.ok(!JSON.stringify(done).includes('REFRESH_SENSITIVE'));
+});
+test('Refresh owner mismatch fails closed, releases lock and keeps original encrypted credentials',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+1000,fetchImpl:provider().fetchImpl});
+ const old=DB.tokens.refresh_ciphertext;
+ const result=await refreshStoredTwitchOwnerConnection(env,{
+  now:()=>NOW+5000,fetchImpl:provider({owner:'999'}).fetchImpl});
+ assert.equal(result.ok,false);
+ assert.equal(DB.tokens.refresh_lock_until_ms,null);
+ assert.equal(DB.tokens.refresh_ciphertext,old);
+});
+test('A live refresh lock prevents simultaneous token rotation',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+1000,fetchImpl:provider().fetchImpl});
+ let release;
+ const held=new Promise(resolve=>{release=resolve});
+ const p=provider();
+ let calls=0;
+ const slowFetch=async(url,init)=>{
+  calls++;
+  if(url.endsWith('/oauth2/token'))await held;
+  return p.fetchImpl(url,init);
+ };
+ const first=refreshStoredTwitchOwnerConnection(env,{now:()=>NOW+5000,fetchImpl:slowFetch});
+ // Wait for the D1 lock claim to occur before starting second request.
+ for(let i=0;i<100&&!DB.tokens.refresh_lock_until_ms;i++)await Promise.resolve();
+ assert.ok(DB.tokens.refresh_lock_until_ms);
+ const second=await refreshStoredTwitchOwnerConnection(env,{
+  now:()=>NOW+5001,fetchImpl:slowFetch});
+ assert.equal(second.reason,'connection_missing_or_busy');
+ assert.equal(calls,1);
+ release();
+ assert.equal((await first).ok,true);
+ assert.equal(DB.tokens.refresh_lock_until_ms,null);
 });
