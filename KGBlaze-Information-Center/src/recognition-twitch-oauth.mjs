@@ -11,12 +11,17 @@ export const TWITCH_OWNER_OAUTH_FLAG='RECOGNITION_TWITCH_OAUTH_ENABLED';
 // Original KGBlaze Integrated Services redirect registered 2026-10-14.
 // This is NOT an active Worker route yet; the portal router currently returns 404.
 export const TWITCH_OWNER_CALLBACK_PATH='/twitch/oauth/callback';
+export const TWITCH_OWNER_REDIRECT_URI='https://kgblaze.dpdns.org'+TWITCH_OWNER_CALLBACK_PATH;
 const HEX=/^[a-f0-9]{64}$/;
 const NUMERIC_ID=/^[0-9]{1,24}$/;
 const STATE_TTL_MS=10*60*1000;
 
 const failed=reason=>({ok:false,reason});
 const hex=b=>Array.from(b,x=>x.toString(16).padStart(2,'0')).join('');
+export async function hashTwitchOwnerOAuthState(state){
+ if(typeof state!=='string'||!HEX.test(state))return null;
+ return digestState(state);
+}
 async function digestState(state){
  const bytes=new TextEncoder().encode(state);
  return hex(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)));
@@ -34,12 +39,11 @@ function config(env){
  if(typeof clientId!=='string'||!clientId||
     typeof secret!=='string'||!secret||
     typeof owner!=='string'||!NUMERIC_ID.test(owner))return null;
- let uri;
- try{uri=new URL(env.TWITCH_RECOGNITION_REDIRECT_URI);}catch{return null;}
- if(uri.protocol!=='https:'||!uri.hostname||uri.username||uri.password||
-    uri.search||uri.hash||uri.pathname!==TWITCH_OWNER_CALLBACK_PATH||
-    uri.port)return null;
- return {clientId,secret,owner,redirectUri:uri.toString()};
+ // The historically registered URL is not a new secret. Reject any
+ // accidental replacement rather than registering a second callback.
+ const callback=env.TWITCH_RECOGNITION_REDIRECT_URI||TWITCH_OWNER_REDIRECT_URI;
+ if(callback!==TWITCH_OWNER_REDIRECT_URI)return null;
+ return {clientId,secret,owner,redirectUri:TWITCH_OWNER_REDIRECT_URI};
 }
 /**
  * Call only from an authenticated admin POST. Persist stateHash and issuedAt
