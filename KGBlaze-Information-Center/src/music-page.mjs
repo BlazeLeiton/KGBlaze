@@ -347,7 +347,7 @@ export function musicPage(path,query,mode='html'){
     Home/Terminal, while preserving internal music catalog rendering. */
  @media(min-width:761px){
   .header .shell{grid-template-columns:auto minmax(0,1fr) 76px;column-gap:15px;padding-right:24px}
-  .site-global-nav .site-departures{box-sizing:border-box;width:96px;flex:0 0 96px;height:35px;min-height:35px;padding:0 8px;border-radius:7px;gap:6px;display:flex;align-items:center;justify-content:center}
+  .site-global-nav .site-departures{box-sizing:border-box;width:124px;flex:0 0 124px;height:35px;min-height:35px;padding:0 8px;border-radius:7px;gap:6px;display:flex;align-items:center;justify-content:center}
   .header .langs{display:flex;justify-content:space-between;align-items:center;gap:8px;width:76px;min-width:76px;margin-left:0}
   .header .langs a{box-sizing:border-box;display:inline-block;width:20px;min-width:20px;flex:0 0 20px;padding:5px 0!important;line-height:16px;min-height:30px;text-align:center;border-bottom:2px solid transparent}
  }

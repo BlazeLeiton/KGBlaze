@@ -278,14 +278,14 @@ try{
  }));
  await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/departures/dashboard/library/'});
  const libraryRoute=await callBrowser(async function(){
-  for(let i=0;i<120&&!document.body.classList.contains('library-mode');i++)await new Promise(r=>setTimeout(r,50));
+  for(let i=0;i<120&&(!document.body||!document.body.classList.contains('library-mode'));i++)await new Promise(r=>setTimeout(r,50));
   const library=document.getElementById('libraryPanel');
   let first=null;
   for(let i=0;i<100&&!(first=document.querySelector('#libraryList .library-item img'));i++)await new Promise(r=>setTimeout(r,50));
   if(first)try{await first.decode();}catch{}
-  return {active:document.body.classList.contains('library-mode'),visible:!!library&&getComputedStyle(library).display!=='none',
+  return {active:!!document.body?.classList.contains('library-mode'),visible:!!library&&getComputedStyle(library).display!=='none',
    firstArtworkLoaded:!!first&&first.naturalWidth>0,
-   railHidden:getComputedStyle(document.getElementById('weekRail')).display==='none'};
+   railHidden:!!document.getElementById('weekRail')&&getComputedStyle(document.getElementById('weekRail')).display==='none'};
  });
  assert.ok(libraryRoute.active&&libraryRoute.visible&&libraryRoute.railHidden&&libraryRoute.firstArtworkLoaded,'Original PNG asset must decode in real Chrome');
  const padoruImage=await callBrowser(async function(){

@@ -26,7 +26,7 @@ test('Language highlight and right-side header metrics match across the three si
  assert.match(home,/data-i18n="musicNav">Música ▾/);
  assert.match(home,/data-i18n="communityNav">Comunidad ▾/);
  for(const css of [home,music,VIEWER_PORTAL_CSS]){
-  assert.match(css,/width:96px;flex:0 0 96px;height:35px/);
+  assert.match(css,/width:124px;flex:0 0 124px;height:35px/);
   assert.match(css,/(?:flex:0 0 76px|width:76px;min-width:76px)/);
  }
 });
