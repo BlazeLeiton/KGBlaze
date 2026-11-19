@@ -22,6 +22,8 @@ test('Stage 41 support panel has five real platform marks, with Epic as a copy b
  assert.doesNotMatch(home,/<a class="kg-support-method kg-support-epic"/);
  assert.match(home,/id="kg-support-epic-feedback" role="status" aria-live="polite"[^>]*hidden/);
  assert.match(home,/epicCard\.addEventListener\('click',copyEpicCreatorCode\)/);
+ assert.match(home,/\.kg-support-copy-feedback\{position:absolute;z-index:1;inset-inline:10px;bottom:9px/);
+ assert.match(home,/button\.kg-support-method\{[^}]*position:relative/);
  assert.doesNotMatch(home,/id="support"[^>]*>[\s\S]*?Ver todas las opciones/);
 });
 test('Expanded support section reuses all five platform logos and descriptions',()=>{
@@ -92,8 +94,10 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
   document.querySelector('[data-lang="es"]').click();
   Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async code=>{window.__kgEpicCopied=code}}});
   const epicButton=document.getElementById('kg-support-epic');
-  epicButton.click();
   const track=document.getElementById('kg-support-track');
+  const cardHeightsBefore=[...track.querySelectorAll('.kg-support-method')].map(card=>card.getBoundingClientRect().height);
+  const trackHeightBefore=track.getBoundingClientRect().height;
+  epicButton.click();
   if(innerWidth<=760)document.querySelector('[data-support-index="2"]').click();
   setTimeout(()=>{
    const data={opened,en,ja,
@@ -104,6 +108,15 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
     epicVisible:!document.getElementById('kg-support-epic-feedback').hidden,
     epicMessage:document.getElementById('kg-support-epic-feedback').textContent,
     epicInline:document.getElementById('kg-support-epic-feedback').parentElement===epicButton,
+    cardHeightsBefore,
+    cardHeightsAfter:[...track.querySelectorAll('.kg-support-method')].map(card=>card.getBoundingClientRect().height),
+    trackHeightBefore,
+    trackHeightAfter:track.getBoundingClientRect().height,
+    epicOverlayPosition:getComputedStyle(document.getElementById('kg-support-epic-feedback')).position,
+    epicOverlayFits:(()=>{
+     const c=epicButton.getBoundingClientRect(),f=document.getElementById('kg-support-epic-feedback').getBoundingClientRect();
+     return f.left>=c.left-1&&f.right<=c.right+1&&f.top>=c.top-1&&f.bottom<=c.bottom+1;
+    })(),
     logos:logos.every(img=>img.complete&&img.naturalWidth>0),
     detailLogoCount:detailLogos.length,
     detailLogos:detailLogos.every(img=>img.complete&&img.naturalWidth>0),
@@ -147,6 +160,10 @@ test('Stage 40 support browser-level QA: readable mobile carousel and functional
    assert.equal(q.epicIsButton,true,'Epic is an actual non-navigating button '+width);
    assert.equal(q.epicVisible,true,'Epic inline mini panel is visible '+width);
    assert.equal(q.epicInline,true,'feedback stays in its own card '+width);
+   assert.equal(q.epicOverlayPosition,'absolute','confirmation is overlayed, not in layout flow '+width);
+   assert.equal(q.epicOverlayFits,true,'overlay fits wholly within existing card '+width);
+   assert.deepEqual(q.cardHeightsAfter,q.cardHeightsBefore,'copy notice must not change any support card height '+width);
+   assert.equal(q.trackHeightAfter,q.trackHeightBefore,'copy notice must not change carousel/row height '+width);
    assert.equal(q.epicResult,'success','success is based on a real writeText resolution '+width);
    assert.equal(q.epicMessage,'Código copiado: PADORU');
    assert.equal(q.opened,true,'details toggle '+width);
