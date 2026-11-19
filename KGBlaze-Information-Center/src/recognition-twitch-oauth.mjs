@@ -8,7 +8,9 @@
 import {TWITCH_RECOGNITION_SCOPE} from './recognition-private.mjs';
 
 export const TWITCH_OWNER_OAUTH_FLAG='RECOGNITION_TWITCH_OAUTH_ENABLED';
-export const TWITCH_OWNER_CALLBACK_PATH='/api/admin/recognition/twitch/callback';
+// Original KGBlaze Integrated Services redirect registered 2026-10-14.
+// This is NOT an active Worker route yet; the portal router currently returns 404.
+export const TWITCH_OWNER_CALLBACK_PATH='/twitch/oauth/callback';
 const HEX=/^[a-f0-9]{64}$/;
 const NUMERIC_ID=/^[0-9]{1,24}$/;
 const STATE_TTL_MS=10*60*1000;
