@@ -311,6 +311,11 @@ test('A live refresh lock prevents simultaneous token rotation',async()=>{
  for(let i=0;i<60&&!DB.tokens.refresh_lock_until_ms;i++)
   await new Promise(resolve=>setTimeout(resolve,5));
  assert.ok(DB.tokens.refresh_lock_until_ms);
+ // WebCrypto decrypt may resolve after lock acquisition: wait for the
+ // mocked provider call before asserting request counts.
+ for(let i=0;i<60&&calls===0;i++)
+  await new Promise(resolve=>setTimeout(resolve,5));
+ assert.equal(calls,1);
  const second=await refreshStoredTwitchOwnerConnection(env,{
   now:()=>NOW+5001,fetchImpl:slowFetch});
  assert.equal(second.reason,'connection_missing_or_busy');
