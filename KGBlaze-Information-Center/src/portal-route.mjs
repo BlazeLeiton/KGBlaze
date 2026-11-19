@@ -20,7 +20,11 @@ export function routePortalRequest(request){
   '/departures/api/admin/publish':['POST'],
   '/departures/api/admin/preview':['POST'],
   '/departures/api/admin/snapshot':['GET','HEAD'],
-  '/departures/api/admin/sync':['GET','HEAD']
+  '/departures/api/admin/sync':['GET','HEAD'],
+  // Historical OAuth callback from October. No other root endpoint is opened.
+  '/twitch/oauth/callback':['GET'],
+  '/departures/api/admin/recognition/twitch/start':['POST'],
+  '/departures/api/admin/recognition/twitch/status':['GET']
  };
  const allowed=methods[url.pathname];
  if(allowed?!allowed.includes(request.method):request.method!=='GET'&&request.method!=='HEAD')
@@ -46,6 +50,10 @@ export function routePortalRequest(request){
  // Deny all unlisted root API paths, particularly /api/admin/*.
  if(['/api/public','/api/health','/og-semana.png','/agenda_publica.json'].includes(url.pathname))
   return {request,isPortal:true};
+ // OAuth provider redirect is unauthenticated but bound to a single-use hashed state.
+ // Only the Worker handler can redeem it; raw API aliases remain blocked.
+ if(url.pathname==='/twitch/oauth/callback')
+  return {request,isPortal:true};
  // Unlisted public Music pages, read-only; no new admin or API aliases.
  if(MUSIC_PATHS.has(url.pathname)||MUSIC_LEGACY_PATHS.has(url.pathname)||MUSIC_DATA_PATHS.has(url.pathname)||url.pathname===MUSIC_TYPE_PATH||artworkSources.has(url.pathname)||Object.values(releaseArtwork).some(a=>(a.image===url.pathname&&a.image.startsWith('/music-artwork/'))||a.compositePath===url.pathname))return {request,isPortal:true};
  if(!url.pathname.startsWith('/departures/'))
@@ -55,7 +63,8 @@ export function routePortalRequest(request){
  // Authorization: Bearer ADMIN_TOKEN, revision CAS, and audit logging.
  // The unprefixed /api/admin/* remains inaccessible on this host.
  const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art'];
- const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview'];
+ const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview',
+  '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};
