@@ -19,3 +19,6 @@ Chrome V1 Stage39 había congelado la pastilla en 96 px, insuficientes para icon
 - Reforzar la prueba de Chrome real simulando el texto EN, midiendo icono y texto dentro del mismo botón. No aceptar únicamente la presencia del SVG en el HTML.
 
 No alterar el tablero de Terminal, canvas exportable, juegos, API, cron, Reel Mix ni el banner de próxima salida Stage41 CP01.
+
+## Estabilización de pruebas del mismo PR
+La primera pasada de CI validó 436 pruebas unitarias pero encontró una carrera al navegar a `/departures/dashboard/library/` y leer `document.body` antes de que existiera. La segunda terminó con tres timeouts de pruebas Chrome concurrentes. Se corrigen **sólo los tests**: se espera explícitamente el body en el smoke del editor y se limita a cuatro la concurrencia de `node --test` para evitar saturación del navegador en CI. Ningún cambio funcional en editor ni en el tablero.
