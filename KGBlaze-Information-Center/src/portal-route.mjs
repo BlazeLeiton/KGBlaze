@@ -24,7 +24,8 @@ export function routePortalRequest(request){
   // Historical OAuth callback from October. No other root endpoint is opened.
   '/twitch/oauth/callback':['GET'],
   '/departures/api/admin/recognition/twitch/start':['POST'],
-  '/departures/api/admin/recognition/twitch/status':['GET']
+  '/departures/api/admin/recognition/twitch/status':['GET'],
+  '/departures/api/admin/recognition/twitch/refresh':['POST']
  };
  const allowed=methods[url.pathname];
  if(allowed?!allowed.includes(request.method):request.method!=='GET'&&request.method!=='HEAD')
@@ -64,7 +65,8 @@ export function routePortalRequest(request){
  // The unprefixed /api/admin/* remains inaccessible on this host.
  const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art'];
  const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview',
-  '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status'];
+  '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status',
+  '/api/admin/recognition/twitch/refresh'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};
