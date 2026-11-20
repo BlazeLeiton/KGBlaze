@@ -111,5 +111,19 @@ jobs:
           assert fan_callback == 404, 'Disabled Twitch fan callback unexpectedly public'
           fan_root, _ = fetch('/api/recognition/twitch/me')
           assert fan_root == 404, 'Unprefixed fan API alias must remain inaccessible'
+          # CP25 two-consenting-subscriber pilot must be fail-closed on the
+          # public site until the owner applies the isolated D1 migration,
+          # enrolls the two participants and explicitly enables publication.
+          pilot_status, pilot_body = fetch('/departures/api/public/recognition')
+          assert pilot_status == 200, 'Read-only recognition endpoint unavailable'
+          pilot = json.loads(pilot_body)
+          assert pilot == {'ok': True, 'twitch': []}, (
+              'Twitch pilot unexpectedly published names before owner activation')
+          pilot_admin, _ = fetch('/departures/api/admin/recognition/twitch/pilot/status')
+          assert pilot_admin == 401, 'Twitch pilot administration exposed anonymously'
+          pilot_root, _ = fetch('/api/public/recognition')
+          assert pilot_root == 404, 'Twitch pilot public root alias must stay blocked'
+          print('PASS: two-consent Twitch recognition is empty, no root alias, admin denied')
+
           print('PASS: voluntary Twitch member login/consent is still disabled and private')
           PY
