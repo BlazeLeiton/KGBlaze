@@ -49,7 +49,7 @@ export async function checkOptedInTwitchSubscriptions(env,consents,{fetchImpl=fe
  if(typeof fetchImpl!=='function')return failed('fetch_unavailable');
  try{
   const validation=await fetchImpl('https://id.twitch.tv/oauth2/validate',{
-   headers:{Authorization:'OAuth '+token},redirect:'error'
+   headers:{Authorization:'OAuth '+token},redirect:'manual'
   });
   if(!validation.ok)return failed('token_invalid');
   const user=await validation.json();
@@ -61,7 +61,7 @@ export async function checkOptedInTwitchSubscriptions(env,consents,{fetchImpl=fe
   url.searchParams.set('broadcaster_id',broadcasterId);
   for(const id of ids)url.searchParams.append('user_id',id);
   const response=await fetchImpl(url.toString(),{
-   headers:{Authorization:'Bearer '+token,'Client-Id':clientId},redirect:'error'
+   headers:{Authorization:'Bearer '+token,'Client-Id':clientId},redirect:'manual'
   });
   if(!response.ok)return failed(response.status===401?'token_invalid':'provider_unavailable');
   const parsed=await response.json();
