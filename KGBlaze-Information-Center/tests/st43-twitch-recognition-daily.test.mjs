@@ -194,6 +194,40 @@ test('CP26 timed trial temporarily shows ALL unasked active names, without grant
  }finally{DB.close()}
 });
 
+test('CP28 trial uses exact Wrangler cutoff and preserves three unasked members after expiration',async()=>{
+ const wrangler=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
+ assert.match(wrangler,/^RECOGNITION_TWITCH_RECOGNITION_ENABLED = "true"$/m);
+ assert.match(wrangler,/^RECOGNITION_TWITCH_PUBLIC_ENABLED = "true"$/m);
+ assert.match(wrangler,/^RECOGNITION_TWITCH_TRIAL_VISIBLE = "true"$/m);
+ const match=wrangler.match(/^RECOGNITION_TWITCH_TRIAL_UNTIL = "([^"]+)"$/m);
+ assert.ok(match,'An explicit trial deadline is mandatory');
+ assert.equal(match[1],'2026-11-22T09:00:00.000Z');
+ const cutoff=Date.parse(match[1]);
+ const {DB,env}=await setup({
+  enabled:'true',public:'true',trial:'true',trialUntil:match[1]
+ });
+ try{
+  // Ensure status evidence is fresh even near the deadline.
+  const verifiedAt=cutoff-5*60*60*1000;
+  const synced=await sync(env,provider(),verifiedAt);
+  assert.equal(synced.ok,true);
+  const before=await readPublicTwitchRecognition(env,{nowMs:cutoff-1});
+  assert.equal(before.twitch.length,3);
+  assert.ok(before.twitch.every(v=>v.trial===true));
+  const atCutoff=await readPublicTwitchRecognition(env,{nowMs:cutoff});
+  assert.deepEqual(atCutoff,{ok:true,twitch:[]});
+  const after=await readPublicTwitchRecognition(env,{nowMs:cutoff+3600000});
+  assert.deepEqual(after,{ok:true,twitch:[]});
+  const count=DB.db.prepare(
+   "SELECT count(*) AS n FROM recognition_twitch_memberships WHERE consent_state='unasked'"
+  ).get().n;
+  assert.equal(count,3);
+  assert.equal(DB.db.prepare(
+   "SELECT count(*) AS n FROM recognition_twitch_memberships WHERE consent_state IN ('approved','declined')"
+  ).get().n,0,'Display simulation must not record fictional consent');
+ }finally{DB.close()}
+});
+
 test('CP26 approved/declined/unasked transitions persist and declined is never shown in trial',async()=>{
  const {DB,env}=await setup({
   trial:'true',trialUntil:new Date(NOW+2*86400000).toISOString()

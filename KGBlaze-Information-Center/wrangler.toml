@@ -37,15 +37,17 @@ RECOGNITION_TWITCH_STATUS_ENABLED = "true"
 # No cron, public roster, account login, or member badges. Emergency disable:
 # set false and redeploy; existing OAuth owner connection stays intact.
 RECOGNITION_TWITCH_CACHE_ENABLED = "true"
-# CP27: owner confirmed BOTH CP26 D1 tables exist in production.
-# PRIVATE-only subscriber discovery/verification runs at daily 03:00
-# America/Mexico_City, or on explicit ADMIN_TOKEN POST, using owner OAuth.
-# No public recognition or implied consent from discovery:
-# flags for public rendering and owner-controlled trial both remain OFF.
-# Emergency pause: set RECOGNITION_TWITCH_RECOGNITION_ENABLED to false.
+# CP28: owner-authorized temporary visual TEST using the current 3 active
+# subscriptions. Consent remains 'unasked' in D1; visible trial names are
+# explicitly labeled "Prueba / Trial / テスト" in Home. No other data public.
+# HARD CUTOFF: 22 Nov 2026, 03:00 America/Mexico_City (UTC-6).
+# After the cutoff, unasked members are hidden automatically. For emergency
+# privacy stop, change PUBLIC and TRIAL to false and redeploy.
+# The separate owner-OAuth 03:00 daily PRIVATE sync stays enabled.
 RECOGNITION_TWITCH_RECOGNITION_ENABLED = "true"
-RECOGNITION_TWITCH_PUBLIC_ENABLED = "false"
-RECOGNITION_TWITCH_TRIAL_VISIBLE = "false"
+RECOGNITION_TWITCH_PUBLIC_ENABLED = "true"
+RECOGNITION_TWITCH_TRIAL_VISIBLE = "true"
+RECOGNITION_TWITCH_TRIAL_UNTIL = "2026-11-22T09:00:00.000Z"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
