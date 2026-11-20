@@ -8,7 +8,7 @@ import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
- disconnectStoredTwitchOwnerConnection} from './recognition-twitch-connection.mjs';
+ disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus} from './recognition-twitch-connection.mjs';
 import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {VIEWER_PORTAL_CSS} from './viewer-portal-chrome.mjs';
@@ -190,6 +190,37 @@ async function handler(req,env){
    const result=await refreshStoredTwitchOwnerConnection(env);
    return json(result,result.ok?200:503,privateHeaders);
   }
+
+  // CP13: explicit owner-admin ONLY, read-only Twitch active subscription checks.
+  // Neither route exposes a full Twitch subscriber list to any HTTP client.
+  if(path==='/api/admin/recognition/twitch/subscription-summary'&&method==='GET'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='read-subscription-status')
+    return json({ok:false,error:'EXPLICIT_READ_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await readStoredTwitchSubscriptionStatus(env,{mode:'summary'});
+   return json(result,result.ok?200:result.reason==='rate_limited'?429:503,privateHeaders);
+  }
+  if(path==='/api/admin/recognition/twitch/check-subscribers'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='read-subscription-status')
+    return json({ok:false,error:'EXPLICIT_READ_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   if(!/^application\/json(?:\s*;|$)/i.test(req.headers.get('Content-Type')||''))
+    return json({ok:false,error:'JSON_REQUIRED'},415,privateHeaders);
+   if(Number(req.headers.get('Content-Length')||0)>4096)
+    return json({ok:false,error:'BODY_TOO_LARGE'},413,privateHeaders);
+   let body;
+   try{
+    const raw=await req.text();
+    if(raw.length>4096)return json({ok:false,error:'BODY_TOO_LARGE'},413,privateHeaders);
+    body=JSON.parse(raw);
+   }catch{return json({ok:false,error:'INVALID_JSON'},400,privateHeaders);}
+   const userIds=body?.userIds;
+   if(!Array.isArray(userIds)||userIds.length<1||userIds.length>100||
+      userIds.some(id=>typeof id!=='string'||!/^[0-9]{1,24}$/.test(id))||
+      new Set(userIds).size!==userIds.length)
+    return json({ok:false,error:'INVALID_USER_IDS'},400,privateHeaders);
+   const result=await readStoredTwitchSubscriptionStatus(env,{mode:'targeted',userIds});
+   return json(result,result.ok?200:result.reason==='rate_limited'?429:503,privateHeaders);
+  }
+
   // Deliberately independent of the OAuth enabled flag: this must remain
   // available for emergency disconnection after a flag has been disabled.
   if(path==='/api/admin/recognition/twitch/disconnect'&&method==='POST'){
