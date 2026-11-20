@@ -146,6 +146,10 @@ test('CP15 cache replaces active IDs atomically and removes ended subscribers',a
  });
  assert.deepEqual(first,{ok:true,activeTotal:2,snapshotVersion:1,lastCompletedAtMs:1000});
  assert.equal(state.rows.size,2);
+ const sql=state.calls[0].map(q=>q.sql);
+ assert.match(sql[0],/^INSERT INTO recognition_twitch_active_status_meta/);
+ assert.match(sql[1],/^DELETE FROM recognition_twitch_active_subscribers/);
+ assert.match(sql[2],/^INSERT INTO recognition_twitch_active_subscribers/);
  assert.equal(state.rows.get('111').name,'FirstUser');
  assert.equal(JSON.stringify(first).includes('FirstUser'),false);
  const meta=await getPrivateTwitchCacheMeta(env);
@@ -216,4 +220,15 @@ test('CP15 staged manual sync route requires admin credentials and explicit sync
   method:'POST',headers:hdr
  }),env);
  assert.equal(root.status,405);
+});
+
+
+test('CP15 migration schema links active rows to owner OAuth with delete cascades',async()=>{
+ const {readFileSync}=await import('node:fs');
+ const sql=readFileSync(new URL('../migrations/recognition_twitch_active_status.sql',import.meta.url),'utf8');
+ assert.equal((sql.match(/ON DELETE CASCADE/g)||[]).length,2);
+ assert.match(sql,/REFERENCES recognition_twitch_oauth_credentials\(slot\) ON DELETE CASCADE/);
+ assert.match(sql,/REFERENCES recognition_twitch_active_status_meta\(slot\) ON DELETE CASCADE/);
+ assert.ok(sql.indexOf('CREATE TABLE IF NOT EXISTS recognition_twitch_active_status_meta')<
+  sql.indexOf('CREATE TABLE IF NOT EXISTS recognition_twitch_active_subscribers'));
 });
