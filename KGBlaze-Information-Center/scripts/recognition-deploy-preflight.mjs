@@ -120,9 +120,11 @@ verify(!/redirect\s*:\s*['"]error['"]/.test(oauth+'\n'+controller),
  'unsupported redirect:error breaks Cloudflare Workers Twitch outbound fetch');
 verify((oauth.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
  'Twitch token exchange and token validation must use manual redirect');
-verify((controller.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2&&
- controller.includes("new URL('https://api.twitch.tv/helix/users')"),
- 'Twitch token revocation AND private two-user identity lookup must reject redirects');
+verify((controller.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===1,
+ 'Twitch owner token revocation must reject redirects');
+verify(controller.includes('readStoredTwitchRecognitionEvidence')&&
+ controller.includes('discoverTwitchRecognitionCandidates'),
+ 'Twitch recognition must use owner-only positive discovery and filtered verification');
 verify(!/redirect\s*:\s*['"]error['"]/.test(twitchVerifier+'\n'+youtubeVerifier),
  'unmounted membership verifier still contains Cloudflare unsupported redirect:error');
 verify((twitchVerifier.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
@@ -143,12 +145,16 @@ verify(/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*"true"\s*$/m.test(currentVars
  'CP05 must explicitly enable owner-only OAuth after verified D1/secret gates');
 verify(/^\s*RECOGNITION_TWITCH_STATUS_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
  'CP13 explicit admin-only read status flag missing in [vars]');
-verify(/^\s*RECOGNITION_TWITCH_PILOT_ENABLED\s*=\s*"false"\s*$/m.test(currentVars)&&
- /^\s*RECOGNITION_TWITCH_PILOT_PUBLIC_ENABLED\s*=\s*"false"\s*$/m.test(currentVars),
- 'the private/public two-consent pilot MUST deploy OFF until owner D1 and opt-in gates');
-verify(worker.includes("enroll-two-consented-twitch-members")&&
- worker.includes("clear-consented-twitch-pilot"),
- 'two-person consent attestation and emergency removal must remain admin protected');
+verify(/^\s*RECOGNITION_TWITCH_RECOGNITION_ENABLED\s*=\s*"false"\s*$/m.test(currentVars)&&
+ /^\s*RECOGNITION_TWITCH_PUBLIC_ENABLED\s*=\s*"false"\s*$/m.test(currentVars)&&
+ /^\s*RECOGNITION_TWITCH_TRIAL_VISIBLE\s*=\s*"false"\s*$/m.test(currentVars),
+ 'new recognition, public list and temporary trial must deploy independently OFF');
+verify(worker.includes("sync-daily-recognition")&&
+ worker.includes("change-recognition-consent")&&
+ worker.includes("SOCIAL_PREVIEW_CRON"),
+ 'scalable private recognition, consent update and the 03:00 slot missing');
+verify(!worker.includes("if(env.RECOGNITION_TWITCH_PILOT_ENABLED==="),
+ 'every-five-minute Twitch pilot polling must remain removed');
 verify(!worker.includes("scheduledTwitchRecognitionSync")&&
  !worker.includes("publicTwitchSubscriberRoster"),
  'global subscriber roster or uncapped public enumeration must remain unmounted');
