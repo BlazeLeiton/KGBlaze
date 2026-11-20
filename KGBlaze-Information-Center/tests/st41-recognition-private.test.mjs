@@ -15,6 +15,7 @@ const env={RECOGNITION_TWITCH_ENABLED:'true',TWITCH_CLIENT_ID:'cli',
 function provider(rows,options={}){
  const calls=[];
  const fetchImpl=async (url,init)=>{
+  assert.equal(init.redirect,'manual','Workers does not support redirect:error');
   calls.push({url,init});
   if(url.includes('oauth2/validate'))return {
    ok:options.valid!==false,
@@ -40,6 +41,7 @@ test('consent set rejects missing ID, duplicate, revoked or oversized opt-ins',(
  assert.equal(validRecognitionConsent(consent()),true);
  assert.equal(validRecognitionConsent(consent('x')),false);
  assert.equal(validRecognitionConsent(consent('2',{revokedAt:'2026-11-19T00:00:00Z'})),false);
+ assert.equal(validRecognitionConsent(consent('2',{withdrawnAt:'2026-11-19T00:00:00Z'})),false);
  assert.equal(recognitionCandidateIds([consent('2'),consent('2')]),null);
  assert.equal(recognitionCandidateIds(Array.from({length:101},(_,i)=>consent(String(i+1000)))),null);
 });
@@ -102,4 +104,22 @@ test('YouTube provider awaits approval and no public API, cron, or credential ch
  assert.match(home,/recognitionTitle:"一緒に旅してくれてありがとう"/);
  assert.doesNotMatch(home,/recognition-private\.mjs/);
  assert.doesNotMatch(worker,/recognition-private\.mjs|\/api\/recognition|\/api\/members/);
+});
+
+
+test('CP08 targeted subscription requests never follow Twitch HTTP redirects',async()=>{
+ const requests=[];
+ const fake=async(url,init)=>{
+  requests.push(url);
+  assert.equal(init.redirect,'manual');
+  if(url.includes('/oauth2/validate'))return {ok:true,json:async()=>({
+   client_id:'cli',user_id:'123',scopes:['channel:read:subscriptions'],expires_in:3600
+  })};
+  return {ok:false,status:302};
+ };
+ const result=await checkOptedInTwitchSubscriptions(env,[consent('21')],{fetchImpl:fake});
+ assert.equal(result.ok,false);
+ assert.equal(result.reason,'provider_unavailable');
+ assert.equal(requests.length,2);
+ assert.equal(requests[1].includes('user_id=21'),true);
 });
