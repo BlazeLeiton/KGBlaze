@@ -25,6 +25,8 @@ const router=read('src/portal-route.mjs');
 const oauth=read('src/recognition-twitch-oauth.mjs');
 const worker=read('src/worker.mjs');
 const controller=read('src/recognition-twitch-connection.mjs');
+const twitchVerifier=read('src/recognition-private.mjs');
+const youtubeVerifier=read('src/recognition-youtube-private.mjs');
 const currentVars=wrangler.split(/^\s*\[vars\]\s*$/m)[1]?.split(/^\s*\[/m)[0]||'';
 
 verify(/^\s*name\s*=\s*"kgblaze-terminal"\s*$/m.test(wrangler),
@@ -68,6 +70,12 @@ verify((oauth.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
  'Twitch token exchange and token validation must use manual redirect');
 verify((controller.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===1,
  'Twitch token revocation must use manual redirect');
+verify(!/redirect\s*:\s*['"]error['"]/.test(twitchVerifier+'\n'+youtubeVerifier),
+ 'unmounted membership verifier still contains Cloudflare unsupported redirect:error');
+verify((twitchVerifier.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
+ 'private Twitch subscription verifier must reject redirects in both fetch calls');
+verify((youtubeVerifier.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===1,
+ 'private YouTube member verifier must reject redirects');
 verify(controller.includes("RECOGNITION_TWITCH_TOKEN_KEY_B64"),
  'recognition encryption secret lookup missing');
 verify(controller.includes("'AES-GCM'"),
