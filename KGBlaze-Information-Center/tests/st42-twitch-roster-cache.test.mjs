@@ -115,14 +115,72 @@ test('CP18 categorizes private Twitch total inconsistencies without exposing pro
  for(const [body,reason] of variants){
   const mock=provider([{body}]);
   const result=await read({...config,fetchImpl:mock.fetchImpl});
-  assert.deepEqual(result,{ok:false,reason});
-  assert.equal(mock.calls,1);
+  if(reason==='provider_total_below_observed'){
+   assert.deepEqual(result,{ok:false,reason,phase:'first_page',totalRecheck:'unavailable'});
+   assert.equal(mock.calls,2,'One bounded count recheck, never a roster retry');
+   assert.equal(mock.requests[1].url.searchParams.get('first'),'1');
+   assert.equal(mock.requests[1].url.searchParams.has('user_id'),false);
+  }else{
+   assert.deepEqual(result,{ok:false,reason});
+   assert.equal(mock.calls,1);
+  }
   assert.equal(mock.requests[0].url.searchParams.get('first'),'100');
   assert.equal(mock.requests[0].url.searchParams.has('user_id'),false);
   for(const sensitive of ['NEVER_LOG_OWNER_ACCESS','Subscriber_111','Subscriber_222']){
    assert.equal(JSON.stringify(result).includes(sensitive),false);
   }
  }
+});
+
+test('Stage 43 CP19 detects stale provider total from a second private count without caching rows',async()=>{
+ const mock=provider([
+  page([row('111'),row('222')],1,'cursor-maybe-final'),
+  page([row('111')],2)
+ ]);
+ const result=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.deepEqual(result,{ok:false,reason:'provider_total_below_observed',
+  phase:'first_page',totalRecheck:'caught_up_or_higher'});
+ assert.equal(mock.calls,2);
+ assert.equal(mock.requests[1].url.searchParams.get('first'),'1');
+ assert.equal(mock.requests[1].url.searchParams.has('after'),false);
+ assert.equal(mock.requests[1].init.redirect,'manual');
+ assert.ok(!JSON.stringify(result).includes('Subscriber_'));
+ assert.ok(!('subscribers' in result));
+});
+
+test('Stage 43 CP19 detects stable undercount after pagination, with no identifiers returned',async()=>{
+ const mock=provider([
+  page([row('111')],2,'continue'),
+  page([row('222'),row('333')],2,'terminal'),
+  page([row('111')],2)
+ ]);
+ const result=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.deepEqual(result,{ok:false,reason:'provider_total_below_observed',
+  phase:'later_page',totalRecheck:'still_below'});
+ assert.equal(mock.calls,3);
+ assert.equal(mock.requests[1].url.searchParams.get('after'),'continue');
+ assert.equal(mock.requests[2].url.searchParams.get('first'),'1');
+ assert.equal(mock.requests[2].url.searchParams.has('after'),false);
+ assert.ok(!('subscribers' in result));
+});
+
+test('Stage 43 CP19 refuses D1 replacement even if the read-only provider recount catches up',async()=>{
+ const {env,state}=fakeD1();
+ const prior=await commit(env,snapshot([['111','PreviouslyVerified']]),{nowMs:1000});
+ assert.equal(prior.ok,true);
+ const mock=provider([
+  page([row('111'),row('222')],1),
+  page([row('111')],2)
+ ]);
+ const failed=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.equal(failed.reason,'provider_total_below_observed');
+ assert.equal(failed.totalRecheck,'caught_up_or_higher');
+ const writesBefore=state.calls.length;
+ const rejected=await commit(env,failed,{nowMs:2000});
+ assert.equal(rejected.reason,'incomplete_or_invalid_roster');
+ assert.equal(state.calls.length,writesBefore);
+ assert.equal(state.rows.size,1);
+ assert.equal(state.meta.snapshotVersion,1);
 });
 
 test('CP18 missing count does not authorize deleting a previously successful cache',async()=>{
