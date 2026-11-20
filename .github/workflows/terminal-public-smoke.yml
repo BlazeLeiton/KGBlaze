@@ -75,9 +75,9 @@ jobs:
           print('PASS: public agenda contract and no private recognition fields')
 
           callback_status, _ = fetch('/twitch/oauth/callback')
-          assert callback_status == 404, \
-              'Twitch OAuth callback is NOT disabled; check feature flag'
-          print('PASS: historical Twitch OAuth callback remains disabled')
+          assert callback_status == 400, \
+              'Twitch OAuth callback did not reject a missing state safely'
+          print('PASS: owner OAuth callback is enabled but rejects missing state')
 
           status_status, _ = fetch('/departures/api/admin/recognition/twitch/status')
           assert status_status == 401, \

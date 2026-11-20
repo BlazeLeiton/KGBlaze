@@ -72,8 +72,8 @@ verify(controller.includes('DELETE FROM recognition_twitch_oauth_credentials'),
  'disconnect no longer removes encrypted credentials');
 verify(/^\s*TWITCH_RECOGNITION_BROADCASTER_ID\s*=\s*"70386764"\s*$/m.test(currentVars),
  'expected public Twitch broadcaster ID missing or changed in [vars]');
-verify(!/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*(?:["']true["']|true)\s*(?:#.*)?$/m.test(currentVars),
- 'dangerous: OAuth flag is activated in tracked Wrangler vars');
+verify(/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
+ 'CP05 must explicitly enable owner-only OAuth after verified D1/secret gates');
 verify(!/^\s*(TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64|ADMIN_TOKEN)\s*=/m.test(wrangler),
  'a secret variable was committed to wrangler.toml');
 
@@ -89,10 +89,12 @@ verify(/consumed_at_ms/.test(sql) && /refresh_lock_until_ms/.test(sql),
  'missing single-use-state or refresh lock columns');
 
 const result={
- step:'Stage42 CP04 static preparation',
+ step:'Stage42 CP05 explicit owner-OAuth activation preflight',
  passed:fail.length===0,
  checked:'source, router, wrangler and scoped migration ONLY',
  remoteCloudflareChecked:false,
+ ownerOAuthFlagConfigured:true,
+ subscriberEnumerationEnabled:false,
  remoteSchemaModified:false,
  deployed:false,
  credentialsUsed:false,

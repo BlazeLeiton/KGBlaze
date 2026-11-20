@@ -16,6 +16,8 @@ test('CP04 offline preflight validates exact existing Terminal, scoped SQL and n
   cwd:new URL('../',import.meta.url),encoding:'utf8'});
  const report=JSON.parse(stdout);
  assert.equal(report.passed,true);
+ assert.equal(report.ownerOAuthFlagConfigured,true);
+ assert.equal(report.subscriberEnumerationEnabled,false);
  assert.equal(report.remoteCloudflareChecked,false);
  assert.equal(report.remoteSchemaModified,false);
  assert.equal(report.deployed,false);
@@ -54,4 +56,23 @@ test('CP04 public domain still denies root admin endpoints and disallowed verbs'
  assert.equal(allowed.response,undefined);
  const rejected=routePortalRequest(new Request(origin+'/departures/api/admin/recognition/twitch/disconnect'));
  assert.equal(rejected.response.status,405);
+});
+
+test('CP05 owner OAuth requires encryption secret even after explicit flag is true',async()=>{
+ const env={...setup(),
+  RECOGNITION_TWITCH_OAUTH_ENABLED:'true',
+  TWITCH_CLIENT_ID:'registered-client',
+  TWITCH_CLIENT_SECRET:'test-only',
+  TWITCH_RECOGNITION_BROADCASTER_ID:'70386764'};
+ const u=origin+'/departures/api/admin/recognition/twitch/start';
+ const result=await worker.fetch(new Request(u,{method:'POST',headers:admin}),env);
+ assert.equal(result.status,503);
+ const body=await result.json();
+ assert.equal(body.reason,'missing_encryption_key');
+});
+test('CP05 callback rejects missing state without touching D1 or provider',async()=>{
+ const env={...setup(),RECOGNITION_TWITCH_OAUTH_ENABLED:'true'};
+ const r=await worker.fetch(new Request(origin+'/twitch/oauth/callback'),env);
+ assert.equal(r.status,400);
+ assert.equal((await r.json()).error,'INVALID_OAUTH_CALLBACK');
 });
