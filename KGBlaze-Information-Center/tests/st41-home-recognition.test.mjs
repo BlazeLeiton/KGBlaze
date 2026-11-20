@@ -42,3 +42,18 @@ test('recognition strip stays below players on mobile and wide desktop without a
  assert.match(home,/\.hero-inner\{max-width:1660px;grid-template-columns:/);
  assert.match(home,/\.media-grid\{display:flex;flex-direction:column;gap:15px;margin-top:27px/);
 });
+
+test('Stage 43 CP29 subscriber recognition uses Twitch logo with no per-member frame',()=>{
+ assert.match(home,/\.kg-recognition-member\{display:inline-flex;align-items:center;gap:5px;padding:0;border:0;background:none;border-radius:0;/);
+ assert.match(home,/\.kg-recognition-member svg\{display:block;width:14px;height:14px;flex:none;fill:#A970FF\}/);
+ const start=home.indexOf('function renderRecognitionMembers()');
+ const end=home.indexOf('async function updateRecognitionMembers()',start);
+ const render=home.slice(start,end);
+ assert.match(render,/createElementNS\('http:\/\/www\.w3\.org\/2000\/svg','svg'\)/);
+ assert.match(render,/setAttribute\('viewBox','0 0 24 24'\)/);
+ assert.match(render,/setAttribute\('aria-hidden','true'\)/);
+ assert.match(render,/pill\.append\(twitchIcon,subscriberName\)/);
+ assert.doesNotMatch(render,/'Twitch · '\+entry\.displayName/);
+ assert.match(render,/entry\.trial===true\?' · '/);
+ assert.match(render,/recognizedMembers\.hidden=!recognizedMembers\.children\.length/);
+});
