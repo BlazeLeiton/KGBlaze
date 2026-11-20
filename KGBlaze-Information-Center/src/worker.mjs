@@ -6,6 +6,9 @@ import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
+import {PILOT_PUBLIC_PATH,readTwitchPilotPublic,readTwitchPilotPrivate,
+ enrollTwitchPilot,clearTwitchPilot,refreshTwitchPilot}
+ from './recognition-twitch-two-pilot.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
  disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus,
@@ -118,6 +121,14 @@ async function handler(req,env){
  }
  if(!env.DB&&['/api/public','/agenda_publica.json'].includes(path))return err(503,'DATABASE_NOT_CONFIGURED');
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
+ // Only two owner-attested, recently verified names can ever reach this
+ // public endpoint. Empty unless the separate pilot + publication flags are on.
+ if(path===PILOT_PUBLIC_PATH){
+  if(method!=='GET')return err(405,'METHOD_NOT_ALLOWED');
+  if(url.origin!=='https://kgblaze.dpdns.org')return err(404,'NOT_FOUND');
+  const pilot=await readTwitchPilotPublic(env);
+  return json(pilot,200,{'Cache-Control':'no-store'});
+ }
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);
   const representation=publicAgenda(d.editorial,d.sync,d.revision);
@@ -229,6 +240,47 @@ async function handler(req,env){
    if(req.headers.get('X-Relight-Recognition-Confirm')!=='sync-private-subscriber-cache')
     return json({ok:false,error:'EXPLICIT_SYNC_CONFIRMATION_REQUIRED'},400,privateHeaders);
    const result=await syncStoredTwitchActiveSubscribers(env);
+   return json(result,result.ok?200:503,privateHeaders);
+  }
+  // CP25: consented TWO-person public recognition pilot. These routes
+  // are never public and must not expose unrelated broadcaster subscribers.
+  if(path==='/api/admin/recognition/twitch/pilot/status'&&method==='GET'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='inspect-two-person-pilot')
+    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await readTwitchPilotPrivate(env);
+   return json(result,result.ok?200:503,privateHeaders);
+  }
+  if(path==='/api/admin/recognition/twitch/pilot/enroll'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='enroll-two-consented-twitch-members')
+    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   if(!/^application\/json(?:\s*;|$)/i.test(req.headers.get('Content-Type')||''))
+    return json({ok:false,error:'JSON_REQUIRED'},415,privateHeaders);
+   if(Number(req.headers.get('Content-Length')||0)>512)
+    return json({ok:false,error:'BODY_TOO_LARGE'},413,privateHeaders);
+   let body;
+   try{
+    const raw=await req.text();
+    if(raw.length>512)return json({ok:false,error:'BODY_TOO_LARGE'},413,privateHeaders);
+    body=JSON.parse(raw);
+   }catch{return json({ok:false,error:'INVALID_JSON'},400,privateHeaders)}
+   if(!body||!Array.isArray(body.logins)||body.logins.length!==2||
+      body.consentConfirmed!==true||Object.keys(body).sort().join(',')!=='consentConfirmed,logins')
+    return json({ok:false,error:'TWO_CONSENTED_LOGINS_REQUIRED'},400,privateHeaders);
+   const result=await enrollTwitchPilot(env,{
+    logins:body.logins,consentConfirmed:body.consentConfirmed
+   });
+   return json(result,result.ok?200:503,privateHeaders);
+  }
+  if(path==='/api/admin/recognition/twitch/pilot/refresh'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='refresh-consented-twitch-pilot')
+    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await refreshTwitchPilot(env,{force:true});
+   return json(result,result.ok?200:503,privateHeaders);
+  }
+  if(path==='/api/admin/recognition/twitch/pilot/clear'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='clear-consented-twitch-pilot')
+    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await clearTwitchPilot(env);
    return json(result,result.ok?200:503,privateHeaders);
   }
   // Deliberately independent of the OAuth enabled flag: this must remain
