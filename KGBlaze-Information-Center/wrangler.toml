@@ -32,6 +32,9 @@ RECOGNITION_TWITCH_OAUTH_ENABLED = "true"
 # No Cron, public subscription list or saved member details.
 # Emergency pause independent of owner OAuth: set to false and redeploy.
 RECOGNITION_TWITCH_STATUS_ENABLED = "true"
+# CP15: private subscriber cache and manual sync remain OFF until migration/QA.
+# Do not enable from source alone. No cron or public recognition list.
+RECOGNITION_TWITCH_CACHE_ENABLED = "false"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
