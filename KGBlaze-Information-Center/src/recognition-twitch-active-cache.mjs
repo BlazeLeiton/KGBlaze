@@ -59,18 +59,20 @@ export async function commitPrivateTwitchActiveRoster(env,snapshot,{
  const version=meta.initialized?meta.snapshotVersion+1:1;
  if(!Number.isSafeInteger(version))return fail('invalid_cache_version');
  try{
+  // Meta must exist first because the active rows FK points to it.
+  // A single D1 transaction rolls back meta AND rows on any failure.
   const statements=[
-   env.DB.prepare('DELETE FROM recognition_twitch_active_subscribers'),
-   ...snapshot.subscribers.map(r=>env.DB.prepare(
-    'INSERT INTO recognition_twitch_active_subscribers '+
-    '(twitch_user_id,display_name,observed_at_ms) VALUES (?,?,?)'
-   ).bind(r.userId,r.displayName,nowMs)),
    env.DB.prepare(
     'INSERT INTO recognition_twitch_active_status_meta '+
     '(slot,last_completed_at_ms,active_total,snapshot_version) VALUES (1,?,?,?) '+
     'ON CONFLICT(slot) DO UPDATE SET last_completed_at_ms=excluded.last_completed_at_ms,'+
     'active_total=excluded.active_total,snapshot_version=excluded.snapshot_version'
-   ).bind(nowMs,snapshot.providerTotal,version)
+   ).bind(nowMs,snapshot.providerTotal,version),
+   env.DB.prepare('DELETE FROM recognition_twitch_active_subscribers'),
+   ...snapshot.subscribers.map(r=>env.DB.prepare(
+    'INSERT INTO recognition_twitch_active_subscribers '+
+    '(twitch_user_id,display_name,observed_at_ms) VALUES (?,?,?)'
+   ).bind(r.userId,r.displayName,nowMs))
   ];
   await env.DB.batch(statements);
   // Return counts only, NEVER names or user IDs.
