@@ -515,7 +515,7 @@ test('CP03 Worker confirmed disconnect never exposes tokens, refresh or private 
 
 test('CP06 OAuth callback shows safe one-time-state diagnostic without reflecting secrets',async()=>{
  const {env}=setup();
- await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await startTwitchOwnerConnection(env,{randomBytes:random});
  const response=await worker.fetch(new Request(
   REDIRECT+'?state='+('44'.repeat(32))+'&code=abcDEF123'),env);
  assert.equal(response.status,400);
@@ -534,7 +534,7 @@ test('CP06 OAuth callback distinguishes denial and owner mismatch without exposi
  ];
  for(const scenario of scenarios){
   const {env}=setup();
-  await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+  await startTwitchOwnerConnection(env,{randomBytes:random});
   const oldFetch=globalThis.fetch;
   try{
    if(scenario.fetchImpl)globalThis.fetch=scenario.fetchImpl;
@@ -552,7 +552,7 @@ test('CP06 OAuth callback distinguishes denial and owner mismatch without exposi
 
 test('CP06 OAuth callback distinguishes rejected provider token exchange without echoing Twitch response',async()=>{
  const {env}=setup();
- await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await startTwitchOwnerConnection(env,{randomBytes:random});
  const previous=globalThis.fetch;
  try{
   globalThis.fetch=async()=>({ok:false,status:400,
