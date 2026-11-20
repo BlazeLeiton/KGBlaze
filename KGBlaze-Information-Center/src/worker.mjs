@@ -6,9 +6,9 @@ import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
-import {PILOT_PUBLIC_PATH,readTwitchPilotPublic,readTwitchPilotPrivate,
- enrollTwitchPilot,clearTwitchPilot,refreshTwitchPilot}
- from './recognition-twitch-two-pilot.mjs';
+import {RECOGNITION_PUBLIC_PATH,readPublicTwitchRecognition,
+ readPrivateTwitchRecognitionStatus,syncDailyTwitchRecognition,
+ setTwitchRecognitionConsent} from './recognition-twitch-membership.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
  disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus,
@@ -123,11 +123,11 @@ async function handler(req,env){
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
  // Only two owner-attested, recently verified names can ever reach this
  // public endpoint. Empty unless the separate pilot + publication flags are on.
- if(path===PILOT_PUBLIC_PATH){
+ if(path===RECOGNITION_PUBLIC_PATH){
   if(method!=='GET')return err(405,'METHOD_NOT_ALLOWED');
   if(url.origin!=='https://kgblaze.dpdns.org')return err(404,'NOT_FOUND');
-  const pilot=await readTwitchPilotPublic(env);
-  return json(pilot,200,{'Cache-Control':'no-store'});
+  const status=await readPublicTwitchRecognition(env);
+  return json(status,200,{'Cache-Control':'no-store'});
  }
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);
@@ -242,17 +242,23 @@ async function handler(req,env){
    const result=await syncStoredTwitchActiveSubscribers(env);
    return json(result,result.ok?200:503,privateHeaders);
   }
-  // CP25: consented TWO-person public recognition pilot. These routes
-  // are never public and must not expose unrelated broadcaster subscribers.
-  if(path==='/api/admin/recognition/twitch/pilot/status'&&method==='GET'){
-   if(req.headers.get('X-Relight-Recognition-Confirm')!=='inspect-two-person-pilot')
-    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
-   const result=await readTwitchPilotPrivate(env);
+  // CP26: owner-only scalable recognition management. No roster, ID or
+  // token is included in anonymous responses, and no chat bot is connected.
+  if(path==='/api/admin/recognition/twitch/members/status'&&method==='GET'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='inspect-recognition')
+    return json({ok:false,error:'EXPLICIT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await readPrivateTwitchRecognitionStatus(env);
    return json(result,result.ok?200:503,privateHeaders);
   }
-  if(path==='/api/admin/recognition/twitch/pilot/enroll'&&method==='POST'){
-   if(req.headers.get('X-Relight-Recognition-Confirm')!=='enroll-two-consented-twitch-members')
-    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+  if(path==='/api/admin/recognition/twitch/members/sync'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='sync-daily-recognition')
+    return json({ok:false,error:'EXPLICIT_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await syncDailyTwitchRecognition(env,{force:true});
+   return json(result,result.ok?200:503,privateHeaders);
+  }
+  if(path==='/api/admin/recognition/twitch/members/consent'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='change-recognition-consent')
+    return json({ok:false,error:'EXPLICIT_CONFIRMATION_REQUIRED'},400,privateHeaders);
    if(!/^application\/json(?:\s*;|$)/i.test(req.headers.get('Content-Type')||''))
     return json({ok:false,error:'JSON_REQUIRED'},415,privateHeaders);
    if(Number(req.headers.get('Content-Length')||0)>512)
@@ -263,24 +269,11 @@ async function handler(req,env){
     if(raw.length>512)return json({ok:false,error:'BODY_TOO_LARGE'},413,privateHeaders);
     body=JSON.parse(raw);
    }catch{return json({ok:false,error:'INVALID_JSON'},400,privateHeaders)}
-   if(!body||!Array.isArray(body.logins)||body.logins.length!==2||
-      body.consentConfirmed!==true||Object.keys(body).sort().join(',')!=='consentConfirmed,logins')
-    return json({ok:false,error:'TWO_CONSENTED_LOGINS_REQUIRED'},400,privateHeaders);
-   const result=await enrollTwitchPilot(env,{
-    logins:body.logins,consentConfirmed:body.consentConfirmed
+   if(!body||Object.keys(body).sort().join(',')!=='attested,login,state')
+    return json({ok:false,error:'INVALID_CONSENT_UPDATE'},400,privateHeaders);
+   const result=await setTwitchRecognitionConsent(env,{
+    login:body.login,state:body.state,attested:body.attested
    });
-   return json(result,result.ok?200:503,privateHeaders);
-  }
-  if(path==='/api/admin/recognition/twitch/pilot/refresh'&&method==='POST'){
-   if(req.headers.get('X-Relight-Recognition-Confirm')!=='refresh-consented-twitch-pilot')
-    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
-   const result=await refreshTwitchPilot(env,{force:true});
-   return json(result,result.ok?200:503,privateHeaders);
-  }
-  if(path==='/api/admin/recognition/twitch/pilot/clear'&&method==='POST'){
-   if(req.headers.get('X-Relight-Recognition-Confirm')!=='clear-consented-twitch-pilot')
-    return json({ok:false,error:'EXPLICIT_PILOT_CONFIRMATION_REQUIRED'},400,privateHeaders);
-   const result=await clearTwitchPilot(env);
    return json(result,result.ok?200:503,privateHeaders);
   }
   // Deliberately independent of the OAuth enabled flag: this must remain
@@ -540,24 +533,30 @@ export default {
  // the independent opt-in, and no HTTP endpoint can trigger this handler.
  async scheduled(controller,env,_ctx){
   if(controller?.cron===SOCIAL_PREVIEW_CRON){
-   try{
-    const result=await generateDailySocialPreview(env,new Date(controller.scheduledTime));
-    if(result?.ok===false&&result.reason!=='PAUSED')console.warn('Social preview:',result.reason);
-   }catch{console.error('Social preview unavailable');}
+   // The existing UTC 09:00 daily slot = 03:00 in Mexico City year-round.
+   // Social preview and private recognition run independently; either can
+   // fail without preventing the other. No Twitch polling every 5 minutes.
+   await Promise.all([
+    (async()=>{
+     if(env.RECOGNITION_TWITCH_RECOGNITION_ENABLED!=='true')return;
+     try{
+      const result=await syncDailyTwitchRecognition(env);
+      if(result?.ok===false&&result.reason!=='recognition_busy_or_changed')
+       console.warn('Daily Twitch recognition:',result.reason);
+     }catch{console.warn('Daily Twitch recognition unavailable')}
+    })(),
+    (async()=>{
+     try{
+      const result=await generateDailySocialPreview(env,
+       new Date(controller.scheduledTime));
+      if(result?.ok===false&&result.reason!=='PAUSED')
+       console.warn('Social preview:',result.reason);
+     }catch{console.error('Social preview unavailable')}
+    })()
+   ]);
    return;
   }
   if(controller?.cron!=='*/5 * * * *')return;
-  // Isolated from YouTube's editorial Cron: only the TWO expressly
-  // owner-attested pilot accounts. No full Twitch roster scan, ever.
-  if(env.RECOGNITION_TWITCH_PILOT_ENABLED==='true'){
-   try{
-    const pilot=await refreshTwitchPilot(env);
-    if(pilot?.ok===false&&
-       !['pilot_not_configured','pilot_refresh_busy_or_changed',
-        'pilot_disabled'].includes(pilot.reason))
-     console.warn('Twitch recognition pilot:',pilot.reason);
-   }catch{console.warn('Twitch recognition pilot unavailable')}
-  }
   if(env.YOUTUBE_SYNC_ENABLED!=='true'||env.YOUTUBE_SYNC_PAUSED==='true')return;
   const slot=new Date(controller.scheduledTime);
   if(!Number.isFinite(slot.getTime()))return;
