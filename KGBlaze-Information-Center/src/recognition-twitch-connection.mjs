@@ -401,7 +401,8 @@ export async function syncStoredTwitchActiveSubscribers(env,{
     if(snapshot.reason==='provider_total_below_observed'){
      // Static private-only diagnostic: no identity or provider count escapes.
      return {ok:false,reason:snapshot.reason,
-      phase:snapshot.phase,totalRecheck:snapshot.totalRecheck};
+      phase:snapshot.phase,totalRecheck:snapshot.totalRecheck,
+      ...(snapshot.targetedCheck?{targetedCheck:snapshot.targetedCheck}:{})};
     }
     return fail(snapshot.reason);
    }
