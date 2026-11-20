@@ -2,6 +2,14 @@
 
 Checkpoint: 19 November 2026 · America/Mexico_City
 
+## Corrección posterior: los eventos NO son la única fuente del estado activo
+
+Según la API oficial Twitch [Get Broadcaster Subscriptions](https://dev.twitch.tv/docs/api/reference/subscriptions), **sí tenemos acceso a la lista activa de suscriptores del canal** con el token de propietario ya autorizado (`channel:read:subscriptions` y `broadcaster_id=70386764`). Devuelve páginas de hasta 100 y también permite filtrar hasta 100 `user_id` específicos. **La presencia actual en la respuesta es el estado de suscripción vigente**, no la fecha de un aviso; la API no incluye fecha de expiración individual. El status en KGBlaze se actualizará a partir de consultas periódicas oficiales, con estado `no_verificable` ante fallos, y no a partir de la antigüedad de un anuncio.
+
+Por tanto, **EventSub queda como complemento para notificaciones oportunas de nuevas suscripciones/renovaciones**, no como fuente exclusiva ni requisito para comprobar vigencia. El receptor CP11 preparado puede quedar inactivo mientras se implementa la ruta privada de consultas. Ninguna lista completa se publica automáticamente ni se copian a Home detalles de cuentas que no se decidió mostrar. Este criterio supersede cualquier indicación previa de que solo podríamos saber quién se suscribió mediante eventos.
+
+Véase `RELIGHT_ST42_CP12_TWITCH_ACTIVE_SUBSCRIPTION_STATUS_2026-11-19.md`.
+
 ## Goal
 
 Receive **new Twitch subscriptions** and **resubscription messages shared in chat**, for KGBlaze personalized acknowledgements. Do not create a viewer registry or bulk-read private subscribers. Keep YouTube channel memberships and future Ko-fi/other recurring memberships as separate providers.
