@@ -35,10 +35,9 @@ export function routePortalRequest(request){
   '/departures/api/admin/recognition/twitch/check-subscribers':['POST'],
   '/departures/api/admin/recognition/twitch/sync-status-cache':['POST'],
   '/departures/api/admin/recognition/twitch/disconnect':['POST'],
-  '/departures/api/admin/recognition/twitch/pilot/status':['GET'],
-  '/departures/api/admin/recognition/twitch/pilot/enroll':['POST'],
-  '/departures/api/admin/recognition/twitch/pilot/refresh':['POST'],
-  '/departures/api/admin/recognition/twitch/pilot/clear':['POST']
+  '/departures/api/admin/recognition/twitch/members/status':['GET'],
+  '/departures/api/admin/recognition/twitch/members/sync':['POST'],
+  '/departures/api/admin/recognition/twitch/members/consent':['POST']
  };
  const allowed=methods[url.pathname];
  if(allowed?!allowed.includes(request.method):request.method!=='GET'&&request.method!=='HEAD')
@@ -85,10 +84,9 @@ export function routePortalRequest(request){
   '/api/admin/recognition/twitch/check-subscribers',
   '/api/admin/recognition/twitch/sync-status-cache',
   '/api/admin/recognition/twitch/disconnect',
-  '/api/admin/recognition/twitch/pilot/status',
-  '/api/admin/recognition/twitch/pilot/enroll',
-  '/api/admin/recognition/twitch/pilot/refresh',
-  '/api/admin/recognition/twitch/pilot/clear'];
+  '/api/admin/recognition/twitch/members/status',
+  '/api/admin/recognition/twitch/members/sync',
+  '/api/admin/recognition/twitch/members/consent'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};
