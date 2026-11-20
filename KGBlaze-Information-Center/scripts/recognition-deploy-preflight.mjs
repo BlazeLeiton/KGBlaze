@@ -62,6 +62,12 @@ verify(worker.includes("X-Relight-Recognition-Confirm"),
  'disconnect lost explicit confirmation gate');
 verify(worker.includes("env.RECOGNITION_TWITCH_OAUTH_ENABLED!=='true'"),
  'callback fail-closed gate missing');
+verify(!/redirect\s*:\s*['"]error['"]/.test(oauth+'\n'+controller),
+ 'unsupported redirect:error breaks Cloudflare Workers Twitch outbound fetch');
+verify((oauth.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
+ 'Twitch token exchange and token validation must use manual redirect');
+verify((controller.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===1,
+ 'Twitch token revocation must use manual redirect');
 verify(controller.includes("RECOGNITION_TWITCH_TOKEN_KEY_B64"),
  'recognition encryption secret lookup missing');
 verify(controller.includes("'AES-GCM'"),
