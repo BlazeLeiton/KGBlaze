@@ -28,6 +28,9 @@ const controller=read('src/recognition-twitch-connection.mjs');
 const activeStatus=read('src/recognition-twitch-active-status.mjs');
 const twitchVerifier=read('src/recognition-private.mjs');
 const youtubeVerifier=read('src/recognition-youtube-private.mjs');
+const roster=read('src/recognition-twitch-roster-snapshot.mjs');
+const cache=read('src/recognition-twitch-active-cache.mjs');
+const cacheMigration=read('migrations/recognition_twitch_active_status.sql');
 const currentVars=wrangler.split(/^\s*\[vars\]\s*$/m)[1]?.split(/^\s*\[/m)[0]||'';
 
 verify(/^\s*name\s*=\s*"kgblaze-terminal"\s*$/m.test(wrangler),
@@ -43,6 +46,30 @@ verify(/^\s*crons\s*=\s*\["\*\/5 \* \* \* \*", "0 9 \* \* \*"\]\s*$/m.test(wrang
 verify(/^\s*keep_vars\s*=\s*true\s*$/m.test(wrangler),
  'keep_vars lost — dashboard variables may be overwritten');
 
+
+verify(/^\s*RECOGNITION_TWITCH_CACHE_ENABLED\s*=\s*"false"\s*$/m.test(currentVars),
+ 'private active subscriber cache MUST remain disabled before owner D1 migration');
+verify(!roster.includes("redirect:'error'")&&roster.includes("redirect:'manual'"),
+ 'private Twitch roster must never follow OAuth-bearing redirects');
+verify(cache.includes("RECOGNITION_TWITCH_CACHE_ENABLED!=='true'"),
+ 'cache writer lost explicit OFF-by-default server gate');
+verify(cache.includes("await env.DB.batch(statements)"),
+ 'private snapshot replacement must be atomic D1 batch');
+verify(worker.includes("sync-private-subscriber-cache")&&
+ worker.includes("syncStoredTwitchActiveSubscribers"),
+ 'private cache sync endpoint missing admin confirmation');
+verify(router.includes("'/departures/api/admin/recognition/twitch/sync-status-cache':['POST']")&&
+ router.includes("'/api/admin/recognition/twitch/sync-status-cache'"),
+ 'private cache sync is not explicitly routed');
+verify(!router.includes("'/api/admin/recognition/twitch/sync-status-cache':['POST']"),
+ 'root cache sync alias MUST remain blocked');
+verify(!/^\s*(INSERT|UPDATE|DELETE|DROP|ALTER)\s+(?:INTO|FROM|TABLE)?\s*(?:terminal_|recognition_twitch_oauth)/im.test(cacheMigration),
+ 'cache migration attempts to modify editorial or OAuth records');
+verify((cacheMigration.match(/CREATE TABLE IF NOT EXISTS/g)||[]).length===2,
+ 'cache migration must create exactly two isolated tables');
+verify(cacheMigration.includes('recognition_twitch_active_subscribers')&&
+ cacheMigration.includes('recognition_twitch_active_status_meta'),
+ 'cache migration missing private tables');
 verify(oauth.includes("export const TWITCH_OWNER_CALLBACK_PATH='/twitch/oauth/callback'"),
  'historical callback path changed');
 verify(oauth.includes("https://kgblaze.dpdns.org'+TWITCH_OWNER_CALLBACK_PATH"),
@@ -126,6 +153,7 @@ const result={
  ownerOnlyStatusFlagConfigured:true,
  publicSubscriberEnumerationEnabled:false,
  subscriberEnumerationEnabled:false,
+ privateSubscriberCacheEnabled:false,
  remoteSchemaModified:false,
  deployed:false,
  credentialsUsed:false,
