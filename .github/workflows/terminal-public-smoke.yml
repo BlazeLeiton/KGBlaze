@@ -30,8 +30,10 @@ jobs:
           base = os.environ['KGBLAZE_BASE'].rstrip('/')
           HEADERS = {'User-Agent': 'KGBlaze-Relight-Public-Smoke/1.0',
                      'Accept': 'application/json, text/html;q=0.8'}
-          def fetch(path):
-              request = urllib.request.Request(base + path, headers=HEADERS)
+          def fetch(path, method='GET'):
+              request = urllib.request.Request(base + path, headers=HEADERS,
+                                               data=b'' if method=='POST' else None,
+                                               method=method)
               for attempt in range(3):
                   try:
                       with urllib.request.urlopen(request, timeout=20) as r:
@@ -91,5 +93,10 @@ jobs:
           root_summary_status, _ = fetch('/api/admin/recognition/twitch/subscription-summary')
           assert root_summary_status == 404, \
               'Custom domain must not expose root-level subscriber summary alias'
-          print('PASS: private Twitch OAuth and active status stay inaccessible anonymously')
+          cache_status, _ = fetch('/departures/api/admin/recognition/twitch/sync-status-cache',
+                                  method='POST')
+          assert cache_status == 401, 'Private subscriber cache must reject anonymous POST'
+          root_cache_status, _ = fetch('/api/admin/recognition/twitch/sync-status-cache')
+          assert root_cache_status == 404, 'Custom domain must deny root subscriber cache alias'
+          print('PASS: private OAuth, subscription queries and cache deny anonymous access')
           PY
