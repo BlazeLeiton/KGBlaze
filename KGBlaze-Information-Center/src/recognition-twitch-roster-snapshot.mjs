@@ -55,6 +55,48 @@ async function recheckProviderTotal({fetchImpl,accessToken,clientId,broadcasterI
  }catch{return 'unavailable';}
 }
 
+// CP20: At most one extra filtered Helix request, using a bounded sample of
+// essential IDs already validated from a contradictory first unfiltered page.
+// A matching filtered row is independent evidence for that person's active
+// status. It is NOT a complete roster and must NEVER authorize a D1 swap.
+// Return static categories only. No names, IDs, totals or provider payloads.
+async function crosscheckObservedSubscriptions({
+ fetchImpl,accessToken,clientId,broadcasterId,userIds
+}){
+ if(!Array.isArray(userIds)||userIds.length<1||userIds.length>5||
+    userIds.some(id=>typeof id!=='string'||!ID.test(id)))
+  return 'unavailable';
+ const url=new URL(HELIX);
+ url.searchParams.set('broadcaster_id',broadcasterId);
+ for(const id of userIds)url.searchParams.append('user_id',id);
+ try{
+  const response=await fetchImpl(url.toString(),{
+   method:'GET',redirect:'manual',
+   headers:{Authorization:'Bearer '+accessToken,'Client-Id':clientId,
+    Accept:'application/json'}
+  });
+  if(!response?.ok)return 'unavailable';
+  const body=await response.json();
+  // Filtered queries omit total and pagination. Unexpected fields or
+  // identities indicate an inconsistent provider response, not a positive.
+  if(!body||!Array.isArray(body.data)||body.data.length>userIds.length||
+     Object.prototype.hasOwnProperty.call(body,'total')||
+     Object.prototype.hasOwnProperty.call(body,'pagination'))
+   return 'inconsistent';
+  const requested=new Set(userIds),observed=new Set();
+  for(const row of body.data){
+   if(!row||row.broadcaster_id!==broadcasterId||
+      typeof row.user_id!=='string'||!ID.test(row.user_id)||
+      !requested.has(row.user_id)||observed.has(row.user_id))
+    return 'inconsistent';
+   observed.add(row.user_id);
+  }
+  if(observed.size===requested.size)return 'all_confirmed';
+  if(observed.size>0)return 'some_confirmed';
+  return 'none_confirmed';
+ }catch{return 'unavailable';}
+}
+
 export async function readTwitchPrivateRosterSnapshot({
  accessToken,clientId,broadcasterId,fetchImpl=fetch,maxMembers=CAP
 }={}){
@@ -121,8 +163,18 @@ export async function readTwitchPrivateRosterSnapshot({
     const totalRecheck=await recheckProviderTotal({
      fetchImpl,accessToken,clientId,broadcasterId,observed:records.size
     });
+    const phase=page===1?'first_page':'later_page';
+    // The live CP19 incident is first-page persistent undercount. Probe
+    // just a small subset via Twitch's supported user_id filter. Even full
+    // confirmation is positive-only and cannot prove global completeness.
+    const targetedCheck=phase==='first_page'&&totalRecheck==='still_below'
+     ?await crosscheckObservedSubscriptions({
+       fetchImpl,accessToken,clientId,broadcasterId,
+       userIds:[...records.keys()].slice(0,5)
+      })
+     :undefined;
     return {ok:false,reason:'provider_total_below_observed',
-     phase:page===1?'first_page':'later_page',totalRecheck};
+     phase,totalRecheck,...(targetedCheck?{targetedCheck}:{})};
    }
   }
   // Twitch can still return a cursor on this last, complete page.
