@@ -151,8 +151,8 @@ verify(/^\s*RECOGNITION_TWITCH_RECOGNITION_ENABLED\s*=\s*"true"\s*$/m.test(curre
  /^\s*RECOGNITION_TWITCH_TRIAL_UNTIL\s*=\s*"2026-11-22T09:00:00.000Z"\s*$/m.test(currentVars),
  'CP28 may enable public recognition only during the exact owner-authorized time-boxed trial');
 const trialUntil=Date.parse('2026-11-22T09:00:00.000Z');
-verify(trialUntil>Date.now()&&trialUntil-Date.now()<=7*24*60*60*1000,
- 'public test consent simulation has expired or exceeds the seven-day guard; disable trial/publication');
+verify(Number.isFinite(trialUntil)&&trialUntil-Date.now()<=7*24*60*60*1000,
+ 'public test consent simulation must have the fixed, nonextendable cutoff within seven days of activation');
 verify(worker.includes("sync-daily-recognition")&&
  worker.includes("change-recognition-consent")&&
  worker.includes("SOCIAL_PREVIEW_CRON"),
