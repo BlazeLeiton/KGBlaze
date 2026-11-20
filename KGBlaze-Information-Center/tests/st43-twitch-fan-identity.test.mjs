@@ -155,7 +155,8 @@ test('CP22 disabled in production: root aliases and canonical paths cannot touch
    '/departures/api/recognition/twitch/verify',
    '/twitch/member/callback?code=secret&state=00'];
   for(const path of paths){
-   const r=await worker.fetch(req(path,{method:path.includes('/start')?'POST':'GET'}),env);
+   const method=path.includes('/start')||path.includes('/verify')?'POST':'GET';
+   const r=await worker.fetch(req(path,{method}),env);
    assert.equal(r.status,404,path);
    const content=await r.text();
    assert.equal(content.includes('secret'),false);
