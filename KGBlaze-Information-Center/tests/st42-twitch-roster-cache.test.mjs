@@ -92,13 +92,53 @@ test('CP17 essential ID and channel mismatch fail closed without leaking raw ide
   [[{...row('111'),user_id:'not-numeric'}],'invalid_response_identity'],
   [[{...row('111'),broadcaster_id:'999'}],'invalid_response_identity'],
   [[row('111'),row('111','DifferentName')],'snapshot_changed_during_scan'],
-  [[row('111'),row('222')],'invalid_response_total']
+  [[row('111'),row('222')],'provider_total_below_observed']
  ]){
   const out=await read({...config,fetchImpl:provider([page(data,1,'X')]).fetchImpl});
   assert.equal(out.ok,false);
   assert.equal(out.reason,reason);
   assert.equal(JSON.stringify(out).includes('DifferentName'),false);
  }
+});
+
+
+test('CP18 categorizes private Twitch total inconsistencies without exposing provider data',async()=>{
+ const variants=[
+  [{data:[row('111')],pagination:{}},'provider_total_missing'],
+  [{data:[row('111')],total:null,pagination:{}},'provider_total_missing'],
+  [{data:[row('111')],total:'1',pagination:{}},'provider_total_not_integer'],
+  [{data:[row('111')],total:1.5,pagination:{}},'provider_total_not_integer'],
+  [{data:[row('111')],total:-1,pagination:{}},'provider_total_negative'],
+  [{data:[row('111'),row('222')],total:1,pagination:{}},
+   'provider_total_below_observed']
+ ];
+ for(const [body,reason] of variants){
+  const mock=provider([{body}]);
+  const result=await read({...config,fetchImpl:mock.fetchImpl});
+  assert.deepEqual(result,{ok:false,reason});
+  assert.equal(mock.calls,1);
+  assert.equal(mock.requests[0].url.searchParams.get('first'),'100');
+  assert.equal(mock.requests[0].url.searchParams.has('user_id'),false);
+  for(const sensitive of ['NEVER_LOG_OWNER_ACCESS','Subscriber_111','Subscriber_222']){
+   assert.equal(JSON.stringify(result).includes(sensitive),false);
+  }
+ }
+});
+
+test('CP18 missing count does not authorize deleting a previously successful cache',async()=>{
+ const {env,state}=fakeD1();
+ const previous=await commit(env,snapshot([['111','PreviouslyVerified']]),{nowMs:1000});
+ assert.equal(previous.ok,true);
+ const failed=await read({...config,fetchImpl:provider([{
+  body:{data:[row('222')],pagination:{cursor:'any'}}
+ }]).fetchImpl});
+ assert.equal(failed.reason,'provider_total_missing');
+ const invalidWrite=await commit(env,failed,{nowMs:2000});
+ assert.equal(invalidWrite.ok,false);
+ assert.equal(invalidWrite.reason,'incomplete_or_invalid_roster');
+ assert.equal(state.rows.size,1);
+ assert.equal(state.rows.get('111').name,'PreviouslyVerified');
+ assert.equal(state.meta.snapshotVersion,1);
 });
 
 test('CP17 optional Twitch presentation fields never invalidate active subscriber IDs',async()=>{
