@@ -116,6 +116,7 @@ test('YouTube requests ONLY opted-in channel IDs; never a broad member list',asy
  let seenURL=null;
  const fetchImpl=async (url,options)=>{
   seenURL=new URL(url);
+  assert.equal(options.redirect,'manual','Workers does not support redirect:error');
   assert.equal(options.headers.Authorization,'Bearer secret-user-token');
   assert.equal(seenURL.searchParams.get('filterByMemberChannelId'),ytA+','+ytB);
   assert.equal(seenURL.searchParams.get('mode'),'all_current');
@@ -137,4 +138,23 @@ test('YouTube refuses unfiltered, wrong channel, or incomplete provider response
  assert.equal((await checkOptedInYouTubeMembers({...c,YOUTUBE_CHANNEL_ID:'UC'+'Z'.repeat(22)},[consent(ytA)])).ok,false);
  assert.equal((await checkOptedInYouTubeMembers(c,[consent(ytA)],{fetchImpl:incomplete})).ok,false);
  assert.equal((await checkOptedInYouTubeMembers(c,[consent(ytA)],{fetchImpl:foreign})).ok,false);
+});
+
+
+test('CP08 private YouTube verifier rejects HTTP 302 without following it',async()=>{
+ const channel='UC'+'A'.repeat(22);
+ const cfg={RECOGNITION_YOUTUBE_ENABLED:'true',YOUTUBE_MEMBERS_API_ACCESS_VERIFIED:'true',
+  YOUTUBE_CHANNEL_ID:'UCRd_uwPjrsf6Z3CRXwNehEQ',YOUTUBE_RECOGNITION_USER_TOKEN:'fixture'};
+ let calls=0;
+ const result=await checkOptedInYouTubeMembers(cfg,[consent(channel)],{
+  fetchImpl:async(url,options)=>{
+   calls++;
+   assert.equal(options.redirect,'manual');
+   assert.match(url,/filterByMemberChannelId=/);
+   return {ok:false,status:302};
+  }
+ });
+ assert.equal(result.ok,false);
+ assert.equal(result.reason,'provider_or_access_unavailable');
+ assert.equal(calls,1);
 });
