@@ -547,6 +547,17 @@ export default {
    return;
   }
   if(controller?.cron!=='*/5 * * * *')return;
+  // Isolated from YouTube's editorial Cron: only the TWO expressly
+  // owner-attested pilot accounts. No full Twitch roster scan, ever.
+  if(env.RECOGNITION_TWITCH_PILOT_ENABLED==='true'){
+   try{
+    const pilot=await refreshTwitchPilot(env);
+    if(pilot?.ok===false&&
+       !['pilot_not_configured','pilot_refresh_busy_or_changed',
+        'pilot_disabled'].includes(pilot.reason))
+     console.warn('Twitch recognition pilot:',pilot.reason);
+   }catch{console.warn('Twitch recognition pilot unavailable')}
+  }
   if(env.YOUTUBE_SYNC_ENABLED!=='true'||env.YOUTUBE_SYNC_PAUSED==='true')return;
   const slot=new Date(controller.scheduledTime);
   if(!Number.isFinite(slot.getTime()))return;
