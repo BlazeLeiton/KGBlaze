@@ -21,9 +21,13 @@ binding = "BROWSER"
 # Mantener en sincronía los deployments de GitHub; NO incluir secretos aquí.
 [vars]
 # Public numeric broadcaster ID confirmed in Cloudflare production settings.
-# Does NOT enable OAuth: recognition stays fail-closed until its separate flag,
-# AES-GCM secret and owner authorization are explicitly configured.
 TWITCH_RECOGNITION_BROADCASTER_ID = "70386764"
+# CP05: enables only private, ADMIN_TOKEN-protected owner OAuth start and
+# historical callback; no subscriber enumeration, cron or public aliases.
+# Actual broadcaster consent must still be granted interactively on Twitch.
+# Emergency stop: set this flag to "false" and redeploy. Use the privileged
+# disconnect endpoint separately to clear any stored credentials.
+RECOGNITION_TWITCH_OAUTH_ENABLED = "true"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
