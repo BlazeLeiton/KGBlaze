@@ -145,10 +145,11 @@ verify(/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*"true"\s*$/m.test(currentVars
  'CP05 must explicitly enable owner-only OAuth after verified D1/secret gates');
 verify(/^\s*RECOGNITION_TWITCH_STATUS_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
  'CP13 explicit admin-only read status flag missing in [vars]');
-verify(/^\s*RECOGNITION_TWITCH_RECOGNITION_ENABLED\s*=\s*"false"\s*$/m.test(currentVars)&&
+verify(/^\s*RECOGNITION_TWITCH_RECOGNITION_ENABLED\s*=\s*"true"\s*$/m.test(currentVars)&&
  /^\s*RECOGNITION_TWITCH_PUBLIC_ENABLED\s*=\s*"false"\s*$/m.test(currentVars)&&
- /^\s*RECOGNITION_TWITCH_TRIAL_VISIBLE\s*=\s*"false"\s*$/m.test(currentVars),
- 'new recognition, public list and temporary trial must deploy independently OFF');
+ /^\s*RECOGNITION_TWITCH_TRIAL_VISIBLE\s*=\s*"false"\s*$/m.test(currentVars)&&
+ !/^\s*RECOGNITION_TWITCH_TRIAL_UNTIL\s*=/m.test(currentVars),
+ 'CP27 requires private-only recognition ON after D1 confirmation, public/trial OFF');
 verify(worker.includes("sync-daily-recognition")&&
  worker.includes("change-recognition-consent")&&
  worker.includes("SOCIAL_PREVIEW_CRON"),
