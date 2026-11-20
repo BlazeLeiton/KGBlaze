@@ -21,11 +21,12 @@ function twitchProvider({owner='123',scopes=['channel:read:subscriptions']}={}){
   requests.push({url,options});
   if(url.endsWith('/oauth2/token')){
    assert.equal(options.method,'POST');
-   assert.equal(options.redirect,'error');
+   assert.equal(options.redirect,'manual');
    return {ok:true,json:async()=>({access_token:'private-access-token',
     refresh_token:'private-rotated-refresh',expires_in:3600,scope:scopes})};
   }
   assert.equal(url,'https://id.twitch.tv/oauth2/validate');
+  assert.equal(options.redirect,'manual');
   assert.equal(options.headers.Authorization,'OAuth private-access-token');
   return {ok:true,json:async()=>({client_id:env.TWITCH_CLIENT_ID,
    user_id:owner,scopes,expires_in:3600})};

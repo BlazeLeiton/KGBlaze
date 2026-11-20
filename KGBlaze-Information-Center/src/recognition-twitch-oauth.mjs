@@ -70,7 +70,7 @@ export async function beginTwitchOwnerOAuth(env,{now=Date.now,randomBytes}={}){
 
 async function validateOwnerToken(c,accessToken,fetchImpl){
  const response=await fetchImpl('https://id.twitch.tv/oauth2/validate',{
-  headers:{Authorization:'OAuth '+accessToken},redirect:'error'
+  headers:{Authorization:'OAuth '+accessToken},redirect:'manual'
  });
  if(!response?.ok)return failed('provider_token_validation_failed');
  const identity=await response.json();
@@ -86,7 +86,7 @@ async function validateOwnerToken(c,accessToken,fetchImpl){
 }
 async function exchange(c,fields,fetchImpl){
  const response=await fetchImpl('https://id.twitch.tv/oauth2/token',{
-  method:'POST',redirect:'error',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+  method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded'},
   body:new URLSearchParams({...fields,client_id:c.clientId,client_secret:c.secret}).toString()
  });
  // Do not return or log raw provider error messages, token or account details.

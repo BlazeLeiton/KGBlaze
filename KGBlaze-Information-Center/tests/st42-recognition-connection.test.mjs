@@ -564,3 +564,63 @@ test('CP06 OAuth callback distinguishes rejected provider token exchange without
   assert.equal(text.includes('PRIVATE_CLIENT_SECRET_IS_BAD'),false);
  }finally{globalThis.fetch=previous;}
 });
+
+
+test('CP07 Twitch OAuth exchange and validation use Workers-supported manual redirects',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ const calls=[];
+ const p=provider();
+ const fetchImpl=async(url,init)=>{
+  calls.push(url);
+  assert.equal(init.redirect,'manual','Workers rejects redirect:error before sending a request');
+  return p.fetchImpl(url,init);
+ };
+ const result=await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl});
+ assert.deepEqual(result,{ok:true});
+ assert.deepEqual(calls,['https://id.twitch.tv/oauth2/token','https://id.twitch.tv/oauth2/validate']);
+ assert.ok(DB.tokens);
+});
+
+test('CP07 OAuth 302 response never follows redirect or stores credentials',async()=>{
+ for(const redirectAt of ['exchange','validate']){
+  const {env,DB}=setup();
+  await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+  const calls=[];
+  const fetchImpl=async(url,init)=>{
+   assert.equal(init.redirect,'manual');
+   calls.push(url);
+   if(redirectAt==='exchange'||url.endsWith('/validate'))
+    return {ok:false,status:302,headers:{get:()=> 'https://untrusted.example/'}};
+   return provider().fetchImpl(url,init);
+  };
+  const result=await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+   {now:()=>NOW+100,fetchImpl});
+  assert.equal(result.ok,false);
+  assert.equal(result.reason,redirectAt==='exchange'?
+   'provider_token_exchange_rejected':'provider_token_validation_failed');
+  assert.equal(DB.tokens,null);
+  assert.equal(calls.length,redirectAt==='exchange'?1:2);
+ }
+});
+
+test('CP07 token revocation rejects 302 redirects and never follows another host',async()=>{
+ const {env}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ let calls=0;
+ const out=await disconnectStoredTwitchOwnerConnection(env,{
+  fetchImpl:async(url,init)=>{
+   calls++;
+   assert.equal(url,'https://id.twitch.tv/oauth2/revoke');
+   assert.equal(init.redirect,'manual');
+   return {ok:false,status:302,headers:{get:()=> 'https://untrusted.example/'}};
+  }
+ });
+ assert.equal(calls,1);
+ assert.equal(out.ok,true);
+ assert.equal(out.locallyDisconnected,true);
+ assert.equal(out.providerRevocation,'unconfirmed');
+});
