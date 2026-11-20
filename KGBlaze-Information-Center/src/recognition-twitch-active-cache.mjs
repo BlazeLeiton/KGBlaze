@@ -1,7 +1,8 @@
 /**
  * Stage42 CP15 — private D1 snapshot cache, NO public route.
- * D1.batch() is transactional: delete previous active rows, insert new
- * provider-verified full set, then advance meta atomically.
+ * D1.batch() is transactional: CAS-advance meta, delete previous active
+ * rows, insert only provider-verified members. A stale competing write
+ * deliberately violates the meta CHECK constraint and rolls back atomically.
  * Never treat a failed/incomplete Twitch snapshot as revocation.
  *
  * Requires an explicitly deployed private migration and feature flag.
@@ -56,18 +57,24 @@ export async function commitPrivateTwitchActiveRoster(env,snapshot,{
  if(!meta.ok)return fail(meta.reason);
  if(meta.initialized&&nowMs<=meta.lastCompletedAtMs)
   return fail('snapshot_not_newer');
- const version=meta.initialized?meta.snapshotVersion+1:1;
- if(!Number.isSafeInteger(version))return fail('invalid_cache_version');
+ // The database advances version atomically under a CHECK-backed CAS guard.
+ // The pre-read is only an early check: another Worker may write after it.
+ if(meta.initialized&&meta.snapshotVersion>=Number.MAX_SAFE_INTEGER)
+  return fail('invalid_cache_version');
  try{
   // Meta must exist first because the active rows FK points to it.
   // A single D1 transaction rolls back meta AND rows on any failure.
   const statements=[
    env.DB.prepare(
     'INSERT INTO recognition_twitch_active_status_meta '+
-    '(slot,last_completed_at_ms,active_total,snapshot_version) VALUES (1,?,?,?) '+
-    'ON CONFLICT(slot) DO UPDATE SET last_completed_at_ms=excluded.last_completed_at_ms,'+
-    'active_total=excluded.active_total,snapshot_version=excluded.snapshot_version'
-   ).bind(nowMs,snapshot.providerTotal,version),
+    '(slot,last_completed_at_ms,active_total,snapshot_version) VALUES (1,?,?,1) '+
+    'ON CONFLICT(slot) DO UPDATE SET '+
+    'last_completed_at_ms=CASE WHEN '+
+    'recognition_twitch_active_status_meta.last_completed_at_ms < excluded.last_completed_at_ms '+
+    'THEN excluded.last_completed_at_ms ELSE -1 END,'+
+    'active_total=excluded.active_total,'+
+    'snapshot_version=recognition_twitch_active_status_meta.snapshot_version+1'
+   ).bind(nowMs,snapshot.providerTotal),
    env.DB.prepare('DELETE FROM recognition_twitch_active_subscribers'),
    ...snapshot.subscribers.map(r=>env.DB.prepare(
     'INSERT INTO recognition_twitch_active_subscribers '+
@@ -75,8 +82,16 @@ export async function commitPrivateTwitchActiveRoster(env,snapshot,{
    ).bind(r.userId,r.displayName,nowMs))
   ];
   await env.DB.batch(statements);
+  const verified=await getPrivateTwitchCacheMeta(env);
+  // A concurrent newer sync may win between commit and this read. Never
+  // claim the result refers to this exact snapshot if that happened.
+  if(!verified.ok||!verified.initialized||
+     verified.lastCompletedAtMs!==nowMs||
+     verified.activeTotal!==snapshot.providerTotal)
+   return fail('postcommit_meta_mismatch');
   // Return counts only, NEVER names or user IDs.
-  return {ok:true,activeTotal:snapshot.providerTotal,
-   snapshotVersion:version,lastCompletedAtMs:nowMs};
+  return {ok:true,activeTotal:verified.activeTotal,
+   snapshotVersion:verified.snapshotVersion,
+   lastCompletedAtMs:verified.lastCompletedAtMs};
  }catch{return fail('private_cache_write_unavailable');}
 }
