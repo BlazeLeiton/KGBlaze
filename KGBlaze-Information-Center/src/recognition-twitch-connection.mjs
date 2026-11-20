@@ -343,6 +343,107 @@ export async function readStoredTwitchSubscriptionStatus(env,{
 
 
 /**
+ * Stage43 CP25 — owner-only resolution of two already-consenting Twitch
+ * accounts. The caller must be a private ADMIN_TOKEN-protected endpoint.
+ * Never project this returned private identity map directly to a public API.
+ *
+ * Twitch /helix/users?login returns canonical names+IDs; the broadcaster
+ * subscriptions endpoint validates EACH ID as currently active independently
+ * of the inconsistent global "total". No viewer login/token is involved.
+ */
+export async function resolveStoredTwitchPilotMembers(env,{
+ logins,now=Date.now,fetchImpl=fetch
+}={}){
+ if(!ready(env)||env.RECOGNITION_TWITCH_STATUS_ENABLED!=='true')
+  return fail('status_feature_disabled');
+ if(!Array.isArray(logins)||logins.length!==2||
+    logins.some(v=>typeof v!=='string'||!/^[a-zA-Z0-9_]{2,25}$/.test(v))||
+    new Set(logins.map(v=>v.toLowerCase())).size!==2)
+  return fail('invalid_pilot_logins');
+ const key=await encryptionKey(env);
+ if(!key)return fail('missing_encryption_key');
+ const current=now(),owner=env.TWITCH_RECOGNITION_BROADCASTER_ID;
+ if(!Number.isSafeInteger(current)||current<1||
+    typeof owner!=='string'||!/^[0-9]{1,24}$/.test(owner))
+  return fail('not_configured');
+ const expected=logins.map(v=>v.toLowerCase());
+ const readRow=()=>env.DB.prepare(
+  'SELECT owner_id,access_ciphertext,access_nonce,expires_at_ms '+
+  'FROM recognition_twitch_oauth_credentials WHERE slot=1'
+ ).first();
+ try{
+  let row=await readRow();
+  if(!row||row.owner_id!==owner)return fail('connection_missing');
+  if(!Number.isFinite(row.expires_at_ms)||row.expires_at_ms<=current+60000){
+   const refresh=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+   if(!refresh.ok)return fail('token_refresh_unavailable');
+   row=await readRow();
+   if(!row||row.owner_id!==owner)return fail('connection_missing');
+  }
+  for(let attempt=0;attempt<2;attempt++){
+   const token=await decryptToken(key,row.access_ciphertext,row.access_nonce,owner,'access');
+   const usersUrl=new URL('https://api.twitch.tv/helix/users');
+   for(const login of expected)usersUrl.searchParams.append('login',login);
+   let response,body;
+   try{
+    response=await fetchImpl(usersUrl.toString(),{
+     method:'GET',redirect:'manual',headers:{
+      Authorization:'Bearer '+token,'Client-Id':env.TWITCH_CLIENT_ID,
+      Accept:'application/json'
+     }
+    });
+    if(response?.status!==401&&response?.ok)body=await response.json();
+   }catch{return fail('provider_unavailable');}
+   if(response?.status===401&&attempt===0){
+    const refreshed=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+    if(!refreshed.ok)return fail('token_refresh_unavailable');
+    row=await readRow();
+    if(!row||row.owner_id!==owner)return fail('connection_missing');
+    continue;
+   }
+   if(response?.status===429)return fail('rate_limited');
+   if(!response?.ok)return fail('provider_unavailable');
+   if(!body||!Array.isArray(body.data)||body.data.length!==2)
+    return fail('pilot_user_not_found');
+   const found=new Map();
+   const badName=/[\u0000-\u001f\u007f\u200e\u200f\u202a-\u202e\u2066-\u2069<>]/u;
+   for(const v of body.data){
+    if(!v||typeof v.id!=='string'||!/^[0-9]{1,24}$/.test(v.id)||
+       typeof v.login!=='string'||!expected.includes(v.login.toLowerCase())||
+       found.has(v.login.toLowerCase()))return fail('invalid_identity_response');
+    const label=typeof v.display_name==='string'&&
+      v.display_name.trim().length>0&&v.display_name.trim().length<=48&&
+      !badName.test(v.display_name)?v.display_name.trim():v.login;
+    if(label.length>48||badName.test(label))
+     return fail('invalid_identity_response');
+    found.set(v.login.toLowerCase(),{userId:v.id,login:v.login.toLowerCase(),
+     displayName:label});
+   }
+   if(found.size!==2||new Set([...found.values()].map(v=>v.userId)).size!==2)
+    return fail('invalid_identity_response');
+   const members=expected.map(login=>found.get(login));
+   const check=await readTwitchActiveSubscriptionStatus({
+    accessToken:token,clientId:env.TWITCH_CLIENT_ID,
+    broadcasterId:owner,mode:'targeted',
+    userIds:members.map(v=>v.userId),fetchImpl
+   });
+   if(check.reason==='token_unauthorized'&&attempt===0){
+    const refreshed=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+    if(!refreshed.ok)return fail('token_refresh_unavailable');
+    row=await readRow();
+    if(!row||row.owner_id!==owner)return fail('connection_missing');
+    continue;
+   }
+   if(!check.ok)return fail(check.reason);
+   if(check.checks.length!==2||check.checks.some(v=>v.active!==true))
+    return fail('pilot_not_all_subscribed');
+   return {ok:true,members};
+  }
+  return fail('token_unauthorized');
+ }catch{return fail('pilot_lookup_unavailable')}
+}
+
+/**
  * CP15: INACTIVE private on-demand active roster sync. Requires D1 migration,
  * independent feature flag and a confirmed owner admin request.
  * Does not return subscriber names/IDs, and never wipes cache when Twitch
