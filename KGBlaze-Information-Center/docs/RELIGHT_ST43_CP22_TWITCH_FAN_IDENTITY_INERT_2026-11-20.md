@@ -1,3 +1,5 @@
+> **RECTIFICACIÓN VINCULANTE — ST43 CP24, 20-nov-2026:** La preparación de OAuth y registro de visitantes fue **un desvío no solicitado** respecto a las decisiones explícitas de Stages 41 y 42. El código, rutas, bandera y migración propuesta han sido retirados de `main` mediante CP24 (no se aplicó la migración). **NO registrar el callback de visitantes, NO activar OAuth de fans y NO pedir a usuarios ningún login.** Este documento se conserva solo como historial de auditoría.
+
 # Project Relight — Stage 43 CP22: Twitch subscriber self-verification, staged OFF
 
 **Local date:** 20 Nov 2026, America/Mexico_City.
