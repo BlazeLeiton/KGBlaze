@@ -248,7 +248,7 @@ test('CP26 unmounted chat command parser and verified sender ID cannot be spoofe
   await sync(env,provider());
   assert.equal(parseTwitchRecognitionConsentCommand('!kgblaze sí'),'approved');
   assert.equal(parseTwitchRecognitionConsentCommand('!kgblaze no'),'declined');
-  assert.equal(parseTwitchRecognitionConsentCommand('hello'),'null'.replace('null',null));
+  assert.equal(parseTwitchRecognitionConsentCommand('hello'),null);
   assert.equal((await handleAuthenticatedTwitchConsentCommand(env,{
    verifiedSenderId:'111',message:'!kgblaze si'
   })).reason,'trusted_sender_required');
