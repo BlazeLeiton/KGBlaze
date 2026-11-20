@@ -65,6 +65,17 @@ test('CP14 targeted checks only requested IDs, including gift subscription, no P
  assert.equal(JSON.stringify(out).includes('PRIVATE_GIFTER'),false);
  assert.equal(JSON.stringify(out).includes('Private name'),false);
 });
+test('CP22 targeted active status relies on identity, not optional tier or gift metadata',async()=>{
+ const mock=serve([{body:{data:[{
+  broadcaster_id:'70386764',user_id:'444',
+  user_name:'<untrusted>',tier:null,is_gift:null
+ }]}}]);
+ const result=await read({...config,mode:'targeted',userIds:['444'],
+  fetchImpl:mock.fetchImpl});
+ assert.deepEqual(result,{ok:true,kind:'targeted',checked:1,
+  checks:[{userId:'444',active:true}]});
+ assert.equal(JSON.stringify(result).includes('<untrusted>'),false);
+});
 test('CP14 missing/invalid total or malformed first row fails closed',async()=>{
  const invalid=[
   {data:[item('111')],pagination:{cursor:'unused'}},

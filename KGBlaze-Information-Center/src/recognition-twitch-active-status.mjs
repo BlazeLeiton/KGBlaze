@@ -74,7 +74,7 @@ export async function readTwitchActiveSubscriptionStatus({
  for(const row of body.data){
   if(!row||row.broadcaster_id!==broadcasterId||
      typeof row.user_id!=='string'||!ID.test(row.user_id)||
-     !TIER.has(row.tier)||typeof row.is_gift!=='boolean'||
+     (!requested&&(!TIER.has(row.tier)||typeof row.is_gift!=='boolean'))||
      seenIds.has(row.user_id)||
      (requested&&!requested.includes(row.user_id)))
    return failed('invalid_response');

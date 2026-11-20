@@ -37,6 +37,10 @@ RECOGNITION_TWITCH_STATUS_ENABLED = "true"
 # No cron, public roster, account login, or member badges. Emergency disable:
 # set false and redeploy; existing OAuth owner connection stays intact.
 RECOGNITION_TWITCH_CACHE_ENABLED = "true"
+# CP22 voluntary fan identity: code and route are deployed but NOT enabled.
+# Requires separate registered Twitch callback + owner-reviewed D1 migration
+# and consent UX before changing to true. Do not store fan access tokens.
+RECOGNITION_TWITCH_FAN_ENABLED = "false"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
@@ -54,7 +58,7 @@ directory = "./public"
 binding = "ASSETS"
 # Include ONLY the historically registered OAuth callback outside /departures.
 # This is routable but remains disabled unless explicit OAuth flag, D1 and secret exist.
-run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html", "/departures", "/departures/*", "/twitch/oauth/callback", "/music", "/music/*"]
+run_worker_first = ["/api/*", "/agenda_publica.json", "/og-semana.png", "/", "/index.html", "/departures", "/departures/*", "/twitch/oauth/callback", "/twitch/member/callback", "/music", "/music/*"]
 
 # Binding de diagnostico privado de YouTube, configurado en Cloudflare Dashboard.
 # NO habilita la ruta sin YOUTUBE_PREVIEW_ENABLED=true (ausente por defecto).

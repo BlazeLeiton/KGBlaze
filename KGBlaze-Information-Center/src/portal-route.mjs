@@ -23,6 +23,13 @@ export function routePortalRequest(request){
   '/departures/api/admin/sync':['GET','HEAD'],
   // Historical OAuth callback from October. No other root endpoint is opened.
   '/twitch/oauth/callback':['GET'],
+  // CP22: fan identity/consent routes, all 404 until independent flag is on.
+  '/twitch/member/callback':['GET'],
+  '/departures/api/recognition/twitch/start':['POST'],
+  '/departures/api/recognition/twitch/me':['GET'],
+  '/departures/api/recognition/twitch/consent':['POST'],
+  '/departures/api/recognition/twitch/verify':['POST'],
+  '/departures/api/recognition/twitch/logout':['POST'],
   '/departures/api/admin/recognition/twitch/start':['POST'],
   '/departures/api/admin/recognition/twitch/status':['GET'],
   '/departures/api/admin/recognition/twitch/refresh':['POST'],
@@ -57,7 +64,8 @@ export function routePortalRequest(request){
   return {request,isPortal:true};
  // OAuth provider redirect is unauthenticated but bound to a single-use hashed state.
  // Only the Worker handler can redeem it; raw API aliases remain blocked.
- if(url.pathname==='/twitch/oauth/callback')
+ if(url.pathname==='/twitch/oauth/callback'||
+    url.pathname==='/twitch/member/callback')
   return {request,isPortal:true};
  // Unlisted public Music pages, read-only; no new admin or API aliases.
  if(MUSIC_PATHS.has(url.pathname)||MUSIC_LEGACY_PATHS.has(url.pathname)||MUSIC_DATA_PATHS.has(url.pathname)||url.pathname===MUSIC_TYPE_PATH||artworkSources.has(url.pathname)||Object.values(releaseArtwork).some(a=>(a.image===url.pathname&&a.image.startsWith('/music-artwork/'))||a.compositePath===url.pathname))return {request,isPortal:true};
@@ -67,7 +75,10 @@ export function routePortalRequest(request){
  // Restricted admin routes still pass through the Worker's existing
  // Authorization: Bearer ADMIN_TOKEN, revision CAS, and audit logging.
  // The unprefixed /api/admin/* remains inaccessible on this host.
- const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art'];
+ const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art',
+  '/api/recognition/twitch/start','/api/recognition/twitch/me',
+  '/api/recognition/twitch/consent','/api/recognition/twitch/verify',
+  '/api/recognition/twitch/logout'];
  const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview',
   '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status',
   '/api/admin/recognition/twitch/refresh',
