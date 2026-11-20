@@ -206,7 +206,8 @@ test('CP31: Home/API order YouTube before Twitch; no new Cron, OAuth or real dat
  assert.ok(slice.indexOf('...youtube.map')<slice.indexOf('...twitch.map'));
  assert.match(home,/svg\.youtube-icon\{fill:#FF0033\}/);
  assert.match(worker,/const youtube=await readPublicYouTubeRecognition\(env\)/);
- assert.match(worker,/\{ok:true,youtube,twitch:twitch\.twitch\|\|\[\]\}/);
+ assert.match(worker,/const publicPayload=youtube\.length\?/);
+ assert.match(worker,/\{ok:true,youtube,twitch:twitch\.twitch\|\|\[\]\}:twitch/);
  assert.match(wrangler,/^RECOGNITION_TWITCH_TRIAL_UNTIL = "2026-11-22T09:00:00\.000Z"$/m);
  assert.doesNotMatch(wrangler,/^RECOGNITION_YOUTUBE_ENABLED\s*=\s*"true"$/m);
  assert.doesNotMatch(worker,/refreshYouTubeCreatorAccessToken|fetchYouTubeCurrentMembers|commitYouTubeCurrentMembers/);
