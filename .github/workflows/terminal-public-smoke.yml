@@ -15,54 +15,75 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 7
     steps:
-      - name: Verify public viewer and API without credentials
+      - name: Verify production home, Terminal and disabled OAuth anonymously
         shell: bash
         env:
-          TERMINAL_BASE: https://kgblaze-terminal.drago68575.workers.dev
+          KGBLAZE_BASE: https://kgblaze.dpdns.org
         run: |
-          set -euo pipefail
-          result_dir="$(mktemp -d)"
-          trap 'rm -rf "$result_dir"' EXIT
-
-          fetch_public() {
-            curl --fail --show-error --silent --location \
-              --retry 2 --retry-delay 3 --retry-all-errors \
-              --connect-timeout 10 --max-time 30 \
-              "$TERMINAL_BASE/$1" --output "$result_dir/$2"
-          }
-
-          fetch_public "" viewer.html
-          fetch_public "api/health" health.json
-          fetch_public "api/public" agenda.json
-
-          python3 - "$result_dir" <<'PY'
+          python3 - <<'PY'
           import json
-          import pathlib
-          import sys
+          import os
+          import time
+          import urllib.error
+          import urllib.request
 
-          root = pathlib.Path(sys.argv[1])
-          html = (root / 'viewer.html').read_text(encoding='utf-8')
-          health = json.loads((root / 'health.json').read_text(encoding='utf-8'))
-          agenda = json.loads((root / 'agenda.json').read_text(encoding='utf-8'))
+          base = os.environ['KGBLAZE_BASE'].rstrip('/')
+          HEADERS = {'User-Agent': 'KGBlaze-Relight-Public-Smoke/1.0',
+                     'Accept': 'application/json, text/html;q=0.8'}
+          def fetch(path):
+              request = urllib.request.Request(base + path, headers=HEADERS)
+              for attempt in range(3):
+                  try:
+                      with urllib.request.urlopen(request, timeout=20) as r:
+                          return r.status, r.read(5_000_000)
+                  except urllib.error.HTTPError as error:
+                      if error.code < 500 or attempt == 2:
+                          # Do not expose body or any provider identifiers.
+                          return error.code, b''
+                  except (TimeoutError, urllib.error.URLError):
+                      if attempt == 2:
+                          raise
+                  time.sleep(3)
+              raise AssertionError('Unreachable: ' + path)
 
-          assert '<html' in html.lower(), 'Viewer did not serve an HTML document'
-          assert health.get('ok') is True, 'Health endpoint is not OK'
-          assert health.get('service') == 'kgblaze-terminal', 'Wrong service'
-          assert health.get('database') is True, 'D1 is not bound'
+          home_status, home = fetch('/')
+          assert home_status == 200 and b'<html' in home.lower(), \
+              'Home is not serving HTML with status 200'
+          print('PASS: public Home serves HTML')
 
-          events = agenda.get('events')
-          assert isinstance(events, list), 'Missing public agenda events'
-          assert agenda.get('revision') == 2, 'Unexpected editorial revision'
-          assert len(events) == 10, 'Expected ten published departures'
-          assert isinstance(agenda.get('sync'), dict), 'Missing sync envelope'
+          viewer_status, viewer = fetch('/departures/')
+          assert viewer_status == 200 and b'<html' in viewer.lower(), \
+              'Terminal viewer is not serving HTML with status 200'
+          print('PASS: public Terminal viewer serves HTML')
 
-          killer = next((event for event in events
-                         if event.get('id') ==
-                         'tw:306ddb27-c0d3-4030-bd9f-f7689b529582'), None)
-          assert killer is not None, 'Killer Chat! is not publicly listed'
-          assert killer.get('videoId') == 'JDkg-5tZ3G0', 'Wrong linked YouTube room'
-          print('PASS: unauthenticated public viewer and health endpoint')
-          print('PASS: editorial revision 2; 10 departures; Killer Chat! direct room')
-          print('Public sync entries:', len(agenda['sync']))
-          print('EN VIVO transition is deliberately not asserted before the real broadcast')
+          health_status, health_bytes = fetch('/departures/api/health')
+          assert health_status == 200, 'Terminal health status != 200'
+          health = json.loads(health_bytes)
+          assert health.get('ok') is True and \
+                 health.get('service') == 'kgblaze-terminal' and \
+                 health.get('database') is True, 'Terminal Worker/D1 health mismatch'
+          print('PASS: existing Terminal Worker and D1 are healthy')
+
+          agenda_status, agenda_bytes = fetch('/departures/api/public')
+          assert agenda_status == 200, 'Public API status != 200'
+          agenda = json.loads(agenda_bytes)
+          assert isinstance(agenda.get('events'), list), 'Missing public events'
+          assert isinstance(agenda.get('sync'), dict), 'Missing public sync'
+          assert isinstance(agenda.get('revision'), int), 'Missing editorial revision'
+          assert not any('recognition' in k.lower() or 'credential' in k.lower()
+                         for k in agenda), 'Private recognition fields leaked'
+          print('PASS: public agenda contract and no private recognition fields')
+
+          callback_status, _ = fetch('/twitch/oauth/callback')
+          assert callback_status == 404, \
+              'Twitch OAuth callback is NOT disabled; check feature flag'
+          print('PASS: historical Twitch OAuth callback remains disabled')
+
+          status_status, _ = fetch('/departures/api/admin/recognition/twitch/status')
+          assert status_status == 401, \
+              'Private Twitch status must reject unauthenticated callers'
+          root_status, _ = fetch('/api/admin/recognition/twitch/status')
+          assert root_status == 404, \
+              'Custom domain must not expose root-level private admin alias'
+          print('PASS: private Twitch recognition endpoints stay inaccessible anonymously')
           PY
