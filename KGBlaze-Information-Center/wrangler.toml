@@ -28,6 +28,10 @@ TWITCH_RECOGNITION_BROADCASTER_ID = "70386764"
 # Emergency stop: set this flag to "false" and redeploy. Use the privileged
 # disconnect endpoint separately to clear any stored credentials.
 RECOGNITION_TWITCH_OAUTH_ENABLED = "true"
+# CP13: only authenticated, explicitly acknowledged read-only admin queries.
+# No Cron, public subscription list or saved member details.
+# Emergency pause independent of owner OAuth: set to false and redeploy.
+RECOGNITION_TWITCH_STATUS_ENABLED = "true"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
