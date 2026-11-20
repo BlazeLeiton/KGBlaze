@@ -1,3 +1,5 @@
+> **SUPERADO POR ST43 CP26, 20-nov-2026.** El límite de dos cuentas y la comprobación cada cinco minutos eran contrarios al alcance aclarado por el creador. El SQL anterior fue RETIRADO antes de aplicarse (el SELECT en D1 del usuario no encontró tablas). NO ejecutar las instrucciones de migración/activación descritas más abajo; conservar esta ficha como historial. Usar únicamente el nuevo esquema `recognition_twitch_membership_v1.sql` y checkpoint CP26. La simulación debe mantener el estado `unasked`, nunca falsificar `approved`.
+
 # Stage 43 CP25 — Piloto de reconocimiento: dos suscriptores Twitch que consintieron
 **Fecha:** 20 de noviembre de 2026, America/Mexico_City. **Alcance:** dos cuentas que el creador confirma han autorizado previamente participar en pruebas. T.B., bots, Streamlabs Cloudbot, comandos del chat y YouTube se dejan para después.
 
