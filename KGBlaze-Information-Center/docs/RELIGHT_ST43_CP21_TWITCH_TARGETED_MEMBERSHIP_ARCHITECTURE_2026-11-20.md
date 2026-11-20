@@ -1,3 +1,5 @@
+> **RECTIFICACIÓN VINCULANTE — ST43 CP24, 20-nov-2026:** Esta propuesta interpretó incorrectamente una posibilidad opcional de autenticar visitantes como una decisión del creador. **NO está aprobada** y queda sustituida por el plan Stage 41–42: reconocimiento automático a partir de Twitch/YouTube usando autorización del propietario, sin login, registro ni intervención del visitante. La comprobación selectiva `user_id` sigue siendo útil **en el servidor para verificar IDs extraídos del proveedor**, no como motivo para pedir login a usuarios de KGBlaze. Conservar este archivo solo como evidencia histórica del desvío. Véase `RELIGHT_ST43_CP24_ORIGINAL_OWNER_RECOGNITION_RESTORED_2026-11-20.md`.
+
 # Project Relight · Stage 43 CP21 — Reconocimiento de membresías Twitch por verificación selectiva
 **Fecha:** 20-nov-2026 (America/Mexico_City)  
 **Alcance:** checkpoint de diagnóstico y contrato de próxima implementación. **Documentación exclusivamente, sin cambios funcionales ni solicitudes autenticadas ejecutadas por el asistente.**
