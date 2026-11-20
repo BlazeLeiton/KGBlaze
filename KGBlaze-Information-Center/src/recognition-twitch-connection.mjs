@@ -261,7 +261,7 @@ export async function disconnectStoredTwitchOwnerConnection(env,{
   return {ok:true,locallyDisconnected:true,providerRevocation:'unconfirmed'};
  try{
   const response=await fetchImpl('https://id.twitch.tv/oauth2/revoke',{
-   method:'POST',redirect:'error',
+   method:'POST',redirect:'manual',
    headers:{'Content-Type':'application/x-www-form-urlencoded'},
    body:new URLSearchParams({
     client_id:env.TWITCH_CLIENT_ID,token
