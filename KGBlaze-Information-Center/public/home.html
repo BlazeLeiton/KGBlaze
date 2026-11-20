@@ -517,7 +517,7 @@ function renderRecognitionMembers(){
   if(!entry||!['youtube','twitch'].includes(entry.platform)||
      typeof entry.displayName!=='string'||
      entry.displayName.length<1||entry.displayName.length>48||
-     /[<>\\u0000-\\u001f\\u007f\\u202a-\\u202e\\u2066-\\u2069]/.test(entry.displayName))
+     /[<>\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/.test(entry.displayName))
    continue;
   const pill=document.createElement('span');
   pill.className='kg-recognition-member';
