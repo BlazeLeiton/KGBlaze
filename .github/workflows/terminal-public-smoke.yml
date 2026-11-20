@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 7
     steps:
-      - name: Verify production home, Terminal and disabled OAuth anonymously
+      - name: Verify production Home, Terminal and OAuth privacy boundaries anonymously
         shell: bash
         env:
           KGBLAZE_BASE: https://kgblaze.dpdns.org
@@ -82,8 +82,14 @@ jobs:
           status_status, _ = fetch('/departures/api/admin/recognition/twitch/status')
           assert status_status == 401, \
               'Private Twitch status must reject unauthenticated callers'
+          summary_status, _ = fetch('/departures/api/admin/recognition/twitch/subscription-summary')
+          assert summary_status == 401, \
+              'Active subscriber summary must reject anonymous callers'
           root_status, _ = fetch('/api/admin/recognition/twitch/status')
           assert root_status == 404, \
               'Custom domain must not expose root-level private admin alias'
-          print('PASS: private Twitch recognition endpoints stay inaccessible anonymously')
+          root_summary_status, _ = fetch('/api/admin/recognition/twitch/subscription-summary')
+          assert root_summary_status == 404, \
+              'Custom domain must not expose root-level subscriber summary alias'
+          print('PASS: private Twitch OAuth and active status stay inaccessible anonymously')
           PY
