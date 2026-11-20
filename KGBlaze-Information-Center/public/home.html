@@ -308,6 +308,7 @@ button.kg-support-method{width:100%;font:inherit;text-align:left;cursor:pointer;
 .kg-recognition-members[hidden]{display:none!important}
 .kg-recognition-member{display:inline-flex;align-items:center;gap:5px;padding:0;border:0;background:none;border-radius:0;font-size:11px;font-weight:650;color:#FFF;line-height:1.4;overflow-wrap:anywhere}
 .kg-recognition-member svg{display:block;width:14px;height:14px;flex:none;fill:#A970FF}
+.kg-recognition-member svg.youtube-icon{fill:#FF0033}
 @media(max-width:760px){.kg-recognition-strip{flex-wrap:wrap}.kg-recognition-copy{flex:1;min-width:0}.kg-recognition-members{margin-left:24px;justify-content:flex-start;width:calc(100% - 24px)}.kg-recognition-member{font-size:10px}}
 @media(min-width:1151px){.kg-recognition-strip{max-width:1660px}}
 @media(max-width:760px){.kg-recognition-strip{margin-top:12px;padding:9px 11px;gap:9px}.kg-recognition-glyph{flex-basis:19px}.kg-recognition-glyph svg{width:17px;height:17px}.kg-recognition-copy strong{font-size:12px}.kg-recognition-copy small{font-size:10px}}
@@ -498,9 +499,9 @@ function renderDepartureBanner(){
 document.addEventListener('kgblaze:localechange',renderDepartureBanner);
 renderDepartureBanner();
 
-/* CP26: names come ONLY from the server's creator-OAuth filtered checks.
-   A public display requires its own flag. Trial names are tagged as such:
-   never claim that an unasked subscriber authorized publication. */
+/* Stage43 CP31 — ordered source rendering: YouTube A, then Twitch B.
+   Only consent-approved, recently verified YouTube names can be supplied
+   by a separately gated backend. Twitch's pilot is unchanged. */
 const recognizedMembers=document.getElementById('kg-recognition-members');
 let lastRecognitionPayload='',recognitionEntries=[];
 const recognitionLabels={
@@ -513,23 +514,42 @@ function renderRecognitionMembers(){
  lastRecognitionPayload=signature;
  recognizedMembers.replaceChildren();
  for(const entry of recognitionEntries){
-  if(!entry||typeof entry.displayName!=='string'||
+  if(!entry||!['youtube','twitch'].includes(entry.platform)||
+     typeof entry.displayName!=='string'||
      entry.displayName.length<1||entry.displayName.length>48||
-     /[<>\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/.test(entry.displayName))
+     /[<>\\u0000-\\u001f\\u007f\\u202a-\\u202e\\u2066-\\u2069]/.test(entry.displayName))
    continue;
   const pill=document.createElement('span');
   pill.className='kg-recognition-member';
-  const twitchIcon=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  twitchIcon.setAttribute('viewBox','0 0 24 24');
-  twitchIcon.setAttribute('aria-hidden','true');
-  twitchIcon.setAttribute('focusable','false');
-  const glitch=document.createElementNS('http://www.w3.org/2000/svg','path');
-  glitch.setAttribute('d','M2.15 0 0 5.43v14.36h5.43V24h4.29L14 19.72h3.43L24 13.15V0H2.15Zm19.71 12-4 4h-4.29l-3.43 3.43V16H5.43V2.15h16.43V12Z M16.14 5.43h2.14V12h-2.14z M10.28 5.43h2.14V12h-2.14z');
-  twitchIcon.append(glitch);
   const subscriberName=document.createElement('span');
   subscriberName.textContent=entry.displayName+
-   (entry.trial===true?' · '+(recognitionLabels[language]||recognitionLabels.es):'');
-  pill.append(twitchIcon,subscriberName);
+   (entry.platform==='twitch'&&entry.trial===true?' · '+
+    (recognitionLabels[language]||recognitionLabels.es):'');
+  if(entry.platform==='youtube'){
+   const youtubeIcon=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   youtubeIcon.setAttribute('viewBox','0 0 24 24');
+   youtubeIcon.setAttribute('aria-hidden','true');
+   youtubeIcon.setAttribute('focusable','false');
+   youtubeIcon.setAttribute('class','youtube-icon');
+   const screen=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   screen.setAttribute('x','1');screen.setAttribute('y','4');
+   screen.setAttribute('width','22');screen.setAttribute('height','16');
+   screen.setAttribute('rx','5');
+   const play=document.createElementNS('http://www.w3.org/2000/svg','path');
+   play.setAttribute('d','M10 8l6 4-6 4z');
+   play.setAttribute('fill','#FFFFFF');
+   youtubeIcon.append(screen,play);
+   pill.append(youtubeIcon,subscriberName);
+  }else{
+   const twitchIcon=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   twitchIcon.setAttribute('viewBox','0 0 24 24');
+   twitchIcon.setAttribute('aria-hidden','true');
+   twitchIcon.setAttribute('focusable','false');
+   const glitch=document.createElementNS('http://www.w3.org/2000/svg','path');
+   glitch.setAttribute('d','M2.15 0 0 5.43v14.36h5.43V24h4.29L14 19.72h3.43L24 13.15V0H2.15Zm19.71 12-4 4h-4.29l-3.43 3.43V16H5.43V2.15h16.43V12Z M16.14 5.43h2.14V12h-2.14z M10.28 5.43h2.14V12h-2.14z');
+   twitchIcon.append(glitch);
+   pill.append(twitchIcon,subscriberName);
+  }
   recognizedMembers.append(pill);
  }
  recognizedMembers.hidden=!recognizedMembers.children.length;
@@ -542,8 +562,14 @@ async function updateRecognitionMembers(){
   });
   if(!response.ok)throw Error('recognition unavailable');
   const payload=await response.json();
-  if(payload&&Array.isArray(payload.twitch))
-   members=payload.twitch.slice(0,3000);
+  if(payload&&typeof payload==='object'){
+   const youtube=Array.isArray(payload.youtube)?payload.youtube.slice(0,3000):[];
+   const twitch=Array.isArray(payload.twitch)?payload.twitch.slice(0,3000):[];
+   members=[
+    ...youtube.map(entry=>({...entry,platform:'youtube'})),
+    ...twitch.map(entry=>({...entry,platform:'twitch'}))
+   ];
+  }
  }catch{/* Failure does not display unverified or stale memberships. */}
  recognitionEntries=members;
  renderRecognitionMembers();
