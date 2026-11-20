@@ -59,7 +59,7 @@ async function setup(opts={}){
  DB.db.prepare('INSERT INTO recognition_twitch_oauth_credentials '+
   '(slot,owner_id,access_ciphertext,access_nonce,refresh_ciphertext,'+
   'refresh_nonce,expires_at_ms,updated_at_ms) VALUES (1,?,?,?,?,?,?,?)')
-  .run(OWNER,...access,...refresh,NOW+86400000,NOW);
+  .run(OWNER,...access,...refresh,NOW+7*86400000,NOW);
  const env={DB,ADMIN_TOKEN:'local-only-admin',
   ASSETS:{fetch:async()=>new Response('STATIC')},
   RECOGNITION_TWITCH_OAUTH_ENABLED:'true',
