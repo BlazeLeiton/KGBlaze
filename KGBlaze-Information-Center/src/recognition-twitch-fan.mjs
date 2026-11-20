@@ -248,14 +248,14 @@ async function handleMutation(req,env,nowMs,kind){
   return denied(403,'CONSENT_REQUIRED');
  return {current,consent};
 }
-async function handleVerify(req,env,nowMs){
+async function handleVerify(req,env,nowMs,fetchImpl){
  const mutation=await handleMutation(req,env,nowMs,VERIFY);
  if(mutation instanceof Response)return mutation;
  const {current,consent}=mutation;
  // The existing owner-only controller decrypts owner OAuth server-side and
  // checks just this session-authenticated, consented Twitch ID.
  const checked=await readStoredTwitchSubscriptionStatus(env,{
-  mode:'targeted',userIds:[current.id]
+  mode:'targeted',userIds:[current.id],fetchImpl,now:()=>nowMs
  });
  if(!checked?.ok)return safeJson({
   ok:false,subscriptionStatus:'unknown',error:'VERIFICATION_UNAVAILABLE'
@@ -295,7 +295,7 @@ export async function handleTwitchFanRoute(req,env,{
   if(path===FAN_CALLBACK_PATH)
    return await handleCallback(req,env,nowMs,fetchImpl);
   if(path===ME)return await handleMe(req,env,nowMs);
-  if(path===VERIFY)return await handleVerify(req,env,nowMs);
+  if(path===VERIFY)return await handleVerify(req,env,nowMs,fetchImpl);
   return await handleMutation(req,env,nowMs,path);
  }catch{return denied(503,'UNAVAILABLE')}
 }
