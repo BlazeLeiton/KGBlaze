@@ -69,7 +69,7 @@ test('CP15 inconsistent/failed/partial provider data is never treated as expired
  for(const [pages,reason] of [
   [[page([row('111')],2)],'incomplete_roster'],
   [[page([row('111')],2,'X'),page([row('222')],3)],'snapshot_changed_during_scan'],
-  [[page([row('111',{user_name:'BAD'})],1)],'invalid_response'],
+  [[page([{...row('111'),user_id:'not-an-id'}],1)],'invalid_response_identity'],
   [[{status:429}],'rate_limited'],
   [[{status:401}],'token_unauthorized'],
   [[new Error('ACCESS_SENSITIVE')],'provider_unavailable'],
@@ -87,18 +87,42 @@ test('CP15 zero members is valid only after a complete successful response',asyn
  const out=await read({...config,fetchImpl:provider([page([],0,'TERMINAL_CURSOR')]).fetchImpl});
  assert.deepEqual(out,{ok:true,complete:true,providerTotal:0,pages:1,subscribers:[]});
 });
-test('CP15 rejects untrusted ID, unsafe names and duplicates beyond total',async()=>{
- const cases=[
-  [{...row('111'),user_id:'not-numeric'}],
-  [{...row('111'),user_name:'<script>'}],
-  [row('111'),row('111','DifferentName')],
-  [{...row('111'),broadcaster_id:'999'}],
-  [{...row('111'),tier:'9999'}]
- ];
- for(const data of cases){
+test('CP17 essential ID and channel mismatch fail closed without leaking raw identities',async()=>{
+ for(const [data,reason] of [
+  [[{...row('111'),user_id:'not-numeric'}],'invalid_response_identity'],
+  [[{...row('111'),broadcaster_id:'999'}],'invalid_response_identity'],
+  [[row('111'),row('111','DifferentName')],'snapshot_changed_during_scan'],
+  [[row('111'),row('222')],'invalid_response_total']
+ ]){
   const out=await read({...config,fetchImpl:provider([page(data,1,'X')]).fetchImpl});
   assert.equal(out.ok,false);
+  assert.equal(out.reason,reason);
+  assert.equal(JSON.stringify(out).includes('DifferentName'),false);
  }
+});
+
+test('CP17 optional Twitch presentation fields never invalidate active subscriber IDs',async()=>{
+ const malformed=[
+  {...row('111'),user_login:undefined,user_name:'ValidUnicode_海'},
+  {...row('222'),user_login:undefined,user_name:'<unsafe>',tier:undefined,is_gift:null}
+ ];
+ const mock=provider([page(malformed,2,'terminal-cursor')]);
+ const out=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.equal(out.ok,true);
+ assert.equal(out.providerTotal,2);
+ assert.deepEqual(out.subscribers,[
+  {userId:'111',displayName:'ValidUnicode_海'},
+  {userId:'222',displayName:'Suscriptor de Twitch'}
+ ]);
+ assert.equal(mock.calls,1);
+ assert.equal(JSON.stringify(out).includes('<unsafe>'),false);
+});
+
+test('CP17 optional unsafe alias chooses safe login as private label',async()=>{
+ const item={...row('111'),user_name:'<unsafe>',user_login:'valid_login',tier:'unexpected'};
+ const result=await read({...config,fetchImpl:provider([page([item],1)]).fetchImpl});
+ assert.equal(result.ok,true);
+ assert.equal(result.subscribers[0].displayName,'valid_login');
 });
 
 function fakeD1(){
