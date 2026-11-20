@@ -397,7 +397,14 @@ export async function syncStoredTwitchActiveSubscribers(env,{
     if(!row||row.owner_id!==owner)return fail('connection_missing');
     continue;
    }
-   if(!snapshot.ok)return fail(snapshot.reason);
+   if(!snapshot.ok){
+    if(snapshot.reason==='provider_total_below_observed'){
+     // Static private-only diagnostic: no identity or provider count escapes.
+     return {ok:false,reason:snapshot.reason,
+      phase:snapshot.phase,totalRecheck:snapshot.totalRecheck};
+    }
+    return fail(snapshot.reason);
+   }
    const saved=await commitPrivateTwitchActiveRoster(env,snapshot,{
     nowMs:current,previousMeta:meta
    });
