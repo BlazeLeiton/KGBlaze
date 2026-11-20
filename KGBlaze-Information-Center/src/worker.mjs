@@ -130,8 +130,11 @@ async function handler(req,env){
   if(url.origin!=='https://kgblaze.dpdns.org')return err(404,'NOT_FOUND');
   const twitch=await readPublicTwitchRecognition(env);
   const youtube=await readPublicYouTubeRecognition(env);
-  return json({ok:true,youtube,twitch:twitch.twitch||[]},200,
-   {'Cache-Control':'no-store'});
+  // Preserve exact historic Twitch response when YouTube is disabled/empty.
+  // Add the ordered youtube key only for consented, fresh YouTube members.
+  const publicPayload=youtube.length?
+   {ok:true,youtube,twitch:twitch.twitch||[]}:twitch;
+  return json(publicPayload,200,{'Cache-Control':'no-store'});
  }
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);
