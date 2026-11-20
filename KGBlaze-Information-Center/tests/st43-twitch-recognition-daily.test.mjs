@@ -121,6 +121,30 @@ test('CP26 preflight: disabled API never exports private roster or identities',a
  }finally{DB.close()}
 });
 
+test('CP27 private-only mode stores Twitch statuses but never makes names public',async()=>{
+ const {DB,env}=await setup({enabled:'true',public:'false',trial:'false'});
+ try{
+  const checked=await sync(env,provider());
+  assert.equal(checked.ok,true);
+  assert.equal(checked.checked,3);
+  const privateState=await readPrivateTwitchRecognitionStatus(env,{nowMs:NOW+1000});
+  assert.equal(privateState.ok,true);
+  assert.equal(privateState.counts.tracked,3);
+  assert.equal(privateState.counts.active,3);
+  assert.equal(privateState.counts.unasked,3);
+  assert.equal(privateState.publicEnabled,false);
+  assert.equal(privateState.trialEnabled,false);
+  const publicState=await readPublicTwitchRecognition(env,{nowMs:NOW+1000});
+  assert.deepEqual(publicState,{ok:true,twitch:[]});
+  const response=await worker.fetch(new Request(
+   ROOT+'/departures/api/public/recognition'),env);
+  assert.equal(response.status,200);
+  assert.deepEqual(await response.json(),{ok:true,twitch:[]});
+  const raw=DB.db.prepare('SELECT consent_state FROM recognition_twitch_memberships').all();
+  assert.ok(raw.every(row=>row.consent_state==='unasked'));
+ }finally{DB.close()}
+});
+
 test('CP26 all observed active members stored unasked despite contradictory total',async()=>{
  const {DB,env}=await setup();
  try{
