@@ -30,9 +30,9 @@ export async function readTwitchPilotPublic(env,{nowMs=Date.now()}={}){
  try{
   const rows=await env.DB.prepare(
    'SELECT display_name FROM recognition_twitch_pilot_members '+
-   'WHERE active=1 AND last_verified_at_ms>? '+
+   'WHERE active=1 AND last_verified_at_ms>? AND last_verified_at_ms<=? '+
    'ORDER BY login COLLATE NOCASE ASC LIMIT 2'
-  ).bind(nowMs-FRESH_MS).all();
+  ).bind(nowMs-FRESH_MS,nowMs).all();
   const names=[];
   for(const r of rows?.results||[]){
    if(typeof r.display_name==='string'&&r.display_name.length>0&&
