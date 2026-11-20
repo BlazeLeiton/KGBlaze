@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import worker from '../src/worker.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
- disconnectStoredTwitchOwnerConnection} from '../src/recognition-twitch-connection.mjs';
+ disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus} from '../src/recognition-twitch-connection.mjs';
 
 const NOW=1795090000000;
 const REDIRECT='https://kgblaze.dpdns.org/twitch/oauth/callback';
@@ -90,6 +90,11 @@ class FakeOAuthD1{
    this.tokens.refresh_lock_until_ms=until;
    return {owner_id:owner,refresh_ciphertext:this.tokens.refresh_ciphertext,
     refresh_nonce:this.tokens.refresh_nonce};
+  }
+  if(sql.startsWith('SELECT owner_id,access_ciphertext,access_nonce,expires_at_ms FROM recognition_twitch_oauth_credentials')){
+   return this.tokens?{owner_id:this.tokens.owner_id,
+    access_ciphertext:this.tokens.access_ciphertext,
+    access_nonce:this.tokens.access_nonce,expires_at_ms:this.tokens.expires_at_ms}:null;
   }
   if(sql.startsWith('SELECT owner_id,access_ciphertext,access_nonce FROM recognition_twitch_oauth_credentials')){
    return this.tokens?{owner_id:this.tokens.owner_id,
@@ -623,4 +628,121 @@ test('CP07 token revocation rejects 302 redirects and never follows another host
  assert.equal(out.ok,true);
  assert.equal(out.locallyDisconnected,true);
  assert.equal(out.providerRevocation,'unconfirmed');
+});
+
+
+test('CP13 private owner snapshot returns only current subscriber counts and no names',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ const page={
+  data:[{user_id:'111',broadcaster_id:'123',tier:'1000',is_gift:false,
+   user_name:'PRIVATE_NAME',gifter_id:'PRIVATE_GIFTER'}],
+  total:1,pagination:{}
+ };
+ const calls=[];
+ const fetchImpl=async(url,init)=>{
+  calls.push({url,init});
+  if(url.startsWith('https://api.twitch.tv/helix/subscriptions'))
+   return {ok:true,status:200,json:async()=>page};
+  throw Error('unexpected provider call');
+ };
+ const result=await readStoredTwitchSubscriptionStatus({
+  ...env,RECOGNITION_TWITCH_STATUS_ENABLED:'true'
+ },{now:()=>NOW+1000,fetchImpl});
+ assert.equal(result.ok,true);
+ assert.equal(result.kind,'summary');
+ assert.equal(result.providerTotal,1);
+ assert.equal(result.complete,true);
+ assert.equal(result.observedActiveRows,1);
+ assert.equal(DB.tokens?.owner_id,'123');
+ assert.equal(calls.length,1);
+ assert.equal(calls[0].init.headers.Authorization,'Bearer ACCESS_SENSITIVE');
+ for(const sensitive of ['ACCESS_SENSITIVE','REFRESH_SENSITIVE',
+  'PRIVATE_NAME','PRIVATE_GIFTER','111']){
+  assert.equal(JSON.stringify(result).includes(sensitive),false);
+ }
+});
+test('CP13 fails closed before touching D1/provider if independent feature flag disabled',async()=>{
+ const {env,DB}=setup();
+ const old=DB.writes;
+ let calls=0;
+ const result=await readStoredTwitchSubscriptionStatus(env,{fetchImpl:async()=>{calls++;throw Error('unexpected')}});
+ assert.equal(result.reason,'status_feature_disabled');
+ assert.equal(DB.writes,old);
+ assert.equal(calls,0);
+});
+test('CP13 targeted status includes only explicitly requested account IDs, never names or tiers',async()=>{
+ const {env}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ const result=await readStoredTwitchSubscriptionStatus({
+  ...env,RECOGNITION_TWITCH_STATUS_ENABLED:'true'
+ },{mode:'targeted',userIds:['111','222'],now:()=>NOW+200,
+  fetchImpl:async(url)=>({ok:true,status:200,json:async()=>({
+   data:[{user_id:'111',broadcaster_id:'123',tier:'2000',is_gift:true,
+    user_name:'PRIVATE_NAME'}]})})
+ });
+ assert.deepEqual(result.checks,[{userId:'111',active:true},{userId:'222',active:false}]);
+ assert.equal(JSON.stringify(result).includes('PRIVATE_NAME'),false);
+});
+test('CP13 reactive refresh after Helix 401 uses existing D1 CAS lock, no token in response',async()=>{
+ const {env,DB}=setup();
+ await startTwitchOwnerConnection(env,{now:()=>NOW,randomBytes:random});
+ await finishTwitchOwnerConnection(env,{state:STATE,code:'abcDEF123'},
+  {now:()=>NOW+100,fetchImpl:provider().fetchImpl});
+ let helix=0,token=0,validate=0;
+ const fetchImpl=async(url,init)=>{
+  if(url.startsWith('https://api.twitch.tv/helix/subscriptions')){
+   helix++;
+   return helix===1?{ok:false,status:401}:{ok:true,status:200,
+    json:async()=>({data:[],total:0,pagination:{}})};
+  }
+  if(url==='https://id.twitch.tv/oauth2/token'){
+   token++;
+   assert.equal(new URLSearchParams(init.body).get('grant_type'),'refresh_token');
+   return {ok:true,status:200,json:async()=>({
+    access_token:'ROTATED_ACCESS_SENSITIVE',refresh_token:'ROTATED_REFRESH_SENSITIVE',
+    expires_in:3600,scope:['channel:read:subscriptions']
+   })};
+  }
+  if(url==='https://id.twitch.tv/oauth2/validate'){
+   validate++;
+   return {ok:true,status:200,json:async()=>({
+    client_id:'registered-client',user_id:'123',expires_in:3600,
+    scopes:['channel:read:subscriptions']
+   })};
+  }
+  throw Error('unapproved outbound request');
+ };
+ const result=await readStoredTwitchSubscriptionStatus({
+  ...env,RECOGNITION_TWITCH_STATUS_ENABLED:'true'
+ },{now:()=>NOW+200,fetchImpl});
+ assert.equal(result.ok,true);
+ assert.deepEqual([helix,token,validate],[2,1,1]);
+ assert.equal(DB.tokens.refresh_lock_until_ms,null);
+ assert.equal(await decryptTest(DB.tokens.access_ciphertext,DB.tokens.access_nonce,'access'),
+  'ROTATED_ACCESS_SENSITIVE');
+ assert.equal(JSON.stringify(result).includes('SENSITIVE'),false);
+});
+test('CP13 private routes require bearer, confirmation header and correct Origin',async()=>{
+ const {env,DB}=setup();
+ const path='https://kgblaze.dpdns.org/departures/api/admin/recognition/twitch/subscription-summary';
+ const target='https://kgblaze.dpdns.org/departures/api/admin/recognition/twitch/check-subscribers';
+ const headers={Authorization:'Bearer admin-secret-for-tests'};
+ const headerAck={...headers,'X-Relight-Recognition-Confirm':'read-subscription-status'};
+ assert.equal((await worker.fetch(new Request(path),env)).status,401);
+ assert.equal((await worker.fetch(new Request(path,{headers}),env)).status,400);
+ assert.equal((await worker.fetch(new Request(path,{headers:{
+  ...headerAck,Origin:'https://attacker.invalid'}}),env)).status,403);
+ assert.equal((await worker.fetch(new Request(target,{method:'GET',headers:headerAck}),env)).status,405);
+ assert.equal((await worker.fetch(new Request(target,{method:'POST',headers:headerAck}),env)).status,415);
+ assert.equal((await worker.fetch(new Request(target,{method:'POST',headers:{
+  ...headerAck,'Content-Type':'application/json'},body:'{"userIds":["bad"]}'}),env)).status,400);
+ const safe=await worker.fetch(new Request(path,{headers:headerAck}),env);
+ assert.equal(safe.status,503);
+ assert.equal((await safe.json()).reason,'status_feature_disabled');
+ assert.equal(DB.tokens,null);
 });
