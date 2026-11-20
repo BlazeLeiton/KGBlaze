@@ -47,14 +47,22 @@ verify(/^\s*keep_vars\s*=\s*true\s*$/m.test(wrangler),
  'keep_vars lost — dashboard variables may be overwritten');
 
 
-verify(/^\s*RECOGNITION_TWITCH_CACHE_ENABLED\s*=\s*"false"\s*$/m.test(currentVars),
- 'private active subscriber cache MUST remain disabled before owner D1 migration');
+verify(/^\s*RECOGNITION_TWITCH_CACHE_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
+ 'CP16 manual private status cache is enabled after confirmed owner migration');
 verify(!roster.includes("redirect:'error'")&&roster.includes("redirect:'manual'"),
  'private Twitch roster must never follow OAuth-bearing redirects');
 verify(cache.includes("RECOGNITION_TWITCH_CACHE_ENABLED!=='true'"),
  'cache writer lost explicit OFF-by-default server gate');
 verify(cache.includes("await env.DB.batch(statements)"),
  'private snapshot replacement must be atomic D1 batch');
+verify(cache.includes("THEN excluded.last_completed_at_ms ELSE -1 END")&&
+ cache.includes("snapshot_version=recognition_twitch_active_status_meta.snapshot_version+1"),
+ 'private cache must use DB-enforced monotonic CAS to reject competing stale syncs');
+verify(cacheMigration.includes("CHECK(last_completed_at_ms > 0)"),
+ 'monotonic D1 write guard requires the existing positive-timestamp CHECK constraint');
+verify(!worker.includes("scheduledTwitchRecognitionSync")&&
+ !worker.includes("publicTwitchSubscriberRoster"),
+ 'automatic or public subscriber status must not be activated with manual cache');
 verify(worker.includes("sync-private-subscriber-cache")&&
  worker.includes("syncStoredTwitchActiveSubscribers"),
  'private cache sync endpoint missing admin confirmation');
@@ -157,7 +165,8 @@ const result={
  ownerOnlyStatusFlagConfigured:true,
  publicSubscriberEnumerationEnabled:false,
  subscriberEnumerationEnabled:false,
- privateSubscriberCacheEnabled:false,
+ privateSubscriberCacheEnabled:true,
+ privateSubscriberSyncMode:'admin-confirmed-manual-only',
  remoteSchemaModified:false,
  deployed:false,
  credentialsUsed:false,
