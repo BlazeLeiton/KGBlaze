@@ -6,7 +6,6 @@ import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
-import {FAN_ROUTES,handleTwitchFanRoute} from './recognition-twitch-fan.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
  disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus,
@@ -117,9 +116,6 @@ async function handler(req,env){
    '. Vuelve al panel de administración. No compartas el enlace OAuth.',
    {status:result.ok?200:400,headers:safe});
  }
- // Separate voluntary visitor identity/consent routes; feature flag OFF.
- // Never expose these under the unprefixed root API on the public host.
- if(FAN_ROUTES.has(path))return handleTwitchFanRoute(req,env);
  if(!env.DB&&['/api/public','/agenda_publica.json'].includes(path))return err(503,'DATABASE_NOT_CONFIGURED');
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
