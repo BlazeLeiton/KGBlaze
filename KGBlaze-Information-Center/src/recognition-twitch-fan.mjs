@@ -105,6 +105,14 @@ function publicState(row,nowMs){
   lastCheckedAt:new Date(timestamp).toISOString()};
 }
 async function handleStart(env,nowMs){
+ // Prune expired login challenges and sessions only on voluntary sign-in;
+ // no Cron and no unrelated subscriber data touched.
+ await env.DB.prepare(
+  'DELETE FROM recognition_twitch_fan_oauth_states WHERE expires_at_ms<?'
+ ).bind(nowMs).run();
+ await env.DB.prepare(
+  'DELETE FROM recognition_twitch_fan_sessions WHERE expires_at_ms<?'
+ ).bind(nowMs).run();
  const state=randomHex(),stateHash=await digest(state);
  const expiresAt=nowMs+STATE_MS;
  const result=await env.DB.prepare(
@@ -231,7 +239,7 @@ async function handleMutation(req,env,nowMs,kind){
     '(twitch_user_id,consent_nonce,consented_at_ms,last_status,last_checked_at_ms) '+
     "VALUES (?,?,?,'unknown',NULL) ON CONFLICT(twitch_user_id) DO UPDATE SET "+
     'consent_nonce=excluded.consent_nonce,consented_at_ms=excluded.consented_at_ms,'+
-    "last_status='unknown',last_checked_at_ms=NULL"
+    "last_status='unknown',last_checked_at_ms=NULL,check_lock_until_ms=NULL"
    ).bind(current.id,nonce,nowMs).run();
   }else{
    // Withdrawal deletes all verification results; an in-flight check cannot
@@ -252,28 +260,59 @@ async function handleVerify(req,env,nowMs,fetchImpl){
  const mutation=await handleMutation(req,env,nowMs,VERIFY);
  if(mutation instanceof Response)return mutation;
  const {current,consent}=mutation;
- // The existing owner-only controller decrypts owner OAuth server-side and
- // checks just this session-authenticated, consented Twitch ID.
- const checked=await readStoredTwitchSubscriptionStatus(env,{
-  mode:'targeted',userIds:[current.id],fetchImpl,now:()=>nowMs
- });
- if(!checked?.ok)return safeJson({
-  ok:false,subscriptionStatus:'unknown',error:'VERIFICATION_UNAVAILABLE'
- },503);
- const row=checked.checks;
- if(!Array.isArray(row)||row.length!==1||row[0]?.userId!==current.id||
-    typeof row[0].active!=='boolean')
-  return denied(503,'VERIFICATION_UNAVAILABLE');
- const status=row[0].active?'active':'inactive';
- // CAS prevents a late positive check from resurrecting a withdrawn consent.
- const updated=await env.DB.prepare(
-  'UPDATE recognition_twitch_fan_consents SET last_status=?,last_checked_at_ms=? '+
+ // A recent successful targeted check can serve this private account until
+ // its TTL expires. This prevents repeated requests from exhausting Twitch.
+ const prev=consent.last_checked_at_ms;
+ if(validTime(prev)&&nowMs>=prev&&nowMs-prev<FRESH_MS&&
+    ['active','inactive'].includes(consent.last_status))
+  return safeJson({ok:true,subscriptionStatus:consent.last_status,
+   cached:true,lastCheckedAt:new Date(prev).toISOString()});
+ // Global CAS lock: concurrent browsers cannot multiply Helix calls for the
+ // same consenting member. It expires in 2 min if a Worker crashes.
+ const lockUntil=nowMs+120000;
+ const claimed=await env.DB.prepare(
+  'UPDATE recognition_twitch_fan_consents SET check_lock_until_ms=? '+
   'WHERE twitch_user_id=? AND consent_nonce=? '+
-  'AND (last_checked_at_ms IS NULL OR last_checked_at_ms<?)'
- ).bind(status,nowMs,current.id,consent.consent_nonce,nowMs).run();
- if(updated?.meta?.changes!==1)return denied(409,'CONSENT_CHANGED');
- return safeJson({ok:true,subscriptionStatus:status,
-  lastCheckedAt:new Date(nowMs).toISOString()});
+  'AND (check_lock_until_ms IS NULL OR check_lock_until_ms<?) '+
+  'AND (last_checked_at_ms IS NULL OR last_checked_at_ms<=?) '+
+  'RETURNING consent_nonce'
+ ).bind(lockUntil,current.id,consent.consent_nonce,nowMs,nowMs-FRESH_MS).first();
+ if(!claimed)return denied(429,'VERIFICATION_BUSY_OR_CHANGED');
+ try{
+  // Existing owner OAuth never leaves Worker. Only this authenticated,
+  // explicitly consenting Twitch ID is sent to the filtered endpoint.
+  const checked=await readStoredTwitchSubscriptionStatus(env,{
+   mode:'targeted',userIds:[current.id],fetchImpl,now:()=>nowMs
+  });
+  if(!checked?.ok)return safeJson({
+   ok:false,subscriptionStatus:'unknown',error:'VERIFICATION_UNAVAILABLE'
+  },503);
+  const row=checked.checks;
+  if(!Array.isArray(row)||row.length!==1||row[0]?.userId!==current.id||
+     typeof row[0].active!=='boolean')
+   return denied(503,'VERIFICATION_UNAVAILABLE');
+  const status=row[0].active?'active':'inactive';
+  // The one-time consent nonce AND exact lock deadline both must still
+  // match: withdrawal/regrant/competing checks cannot reintroduce status.
+  const updated=await env.DB.prepare(
+   'UPDATE recognition_twitch_fan_consents SET last_status=?,'+
+   'last_checked_at_ms=?,check_lock_until_ms=NULL '+
+   'WHERE twitch_user_id=? AND consent_nonce=? AND check_lock_until_ms=? '+
+   'AND (last_checked_at_ms IS NULL OR last_checked_at_ms<?)'
+  ).bind(status,nowMs,current.id,consent.consent_nonce,lockUntil,nowMs).run();
+  if(updated?.meta?.changes!==1)return denied(409,'CONSENT_CHANGED');
+  return safeJson({ok:true,subscriptionStatus:status,
+   cached:false,lastCheckedAt:new Date(nowMs).toISOString()});
+ }finally{
+  // If provider fails, leave last verified record intact. Conditional
+  // release avoids clearing a newer lock; fallback expiry is bounded.
+  try{
+   await env.DB.prepare(
+    'UPDATE recognition_twitch_fan_consents SET check_lock_until_ms=NULL '+
+    'WHERE twitch_user_id=? AND consent_nonce=? AND check_lock_until_ms=?'
+   ).bind(current.id,consent.consent_nonce,lockUntil).run();
+  }catch{/* Guard automatically expires at lockUntil. */}
+ }
 }
 
 /** Public only after both flag + owner-applied D1 migration; no public roster. */
