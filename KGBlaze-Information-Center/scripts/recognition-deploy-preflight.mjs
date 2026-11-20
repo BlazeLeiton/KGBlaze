@@ -67,6 +67,10 @@ verify(!/^\s*(INSERT|UPDATE|DELETE|DROP|ALTER)\s+(?:INTO|FROM|TABLE)?\s*(?:termi
  'cache migration attempts to modify editorial or OAuth records');
 verify((cacheMigration.match(/CREATE TABLE IF NOT EXISTS/g)||[]).length===2,
  'cache migration must create exactly two isolated tables');
+verify((cacheMigration.match(/ON DELETE CASCADE/g)||[]).length===2&&
+ cacheMigration.includes('REFERENCES recognition_twitch_oauth_credentials(slot) ON DELETE CASCADE')&&
+ cacheMigration.includes('REFERENCES recognition_twitch_active_status_meta(slot) ON DELETE CASCADE'),
+ 'private subscriber cache must be cascade-deleted when owner OAuth disconnects');
 verify(cacheMigration.includes('recognition_twitch_active_subscribers')&&
  cacheMigration.includes('recognition_twitch_active_status_meta'),
  'cache migration missing private tables');
