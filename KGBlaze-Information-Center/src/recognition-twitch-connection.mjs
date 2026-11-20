@@ -102,7 +102,7 @@ export async function finishTwitchOwnerConnection(env,
   const completed=await completeTwitchOwnerOAuth(env,{
    state,code,expectedStateHash:stateHash,issuedAt:row.issued_at_ms
   },{now:()=>current,fetchImpl});
-  if(!completed.ok)return fail('provider_or_owner_validation_failed');
+  if(!completed.ok)return fail(completed.reason);
   const owner=completed.broadcasterId;
   const credentials=completed.credentials;
   const [access,refresh]=await Promise.all([
