@@ -11,6 +11,7 @@
  */
 import {beginTwitchOwnerOAuth,completeTwitchOwnerOAuth,
  hashTwitchOwnerOAuthState,refreshTwitchOwnerOAuth} from './recognition-twitch-oauth.mjs';
+import {readTwitchActiveSubscriptionStatus} from './recognition-twitch-active-status.mjs';
 
 const fail=reason=>({ok:false,reason});
 const ENC_SECRET='RECOGNITION_TWITCH_TOKEN_KEY_B64';
@@ -272,4 +273,68 @@ export async function disconnectStoredTwitchOwnerConnection(env,{
  }catch{
   return {ok:true,locallyDisconnected:true,providerRevocation:'unconfirmed'};
  }
+}
+
+
+/**
+ * CP13: PRIVATE admin-only access to active subscription status using only
+ * existing encrypted owner OAuth. No D1 writes other than encrypted token
+ * rotation on provider 401/known expiration. Does NOT persist any subscriber.
+ *
+ * CALLER MUST authenticate ADMIN_TOKEN, same-origin if Origin is supplied,
+ * and explicit X-Relight-Recognition-Confirm header before this is invoked.
+ */
+export async function readStoredTwitchSubscriptionStatus(env,{
+ mode='summary',userIds,fetchImpl=fetch,now=Date.now
+}={}){
+ if(!ready(env)||env.RECOGNITION_TWITCH_STATUS_ENABLED!=='true')
+  return fail('status_feature_disabled');
+ const key=await encryptionKey(env);
+ if(!key)return fail('missing_encryption_key');
+ const owner=env.TWITCH_RECOGNITION_BROADCASTER_ID;
+ if(typeof owner!=='string'||!/^[0-9]{1,24}$/.test(owner))
+  return fail('not_configured');
+ const current=now();
+ if(!Number.isSafeInteger(current)||current<0)return fail('invalid_time');
+ // This limited admin-only endpoint does not return any full subscriber roster.
+ if(mode!=='summary'&&mode!=='targeted')return fail('invalid_mode');
+ if(mode==='summary'&&userIds!==undefined)return fail('invalid_user_ids');
+
+ const readRow=async()=>env.DB.prepare(
+  'SELECT owner_id,access_ciphertext,access_nonce,expires_at_ms '+
+  'FROM recognition_twitch_oauth_credentials WHERE slot=1'
+ ).first();
+
+ try{
+  let row=await readRow();
+  if(!row)return fail('connection_missing');
+  if(row.owner_id!==owner)return fail('owner_mismatch');
+  // Refresh only as needed: known expiry or HTTP 401 from Twitch.
+  // In a concurrent refresh, the existing D1 CAS lock safely rejects one caller.
+  if(!Number.isFinite(row.expires_at_ms)||row.expires_at_ms<=current+60_000){
+   const refresh=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+   if(!refresh.ok)return fail('token_refresh_unavailable');
+   row=await readRow();
+   if(!row||row.owner_id!==owner)return fail('connection_missing');
+  }
+  for(let attempt=0;attempt<2;attempt++){
+   const access=await decryptToken(key,row.access_ciphertext,row.access_nonce,owner,'access');
+   const result=await readTwitchActiveSubscriptionStatus({
+    accessToken:access,clientId:env.TWITCH_CLIENT_ID,broadcasterId:owner,
+    mode,userIds,fetchImpl
+   });
+   // Never leak tokens, PII or raw Twitch response on any failure.
+   if(result.reason==='token_unauthorized'&&attempt===0){
+    const refresh=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+    if(!refresh.ok)return fail('token_refresh_unavailable');
+    row=await readRow();
+    if(!row||row.owner_id!==owner)return fail('connection_missing');
+    continue;
+   }
+   if(!result.ok)return fail(result.reason);
+   return {ok:true,readOnly:true,source:'twitch_helix',
+    checkedAt:new Date(current).toISOString(),...result};
+  }
+  return fail('token_unauthorized');
+ }catch{return fail('status_unavailable');}
 }
