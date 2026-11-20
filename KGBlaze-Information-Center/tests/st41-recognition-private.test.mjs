@@ -41,6 +41,7 @@ test('consent set rejects missing ID, duplicate, revoked or oversized opt-ins',(
  assert.equal(validRecognitionConsent(consent()),true);
  assert.equal(validRecognitionConsent(consent('x')),false);
  assert.equal(validRecognitionConsent(consent('2',{revokedAt:'2026-11-19T00:00:00Z'})),false);
+ assert.equal(validRecognitionConsent(consent('2',{withdrawnAt:'2026-11-19T00:00:00Z'})),false);
  assert.equal(recognitionCandidateIds([consent('2'),consent('2')]),null);
  assert.equal(recognitionCandidateIds(Array.from({length:101},(_,i)=>consent(String(i+1000)))),null);
 });
