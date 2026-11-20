@@ -22,7 +22,8 @@ export function validRecognitionConsent(record){
  if(typeof record.alias!=='string'||!record.alias.trim()||record.alias.length>ALIAS_MAX)return false;
  if(/[\u0000-\u001f\u007f<>]/.test(record.alias))return false;
  if(record.verifyOptIn!==true||normalizedDate(record.verifyConsentAt)===null)return false;
- if(record.revokedAt||record.withdrawn===true)return false;
+ // D1 withdrawn_at maps to withdrawnAt; every withdrawal must deny verification.
+ if(record.revokedAt||record.withdrawnAt||record.withdrawn===true)return false;
  return true;
 }
 export function recognitionCandidateIds(consents){
