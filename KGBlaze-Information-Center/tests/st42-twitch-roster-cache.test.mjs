@@ -69,7 +69,7 @@ test('CP15 inconsistent/failed/partial provider data is never treated as expired
  for(const [pages,reason] of [
   [[page([row('111')],2)],'incomplete_roster'],
   [[page([row('111')],2,'X'),page([row('222')],3)],'snapshot_changed_during_scan'],
-  [[page([row('111',{user_id:'not-an-id'})],1)],'invalid_response_identity'],
+  [[page([{...row('111'),user_id:'not-an-id'}],1)],'invalid_response_identity'],
   [[{status:429}],'rate_limited'],
   [[{status:401}],'token_unauthorized'],
   [[new Error('ACCESS_SENSITIVE')],'provider_unavailable'],
