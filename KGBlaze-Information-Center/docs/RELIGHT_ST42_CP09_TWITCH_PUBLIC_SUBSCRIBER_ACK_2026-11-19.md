@@ -2,11 +2,21 @@
 
 Fecha de revisión: 19-nov-2026, America/Mexico_City.
 
+## Aclaración vinculante CP10 — suscripciones y membresías, no espectadores
+
+**CP09 solo define un mecanismo auxiliar de agradecimiento a eventos recientes anunciados en Twitch; NO define todas las personas elegibles para reconocimiento o beneficios.**
+
+El sistema completo **no es un registro de espectadores**. Su objetivo es reconocer suscripciones y membresías reales: **suscriptores de Twitch**, **miembros de YouTube** y **apoyos recurrentes de Ko-fi u otros servicios de suscripción**, cuando dichas modalidades existan y puedan verificarse. La franja «Apoyos recurrentes» en Home se conserva precisamente para ese supuesto futuro. No incluye automáticamente seguidores, visitantes, espectadores, donaciones puntuales ni compras aisladas.
+
+Una suscripción/membresía activa puede dar acceso a beneficios exclusivos sin que el titular tenga que adquirir otra membresía en KGBlaze. **La comprobación privada de vigencia es distinta de publicar nombre o alias**: no construir automáticamente una lista permanente en el dominio a partir de datos de acceso restringido. Las posibilidades de reconocimiento en público deberán ser proporcionales a lo que cada plataforma comunica y al permiso/visibilidad correspondiente; Ko-fi no se asumirá conectado ni con suscriptores actuales.
+
+Los avisos de 72 horas CP09 solo sirven como un formato de agradecimiento reciente de Twitch. **No limitan** el reconocimiento de suscriptores activos, miembros de YouTube ni futuros apoyos recurrentes verificados. YouTube `members.list` requiere acceso especial del canal y OAuth del creador: ese acceso aún no se ha acreditado. Véase `RELIGHT_ST42_CP10_RECURRING_SUBSCRIPTIONS_MEMBERSHIPS_2026-11-19.md`.
+
 ## Corrección de alcance del creador
 
 El propósito del módulo de agradecimiento personalizado en KGBlaze es reconocer a **suscriptores de Twitch** y las renovaciones que Twitch **ya destaca en el chat**. No se pretende crear un registro general de espectadores, exigir que cada sub abra una cuenta en KGBlaze o recopilar un censo completo de personas con suscripción activa.
 
-Esta decisión sustituye el modelo operativo originalmente imaginado para la fase Twitch (verificación individual de cada ID mediante el endpoint `Get Broadcaster Subscriptions`) **en cuanto a la lista pública de agradecimientos**. No elimina la capacidad de verificaciones privadas selectivas cuando estas sean necesarias para otras funciones.
+Esta ruta de EventSub se refiere **solo al carrusel de avisos recientes**; no sustituye la verificación privada de suscripciones activas cuando se necesite comprobar beneficios, y no define el reconocimiento de miembros de YouTube. No elimina la capacidad de verificaciones privadas selectivas cuando estas sean necesarias para otras funciones.
 
 ## Señales oficiales adecuadas
 
