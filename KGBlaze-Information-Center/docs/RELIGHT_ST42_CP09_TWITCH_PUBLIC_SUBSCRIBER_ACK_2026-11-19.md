@@ -2,11 +2,17 @@
 
 Fecha de revisión: 19-nov-2026, America/Mexico_City.
 
+## Aclaración vinculante CP10 — alcance de la funcionalidad completa
+
+**CP09 solo define un mecanismo auxiliar de agradecimiento a eventos recientes anunciados en Twitch. No constituye el universo completo de personas elegibles para reconocimiento ni beneficios.** El objetivo de KGBlaze en Home se limita **exclusivamente a suscriptores de Twitch y miembros de YouTube**. Incluye reconocimiento a suscriptores/miembros que ya estaban activos, además de los nuevos y renovaciones, según las capacidades autorizadas de cada plataforma y las reglas de visibilidad; no debe limitarse todo a notificaciones de 72 horas. Los espectadores, seguidores, donaciones y otros apoyos no se convierten automáticamente en integrantes del sistema. Para beneficios, comprobar vigencia en origen y respetar el tipo de suscripción/membresía (incluidas regaladas cuando la plataforma las considere activas), sin obligar a una segunda suscripción o inscripción en KGBlaze.
+
+La consulta privada de elegibilidad y la publicación de un nombre en la web son operaciones separadas. No interpretar la visibilidad dentro de Twitch/YouTube como autorización ilimitada para hacer un directorio permanente en un dominio externo. Ninguna publicación de un censo completo por defecto. **YouTube members.list requiere acceso especial al canal y OAuth creador; no consta que ese acceso esté concedido.** Véase `RELIGHT_ST42_CP10_EXCLUSIVE_SUBS_MEMBERS_SCOPE_2026-11-19.md`.
+
 ## Corrección de alcance del creador
 
 El propósito del módulo de agradecimiento personalizado en KGBlaze es reconocer a **suscriptores de Twitch** y las renovaciones que Twitch **ya destaca en el chat**. No se pretende crear un registro general de espectadores, exigir que cada sub abra una cuenta en KGBlaze o recopilar un censo completo de personas con suscripción activa.
 
-Esta decisión sustituye el modelo operativo originalmente imaginado para la fase Twitch (verificación individual de cada ID mediante el endpoint `Get Broadcaster Subscriptions`) **en cuanto a la lista pública de agradecimientos**. No elimina la capacidad de verificaciones privadas selectivas cuando estas sean necesarias para otras funciones.
+Esta ruta de EventSub se refiere **solo al carrusel de avisos recientes**; no sustituye la verificación privada de suscripciones activas cuando se necesite comprobar beneficios, y no define el reconocimiento de miembros de YouTube. No elimina la capacidad de verificaciones privadas selectivas cuando estas sean necesarias para otras funciones.
 
 ## Señales oficiales adecuadas
 
