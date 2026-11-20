@@ -26,6 +26,8 @@ export function routePortalRequest(request){
   '/departures/api/admin/recognition/twitch/start':['POST'],
   '/departures/api/admin/recognition/twitch/status':['GET'],
   '/departures/api/admin/recognition/twitch/refresh':['POST'],
+  '/departures/api/admin/recognition/twitch/subscription-summary':['GET'],
+  '/departures/api/admin/recognition/twitch/check-subscribers':['POST'],
   '/departures/api/admin/recognition/twitch/disconnect':['POST']
  };
  const allowed=methods[url.pathname];
@@ -68,6 +70,8 @@ export function routePortalRequest(request){
  const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview',
   '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status',
   '/api/admin/recognition/twitch/refresh',
+  '/api/admin/recognition/twitch/subscription-summary',
+  '/api/admin/recognition/twitch/check-subscribers',
   '/api/admin/recognition/twitch/disconnect'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))

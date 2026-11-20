@@ -25,6 +25,7 @@ const router=read('src/portal-route.mjs');
 const oauth=read('src/recognition-twitch-oauth.mjs');
 const worker=read('src/worker.mjs');
 const controller=read('src/recognition-twitch-connection.mjs');
+const activeStatus=read('src/recognition-twitch-active-status.mjs');
 const twitchVerifier=read('src/recognition-private.mjs');
 const youtubeVerifier=read('src/recognition-youtube-private.mjs');
 const currentVars=wrangler.split(/^\s*\[vars\]\s*$/m)[1]?.split(/^\s*\[/m)[0]||'';
@@ -50,7 +51,7 @@ verify(wrangler.includes('"/twitch/oauth/callback"'),
  'callback missing from run_worker_first');
 verify(router.includes("'/twitch/oauth/callback':['GET']"),
  'router callback changed or missing');
-for(const action of ['start','status','refresh','disconnect']){
+for(const action of ['start','status','refresh','subscription-summary','check-subscribers','disconnect']){
  const route='/departures/api/admin/recognition/twitch/'+action;
  verify(router.includes("'"+route+"':["),'protected '+action+' route missing');
  verify(router.includes("'/api/admin/recognition/twitch/"+action+"'"),
@@ -58,6 +59,18 @@ for(const action of ['start','status','refresh','disconnect']){
 }
 verify(!router.includes("'/api/admin/recognition/twitch/disconnect':['POST']"),
  'root admin alias accidentally exposed on custom domain');
+verify(!router.includes("'/api/admin/recognition/twitch/subscription-summary':['GET']")&&
+ !router.includes("'/api/admin/recognition/twitch/check-subscribers':['POST']"),
+ 'root subscriber status admin aliases accidentally exposed');
+verify(activeStatus.includes("redirect:'manual'")&&
+ activeStatus.includes("https://api.twitch.tv/helix/subscriptions"),
+ 'Twitch active status verifier changed or can follow redirects');
+verify(worker.includes("read-subscription-status")&&
+ worker.includes("readStoredTwitchSubscriptionStatus"),
+ 'private active subscriptions handler missing explicit read gate');
+verify(!worker.includes("RECOGNITION_TWITCH_STATUS_ENABLED==='true'")&&
+ controller.includes("env.RECOGNITION_TWITCH_STATUS_ENABLED!=='true'"),
+ 'subscriber status flag must gate private server-side controller');
 verify(worker.includes("if(!await authorized(req,env))"),
  'Worker lost bearer authorization');
 verify(worker.includes("X-Relight-Recognition-Confirm"),
@@ -88,6 +101,8 @@ verify(/^\s*TWITCH_RECOGNITION_BROADCASTER_ID\s*=\s*"70386764"\s*$/m.test(curren
  'expected public Twitch broadcaster ID missing or changed in [vars]');
 verify(/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
  'CP05 must explicitly enable owner-only OAuth after verified D1/secret gates');
+verify(/^\s*RECOGNITION_TWITCH_STATUS_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
+ 'CP13 explicit admin-only read status flag missing in [vars]');
 verify(!/^\s*(TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64|ADMIN_TOKEN)\s*=/m.test(wrangler),
  'a secret variable was committed to wrangler.toml');
 
@@ -108,6 +123,8 @@ const result={
  checked:'source, router, wrangler and scoped migration ONLY',
  remoteCloudflareChecked:false,
  ownerOAuthFlagConfigured:true,
+ ownerOnlyStatusFlagConfigured:true,
+ publicSubscriberEnumerationEnabled:false,
  subscriberEnumerationEnabled:false,
  remoteSchemaModified:false,
  deployed:false,
