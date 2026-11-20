@@ -34,7 +34,11 @@ export function routePortalRequest(request){
   '/departures/api/admin/recognition/twitch/subscription-summary':['GET'],
   '/departures/api/admin/recognition/twitch/check-subscribers':['POST'],
   '/departures/api/admin/recognition/twitch/sync-status-cache':['POST'],
-  '/departures/api/admin/recognition/twitch/disconnect':['POST']
+  '/departures/api/admin/recognition/twitch/disconnect':['POST'],
+  '/departures/api/admin/recognition/twitch/pilot/status':['GET'],
+  '/departures/api/admin/recognition/twitch/pilot/enroll':['POST'],
+  '/departures/api/admin/recognition/twitch/pilot/refresh':['POST'],
+  '/departures/api/admin/recognition/twitch/pilot/clear':['POST']
  };
  const allowed=methods[url.pathname];
  if(allowed?!allowed.includes(request.method):request.method!=='GET'&&request.method!=='HEAD')
@@ -72,14 +76,19 @@ export function routePortalRequest(request){
  // Restricted admin routes still pass through the Worker's existing
  // Authorization: Bearer ADMIN_TOKEN, revision CAS, and audit logging.
  // The unprefixed /api/admin/* remains inaccessible on this host.
- const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art'];
+ const publicAPI=['/api/public','/api/health','/api/public/twitch-box-art',
+  '/api/public/recognition'];
  const adminAPI=['/api/admin/snapshot','/api/admin/sync','/api/admin/publish','/api/admin/preview',
   '/api/admin/recognition/twitch/start','/api/admin/recognition/twitch/status',
   '/api/admin/recognition/twitch/refresh',
   '/api/admin/recognition/twitch/subscription-summary',
   '/api/admin/recognition/twitch/check-subscribers',
   '/api/admin/recognition/twitch/sync-status-cache',
-  '/api/admin/recognition/twitch/disconnect'];
+  '/api/admin/recognition/twitch/disconnect',
+  '/api/admin/recognition/twitch/pilot/status',
+  '/api/admin/recognition/twitch/pilot/enroll',
+  '/api/admin/recognition/twitch/pilot/refresh',
+  '/api/admin/recognition/twitch/pilot/clear'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};

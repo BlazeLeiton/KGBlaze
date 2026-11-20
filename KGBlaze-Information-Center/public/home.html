@@ -304,6 +304,10 @@ button.kg-support-method{width:100%;font:inherit;text-align:left;cursor:pointer;
 .kg-recognition-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
 .kg-recognition-copy strong{font-size:13px;font-weight:750;line-height:1.25;color:#FFFFFF}
 .kg-recognition-copy small{font-size:11px;font-weight:400;line-height:1.35;color:#D7E1FF;overflow-wrap:anywhere}
+.kg-recognition-members{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;align-items:center;margin-left:auto;min-width:0}
+.kg-recognition-members[hidden]{display:none!important}
+.kg-recognition-member{padding:4px 10px;border:1px solid #A5BEFF99;background:#1C2B74;border-radius:20px;font-size:11px;font-weight:650;color:#FFF;line-height:1.4;overflow-wrap:anywhere}
+@media(max-width:760px){.kg-recognition-strip{flex-wrap:wrap}.kg-recognition-copy{flex:1;min-width:0}.kg-recognition-members{margin-left:24px;justify-content:flex-start;width:calc(100% - 24px)}.kg-recognition-member{font-size:10px}}
 @media(min-width:1151px){.kg-recognition-strip{max-width:1660px}}
 @media(max-width:760px){.kg-recognition-strip{margin-top:12px;padding:9px 11px;gap:9px}.kg-recognition-glyph{flex-basis:19px}.kg-recognition-glyph svg{width:17px;height:17px}.kg-recognition-copy strong{font-size:12px}.kg-recognition-copy small{font-size:10px}}
 </style></head><body>
@@ -321,6 +325,7 @@ button.kg-support-method{width:100%;font:inherit;text-align:left;cursor:pointer;
 <div id="kg-recognition-strip" class="kg-recognition-strip">
 <span class="kg-recognition-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
 <div class="kg-recognition-copy"><strong data-i18n="recognitionTitle">Gracias a quienes hacen posible este viaje</strong><small data-i18n="recognitionSources">Miembros de YouTube · Suscriptores de Twitch · Apoyos recurrentes</small></div>
+<div id="kg-recognition-members" class="kg-recognition-members" aria-live="polite" hidden></div>
 </div></section>
 <div class="content"><div class="twotiles"><a class="tile blue kg-departure-banner" id="kg-departure-banner" href="/departures/" aria-label="Próximas salidas" data-banner-kind="loading">
  <span class="kg-departure-top"><span class="kg-departure-eyebrow"><span class="symbol departure-mark"><svg viewBox="0 0 100 100" aria-hidden="true" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(90 50 50)"><rect x="26" y="37.5" width="9" height="17.5" rx="4.5" fill="#FFFFFF"/><rect x="65" y="37.5" width="9" height="17.5" rx="4.5" fill="#FFFFFF"/><path d="M50 7 C54 7 56 17 56 27 L56 39 L90 57 Q92 59 92 62 L92 65 L56 55 L56 77 L66 86 L66 89 L50 84 L34 89 L34 86 L44 77 L44 55 L8 65 L8 62 Q8 59 10 57 L44 39 L44 27 C44 17 46 7 50 7 Z" fill="#FFFFFF"/></g></svg></span><span id="kg-departure-eyebrow">PRÓXIMAS SALIDAS</span></span><span class="kg-departure-status"><span class="kg-departure-light" id="kg-departure-light" aria-hidden="true" hidden></span><span id="kg-departure-status">SIN PROGRAMACIÓN</span></span></span>
@@ -491,6 +496,38 @@ function renderDepartureBanner(){
 }
 document.addEventListener('kgblaze:localechange',renderDepartureBanner);
 renderDepartureBanner();
+
+/* CP25: only two owner-attested Twitch supporters, verified through a
+   private provider check. No public roster, viewer auth or event messages.
+   The public API returns [] while the two independent pilot flags are OFF. */
+const recognizedMembers=document.getElementById('kg-recognition-members');
+let lastRecognitionPayload='';
+async function updateRecognitionMembers(){
+ let members=[];
+ try{
+  const response=await fetch('/departures/api/public/recognition',{
+   cache:'no-store',credentials:'omit'
+  });
+  if(!response.ok)throw Error('recognition unavailable');
+  const payload=await response.json();
+  if(payload&&Array.isArray(payload.twitch))members=payload.twitch.slice(0,2)
+   .filter(v=>typeof v?.displayName==='string'&&v.displayName.length>0&&
+    v.displayName.length<=48&&!/[<>\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/.test(v.displayName));
+ }catch{/* Fail closed: no names on a failed or stale verification feed. */}
+ const signature=JSON.stringify(members);
+ if(signature===lastRecognitionPayload)return;
+ lastRecognitionPayload=signature;
+ recognizedMembers.replaceChildren();
+ for(const entry of members){
+  const pill=document.createElement('span');
+  pill.className='kg-recognition-member';
+  pill.textContent='Twitch · '+entry.displayName;
+  recognizedMembers.append(pill);
+ }
+ recognizedMembers.hidden=!recognizedMembers.children.length;
+}
+updateRecognitionMembers();
+setInterval(()=>{if(!document.hidden)updateRecognitionMembers()},60000);
 
 updateFeatured();setInterval(()=>{if(!document.hidden)updateFeatured()},60000);
 </script></body></html>

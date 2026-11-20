@@ -120,8 +120,9 @@ verify(!/redirect\s*:\s*['"]error['"]/.test(oauth+'\n'+controller),
  'unsupported redirect:error breaks Cloudflare Workers Twitch outbound fetch');
 verify((oauth.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
  'Twitch token exchange and token validation must use manual redirect');
-verify((controller.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===1,
- 'Twitch token revocation must use manual redirect');
+verify((controller.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2&&
+ controller.includes("new URL('https://api.twitch.tv/helix/users')"),
+ 'Twitch token revocation AND private two-user identity lookup must reject redirects');
 verify(!/redirect\s*:\s*['"]error['"]/.test(twitchVerifier+'\n'+youtubeVerifier),
  'unmounted membership verifier still contains Cloudflare unsupported redirect:error');
 verify((twitchVerifier.match(/redirect\s*:\s*['"]manual['"]/g)||[]).length===2,
@@ -142,6 +143,15 @@ verify(/^\s*RECOGNITION_TWITCH_OAUTH_ENABLED\s*=\s*"true"\s*$/m.test(currentVars
  'CP05 must explicitly enable owner-only OAuth after verified D1/secret gates');
 verify(/^\s*RECOGNITION_TWITCH_STATUS_ENABLED\s*=\s*"true"\s*$/m.test(currentVars),
  'CP13 explicit admin-only read status flag missing in [vars]');
+verify(/^\s*RECOGNITION_TWITCH_PILOT_ENABLED\s*=\s*"false"\s*$/m.test(currentVars)&&
+ /^\s*RECOGNITION_TWITCH_PILOT_PUBLIC_ENABLED\s*=\s*"false"\s*$/m.test(currentVars),
+ 'the private/public two-consent pilot MUST deploy OFF until owner D1 and opt-in gates');
+verify(worker.includes("enroll-two-consented-twitch-members")&&
+ worker.includes("clear-consented-twitch-pilot"),
+ 'two-person consent attestation and emergency removal must remain admin protected');
+verify(!worker.includes("scheduledTwitchRecognitionSync")&&
+ !worker.includes("publicTwitchSubscriberRoster"),
+ 'global subscriber roster or uncapped public enumeration must remain unmounted');
 verify(!/^\s*(TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64|ADMIN_TOKEN)\s*=/m.test(wrangler),
  'a secret variable was committed to wrangler.toml');
 
