@@ -111,20 +111,45 @@ jobs:
           assert fan_callback == 404, 'Disabled Twitch fan callback unexpectedly public'
           fan_root, _ = fetch('/api/recognition/twitch/me')
           assert fan_root == 404, 'Unprefixed fan API alias must remain inaccessible'
-          # CP26 generalized Twitch recognition stays inert without owner
-          # migration/flags; no private names or anonymous writes.
+          # CP28 owner-authorized temporary trial: only display names plus
+          # an explicit trial marker. Never log usernames, IDs or raw payload.
+          # The source also expires trial projection automatically.
+          import datetime
           recognition_status, recognition_body = fetch('/departures/api/public/recognition')
           assert recognition_status == 200, 'Read-only recognition endpoint unavailable'
           recognition = json.loads(recognition_body)
-          assert recognition == {'ok': True, 'twitch': []}, (
-              'Recognition leaked member names before owner approval')
+          assert recognition.get('ok') is True, 'Recognition API failed'
+          members = recognition.get('twitch')
+          assert isinstance(members, list) and len(members) <= 3000, (
+              'Recognition response invalid or over server safety cap')
+          for member in members:
+              assert isinstance(member, dict) and set(member).issubset(
+                  {'displayName','trial'}), 'Recognition exposed private metadata'
+              assert isinstance(member.get('displayName'), str) and (
+                  1 <= len(member['displayName'] <= 48) if False else
+                  1 <= len(member['displayName']) <= 48), (
+                      'Recognition display name invalid')
+              assert member.get('trial', False) is True or 'trial' not in member, (
+                  'Trial marker has unexpected value')
+          cutoff = datetime.datetime.fromisoformat('2026-11-22T09:00:00+00:00')
+          now = datetime.datetime.now(datetime.timezone.utc)
+          if now < cutoff:
+              assert len(members) >= 1, (
+                  'An active verified trial should have eligible names')
+              assert all(m.get('trial') is True for m in members), (
+                  'An unasked member lacked a visible trial marker')
+          else:
+              assert all(m.get('trial') is not True for m in members), (
+                  'Unasked members remain publicly visible after cutoff')
+          print('PASS: Twitch trial is time-bounded and exposes only display names; count:',
+                len(members))
           private_status, _ = fetch('/departures/api/admin/recognition/twitch/members/status')
           assert private_status == 401, 'Membership admin status exposed anonymously'
           private_sync, _ = fetch('/departures/api/admin/recognition/twitch/members/sync', method='POST')
           assert private_sync == 401, 'Daily membership admin sync exposed anonymously'
           recognition_root, _ = fetch('/api/public/recognition')
           assert recognition_root == 404, 'Unprefixed public recognition alias must be blocked'
-          print('PASS: scalable membership recognition is OFF, private and empty')
+          print('PASS: membership administration remains private during the trial')
 
           print('PASS: voluntary Twitch member login/consent is still disabled and private')
           PY
