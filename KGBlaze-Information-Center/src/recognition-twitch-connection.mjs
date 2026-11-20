@@ -13,6 +13,7 @@ import {beginTwitchOwnerOAuth,completeTwitchOwnerOAuth,
  hashTwitchOwnerOAuthState,refreshTwitchOwnerOAuth} from './recognition-twitch-oauth.mjs';
 import {readTwitchActiveSubscriptionStatus} from './recognition-twitch-active-status.mjs';
 import {readTwitchPrivateRosterSnapshot} from './recognition-twitch-roster-snapshot.mjs';
+import {discoverTwitchRecognitionCandidates,MAX_TWITCH_TRACKED_MEMBERS} from './recognition-twitch-discovery.mjs';
 import {getPrivateTwitchCacheMeta,commitPrivateTwitchActiveRoster} from './recognition-twitch-active-cache.mjs';
 
 const fail=reason=>({ok:false,reason});
@@ -341,6 +342,95 @@ export async function readStoredTwitchSubscriptionStatus(env,{
  }catch{return fail('status_unavailable');}
 }
 
+
+/**
+ * CP26 internal ONLY: owner-authenticated Twitch read with two steps:
+ * (1) non-destructive bounded discovery, disregarding contradictory total;
+ * (2) filtered user_id verification for every observed or stored ID.
+ *
+ * This returns private identities to the D1 writer ONLY. Never mount as HTTP.
+ */
+export async function readStoredTwitchRecognitionEvidence(env,{
+ knownIds=[],now=Date.now,fetchImpl=fetch
+}={}){
+ if(!ready(env)||env.RECOGNITION_TWITCH_STATUS_ENABLED!=='true')
+  return fail('status_feature_disabled');
+ if(!Array.isArray(knownIds)||knownIds.length>MAX_TWITCH_TRACKED_MEMBERS||
+    knownIds.some(id=>typeof id!=='string'||!/^[0-9]{1,24}$/.test(id))||
+    new Set(knownIds).size!==knownIds.length)
+  return fail('invalid_known_ids');
+ const key=await encryptionKey(env);
+ if(!key)return fail('missing_encryption_key');
+ const current=now(),owner=env.TWITCH_RECOGNITION_BROADCASTER_ID;
+ if(!Number.isSafeInteger(current)||current<1||
+    typeof owner!=='string'||!/^[0-9]{1,24}$/.test(owner))
+  return fail('not_configured');
+ const readRow=()=>env.DB.prepare(
+  'SELECT owner_id,access_ciphertext,access_nonce,expires_at_ms '+
+  'FROM recognition_twitch_oauth_credentials WHERE slot=1'
+ ).first();
+ try{
+  let row=await readRow();
+  if(!row||row.owner_id!==owner)return fail('connection_missing');
+  if(!Number.isFinite(row.expires_at_ms)||row.expires_at_ms<=current+60000){
+   const rotated=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+   if(!rotated.ok)return fail('token_refresh_unavailable');
+   row=await readRow();
+   if(!row||row.owner_id!==owner)return fail('connection_missing');
+  }
+  for(let attempt=0;attempt<2;attempt++){
+   const token=await decryptToken(key,row.access_ciphertext,row.access_nonce,
+    owner,'access');
+   const scan=await discoverTwitchRecognitionCandidates({
+    accessToken:token,clientId:env.TWITCH_CLIENT_ID,broadcasterId:owner,
+    fetchImpl
+   });
+   if(scan.reason==='token_unauthorized'&&attempt===0){
+    const rotated=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+    if(!rotated.ok)return fail('token_refresh_unavailable');
+    row=await readRow();
+    if(!row||row.owner_id!==owner)return fail('connection_missing');
+    continue;
+   }
+   if(!scan.ok)return fail(scan.reason);
+   const candidateById=new Map(scan.candidates.map(x=>[x.userId,x]));
+   const ids=[...new Set([...knownIds,...candidateById.keys()])];
+   if(ids.length>MAX_TWITCH_TRACKED_MEMBERS)
+    return fail('capacity_requires_pagination_upgrade');
+   const observations=[];
+   let needsRefresh=false;
+   for(let index=0;index<ids.length;index+=100){
+    const batch=ids.slice(index,index+100);
+    const checked=await readTwitchActiveSubscriptionStatus({
+     accessToken:token,clientId:env.TWITCH_CLIENT_ID,broadcasterId:owner,
+     mode:'targeted',userIds:batch,fetchImpl
+    });
+    if(checked.reason==='token_unauthorized'&&attempt===0){
+     needsRefresh=true;break;
+    }
+    if(!checked.ok)return fail(checked.reason);
+    if(!Array.isArray(checked.checks)||checked.checks.length!==batch.length)
+     return fail('invalid_filtered_response');
+    for(const item of checked.checks){
+     if(!batch.includes(item.userId)||typeof item.active!=='boolean')
+      return fail('invalid_filtered_response');
+     observations.push({...candidateById.get(item.userId),
+      userId:item.userId,active:item.active});
+    }
+   }
+   if(needsRefresh){
+    const rotated=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+    if(!rotated.ok)return fail('token_refresh_unavailable');
+    row=await readRow();
+    if(!row||row.owner_id!==owner)return fail('connection_missing');
+    continue;
+   }
+   return {ok:true,private:true,partial:scan.partial,
+    observations,discovered:scan.candidates.length};
+  }
+  return fail('token_unauthorized');
+ }catch{return fail('recognition_read_unavailable');}
+}
 
 /**
  * Stage43 CP25 — owner-only resolution of two already-consenting Twitch
