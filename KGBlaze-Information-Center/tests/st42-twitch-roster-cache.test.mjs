@@ -126,8 +126,14 @@ function fakeD1(){
     if(q.sql.startsWith('DELETE FROM recognition_twitch_active_subscribers'))rows.clear();
     else if(q.sql.startsWith('INSERT INTO recognition_twitch_active_subscribers'))
      rows.set(q.args[0],{id:q.args[0],name:q.args[1],observedAt:q.args[2]});
-    else if(q.sql.startsWith('INSERT INTO recognition_twitch_active_status_meta'))
-     meta={lastCompletedAtMs:q.args[0],activeTotal:q.args[1],snapshotVersion:q.args[2]};
+    else if(q.sql.startsWith('INSERT INTO recognition_twitch_active_status_meta')){
+     // SQLite CHECK(last_completed_at_ms > 0) must abort the ENTIRE batch
+     // if a stale second Worker commits after a newer snapshot.
+     if(meta && q.args[0]<=meta.lastCompletedAtMs)
+      throw Error('CHECK constraint failed');
+     meta={lastCompletedAtMs:q.args[0],activeTotal:q.args[1],
+      snapshotVersion:meta?meta.snapshotVersion+1:1};
+    }
     else throw Error('Unapproved D1 statement');
    }
    state.rows=rows;state.meta=meta;
@@ -148,6 +154,8 @@ test('CP15 cache replaces active IDs atomically and removes ended subscribers',a
  assert.equal(state.rows.size,2);
  const sql=state.calls[0].map(q=>q.sql);
  assert.match(sql[0],/^INSERT INTO recognition_twitch_active_status_meta/);
+ assert.match(sql[0],/ELSE -1 END/);
+ assert.match(sql[0],/snapshot_version=recognition_twitch_active_status_meta.snapshot_version\+1/);
  assert.match(sql[1],/^DELETE FROM recognition_twitch_active_subscribers/);
  assert.match(sql[2],/^INSERT INTO recognition_twitch_active_subscribers/);
  assert.equal(state.rows.get('111').name,'FirstUser');
@@ -231,4 +239,36 @@ test('CP15 migration schema links active rows to owner OAuth with delete cascade
  assert.match(sql,/REFERENCES recognition_twitch_active_status_meta\(slot\) ON DELETE CASCADE/);
  assert.ok(sql.indexOf('CREATE TABLE IF NOT EXISTS recognition_twitch_active_status_meta')<
   sql.indexOf('CREATE TABLE IF NOT EXISTS recognition_twitch_active_subscribers'));
+});
+
+
+test('CP16 competing stale snapshot fails D1 CHECK-CAS and leaves newer identities untouched',async()=>{
+ const {env,DB,state}=fakeD1();
+ await commit(env,snapshot([['111','OlderUser']]),{nowMs:1000});
+ const initialBatch=DB.batch.bind(DB);
+ DB.batch=async statements=>{
+  // Simulate a different Worker winning AFTER the first pre-read.
+  state.rows=new Map([['222',{id:'222',name:'LatestUser',observedAt:3000}]]);
+  state.meta={lastCompletedAtMs:3000,activeTotal:1,snapshotVersion:2};
+  return initialBatch(statements);
+ };
+ const result=await commit(env,snapshot([]),{nowMs:2000});
+ assert.equal(result.ok,false);
+ assert.equal(result.reason,'private_cache_write_unavailable');
+ assert.equal(state.rows.get('222').name,'LatestUser');
+ assert.equal(state.rows.size,1);
+ assert.equal(state.meta.lastCompletedAtMs,3000);
+ assert.equal(state.meta.snapshotVersion,2);
+});
+
+test('CP16 no sync can move timestamp backwards even if a caller provides stale metadata',async()=>{
+ const {env,state}=fakeD1();
+ await commit(env,snapshot([['111','FirstUser']]),{nowMs:4000});
+ const forgedMeta={ok:true,initialized:true,lastCompletedAtMs:1000,
+  activeTotal:0,snapshotVersion:1};
+ const result=await commit(env,snapshot([]),{nowMs:3000,previousMeta:forgedMeta});
+ assert.equal(result.ok,false);
+ assert.equal(result.reason,'private_cache_write_unavailable');
+ assert.equal(state.rows.has('111'),true);
+ assert.equal(state.meta.lastCompletedAtMs,4000);
 });
