@@ -183,6 +183,91 @@ test('Stage 43 CP19 refuses D1 replacement even if the read-only provider recoun
  assert.equal(state.meta.snapshotVersion,1);
 });
 
+test('Stage 43 CP20 verifies sampled subscribers independently of a contradictory total',async()=>{
+ const mock=provider([
+  page([row('111'),row('222')],1,'cursor-ignored'),
+  page([row('111')],1),
+  {body:{data:[row('111'),row('222')]}}
+ ]);
+ const result=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.deepEqual(result,{ok:false,reason:'provider_total_below_observed',
+  phase:'first_page',totalRecheck:'still_below',targetedCheck:'all_confirmed'});
+ assert.equal(mock.calls,3,'First page + recount + one filtered check only');
+ assert.equal(mock.requests[0].url.searchParams.get('first'),'100');
+ assert.equal(mock.requests[1].url.searchParams.get('first'),'1');
+ assert.deepEqual(mock.requests[2].url.searchParams.getAll('user_id'),['111','222']);
+ assert.equal(mock.requests[2].url.searchParams.has('first'),false);
+ assert.equal(mock.requests[2].url.searchParams.has('after'),false);
+ assert.equal(mock.requests[2].init.redirect,'manual');
+ assert.equal(mock.requests[2].init.headers.Authorization,'Bearer NEVER_LOG_OWNER_ACCESS');
+ const serialized=JSON.stringify(result);
+ for(const privateValue of ['Subscriber_111','Subscriber_222','NEVER_LOG_OWNER_ACCESS','111','222'])
+  assert.equal(serialized.includes(privateValue),false);
+ assert.equal('subscribers' in result,false);
+});
+
+test('Stage 43 CP20 filtered positives never mean the roster is complete',async()=>{
+ const responses=[
+  [{data:[row('111')]},'some_confirmed'],
+  [{data:[]},'none_confirmed'],
+  [{data:[row('999')]},'inconsistent'],
+  [{data:[row('111'),row('111')]},'inconsistent'],
+  [{data:[row('111')],pagination:{}},'inconsistent'],
+  [{data:[row('111')],total:1},'inconsistent']
+ ];
+ for(const [body,expected] of responses){
+  const mock=provider([
+   page([row('111'),row('222')],1),
+   page([row('111')],1),
+   {body}
+  ]);
+  const result=await read({...config,fetchImpl:mock.fetchImpl});
+  assert.equal(result.ok,false);
+  assert.equal(result.reason,'provider_total_below_observed');
+  assert.equal(result.phase,'first_page');
+  assert.equal(result.totalRecheck,'still_below');
+  assert.equal(result.targetedCheck,expected);
+  assert.equal('subscribers' in result,false);
+  assert.equal(mock.calls,3);
+ }
+});
+
+test('Stage 43 CP20 failed targeted query never authorizes private cache replacement',async()=>{
+ const {env,state}=fakeD1();
+ await commit(env,snapshot([['111','PreviouslyVerified']]),{nowMs:1000});
+ const before=state.calls.length;
+ const mock=provider([
+  page([row('111'),row('222')],1),
+  page([row('111')],1),
+  {status:429}
+ ]);
+ const failed=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.deepEqual(failed,{ok:false,reason:'provider_total_below_observed',
+  phase:'first_page',totalRecheck:'still_below',targetedCheck:'unavailable'});
+ assert.equal((await commit(env,failed,{nowMs:2000})).reason,'incomplete_or_invalid_roster');
+ assert.equal(state.calls.length,before);
+ assert.equal(state.rows.size,1);
+ assert.equal(state.rows.get('111').name,'PreviouslyVerified');
+ assert.equal(state.meta.snapshotVersion,1);
+});
+
+test('Stage 43 CP20 successful sampled check also leaves the D1 full cache unchanged',async()=>{
+ const {env,state}=fakeD1();
+ await commit(env,snapshot([['111','PreviouslyVerified']]),{nowMs:1000});
+ const before=state.calls.length;
+ const mock=provider([
+  page([row('111'),row('222')],1),
+  page([row('111')],1),
+  {body:{data:[row('111'),row('222')]}}
+ ]);
+ const failed=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.equal(failed.targetedCheck,'all_confirmed');
+ assert.equal((await commit(env,failed,{nowMs:2000})).reason,'incomplete_or_invalid_roster');
+ assert.equal(state.calls.length,before);
+ assert.equal(state.rows.size,1);
+ assert.equal(state.meta.snapshotVersion,1);
+});
+
 test('CP18 missing count does not authorize deleting a previously successful cache',async()=>{
  const {env,state}=fakeD1();
  const previous=await commit(env,snapshot([['111','PreviouslyVerified']]),{nowMs:1000});
