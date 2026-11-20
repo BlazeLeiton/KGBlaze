@@ -8,6 +8,7 @@ import {handleTwitchFanRoute,FAN_REDIRECT_URI} from '../src/recognition-twitch-f
 
 const ROOT='https://kgblaze.dpdns.org';
 const NOW=1795090000000;
+const FRESH_TEST_MS=15*60*1000;
 const KEY=Buffer.alloc(32,0x58);
 const B64=KEY.toString('base64');
 const ownerMigration=readFileSync(
@@ -140,10 +141,10 @@ const requestConsent=async(env,session,csrf,verify)=>{
  });
  return {status:r.status,body:await r.json()};
 };
-const verify=async(env,session,csrf,fetchImpl)=>{
+const verify=async(env,session,csrf,fetchImpl,at=NOW+2000)=>{
  const r=await fan('/api/recognition/twitch/verify',env,{
   method:'POST',headers:{Origin:ROOT,'X-Relight-Fan-Csrf':csrf,...myCookie(session)}
- },{fetchImpl});
+ },{fetchImpl,now:()=>at});
  return {status:r.status,body:await r.json()};
 };
 
@@ -271,12 +272,52 @@ test('CP22 explicit filtered absence means inactive; 429 means unknown without d
   const old=DB.sqlite.prepare(
    'SELECT last_status,last_checked_at_ms FROM recognition_twitch_fan_consents').get();
   const failed=await verify(env,session,me.csrfToken,async()=>
-   ({ok:false,status:429}));
+   ({ok:false,status:429}),NOW+FRESH_TEST_MS+3000);
   assert.equal(failed.status,503);
   assert.equal(failed.body.subscriptionStatus,'unknown');
   const current=DB.sqlite.prepare(
    'SELECT last_status,last_checked_at_ms FROM recognition_twitch_fan_consents').get();
   assert.deepEqual(current,old);
+ }finally{DB.close();}
+});
+
+test('CP22 parallel verification is serialized and its fresh result is cached',async()=>{
+ const {env,DB}=await setup();
+ try{
+  const {session}=await login(env);
+  const me=await myStatus(env,session);
+  await requestConsent(env,session,me.csrfToken,true);
+  let release;
+  let started=false;
+  const gate=new Promise(resolve=>{release=resolve;});
+  const slow=verify(env,session,me.csrfToken,async()=>{
+   started=true;
+   await gate;
+   return {ok:true,status:200,json:async()=>({data:[{
+    broadcaster_id:'70386764',user_id:'111',is_gift:false,tier:'1000'
+   }]})};
+  });
+  for(let i=0;i<100&&!started;i++)
+   await new Promise(resolve=>setTimeout(resolve,1));
+  assert.equal(started,true);
+  const concurrent=await verify(env,session,me.csrfToken,async()=>{
+   throw Error('Rate limit bypass');
+  });
+  assert.equal(concurrent.status,429);
+  assert.equal(concurrent.body.error,'VERIFICATION_BUSY_OR_CHANGED');
+  release();
+  const first=await slow;
+  assert.equal(first.status,200);
+  assert.equal(first.body.subscriptionStatus,'active');
+  const repeated=await verify(env,session,me.csrfToken,async()=>{
+   throw Error('Recent cached result must not call Twitch');
+  });
+  assert.equal(repeated.status,200);
+  assert.equal(repeated.body.cached,true);
+  assert.equal(repeated.body.subscriptionStatus,'active');
+  assert.equal(DB.sqlite.prepare(
+   'SELECT check_lock_until_ms FROM recognition_twitch_fan_consents').get()
+    .check_lock_until_ms,null);
  }finally{DB.close();}
 });
 
