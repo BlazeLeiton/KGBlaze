@@ -8,7 +8,9 @@
  * Repeated cursor before complete coverage must FAIL CLOSED. Twitch docs
  * also note that some removed accounts may be omitted from data even when
  * included in total; never silently mark those accounts inactive from an
- * incomplete snapshot. No raw row, token or alias appears in failure reasons.
+ * incomplete snapshot. A reported total can differ from visible rows;
+ * never silently delete cached accounts on such a mismatch. Static reasons
+ * reveal only the validation branch, not provider counts/rows/names/tokens.
  */
 const ID=/^[0-9]{1,24}$/;
 const INVALID_NAME=/[\u0000-\u001f\u007f\u200e\u200f\u202a-\u202e\u2066-\u2069<>]/u;
@@ -61,8 +63,16 @@ export async function readTwitchPrivateRosterSnapshot({
   }catch{return fail('provider_unavailable');}
   if(!body||!Array.isArray(body.data)||body.data.length>100)
    return fail('invalid_response_shape');
-  if(!Number.isSafeInteger(body.total)||body.total<0)
-   return fail('invalid_response_total');
+  // Twitch total is omitted ONLY for filtered user_id queries. This
+  // unfiltered roster request must distinguish a missing provider count
+  // from an invalid type and a discrepancy against observed active IDs.
+  // Never coerce string values or emit raw records/provider JSON.
+  if(!Object.prototype.hasOwnProperty.call(body,'total')||body.total===null)
+   return fail('provider_total_missing');
+  if(!Number.isSafeInteger(body.total))
+   return fail('provider_total_not_integer');
+  if(body.total<0)
+   return fail('provider_total_negative');
   if(expectedTotal===null){
    expectedTotal=body.total;
    if(expectedTotal>maxMembers)return fail('roster_above_safe_cap');
@@ -83,7 +93,9 @@ export async function readTwitchPrivateRosterSnapshot({
    if(!existing)records.set(row.user_id,{
     userId:row.user_id,displayName
    });
-   if(records.size>expectedTotal)return fail('invalid_response_total');
+   // A valid Twitch row proves that user is present, but a contradictory
+   // total is not enough to authorize replacing a private status cache.
+   if(records.size>expectedTotal)return fail('provider_total_below_observed');
   }
   // Twitch can still return a cursor on this last, complete page.
   if(records.size===expectedTotal){
