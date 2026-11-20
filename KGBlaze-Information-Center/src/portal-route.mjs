@@ -28,6 +28,7 @@ export function routePortalRequest(request){
   '/departures/api/admin/recognition/twitch/refresh':['POST'],
   '/departures/api/admin/recognition/twitch/subscription-summary':['GET'],
   '/departures/api/admin/recognition/twitch/check-subscribers':['POST'],
+  '/departures/api/admin/recognition/twitch/sync-status-cache':['POST'],
   '/departures/api/admin/recognition/twitch/disconnect':['POST']
  };
  const allowed=methods[url.pathname];
@@ -72,6 +73,7 @@ export function routePortalRequest(request){
   '/api/admin/recognition/twitch/refresh',
   '/api/admin/recognition/twitch/subscription-summary',
   '/api/admin/recognition/twitch/check-subscribers',
+  '/api/admin/recognition/twitch/sync-status-cache',
   '/api/admin/recognition/twitch/disconnect'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
