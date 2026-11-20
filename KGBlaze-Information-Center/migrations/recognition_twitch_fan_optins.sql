@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS recognition_twitch_fan_consents (
  consented_at_ms INTEGER NOT NULL CHECK(consented_at_ms>0),
  last_status TEXT NOT NULL DEFAULT 'unknown'
   CHECK(last_status IN ('unknown','active','inactive')),
- last_checked_at_ms INTEGER CHECK(last_checked_at_ms IS NULL OR last_checked_at_ms>0)
+ last_checked_at_ms INTEGER CHECK(last_checked_at_ms IS NULL OR last_checked_at_ms>0),
+ check_lock_until_ms INTEGER CHECK(check_lock_until_ms IS NULL OR check_lock_until_ms>0)
 );
 
 -- No subscriber names, fan OAuth tokens, tiers, gifter IDs, emails, URLs,
