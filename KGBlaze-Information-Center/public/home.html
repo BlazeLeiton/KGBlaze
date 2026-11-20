@@ -304,7 +304,7 @@ button.kg-support-method{width:100%;font:inherit;text-align:left;cursor:pointer;
 .kg-recognition-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
 .kg-recognition-copy strong{font-size:13px;font-weight:750;line-height:1.25;color:#FFFFFF}
 .kg-recognition-copy small{font-size:11px;font-weight:400;line-height:1.35;color:#D7E1FF;overflow-wrap:anywhere}
-.kg-recognition-members{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;align-items:center;margin-left:auto;min-width:0}
+.kg-recognition-members{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;align-items:center;margin-left:auto;min-width:0;max-height:132px;overflow:auto;scrollbar-width:thin}
 .kg-recognition-members[hidden]{display:none!important}
 .kg-recognition-member{padding:4px 10px;border:1px solid #A5BEFF99;background:#1C2B74;border-radius:20px;font-size:11px;font-weight:650;color:#FFF;line-height:1.4;overflow-wrap:anywhere}
 @media(max-width:760px){.kg-recognition-strip{flex-wrap:wrap}.kg-recognition-copy{flex:1;min-width:0}.kg-recognition-members{margin-left:24px;justify-content:flex-start;width:calc(100% - 24px)}.kg-recognition-member{font-size:10px}}
@@ -497,11 +497,33 @@ function renderDepartureBanner(){
 document.addEventListener('kgblaze:localechange',renderDepartureBanner);
 renderDepartureBanner();
 
-/* CP25: only two owner-attested Twitch supporters, verified through a
-   private provider check. No public roster, viewer auth or event messages.
-   The public API returns [] while the two independent pilot flags are OFF. */
+/* CP26: names come ONLY from the server's creator-OAuth filtered checks.
+   A public display requires its own flag. Trial names are tagged as such:
+   never claim that an unasked subscriber authorized publication. */
 const recognizedMembers=document.getElementById('kg-recognition-members');
-let lastRecognitionPayload='';
+let lastRecognitionPayload='',recognitionEntries=[];
+const recognitionLabels={
+ es:'Prueba',en:'Trial',ja:'テスト'
+};
+function renderRecognitionMembers(){
+ const language=document.documentElement.lang;
+ const signature=JSON.stringify([language,recognitionEntries]);
+ if(signature===lastRecognitionPayload)return;
+ lastRecognitionPayload=signature;
+ recognizedMembers.replaceChildren();
+ for(const entry of recognitionEntries){
+  if(!entry||typeof entry.displayName!=='string'||
+     entry.displayName.length<1||entry.displayName.length>48||
+     /[<>\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/.test(entry.displayName))
+   continue;
+  const pill=document.createElement('span');
+  pill.className='kg-recognition-member';
+  pill.textContent='Twitch · '+entry.displayName+
+   (entry.trial===true?' · '+(recognitionLabels[language]||recognitionLabels.es):'');
+  recognizedMembers.append(pill);
+ }
+ recognizedMembers.hidden=!recognizedMembers.children.length;
+}
 async function updateRecognitionMembers(){
  let members=[];
  try{
@@ -510,22 +532,13 @@ async function updateRecognitionMembers(){
   });
   if(!response.ok)throw Error('recognition unavailable');
   const payload=await response.json();
-  if(payload&&Array.isArray(payload.twitch))members=payload.twitch.slice(0,2)
-   .filter(v=>typeof v?.displayName==='string'&&v.displayName.length>0&&
-    v.displayName.length<=48&&!/[<>\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/.test(v.displayName));
- }catch{/* Fail closed: no names on a failed or stale verification feed. */}
- const signature=JSON.stringify(members);
- if(signature===lastRecognitionPayload)return;
- lastRecognitionPayload=signature;
- recognizedMembers.replaceChildren();
- for(const entry of members){
-  const pill=document.createElement('span');
-  pill.className='kg-recognition-member';
-  pill.textContent='Twitch · '+entry.displayName;
-  recognizedMembers.append(pill);
- }
- recognizedMembers.hidden=!recognizedMembers.children.length;
+  if(payload&&Array.isArray(payload.twitch))
+   members=payload.twitch.slice(0,3000);
+ }catch{/* Failure does not display unverified or stale memberships. */}
+ recognitionEntries=members;
+ renderRecognitionMembers();
 }
+document.addEventListener('kgblaze:localechange',renderRecognitionMembers);
 updateRecognitionMembers();
 setInterval(()=>{if(!document.hidden)updateRecognitionMembers()},60000);
 
