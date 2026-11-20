@@ -511,3 +511,56 @@ test('CP03 Worker confirmed disconnect never exposes tokens, refresh or private 
   assert.equal(remote,1);
  }finally{globalThis.fetch=originalFetch;}
 });
+
+
+test('CP06 OAuth callback shows safe one-time-state diagnostic without reflecting secrets',async()=>{
+ const {env}=setup();
+ await startTwitchOwnerConnection(env,{randomBytes:random});
+ const response=await worker.fetch(new Request(
+  REDIRECT+'?state='+('44'.repeat(32))+'&code=abcDEF123'),env);
+ assert.equal(response.status,400);
+ const text=await response.text();
+ assert.match(text,/TW-01/);
+ assert.ok(!text.includes('abcDEF123'));
+ assert.ok(!text.includes('44'.repeat(32)));
+ assert.equal(response.headers.get('Cache-Control'),'no-store');
+ assert.equal(response.headers.get('Referrer-Policy'),'no-referrer');
+});
+
+test('CP06 OAuth callback distinguishes denial and owner mismatch without exposing provider identity',async()=>{
+ const scenarios=[
+  {expected:'TW-02',error:'access_denied'},
+  {expected:'TW-07',fetchImpl:provider({owner:'WRONG_PRIVATE_OWNER'}).fetchImpl}
+ ];
+ for(const scenario of scenarios){
+  const {env}=setup();
+  await startTwitchOwnerConnection(env,{randomBytes:random});
+  const oldFetch=globalThis.fetch;
+  try{
+   if(scenario.fetchImpl)globalThis.fetch=scenario.fetchImpl;
+   const request=REDIRECT+'?state='+STATE+(scenario.error?'&error='+scenario.error:'&code=abcDEF123');
+   const response=await worker.fetch(new Request(request),env);
+   assert.equal(response.status,400);
+   const body=await response.text();
+   assert.match(body,new RegExp(scenario.expected));
+   for(const sensitive of ['WRONG_PRIVATE_OWNER','ACCESS_SENSITIVE','REFRESH_SENSITIVE',
+       STATE,'abcDEF123'])
+    assert.equal(body.includes(sensitive),false);
+  }finally{globalThis.fetch=oldFetch;}
+ }
+});
+
+test('CP06 OAuth callback distinguishes rejected provider token exchange without echoing Twitch response',async()=>{
+ const {env}=setup();
+ await startTwitchOwnerConnection(env,{randomBytes:random});
+ const previous=globalThis.fetch;
+ try{
+  globalThis.fetch=async()=>({ok:false,status:400,
+   json:async()=>({message:'PRIVATE_CLIENT_SECRET_IS_BAD'})});
+  const response=await worker.fetch(new Request(REDIRECT+'?state='+STATE+'&code=abcDEF123'),env);
+  assert.equal(response.status,400);
+  const text=await response.text();
+  assert.match(text,/TW-03/);
+  assert.equal(text.includes('PRIVATE_CLIENT_SECRET_IS_BAD'),false);
+ }finally{globalThis.fetch=previous;}
+});

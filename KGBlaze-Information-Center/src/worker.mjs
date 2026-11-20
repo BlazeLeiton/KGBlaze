@@ -88,9 +88,31 @@ async function handler(req,env){
    'X-Content-Type-Options':'nosniff',
    'Content-Security-Policy':"default-src 'none'; base-uri 'none'; frame-ancestors 'none'"
   };
+  // Static, non-sensitive incident classes only: never echo code, state,
+  // token, Twitch provider body, channel ID or any secret. The raw URL is
+  // deliberately NOT logged or reflected back into the response.
+  const failureCodes={
+   invalid_or_expired_state:'TW-01',
+   authorization_not_granted:'TW-02',
+   provider_token_exchange_rejected:'TW-03',
+   provider_token_response_invalid:'TW-04',
+   provider_token_validation_failed:'TW-05',
+   provider_client_mismatch:'TW-06',
+   provider_owner_mismatch:'TW-07',
+   provider_scope_missing:'TW-08',
+   provider_token_expired:'TW-09',
+   provider_request_unavailable:'TW-10',
+   authorization_unavailable:'TW-11',
+   private_storage_unavailable:'TW-12',
+   missing_encryption_key:'TW-13',
+   disabled_or_not_configured:'TW-14',
+   invalid_provider_expiry:'TW-15'
+  };
+  const incident=failureCodes[result.reason]||'TW-99';
   return new Response(result.ok?
    'Autorización de Twitch guardada de forma privada. Puedes cerrar esta pestaña.':
-   'No se completó la autorización privada de Twitch. Vuelve al panel de administración.',
+   'No se completó la autorización privada de Twitch. Código: '+incident+
+   '. Vuelve al panel de administración. No compartas el enlace OAuth.',
    {status:result.ok?200:400,headers:safe});
  }
  if(!env.DB&&['/api/public','/agenda_publica.json'].includes(path))return err(503,'DATABASE_NOT_CONFIGURED');
