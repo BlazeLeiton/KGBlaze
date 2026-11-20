@@ -12,6 +12,8 @@
 import {beginTwitchOwnerOAuth,completeTwitchOwnerOAuth,
  hashTwitchOwnerOAuthState,refreshTwitchOwnerOAuth} from './recognition-twitch-oauth.mjs';
 import {readTwitchActiveSubscriptionStatus} from './recognition-twitch-active-status.mjs';
+import {readTwitchPrivateRosterSnapshot} from './recognition-twitch-roster-snapshot.mjs';
+import {getPrivateTwitchCacheMeta,commitPrivateTwitchActiveRoster} from './recognition-twitch-active-cache.mjs';
 
 const fail=reason=>({ok:false,reason});
 const ENC_SECRET='RECOGNITION_TWITCH_TOKEN_KEY_B64';
@@ -337,4 +339,73 @@ export async function readStoredTwitchSubscriptionStatus(env,{
   }
   return fail('token_unauthorized');
  }catch{return fail('status_unavailable');}
+}
+
+
+/**
+ * CP15: INACTIVE private on-demand active roster sync. Requires D1 migration,
+ * independent feature flag and a confirmed owner admin request.
+ * Does not return subscriber names/IDs, and never wipes cache when Twitch
+ * cannot supply a COMPLETE snapshot.
+ *
+ * Scheduled Cron is NOT attached here. 30-minute gate controls manual retries
+ * until a reviewed CAS sync lock is implemented for distributed scheduling.
+ */
+export async function syncStoredTwitchActiveSubscribers(env,{
+ now=Date.now,fetchImpl=fetch
+}={}){
+ if(!ready(env)||env.RECOGNITION_TWITCH_CACHE_ENABLED!=='true')
+  return fail('cache_feature_disabled');
+ const key=await encryptionKey(env);
+ if(!key)return fail('missing_encryption_key');
+ const current=now();
+ const owner=env.TWITCH_RECOGNITION_BROADCASTER_ID;
+ if(!Number.isSafeInteger(current)||current<1||
+    typeof owner!=='string'||!/^[0-9]{1,24}$/.test(owner))
+  return fail('not_configured');
+ const meta=await getPrivateTwitchCacheMeta(env);
+ if(!meta.ok)return fail(meta.reason);
+ if(meta.initialized&&current-meta.lastCompletedAtMs<30*60*1000){
+  if(current<=meta.lastCompletedAtMs)return fail('invalid_time');
+  return {ok:true,refreshed:false,activeTotal:meta.activeTotal,
+   lastCompletedAt:new Date(meta.lastCompletedAtMs).toISOString()};
+ }
+ const readRow=async()=>env.DB.prepare(
+  'SELECT owner_id,access_ciphertext,access_nonce,expires_at_ms '+
+  'FROM recognition_twitch_oauth_credentials WHERE slot=1'
+ ).first();
+ try{
+  let row=await readRow();
+  if(!row)return fail('connection_missing');
+  if(row.owner_id!==owner)return fail('owner_mismatch');
+  if(!Number.isFinite(row.expires_at_ms)||row.expires_at_ms<=current+60_000){
+   const refreshed=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+   if(!refreshed.ok)return fail('token_refresh_unavailable');
+   row=await readRow();
+   if(!row||row.owner_id!==owner)return fail('connection_missing');
+  }
+  for(let attempt=0;attempt<2;attempt++){
+   const access=await decryptToken(key,row.access_ciphertext,row.access_nonce,owner,'access');
+   const snapshot=await readTwitchPrivateRosterSnapshot({
+    accessToken:access,clientId:env.TWITCH_CLIENT_ID,
+    broadcasterId:owner,fetchImpl
+   });
+   if(snapshot.reason==='token_unauthorized'&&attempt===0){
+    const refreshed=await refreshStoredTwitchOwnerConnection(env,{now,fetchImpl});
+    if(!refreshed.ok)return fail('token_refresh_unavailable');
+    row=await readRow();
+    if(!row||row.owner_id!==owner)return fail('connection_missing');
+    continue;
+   }
+   if(!snapshot.ok)return fail(snapshot.reason);
+   const saved=await commitPrivateTwitchActiveRoster(env,snapshot,{
+    nowMs:current,previousMeta:meta
+   });
+   if(!saved.ok)return fail(saved.reason);
+   return {ok:true,refreshed:true,activeTotal:saved.activeTotal,
+    snapshotVersion:saved.snapshotVersion,
+    lastCompletedAt:new Date(current).toISOString()};
+  }
+  return fail('token_unauthorized');
+ }catch{return fail('private_sync_unavailable');}
 }
