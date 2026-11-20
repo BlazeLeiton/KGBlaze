@@ -677,12 +677,9 @@ function render(){
   $('prevPage').disabled=state.page===0;$('nextPage').disabled=state.page===pages-1;
   $('eventList').replaceChildren();
   if(!events.length){const p=document.createElement('p');p.className='help';p.textContent='Todavía no hay vuelos en esta semana. Puedes añadir uno manualmente.';$('eventList').append(p);}
-  const currentlySelectedWeek=state.week;
-  const localNow=zoneFields(Date.now());
-  state.week=monday(String(localNow.year)+'-'+String(localNow.month).padStart(2,'0')+'-'+String(localNow.day).padStart(2,'0'));
-  const railEvents=inWeek();
-  state.week=currentlySelectedWeek;
-  for(const e of railEvents){
+  // The editor rail must show the same selected week as the board and week picker.
+  // Never switch to today's week: future/past manual events must stay editable here.
+  for(const e of events){
     const div=document.createElement('div');div.className='event';
     const isPlaceholder=e.origin==='hiatus';const isLocked=eventLocked(e);
     const img=e.platforms.map(k=>`<img src="${LOGOS[k]}" alt="${tagName(k)}" title="${tagName(k)}">`).join('');
