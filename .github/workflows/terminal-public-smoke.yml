@@ -99,4 +99,17 @@ jobs:
           root_cache_status, _ = fetch('/api/admin/recognition/twitch/sync-status-cache')
           assert root_cache_status == 404, 'Custom domain must deny root subscriber cache alias'
           print('PASS: private OAuth, subscription queries and cache deny anonymous access')
+
+          # Stage 43 CP23: visiting the *prepared but unactivated* member
+          # feature must never enable login, capture any member identity,
+          # reveal consent data or create D1 records. No credentials supplied.
+          fan_me, _ = fetch('/departures/api/recognition/twitch/me')
+          assert fan_me == 404, 'Disabled member identity endpoint unexpectedly available'
+          fan_start, _ = fetch('/departures/api/recognition/twitch/start', method='POST')
+          assert fan_start == 404, 'Disabled Twitch fan OAuth attempted to start'
+          fan_callback, _ = fetch('/twitch/member/callback')
+          assert fan_callback == 404, 'Disabled Twitch fan callback unexpectedly public'
+          fan_root, _ = fetch('/api/recognition/twitch/me')
+          assert fan_root == 404, 'Unprefixed fan API alias must remain inaccessible'
+          print('PASS: voluntary Twitch member login/consent is still disabled and private')
           PY
