@@ -8,7 +8,8 @@ import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
- disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus} from './recognition-twitch-connection.mjs';
+ disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus,
+ syncStoredTwitchActiveSubscribers} from './recognition-twitch-connection.mjs';
 import {MUSIC_PATHS,MUSIC_LEGACY_PATHS,MUSIC_DATA_PATHS,MUSIC_TYPE_PATH,musicPage,musicStateData} from './music-page.mjs';
 import {VIEWER_CSS,VIEWER_JS} from './viewer-enhancements.mjs';
 import {VIEWER_PORTAL_CSS} from './viewer-portal-chrome.mjs';
@@ -221,6 +222,15 @@ async function handler(req,env){
    return json(result,result.ok?200:result.reason==='rate_limited'?429:503,privateHeaders);
   }
 
+  // CP15: private roster materialization, OFF in production until separate
+  // D1 schema is owner-applied and an independent feature flag is enabled.
+  // Never return names or IDs; reject anonymous/root aliases as before.
+  if(path==='/api/admin/recognition/twitch/sync-status-cache'&&method==='POST'){
+   if(req.headers.get('X-Relight-Recognition-Confirm')!=='sync-private-subscriber-cache')
+    return json({ok:false,error:'EXPLICIT_SYNC_CONFIRMATION_REQUIRED'},400,privateHeaders);
+   const result=await syncStoredTwitchActiveSubscribers(env);
+   return json(result,result.ok?200:503,privateHeaders);
+  }
   // Deliberately independent of the OAuth enabled flag: this must remain
   // available for emergency disconnection after a flag has been disabled.
   if(path==='/api/admin/recognition/twitch/disconnect'&&method==='POST'){
