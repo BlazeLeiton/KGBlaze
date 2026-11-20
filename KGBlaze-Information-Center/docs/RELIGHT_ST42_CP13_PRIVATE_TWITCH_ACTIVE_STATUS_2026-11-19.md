@@ -8,7 +8,7 @@ The broadcaster wants **a status which remains active while a Twitch subscriptio
 
 CP13 implements the first actual authenticated integration, **admin-only, read-only, on-demand**, without a new D1 table:
 
-- `GET /departures/api/admin/recognition/twitch/subscription-summary`: reads the complete paginated broadcaster subscription snapshot using the existing encrypted owner token. Returns only `providerTotal`, `observedActiveRows`, number of pages, `complete:true` and timestamp; **no names, Twitch user IDs, tiers, gift recipients or tokens**. A cursor may exist on an empty last page; the adapter checks until the cursor disappears, with a safe page limit. A truncated/failed/inconsistent snapshot never implies an inactive member.
+- `GET /departures/api/admin/recognition/twitch/subscription-summary`: CP14 hotfix reads **only the first Twitch page with `first=1`** and returns the official `total` (in `providerTotal`). No cursor is followed. `complete:true` means the **provider count** was verified, while `rosterComplete:false` expressly means no full subscriber roster was enumerated. `observedActiveRows` is just the first-page sample (0 or 1), **not the subscriber count**. The response contains no names, Twitch user IDs, tiers, gift recipients or tokens. A failed first response leaves the number unknown rather than setting it to zero.
 - `POST /departures/api/admin/recognition/twitch/check-subscribers`: privately verifies **1–100 explicitly supplied numeric user IDs** without enumerating all subscribers. The response contains only `userId` and `active` boolean (plus read-only metadata); no names or subscription billing details.
 - Both routes require the existing Bearer `ADMIN_TOKEN` and an additional header `X-Relight-Recognition-Confirm: read-subscription-status`. Only the canonical `/departures/` routes exist; root `/api/admin/*` remains blocked.
 - `RECOGNITION_TWITCH_STATUS_ENABLED = "true"` controls these **private manual reads**, independently of the existing owner OAuth feature flag. There is no Cron, public list, Home integration, persisted subscriber dataset, or arbitrary Twitch API proxy.
@@ -22,7 +22,7 @@ Official references:
 
 ## Private production validation requiring owner
 
-An assistant without the `ADMIN_TOKEN` cannot and must not query the private roster or obtain credentials. The owner can run this **safe, counts-only** PowerShell command locally after merge and Cloudflare Workers Builds success. Do not paste the ADMIN_TOKEN or complete response containing private data into chat; share only `ok`, `complete`, numeric counts and any sanitized reason.
+An assistant without the `ADMIN_TOKEN` cannot and must not query the private roster or obtain credentials. The owner can rerun this **safe, counts-only** PowerShell command locally after CP14 merge and Cloudflare Workers Builds success. No change to ADMIN_TOKEN or OAuth is needed. Do not paste the ADMIN_TOKEN or complete response containing private data into chat; share only `ok`, `complete`, numeric counts and any sanitized reason.
 
 ```powershell
 $secure = Read-Host "ADMIN_TOKEN" -AsSecureString
@@ -40,7 +40,7 @@ try {
 }
 ```
 
-**No data has yet been requested from Twitch in production by this checkpoint.** Successful CI and public smoke prove routing/auth isolation and simulated Helix scenarios, not a successful live private Helix read.
+**Live CP13 evidence:** the owner executed a private query and received `invalid_or_repeated_cursor`, showing that the old full-roster scan failed to finish. No names or tokens were disclosed. The CP14 change eliminates pagination only for the COUNT query; a new successful private GET is required to confirm actual live total. Successful CI/public smoke alone does not prove private Helix access.
 
 ## Next phase
 
