@@ -37,6 +37,11 @@ RECOGNITION_TWITCH_STATUS_ENABLED = "true"
 # No cron, public roster, account login, or member badges. Emergency disable:
 # set false and redeploy; existing OAuth owner connection stays intact.
 RECOGNITION_TWITCH_CACHE_ENABLED = "true"
+# CP25 two-person opt-in pilot. Both flags explicitly OFF until owner
+# verifies the isolated D1 migration and selects exactly two subscribers.
+# Flipping PUBLIC does not expose the broadcaster's private active roster.
+RECOGNITION_TWITCH_PILOT_ENABLED = "false"
+RECOGNITION_TWITCH_PILOT_PUBLIC_ENABLED = "false"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
