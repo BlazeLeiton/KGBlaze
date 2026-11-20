@@ -13,38 +13,45 @@ function serve(pages){
   requests.push({url:new URL(uri),init});
   const next=pages[requests.length-1];
   if(next instanceof Error)throw next;
-  if(!next)throw Error('unexpected Twitch API request');
+  if(!next)throw Error('unexpected extra Twitch API request');
   return {ok:next.status===undefined||next.status===200,status:next.status||200,
    json:async()=>next.body};
  };
  return {requests,fetchImpl};
 }
-test('CP13 paginates full snapshot including empty final page with cursor',async()=>{
+
+test('CP14 summary uses Twitch first-page total exactly once even with terminal cursor',async()=>{
  const mock=serve([
-  {body:{data:[item('111')],pagination:{cursor:'A'},total:1}},
-  {body:{data:[],pagination:{cursor:'B'},total:1}},
-  {body:{data:[],pagination:{},total:1}}
+  {body:{data:[item('111')],pagination:{cursor:'identical-terminal-cursor'},total:207}},
+  {body:{data:[],pagination:{cursor:'identical-terminal-cursor'},total:207}}
  ]);
  const out=await read({...config,fetchImpl:mock.fetchImpl});
- assert.deepEqual(out,{ok:true,kind:'summary',complete:true,pages:3,
-  observedActiveRows:1,providerTotal:1});
- assert.equal(mock.requests.length,3);
- assert.equal(mock.requests[0].url.searchParams.get('broadcaster_id'),'70386764');
- assert.equal(mock.requests[0].url.searchParams.get('first'),'100');
- assert.equal(mock.requests[0].url.searchParams.get('after'),null);
- assert.equal(mock.requests[1].url.searchParams.get('after'),'A');
- assert.equal(mock.requests[2].url.searchParams.get('after'),'B');
- for(const r of mock.requests){
-  assert.equal(r.init.redirect,'manual');
-  assert.equal(r.init.headers.Authorization,'Bearer SENSITIVE_OWNER_TOKEN');
-  assert.equal(r.init.headers['Client-Id'],'client-fixture');
-  assert.equal(r.url.searchParams.has('user_id'),false);
+ assert.deepEqual(out,{ok:true,kind:'summary',complete:true,pages:1,
+  observedActiveRows:1,providerTotal:207,countSource:'twitch_total',
+  rosterComplete:false});
+ assert.equal(mock.requests.length,1);
+ const q=mock.requests[0];
+ assert.equal(q.url.searchParams.get('broadcaster_id'),'70386764');
+ assert.equal(q.url.searchParams.get('first'),'1');
+ assert.equal(q.url.searchParams.has('after'),false);
+ assert.equal(q.url.searchParams.has('user_id'),false);
+ assert.equal(q.init.redirect,'manual');
+ assert.equal(q.init.headers.Authorization,'Bearer SENSITIVE_OWNER_TOKEN');
+ assert.equal(q.init.headers['Client-Id'],'client-fixture');
+ for(const sensitive of ['Private name','PRIVATE_GIFTER','SENSITIVE_OWNER_TOKEN','111']){
+  assert.equal(JSON.stringify(out).includes(sensitive),false);
  }
- assert.equal(JSON.stringify(out).includes('Private name'),false);
- assert.equal(JSON.stringify(out).includes('PRIVATE_GIFTER'),false);
- assert.equal(JSON.stringify(out).includes('SENSITIVE_OWNER_TOKEN'),false);
 });
-test('CP13 targeted filters IDs and returns only active status without profile, tier or gift',async()=>{
+test('CP14 a missing page row and terminal cursor do not invalidate a valid provider count',async()=>{
+ const mock=serve([{body:{data:[],pagination:{cursor:'repeated-at-end'},total:2}}]);
+ const out=await read({...config,fetchImpl:mock.fetchImpl});
+ assert.equal(out.ok,true);
+ assert.equal(out.providerTotal,2);
+ assert.equal(out.observedActiveRows,0);
+ assert.equal(out.rosterComplete,false);
+ assert.equal(mock.requests.length,1);
+});
+test('CP14 targeted checks only requested IDs, including gift subscription, no PII',async()=>{
  const mock=serve([{body:{data:[item('444',{is_gift:true,tier:'3000'})]}}]);
  const out=await read({...config,mode:'targeted',userIds:['444','555'],
   fetchImpl:mock.fetchImpl});
@@ -54,28 +61,29 @@ test('CP13 targeted filters IDs and returns only active status without profile, 
  assert.deepEqual(q.searchParams.getAll('user_id'),['444','555']);
  assert.equal(q.searchParams.has('after'),false);
  assert.equal(q.searchParams.has('first'),false);
+ assert.equal(mock.requests.length,1);
  assert.equal(JSON.stringify(out).includes('PRIVATE_GIFTER'),false);
  assert.equal(JSON.stringify(out).includes('Private name'),false);
 });
-test('CP13 full snapshot rejects changed total, loop, duplicate row and page cap',async()=>{
- const cases=[
-  [ [{body:{data:[],total:3,pagination:{cursor:'X'}}},
-     {body:{data:[],total:2,pagination:{}}}], 'snapshot_changed_during_scan'],
-  [ [{body:{data:[],total:0,pagination:{cursor:'X'}}},
-     {body:{data:[],total:0,pagination:{cursor:'X'}}}], 'invalid_or_repeated_cursor'],
-  [ [{body:{data:[item('111')],total:2,pagination:{cursor:'X'}}},
-     {body:{data:[item('111')],total:2,pagination:{}}}], 'invalid_response'],
-  [ [{body:{data:[],total:0,pagination:{cursor:'X'}}}], 'incomplete_snapshot']
+test('CP14 missing/invalid total or malformed first row fails closed',async()=>{
+ const invalid=[
+  {data:[item('111')],pagination:{cursor:'unused'}},
+  {data:[],total:-1,pagination:{}},
+  {data:[],total:'123',pagination:{}},
+  {data:[],total:1.4,pagination:{}},
+  {data:[item('111')],total:0,pagination:{}},
+  {data:[item('111',{broadcaster_id:'WRONG'})],total:1},
+  {data:[item('111',{tier:'9999'})],total:1},
+  {data:[item('111'),item('222')],total:2}
  ];
- for(const [pages,reason] of cases){
-  const mock=serve(pages);
-  const out=await read({...config,fetchImpl:mock.fetchImpl,
-   ...(reason==='incomplete_snapshot'?{maxPages:1}:{})});
-  assert.equal(out.ok,false);
-  assert.equal(out.reason,reason);
+ for(const body of invalid){
+  const mock=serve([{body}]);
+  const out=await read({...config,fetchImpl:mock.fetchImpl});
+  assert.equal(out.reason,'invalid_response',JSON.stringify(body));
+  assert.equal(mock.requests.length,1);
  }
 });
-test('CP13 provider failure and rate limit are unknown, not inactive',async()=>{
+test('CP14 provider/token/rate-limit failures remain unknown and never imply zero subs',async()=>{
  for(const [response,reason] of [
   [{status:401},'token_unauthorized'],
   [{status:429},'rate_limited'],
@@ -87,12 +95,10 @@ test('CP13 provider failure and rate limit are unknown, not inactive',async()=>{
   assert.equal(out.ok,false);
   assert.equal(out.reason,reason);
   assert.equal(JSON.stringify(out).includes('Sensitive token'),false);
+  assert.equal('providerTotal' in out,false);
  }
- const bad=serve([{body:{data:[item('111')],total:0,pagination:{cursor:3}}}]);
- assert.equal((await read({...config,fetchImpl:bad.fetchImpl})).reason,
-  'invalid_or_repeated_cursor');
 });
-test('CP13 strict validation prevents cross-channel and unfiltered requests',async()=>{
+test('CP14 strict validation prevents cross-channel and unfiltered requests',async()=>{
  const noFetch=async()=>{throw Error('MUST NOT FETCH')};
  for(const opts of [
   {...config,mode:'targeted',userIds:[]},
@@ -100,7 +106,6 @@ test('CP13 strict validation prevents cross-channel and unfiltered requests',asy
   {...config,mode:'targeted',userIds:['user_name']},
   {...config,mode:'summary',userIds:['111']},
   {...config,mode:'anything'},
-  {...config,maxPages:31},
   {...config,broadcasterId:'bad'}
  ]){
   const result=await read({...opts,fetchImpl:noFetch});
@@ -108,15 +113,17 @@ test('CP13 strict validation prevents cross-channel and unfiltered requests',asy
  }
  assert.equal(validTwitchStatusIds(['1','2']).length,2);
  assert.equal(validTwitchStatusIds(Array(101).fill('123')),null);
- const wrongOwner=serve([{body:{data:[item('111',{broadcaster_id:'OTHER'})],total:1}}]);
- assert.equal((await read({...config,fetchImpl:wrongOwner.fetchImpl})).reason,'invalid_response');
  const unexpected=serve([{body:{data:[item('222')]}}]);
  assert.equal((await read({...config,mode:'targeted',userIds:['111'],
   fetchImpl:unexpected.fetchImpl})).reason,'invalid_response');
+ const paginated=serve([{body:{data:[item('111')],pagination:{cursor:'X'}}}]);
+ assert.equal((await read({...config,mode:'targeted',userIds:['111'],
+  fetchImpl:paginated.fetchImpl})).reason,'unexpected_pagination');
 });
-test('CP13 a valid zero subscribers snapshot is complete and never invents members',async()=>{
- const mock=serve([{body:{data:[],total:0,pagination:{}}}]);
+test('CP14 zero total represents an explicit, valid provider response',async()=>{
+ const mock=serve([{body:{data:[],total:0,pagination:{cursor:'last-page-cursor'}}}]);
  const out=await read({...config,fetchImpl:mock.fetchImpl});
  assert.deepEqual(out,{ok:true,kind:'summary',complete:true,pages:1,
-  observedActiveRows:0,providerTotal:0});
+  observedActiveRows:0,providerTotal:0,countSource:'twitch_total',
+  rosterComplete:false});
 });
