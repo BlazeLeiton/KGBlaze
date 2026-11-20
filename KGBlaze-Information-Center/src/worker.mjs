@@ -9,6 +9,7 @@ import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
 import {RECOGNITION_PUBLIC_PATH,readPublicTwitchRecognition,
  readPrivateTwitchRecognitionStatus,syncDailyTwitchRecognition,
  setTwitchRecognitionConsent} from './recognition-twitch-membership.mjs';
+import {readPublicYouTubeRecognition} from './recognition-youtube-membership.mjs';
 import {startTwitchOwnerConnection,finishTwitchOwnerConnection,
  statusTwitchOwnerConnection,refreshStoredTwitchOwnerConnection,
  disconnectStoredTwitchOwnerConnection,readStoredTwitchSubscriptionStatus,
@@ -121,13 +122,19 @@ async function handler(req,env){
  }
  if(!env.DB&&['/api/public','/agenda_publica.json'].includes(path))return err(503,'DATABASE_NOT_CONFIGURED');
  if(!env.DB&&(path.startsWith('/api/')||path==='/og-semana.png'))return err(503,'DATABASE_NOT_CONFIGURED');
- // Only two owner-attested, recently verified names can ever reach this
- // public endpoint. Empty unless the separate pilot + publication flags are on.
+ // Public recognition is source-isolated: YouTube first, then Twitch.
+ // YouTube remains [] until allowlist, private D1 and publication flags pass;
+ // Twitch's existing consent/freshness/trial gates are unchanged.
  if(path===RECOGNITION_PUBLIC_PATH){
   if(method!=='GET')return err(405,'METHOD_NOT_ALLOWED');
   if(url.origin!=='https://kgblaze.dpdns.org')return err(404,'NOT_FOUND');
-  const status=await readPublicTwitchRecognition(env);
-  return json(status,200,{'Cache-Control':'no-store'});
+  const twitch=await readPublicTwitchRecognition(env);
+  const youtube=await readPublicYouTubeRecognition(env);
+  // Preserve exact historic Twitch response when YouTube is disabled/empty.
+  // Add the ordered youtube key only for consented, fresh YouTube members.
+  const publicPayload=youtube.length?
+   {ok:true,youtube,twitch:twitch.twitch||[]}:twitch;
+  return json(publicPayload,200,{'Cache-Control':'no-store'});
  }
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);
