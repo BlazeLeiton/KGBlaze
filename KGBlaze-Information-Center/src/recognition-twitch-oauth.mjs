@@ -72,26 +72,35 @@ async function validateOwnerToken(c,accessToken,fetchImpl){
  const response=await fetchImpl('https://id.twitch.tv/oauth2/validate',{
   headers:{Authorization:'OAuth '+accessToken},redirect:'error'
  });
- if(!response?.ok)return false;
+ if(!response?.ok)return failed('provider_token_validation_failed');
  const identity=await response.json();
- return identity?.client_id===c.clientId&&identity?.user_id===c.owner&&
-  Array.isArray(identity?.scopes)&&identity.scopes.includes(TWITCH_RECOGNITION_SCOPE)&&
-  Number.isFinite(identity.expires_in)&&identity.expires_in>60;
+ // Never report the returned user ID, client ID or scopes to a browser/log.
+ if(identity?.client_id!==c.clientId)return failed('provider_client_mismatch');
+ if(identity?.user_id!==c.owner)return failed('provider_owner_mismatch');
+ if(!Array.isArray(identity?.scopes)||
+    !identity.scopes.includes(TWITCH_RECOGNITION_SCOPE))
+  return failed('provider_scope_missing');
+ if(!Number.isFinite(identity.expires_in)||identity.expires_in<=60)
+  return failed('provider_token_expired');
+ return {ok:true};
 }
 async function exchange(c,fields,fetchImpl){
  const response=await fetchImpl('https://id.twitch.tv/oauth2/token',{
   method:'POST',redirect:'error',headers:{'Content-Type':'application/x-www-form-urlencoded'},
   body:new URLSearchParams({...fields,client_id:c.clientId,client_secret:c.secret}).toString()
  });
- if(!response?.ok)return null;
+ // Do not return or log raw provider error messages, token or account details.
+ if(!response?.ok)return failed('provider_token_exchange_rejected');
  const data=await response.json();
  if(typeof data?.access_token!=='string'||!data.access_token||
     typeof data?.refresh_token!=='string'||!data.refresh_token||
     !Number.isFinite(data.expires_in)||data.expires_in<=60||
-    !Array.isArray(data.scope)||!data.scope.includes(TWITCH_RECOGNITION_SCOPE))return null;
- if(!await validateOwnerToken(c,data.access_token,fetchImpl))return null;
- return {accessToken:data.access_token,refreshToken:data.refresh_token,
-  expiresIn:data.expires_in};
+    !Array.isArray(data.scope)||!data.scope.includes(TWITCH_RECOGNITION_SCOPE))
+  return failed('provider_token_response_invalid');
+ const validation=await validateOwnerToken(c,data.access_token,fetchImpl);
+ if(!validation.ok)return validation;
+ return {ok:true,credentials:{accessToken:data.access_token,
+  refreshToken:data.refresh_token,expiresIn:data.expires_in}};
 }
 /**
  * Requires the DB controller to have atomically consumed an unexpired
@@ -111,11 +120,10 @@ export async function completeTwitchOwnerOAuth(env,{code,state,expectedStateHash
  const hash=await digestState(state);
  if(!constantEqual(hash,expectedStateHash))return failed('invalid_or_expired_state');
  try{
-  const tokens=await exchange(c,{grant_type:'authorization_code',code,
+  const result=await exchange(c,{grant_type:'authorization_code',code,
    redirect_uri:c.redirectUri},fetchImpl);
-  return tokens?{ok:true,credentials:tokens,broadcasterId:c.owner}:
-   failed('provider_or_owner_validation_failed');
- }catch{return failed('provider_or_owner_validation_failed');}
+  return result.ok?{ok:true,credentials:result.credentials,broadcasterId:c.owner}:result;
+ }catch{return failed('provider_request_unavailable');}
 }
 /** Refresh tokens may rotate; replace both values atomically in secure storage. */
 export async function refreshTwitchOwnerOAuth(env,refreshToken,{fetchImpl=fetch}={}){
@@ -124,8 +132,7 @@ export async function refreshTwitchOwnerOAuth(env,refreshToken,{fetchImpl=fetch}
  if(typeof refreshToken!=='string'||!refreshToken||refreshToken.length>4096)
   return failed('invalid_refresh_token');
  try{
-  const tokens=await exchange(c,{grant_type:'refresh_token',refresh_token:refreshToken},fetchImpl);
-  return tokens?{ok:true,credentials:tokens,broadcasterId:c.owner}:
-   failed('provider_or_owner_validation_failed');
- }catch{return failed('provider_or_owner_validation_failed');}
+  const result=await exchange(c,{grant_type:'refresh_token',refresh_token:refreshToken},fetchImpl);
+  return result.ok?{ok:true,credentials:result.credentials,broadcasterId:c.owner}:result;
+ }catch{return failed('provider_request_unavailable');}
 }
