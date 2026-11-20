@@ -512,7 +512,7 @@ async function updateRecognitionMembers(){
   const payload=await response.json();
   if(payload&&Array.isArray(payload.twitch))members=payload.twitch.slice(0,2)
    .filter(v=>typeof v?.displayName==='string'&&v.displayName.length>0&&
-    v.displayName.length<=48&&!/[<>\\u0000-\\u001f\\u007f\\u202a-\\u202e]/.test(v.displayName));
+    v.displayName.length<=48&&!/[<>\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/.test(v.displayName));
  }catch{/* Fail closed: no names on a failed or stale verification feed. */}
  const signature=JSON.stringify(members);
  if(signature===lastRecognitionPayload)return;
