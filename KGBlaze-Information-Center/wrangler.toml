@@ -49,6 +49,14 @@ RECOGNITION_TWITCH_PUBLIC_ENABLED = "true"
 RECOGNITION_TWITCH_TRIAL_VISIBLE = "true"
 RECOGNITION_TWITCH_TRIAL_UNTIL = "2026-11-22T09:00:00.000Z"
 YOUTUBE_CHANNEL_ID = "UCRd_uwPjrsf6Z3CRXwNehEQ"
+# Stage43 CP31: all YouTube MEMBERSHIP flags remain CLOSED until Google's
+# channel-level allowlisting, an approved private OAuth vault, owner consent,
+# D1 migration and independent automated-check reviews.
+# This is unrelated to the existing YouTube VIDEO schedule synchronization.
+RECOGNITION_YOUTUBE_ENABLED = "false"
+YOUTUBE_MEMBERS_API_ACCESS_VERIFIED = "false"
+RECOGNITION_YOUTUBE_STORE_ENABLED = "false"
+RECOGNITION_YOUTUBE_PUBLIC_ENABLED = "false"
 # Separate from YOUTUBE_PREVIEW_ENABLED: enables Stage 7 verified
 # upcoming/live observations. Emergency pause: YOUTUBE_SYNC_PAUSED=true.
 YOUTUBE_SYNC_ENABLED = "true"
