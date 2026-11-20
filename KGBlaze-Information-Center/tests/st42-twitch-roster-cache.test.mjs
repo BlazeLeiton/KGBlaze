@@ -272,3 +272,15 @@ test('CP16 no sync can move timestamp backwards even if a caller provides stale 
  assert.equal(state.rows.has('111'),true);
  assert.equal(state.meta.lastCompletedAtMs,4000);
 });
+
+
+test('CP16 owner-confirmed migration enables admin-only manual sync, not public/Cron',async()=>{
+ const {readFileSync}=await import('node:fs');
+ const wrangler=readFileSync(new URL('../wrangler.toml',import.meta.url),'utf8');
+ const vars=wrangler.split(/^\s*\[vars\]\s*$/m)[1]?.split(/^\s*\[/m)[0]||'';
+ assert.match(vars,/^\s*RECOGNITION_TWITCH_CACHE_ENABLED\s*=\s*"true"\s*$/m);
+ assert.match(vars,/^\s*RECOGNITION_TWITCH_STATUS_ENABLED\s*=\s*"true"\s*$/m);
+ assert.doesNotMatch(vars,/^\s*(ADMIN_TOKEN|TWITCH_CLIENT_SECRET|RECOGNITION_TWITCH_TOKEN_KEY_B64)\s*=/m);
+ // Only the original Terminal schedules run; CP16 has not attached subscriber Cron.
+ assert.match(wrangler,/crons\s*=\s*\["\*\/5 \* \* \* \*", "0 9 \* \* \*"\]/);
+});
