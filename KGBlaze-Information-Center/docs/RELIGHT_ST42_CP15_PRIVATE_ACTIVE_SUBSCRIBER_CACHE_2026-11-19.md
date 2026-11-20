@@ -8,7 +8,7 @@ Following the CP14 fix to Twitch Helix total/count pagination, the owner success
 
 - `Ok=True`
 - `Complete=True`
-- `SubscriberTotal=2`
+- `SubscriberTotal`: returned a valid nonnegative numeric count (value kept private)
 - `Pages=1`
 
 This confirms that the **live Twitch owner OAuth and Helix Get Broadcaster Subscriptions** returned a valid current count at the time of the test. It does **not** prove that KGBlaze currently has a list of subscriber identities, an automatically updating cache or public status badges. No OAuth credential or subscriber identity was shared.
@@ -19,7 +19,7 @@ Keep a subscriber recognized **while their subscription is active**, instead of 
 
 ## CP15 prepared now
 
-1. `src/recognition-twitch-roster-snapshot.mjs`: private Helix reader, using the existing owner access token server-side. Fetches pages of 100. Unlike the original CP13 summary, which failed on a repeated terminal cursor, it considers a roster **complete as soon as the distinct subscriber ID count matches Twitch's official `total`**, even if Twitch still returns a cursor. It fails closed if the cursor repeats BEFORE complete coverage, if the provider totals change, if data are malformed, or if Twitch fails/rate limits. Maximum 500 subscriptions until write-size/rate-limit review; the currently verified total is 2.
+1. `src/recognition-twitch-roster-snapshot.mjs`: private Helix reader, using the existing owner access token server-side. Fetches pages of 100. Unlike the original CP13 summary, which failed on a repeated terminal cursor, it considers a roster **complete as soon as the distinct subscriber ID count matches Twitch's official `total`**, even if Twitch still returns a cursor. It fails closed if the cursor repeats BEFORE complete coverage, if the provider totals change, if data are malformed, or if Twitch fails/rate limits. Maximum 500 subscriptions until write-size/rate-limit review; do not publish the actual current count in repository documentation.
 2. `migrations/recognition_twitch_active_status.sql`: **two new private D1 tables**, for active subscribed Twitch user IDs/display names and one completion/version metadata record. Both have foreign key cascades so disconnecting owner OAuth automatically deletes cached subscriber identities. Does not alter Terminal editorial, OAuth tables, or other supporter data. **This file is NOT applied to production by the PR.**
 3. `src/recognition-twitch-active-cache.mjs`: private atomic `DB.batch` swap. Only commits a FULL valid snapshot. The database transaction deletes prior rows, inserts verified active rows and advances the version together. A provider failure leaves the prior verified snapshot untouched; a fully verified empty roster is the only condition that can clear the active list.
 4. `syncStoredTwitchActiveSubscribers`: server-side integration with the encrypted existing Twitch owner OAuth and serialized token refresh, private 30-minute minimum refresh interval. Returns counts and freshness metadata only; no identities in HTTP responses.
