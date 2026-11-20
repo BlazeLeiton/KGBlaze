@@ -45,7 +45,7 @@ export async function checkOptedInYouTubeMembers(env,consents,{fetchImpl=fetch}=
  try{
   const response=await fetchImpl(url.toString(),{
    headers:{Authorization:'Bearer '+env.YOUTUBE_RECOGNITION_USER_TOKEN},
-   redirect:'error'
+   redirect:'manual'
   });
   if(!response?.ok)return failed('provider_or_access_unavailable');
   const data=await response.json();
