@@ -33,6 +33,28 @@ const CAP=500;
 const MAX_PAGES=10;
 const fail=reason=>({ok:false,reason});
 
+// CP19: One bounded, independent count recheck after a contradictory provider
+// page. Return only a small fixed classification, never totals or identities.
+// No roster data is accepted, and no D1 write is authorized by this probe.
+async function recheckProviderTotal({fetchImpl,accessToken,clientId,broadcasterId,observed}){
+ const url=new URL(HELIX);
+ url.searchParams.set('broadcaster_id',broadcasterId);
+ url.searchParams.set('first','1');
+ try{
+  const response=await fetchImpl(url.toString(),{
+   method:'GET',redirect:'manual',
+   headers:{Authorization:'Bearer '+accessToken,'Client-Id':clientId,
+    Accept:'application/json'}
+  });
+  if(!response?.ok)return 'unavailable';
+  const body=await response.json();
+  if(!body||!Array.isArray(body.data)||body.data.length>1||
+     !Number.isSafeInteger(body.total)||body.total<0)
+   return 'unavailable';
+  return body.total<observed?'still_below':'caught_up_or_higher';
+ }catch{return 'unavailable';}
+}
+
 export async function readTwitchPrivateRosterSnapshot({
  accessToken,clientId,broadcasterId,fetchImpl=fetch,maxMembers=CAP
 }={}){
@@ -95,7 +117,13 @@ export async function readTwitchPrivateRosterSnapshot({
    });
    // A valid Twitch row proves that user is present, but a contradictory
    // total is not enough to authorize replacing a private status cache.
-   if(records.size>expectedTotal)return fail('provider_total_below_observed');
+   if(records.size>expectedTotal){
+    const totalRecheck=await recheckProviderTotal({
+     fetchImpl,accessToken,clientId,broadcasterId,observed:records.size
+    });
+    return {ok:false,reason:'provider_total_below_observed',
+     phase:page===1?'first_page':'later_page',totalRecheck};
+   }
   }
   // Twitch can still return a cursor on this last, complete page.
   if(records.size===expectedTotal){
