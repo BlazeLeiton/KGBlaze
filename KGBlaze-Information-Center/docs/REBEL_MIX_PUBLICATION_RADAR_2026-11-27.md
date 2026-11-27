@@ -1,0 +1,9 @@
+# Rebel Mix · Radar musical (2026-11-27)
+
+Aprobación: radar del canal propio de YouTube integrado en el Centro de Control, no en el visor público. Independiente de reconocimiento, OAuth de miembros y detección de emisiones. No vidIQ, búsquedas generales, IA ni cuotas de terceros.
+
+- Inicio prospectivo: 27 nov 2026, 14:34 CDMX; no recatalogar histórico. Deduplicar por IDs de versiones e históricos conocidos. No decidir automáticamente si es obra nueva o versión.
+- Música (10) 15 puntos, Entretenimiento (24) 10. Título Cover en español 30, otro cover 15. Plantilla de créditos hasta 40, etiquetas 10, identidad 5. Alta confianza 85+, revisión 60–84. Otros idiomas pueden entrar con evidencia suficiente. No exigir todos los créditos: cada cover varía. No usar SIGUE EL VIAJE solo. Excluir promociones explícitas y directo activo/próximo; admitir estrenos ya publicados. Solo canal propio público verificado.
+- Cron existente: cada hora, lista de subidas oficial y videos.list por lotes, sin search.list. Primera consulta channels.list. Límite de recuperación 3 páginas por ciclo, 100 candidatos pendientes, CAS D1; errores conservan la última lectura. Si la cobertura supera límite, revisar manualmente. La API no identifica Shorts inequívocamente por duración.
+- Bandeja privada /departures/dashboard/music-radar/ protegida por ADMIN_TOKEN para lectura de candidatos. No persistir clave en navegador. No añadir al catálogo automáticamente; créditos y derechos quedan sujetos a revisión editorial. La plantilla canónica sigue siendo Project-Relight-Continuity/TEMPLATES/COVERS.md.
+- Controles sintéticos automatizados; no hay nueva publicación real para validar extremo a extremo. La comprobación histórica de Connect/mumei se limita a IDs conocidos en el catálogo, no a recuperar nuevamente su metadata.

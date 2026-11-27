@@ -73,6 +73,9 @@ YOUTUBE_COMPLETION_ENABLED = "true"
 # Bootstrap is an expiring public video ID from the current owner Studio;
 # videos.list still must independently verify public live state and ownership.
 ACTIVE_BROADCASTS_ENABLED = "true"
+# Independent hourly owner-channel uploads radar; private candidates only.
+MUSIC_RADAR_ENABLED = "true"
+MUSIC_RADAR_SINCE = "2026-11-27T20:34:00.000Z"
 YOUTUBE_ACTIVE_BOOTSTRAP_VIDEO_ID = "3jW8vQ3uo4c"
 YOUTUBE_ACTIVE_BOOTSTRAP_UNTIL = "2026-11-27T18:00:00.000Z"
 

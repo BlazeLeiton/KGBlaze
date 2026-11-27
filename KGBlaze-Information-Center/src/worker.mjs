@@ -4,6 +4,8 @@ import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnve
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
+import {musicRadarView,syncMusicRadar} from './music-publication-radar.mjs';
+import {MUSIC_RADAR_HTML} from './music-radar-page.mjs';
 import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,syncActiveBroadcasts} from './active-broadcasts.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
@@ -301,6 +303,7 @@ async function handler(req,env){
  const d=await getState(env);
  if(path==='/api/admin/snapshot'&&method==='GET')return json({schema:'terminal-admin-v1',revision:d.revision,editorial:d.editorial,sync:toSyncEnvelope(d.sync,d.revision),updatedAt:d.updatedAt},200,cors);
  if(path==='/api/admin/sync'&&method==='GET')return json(toSyncEnvelope(d.sync,d.revision),200,cors);
+ if(path==='/api/admin/music-radar'&&method==='GET')return json(musicRadarView(env,d.sync),200,cors);
  // Inspect the ACTUAL published YouTube title/description/tags by public video ID.
  // Private, explicitly read-only, uses one videos.list (no search.list) and no D1 writes.
  if(path==='/api/admin/youtube-video-audit'&&method==='GET'){
@@ -440,6 +443,10 @@ export default {
     if(!dashboardPath.endsWith('/')){requestURL.pathname+='/';return Response.redirect(requestURL.toString(),308);}
     const musicQuery=new URLSearchParams(requestURL.searchParams);const pref=(req.headers.get('Cookie')||'').match(/(?:^|;\s*)kgblaze_lang=(es|en|ja)(?:;|$)/)?.[1];if(!musicQuery.has('lang')&&pref)musicQuery.set('lang',pref);
     return new Response(req.method==='HEAD'?null:musicPage(dashboardPath,musicQuery),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; connect-src 'self'; style-src 'self' 'unsafe-inline'; font-src data:; img-src 'self' data: https://i.ytimg.com https://vocalmagazine.jp https://pjselection.com https://resources.tidal.com https://cdn.tower.jp https://www.feelmee.jp https://hololive.hololivepro.com https://www.lisani.jp https://www.giantrobot.com https://www.jvcmusic.co.jp https://idolypride.jp https://straycats.co.jp https://trysail.jp https://nanonano.me https://m.media-amazon.com https://img.hmv.co.jp https://image.sofmap.com https://www.marv.jp https://www.famitsu.com https://blue.kumparan.com https://www.asmart.jp https://www.sonymusic.co.jp https://shikimori-anime.com https://fuukoi-anime.com https://static.jmusicitalia.com https://masamune-tv.com https://choucho-net.com https://is1-ssl.mzstatic.com https://go-for-launch.net https://prod-v2-assets.wmg.jp https://imgs.ototoy.jp https://uchidamaaya.jp https://gridman.net https://pbs.twimg.com https://ogre.natalie.mu https://catalog.bandainamcomusiclive.co.jp https://gf-anime.com https://columbia.jp https://bofuri.jp https://yorimoi.com https://www.pokemoncenter-online.com https://tensaiouji-anime.com https://static.qobuz.com https://ngnl.jp https://st.cdjapan.co.jp; frame-src https://www.youtube-nocookie.com; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'"}});
+   }
+   if(dashboardPath==='/dashboard/music-radar/'||dashboardPath==='/dashboard/music-radar'){
+    if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
+    return new Response(req.method==='HEAD'?null:MUSIC_RADAR_HTML,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow, noarchive','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"}});
    }
    if(['/dashboard/','/dashboard','/dashboard/library/'].includes(dashboardPath)){
     if(req.method!=='GET'&&req.method!=='HEAD')return err(405,'METHOD_NOT_ALLOWED');
@@ -588,6 +595,10 @@ export default {
     const result=await syncActiveBroadcasts(env,{now,slot,sharedIds});
     if(result?.ok===false&&result.reason!=='concurrent_update')console.warn('Active broadcasts:',result.reason);
    }catch{console.warn('Active broadcast sync unavailable')}
+  }
+  if(env.MUSIC_RADAR_ENABLED==='true'&&slot.getUTCMinutes()===0){
+   try{const result=await syncMusicRadar(env,{now,slot});if(!result.ok)console.warn('Music radar:',result.reason);}
+   catch{console.warn('Music radar unavailable');}
   }
  }
 };
