@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 import {EMPTY_AGENDA,normalizeEditorial,publicAgenda,toSyncEnvelope} from '../src/core.mjs';
-import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,refreshActiveYouTube,refreshActiveTwitch,syncActiveBroadcasts} from '../src/active-broadcasts.mjs';
+import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,refreshActiveYouTube,refreshActiveTwitch,syncActiveBroadcasts,setActiveBroadcastEditorial} from '../src/active-broadcasts.mjs';
 const channel='UCRd_uwPjrsf6Z3CRXwNehEQ',id='3jW8vQ3uo4c';
 const now=new Date('2026-11-27T06:30:00Z');
 const title='La Estudiante de Intercambio en la Academia | Azur Lane - The Transfer Student of Veritas Academy';
@@ -141,4 +141,19 @@ test('Stage 44: actual Home banner uses projected category and provider title, i
   assert.equal(home.subtitle(selected.e,selected.sync,selected.status,'es'),state.youtube.length?title:tw.title);
  }
  assert.equal(home.select(projectActiveBroadcasts(data(),{youtube:[],twitch:null},now),now.getTime()).kind,'empty');
+});
+
+test('Stage 44: owner editorial override changes presentation only, survives projection, and rejects nonexistent live IDs',async()=>{
+ const state={youtube:[y],twitch:tw};const d=data();let row={revision:d.revision,editorial_json:JSON.stringify(d),sync_json:JSON.stringify({[ACTIVE_BROADCASTS_KEY]:state})};
+ const db={prepare(sql){return {first:async()=>({...row}),bind(encoded,revision,old){return {run:async()=>{assert.equal(revision,row.revision);assert.equal(old,row.sync_json);row.sync_json=encoded;return {meta:{changes:1}}}}}}}};
+ const e=projectActiveBroadcasts(d,state,now).events[0];const settings={...env,ACTIVE_BROADCASTS_ENABLED:'true',DB:db};
+ assert.equal((await setActiveBroadcastEditorial(settings,{id:'auto-live:yt:missing',activity:'x',detail:''},now)).code,404);
+ assert.equal((await setActiveBroadcastEditorial(settings,{id:e.id,activity:'Actividad propia',detail:'Detalle propio'},now)).ok,true);
+ const stored=JSON.parse(row.sync_json)[ACTIVE_BROADCASTS_KEY],out=projectActiveBroadcasts(d,stored,now),edited=out.events[0];
+ assert.equal(edited.title,'Actividad propia');assert.equal(edited.category,'Actividad propia');assert.equal(edited.extra,'Detalle propio');assert.equal(edited.status,'EN VIVO');assert.equal(out.sync[e.id].youtube.videoTitle,title);assert.equal(out.sync[e.id].twitch.streamId,tw.id);assert.equal(normalizeEditorial(out,now).events.length,0);
+ const ctx={window:{}};runInNewContext(readFileSync(new URL('../public/assets/home-departure-state.js',import.meta.url),'utf8'),ctx);
+ const h=ctx.window.KGHomeDeparture,selected=h.select(out,now.getTime());assert.equal(h.subtitle(selected.e,selected.sync,selected.status,'es'),'Detalle propio');
+ assert.equal(projectActiveBroadcasts(d,{youtube:[],twitch:null,overrides:stored.overrides},now).events.length,0);
+ assert.equal((await setActiveBroadcastEditorial(settings,{id:e.id,activity:'',detail:''},now)).ok,true);
+ assert.equal(projectActiveBroadcasts(d,JSON.parse(row.sync_json)[ACTIVE_BROADCASTS_KEY],now).events[0].title,'Azur Lane');
 });
