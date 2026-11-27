@@ -576,7 +576,7 @@ export default {
   if(env.YOUTUBE_SYNC_ENABLED==='true'&&env.YOUTUBE_SYNC_PAUSED!=='true'){
    try{
     const result=await runScheduledYouTubeSync(env,{now,slot,onDiscovery:ids=>{sharedIds=ids;}});
-    if(slot.getUTCMinutes()===0&&sharedIds===undefined&&result?.reason!=='no_nearby_events')sharedIds=null;
+    if(slot.getUTCMinutes()===0&&sharedIds===undefined&&result?.reason!=='no_nearby_youtube_events')sharedIds=null;
     if(result?.ok===false&&result.reason!=='disabled')console.warn('YouTube sync:',result.reason);
    }catch{
     if(slot.getUTCMinutes()===0)sharedIds=null;
