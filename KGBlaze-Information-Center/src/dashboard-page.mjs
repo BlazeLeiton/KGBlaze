@@ -186,7 +186,7 @@ async function load(){
   if(!res.ok)throw Error("HTTP "+res.status);
   const data=await res.json();
   if(!Array.isArray(data.events)||!Number.isInteger(data.revision))throw Error("Respuesta incompleta de Terminal");
-  agenda={schema:data.schema,publishedAt:data.publishedAt,sourceNote:data.sourceNote,timezone:data.timezone,events:clone(data.events),
+  agenda={schema:data.schema,publishedAt:data.publishedAt,sourceNote:data.sourceNote,timezone:data.timezone,events:clone(data.events.filter(e=>!String(e?.id||'').startsWith('auto-live:'))),
    libraryCustom:clone(data.libraryCustom||[]),libraryChanges:clone(data.libraryChanges||{}),
    hiatusWeeks:clone(data.hiatusWeeks||{}),clearedWeeks:clone(data.clearedWeeks||{})};
   revision=data.revision;sync=data.sync||{};blocked=false;hardConflict=false;

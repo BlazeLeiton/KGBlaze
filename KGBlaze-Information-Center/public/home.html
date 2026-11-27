@@ -402,7 +402,21 @@ synchronizeTwitchPlayer();
 window.addEventListener('resize',synchronizeTwitchPlayer);
 function getVideo(e,s){const y=s?.youtube;const id=y?.videoId||e.videoId;return y?.verified===true&&y.matchConfirmed===true&&videoId.test(id||'')?id:null}
 function eventStart(e){return /^\d{4}-\d\d-\d\d$/.test(e.day||'')&&/^\d\d:\d\d$/.test(e.time||'')?Date.parse(e.day+'T'+e.time+':00-06:00'):NaN}
-async function updateFeatured(){try{const r=await fetch('/api/public',{cache:'no-store'});if(!r.ok)throw Error('unavailable');const d=await r.json();lastDepartureAgenda=d;departureDataUnavailable=false;renderDepartureBanner();const events=(d.events||[]).filter(e=>e.platforms?.includes('yt')).map(e=>({e,s:d.sync?.[e.id]||{},start:eventStart(e)}));const live=events.find(x=>x.s.youtube?.status==='live'&&getVideo(x.e,x.s));const soon=events.filter(x=>x.start>=Date.now()&&x.start-Date.now()<=15*60000&&getVideo(x.e,x.s)).sort((a,b)=>a.start-b.start)[0];const choice=live||soon;if(choice){const id=getVideo(choice.e,choice.s);document.getElementById('youtube-screen').replaceChildren(makeEmbed('youtube',id));document.getElementById('youtube-watch').href='https://www.youtube.com/watch?v='+id;document.getElementById('youtube-state').textContent=(live?'● LIVE — ':'')+choice.e.title}const twLive=Object.values(d.sync||{}).some(s=>s?.twitch?.verified===true&&s.twitch.matchConfirmed===true&&s.twitch.status==='live');document.getElementById('twitch-state').textContent=twLive?'● LIVE':''}catch{departureDataUnavailable=true;renderDepartureBanner();/* keep safe player fallbacks */}}
+let featuredVideoId=defaultVideo;
+function freshLiveObservation(o){const t=Date.parse(o?.checkedAt||'');return o?.verified===true&&o.matchConfirmed===true&&o.status==='live'&&Number.isFinite(t)&&t<=Date.now()+30000&&Date.now()-t<15*60000}
+function setFeaturedVideo(id,title=''){if(featuredVideoId!==id){document.getElementById('youtube-screen').replaceChildren(makeEmbed('youtube',id));featuredVideoId=id}document.getElementById('youtube-watch').href='https://www.youtube.com/watch?v='+id;document.getElementById('youtube-state').textContent=title}
+async function updateFeatured(){try{
+ const r=await fetch('/api/public',{cache:'no-store'});if(!r.ok)throw Error('unavailable');
+ const d=await r.json();lastDepartureAgenda=d;departureDataUnavailable=false;renderDepartureBanner();
+ const events=(d.events||[]).filter(e=>e.platforms?.includes('yt')).map(e=>({e,s:d.sync?.[e.id]||{},start:eventStart(e)}));
+ const live=events.find(x=>freshLiveObservation(x.s.youtube)&&getVideo(x.e,x.s));
+ const soon=events.filter(x=>x.s.youtube?.status==='upcoming'&&x.start>=Date.now()&&x.start-Date.now()<=15*60000&&getVideo(x.e,x.s)).sort((a,b)=>a.start-b.start)[0];
+ const choice=live||soon;
+ if(choice)setFeaturedVideo(getVideo(choice.e,choice.s),(live?'● LIVE — ':'')+choice.e.title);
+ else setFeaturedVideo(defaultVideo);
+ const twLive=Object.values(d.sync||{}).some(s=>freshLiveObservation(s?.twitch));
+ document.getElementById('twitch-state').textContent=twLive?'● LIVE':'';
+ }catch{departureDataUnavailable=true;renderDepartureBanner();setFeaturedVideo(defaultVideo);document.getElementById('twitch-state').textContent=''}}
 
 /* Stage 40: real disclosure and accessible mobile card navigation. */
 const supportToggle=document.getElementById('kg-support-toggle');

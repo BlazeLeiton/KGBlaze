@@ -4,6 +4,7 @@ import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnve
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
+import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,syncActiveBroadcasts} from './active-broadcasts.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
 import {RECOGNITION_PUBLIC_PATH,readPublicTwitchRecognition,
@@ -138,7 +139,9 @@ async function handler(req,env){
  }
  if((path==='/api/public'||path==='/agenda_publica.json')&&method==='GET'){
   const d=await getState(env);
-  const representation=publicAgenda(d.editorial,d.sync,d.revision);
+  const editorialView=publicAgenda(d.editorial,d.sync,d.revision);
+  const representation=env.ACTIVE_BROADCASTS_ENABLED==='true'?
+   projectActiveBroadcasts(editorialView,d.sync[ACTIVE_BROADCASTS_KEY]):editorialView;
   const body=JSON.stringify(representation);
   // responseGeneratedAt is deliberately volatile (current request time).
   // A WEAK ETag compares the stable semantic agenda + all visible sync data.
@@ -160,7 +163,9 @@ async function handler(req,env){
   // exposing arbitrary search queries or accepting a caller-controlled title.
   if(eventId!==null){
    if(!eventId||eventId.length>180)return err(400,'INVALID_EVENT_ID');
-   const event=d.editorial.events.find(e=>e.id===eventId&&
+   const visible=env.ACTIVE_BROADCASTS_ENABLED==='true'?
+    projectActiveBroadcasts(publicAgenda(d.editorial,d.sync,d.revision),d.sync[ACTIVE_BROADCASTS_KEY]).events:d.editorial.events;
+   const event=visible.find(e=>e.id===eventId&&
     Array.isArray(e.platforms)&&e.platforms.some(p=>p==='yt'||p==='tw'));
    if(!event)return err(404,'EVENT_NOT_PUBLISHED');
    let found={artUrl:null,source:null};
@@ -564,16 +569,25 @@ export default {
    return;
   }
   if(controller?.cron!=='*/5 * * * *')return;
-  if(env.YOUTUBE_SYNC_ENABLED!=='true'||env.YOUTUBE_SYNC_PAUSED==='true')return;
   const slot=new Date(controller.scheduledTime);
   if(!Number.isFinite(slot.getTime()))return;
-  try{
-   const result=await runScheduledYouTubeSync(env,{now:new Date(),slot});
-   // Only sanitized outcome codes; never log raw provider data or secrets.
-   if(result?.ok===false&&result.reason!=='disabled')
-    console.warn('YouTube sync:',result.reason);
-  }catch{
-   console.error('YouTube sync unavailable');
+  const now=new Date();
+  let sharedIds;
+  if(env.YOUTUBE_SYNC_ENABLED==='true'&&env.YOUTUBE_SYNC_PAUSED!=='true'){
+   try{
+    const result=await runScheduledYouTubeSync(env,{now,slot,onDiscovery:ids=>{sharedIds=ids;}});
+    if(slot.getUTCMinutes()===0&&sharedIds===undefined&&result?.reason!=='no_nearby_youtube_events')sharedIds=null;
+    if(result?.ok===false&&result.reason!=='disabled')console.warn('YouTube sync:',result.reason);
+   }catch{
+    if(slot.getUTCMinutes()===0)sharedIds=null;
+    console.error('YouTube sync unavailable');
+   }
+  }
+  if(env.ACTIVE_BROADCASTS_ENABLED==='true'){
+   try{
+    const result=await syncActiveBroadcasts(env,{now,slot,sharedIds});
+    if(result?.ok===false&&result.reason!=='concurrent_update')console.warn('Active broadcasts:',result.reason);
+   }catch{console.warn('Active broadcast sync unavailable')}
   }
  }
 };
