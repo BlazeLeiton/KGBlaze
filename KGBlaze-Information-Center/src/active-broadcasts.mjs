@@ -19,6 +19,7 @@ const clean=(v,max=150)=>typeof v==='string'?v.replace(/[\u0000-\u001f\u007f\u20
 const norm=v=>clean(v,300).normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
 const okStart=(v,now)=>finite(v)&&Date.parse(v)<=now+30000&&now-Date.parse(v)<=MAX_LIVE_MS;
 const fresh=(v,now)=>finite(v)&&Date.parse(v)<=now+30000&&now-Date.parse(v)<FRESH_MS;
+const CATEGORY_ID=/^[0-9]{1,4}$/;
 const validSlot=d=>d instanceof Date&&Number.isFinite(d.getTime());
 const validYt=(x,now)=>x&&VIDEO.test(x.id||'')&&x.channelId===YT_CHANNEL&&
   typeof x.title==='string'&&clean(x.title)===x.title&&x.title&&
@@ -78,6 +79,7 @@ export async function refreshActiveYouTube(env,prior,{now,slot,sharedIds,fetchIm
    part:'snippet,liveStreamingDetails,status',id:[...ids].join(',')
   },env.YOUTUBE_API_KEY,fetchImpl);
   const next=new Map(old.map(x=>[x.id,x])),seen=new Set();
+  const categories=new Map(old.filter(x=>CATEGORY_ID.test(x.categoryId||'')&&clean(x.category,100)).map(x=>[x.categoryId,clean(x.category,100)]));
   for(const i of result.items){
    if(!ids.has(i?.id)||seen.has(i.id))throw Error('invalid_provider_identity');
    seen.add(i.id);
@@ -92,10 +94,26 @@ export async function refreshActiveYouTube(env,prior,{now,slot,sharedIds,fetchIm
    }
    const title=clean(s.title);
    if(!title||!okStart(d?.actualStartTime,t))continue;
-   next.set(i.id,{id:i.id,channelId:YT_CHANNEL,title,
+   const categoryId=CATEGORY_ID.test(s.categoryId||'')?s.categoryId:'';
+   next.set(i.id,{id:i.id,channelId:YT_CHANNEL,title,categoryId,
+    category:categories.get(categoryId)||'',
     startedAt:d.actualStartTime,checkedAt:now.toISOString()});
   }
-  return [...next.values()].filter(x=>validYt(x,t)).slice(0,10);
+  // Resolve official YouTube categories separately from the actual broadcast title.
+  // A batched category lookup costs one unit; reuse verified labels from the
+  // previous live observation. Failure never prevents verified live detection.
+  const unknown=[...new Set([...next.values()].map(x=>x.categoryId).filter(id=>CATEGORY_ID.test(id||'')&&!categories.has(id)))];
+  if(unknown.length){
+   try{
+    const b=await readYoutube('videoCategories',{part:'snippet',id:unknown.join(','),hl:'es'},env.YOUTUBE_API_KEY,fetchImpl);
+    for(const item of b.items){
+     if(!unknown.includes(item?.id))continue;
+     const category=clean(item?.snippet?.title,100);
+     if(category)categories.set(item.id,category);
+    }
+   }catch{/* A missing category is not a missing broadcast. */}
+  }
+  return [...next.values()].filter(x=>validYt(x,t)).slice(0,10).map(x=>({...x,category:categories.get(x.categoryId)||clean(x.category,100)}));
  }catch{return old}
 }
 
@@ -210,6 +228,24 @@ function matchScheduled(e,group,obs,now){
  return closeTime(scheduledInstant(e),primary.startedAt,90)&&
   (sameTitle(e.title,primary.title)||group.tw&&sameTitle(e.title,group.tw.title));
 }
+function activityLabel(group,editorialEvents){
+ // A verified simulcast has a precise Twitch game/category even when YouTube
+ // provides a broad category such as Gaming. Never use an unrelated Twitch stream.
+ const twitchCategory=clean(group.tw?.category,100);
+ if(twitchCategory)return twitchCategory;
+ const title=group.yt?.title||group.tw?.title||'';
+ // YouTube-only: reuse a single known editorial activity if its full name
+ // occurs in the provider title. Ambiguous matches fall back to official category.
+ const haystack=' '+norm(title)+' ',known=new Map();
+ for(const event of editorialEvents){
+  if(event.spontaneous)continue;
+  const category=clean(event.category,100),key=norm(category);
+  if(key.length<4||!haystack.includes(' '+key+' '))continue;
+  known.set(key,category);
+ }
+ if(known.size===1)return [...known.values()][0];
+ return clean(group.yt?.category,100)||'Transmisión en directo';
+}
 function observations(e,group){
  const out={};
  if(group.yt)out.youtube={
@@ -257,9 +293,10 @@ export function projectActiveBroadcasts(publicData,stored,now=new Date()){
   const id=ACTIVE_BROADCAST_ID_PREFIX+(group.yt?'yt:'+group.yt.id:'tw:'+group.tw.id);
   if(events.some(e=>e.id===id))continue;
   const platforms=[...(group.yt?['yt']:[]),...(group.tw?['tw']:[])];
+  const activity=activityLabel(group,publicData.events);
   const e={id,origin:'manual',spontaneous:true,day:start.day>=currentMonday(now)?start.day:today.day,
-   time:start.day>=currentMonday(now)?start.time:'',title:primary.title,
-   category:group.tw?.category||primary.title,extra:'Emisión no programada',
+   time:start.day>=currentMonday(now)?start.time:'',title:activity,
+   category:activity,extra:primary.title,
    platforms,status:'EN VIVO',logoChoice:'auto',logoData:'',
    ...(group.yt?{videoId:group.yt.id}:{})};
   events.push(e);sync[id]=observations(e,group);

@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 import {EMPTY_AGENDA,normalizeEditorial,publicAgenda,toSyncEnvelope} from '../src/core.mjs';
 import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,refreshActiveYouTube,refreshActiveTwitch,syncActiveBroadcasts} from '../src/active-broadcasts.mjs';
 const channel='UCRd_uwPjrsf6Z3CRXwNehEQ',id='3jW8vQ3uo4c';
@@ -17,7 +19,8 @@ test('Stage 44: live simulcast adds one public-only row in YouTube/Twitch order 
  assert.equal(out.events.length,1);const e=out.events[0];
  assert.deepEqual(e.platforms,['yt','tw']);assert.equal(e.status,'EN VIVO');
  assert.equal(e.spontaneous,true);assert.equal(e.day,'2026-11-26');assert.equal(e.time,'23:55');
- assert.equal(e.category,'Azur Lane');assert.equal(out.sync[e.id].youtube.videoId,id);
+ assert.equal(e.title,'Azur Lane');assert.equal(e.category,'Azur Lane');assert.equal(e.extra,title);
+ assert.equal(out.sync[e.id].youtube.videoTitle,title);assert.equal(out.sync[e.id].youtube.videoId,id);
  assert.equal(out.sync[e.id].twitch.streamId,'12345');
  assert.equal(out.revision,4);
  assert.equal(normalizeEditorial(out,now).events.length,0);
@@ -80,4 +83,62 @@ test('Stage 44: D1 writer preserves editorial and existing observations via CAS'
  const r=await syncActiveBroadcasts(config,{now,slot:new Date('2026-11-27T06:35:00Z'),fetchImpl});
  assert.equal(r.ok,true);assert.equal(written.planned.youtube.status,'upcoming');
  assert.equal(written[ACTIVE_BROADCASTS_KEY].youtube[0].id,id);assert.equal(base.revision,4);
+});
+
+test('Stage 44: Twitch-only uses the game as its headline and the stream title as the extra',()=>{
+ const e=projectActiveBroadcasts(data(),{youtube:[],twitch:tw},now).events[0];
+ assert.equal(e.title,'Azur Lane');assert.equal(e.category,'Azur Lane');
+ assert.equal(e.extra,tw.title);assert.deepEqual(e.platforms,['tw']);
+});
+test('Stage 44: YouTube-only uses a known specific activity or official category, never the long title as headline',()=>{
+ const own={...y,categoryId:'20',category:'Videojuegos'};
+ let e=projectActiveBroadcasts(data(),{youtube:[own],twitch:null},now).events[0];
+ assert.equal(e.title,'Videojuegos');assert.equal(e.extra,title);
+ const future={id:'planned',origin:'manual',day:'2026-11-28',time:'18:00',title:'Otro evento',category:'Azur Lane',platforms:['yt'],status:'A TIEMPO'};
+ const input={...data(),events:[future]};
+ const out=projectActiveBroadcasts(input,{youtube:[own],twitch:null},now);
+ e=out.events.find(x=>x.spontaneous);
+ assert.equal(e.title,'Azur Lane');assert.equal(e.extra,title);
+ assert.deepEqual(out.events.find(x=>x.id==='planned'),future);
+ const ambiguous={...future,id:'planned2',category:'Academia'};
+ e=projectActiveBroadcasts({...input,events:[future,ambiguous]},{youtube:[own],twitch:null},now).events.find(x=>x.spontaneous);
+ assert.equal(e.title,'Videojuegos');
+ e=projectActiveBroadcasts(data(),{youtube:[y],twitch:null},now).events[0];
+ assert.equal(e.title,'Transmisión en directo');assert.equal(e.extra,title);
+});
+test('Stage 44: official YouTube category lookup is batched, cached and non-blocking',async()=>{
+ let categoryCalls=0;
+ const v=video();v.snippet.categoryId='20';
+ const fetchImpl=async u=>{
+  const url=new URL(u);
+  if(url.pathname.endsWith('/videoCategories')){
+   categoryCalls++;
+   assert.equal(url.searchParams.get('id'),'20');
+   assert.equal(url.searchParams.get('hl'),'es');
+   return response({items:[{id:'20',snippet:{title:'Videojuegos'}}]});
+  }
+  return response({items:[v]});
+ };
+ const slot=new Date('2026-11-27T06:00:00Z');
+ const first=await refreshActiveYouTube(env,[],{now,slot,sharedIds:[id],fetchImpl});
+ assert.equal(first[0].category,'Videojuegos');assert.equal(categoryCalls,1);
+ const again=await refreshActiveYouTube(env,first,{now,slot,sharedIds:[id],fetchImpl});
+ assert.equal(again[0].category,'Videojuegos');assert.equal(categoryCalls,1);
+ const degraded=await refreshActiveYouTube(env,[],{now,slot,sharedIds:[id],fetchImpl:async u=>
+  new URL(u).pathname.endsWith('/videoCategories')?{ok:false}:response({items:[v]})});
+ assert.equal(degraded[0].id,id);assert.equal(degraded[0].category,'');
+});
+
+test('Stage 44: actual Home banner uses projected category and provider title, idle returns empty',()=>{
+ const ctx={window:{}};
+ runInNewContext(readFileSync(new URL('../public/assets/home-departure-state.js',import.meta.url),'utf8'),ctx);
+ const home=ctx.window.KGHomeDeparture;
+ for(const state of [{youtube:[y],twitch:tw},{youtube:[],twitch:tw}]){
+  const d=projectActiveBroadcasts(data(),state,now);
+  const selected=home.select(d,now.getTime());
+  assert.equal(selected.kind,'live');
+  assert.equal(home.category(selected.e),'Azur Lane');
+  assert.equal(home.subtitle(selected.e,selected.sync,selected.status,'es'),state.youtube.length?title:tw.title);
+ }
+ assert.equal(home.select(projectActiveBroadcasts(data(),{youtube:[],twitch:null},now),now.getTime()).kind,'empty');
 });
