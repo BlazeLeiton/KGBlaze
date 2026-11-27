@@ -71,6 +71,7 @@
  }
  function subtitle(e,obs,st,locale){
   const main=category(e),candidates=[];
+  if(e?.spontaneous&&e?.spontaneousDetailOverride)candidates.push(e.extra);
   if(st==='EN VIVO'&&youtubeMatch(e,obs?.youtube)&&obs.youtube.status==='live')
    candidates.push(obs.youtube.videoTitle);
   candidates.push(e?.extra,e?.title);

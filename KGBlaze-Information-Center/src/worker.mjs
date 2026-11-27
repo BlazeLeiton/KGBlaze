@@ -4,7 +4,7 @@ import {EMPTY_AGENDA,normalizeEditorial,publishReconcile,publicAgenda,toSyncEnve
 import {runManualYouTubePreflight} from '../experiments/youtube-matching/preflight.mjs';
 import {readYouTubeKnownVideos} from '../experiments/youtube-matching/read-only-source.mjs';
 import {runScheduledYouTubeSync} from './youtube-sync.mjs';
-import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,syncActiveBroadcasts} from './active-broadcasts.mjs';
+import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,syncActiveBroadcasts,setActiveBroadcastEditorial} from './active-broadcasts.mjs';
 import {routePortalRequest} from './portal-route.mjs';
 import {TWITCH_OWNER_CALLBACK_PATH} from './recognition-twitch-oauth.mjs';
 import {RECOGNITION_PUBLIC_PATH,readPublicTwitchRecognition,
@@ -363,6 +363,12 @@ async function handler(req,env){
   }
  }
 
+ if(path==='/api/admin/active-broadcast/editorial'&&method==='POST'){
+  if(Number(req.headers.get('Content-Length')||0)>4096)return json({ok:false,error:'TOO_LARGE'},413,cors);
+  let body;try{const raw=await req.text();if(raw.length>4096)return json({ok:false,error:'TOO_LARGE'},413,cors);body=JSON.parse(raw);}catch{return json({ok:false,error:'INVALID_JSON'},400,cors);}
+  const result=await setActiveBroadcastEditorial(env,body);
+  return json(result,result.ok?200:result.code,cors);
+ }
  if(path==='/api/admin/publish'&&method==='POST'){
   if(Number(req.headers.get('Content-Length')||0)>5_200_000)return json({error:'TOO_LARGE'},413,cors);
   let body;try{const raw=await req.text();if(raw.length>5_200_000)return json({error:'TOO_LARGE'},413,cors);body=JSON.parse(raw);}catch{return json({error:'INVALID_JSON'},400,cors);}

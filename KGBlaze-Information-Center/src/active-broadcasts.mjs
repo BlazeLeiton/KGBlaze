@@ -4,7 +4,7 @@
  * sync_json. Never writes editorial_json, revision, or membership data.
  */
 import {editorialIdentity} from '../experiments/youtube-matching/trusted-sync.mjs';
-import {currentMonday} from './core.mjs';
+import {currentMonday,publicAgenda} from './core.mjs';
 export const ACTIVE_BROADCASTS_KEY='__kgblaze_active_broadcasts_v1';
 export const ACTIVE_BROADCAST_ID_PREFIX='auto-live:';
 const YT_CHANNEL='UCRd_uwPjrsf6Z3CRXwNehEQ';
@@ -177,7 +177,9 @@ export async function syncActiveBroadcasts(env,{now=new Date(),slot=now,
    refreshActiveYouTube(env,prior.youtube,{now,slot,sharedIds,fetchImpl}),
    refreshActiveTwitch(env,prior.twitch,{now,fetchImpl})
   ]);
-  const next={youtube,twitch};
+  const keys=[...youtube.map(x=>ACTIVE_BROADCAST_ID_PREFIX+'yt:'+x.id),...(twitch?[ACTIVE_BROADCAST_ID_PREFIX+'tw:'+twitch.id]:[])];
+  const overrides=Object.fromEntries(keys.filter(id=>Object.hasOwn(sync[ACTIVE_BROADCASTS_KEY]?.overrides||{},id)).map(id=>[id,sync[ACTIVE_BROADCASTS_KEY].overrides[id]]));
+  const next={youtube,twitch,...(Object.keys(overrides).length?{overrides}:{})};
   if(!youtube.length&&!twitch)delete sync[ACTIVE_BROADCASTS_KEY];
   else sync[ACTIVE_BROADCASTS_KEY]=next;
   const encoded=JSON.stringify(sync);
@@ -293,13 +295,40 @@ export function projectActiveBroadcasts(publicData,stored,now=new Date()){
   const id=ACTIVE_BROADCAST_ID_PREFIX+(group.yt?'yt:'+group.yt.id:'tw:'+group.tw.id);
   if(events.some(e=>e.id===id))continue;
   const platforms=[...(group.yt?['yt']:[]),...(group.tw?['tw']:[])];
-  const activity=activityLabel(group,publicData.events);
+  const keys=[...(group.yt?[ACTIVE_BROADCAST_ID_PREFIX+'yt:'+group.yt.id]:[]),...(group.tw?[ACTIVE_BROADCAST_ID_PREFIX+'tw:'+group.tw.id]:[])];
+  const edit=keys.map(key=>stored?.overrides?.[key]).find(x=>x&&typeof x==='object');
+  const activity=clean(edit?.activity,100)||activityLabel(group,publicData.events);
+  const detail=clean(edit?.detail,150);
   const e={id,origin:'manual',spontaneous:true,day:start.day>=currentMonday(now)?start.day:today.day,
    time:start.day>=currentMonday(now)?start.time:'',title:activity,
-   category:activity,extra:primary.title,
+   category:activity,extra:detail||primary.title,
+   ...(detail?{spontaneousDetailOverride:true}:{}),
    platforms,status:'EN VIVO',logoChoice:'auto',logoData:'',
    ...(group.yt?{videoId:group.yt.id}:{})};
   events.push(e);sync[id]=observations(e,group);
  }
  return {...publicData,events,sync};
+}
+
+/** Owner-only editorial change, bound to a currently verified synthetic row.
+ * No change to provider evidence, editorial reservations, or membership data. */
+export async function setActiveBroadcastEditorial(env,body,now=new Date()){
+ if(env.ACTIVE_BROADCASTS_ENABLED!=='true')return {ok:false,code:409,error:'ACTIVE_BROADCASTS_DISABLED'};
+ const {id,activity,detail}=body||{};
+ if(typeof id!=='string'||!id.startsWith(ACTIVE_BROADCAST_ID_PREFIX)||typeof activity!=='string'||typeof detail!=='string'||activity.length>100||detail.length>150)
+  return {ok:false,code:400,error:'INVALID_LIVE_EDITORIAL'};
+ const row=await env.DB.prepare('SELECT revision,editorial_json,sync_json FROM terminal_state WHERE id=1').first();
+ if(!row)return {ok:false,code:404,error:'LIVE_NOT_FOUND'};
+ const sync=JSON.parse(row.sync_json||'{}'),stored=sync[ACTIVE_BROADCASTS_KEY];
+ const view=projectActiveBroadcasts(publicAgenda(JSON.parse(row.editorial_json),sync,row.revision,now),stored,now);
+ const event=view.events.find(e=>e.id===id&&e.spontaneous===true);
+ if(!event)return {ok:false,code:404,error:'LIVE_NOT_FOUND'};
+ const ob=view.sync[id],keys=[...(ob.youtube?[ACTIVE_BROADCAST_ID_PREFIX+'yt:'+ob.youtube.videoId]:[]),...(ob.twitch?[ACTIVE_BROADCAST_ID_PREFIX+'tw:'+ob.twitch.streamId]:[])];
+ const overrides={...(stored.overrides||{})},a=clean(activity,100),d=clean(detail,150);
+ for(const key of keys){if(a||d)overrides[key]={activity:a,detail:d};else delete overrides[key];}
+ sync[ACTIVE_BROADCASTS_KEY]={...stored,overrides};
+ const encoded=JSON.stringify(sync);
+ if(encoded===row.sync_json)return {ok:true};
+ const result=await env.DB.prepare('UPDATE terminal_state SET sync_json=? WHERE id=1 AND revision=? AND sync_json=?').bind(encoded,row.revision,row.sync_json).run();
+ return result?.meta?.changes===1?{ok:true}:{ok:false,code:409,error:'CONCURRENT_UPDATE'};
 }

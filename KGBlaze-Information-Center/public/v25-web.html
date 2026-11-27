@@ -196,6 +196,7 @@ h1{font-size:clamp(19px,2.3vw,28px);font-weight:800;margin:4px 0 3px;color:#ffff
 
 
 </section><div class="controls">
+<details class="card span-all fold-panel" id="liveEditorialPanel" hidden><summary class="fold-summary"><h2>Editar directo espontáneo</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content"><form id="liveEditorialForm"><div class="formgrid"><div class="full"><p id="liveEditorialSource" class="help"></p></div><div class="full"><label for="liveEditorialActivity">Actividad o categoría (vacío = automática)</label><input id="liveEditorialActivity" maxlength="100"></div><div class="full"><label for="liveEditorialDetail">Detalle (vacío = título real de la emisión)</label><input id="liveEditorialDetail" maxlength="150"></div><div class="full"><button type="submit" id="liveEditorialSave" class="primary">Guardar cambios del directo</button><button type="button" id="liveEditorialClose">Cerrar</button><p id="liveEditorialFeedback" role="status" aria-live="polite"></p></div></div></form></div></details>
 <details class="card fold-panel ics-drop-target" id="calendarPanel"><summary class="fold-summary"><h2>1 · Calendario de Twitch</h2><span class="fold-icon" aria-hidden="true"></span></summary><div class="fold-content">
 <input id="fileUpload" type="file" accept=".ics,text/calendar,text/plain">
 <div class="image-dropzone ics-dropzone" id="calendarDropzone" role="button" tabindex="0" aria-label="Arrastrar archivo de calendario de Twitch o elegir archivo .ics"><strong>Importar un ICS nuevo</strong><small>Arrastra el archivo aquí o haz clic para seleccionarlo</small></div>
@@ -618,7 +619,7 @@ function publicSnapshot(){
    logoChoice:v.logoChoice!==undefined?v.logoChoice:(e.logoChoice||'auto'),
    logoData:v.logoData!==undefined?v.logoData:(e.logoData||'')};
  }),...state.manual];
- const events=editorial.filter(e=>e.day>=first&&e.day<last).map(e=>({
+ const events=editorial.filter(e=>!e.spontaneous&&!String(e.id).startsWith('auto-live:')&&e.day>=first&&e.day<last).map(e=>({
    id:e.id,origin:e.origin==='tw'?'twitch':e.origin,day:e.day,time:e.time||'',title:e.title,extra:e.extra||'',
    category:e.category||e.title,platforms:e.platforms,status:e.status,
    ...(e.platforms.includes('yt')&&validStoredVideoId(e.videoId)?{videoId:e.videoId}:{}),
@@ -686,7 +687,7 @@ function render(){
     const opts=STATUS.map(s=>`<option value="${s}"${e.status===s?' selected':''}>${({ 'A TIEMPO':'A Tiempo','POR CONFIRMAR':'Por confirmar','REPROGRAMADO':'Reprogramado','CANCELADO':'Cancelado','EN VIVO':'En vivo','DESPEGÓ':'Despegó','DESCANSO':'Descanso','ESCALA':'En tránsito','HIATUS':'Hiatus'})[s]}</option>`).join('');
     const controlTitle=e.title|| (isPlaceholder?'HIATUS':BLANK_STATUS.has(e.status)?statusLabel(e.status,'es'):'(sin título)');
     const imageSrc=effectiveEventLogo(e);
-    div.innerHTML=`<div class="datebox">${esc(DAY_NAMES[dayDate(e.day).getUTCDay()])}<strong>${esc(e.day.slice(-2))}</strong>${esc(e.time||'—')}</div><div><div class="event-title">${imageSrc?`<img class="logo-list-thumb" loading="lazy" decoding="async" src="${esc(imageSrc)}" alt="" style="float:right;margin-left:5px">`:''}${esc(controlTitle)}</div><div class="event-more">${isPlaceholder?'Espacio disponible para una transmisión':e.origin==='tw'?'Importado de Twitch':'Añadido manualmente'}${e.extra?' · '+esc(e.extra):''}</div><div class="event-tools"><span class="tinylogos">${img}</span><select aria-label="Estado de ${esc(controlTitle)}" data-event-status="${esc(e.id)}"${isPlaceholder||isLocked?' disabled title="Emisión verificada bloqueada"':''}>${opts}</select><button data-edit="${esc(e.id)}" type="button"${isLocked?' disabled title="Emisión verificada bloqueada"':''}>Editar</button>${e.origin==='manual'?`<button class="danger" data-delete="${esc(e.id)}" type="button"${isLocked?' disabled title="Emisión verificada bloqueada"':''}>Eliminar</button>`:''}</div></div>`;
+    div.innerHTML=`<div class="datebox">${esc(DAY_NAMES[dayDate(e.day).getUTCDay()])}<strong>${esc(e.day.slice(-2))}</strong>${esc(e.time||'—')}</div><div><div class="event-title">${imageSrc?`<img class="logo-list-thumb" loading="lazy" decoding="async" src="${esc(imageSrc)}" alt="" style="float:right;margin-left:5px">`:''}${esc(controlTitle)}</div><div class="event-more">${isPlaceholder?'Espacio disponible para una transmisión':e.spontaneous?'Directo espontáneo verificado':e.origin==='tw'?'Importado de Twitch':'Añadido manualmente'}${e.extra?' · '+esc(e.extra):''}</div><div class="event-tools"><span class="tinylogos">${img}</span><select aria-label="Estado de ${esc(controlTitle)}" data-event-status="${esc(e.id)}"${isPlaceholder||isLocked||e.spontaneous?' disabled title="Estado verificado"':''}>${opts}</select><button data-edit="${esc(e.id)}" type="button"${isLocked?' disabled title="Emisión verificada bloqueada"':''}>Editar</button>${e.origin==='manual'&&!e.spontaneous?`<button class="danger" data-delete="${esc(e.id)}" type="button"${isLocked?' disabled title="Emisión verificada bloqueada"':''}>Eliminar</button>`:''}</div></div>`;
     $('eventList').append(div);
   }
   updateEventListHeight();
@@ -723,8 +724,8 @@ function revealEventEditor(){
   scroller.getBoundingClientRect().top-8;
  scroller.scrollTo({top:Math.max(0,top),behavior:'smooth'});
 }
-function editEvent(id){const e=findEvent(id);if(!e)return;if(eventLocked(e)){alert('Esta salida tiene una emisión verificada; no puede editarse.');return;}$('editingId').value=id;$('formHeading').textContent=e.origin==='tw'?'3 · Personalizar evento importado de Twitch':e.origin==='hiatus'?'3 · Editar espacio de HIATUS':'3 · Editar evento manual';$('saveEvent').textContent='Guardar cambios';$('cancelEdit').hidden=false;$('eventName').value=e.title;$('eventNote').value=e.extra||'';$('eventDay').value=e.day;$('eventDay').disabled=false;$('eventTime').value=e.time||'';$('eventTime').disabled=false;$('eventCode').value=e.code||'';$('eventYouTubeUrl').value=e.videoId?'https://www.youtube.com/watch?v='+e.videoId:'';$('eventStatus').value=e.status;document.querySelectorAll('[name=platform]').forEach(ch=>ch.checked=e.platforms.includes(ch.value));pendingEventLogoData=e.logoData||'';refreshEventLogoOptions();$('eventLogoChoice').value=e.logoChoice||'auto';updateEventLogoPreview();$('eventLogoUpload').value='';$('editorPanel').open=true;revealEventEditor();}
-function updateStatus(id,value){if(!STATUS.includes(value))return;const e=findEvent(id);if(!e)return;const rule=allowedMutation(e,{...e,status:value});if(!rule.ok){alert(rule.message);render();return;}if(e.origin==='hiatus')return;if(e.origin==='manual'){const target=state.manual.find(v=>v.id===id);if(target)target.status=value;}else{state.overrides[id]={...(state.overrides[id]||{}),status:value};}markUpdated();save();render();}
+function editEvent(id){const e=findEvent(id);if(!e)return;if(e.spontaneous){openLiveEditorial(e);return;}if(eventLocked(e)){alert('Esta salida tiene una emisión verificada; no puede editarse.');return;}$('editingId').value=id;$('formHeading').textContent=e.origin==='tw'?'3 · Personalizar evento importado de Twitch':e.origin==='hiatus'?'3 · Editar espacio de HIATUS':'3 · Editar evento manual';$('saveEvent').textContent='Guardar cambios';$('cancelEdit').hidden=false;$('eventName').value=e.title;$('eventNote').value=e.extra||'';$('eventDay').value=e.day;$('eventDay').disabled=false;$('eventTime').value=e.time||'';$('eventTime').disabled=false;$('eventCode').value=e.code||'';$('eventYouTubeUrl').value=e.videoId?'https://www.youtube.com/watch?v='+e.videoId:'';$('eventStatus').value=e.status;document.querySelectorAll('[name=platform]').forEach(ch=>ch.checked=e.platforms.includes(ch.value));pendingEventLogoData=e.logoData||'';refreshEventLogoOptions();$('eventLogoChoice').value=e.logoChoice||'auto';updateEventLogoPreview();$('eventLogoUpload').value='';$('editorPanel').open=true;revealEventEditor();}
+function updateStatus(id,value){if(!STATUS.includes(value))return;const e=findEvent(id);if(!e||e.spontaneous)return;const rule=allowedMutation(e,{...e,status:value});if(!rule.ok){alert(rule.message);render();return;}if(e.origin==='hiatus')return;if(e.origin==='manual'){const target=state.manual.find(v=>v.id===id);if(target)target.status=value;}else{state.overrides[id]={...(state.overrides[id]||{}),status:value};}markUpdated();save();render();}
 document.querySelector('.gates').addEventListener('change', ev=>{
   const chosen=[...document.querySelectorAll('[name=platform]:checked')];
   const hint=$('platformHint');
@@ -1549,6 +1550,7 @@ async function hostedPoll(){
  try{
   const fresh=await hostedGetPublic();
   if(fresh.revision!==hostedRevision)hostedApplyRemote(fresh);
+  else{const previous=JSON.stringify(state.manual.filter(e=>e.spontaneous));const incoming=fresh.events.filter(e=>e.spontaneous);if(previous!==JSON.stringify(incoming)){state.manual=[...state.manual.filter(e=>!e.spontaneous),...incoming];state.streamSync=fresh.sync||{};render();}}
  }catch(err){hostedStatus.textContent='Sin conexión · última revisión '+hostedRevision;}
 }
 async function hostedInitialize(){
@@ -1572,5 +1574,28 @@ async function hostedInitialize(){
   document.querySelector('.controls').style.pointerEvents='none';
  }
 }
+let liveEditorialId=null;
+function openLiveEditorial(e){
+ liveEditorialId=e.id;
+ $('liveEditorialActivity').value=e.category||e.title||'';
+ $('liveEditorialDetail').value=e.extra||'';
+ const ob=state.streamSync[e.id]||{};
+ $('liveEditorialSource').textContent='Título verificado: '+(ob.youtube?.videoTitle||ob.twitch?.streamTitle||e.extra||'');
+ $('liveEditorialFeedback').textContent='Solo cambia la presentación en KGBlaze. El estado y la identidad de la emisión siguen verificados.';
+ $('liveEditorialPanel').hidden=false;$('liveEditorialPanel').open=true;$('liveEditorialActivity').focus();
+}
+$('liveEditorialClose').addEventListener('click',()=>{$('liveEditorialPanel').hidden=true;liveEditorialId=null;});
+$('liveEditorialForm').addEventListener('submit',async ev=>{
+ ev.preventDefault();const id=liveEditorialId,auth=$('syncPrivateToken').value.trim();
+ if(!id||!auth){$('liveEditorialFeedback').textContent='Introduce la clave administrativa para guardar.';return;}
+ const button=$('liveEditorialSave');button.disabled=true;
+ try{
+  const res=await fetch('/departures/api/admin/active-broadcast/editorial',{method:'POST',cache:'no-store',credentials:'omit',headers:{'Content-Type':'application/json','Authorization':'Bearer '+auth},body:JSON.stringify({id,activity:$('liveEditorialActivity').value.trim(),detail:$('liveEditorialDetail').value.trim()})});
+  const result=await res.json();if(!res.ok)throw Error(result.error||'HTTP '+res.status);
+  $('liveEditorialFeedback').textContent='Cambios guardados. Home y Terminal se actualizarán en su siguiente consulta.';
+  await hostedPoll();
+ }catch(err){$('liveEditorialFeedback').textContent='No se pudo guardar: '+err.message+' · Comprueba si la emisión sigue en vivo y vuelve a intentar.';}
+ finally{button.disabled=false;}
+});
 void hostedInitialize();
 </script></body></html>
