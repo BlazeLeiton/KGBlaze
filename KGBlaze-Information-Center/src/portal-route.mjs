@@ -86,7 +86,7 @@ export function routePortalRequest(request){
   '/api/admin/recognition/twitch/disconnect',
   '/api/admin/recognition/twitch/members/status',
   '/api/admin/recognition/twitch/members/sync',
-  '/api/admin/recognition/twitch/members/consent'];
+  '/api/admin/recognition/twitch/members/consent','/api/admin/music-radar'];
  if(internalPath.startsWith('/api')&&!publicAPI.includes(internalPath)&&
     !adminAPI.includes(internalPath))
   return {response:error(404,'NOT_FOUND')};

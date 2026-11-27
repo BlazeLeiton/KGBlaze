@@ -3,6 +3,7 @@ export const TZ='America/Mexico_City';
 export const ALLOWED_STATUSES=new Set(['A TIEMPO','POR CONFIRMAR','REPROGRAMADO','CANCELADO','EN VIVO','DESPEGÓ','DESCANSO','ESCALA','HIATUS']);
 export const PLATFORMS=new Set(['yt','tw','ig','dc']);
 const GRACE_MS=15*60*1000;
+const privateSyncKey=id=>id==='__kgblaze_active_broadcasts_v1'||id==='__kgblaze_music_radar_v1';
 export const EMPTY_AGENDA=()=>({schema:'relight-public-v1',publishedAt:null,sourceNote:'Calendario pendiente de publicación',timezone:TZ,events:[],libraryChanges:{},libraryCustom:[],hiatusWeeks:{},clearedWeeks:{}});
 export const nowISO=()=>new Date().toISOString();
 // Public origin is `twitch`; the private ICS editor historically emitted `tw`.
@@ -22,7 +23,7 @@ export function normalizeEditorial(raw, now=new Date()){
  if(!plainObject(raw)||raw.schema!=='relight-public-v1'||!Array.isArray(raw.events))throw new Error('Formato de agenda incorrecto');
  if(JSON.stringify(raw).length>5_000_000||raw.events.filter(e=>!String(e?.id||'').startsWith('auto-live:')).length>200)throw new Error('Agenda demasiado grande');
  const first=currentMonday(now),last=addDays(first,35),seen=new Set();
- const events=raw.events.filter(e=>e&&!String(e.id||'').startsWith('auto-live:')&&e.day>=first&&e.day<last).map(e=>{
+ const events=raw.events.filter(e=>e&&!privateSyncKey(e.id)&&!String(e.id||'').startsWith('auto-live:')&&e.day>=first&&e.day<last).map(e=>{
   if(typeof e.id!=='string'||e.id.length<1||e.id.length>180||seen.has(e.id))throw Error('ID de evento inválido o duplicado');seen.add(e.id);
   if(!/^\d{4}-\d{2}-\d{2}$/.test(e.day)||typeof e.title!=='string'||e.title.length>150||!ALLOWED_STATUSES.has(e.status))throw Error('Datos inválidos en '+e.id);
   if(e.time&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(e.time))throw Error('Hora inválida en '+e.id);
@@ -53,11 +54,11 @@ export function lockedChanges(oldAgenda,newAgenda,sync,now=Date.now()){
  return conflicts;
 }
 export function publicAgenda(editorial,sync,revision,now=new Date()){
- const first=currentMonday(now),last=addDays(first,35),events=(editorial.events||[]).filter(e=>e.day>=first&&e.day<last).map(e=>{const origin=normalizeEventOrigin(e);return origin===e.origin?e:{...e,origin};});
- const ids=new Set(events.map(e=>e.id));const sanitized=Object.fromEntries(Object.entries(sync||{}).filter(([id])=>ids.has(id)));
+ const first=currentMonday(now),last=addDays(first,35),events=(editorial.events||[]).filter(e=>!privateSyncKey(e.id)&&e.day>=first&&e.day<last).map(e=>{const origin=normalizeEventOrigin(e);return origin===e.origin?e:{...e,origin};});
+ const ids=new Set(events.map(e=>e.id));const sanitized=Object.fromEntries(Object.entries(sync||{}).filter(([id])=>!privateSyncKey(id)&&ids.has(id)));
  return {...editorial,events,sync:sanitized,revision,responseGeneratedAt:nowISO()};
 }
-export function toSyncEnvelope(sync,revision){return {schema:'relight-sync-v1',revision,events:Object.entries(sync||{}).filter(([id])=>id!=='__kgblaze_active_broadcasts_v1').map(([eventId,x])=>({eventId,...x}))};}
+export function toSyncEnvelope(sync,revision){return {schema:'relight-sync-v1',revision,events:Object.entries(sync||{}).filter(([id])=>!privateSyncKey(id)).map(([eventId,x])=>({eventId,...x}))};}
 // Never accept a 'verified' observation from the browser/editor as platform proof.
 export function publishReconcile(oldAgenda,newAgenda,sync,baseRev,currentRev,now=new Date()){
  if(!Number.isInteger(baseRev)||baseRev!==currentRev)return {ok:false,code:409,error:'CONFLICT_REVISION',revision:currentRev};
