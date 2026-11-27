@@ -177,7 +177,8 @@ function sameTitle(a,b){
  if(!x||!y)return false;
  if(x===y)return true;
  let n=0;while(n<Math.min(x.length,y.length)&&x[n]===y[n])n++;
- return n>=26&&x.slice(0,n).split(' ').filter(w=>w.length>=3).length>=4;
+ const words=x.slice(0,n).trim().split(' ').filter(w=>w.length>=3).length;
+ return (n>=36&&words>=3)||(n>=26&&words>=4);
 }
 function closeTime(a,b,minutes){
  return finite(a)&&finite(b)&&Math.abs(Date.parse(a)-Date.parse(b))<=minutes*60000;
