@@ -11,7 +11,7 @@ const OWN_CHANNEL='UCRd_uwPjrsf6Z3CRXwNehEQ';
 const ID=/^[A-Za-z0-9_-]{11}$/;
 const SOURCE='youtube_data_api_v3';
 
-export async function runScheduledYouTubeSync(env,{now=new Date(),slot=now,fetchImpl=fetch}={}){
+export async function runScheduledYouTubeSync(env,{now=new Date(),slot=now,fetchImpl=fetch,onDiscovery}={}){
  if(env?.YOUTUBE_SYNC_ENABLED!=='true')return {ok:false,reason:'disabled'};
  if(!env.DB||!env.YOUTUBE_API_KEY||env.YOUTUBE_CHANNEL_ID!==OWN_CHANNEL||
     typeof env.YOUTUBE_PREVIEW_LIMITER?.limit!=='function'||
@@ -49,6 +49,10 @@ export async function runScheduledYouTubeSync(env,{now=new Date(),slot=now,fetch
  const evidence=discover
   ?await readYouTubePreviewEvidence({...options,explicitVideoIds:knownIds})
   :await readYouTubeKnownVideos({...options,videoIds:knownIds});
+ // Stage 44: reuse the hourly live discovery instead of spending another search.
+ if(discover&&typeof onDiscovery==='function')onDiscovery(evidence.discoveryComplete===true?
+  evidence.resources.filter(x=>x?.snippet?.liveBroadcastContent==='live'&&
+   x.snippet.channelId===OWN_CHANNEL&&evidence.discoveredVideoIds.includes(x.id)).map(x=>x.id):null);
  const focused={...agenda,events:relevant};
  const plan=buildTrustedYouTubeObservations(focused,evidence,{
   ownedChannelId:OWN_CHANNEL,existingSync:oldSync,now,
