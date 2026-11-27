@@ -4,6 +4,7 @@
  * sync_json. Never writes editorial_json, revision, or membership data.
  */
 import {editorialIdentity} from '../experiments/youtube-matching/trusted-sync.mjs';
+import {currentMonday} from './core.mjs';
 export const ACTIVE_BROADCASTS_KEY='__kgblaze_active_broadcasts_v1';
 export const ACTIVE_BROADCAST_ID_PREFIX='auto-live:';
 const YT_CHANNEL='UCRd_uwPjrsf6Z3CRXwNehEQ';
@@ -249,13 +250,14 @@ export function projectActiveBroadcasts(publicData,stored,now=new Date()){
   }
   const primary=group.yt||group.tw;
   // An ongoing stream that crosses midnight/week rollover remains visible
-  // on the current day, with its actual local start time when same-day.
+  // in the active week. Preserve the actual start date/time when in that week;
+  // never invent a midnight start if the event crossed a week boundary.
   const start=cdmxFields(primary.startedAt),today=cdmxFields(now.toISOString());
   const id=ACTIVE_BROADCAST_ID_PREFIX+(group.yt?'yt:'+group.yt.id:'tw:'+group.tw.id);
   if(events.some(e=>e.id===id))continue;
   const platforms=[...(group.yt?['yt']:[]),...(group.tw?['tw']:[])];
-  const e={id,origin:'manual',spontaneous:true,day:start.day===today.day?start.day:today.day,
-   time:start.day===today.day?start.time:'00:00',title:primary.title,
+  const e={id,origin:'manual',spontaneous:true,day:start.day>=currentMonday(now)?start.day:today.day,
+   time:start.day>=currentMonday(now)?start.time:'',title:primary.title,
    category:group.tw?.category||primary.title,extra:'Emisión no programada',
    platforms,status:'EN VIVO',logoChoice:'auto',logoData:'',
    ...(group.yt?{videoId:group.yt.id}:{})};
