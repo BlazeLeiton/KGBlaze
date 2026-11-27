@@ -4,9 +4,9 @@ import {EMPTY_AGENDA,normalizeEditorial,publicAgenda,toSyncEnvelope} from '../sr
 import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,refreshActiveYouTube,refreshActiveTwitch,syncActiveBroadcasts} from '../src/active-broadcasts.mjs';
 const channel='UCRd_uwPjrsf6Z3CRXwNehEQ',id='3jW8vQ3uo4c';
 const now=new Date('2026-11-27T06:30:00Z');
-const title='La Estudiante de Intercambio en la Academia Veritas | Azur Lane';
+const title='La Estudiante de Intercambio en la Academia | Azur Lane - The Transfer Student of Veritas Academy';
 const y={id,channelId:channel,title,startedAt:'2026-11-27T05:55:00Z',checkedAt:now.toISOString()};
-const tw={id:'12345',userId:'70386764',title:title+' x 2.5 Dimensional Seduction',category:'Azur Lane',startedAt:'2026-11-27T06:00:00Z',checkedAt:now.toISOString()};
+const tw={id:'12345',userId:'70386764',title:'🎓 La Estudiante de Intercambio en la Academia Veritas | Azur Lane x 2.5 Dimensional Seduction',category:'Azur Lane',startedAt:'2026-11-27T06:00:00Z',checkedAt:now.toISOString()};
 const data=()=>publicAgenda(EMPTY_AGENDA(),{},4,now);
 const env={YOUTUBE_CHANNEL_ID:channel,YOUTUBE_API_KEY:'TEST',TWITCH_RECOGNITION_BROADCASTER_ID:'70386764',TWITCH_CLIENT_ID:'test-client',TWITCH_CLIENT_SECRET:'TEST'};
 const response=body=>({ok:true,json:async()=>body});
