@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 import {EMPTY_AGENDA,normalizeEditorial,publicAgenda,toSyncEnvelope} from '../src/core.mjs';
 import {ACTIVE_BROADCASTS_KEY,projectActiveBroadcasts,refreshActiveYouTube,refreshActiveTwitch,syncActiveBroadcasts} from '../src/active-broadcasts.mjs';
 const channel='UCRd_uwPjrsf6Z3CRXwNehEQ',id='3jW8vQ3uo4c';
@@ -125,4 +127,18 @@ test('Stage 44: official YouTube category lookup is batched, cached and non-bloc
  const degraded=await refreshActiveYouTube(env,[],{now,slot,sharedIds:[id],fetchImpl:async u=>
   new URL(u).pathname.endsWith('/videoCategories')?{ok:false}:response({items:[v]})});
  assert.equal(degraded[0].id,id);assert.equal(degraded[0].category,'');
+});
+
+test('Stage 44: actual Home banner uses projected category and provider title, idle returns empty',()=>{
+ const ctx={window:{}};
+ runInNewContext(readFileSync(new URL('../public/assets/home-departure-state.js',import.meta.url),'utf8'),ctx);
+ const home=ctx.window.KGHomeDeparture;
+ for(const state of [{youtube:[y],twitch:tw},{youtube:[],twitch:tw}]){
+  const d=projectActiveBroadcasts(data(),state,now);
+  const selected=home.select(d,now.getTime());
+  assert.equal(selected.kind,'live');
+  assert.equal(home.category(selected.e),'Azur Lane');
+  assert.equal(home.subtitle(selected.e,selected.sync,selected.status,'es'),state.youtube.length?title:tw.title);
+ }
+ assert.equal(home.select(projectActiveBroadcasts(data(),{youtube:[],twitch:null},now),now.getTime()).kind,'empty');
 });
